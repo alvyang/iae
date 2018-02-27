@@ -2,18 +2,24 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>进销存管理</title>
+    <style>
+		body{
+			margin: 0;
+			padding: 0;
+			font-family: "微软雅黑";
+			background-color: #f4f4f4;
+			-webkit-tap-highlight-color: rgba(0,0,0,0);
+			-webkit-tap-highlight-color: transparent;
+		}
+		/**{
+			-webkit-user-select: none;
+		}*/
+	</style>
+	<!--<script src="lib/jquery-3.1.1.min.js"></script>-->
   </head>
   <body>
-    <h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
-
-    <script>
-      // You can also require other files to run in this process
-      require('./renderer.js')
-    </script>
+    <div id="app"></div>
   </body>
+  <script src="build/index.js"></script>
 </html>
