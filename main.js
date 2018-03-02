@@ -9,7 +9,9 @@ const BrowserWindow = electron.BrowserWindow
 
 const path = require('path')
 const url = require('url')
-
+//var binary = require('node-pre-gyp');
+//var path = require('path');
+//var binding_path = binary.find(path.resolve(path.join(__dirname,'../package.json')));
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
