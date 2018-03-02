@@ -77,10 +77,3 @@ exports.contacts = function(){
 	});
 	ipcMain.on('close', e => mainWindow.close());
 }
-//Cannot find module 
-//'/Users/lvyang/HBuilderProjects/iae/node_modules/sqlite3/lib/binding/electron-v1.8-darwin-x64/node_sqlite3.node
-//npm install nan --save
-//node-gyp configure --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-darwin-x64
-//node-gyp rebuild --target=1.8.2 --arch=x64 --target_platform=darwin --dist-url=https://atom.io/download/atom-shell --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-darwin-x64
-//node-gyp configure --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-win32-x64
-//node-gyp rebuild --target=1.8.2 --arch=x64 --target_platform=win32 --dist-url=https://atom.io/download/atom-shell --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-win32-x64
