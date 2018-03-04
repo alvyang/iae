@@ -1,6 +1,6 @@
 <template>
 	<div style="width:400px;margin: 20px auto;">
-		
+
 		<el-form :model="drugs" status-icon :rules="drugsRule" ref="drugs" label-width="100px" class="demo-ruleForm">
 		  <el-form-item label="产品通用名" prop="product_common_name">
 		    <el-input v-model="drugs.product_common_name" auto-complete="off" placeholder="请输入产品通用名"></el-input>
@@ -93,14 +93,14 @@
 			          	that.resetForm("drugs");
 			          	this.drugs.product_id = "";
 			        }).catch(() => {
-			          	that.$router.push("drugs");
+			          	that.$router.push("main/drugs");
 					});
 				});
 			}
 		},
 		methods:{
 			returnList(){
-				this.$router.push("drugs");	
+				this.$router.push("main/drugs");
 			},
 			submitForm(formName) {
 				var that = this;
@@ -119,5 +119,5 @@
 	});
 </script>
 <style>
-	
+
 </style>

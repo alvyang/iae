@@ -69,7 +69,7 @@
 		methods:{
 			editRow(scope){//编辑药品信息
 				sessionStorage["contacts_edit"] = JSON.stringify(this.contacts[scope.$index]);
-				this.$router.push("/contactsedit");	
+				this.$router.push("/main/contactsedit");
 			},
 			deleteRow(scope){
 				this.deleteId = scope.row.contacts_id;
@@ -78,7 +78,7 @@
 		          	cancelButtonText: '取消',
 		          	type: 'warning'
 		        }).then(() => {
-					this.deleteItem();		          
+					this.deleteItem();
 		        }).catch(() => {
 		        });
 			},
@@ -94,7 +94,7 @@
 				});
 			},
 			add(){
-				this.$router.push("contactsedit");	
+				this.$router.push("main/contactsedit");
 			},
 			searchContactsList(){
 				this.params.start = 0;

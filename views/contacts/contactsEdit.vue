@@ -1,6 +1,6 @@
 <template>
 	<div style="width:400px;margin: 20px auto;">
-		
+
 		<el-form :model="contacts" status-icon :rules="contactsRule" ref="contacts" label-width="70px" class="demo-ruleForm">
 		  <el-form-item label="联系人" prop="contacts_name">
 		    <el-input v-model="contacts.contacts_name" auto-complete="off" placeholder="请输入联系人姓名"></el-input>
@@ -25,7 +25,7 @@
 		        } else {
 		         	callback();
 		        }
-	      	};	
+	      	};
 			return {
 				ipc:null,
 				contacts:{
@@ -65,14 +65,14 @@
 			          	that.resetForm("contacts");
 			          	this.contacts.contacts_id = "";
 			        }).catch(() => {
-			          	that.$router.push("contacts");
+			          	that.$router.push("main/contacts");
 					});
 				});
 			}
 		},
 		methods:{
 			returnList(){
-				this.$router.push("contacts");	
+				this.$router.push("main/contacts");
 			},
 			submitForm(formName) {
 				var that = this;
@@ -91,5 +91,5 @@
 	});
 </script>
 <style>
-	
+
 </style>

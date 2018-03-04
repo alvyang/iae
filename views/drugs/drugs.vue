@@ -75,7 +75,7 @@
 			var that = this;
 			if (window.require) {
 				//获取药品信息
-			    this.ipc = window.require('electron').ipcRenderer;
+		    this.ipc = window.require('electron').ipcRenderer;
 				this.ipc.on('return-drugs-data', (event, arg) => {
 				  	that.drugs = arg.data;
 				  	that.count = arg.count;
@@ -91,18 +91,18 @@
 		methods:{
 			editRow(scope){//编辑药品信息
 				sessionStorage["drugs_edit"] = JSON.stringify(this.drugs[scope.$index]);
-				this.$router.push("/drugsedit");	
+				this.$router.push("/mian/drugsedit");
 			},
 			deleteRow(scope){//删除
 				this.deleteId = scope.row.product_id;
 				this.$confirm('是否删除?', '提示', {
-		          	confirmButtonText: '确定',
-		          	cancelButtonText: '取消',
-		          	type: 'warning'
-		        }).then(() => {
-					this.deleteItem();		          
-		        }).catch(() => {
-		        });
+          	confirmButtonText: '确定',
+          	cancelButtonText: '取消',
+          	type: 'warning'
+        }).then(() => {
+						this.deleteItem();
+        }).catch(() => {
+        });
 			},
 			deleteItem(){
 				var that = this;
@@ -117,7 +117,7 @@
 			},
 			//跳转到编辑页面
 			add(){
-				this.$router.push("/drugsedit");	
+				this.$router.push("/main/drugsedit");
 			},
 			//搜索所有药品信息
 			searchDrugsList(){
@@ -128,17 +128,17 @@
 				this.ipc.send('get-drugs-list',this.params);
 			},
 			handleSizeChange(val) {
-		        this.pageNum = val;
-	      		this.currentPage = 1;
-	      		this.params.limit = this.pageNum;
-		        this.getDrugsList();
-	      	},
-	      	handleCurrentChange(val) {
-	      		this.currentPage = val;
-	      		this.params.start = (val-1)*this.pageNum;
-	      		this.params.limit = this.pageNum;
+        this.pageNum = val;
+    		this.currentPage = 1;
+    		this.params.limit = this.pageNum;
+        this.getDrugsList();
+    	},
+    	handleCurrentChange(val) {
+    		this.currentPage = val;
+    		this.params.start = (val-1)*this.pageNum;
+    		this.params.limit = this.pageNum;
 				this.getDrugsList();
-	      	}
+    	}
 		}
 	});
 </script>

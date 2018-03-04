@@ -4,6 +4,7 @@ const sqlite3 = require("sqlite3");
 const path = require('path');
 
 exports.drugs = function(){
+	//查询药品列表信息
 	ipcMain.on('get-drugs-list', (event, arg) => {
 		sqlite3.verbose();
 		const db = new sqlite3.Database(path.join(__dirname,'../data/iae.db'));
@@ -56,7 +57,7 @@ exports.drugs = function(){
 		});
 		db.close();
 	});
-	
+
 	ipcMain.on('delete-drugs', (event, arg) => {//删除
 		sqlite3.verbose();
 		const db = new sqlite3.Database(path.join(__dirname,'../data/iae.db'));
@@ -68,7 +69,7 @@ exports.drugs = function(){
 	});
 	ipcMain.on('close', e => mainWindow.close());
 }
-//Cannot find module 
+//Cannot find module
 //'/Users/lvyang/HBuilderProjects/iae/node_modules/sqlite3/lib/binding/electron-v1.8-darwin-x64/node_sqlite3.node
 //
 //node-gyp configure --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-darwin-x64

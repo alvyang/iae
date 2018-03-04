@@ -10,14 +10,20 @@ import Report from "../views/report.vue";
 import DistributionReport from "../views/reportdistribution.vue";
 import Contacts from "../views/contacts/contacts.vue";
 import ContactsEdit from "../views/contacts/contactsEdit.vue";
+import config from "../data/config.json";
 
 const router = new VueRouter({
 	routes:[{
 		path:"/",
+		redirect:to => {
+			return "/main";
+		}
+	},{
+		path:"/main",
 		component:Main,
 		children:[{
 			path:"",
-			redirect: 'home' 
+			redirect: 'home'
 		},{
 			path:"home",
 			component:Home,
