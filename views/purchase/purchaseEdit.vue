@@ -2,32 +2,29 @@
 	<div style="width:400px;margin: 20px auto;">
 
 		<el-form :model="drugs" status-icon :rules="drugsRule" ref="drugs" label-width="100px" class="demo-ruleForm">
-		  <el-form-item label="产品通用名" prop="product_common_name">
-		    <el-input v-model="drugs.product_common_name" auto-complete="off" placeholder="请输入产品通用名"></el-input>
+		  <el-form-item label="购入数量" prop="puchase_number">
+		    <el-input v-model="drugs.puchase_number" auto-complete="off" placeholder="请输入购入数量"></el-input>
 		  </el-form-item>
-		  <el-form-item label="产品规格" prop="product_specifications">
-		    <el-input v-model="drugs.product_specifications" auto-complete="off" placeholder="请输入产品规格"></el-input>
+		  <el-form-item label="购入金额" prop="puchase_money">
+		    <el-input v-model="drugs.puchase_money" auto-complete="off" placeholder="请输入购入金额"></el-input>
 		  </el-form-item>
-		  <el-form-item label="单位" prop="product_unit">
-		    <el-input v-model="drugs.product_unit" auto-complete="off" placeholder="请输入单位"></el-input>
+		  <el-form-item label="入库时间" prop="storage_time">
+		    <el-input v-model="drugs.storage_time" auto-complete="off" placeholder="请输入入库时间"></el-input>
 		  </el-form-item>
-		  <el-form-item label="中标价" prop="product_price">
-		    <el-input v-model="drugs.product_price" auto-complete="off" placeholder="请输入中标价"></el-input>
+		  <el-form-item label="应返金额" prop="shoule_return_money">
+		    <el-input v-model="drugs.shoule_return_money" auto-complete="off" placeholder="请输入应返金额"></el-input>
 		  </el-form-item>
-		  <el-form-item label="联系人" prop="contacts">
-		    <el-select v-model="drugs.contacts" filterable placeholder="请选择联系人">
-			    <el-option v-for="item in contacts"
-			      :key="item.contacts_id"
-			      :label="item.contacts_name"
-			      :value="item.contacts_id">
-			    </el-option>
-			</el-select>
+		  <el-form-item label="应返时间" prop="should_return_time">
+		    <el-input v-model="drugs.should_return_time" auto-complete="off" placeholder="请输入应返时间"></el-input>
 		  </el-form-item>
-		  <el-form-item label="商业" prop="product_business">
-		    <el-input v-model="drugs.product_business" auto-complete="off" placeholder="请输入商业"></el-input>
+		  <el-form-item label="实返金额" prop="real_return_money">
+		    <el-input v-model="drugs.real_return_money" auto-complete="off" placeholder="请输入实返金额"></el-input>
 		  </el-form-item>
-		  <el-form-item label="佣金" prop="product_commission">
-		    <el-input v-model="drugs.product_commission" auto-complete="off" placeholder="请输入佣金"></el-input>
+      <el-form-item label="返费时间" prop="real_return_time">
+		    <el-input v-model="drugs.real_return_time" auto-complete="off" placeholder="请输入返费时间"></el-input>
+		  </el-form-item>
+      <el-form-item label="外欠佣金" prop="own_money">
+		    <el-input v-model="drugs.own_money" auto-complete="off" placeholder="请输入外欠佣金"></el-input>
 		  </el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" @click="submitForm('drugs')">提交</el-button>
@@ -45,22 +42,22 @@
 				contacts:[],
 				drugs:{
 					product_id:"",
-					product_common_name:"",
-					product_specifications:"",
+					puchase_number:"",
+					puchase_money:"",
 					product_unit:"",
-					product_business:"",
+					should_return_time:"",
 					contacts:"",
-					product_price:"",
-					product_commission:"",
+					shoule_return_money:"",
+					real_return_money:"",
 				},
 				drugsRule:{
-					product_common_name:[{ required: true, message: '请输入产品通用名', trigger: 'blur' }],
-					product_specifications:[{ required: true, message: '请输入产品规格', trigger: 'blur' }],
+					puchase_number:[{ required: true, message: '请输入产品通用名', trigger: 'blur' }],
+					puchase_money:[{ required: true, message: '请输入产品规格', trigger: 'blur' }],
 					product_unit:[{ required: true, message: '请输入单位', trigger: 'blur' }],
-					product_business:[{ required: true, message: '请输入中标价', trigger: 'blur' }],
+					should_return_time:[{ required: true, message: '请输入中标价', trigger: 'blur' }],
 					contacts:[{ required: true, message: '请选择联系人', trigger: 'change' }],
-					product_price:[{ required: true, message: '请输入商业', trigger: 'blur' }],
-					product_commission:[{ required: true, message: '请输入佣金', trigger: 'blur' }],
+					shoule_return_money:[{ required: true, message: '请输入商业', trigger: 'blur' }],
+					real_return_money:[{ required: true, message: '请输入佣金', trigger: 'blur' }],
 				},
 				editmessage:"",
 			}
@@ -100,7 +97,7 @@
 		},
 		methods:{
 			returnList(){
-				this.$router.push("/main/drugs");
+				this.$router.push("/main/purchase");
 			},
 			submitForm(formName) {
 				var that = this;

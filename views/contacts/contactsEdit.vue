@@ -65,14 +65,14 @@
 			          	that.resetForm("contacts");
 			          	this.contacts.contacts_id = "";
 			        }).catch(() => {
-			          	that.$router.push("main/contacts");
+			          	that.$router.push("/main/contacts");
 					});
 				});
 			}
 		},
 		methods:{
 			returnList(){
-				this.$router.push("main/contacts");
+				this.$router.push("/main/contacts");
 			},
 			submitForm(formName) {
 				var that = this;

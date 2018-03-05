@@ -20343,35 +20343,39 @@ var _main = __webpack_require__(18);
 
 var _main2 = _interopRequireDefault(_main);
 
-var _drugs = __webpack_require__(28);
+var _drugs = __webpack_require__(23);
 
 var _drugs2 = _interopRequireDefault(_drugs);
 
-var _drugsEdit = __webpack_require__(33);
+var _drugsEdit = __webpack_require__(28);
 
 var _drugsEdit2 = _interopRequireDefault(_drugsEdit);
 
-var _home = __webpack_require__(38);
+var _home = __webpack_require__(33);
 
 var _home2 = _interopRequireDefault(_home);
 
-var _report = __webpack_require__(43);
+var _purchase = __webpack_require__(64);
 
-var _report2 = _interopRequireDefault(_report);
+var _purchase2 = _interopRequireDefault(_purchase);
 
-var _reportdistribution = __webpack_require__(48);
+var _purchaseEdit = __webpack_require__(69);
+
+var _purchaseEdit2 = _interopRequireDefault(_purchaseEdit);
+
+var _reportdistribution = __webpack_require__(43);
 
 var _reportdistribution2 = _interopRequireDefault(_reportdistribution);
 
-var _contacts = __webpack_require__(53);
+var _contacts = __webpack_require__(48);
 
 var _contacts2 = _interopRequireDefault(_contacts);
 
-var _contactsEdit = __webpack_require__(58);
+var _contactsEdit = __webpack_require__(53);
 
 var _contactsEdit2 = _interopRequireDefault(_contactsEdit);
 
-var _config = __webpack_require__(63);
+var _config = __webpack_require__(58);
 
 var _config2 = _interopRequireDefault(_config);
 
@@ -20403,8 +20407,11 @@ var router = new _vueRouter2.default({
 			path: "drugsedit",
 			component: _drugsEdit2.default
 		}, {
-			path: "report",
-			component: _report2.default
+			path: "purchase",
+			component: _purchase2.default
+		}, {
+			path: "purchaseedit",
+			component: _purchaseEdit2.default
 		}, {
 			path: "distributionreport",
 			component: _reportdistribution2.default
@@ -23035,13 +23042,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("首页")]), _vm._v(" "), _c('el-menu-item', {
     attrs: {
-      "index": "report"
+      "index": "purchase"
     }
-  }, [_vm._v("高打品种")]), _vm._v(" "), _c('el-menu-item', {
+  }, [_vm._v("进货记录")]), _vm._v(" "), _c('el-menu-item', {
     attrs: {
       "index": "distributionreport"
     }
-  }, [_vm._v("分销品种")]), _vm._v(" "), _c('el-submenu', {
+  }, [_vm._v("销售记录")]), _vm._v(" "), _c('el-submenu', {
     attrs: {
       "index": "database"
     }
@@ -23079,25 +23086,20 @@ if (false) {
 }
 
 /***/ }),
-/* 23 */,
-/* 24 */,
-/* 25 */,
-/* 26 */,
-/* 27 */,
-/* 28 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(29)
+__webpack_require__(24)
 
 /* script */
-__vue_exports__ = __webpack_require__(31)
+__vue_exports__ = __webpack_require__(26)
 
 /* template */
-var __vue_template__ = __webpack_require__(32)
+var __vue_template__ = __webpack_require__(27)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -23131,13 +23133,13 @@ module.exports = __vue_exports__
 
 
 /***/ }),
-/* 29 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(30);
+var content = __webpack_require__(25);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(1)(content, {});
@@ -23157,7 +23159,7 @@ if(false) {
 }
 
 /***/ }),
-/* 30 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(0)();
@@ -23171,7 +23173,7 @@ exports.push([module.i, "\n.page_div{\n\tbackground-color: #ffffff;\n\tbox-sizin
 
 
 /***/ }),
-/* 31 */
+/* 26 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -23329,7 +23331,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 32 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -23519,20 +23521,20 @@ if (false) {
 }
 
 /***/ }),
-/* 33 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(34)
+__webpack_require__(29)
 
 /* script */
-__vue_exports__ = __webpack_require__(36)
+__vue_exports__ = __webpack_require__(31)
 
 /* template */
-var __vue_template__ = __webpack_require__(37)
+var __vue_template__ = __webpack_require__(32)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -23566,13 +23568,13 @@ module.exports = __vue_exports__
 
 
 /***/ }),
-/* 34 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(35);
+var content = __webpack_require__(30);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(1)(content, {});
@@ -23592,7 +23594,7 @@ if(false) {
 }
 
 /***/ }),
-/* 35 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(0)();
@@ -23606,7 +23608,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 
 /***/ }),
-/* 36 */
+/* 31 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -23708,7 +23710,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					that.resetForm("drugs");
 					_this.drugs.product_id = "";
 				}).catch(function () {
-					that.$router.push("main/drugs");
+					that.$router.push("/main/drugs");
 				});
 			});
 		}
@@ -23716,7 +23718,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	methods: {
 		returnList: function returnList() {
-			this.$router.push("main/drugs");
+			this.$router.push("/main/drugs");
 		},
 		submitForm: function submitForm(formName) {
 			var _this2 = this;
@@ -23737,7 +23739,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 37 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -23911,20 +23913,20 @@ if (false) {
 }
 
 /***/ }),
-/* 38 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(39)
+__webpack_require__(34)
 
 /* script */
-__vue_exports__ = __webpack_require__(41)
+__vue_exports__ = __webpack_require__(36)
 
 /* template */
-var __vue_template__ = __webpack_require__(42)
+var __vue_template__ = __webpack_require__(37)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -23958,13 +23960,13 @@ module.exports = __vue_exports__
 
 
 /***/ }),
-/* 39 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(40);
+var content = __webpack_require__(35);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(1)(content, {});
@@ -23984,7 +23986,7 @@ if(false) {
 }
 
 /***/ }),
-/* 40 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(0)();
@@ -23998,7 +24000,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n", ""]);
 
 
 /***/ }),
-/* 41 */
+/* 36 */
 /***/ (function(module, exports) {
 
 //
@@ -24008,7 +24010,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n", ""]);
 //
 
 /***/ }),
-/* 42 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -24022,6 +24024,11 @@ if (false) {
 }
 
 /***/ }),
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
 /* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24036,128 +24043,6 @@ __vue_exports__ = __webpack_require__(46)
 
 /* template */
 var __vue_template__ = __webpack_require__(47)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/Users/lvyang/HBuilderProjects/iae/views/report.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7912ff66", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-7912ff66", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] report.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ }),
-/* 44 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(45);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(1)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-7912ff66!../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./report.vue", function() {
-			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-7912ff66!../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./report.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 45 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(0)();
-// imports
-
-
-// module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 46 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	data: function data() {
-		return {};
-	},
-	mounted: function mounted() {},
-
-	methods: {}
-});
-
-/***/ }),
-/* 47 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div')
-},staticRenderFns: []}
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-7912ff66", module.exports)
-  }
-}
-
-/***/ }),
-/* 48 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* styles */
-__webpack_require__(49)
-
-/* script */
-__vue_exports__ = __webpack_require__(51)
-
-/* template */
-var __vue_template__ = __webpack_require__(52)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -24191,13 +24076,13 @@ module.exports = __vue_exports__
 
 
 /***/ }),
-/* 49 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(50);
+var content = __webpack_require__(45);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(1)(content, {});
@@ -24217,7 +24102,7 @@ if(false) {
 }
 
 /***/ }),
-/* 50 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(0)();
@@ -24231,7 +24116,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n", ""]);
 
 
 /***/ }),
-/* 51 */
+/* 46 */
 /***/ (function(module, exports) {
 
 //
@@ -24241,7 +24126,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n", ""]);
 //
 
 /***/ }),
-/* 52 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -24255,20 +24140,20 @@ if (false) {
 }
 
 /***/ }),
-/* 53 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(54)
+__webpack_require__(49)
 
 /* script */
-__vue_exports__ = __webpack_require__(56)
+__vue_exports__ = __webpack_require__(51)
 
 /* template */
-var __vue_template__ = __webpack_require__(57)
+var __vue_template__ = __webpack_require__(52)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -24302,13 +24187,13 @@ module.exports = __vue_exports__
 
 
 /***/ }),
-/* 54 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(55);
+var content = __webpack_require__(50);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(1)(content, {});
@@ -24328,7 +24213,7 @@ if(false) {
 }
 
 /***/ }),
-/* 55 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(0)();
@@ -24342,7 +24227,7 @@ exports.push([module.i, "\n.page_div{\n\tbackground-color: #ffffff;\n\tbox-sizin
 
 
 /***/ }),
-/* 56 */
+/* 51 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -24448,7 +24333,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			});
 		},
 		add: function add() {
-			this.$router.push("main/contactsedit");
+			this.$router.push("/main/contactsedit");
 		},
 		searchContactsList: function searchContactsList() {
 			this.params.start = 0;
@@ -24473,7 +24358,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 57 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -24600,20 +24485,20 @@ if (false) {
 }
 
 /***/ }),
-/* 58 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(59)
+__webpack_require__(54)
 
 /* script */
-__vue_exports__ = __webpack_require__(61)
+__vue_exports__ = __webpack_require__(56)
 
 /* template */
-var __vue_template__ = __webpack_require__(62)
+var __vue_template__ = __webpack_require__(57)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -24647,13 +24532,13 @@ module.exports = __vue_exports__
 
 
 /***/ }),
-/* 59 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(60);
+var content = __webpack_require__(55);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(1)(content, {});
@@ -24673,7 +24558,7 @@ if(false) {
 }
 
 /***/ }),
-/* 60 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(0)();
@@ -24687,7 +24572,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 
 /***/ }),
-/* 61 */
+/* 56 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -24761,7 +24646,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					that.resetForm("contacts");
 					_this.contacts.contacts_id = "";
 				}).catch(function () {
-					that.$router.push("main/contacts");
+					that.$router.push("/main/contacts");
 				});
 			});
 		}
@@ -24769,7 +24654,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	methods: {
 		returnList: function returnList() {
-			this.$router.push("main/contacts");
+			this.$router.push("/main/contacts");
 		},
 		submitForm: function submitForm(formName) {
 			var _this2 = this;
@@ -24790,7 +24675,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 62 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -24872,10 +24757,903 @@ if (false) {
 }
 
 /***/ }),
-/* 63 */
+/* 58 */
 /***/ (function(module, exports) {
 
 module.exports = {"dbPath":""}
+
+/***/ }),
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */,
+/* 64 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(65)
+
+/* script */
+__vue_exports__ = __webpack_require__(67)
+
+/* template */
+var __vue_template__ = __webpack_require__(68)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/lvyang/HBuilderProjects/iae/views/purchase/purchase.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-245e4846", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-245e4846", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] purchase.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+/* 65 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(66);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(1)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-245e4846!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./purchase.vue", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-245e4846!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./purchase.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 66 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(0)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.page_div{\n\tbackground-color: #ffffff;\n\tbox-sizing: border-box;\n\theight: 40px;\n\tpadding-top: 4px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 67 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			purchase: [],
+			contacts: [],
+			ipc: null,
+			pageNum: 10,
+			currentPage: 1,
+			count: 0,
+			params: {
+				productCommonName: "",
+				contactId: "",
+				start: 0,
+				limit: 10
+			}
+		};
+	},
+	activated: function activated() {
+		this.params.start = 0;
+		this.getPurchasesList();
+	},
+	mounted: function mounted() {
+		var that = this;
+		if (window.require) {
+			//获取药品信息
+			this.ipc = window.require('electron').ipcRenderer;
+			this.ipc.on('return-purchase-data', function (event, arg) {
+				that.purchase = arg.data;
+				that.count = arg.count;
+			});
+			this.getPurchasesList();
+			this.ipc.on('return-contacts-all-data', function (event, arg) {
+				that.contacts = arg.data;
+			});
+			this.ipc.send('get-contacts-list-all');
+		}
+	},
+
+	methods: {
+		editRow: function editRow(scope) {
+			//编辑药品信息
+			sessionStorage["drugs_edit"] = JSON.stringify(this.drugs[scope.$index]);
+			this.$router.push("/mian/drugsedit");
+		},
+		deleteRow: function deleteRow(scope) {
+			var _this = this;
+
+			//删除
+			this.deleteId = scope.row.product_id;
+			this.$confirm('是否删除?', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning'
+			}).then(function () {
+				_this.deleteItem();
+			}).catch(function () {});
+		},
+		deleteItem: function deleteItem() {
+			var _this2 = this;
+
+			var that = this;
+			this.ipc.send('delete-drugs', this.deleteId);
+			this.ipc.on('delete-drugs-return', function (event, arg) {
+				_this2.$message({
+					message: '删除成功',
+					type: 'success'
+				});
+				_this2.getPurchasesList();
+			});
+		},
+
+		//跳转到编辑页面
+		add: function add() {
+			this.$router.push("/main/purchaseedit");
+		},
+
+		//搜索所有药品信息
+		searchDrugsList: function searchDrugsList() {
+			this.params.start = 0;
+			this.getPurchasesList();
+		},
+		getPurchasesList: function getPurchasesList() {
+			this.ipc.send('get-purchases-list', this.params);
+		},
+		handleSizeChange: function handleSizeChange(val) {
+			this.pageNum = val;
+			this.currentPage = 1;
+			this.params.limit = this.pageNum;
+			this.getPurchasesList();
+		},
+		handleCurrentChange: function handleCurrentChange(val) {
+			this.currentPage = val;
+			this.params.start = (val - 1) * this.pageNum;
+			this.params.limit = this.pageNum;
+			this.getPurchasesList();
+		}
+	}
+});
+
+/***/ }),
+/* 68 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticStyle: {
+      "box-sizing": "border-box",
+      "padding": "0px 10px"
+    }
+  }, [_c('el-form', {
+    staticClass: "demo-form-inline",
+    staticStyle: {
+      "padding-left": "10px"
+    },
+    attrs: {
+      "inline": true,
+      "model": _vm.formInline
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "产品通用名"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "size": "small",
+      "placeholder": "产品通用名"
+    },
+    model: {
+      value: (_vm.params.productCommonName),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "productCommonName", $$v)
+      },
+      expression: "params.productCommonName"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "联系人"
+    }
+  }, [_c('el-select', {
+    attrs: {
+      "filterable": "",
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.params.contactId),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "contactId", $$v)
+      },
+      expression: "params.contactId"
+    }
+  }, [_c('el-option', {
+    key: "",
+    attrs: {
+      "label": "全部",
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.contacts), function(item) {
+    return _c('el-option', {
+      key: item.contacts_id,
+      attrs: {
+        "label": item.contacts_name,
+        "value": item.contacts_id
+      }
+    })
+  })], 2)], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
+    attrs: {
+      "type": "primary",
+      "size": "small"
+    },
+    on: {
+      "click": _vm.searchDrugsList
+    }
+  }, [_vm._v("查询")]), _vm._v(" "), _c('el-button', {
+    attrs: {
+      "type": "primary",
+      "size": "small"
+    },
+    on: {
+      "click": _vm.add
+    }
+  }, [_vm._v("新增")])], 1)], 1), _vm._v(" "), _c('el-table', {
+    staticStyle: {
+      "width": "100%"
+    },
+    attrs: {
+      "data": _vm.purchase
+    }
+  }, [_c('el-table-column', {
+    attrs: {
+      "fixed": "",
+      "prop": "product_common_name",
+      "label": "产品通用名",
+      "width": "200"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "puchase_number",
+      "label": "购入数量",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "puchase_money",
+      "label": "购入金额",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "storage_time",
+      "label": "入库时间",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "shoule_return_money",
+      "label": "应返金额",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "should_return_time",
+      "label": "应返时间",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "real_return_money",
+      "label": "实返金额",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "real_return_time",
+      "label": "返费时间",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "own_money",
+      "label": "外欠佣金",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_specifications",
+      "label": "产品规格",
+      "width": "150"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_unit",
+      "label": "单位",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_price",
+      "label": "中标价",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "contacts_name",
+      "label": "联系人",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_business",
+      "label": "商业",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_commission",
+      "label": "佣金",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "fixed": "right",
+      "label": "操作",
+      "width": "200"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(scope) {
+        return [_c('el-button', {
+          attrs: {
+            "icon": "el-icon-delete",
+            "type": "primary",
+            "size": "small"
+          },
+          nativeOn: {
+            "click": function($event) {
+              $event.preventDefault();
+              _vm.deleteRow(scope)
+            }
+          }
+        }), _vm._v(" "), _c('el-button', {
+          attrs: {
+            "icon": "el-icon-edit-outline",
+            "type": "primary",
+            "size": "small"
+          },
+          nativeOn: {
+            "click": function($event) {
+              $event.preventDefault();
+              _vm.editRow(scope)
+            }
+          }
+        })]
+      }
+    }])
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "page_div"
+  }, [_c('el-pagination', {
+    attrs: {
+      "current-page": _vm.currentPage,
+      "page-sizes": [5, 10, 50, 100],
+      "page-size": _vm.pageNum,
+      "layout": "total, sizes, prev, pager, next, jumper",
+      "total": _vm.count
+    },
+    on: {
+      "size-change": _vm.handleSizeChange,
+      "current-change": _vm.handleCurrentChange
+    }
+  })], 1)], 1)
+},staticRenderFns: []}
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-245e4846", module.exports)
+  }
+}
+
+/***/ }),
+/* 69 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(70)
+
+/* script */
+__vue_exports__ = __webpack_require__(72)
+
+/* template */
+var __vue_template__ = __webpack_require__(73)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/lvyang/HBuilderProjects/iae/views/purchase/purchaseEdit.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-494f7e70", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-494f7e70", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] purchaseEdit.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+/* 70 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(71);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(1)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-494f7e70!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./purchaseEdit.vue", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-494f7e70!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./purchaseEdit.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 71 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(0)();
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 72 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			ipc: null,
+			contacts: [],
+			drugs: {
+				product_id: "",
+				puchase_number: "",
+				puchase_money: "",
+				product_unit: "",
+				should_return_time: "",
+				contacts: "",
+				shoule_return_money: "",
+				real_return_money: ""
+			},
+			drugsRule: {
+				puchase_number: [{ required: true, message: '请输入产品通用名', trigger: 'blur' }],
+				puchase_money: [{ required: true, message: '请输入产品规格', trigger: 'blur' }],
+				product_unit: [{ required: true, message: '请输入单位', trigger: 'blur' }],
+				should_return_time: [{ required: true, message: '请输入中标价', trigger: 'blur' }],
+				contacts: [{ required: true, message: '请选择联系人', trigger: 'change' }],
+				shoule_return_money: [{ required: true, message: '请输入商业', trigger: 'blur' }],
+				real_return_money: [{ required: true, message: '请输入佣金', trigger: 'blur' }]
+			},
+			editmessage: ""
+		};
+	},
+	activated: function activated() {
+		this.resetForm("drugs");
+		this.drugs.product_id = "";
+		if (sessionStorage["drugs_edit"]) {
+			var sessionDrugs = JSON.parse(sessionStorage["drugs_edit"]);
+			delete sessionDrugs.contacts_name;
+			this.drugs = sessionDrugs;
+			sessionStorage.removeItem('drugs_edit');
+			this.editmessage = "修改";
+		} else {
+			this.editmessage = "新增";
+		}
+	},
+	mounted: function mounted() {
+		var _this = this;
+
+		var that = this;
+		this.contacts = JSON.parse(sessionStorage["contacts_all"]);
+		if (window.require) {
+			this.ipc = window.require('electron').ipcRenderer;
+			this.ipc.on('edit-drugs-return', function (event, arg) {
+				console.log(arg);
+				that.$confirm(that.editmessage + '成功', '提示', {
+					confirmButtonText: '继续添加',
+					cancelButtonText: '返回列表',
+					type: 'success'
+				}).then(function () {
+					that.resetForm("drugs");
+					_this.drugs.product_id = "";
+				}).catch(function () {
+					that.$router.push("/main/drugs");
+				});
+			});
+		}
+	},
+
+	methods: {
+		returnList: function returnList() {
+			this.$router.push("/main/purchase");
+		},
+		submitForm: function submitForm(formName) {
+			var _this2 = this;
+
+			var that = this;
+			this.$refs[formName].validate(function (valid) {
+				if (valid) {
+					that.ipc.send('edit-drugs', _this2.drugs);
+				} else {
+					return false;
+				}
+			});
+		},
+		resetForm: function resetForm(formName) {
+			this.$refs[formName].resetFields();
+		}
+	}
+});
+
+/***/ }),
+/* 73 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticStyle: {
+      "width": "400px",
+      "margin": "20px auto"
+    }
+  }, [_c('el-form', {
+    ref: "drugs",
+    staticClass: "demo-ruleForm",
+    attrs: {
+      "model": _vm.drugs,
+      "status-icon": "",
+      "rules": _vm.drugsRule,
+      "label-width": "100px"
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "购入数量",
+      "prop": "puchase_number"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "auto-complete": "off",
+      "placeholder": "请输入购入数量"
+    },
+    model: {
+      value: (_vm.drugs.puchase_number),
+      callback: function($$v) {
+        _vm.$set(_vm.drugs, "puchase_number", $$v)
+      },
+      expression: "drugs.puchase_number"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "购入金额",
+      "prop": "puchase_money"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "auto-complete": "off",
+      "placeholder": "请输入购入金额"
+    },
+    model: {
+      value: (_vm.drugs.puchase_money),
+      callback: function($$v) {
+        _vm.$set(_vm.drugs, "puchase_money", $$v)
+      },
+      expression: "drugs.puchase_money"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "入库时间",
+      "prop": "storage_time"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "auto-complete": "off",
+      "placeholder": "请输入入库时间"
+    },
+    model: {
+      value: (_vm.drugs.storage_time),
+      callback: function($$v) {
+        _vm.$set(_vm.drugs, "storage_time", $$v)
+      },
+      expression: "drugs.storage_time"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "应返金额",
+      "prop": "shoule_return_money"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "auto-complete": "off",
+      "placeholder": "请输入应返金额"
+    },
+    model: {
+      value: (_vm.drugs.shoule_return_money),
+      callback: function($$v) {
+        _vm.$set(_vm.drugs, "shoule_return_money", $$v)
+      },
+      expression: "drugs.shoule_return_money"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "应返时间",
+      "prop": "should_return_time"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "auto-complete": "off",
+      "placeholder": "请输入应返时间"
+    },
+    model: {
+      value: (_vm.drugs.should_return_time),
+      callback: function($$v) {
+        _vm.$set(_vm.drugs, "should_return_time", $$v)
+      },
+      expression: "drugs.should_return_time"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "实返金额",
+      "prop": "real_return_money"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "auto-complete": "off",
+      "placeholder": "请输入实返金额"
+    },
+    model: {
+      value: (_vm.drugs.real_return_money),
+      callback: function($$v) {
+        _vm.$set(_vm.drugs, "real_return_money", $$v)
+      },
+      expression: "drugs.real_return_money"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "返费时间",
+      "prop": "real_return_time"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "auto-complete": "off",
+      "placeholder": "请输入返费时间"
+    },
+    model: {
+      value: (_vm.drugs.real_return_time),
+      callback: function($$v) {
+        _vm.$set(_vm.drugs, "real_return_time", $$v)
+      },
+      expression: "drugs.real_return_time"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "外欠佣金",
+      "prop": "own_money"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "auto-complete": "off",
+      "placeholder": "请输入外欠佣金"
+    },
+    model: {
+      value: (_vm.drugs.own_money),
+      callback: function($$v) {
+        _vm.$set(_vm.drugs, "own_money", $$v)
+      },
+      expression: "drugs.own_money"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
+    attrs: {
+      "type": "primary"
+    },
+    on: {
+      "click": function($event) {
+        _vm.submitForm('drugs')
+      }
+    }
+  }, [_vm._v("提交")]), _vm._v(" "), _c('el-button', {
+    on: {
+      "click": function($event) {
+        _vm.resetForm('drugs')
+      }
+    }
+  }, [_vm._v("重置")]), _vm._v(" "), _c('el-button', {
+    on: {
+      "click": _vm.returnList
+    }
+  }, [_vm._v("返回")])], 1)], 1)], 1)
+},staticRenderFns: []}
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-494f7e70", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

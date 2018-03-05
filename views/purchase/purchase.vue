@@ -19,9 +19,17 @@
 		    <el-button type="primary" @click="add" size="small">新增</el-button>
 		  </el-form-item>
 		</el-form>
-		<el-table :data="drugs" style="width: 100%">
+		<el-table :data="purchase" style="width: 100%">
   			<el-table-column fixed prop="product_common_name" label="产品通用名" width="200"></el-table-column>
-  			<el-table-column prop="product_specifications" label="产品规格" width="150"></el-table-column>
+				<el-table-column prop="puchase_number" label="购入数量" width="120"></el-table-column>
+				<el-table-column prop="puchase_money" label="购入金额" width="120"></el-table-column>
+				<el-table-column prop="storage_time" label="入库时间" width="120"></el-table-column>
+				<el-table-column prop="shoule_return_money" label="应返金额" width="120"></el-table-column>
+				<el-table-column prop="should_return_time" label="应返时间" width="120"></el-table-column>
+				<el-table-column prop="real_return_money" label="实返金额" width="120"></el-table-column>
+				<el-table-column prop="real_return_time" label="返费时间" width="120"></el-table-column>
+				<el-table-column prop="own_money" label="外欠佣金" width="120"></el-table-column>
+				<el-table-column prop="product_specifications" label="产品规格" width="150"></el-table-column>
   			<el-table-column prop="product_unit" label="单位" width="120"></el-table-column>
   			<el-table-column prop="product_price" label="中标价" width="120"></el-table-column>
   			<el-table-column prop="contacts_name" label="联系人" width="120"></el-table-column>
@@ -53,7 +61,7 @@
 	export default({
 		data(){
 			return {
-				drugs:[],
+				purchase:[],
 				contacts:[],
 				ipc:null,
 				pageNum:10,
@@ -69,21 +77,20 @@
 		},
 		activated(){
 			this.params.start = 0;
-			this.getDrugsList();
+			this.getPurchasesList();
 		},
 		mounted(){
 			var that = this;
 			if (window.require) {
 				//获取药品信息
 		    this.ipc = window.require('electron').ipcRenderer;
-				this.ipc.on('return-drugs-data', (event, arg) => {
-				  	that.drugs = arg.data;
+				this.ipc.on('return-purchase-data', (event, arg) => {
+				  	that.purchase = arg.data;
 				  	that.count = arg.count;
 				});
-				this.getDrugsList();
+				this.getPurchasesList();
 				this.ipc.on('return-contacts-all-data', (event, arg) => {
 				  	that.contacts = arg.data;
-				  	sessionStorage["contacts_all"]=JSON.stringify(arg.data);
 				});
 				this.ipc.send('get-contacts-list-all');
 			}
@@ -109,35 +116,35 @@
 				this.ipc.send('delete-drugs',this.deleteId);
 				this.ipc.on('delete-drugs-return', (event, arg) => {
 				  	this.$message({
-			          	message: '删除成功',
-			          	type: 'success'
-			        });
-			        this.getDrugsList();
+		          	message: '删除成功',
+		          	type: 'success'
+		        });
+		        this.getPurchasesList();
 				});
 			},
 			//跳转到编辑页面
 			add(){
-				this.$router.push("/main/drugsedit");
+				this.$router.push("/main/purchaseedit");
 			},
 			//搜索所有药品信息
 			searchDrugsList(){
 				this.params.start = 0;
-				this.getDrugsList();
+				this.getPurchasesList();
 			},
-			getDrugsList(){
-				this.ipc.send('get-drugs-list',this.params);
+			getPurchasesList(){
+				this.ipc.send('get-purchases-list',this.params);
 			},
 			handleSizeChange(val) {
         this.pageNum = val;
     		this.currentPage = 1;
     		this.params.limit = this.pageNum;
-        this.getDrugsList();
+        this.getPurchasesList();
     	},
     	handleCurrentChange(val) {
     		this.currentPage = val;
     		this.params.start = (val-1)*this.pageNum;
     		this.params.limit = this.pageNum;
-				this.getDrugsList();
+				this.getPurchasesList();
     	}
 		}
 	});

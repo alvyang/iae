@@ -6,7 +6,8 @@ import Main from "../views/main.vue";
 import Drugs from "../views/drugs/drugs.vue";
 import DrugsEdit from "../views/drugs/drugsEdit.vue";
 import Home from "../views/home.vue";
-import Report from "../views/report.vue";
+import Purchase from "../views/purchase/purchase.vue";
+import PurchaseEdit from "../views/purchase/purchaseEdit.vue";
 import DistributionReport from "../views/reportdistribution.vue";
 import Contacts from "../views/contacts/contacts.vue";
 import ContactsEdit from "../views/contacts/contactsEdit.vue";
@@ -34,8 +35,11 @@ const router = new VueRouter({
 			path:"drugsedit",
 			component:DrugsEdit,
 		},{
-			path:"report",
-			component:Report
+			path:"purchase",
+			component:Purchase
+		},{
+			path:"purchaseedit",
+			component:PurchaseEdit
 		},{
 			path:"distributionreport",
 			component:DistributionReport

@@ -59,9 +59,9 @@
 			var that = this;
 			if (window.require) {
 			    this.ipc = window.require('electron').ipcRenderer;
-				this.ipc.on('return-contacts-data', (event, arg) => {
-				  	that.contacts = arg.data;
-				  	that.count = arg.count;
+					this.ipc.on('return-contacts-data', (event, arg) => {
+			  	that.contacts = arg.data;
+			  	that.count = arg.count;
 				});
 				this.getContactsList();
 			}
@@ -74,27 +74,27 @@
 			deleteRow(scope){
 				this.deleteId = scope.row.contacts_id;
 				this.$confirm('是否删除?', '提示', {
-		          	confirmButtonText: '确定',
-		          	cancelButtonText: '取消',
-		          	type: 'warning'
-		        }).then(() => {
+        	confirmButtonText: '确定',
+        	cancelButtonText: '取消',
+        	type: 'warning'
+      	}).then(() => {
 					this.deleteItem();
-		        }).catch(() => {
-		        });
+      	}).catch(() => {
+      	});
 			},
 			deleteItem(){
 				var that = this;
 				this.ipc.send('delete-contacts',this.deleteId);
 				this.ipc.on('delete-contacts-return', (event, arg) => {
 				  	this.$message({
-			          	message: '删除成功',
-			          	type: 'success'
-			        });
-			        this.getContactsList();
+		          	message: '删除成功',
+		          	type: 'success'
+		        });
+		        this.getContactsList();
 				});
 			},
 			add(){
-				this.$router.push("main/contactsedit");
+				this.$router.push("/main/contactsedit");
 			},
 			searchContactsList(){
 				this.params.start = 0;
@@ -104,17 +104,17 @@
 				this.ipc.send('get-contacts-list',this.params);
 			},
 			handleSizeChange(val) {
-		        this.pageNum = val;
-	      		this.currentPage = 1;
-	      		this.params.limit = this.pageNum;
-		        this.getContactsList();
-	      	},
-	      	handleCurrentChange(val) {
-	      		this.currentPage = val;
-	      		this.params.start = (val-1)*this.pageNum;
-	      		this.params.limit = this.pageNum;
+        this.pageNum = val;
+    		this.currentPage = 1;
+    		this.params.limit = this.pageNum;
+        this.getContactsList();
+    	},
+    	handleCurrentChange(val) {
+    		this.currentPage = val;
+    		this.params.start = (val-1)*this.pageNum;
+    		this.params.limit = this.pageNum;
 				this.getContactsList();
-	      	}
+    	}
 		}
 	})
 </script>

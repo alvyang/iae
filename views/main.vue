@@ -6,8 +6,8 @@
 			  text-color="#fff"
 			  active-text-color="#ffd04b">
 			  <el-menu-item index="home">首页</el-menu-item>
-			  <el-menu-item index="report">高打品种</el-menu-item>
-			  <el-menu-item index="distributionreport">分销品种</el-menu-item>
+			  <el-menu-item index="purchase">进货记录</el-menu-item>
+			  <el-menu-item index="distributionreport">销售记录</el-menu-item>
 			  <el-submenu index="database">
 			    <template slot="title">基础数据</template>
 			    <el-menu-item index="drugs">药品信息</el-menu-item>
@@ -31,10 +31,10 @@
 			}
 		},
 		mounted(){
-			
+
 		},
 		methods:{
-			
+
 		}
 	})
 </script>

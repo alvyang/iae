@@ -1,12 +1,12 @@
 const electron = require('electron');
 const ipcMain = electron.ipcMain;
 const sqlite3 = require("sqlite3");
-const path = require('path');
+var dbPath = require("./sql.js").getdbPath();
 
 exports.contacts = function(){
 	ipcMain.on('get-contacts-list', (event, arg) => {
 		sqlite3.verbose();
-		const db = new sqlite3.Database(path.join(__dirname,'../data/iae.db'));
+		const db = new sqlite3.Database(dbPath);
 		var sql = "select * from contacts where 1=1 ";
 		var countSql = "select count(*) as count from contacts where 1=1 ";
 		if(arg.contactName){
@@ -27,7 +27,7 @@ exports.contacts = function(){
 	});
 	ipcMain.on('get-contacts-list-all', (event, arg) => {
 		sqlite3.verbose();
-		const db = new sqlite3.Database(path.join(__dirname,'../data/iae.db'));
+		const db = new sqlite3.Database(dbPath);
 		var contactsAllSql = "select contacts_id,contacts_name from contacts";
 		db.all(contactsAllSql,function(err,res){//分页查询
 			// 返回消息
@@ -39,7 +39,7 @@ exports.contacts = function(){
 	});
 	ipcMain.on('edit-contacts', (event, arg) => {
 		sqlite3.verbose();
-		const db = new sqlite3.Database(path.join(__dirname,'../data/iae.db'));
+		const db = new sqlite3.Database(dbPath);
 		var sql = "";
 		if(!arg.contacts_id){
 			var id = new Date().getTime();
@@ -59,16 +59,16 @@ exports.contacts = function(){
 			keyValue = keyValue.substring(0,keyValue.length-1);
 			sql = "update contacts set "+keyValue+" where contacts_id = '"+arg.contacts_id+"'";
 		}
-		
+
 		db.run(sql,function(err,res){
 			event.sender.send('edit-contacts-return',"success");
 		});
 	  	db.close();
 	});
-	
+
 	ipcMain.on('delete-contacts', (event, arg) => {
 		sqlite3.verbose();
-		const db = new sqlite3.Database(path.join(__dirname,'../data/iae.db'));
+		const db = new sqlite3.Database(dbPath);
 		var deleteSql = "delete from contacts where contacts_id = '"+arg+"'";
 		db.run(deleteSql,function(err,res){
 			event.sender.send('delete-contacts-return',"success");
