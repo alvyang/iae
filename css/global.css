@@ -1,0 +1,35 @@
+/*添加页面，白色背景*/
+.add_div{
+  background-color: #fff;
+  border: solid 1px #fff;
+}
+/*搜索框样式*/
+.search{
+  padding-left: 10px;
+  background-color:#fff;
+  margin-bottom: 10px;
+}
+.search .el-form-item{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.search .el-form-item__label{
+  padding-right: 8px;
+  padding-left: 14px;
+}
+/*分页样式*/
+.page_div{
+  background-color: #ffffff;
+  box-sizing: border-box;
+  height: 50px;
+  padding-top: 4px;
+  text-align: center;
+  padding-top: 10px;
+}
+/*面包屑样式*/
+.el-breadcrumb{
+  font-size: 12px;
+  height: 25px;
+  line-height: 25px;
+  padding-left: 10px;
+}

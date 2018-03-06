@@ -1,6 +1,10 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;">
-		<el-form :inline="true" :model="formInline" class="demo-form-inline" style="padding-left: 10px;">
+		<el-breadcrumb separator-class="el-icon-arrow-right">
+		  <el-breadcrumb-item>基础数据</el-breadcrumb-item>
+			<el-breadcrumb-item>联系人信息</el-breadcrumb-item>
+		</el-breadcrumb>
+		<el-form :inline="true" :model="formInline" class="demo-form-inline search">
 		  <el-form-item label="联系人">
 		    <el-input v-model="params.contactName" size="small" placeholder="联系人"></el-input>
 		  </el-form-item>
@@ -119,10 +123,5 @@
 	})
 </script>
 <style>
-	.page_div{
-		background-color: #ffffff;
-		box-sizing: border-box;
-		height: 40px;
-		padding-top: 4px;
-	}
+
 </style>

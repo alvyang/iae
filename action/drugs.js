@@ -7,8 +7,8 @@ exports.drugs = function(){
 	ipcMain.on('get-drugs-list', (event, arg) => {
 		sqlite3.verbose();
 		const db = new sqlite3.Database(dbPath);
-		var sql = "select drugs.*,contacts.contacts_name from drugs left join contacts where drugs.contacts=contacts.contacts_id ";
-		var countSql = "select count(*) as count from drugs where 1=1 ";
+		var sql = "select drugs.*,contacts.contacts_name from drugs left join contacts where drugs.delete_flag !='1' and drugs.contacts=contacts.contacts_id ";
+		var countSql = "select count(*) as count from drugs where delete_flag !='1' ";
 		if(arg.productCommonName){
 			sql += "and product_common_name like '%"+arg.productCommonName+"%'";
 			countSql += "and product_common_name like '%"+arg.productCommonName+"%'";
@@ -60,7 +60,7 @@ exports.drugs = function(){
 	ipcMain.on('delete-drugs', (event, arg) => {//删除
 		sqlite3.verbose();
 		const db = new sqlite3.Database(dbPath);
-		var deleteSql = "delete from drugs where product_id = '"+arg+"'";
+		var deleteSql = "update drugs set delete_flag = '1' where product_id = '"+arg+"'";
 		db.run(deleteSql,function(err,res){
 			event.sender.send('delete-drugs-return',"success");
 		});

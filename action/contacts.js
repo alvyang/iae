@@ -7,8 +7,8 @@ exports.contacts = function(){
 	ipcMain.on('get-contacts-list', (event, arg) => {
 		sqlite3.verbose();
 		const db = new sqlite3.Database(dbPath);
-		var sql = "select * from contacts where 1=1 ";
-		var countSql = "select count(*) as count from contacts where 1=1 ";
+		var sql = "select * from contacts where delete_flag != '1' ";
+		var countSql = "select count(*) as count from contacts where delete_flag != '1' ";
 		if(arg.contactName){
 			sql += "and contacts_name like '%"+arg.contactName+"%'";
 			countSql += "and contacts_name like '%"+arg.contactName+"%'";
@@ -28,7 +28,7 @@ exports.contacts = function(){
 	ipcMain.on('get-contacts-list-all', (event, arg) => {
 		sqlite3.verbose();
 		const db = new sqlite3.Database(dbPath);
-		var contactsAllSql = "select contacts_id,contacts_name from contacts";
+		var contactsAllSql = "select contacts_id,contacts_name from contacts where delete_flag != '1'";
 		db.all(contactsAllSql,function(err,res){//分页查询
 			// 返回消息
 	  		event.sender.send('return-contacts-all-data', {
@@ -69,7 +69,7 @@ exports.contacts = function(){
 	ipcMain.on('delete-contacts', (event, arg) => {
 		sqlite3.verbose();
 		const db = new sqlite3.Database(dbPath);
-		var deleteSql = "delete from contacts where contacts_id = '"+arg+"'";
+		var deleteSql = "update contacts set delete_flag = '1' where contacts_id = '"+arg+"'";
 		db.run(deleteSql,function(err,res){
 			event.sender.send('delete-contacts-return',"success");
 		});

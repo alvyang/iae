@@ -3,11 +3,15 @@ import VueRouter from "vue-router";
 Vue.use(VueRouter);
 //一级页面
 import Main from "../views/main.vue";
+import Home from "../views/home.vue";
+
 import Drugs from "../views/drugs/drugs.vue";
 import DrugsEdit from "../views/drugs/drugsEdit.vue";
-import Home from "../views/home.vue";
+
 import Purchase from "../views/purchase/purchase.vue";
 import PurchaseEdit from "../views/purchase/purchaseEdit.vue";
+import PurchaseDrugs from "../views/purchase/purchaseDrugs.vue";
+
 import DistributionReport from "../views/reportdistribution.vue";
 import Contacts from "../views/contacts/contacts.vue";
 import ContactsEdit from "../views/contacts/contactsEdit.vue";
@@ -37,6 +41,9 @@ const router = new VueRouter({
 		},{
 			path:"purchase",
 			component:Purchase
+		},{
+			path:"purchasedrugs",
+			component:PurchaseDrugs
 		},{
 			path:"purchaseedit",
 			component:PurchaseEdit

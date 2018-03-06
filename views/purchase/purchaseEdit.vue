@@ -1,120 +1,210 @@
 <template>
-	<div style="width:400px;margin: 20px auto;">
-
-		<el-form :model="drugs" status-icon :rules="drugsRule" ref="drugs" label-width="100px" class="demo-ruleForm">
-		  <el-form-item label="购入数量" prop="puchase_number">
-		    <el-input v-model="drugs.puchase_number" auto-complete="off" placeholder="请输入购入数量"></el-input>
-		  </el-form-item>
-		  <el-form-item label="购入金额" prop="puchase_money">
-		    <el-input v-model="drugs.puchase_money" auto-complete="off" placeholder="请输入购入金额"></el-input>
-		  </el-form-item>
-		  <el-form-item label="入库时间" prop="storage_time">
-		    <el-input v-model="drugs.storage_time" auto-complete="off" placeholder="请输入入库时间"></el-input>
-		  </el-form-item>
-		  <el-form-item label="应返金额" prop="shoule_return_money">
-		    <el-input v-model="drugs.shoule_return_money" auto-complete="off" placeholder="请输入应返金额"></el-input>
-		  </el-form-item>
-		  <el-form-item label="应返时间" prop="should_return_time">
-		    <el-input v-model="drugs.should_return_time" auto-complete="off" placeholder="请输入应返时间"></el-input>
-		  </el-form-item>
-		  <el-form-item label="实返金额" prop="real_return_money">
-		    <el-input v-model="drugs.real_return_money" auto-complete="off" placeholder="请输入实返金额"></el-input>
-		  </el-form-item>
-      <el-form-item label="返费时间" prop="real_return_time">
-		    <el-input v-model="drugs.real_return_time" auto-complete="off" placeholder="请输入返费时间"></el-input>
-		  </el-form-item>
-      <el-form-item label="外欠佣金" prop="own_money">
-		    <el-input v-model="drugs.own_money" auto-complete="off" placeholder="请输入外欠佣金"></el-input>
-		  </el-form-item>
-		  <el-form-item>
-		    <el-button type="primary" @click="submitForm('drugs')">提交</el-button>
-		    <el-button @click="resetForm('drugs')">重置</el-button>
-		    <el-button @click="returnList">返回</el-button>
-		  </el-form-item>
-		</el-form>
+	<div style="padding:0 10px;">
+		<el-breadcrumb separator-class="el-icon-arrow-right">
+			<el-breadcrumb-item :to="{ path: '/main/purchase' }">进货记录</el-breadcrumb-item>
+			<el-breadcrumb-item v-show="editmessage == '新增'" :to="{ path: '/main/purchasedrugs' }">选择药品</el-breadcrumb-item>
+			<el-breadcrumb-item>{{editmessage}}记录</el-breadcrumb-item>
+		</el-breadcrumb>
+		<div class="add_div">
+			<el-collapse v-model="activeNames">
+			  <el-collapse-item :title="'药品信息(药品名：'+drug.product_common_name+')'" name="1">
+			    <div>产品规格:{{drug.product_specifications}}</div>
+			    <div>单位:{{drug.product_unit}}</div>
+					<div>中标价:{{drug.product_price}}</div>
+					<div>联系人:{{drug.contacts_name}}</div>
+					<div>商业:{{drug.product_business}}</div>
+					<div>佣金:{{drug.product_commission}}</div>
+			  </el-collapse-item>
+			</el-collapse>
+			<div class="purchase_add">
+				<el-form :model="purchase" status-icon :rules="purchaseRule" :inline="true" ref="purchase" label-width="100px" class="demo-ruleForm">
+				  <el-form-item label="购入数量" prop="puchase_number" :required="true" >
+				    <el-input v-model="purchase.puchase_number" placeholder="请输入购入数量" @blur="purchaseNumBlur();"></el-input>
+				  </el-form-item>
+				  <el-form-item label="购入金额" prop="puchase_money">
+				    <el-input v-model="purchase.puchase_money" auto-complete="off" :readonly="true"></el-input>
+				  </el-form-item>
+				  <el-form-item label="入库时间" prop="storage_time">
+						<el-date-picker v-model="purchase.storage_time" type="date" placeholder="请选择入库时间"></el-date-picker>
+				  </el-form-item>
+				  <el-form-item label="应返金额" prop="shoule_return_money">
+				    <el-input v-model="purchase.shoule_return_money" :readonly="true"></el-input>
+				  </el-form-item>
+				  <el-form-item label="应返时间" prop="should_return_time">
+						<el-date-picker v-model="purchase.should_return_time" type="date" placeholder="请选择应返时间"></el-date-picker>
+				  </el-form-item>
+				  <el-form-item label="实返金额" prop="real_return_money">
+				    <el-input v-model="purchase.real_return_money" placeholder="请输入实返金额" @blur="realReturnMoneyBlur();"></el-input>
+				  </el-form-item>
+		      <el-form-item label="返费时间" prop="real_return_time">
+						<el-date-picker v-model="purchase.real_return_time" type="date" placeholder="请选择返费时间"></el-date-picker>
+				  </el-form-item>
+		      <el-form-item label="外欠佣金" prop="own_money">
+				    <el-input v-model="purchase.own_money" auto-complete="off" :readonly="true"></el-input>
+				  </el-form-item>
+				  <el-form-item>
+				    <el-button type="primary" @click="submitForm('purchase')">提交</el-button>
+				    <el-button @click="resetForm('purchase')">重置</el-button>
+						<el-button @click="returnList('/main/purchasedrugs')" v-show="editmessage == '新增'">重新选择药品</el-button>
+				    <el-button @click="returnList('/main/purchase')">返回进货记录</el-button>
+				  </el-form-item>
+				</el-form>
+			</div>
+		</div>
 	</div>
 </template>
 <script>
 	export default({
 		data(){
+			var validateNum = (rule, value, callback) => {
+				var regu = /^\+?[1-9][0-9]*$/;
+        if (value === '') {
+          callback(new Error('请输入购入数量'));
+        } else if(!regu.test(value)){
+					callback(new Error('请输入正整数'));
+				} else {
+          callback();
+        }
+      };
+			var validateRealReturnMoney = (rule, value, callback) => {
+				var reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+        if(!reg.test(value)){
+					callback(new Error('请输入正确的实返金额'));
+				} else if(this.purchase.shoule_return_money && value > this.purchase.shoule_return_money){
+					callback(new Error('实返金额不能大于应返金额'));
+				} else {
+          callback();
+        }
+      };
 			return {
 				ipc:null,
-				contacts:[],
-				drugs:{
-					product_id:"",
+				purchase:{
+					purchase_id:"",
+					drugs_id:"",
 					puchase_number:"",
 					puchase_money:"",
-					product_unit:"",
+					storage_time:new Date(),
 					should_return_time:"",
-					contacts:"",
 					shoule_return_money:"",
-					real_return_money:"",
+					real_return_money:"0",
+          real_return_time:"",
+          own_money:""
 				},
-				drugsRule:{
-					puchase_number:[{ required: true, message: '请输入产品通用名', trigger: 'blur' }],
-					puchase_money:[{ required: true, message: '请输入产品规格', trigger: 'blur' }],
-					product_unit:[{ required: true, message: '请输入单位', trigger: 'blur' }],
-					should_return_time:[{ required: true, message: '请输入中标价', trigger: 'blur' }],
-					contacts:[{ required: true, message: '请选择联系人', trigger: 'change' }],
-					shoule_return_money:[{ required: true, message: '请输入商业', trigger: 'blur' }],
-					real_return_money:[{ required: true, message: '请输入佣金', trigger: 'blur' }],
+				purchaseRule:{
+					puchase_number:[{validator: validateNum,trigger: 'blur,change' }],
+					storage_time:[{ required: true, message: '请选择入库时间', trigger: 'blur,change' }],
+					should_return_time:[{ required: true, message: '请选择实返时间', trigger: 'blur,change' }],
+					real_return_money:[{validator: validateRealReturnMoney,trigger: 'blur'}],
 				},
+				drug:{},//选择的药品信息
 				editmessage:"",
 			}
 		},
 		activated(){
-			this.resetForm("drugs");
-			this.drugs.product_id = "";
-			if(sessionStorage["drugs_edit"]){
-				var sessionDrugs = JSON.parse(sessionStorage["drugs_edit"]);
-				delete sessionDrugs.contacts_name;
-				this.drugs = sessionDrugs;
-				sessionStorage.removeItem('drugs_edit');
+			this.resetForm("purchase");
+			this.purchase.purchase_id = "";
+			if(sessionStorage["purchase_edit"]){
+				var sessionPurchase = JSON.parse(sessionStorage["purchase_edit"]);
+				this.drug = {
+					product_common_name:sessionPurchase.product_common_name,
+					product_specifications:sessionPurchase.product_specifications,
+					product_unit:sessionPurchase.product_unit,
+					product_price:sessionPurchase.product_price,
+					contacts_name:sessionPurchase.contacts_name,
+					product_business:sessionPurchase.product_business,
+					product_commission:sessionPurchase.product_commission,
+				}
+				this.purchase = {
+					purchase_id:sessionPurchase.purchase_id,
+					drugs_id:sessionPurchase.drugs_id,
+					puchase_number:sessionPurchase.puchase_number,
+					puchase_money:sessionPurchase.puchase_money,
+					storage_time:sessionPurchase.storage_time,
+					should_return_time:sessionPurchase.should_return_time,
+					shoule_return_money:sessionPurchase.shoule_return_money,
+					real_return_money:sessionPurchase.real_return_money,
+          real_return_time:sessionPurchase.real_return_time,
+          own_money:sessionPurchase.own_money
+				}
+				sessionStorage.removeItem('purchase_edit');
 				this.editmessage = "修改";
 			}else{
+				this.drug = JSON.parse(sessionStorage["drugs_select"]);
+				this.purchase.drugs_id = this.drug.product_id;
 				this.editmessage = "新增";
 			}
 		},
 		mounted(){
 			var that = this;
-			this.contacts = JSON.parse(sessionStorage["contacts_all"]);
 			if (window.require) {
-			    this.ipc = window.require('electron').ipcRenderer;
-				this.ipc.on('edit-drugs-return', (event, arg) => {
-					console.log(arg);
-				  	that.$confirm(that.editmessage+'成功', '提示', {
-			          	confirmButtonText:'继续添加',
-			          	cancelButtonText:'返回列表',
-			          	type: 'success'
-			        }).then(() => {
-			          	that.resetForm("drugs");
-			          	this.drugs.product_id = "";
-			        }).catch(() => {
-			          	that.$router.push("/main/drugs");
+		    this.ipc = window.require('electron').ipcRenderer;
+				this.ipc.on('edit-purchase-return', (event, arg) => {
+			  	that.$confirm(that.editmessage+'成功', '提示', {
+          	confirmButtonText:'重新选药,继续添加',
+          	cancelButtonText:'返回列表',
+          	type: 'success'
+	        }).then(() => {
+          	that.$router.push("/main/purchasedrugs");
+	        }).catch(() => {
+          	that.$router.push("/main/purchase");
 					});
 				});
 			}
 		},
 		methods:{
-			returnList(){
-				this.$router.push("/main/purchase");
+			//填写实返金额后，计算外欠佣金的值的值
+			realReturnMoneyBlur(){
+				if(this.purchase.real_return_money > 0 && this.purchase.real_return_money < this.purchase.shoule_return_money){
+					this.purchase.own_money = this.purchase.shoule_return_money - this.purchase.real_return_money;
+				}
+			},
+			//输入购买数量后，计算购买金额、应返金额、外欠佣金的值
+			purchaseNumBlur(){
+				var regu = /^\+?[1-9][0-9]*$/;
+				if(this.purchase.puchase_number && regu.test(this.purchase.puchase_number)){
+					this.purchase.puchase_money = this.purchase.puchase_number * this.drug.product_price;
+					this.purchase.shoule_return_money = this.purchase.puchase_number * this.drug.product_commission;
+					if(this.purchase.shoule_return_money < this.purchase.real_return_money){
+						this.purchase.real_return_money = this.purchase.shoule_return_money;
+					}
+					this.purchase.own_money = this.purchase.shoule_return_money - this.purchase.real_return_money;
+				}
+			},
+			returnList(path){
+				this.$router.push(path);
 			},
 			submitForm(formName) {
 				var that = this;
-		        this.$refs[formName].validate((valid) => {
-		          	if (valid) {
-		            		that.ipc.send('edit-drugs',this.drugs);
-		          	} else {
-		            		return false;
-		          	}
-		        });
-	      	},
-	      	resetForm(formName) {
-		        this.$refs[formName].resetFields();
-	      	}
+        this.$refs[formName].validate((valid) => {
+          	if (valid) {
+            		that.ipc.send('edit-purchase',this.purchase);
+          	} else {
+            		return false;
+          	}
+        });
+    	},
+    	resetForm(formName) {
+        this.$refs[formName].resetFields();
+    	}
 		}
 	});
 </script>
-<style>
-
+<style scoped="scoped">
+	.el-date-editor{
+		width: 179px;
+	}
+	.el-collapse-item__content > div{
+		display: inline-block;
+		width: 33%;
+	}
+	.el-collapse{
+		border-top: none;
+	}
+	.el-collapse-item{
+		padding-left: 10px;
+	}
+	.purchase_add{
+		width:600px;
+		margin: 20px auto;
+	}
 </style>

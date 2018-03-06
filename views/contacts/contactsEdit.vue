@@ -1,19 +1,27 @@
 <template>
-	<div style="width:400px;margin: 20px auto;">
-
-		<el-form :model="contacts" status-icon :rules="contactsRule" ref="contacts" label-width="70px" class="demo-ruleForm">
-		  <el-form-item label="联系人" prop="contacts_name">
-		    <el-input v-model="contacts.contacts_name" auto-complete="off" placeholder="请输入联系人姓名"></el-input>
-		  </el-form-item>
-		  <el-form-item label="手机号码" prop="contacts_phone">
-		    <el-input v-model="contacts.contacts_phone" auto-complete="off" :maxlength="11" placeholder="请输入联系人手机号码"></el-input>
-		  </el-form-item>
-		  <el-form-item>
-		    <el-button type="primary" @click="submitForm('contacts')">提交</el-button>
-		    <el-button @click="resetForm('contacts')">重置</el-button>
-		    <el-button @click="returnList">返回</el-button>
-		  </el-form-item>
-		</el-form>
+	<div>
+		<el-breadcrumb separator-class="el-icon-arrow-right">
+			<el-breadcrumb-item>基础数据</el-breadcrumb-item>
+			<el-breadcrumb-item :to="{ path: '/main/contacts' }">联系人信息</el-breadcrumb-item>
+			<el-breadcrumb-item>{{this.editmessage}}联系人</el-breadcrumb-item>
+		</el-breadcrumb>
+		<div class="add_div">
+			<div style="width:400px;margin: 20px auto;">
+				<el-form :model="contacts" status-icon :rules="contactsRule" ref="contacts" label-width="70px" class="demo-ruleForm">
+				  <el-form-item label="联系人" prop="contacts_name">
+				    <el-input v-model="contacts.contacts_name" auto-complete="off" placeholder="请输入联系人姓名"></el-input>
+				  </el-form-item>
+				  <el-form-item label="手机号码" prop="contacts_phone">
+				    <el-input v-model="contacts.contacts_phone" auto-complete="off" :maxlength="11" placeholder="请输入联系人手机号码"></el-input>
+				  </el-form-item>
+				  <el-form-item>
+				    <el-button type="primary" @click="submitForm('contacts')">提交</el-button>
+				    <el-button @click="resetForm('contacts')">重置</el-button>
+				    <el-button @click="returnList">返回</el-button>
+				  </el-form-item>
+				</el-form>
+			</div>
+		</div>
 	</div>
 </template>
 <script>

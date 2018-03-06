@@ -1,11 +1,15 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;">
-		<el-form :inline="true" :model="formInline" class="demo-form-inline" style="padding-left: 10px;">
+		<el-breadcrumb separator-class="el-icon-arrow-right">
+		  <el-breadcrumb-item>基础数据</el-breadcrumb-item>
+			<el-breadcrumb-item>药品信息</el-breadcrumb-item>
+		</el-breadcrumb>
+		<el-form :inline="true" :model="formInline" class="demo-form-inline search">
 		  <el-form-item label="产品通用名">
 		    <el-input v-model="params.productCommonName" size="small" placeholder="产品通用名"></el-input>
 		  </el-form-item>
 		  <el-form-item label="联系人">
-		    <el-select v-model="params.contactId" filterable placeholder="请选择">
+		    <el-select v-model="params.contactId" filterable size="small" placeholder="请选择">
 		    		<el-option key="" label="全部" value=""></el-option>
 			    <el-option v-for="item in contacts"
 			      :key="item.contacts_id"
@@ -91,7 +95,7 @@
 		methods:{
 			editRow(scope){//编辑药品信息
 				sessionStorage["drugs_edit"] = JSON.stringify(this.drugs[scope.$index]);
-				this.$router.push("/mian/drugsedit");
+				this.$router.push("/main/drugsedit");
 			},
 			deleteRow(scope){//删除
 				this.deleteId = scope.row.product_id;
@@ -143,10 +147,5 @@
 	});
 </script>
 <style>
-	.page_div{
-		background-color: #ffffff;
-		box-sizing: border-box;
-		height: 40px;
-		padding-top: 4px;
-	}
+
 </style>
