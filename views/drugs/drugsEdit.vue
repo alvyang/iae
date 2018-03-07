@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div style="box-sizing: border-box;padding: 0px 10px;">
 		<el-breadcrumb separator-class="el-icon-arrow-right">
 			<el-breadcrumb-item>基础数据</el-breadcrumb-item>
 			<el-breadcrumb-item :to="{ path: '/main/drugs' }">药品信息</el-breadcrumb-item>

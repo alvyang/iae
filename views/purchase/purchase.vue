@@ -20,7 +20,7 @@
 		  </el-form-item>
 		</el-form>
 		<el-table :data="purchase" style="width: 100%">
-  			<el-table-column fixed prop="product_common_name" label="产品通用名" width="200"></el-table-column>
+  			<el-table-column fixed prop="product_common_name" label="产品通用名" width="180"></el-table-column>
 				<el-table-column prop="puchase_number" label="购入数量" width="120"></el-table-column>
 				<el-table-column prop="puchase_money" label="购入金额" width="120"></el-table-column>
 				<el-table-column prop="storage_time" label="入库时间" width="120" :formatter="formatterDate"></el-table-column>
@@ -29,6 +29,8 @@
 				<el-table-column prop="real_return_money" label="实返金额" width="120"></el-table-column>
 				<el-table-column prop="real_return_time" label="返费时间" width="120" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="own_money" label="外欠佣金" width="120"></el-table-column>
+				<el-table-column prop="regenerator" label="返款人" width="120"></el-table-column>
+				<el-table-column prop="payee" label="收款人" width="120"></el-table-column>
 				<el-table-column prop="product_specifications" label="产品规格" width="150"></el-table-column>
   			<el-table-column prop="product_unit" label="单位" width="120"></el-table-column>
   			<el-table-column prop="product_price" label="中标价" width="120"></el-table-column>
@@ -37,10 +39,8 @@
   			<el-table-column prop="product_commission" label="佣金" width="120"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="200">
 		    <template slot-scope="scope">
-			    <el-button @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small">
-		        </el-button>
-		        <el-button @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small">
-		        </el-button>
+			    <el-button @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
+	        <el-button @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
 		    </template>
   			</el-table-column>
 		</el-table>

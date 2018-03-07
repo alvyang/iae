@@ -42,12 +42,8 @@ module.exports = {
                 test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
                 loader: 'file-loader'
             },{
-	      		test: /\\.(png|jpg|gif|svg)$/,
-				loader: 'file-loader',
-				query: {
-					name: '[name].[ext]?[hash]'
-				}
-	      	}
+    	      		test: /\.(png|jpg)$/,loader: 'url-loader?limit=10000'
+    	      }
         ]
     },
     resolve: {

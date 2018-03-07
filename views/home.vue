@@ -1,6 +1,6 @@
 <template>
 	<div>
-		重要内容
+		<router-link :to="{ path: '/login'}">退出登陆</router-link>
 	</div>
 </template>
 <script>

@@ -42,6 +42,12 @@
 		      <el-form-item label="外欠佣金" prop="own_money">
 				    <el-input v-model="purchase.own_money" auto-complete="off" :readonly="true"></el-input>
 				  </el-form-item>
+					<el-form-item label="返款人" prop="regenerator" v-show="editmessage == '修改'">
+				    <el-input v-model="purchase.regenerator" auto-complete="off"></el-input>
+				  </el-form-item>
+					<el-form-item label="收款人" prop="payee" v-show="editmessage == '修改'">
+				    <el-input v-model="purchase.payee" auto-complete="off"></el-input>
+				  </el-form-item>
 				  <el-form-item>
 				    <el-button type="primary" @click="submitForm('purchase')">提交</el-button>
 				    <el-button @click="resetForm('purchase')">重置</el-button>
@@ -88,7 +94,9 @@
 					shoule_return_money:"",
 					real_return_money:"0",
           real_return_time:"",
-          own_money:""
+          own_money:"",
+					payee:"",
+					regenerator:"",
 				},
 				purchaseRule:{
 					puchase_number:[{validator: validateNum,trigger: 'blur,change' }],
@@ -124,7 +132,9 @@
 					shoule_return_money:sessionPurchase.shoule_return_money,
 					real_return_money:sessionPurchase.real_return_money,
           real_return_time:sessionPurchase.real_return_time,
-          own_money:sessionPurchase.own_money
+          own_money:sessionPurchase.own_money,
+					payee:sessionPurchase.payee?sessionPurchase.payee:"",
+					regenerator:sessionPurchase.regenerator?sessionPurchase.regenerator:"",
 				}
 				sessionStorage.removeItem('purchase_edit');
 				this.editmessage = "修改";

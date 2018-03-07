@@ -31,6 +31,7 @@
   			<el-table-column prop="contacts_name" label="联系人" width="120"></el-table-column>
   			<el-table-column prop="product_business" label="商业" width="120"></el-table-column>
   			<el-table-column prop="product_commission" label="佣金" width="120"></el-table-column>
+				<el-table-column prop="per" label="返款比例" width="120" :formatter="formatterPer"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="200">
 		    <template slot-scope="scope">
 			    <el-button @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small">
@@ -93,6 +94,10 @@
 			}
 		},
 		methods:{
+			formatterPer(row, column, cellValue){
+				var per = row.product_commission/row.product_price*100;
+				return per.toFixed(2)+"%";
+			},
 			editRow(scope){//编辑药品信息
 				sessionStorage["drugs_edit"] = JSON.stringify(this.drugs[scope.$index]);
 				this.$router.push("/main/drugsedit");
