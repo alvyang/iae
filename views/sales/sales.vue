@@ -1,0 +1,137 @@
+<template>
+	<div style="box-sizing: border-box;padding: 0px 10px;">
+		<el-form :inline="true" :model="formInline" class="demo-form-inline search">
+		  <el-form-item label="产品通用名">
+		    <el-input v-model="params.productCommonName" size="small" placeholder="产品通用名"></el-input>
+		  </el-form-item>
+		  <el-form-item>
+		    <el-button type="primary" @click="searchDrugsList" size="small">查询</el-button>
+		    <el-button type="primary" @click="add" size="small">新增</el-button>
+		  </el-form-item>
+		</el-form>
+		<el-table :data="sales" style="width: 100%">
+  			<el-table-column fixed prop="product_common_name" label="日期" width="120"></el-table-column>
+				<el-table-column prop="puchase_number" label="医院" width="120"></el-table-column>
+				<el-table-column prop="puchase_money" label="产品编码" width="120"></el-table-column>
+				<el-table-column prop="storage_time" label="产品名称" width="120" :formatter="formatterDate"></el-table-column>
+				<el-table-column prop="shoule_return_money" label="产品规格" width="120"></el-table-column>
+				<el-table-column prop="should_return_time" label="生产厂家" width="120" :formatter="formatterDate"></el-table-column>
+				<el-table-column prop="real_return_money" label="单位" width="120"></el-table-column>
+				<el-table-column prop="real_return_time" label="计划数量" width="120" :formatter="formatterDate"></el-table-column>
+				<el-table-column prop="own_money" label="中标价" width="120"></el-table-column>
+				<el-table-column prop="regenerator" label="购入金额" width="120"></el-table-column>
+  			<el-table-column fixed="right" label="操作" width="200">
+		    <template slot-scope="scope">
+			    <el-button @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
+	        <el-button @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
+		    </template>
+  			</el-table-column>
+		</el-table>
+		<div class="page_div">
+			<el-pagination
+	      @size-change="handleSizeChange"
+	      @current-change="handleCurrentChange"
+	      :current-page="currentPage"
+	      :page-sizes="[5, 10, 50, 100]"
+	      :page-size="pageNum"
+	      layout="total, sizes, prev, pager, next, jumper"
+	      :total="count">
+	    </el-pagination>
+		</div>
+	</div>
+</template>
+<script>
+	export default({
+		data(){
+			return {
+				sales:[],
+				contacts:[],
+				ipc:null,
+				pageNum:10,
+				deleteId:"",
+				currentPage:1,
+				count:0,
+				params:{
+					productCommonName:"",
+					contactId:"",
+					start:0,
+					limit:10
+				}
+			}
+		},
+		activated(){
+			this.params.start = 0;
+			this.getSalesList();
+		},
+		mounted(){
+			var that = this;
+			if (window.require) {
+				//获取药品信息
+		    this.ipc = window.require('electron').ipcRenderer;
+				this.ipc.on('return-sales-data', (event, arg) => {
+				  	that.sales = arg.data;
+				  	that.count = arg.count;
+				});
+				this.getSalesList();
+			}
+		},
+		methods:{
+			formatterDate(row, column, cellValue){
+				return cellValue.substring(0,10);
+			},
+			editRow(scope){//编辑药品信息
+				sessionStorage["purchase_edit"] = JSON.stringify(this.purchase[scope.$index]);
+				this.$router.push("/main/purchaseedit");
+			},
+			deleteRow(scope){//删除
+				this.deleteId = scope.row.purchase_id;
+				this.$confirm('是否删除?', '提示', {
+          	confirmButtonText: '确定',
+          	cancelButtonText: '取消',
+          	type: 'warning'
+        }).then(() => {
+						this.deleteItem();
+        }).catch(() => {
+        });
+			},
+			deleteItem(){
+				var that = this;
+				this.ipc.send('delete-purchase',this.deleteId);
+				this.ipc.on('delete-purchase-return', (event, arg) => {
+			  	this.$message({
+	          	message: '删除成功',
+	          	type: 'success'
+	        });
+	        this.getSalesList();
+				});
+			},
+			//跳转到编辑页面
+			add(){
+				this.$router.push("/main/purchasedrugs");
+			},
+			//搜索所有药品信息
+			searchDrugsList(){
+				this.params.start = 0;
+				this.getSalesList();
+			},
+			getSalesList(){
+				this.ipc.send('get-sales-list',this.params);
+			},
+			handleSizeChange(val) {
+        this.pageNum = val;
+    		this.currentPage = 1;
+    		this.params.limit = this.pageNum;
+        this.getSalesList();
+    	},
+    	handleCurrentChange(val) {
+    		this.currentPage = val;
+    		this.params.start = (val-1)*this.pageNum;
+    		this.params.limit = this.pageNum;
+				this.getSalesList();
+    	}
+		}
+	});
+</script>
+<style>
+
+</style>

@@ -7,11 +7,16 @@
 			  active-text-color="#ffd04b">
 			  <el-menu-item index="/main/home">首页</el-menu-item>
 			  <el-menu-item index="/main/purchase">进货记录</el-menu-item>
-			  <el-menu-item index="/main/distributionreport">销售记录</el-menu-item>
+			  <el-menu-item index="/main/sales">销售记录</el-menu-item>
+				<el-submenu index="drugs">
+			    <template slot="title">药品管理</template>
+			    <el-menu-item index="/main/drugs/1">高打品种药品管理</el-menu-item>
+					<el-menu-item index="/main/drugs/2">普通药品管理</el-menu-item>
+			  </el-submenu>
 			  <el-submenu index="database">
-			    <template slot="title">基础数据</template>
-			    <el-menu-item index="/main/drugs">药品信息</el-menu-item>
-			    <el-menu-item index="/main/contacts">联系人信息</el-menu-item>
+			    <template slot="title">信息管理</template>
+			    <el-menu-item index="/main/contacts">联系人管理</el-menu-item>
+					<el-menu-item index="/main/hospital">销售机构管理</el-menu-item>
 			  </el-submenu>
 			</el-menu>
 		</div>

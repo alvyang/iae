@@ -32,9 +32,9 @@
   			<el-table-column prop="product_business" label="商业" width="120"></el-table-column>
   			<el-table-column prop="product_commission" label="佣金" width="120"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="200">
-		    <template slot-scope="scope">
-					<el-button @click.native.prevent="selectRow(scope)" type="primary" size="small">选择</el-button>
-		    </template>
+			    <template slot-scope="scope">
+						<el-button @click.native.prevent="selectRow(scope)" type="primary" size="small">选择</el-button>
+			    </template>
   			</el-table-column>
 		</el-table>
 		<div class="page_div">
@@ -61,6 +61,7 @@
 				currentPage:1,
 				count:0,
 				params:{
+					productType:"1",
 					productCommonName:"",
 					contactId:"",
 					start:0,

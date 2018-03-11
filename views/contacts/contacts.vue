@@ -1,8 +1,8 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;">
 		<el-breadcrumb separator-class="el-icon-arrow-right">
-		  <el-breadcrumb-item>基础数据</el-breadcrumb-item>
-			<el-breadcrumb-item>联系人信息</el-breadcrumb-item>
+		  <el-breadcrumb-item>信息管理</el-breadcrumb-item>
+			<el-breadcrumb-item>联系人管理</el-breadcrumb-item>
 		</el-breadcrumb>
 		<el-form :inline="true" :model="formInline" class="demo-form-inline search">
 		  <el-form-item label="联系人">

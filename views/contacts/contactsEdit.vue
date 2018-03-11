@@ -1,8 +1,8 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;">
 		<el-breadcrumb separator-class="el-icon-arrow-right">
-			<el-breadcrumb-item>基础数据</el-breadcrumb-item>
-			<el-breadcrumb-item :to="{ path: '/main/contacts' }">联系人信息</el-breadcrumb-item>
+			<el-breadcrumb-item>信息管理</el-breadcrumb-item>
+			<el-breadcrumb-item :to="{ path: '/main/contacts' }">联系人管理</el-breadcrumb-item>
 			<el-breadcrumb-item>{{this.editmessage}}联系人</el-breadcrumb-item>
 		</el-breadcrumb>
 		<div class="add_div">

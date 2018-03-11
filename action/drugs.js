@@ -7,7 +7,7 @@ exports.drugs = function(){
 	ipcMain.on('get-drugs-list', (event, arg) => {
 		sqlite3.verbose();
 		const db = new sqlite3.Database(dbPath);
-		var sql = "select drugs.*,contacts.contacts_name from drugs left join contacts where drugs.delete_flag !='1' and drugs.contacts=contacts.contacts_id ";
+		var sql = "select drugs.*,contacts.contacts_name from drugs left join contacts on drugs.contacts=contacts.contacts_id  where drugs.delete_flag !='1' ";
 		var countSql = "select count(*) as count from drugs where delete_flag !='1' ";
 		if(arg.productCommonName){
 			sql += "and product_common_name like '%"+arg.productCommonName+"%'";
@@ -16,6 +16,10 @@ exports.drugs = function(){
 		if(arg.contactId){
 			sql += "and contacts = '"+arg.contactId+"'";
 			countSql += "and contacts = '"+arg.contactId+"'";
+		}
+		if(arg.productType){
+			sql += "and product_type = '"+arg.productType+"'";
+			countSql += "and product_type = '"+arg.productType+"'";
 		}
 		sql += " order by product_id limit "+arg.limit+" offset " +arg.start;
 		db.all(sql,function(err,res){
@@ -52,7 +56,7 @@ exports.drugs = function(){
 			sql = "update drugs set "+keyValue+" where product_id = '"+arg.product_id+"'";
 		}
 		db.run(sql,function(err,res){
-			event.sender.send('edit-drugs-return',sql);
+			event.sender.send('edit-drugs-return',"success");
 		});
 		db.close();
 	});
@@ -68,8 +72,3 @@ exports.drugs = function(){
 	});
 	ipcMain.on('close', e => mainWindow.close());
 }
-//Cannot find module
-//'/Users/lvyang/HBuilderProjects/iae/node_modules/sqlite3/lib/binding/electron-v1.8-darwin-x64/node_sqlite3.node
-//
-//node-gyp configure --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-darwin-x64
-//node-gyp rebuild --target=1.8.2 --arch=x64 --target_platform=darwin --dist-url=https://atom.io/download/atom-shell --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-darwin-x64

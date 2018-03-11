@@ -8,7 +8,7 @@ exports.purchase = function(){
 		sqlite3.verbose();
 		const db = new sqlite3.Database(dbPath);
     //查询报表时，先查询药品信息
-		var sql = "select drugs.*,contacts.contacts_name from drugs left join contacts where drugs.contacts=contacts.contacts_id ";
+		var sql = "select drugs.*,contacts.contacts_name from drugs left join contacts on drugs.contacts=contacts.contacts_id where 1=1 ";
 		if(arg.productCommonName){
 			sql += "and product_common_name like '%"+arg.productCommonName+"%'";
 		}
@@ -17,9 +17,9 @@ exports.purchase = function(){
 		}
 
     //查询进货记录
-    var purchaseSql = "select * from purchase p left join ("+sql+") d where p.delete_flag != '1' and p.drugs_id == d.product_id ";
+    var purchaseSql = "select * from purchase p left join ("+sql+") d where p.drugs_id == d.product_id and p.delete_flag != '1' ";
 		purchaseSql += " order by p.purchase_id limit "+arg.limit+" offset " +arg.start;
-    var countSql = "select count(*) as count from purchase p left join ("+sql+") d where p.delete_flag != '1' and p.drugs_id == d.product_id";
+    var countSql = "select count(*) as count from purchase p left join ("+sql+") d where p.drugs_id == d.product_id and p.delete_flag != '1' ";
 		db.all(purchaseSql,function(err,res){
 			db.get(countSql,function(err1,count){
 				// 返回消息

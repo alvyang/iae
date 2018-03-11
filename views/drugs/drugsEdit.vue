@@ -1,12 +1,11 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;">
 		<el-breadcrumb separator-class="el-icon-arrow-right">
-			<el-breadcrumb-item>基础数据</el-breadcrumb-item>
 			<el-breadcrumb-item :to="{ path: '/main/drugs' }">药品信息</el-breadcrumb-item>
 			<el-breadcrumb-item>{{this.editmessage}}药品</el-breadcrumb-item>
 		</el-breadcrumb>
 		<div class="add_div">
-			<div style="width:700px;margin: 20px auto;">
+			<div style="width:700px;margin: 20px auto;" v-if="type == '1'">
 				<el-form :model="drugs" status-icon :rules="drugsRule" ref="drugs" :inline="true" label-width="100px" class="demo-ruleForm">
 					<el-form-item label="产品通用名" prop="product_common_name">
 						<el-input v-model="drugs.product_common_name" auto-complete="off" placeholder="请输入产品通用名"></el-input>
@@ -44,6 +43,35 @@
 					</div>
 				</el-form>
 			</div>
+			<div style="width:700px;margin: 20px auto;" v-else-if="type == '2'">
+				<el-form :model="drugs" status-icon :rules="drugsRule" ref="drugs" :inline="true" label-width="100px" class="demo-ruleForm">
+					<el-form-item label="产品通用名" prop="product_common_name">
+						<el-input v-model="drugs.product_common_name" auto-complete="off" placeholder="请输入产品通用名"></el-input>
+					</el-form-item>
+					<el-form-item label="产品编号" prop="product_code">
+						<el-input v-model="drugs.product_code" auto-complete="off" placeholder="请输入产品编号"></el-input>
+					</el-form-item>
+					<el-form-item label="产品规格" prop="product_specifications">
+						<el-input v-model="drugs.product_specifications" auto-complete="off" placeholder="请输入产品规格"></el-input>
+					</el-form-item>
+					<el-form-item label="单位" prop="product_unit">
+						<el-input v-model="drugs.product_unit" auto-complete="off" placeholder="请输入单位"></el-input>
+					</el-form-item>
+					<el-form-item label="中标价" prop="product_price">
+						<el-input v-model="drugs.product_price" auto-complete="off" placeholder="请输入中标价"></el-input>
+					</el-form-item>
+					<el-form-item label="生产产家" prop="product_makesmakers">
+						<el-input v-model="drugs.product_makesmakers" auto-complete="off" placeholder="请输入中标价"></el-input>
+					</el-form-item>
+					<div style="text-align:center;">
+						<el-form-item>
+							<el-button type="primary" @click="submitForm('drugs')">提交</el-button>
+							<el-button @click="resetForm('drugs')">重置</el-button>
+							<el-button @click="returnList">返回</el-button>
+						</el-form-item>
+					</div>
+				</el-form>
+			</div>
 		</div>
 	</div>
 </template>
@@ -53,6 +81,7 @@
 			return {
 				ipc:null,
 				contacts:[],
+				type:"",
 				drugs:{
 					product_id:"",
 					product_common_name:"",
@@ -62,6 +91,9 @@
 					contacts:"",
 					product_price:"",
 					product_commission:"",
+					product_code:"",
+					product_makesmakers:"",
+					product_type:"",
 				},
 				drugsRule:{
 					product_common_name:[{ required: true, message: '请输入产品通用名', trigger: 'blur' }],
@@ -71,12 +103,16 @@
 					contacts:[{ required: true, message: '请选择联系人', trigger: 'change' }],
 					product_price:[{ required: true, message: '请输入商业', trigger: 'blur' }],
 					product_commission:[{ required: true, message: '请输入佣金', trigger: 'blur' }],
+					product_code:[{ required: true, message: '请输入产品编号', trigger: 'blur' }],
+					product_makesmakers:[{ required: true, message: '请输入生产产家', trigger: 'blur' }],
 				},
 				editmessage:"",
 			}
 		},
 		activated(){
 			this.resetForm("drugs");
+			this.type = this.$route.params.type;
+			this.drugs.product_type = this.type;
 			this.drugs.product_id = "";
 			if(sessionStorage["drugs_edit"]){
 				var sessionDrugs = JSON.parse(sessionStorage["drugs_edit"]);
@@ -90,41 +126,43 @@
 		},
 		mounted(){
 			var that = this;
+			this.type = this.$route.params.type;
+			this.drugs.product_type = this.type;
 			this.contacts = JSON.parse(sessionStorage["contacts_all"]);
 			if (window.require) {
-			    this.ipc = window.require('electron').ipcRenderer;
+		    this.ipc = window.require('electron').ipcRenderer;
 				this.ipc.on('edit-drugs-return', (event, arg) => {
 					console.log(arg);
-				  	that.$confirm(that.editmessage+'成功', '提示', {
-			          	confirmButtonText:'继续添加',
-			          	cancelButtonText:'返回列表',
-			          	type: 'success'
-			        }).then(() => {
-			          	that.resetForm("drugs");
-			          	this.drugs.product_id = "";
-			        }).catch(() => {
-			          	that.$router.push("/main/drugs");
+			  	that.$confirm(that.editmessage+'成功', '提示', {
+	          	confirmButtonText:'继续添加',
+	          	cancelButtonText:'返回列表',
+	          	type: 'success'
+	        }).then(() => {
+	          	that.resetForm("drugs");
+	          	that.drugs.product_id = "";
+	        }).catch(() => {
+	          	that.$router.push({path:`/main/drugs/${that.type}`});
 					});
 				});
 			}
 		},
 		methods:{
 			returnList(){
-				this.$router.push("/main/drugs");
+				this.$router.push({path:`/main/drugs/${this.type}`});
 			},
 			submitForm(formName) {
 				var that = this;
-		        this.$refs[formName].validate((valid) => {
-		          	if (valid) {
-		            		that.ipc.send('edit-drugs',this.drugs);
-		          	} else {
-		            		return false;
-		          	}
-		        });
-	      	},
-	      	resetForm(formName) {
-		        this.$refs[formName].resetFields();
-	      	}
+        this.$refs[formName].validate((valid) => {
+          	if (valid) {
+            		that.ipc.send('edit-drugs',this.drugs);
+          	} else {
+            		return false;
+          	}
+        });
+    	},
+    	resetForm(formName) {
+        this.$refs[formName].resetFields();
+    	}
 		}
 	});
 </script>

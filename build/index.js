@@ -20055,7 +20055,7 @@ var _router = __webpack_require__(16);
 
 var _router2 = _interopRequireDefault(_router);
 
-__webpack_require__(78);
+__webpack_require__(93);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -20373,19 +20373,31 @@ var _purchaseDrugs = __webpack_require__(57);
 
 var _purchaseDrugs2 = _interopRequireDefault(_purchaseDrugs);
 
-var _reportdistribution = __webpack_require__(62);
+var _sales = __webpack_require__(62);
 
-var _reportdistribution2 = _interopRequireDefault(_reportdistribution);
+var _sales2 = _interopRequireDefault(_sales);
 
-var _contacts = __webpack_require__(67);
+var _salesEdit = __webpack_require__(67);
+
+var _salesEdit2 = _interopRequireDefault(_salesEdit);
+
+var _hospital = __webpack_require__(72);
+
+var _hospital2 = _interopRequireDefault(_hospital);
+
+var _hospitalEdit = __webpack_require__(77);
+
+var _hospitalEdit2 = _interopRequireDefault(_hospitalEdit);
+
+var _contacts = __webpack_require__(82);
 
 var _contacts2 = _interopRequireDefault(_contacts);
 
-var _contactsEdit = __webpack_require__(72);
+var _contactsEdit = __webpack_require__(87);
 
 var _contactsEdit2 = _interopRequireDefault(_contactsEdit);
 
-var _config = __webpack_require__(77);
+var _config = __webpack_require__(92);
 
 var _config2 = _interopRequireDefault(_config);
 
@@ -20394,12 +20406,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _vue2.default.use(_vueRouter2.default);
 //一级页面
 
+//药品页面
+
+//进货记录页面
+
+//销售记录页面
+
+//销售渠道页面
+
 
 var router = new _vueRouter2.default({
 	routes: [{
 		path: "/",
 		redirect: function redirect(to) {
-			return "/login";
+			return "/main";
 		}
 	}, {
 		path: "/login",
@@ -20407,37 +20427,7 @@ var router = new _vueRouter2.default({
 	}, {
 		path: "/main",
 		component: _main2.default,
-		children: [{
-			path: "",
-			redirect: 'home'
-		}, {
-			path: "home",
-			component: _home2.default
-		}, {
-			path: "drugs",
-			component: _drugs2.default
-		}, {
-			path: "drugsedit",
-			component: _drugsEdit2.default
-		}, {
-			path: "purchase",
-			component: _purchase2.default
-		}, {
-			path: "purchasedrugs",
-			component: _purchaseDrugs2.default
-		}, {
-			path: "purchaseedit",
-			component: _purchaseEdit2.default
-		}, {
-			path: "distributionreport",
-			component: _reportdistribution2.default
-		}, {
-			path: "contacts",
-			component: _contacts2.default
-		}, {
-			path: "contactsedit",
-			component: _contactsEdit2.default
-		}]
+		children: [{ path: "", redirect: 'home' }, { path: "home", component: _home2.default }, { path: "drugs/:type", component: _drugs2.default }, { path: "drugsedit/:type", component: _drugsEdit2.default }, { path: "hospital", component: _hospital2.default }, { path: "hospitaledit", component: _hospitalEdit2.default }, { path: "purchase", component: _purchase2.default }, { path: "purchasedrugs", component: _purchaseDrugs2.default }, { path: "purchaseedit", component: _purchaseEdit2.default }, { path: "sales", component: _sales2.default }, { path: "salesedit", component: _salesEdit2.default }, { path: "contacts", component: _contacts2.default }, { path: "contactsedit", component: _contactsEdit2.default }]
 	}]
 });
 
@@ -33288,6 +33278,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -33327,9 +33322,26 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("进货记录")]), _vm._v(" "), _c('el-menu-item', {
     attrs: {
-      "index": "/main/distributionreport"
+      "index": "/main/sales"
     }
   }, [_vm._v("销售记录")]), _vm._v(" "), _c('el-submenu', {
+    attrs: {
+      "index": "drugs"
+    }
+  }, [_c('template', {
+    attrs: {
+      "slot": "title"
+    },
+    slot: "title"
+  }, [_vm._v("药品管理")]), _vm._v(" "), _c('el-menu-item', {
+    attrs: {
+      "index": "/main/drugs/1"
+    }
+  }, [_vm._v("高打品种药品管理")]), _vm._v(" "), _c('el-menu-item', {
+    attrs: {
+      "index": "/main/drugs/2"
+    }
+  }, [_vm._v("普通药品管理")])], 2), _vm._v(" "), _c('el-submenu', {
     attrs: {
       "index": "database"
     }
@@ -33338,15 +33350,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "slot": "title"
     },
     slot: "title"
-  }, [_vm._v("基础数据")]), _vm._v(" "), _c('el-menu-item', {
-    attrs: {
-      "index": "/main/drugs"
-    }
-  }, [_vm._v("药品信息")]), _vm._v(" "), _c('el-menu-item', {
+  }, [_vm._v("信息管理")]), _vm._v(" "), _c('el-menu-item', {
     attrs: {
       "index": "/main/contacts"
     }
-  }, [_vm._v("联系人信息")])], 2)], 1)], 1), _vm._v(" "), _c('div', {
+  }, [_vm._v("联系人管理")]), _vm._v(" "), _c('el-menu-item', {
+    attrs: {
+      "index": "/main/hospital"
+    }
+  }, [_vm._v("销售机构管理")])], 2)], 1)], 1), _vm._v(" "), _c('div', {
     staticStyle: {
       "height": "70px"
     }
@@ -33448,7 +33460,7 @@ exports = module.exports = __webpack_require__(0)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -33457,6 +33469,8 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n", ""]);
 /* 35 */
 /***/ (function(module, exports) {
 
+//
+//
 //
 //
 //
@@ -33474,7 +33488,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         path: '/login'
       }
     }
-  }, [_vm._v("退出登陆")])], 1)
+  }, [_vm._v("退出登陆")]), _vm._v(" "), _c('div', [_vm._v("进货返利报表")]), _vm._v(" "), _c('div', [_vm._v("销售报表")])], 1)
 },staticRenderFns: []}
 if (false) {
   module.hot.accept()
@@ -33565,7 +33579,7 @@ exports = module.exports = __webpack_require__(0)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -33632,6 +33646,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -33641,8 +33663,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			ipc: null,
 			pageNum: 10,
 			currentPage: 1,
+			type: "",
 			count: 0,
 			params: {
+				productType: "",
 				productCommonName: "",
 				contactId: "",
 				start: 0,
@@ -33650,11 +33674,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			}
 		};
 	},
-	activated: function activated() {
-		this.params.start = 0;
-		this.getDrugsList();
+
+	watch: {
+		"$route": function $route(to, from) {
+			this.type = this.$route.params.type;
+			this.params.productType = this.type;
+			this.params.start = 0;
+			this.getDrugsList();
+		}
 	},
 	mounted: function mounted() {
+		this.type = this.$route.params.type;
+		this.params.productType = this.type;
 		var that = this;
 		if (window.require) {
 			//获取药品信息
@@ -33680,7 +33711,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		editRow: function editRow(scope) {
 			//编辑药品信息
 			sessionStorage["drugs_edit"] = JSON.stringify(this.drugs[scope.$index]);
-			this.$router.push("/main/drugsedit");
+			this.$router.push({ path: "/main/drugsedit/" + this.type });
 		},
 		deleteRow: function deleteRow(scope) {
 			var _this = this;
@@ -33711,7 +33742,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 		//跳转到编辑页面
 		add: function add() {
-			this.$router.push("/main/drugsedit");
+			this.$router.push({ path: "/main/drugsedit/" + this.type });
 		},
 
 		//搜索所有药品信息
@@ -33747,11 +33778,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "box-sizing": "border-box",
       "padding": "0px 10px"
     }
-  }, [_c('el-breadcrumb', {
-    attrs: {
-      "separator-class": "el-icon-arrow-right"
-    }
-  }, [_c('el-breadcrumb-item', [_vm._v("基础数据")]), _vm._v(" "), _c('el-breadcrumb-item', [_vm._v("药品信息")])], 1), _vm._v(" "), _c('el-form', {
+  }, [_c('el-form', {
     staticClass: "demo-form-inline search",
     attrs: {
       "inline": true,
@@ -33774,6 +33801,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "params.productCommonName"
     }
   })], 1), _vm._v(" "), _c('el-form-item', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.type == 1),
+      expression: "type == 1"
+    }],
     attrs: {
       "label": "联系人"
     }
@@ -33821,6 +33854,98 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "click": _vm.add
     }
   }, [_vm._v("新增")])], 1)], 1), _vm._v(" "), _c('el-table', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.type == 2),
+      expression: "type == 2"
+    }],
+    staticStyle: {
+      "width": "100%"
+    },
+    attrs: {
+      "data": _vm.drugs
+    }
+  }, [_c('el-table-column', {
+    attrs: {
+      "fixed": "",
+      "prop": "product_common_name",
+      "label": "产品通用名",
+      "width": "200"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_code",
+      "label": "产品编号",
+      "width": "150"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_specifications",
+      "label": "产品规格",
+      "width": "150"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_unit",
+      "label": "单位",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_price",
+      "label": "中标价",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_makesmakers",
+      "label": "生产产家",
+      "width": "200"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "fixed": "right",
+      "label": "操作",
+      "width": "200"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(scope) {
+        return [_c('el-button', {
+          attrs: {
+            "icon": "el-icon-delete",
+            "type": "primary",
+            "size": "small"
+          },
+          nativeOn: {
+            "click": function($event) {
+              $event.preventDefault();
+              _vm.deleteRow(scope)
+            }
+          }
+        }), _vm._v(" "), _c('el-button', {
+          attrs: {
+            "icon": "el-icon-edit-outline",
+            "type": "primary",
+            "size": "small"
+          },
+          nativeOn: {
+            "click": function($event) {
+              $event.preventDefault();
+              _vm.editRow(scope)
+            }
+          }
+        })]
+      }
+    }])
+  })], 1), _vm._v(" "), _c('el-table', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.type == 1),
+      expression: "type == 1"
+    }],
     staticStyle: {
       "width": "100%"
     },
@@ -34079,12 +34204,41 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
 		return {
 			ipc: null,
 			contacts: [],
+			type: "",
 			drugs: {
 				product_id: "",
 				product_common_name: "",
@@ -34093,7 +34247,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				product_business: "",
 				contacts: "",
 				product_price: "",
-				product_commission: ""
+				product_commission: "",
+				product_code: "",
+				product_makesmakers: "",
+				product_type: ""
 			},
 			drugsRule: {
 				product_common_name: [{ required: true, message: '请输入产品通用名', trigger: 'blur' }],
@@ -34102,13 +34259,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				product_business: [{ required: true, message: '请输入中标价', trigger: 'blur' }],
 				contacts: [{ required: true, message: '请选择联系人', trigger: 'change' }],
 				product_price: [{ required: true, message: '请输入商业', trigger: 'blur' }],
-				product_commission: [{ required: true, message: '请输入佣金', trigger: 'blur' }]
+				product_commission: [{ required: true, message: '请输入佣金', trigger: 'blur' }],
+				product_code: [{ required: true, message: '请输入产品编号', trigger: 'blur' }],
+				product_makesmakers: [{ required: true, message: '请输入生产产家', trigger: 'blur' }]
 			},
 			editmessage: ""
 		};
 	},
 	activated: function activated() {
 		this.resetForm("drugs");
+		this.type = this.$route.params.type;
+		this.drugs.product_type = this.type;
 		this.drugs.product_id = "";
 		if (sessionStorage["drugs_edit"]) {
 			var sessionDrugs = JSON.parse(sessionStorage["drugs_edit"]);
@@ -34121,9 +34282,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 	mounted: function mounted() {
-		var _this = this;
-
 		var that = this;
+		this.type = this.$route.params.type;
+		this.drugs.product_type = this.type;
 		this.contacts = JSON.parse(sessionStorage["contacts_all"]);
 		if (window.require) {
 			this.ipc = window.require('electron').ipcRenderer;
@@ -34135,9 +34296,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					type: 'success'
 				}).then(function () {
 					that.resetForm("drugs");
-					_this.drugs.product_id = "";
+					that.drugs.product_id = "";
 				}).catch(function () {
-					that.$router.push("/main/drugs");
+					that.$router.push({ path: "/main/drugs/" + that.type });
 				});
 			});
 		}
@@ -34145,15 +34306,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	methods: {
 		returnList: function returnList() {
-			this.$router.push("/main/drugs");
+			this.$router.push({ path: "/main/drugs/" + this.type });
 		},
 		submitForm: function submitForm(formName) {
-			var _this2 = this;
+			var _this = this;
 
 			var that = this;
 			this.$refs[formName].validate(function (valid) {
 				if (valid) {
-					that.ipc.send('edit-drugs', _this2.drugs);
+					that.ipc.send('edit-drugs', _this.drugs);
 				} else {
 					return false;
 				}
@@ -34179,7 +34340,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "separator-class": "el-icon-arrow-right"
     }
-  }, [_c('el-breadcrumb-item', [_vm._v("基础数据")]), _vm._v(" "), _c('el-breadcrumb-item', {
+  }, [_c('el-breadcrumb-item', {
     attrs: {
       "to": {
         path: '/main/drugs'
@@ -34187,7 +34348,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("药品信息")]), _vm._v(" "), _c('el-breadcrumb-item', [_vm._v(_vm._s(this.editmessage) + "药品")])], 1), _vm._v(" "), _c('div', {
     staticClass: "add_div"
-  }, [_c('div', {
+  }, [(_vm.type == '1') ? _c('div', {
     staticStyle: {
       "width": "700px",
       "margin": "20px auto"
@@ -34352,7 +34513,147 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.returnList
     }
-  }, [_vm._v("返回")])], 1)], 1)], 1)], 1)])], 1)
+  }, [_vm._v("返回")])], 1)], 1)], 1)], 1) : (_vm.type == '2') ? _c('div', {
+    staticStyle: {
+      "width": "700px",
+      "margin": "20px auto"
+    }
+  }, [_c('el-form', {
+    ref: "drugs",
+    staticClass: "demo-ruleForm",
+    attrs: {
+      "model": _vm.drugs,
+      "status-icon": "",
+      "rules": _vm.drugsRule,
+      "inline": true,
+      "label-width": "100px"
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "产品通用名",
+      "prop": "product_common_name"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "auto-complete": "off",
+      "placeholder": "请输入产品通用名"
+    },
+    model: {
+      value: (_vm.drugs.product_common_name),
+      callback: function($$v) {
+        _vm.$set(_vm.drugs, "product_common_name", $$v)
+      },
+      expression: "drugs.product_common_name"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "产品编号",
+      "prop": "product_code"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "auto-complete": "off",
+      "placeholder": "请输入产品编号"
+    },
+    model: {
+      value: (_vm.drugs.product_code),
+      callback: function($$v) {
+        _vm.$set(_vm.drugs, "product_code", $$v)
+      },
+      expression: "drugs.product_code"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "产品规格",
+      "prop": "product_specifications"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "auto-complete": "off",
+      "placeholder": "请输入产品规格"
+    },
+    model: {
+      value: (_vm.drugs.product_specifications),
+      callback: function($$v) {
+        _vm.$set(_vm.drugs, "product_specifications", $$v)
+      },
+      expression: "drugs.product_specifications"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "单位",
+      "prop": "product_unit"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "auto-complete": "off",
+      "placeholder": "请输入单位"
+    },
+    model: {
+      value: (_vm.drugs.product_unit),
+      callback: function($$v) {
+        _vm.$set(_vm.drugs, "product_unit", $$v)
+      },
+      expression: "drugs.product_unit"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "中标价",
+      "prop": "product_price"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "auto-complete": "off",
+      "placeholder": "请输入中标价"
+    },
+    model: {
+      value: (_vm.drugs.product_price),
+      callback: function($$v) {
+        _vm.$set(_vm.drugs, "product_price", $$v)
+      },
+      expression: "drugs.product_price"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "生产产家",
+      "prop": "product_makesmakers"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "auto-complete": "off",
+      "placeholder": "请输入中标价"
+    },
+    model: {
+      value: (_vm.drugs.product_makesmakers),
+      callback: function($$v) {
+        _vm.$set(_vm.drugs, "product_makesmakers", $$v)
+      },
+      expression: "drugs.product_makesmakers"
+    }
+  })], 1), _vm._v(" "), _c('div', {
+    staticStyle: {
+      "text-align": "center"
+    }
+  }, [_c('el-form-item', [_c('el-button', {
+    attrs: {
+      "type": "primary"
+    },
+    on: {
+      "click": function($event) {
+        _vm.submitForm('drugs')
+      }
+    }
+  }, [_vm._v("提交")]), _vm._v(" "), _c('el-button', {
+    on: {
+      "click": function($event) {
+        _vm.resetForm('drugs')
+      }
+    }
+  }, [_vm._v("重置")]), _vm._v(" "), _c('el-button', {
+    on: {
+      "click": _vm.returnList
+    }
+  }, [_vm._v("返回")])], 1)], 1)], 1)], 1) : _vm._e()])], 1)
 },staticRenderFns: []}
 if (false) {
   module.hot.accept()
@@ -35539,7 +35840,7 @@ exports = module.exports = __webpack_require__(0)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -35613,6 +35914,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			currentPage: 1,
 			count: 0,
 			params: {
+				productType: "1",
 				productCommonName: "",
 				contactId: "",
 				start: 0,
@@ -35890,7 +36192,7 @@ __vue_options__ = __vue_exports__ = __vue_exports__.default
 if (typeof __vue_options__ === "function") {
   __vue_options__ = __vue_options__.options
 }
-__vue_options__.__file = "/Users/lvyang/HBuilderProjects/iae/views/reportdistribution.vue"
+__vue_options__.__file = "/Users/lvyang/HBuilderProjects/iae/views/sales/sales.vue"
 __vue_options__.render = __vue_template__.render
 __vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 
@@ -35901,12 +36203,12 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-0c040551", __vue_options__)
+    hotAPI.createRecord("data-v-09cbfa80", __vue_options__)
   } else {
-    hotAPI.reload("data-v-0c040551", __vue_options__)
+    hotAPI.reload("data-v-09cbfa80", __vue_options__)
   }
 })()}
-if (__vue_options__.functional) {console.error("[vue-loader] reportdistribution.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+if (__vue_options__.functional) {console.error("[vue-loader] sales.vue: functional components are not supported and should be defined in plain js files using render functions.")}
 
 module.exports = __vue_exports__
 
@@ -35927,8 +36229,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-0c040551!../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./reportdistribution.vue", function() {
-			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-0c040551!../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./reportdistribution.vue");
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-09cbfa80!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./sales.vue", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-09cbfa80!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./sales.vue");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -35946,32 +36248,334 @@ exports = module.exports = __webpack_require__(0)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
 
 /***/ }),
 /* 65 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			sales: [],
+			contacts: [],
+			ipc: null,
+			pageNum: 10,
+			deleteId: "",
+			currentPage: 1,
+			count: 0,
+			params: {
+				productCommonName: "",
+				contactId: "",
+				start: 0,
+				limit: 10
+			}
+		};
+	},
+	activated: function activated() {
+		this.params.start = 0;
+		this.getSalesList();
+	},
+	mounted: function mounted() {
+		var that = this;
+		if (window.require) {
+			//获取药品信息
+			this.ipc = window.require('electron').ipcRenderer;
+			this.ipc.on('return-sales-data', function (event, arg) {
+				that.sales = arg.data;
+				that.count = arg.count;
+			});
+			this.getSalesList();
+		}
+	},
+
+	methods: {
+		formatterDate: function formatterDate(row, column, cellValue) {
+			return cellValue.substring(0, 10);
+		},
+		editRow: function editRow(scope) {
+			//编辑药品信息
+			sessionStorage["purchase_edit"] = JSON.stringify(this.purchase[scope.$index]);
+			this.$router.push("/main/purchaseedit");
+		},
+		deleteRow: function deleteRow(scope) {
+			var _this = this;
+
+			//删除
+			this.deleteId = scope.row.purchase_id;
+			this.$confirm('是否删除?', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning'
+			}).then(function () {
+				_this.deleteItem();
+			}).catch(function () {});
+		},
+		deleteItem: function deleteItem() {
+			var _this2 = this;
+
+			var that = this;
+			this.ipc.send('delete-purchase', this.deleteId);
+			this.ipc.on('delete-purchase-return', function (event, arg) {
+				_this2.$message({
+					message: '删除成功',
+					type: 'success'
+				});
+				_this2.getSalesList();
+			});
+		},
+
+		//跳转到编辑页面
+		add: function add() {
+			this.$router.push("/main/purchasedrugs");
+		},
+
+		//搜索所有药品信息
+		searchDrugsList: function searchDrugsList() {
+			this.params.start = 0;
+			this.getSalesList();
+		},
+		getSalesList: function getSalesList() {
+			this.ipc.send('get-sales-list', this.params);
+		},
+		handleSizeChange: function handleSizeChange(val) {
+			this.pageNum = val;
+			this.currentPage = 1;
+			this.params.limit = this.pageNum;
+			this.getSalesList();
+		},
+		handleCurrentChange: function handleCurrentChange(val) {
+			this.currentPage = val;
+			this.params.start = (val - 1) * this.pageNum;
+			this.params.limit = this.pageNum;
+			this.getSalesList();
+		}
+	}
+});
 
 /***/ }),
 /* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_vm._v("\n\t销售记录\n")])
+  return _c('div', {
+    staticStyle: {
+      "box-sizing": "border-box",
+      "padding": "0px 10px"
+    }
+  }, [_c('el-form', {
+    staticClass: "demo-form-inline search",
+    attrs: {
+      "inline": true,
+      "model": _vm.formInline
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "产品通用名"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "size": "small",
+      "placeholder": "产品通用名"
+    },
+    model: {
+      value: (_vm.params.productCommonName),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "productCommonName", $$v)
+      },
+      expression: "params.productCommonName"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
+    attrs: {
+      "type": "primary",
+      "size": "small"
+    },
+    on: {
+      "click": _vm.searchDrugsList
+    }
+  }, [_vm._v("查询")]), _vm._v(" "), _c('el-button', {
+    attrs: {
+      "type": "primary",
+      "size": "small"
+    },
+    on: {
+      "click": _vm.add
+    }
+  }, [_vm._v("新增")])], 1)], 1), _vm._v(" "), _c('el-table', {
+    staticStyle: {
+      "width": "100%"
+    },
+    attrs: {
+      "data": _vm.sales
+    }
+  }, [_c('el-table-column', {
+    attrs: {
+      "fixed": "",
+      "prop": "product_common_name",
+      "label": "日期",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "puchase_number",
+      "label": "医院",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "puchase_money",
+      "label": "产品编码",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "storage_time",
+      "label": "产品名称",
+      "width": "120",
+      "formatter": _vm.formatterDate
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "shoule_return_money",
+      "label": "产品规格",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "should_return_time",
+      "label": "生产厂家",
+      "width": "120",
+      "formatter": _vm.formatterDate
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "real_return_money",
+      "label": "单位",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "real_return_time",
+      "label": "计划数量",
+      "width": "120",
+      "formatter": _vm.formatterDate
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "own_money",
+      "label": "中标价",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "regenerator",
+      "label": "购入金额",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "fixed": "right",
+      "label": "操作",
+      "width": "200"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(scope) {
+        return [_c('el-button', {
+          attrs: {
+            "icon": "el-icon-delete",
+            "type": "primary",
+            "size": "small"
+          },
+          nativeOn: {
+            "click": function($event) {
+              $event.preventDefault();
+              _vm.deleteRow(scope)
+            }
+          }
+        }), _vm._v(" "), _c('el-button', {
+          attrs: {
+            "icon": "el-icon-edit-outline",
+            "type": "primary",
+            "size": "small"
+          },
+          nativeOn: {
+            "click": function($event) {
+              $event.preventDefault();
+              _vm.editRow(scope)
+            }
+          }
+        })]
+      }
+    }])
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "page_div"
+  }, [_c('el-pagination', {
+    attrs: {
+      "current-page": _vm.currentPage,
+      "page-sizes": [5, 10, 50, 100],
+      "page-size": _vm.pageNum,
+      "layout": "total, sizes, prev, pager, next, jumper",
+      "total": _vm.count
+    },
+    on: {
+      "size-change": _vm.handleSizeChange,
+      "current-change": _vm.handleCurrentChange
+    }
+  })], 1)], 1)
 },staticRenderFns: []}
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-0c040551", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-09cbfa80", module.exports)
   }
 }
 
@@ -35990,6 +36594,752 @@ __vue_exports__ = __webpack_require__(70)
 
 /* template */
 var __vue_template__ = __webpack_require__(71)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/lvyang/HBuilderProjects/iae/views/sales/salesEdit.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7fc583aa", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-7fc583aa", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] salesEdit.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+/* 68 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(69);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(1)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-7fc583aa!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./salesEdit.vue", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-7fc583aa!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./salesEdit.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 69 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(0)();
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 70 */
+/***/ (function(module, exports) {
+
+//
+//
+//
+
+/***/ }),
+/* 71 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c("div")
+},staticRenderFns: []}
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-7fc583aa", module.exports)
+  }
+}
+
+/***/ }),
+/* 72 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(73)
+
+/* script */
+__vue_exports__ = __webpack_require__(75)
+
+/* template */
+var __vue_template__ = __webpack_require__(76)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/lvyang/HBuilderProjects/iae/views/hospital/hospital.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-0708ef34", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-0708ef34", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] hospital.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+/* 73 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(74);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(1)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-0708ef34!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./hospital.vue", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-0708ef34!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./hospital.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 74 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(0)();
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 75 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			hospitals: [],
+			ipc: null,
+			pageNum: 10,
+			currentPage: 1,
+			count: 0,
+			deleteId: null,
+			params: {
+				hospitalName: "",
+				start: 0,
+				limit: 10
+			}
+		};
+	},
+	activated: function activated() {
+		this.params.start = 0;
+		this.getHospitalsList();
+	},
+	mounted: function mounted() {
+		var that = this;
+		if (window.require) {
+			this.ipc = window.require('electron').ipcRenderer;
+			this.ipc.on('return-hospitals-data', function (event, arg) {
+				console.log(arg);
+				that.hospitals = arg.data;
+				that.count = arg.count;
+			});
+			this.getHospitalsList();
+		}
+	},
+
+	methods: {
+		editRow: function editRow(scope) {
+			//编辑药品信息
+			sessionStorage["hospital_edit"] = JSON.stringify(this.hospitals[scope.$index]);
+			this.$router.push("/main/hospitaledit");
+		},
+		deleteRow: function deleteRow(scope) {
+			var _this = this;
+
+			this.deleteId = scope.row.hospital_id;
+			this.$confirm('是否删除?', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning'
+			}).then(function () {
+				_this.deleteItem();
+			}).catch(function () {});
+		},
+		deleteItem: function deleteItem() {
+			var _this2 = this;
+
+			var that = this;
+			this.ipc.send('delete-hospital', this.deleteId);
+			this.ipc.on('delete-hospital-return', function (event, arg) {
+				_this2.$message({
+					message: '删除成功',
+					type: 'success'
+				});
+				_this2.getHospitalsList();
+			});
+		},
+		add: function add() {
+			this.$router.push("/main/hospitaledit");
+		},
+		searchHospitalsList: function searchHospitalsList() {
+			this.params.start = 0;
+			this.getHospitalsList();
+		},
+		getHospitalsList: function getHospitalsList() {
+			this.ipc.send('get-hospitals-list', this.params);
+		},
+		handleSizeChange: function handleSizeChange(val) {
+			this.pageNum = val;
+			this.currentPage = 1;
+			this.params.limit = this.pageNum;
+			this.getHospitalsList();
+		},
+		handleCurrentChange: function handleCurrentChange(val) {
+			this.currentPage = val;
+			this.params.start = (val - 1) * this.pageNum;
+			this.params.limit = this.pageNum;
+			this.getHospitalsList();
+		}
+	}
+});
+
+/***/ }),
+/* 76 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticStyle: {
+      "box-sizing": "border-box",
+      "padding": "0px 10px"
+    }
+  }, [_c('el-breadcrumb', {
+    attrs: {
+      "separator-class": "el-icon-arrow-right"
+    }
+  }, [_c('el-breadcrumb-item', [_vm._v("信息管理")]), _vm._v(" "), _c('el-breadcrumb-item', [_vm._v("销售机构管理")])], 1), _vm._v(" "), _c('el-form', {
+    staticClass: "demo-form-inline search",
+    attrs: {
+      "inline": true,
+      "model": _vm.formInline
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "机构名称"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "size": "small",
+      "placeholder": "机构名称"
+    },
+    model: {
+      value: (_vm.params.hospitalName),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "hospitalName", $$v)
+      },
+      expression: "params.hospitalName"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
+    attrs: {
+      "type": "primary",
+      "size": "small"
+    },
+    on: {
+      "click": _vm.searchHospitalsList
+    }
+  }, [_vm._v("查询")]), _vm._v(" "), _c('el-button', {
+    attrs: {
+      "type": "primary",
+      "size": "small"
+    },
+    on: {
+      "click": _vm.add
+    }
+  }, [_vm._v("新增")])], 1)], 1), _vm._v(" "), _c('el-table', {
+    staticStyle: {
+      "width": "100%"
+    },
+    attrs: {
+      "data": _vm.hospitals
+    }
+  }, [_c('el-table-column', {
+    attrs: {
+      "prop": "hospital_name",
+      "label": "销售机构"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "hospital_address",
+      "label": "机构地址"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "fixed": "right",
+      "label": "操作",
+      "width": "200"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(scope) {
+        return [_c('el-button', {
+          attrs: {
+            "icon": "el-icon-delete",
+            "type": "primary",
+            "size": "small"
+          },
+          nativeOn: {
+            "click": function($event) {
+              $event.preventDefault();
+              _vm.deleteRow(scope)
+            }
+          }
+        }), _vm._v(" "), _c('el-button', {
+          attrs: {
+            "icon": "el-icon-edit-outline",
+            "type": "primary",
+            "size": "small"
+          },
+          nativeOn: {
+            "click": function($event) {
+              $event.preventDefault();
+              _vm.editRow(scope)
+            }
+          }
+        })]
+      }
+    }])
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "page_div"
+  }, [_c('el-pagination', {
+    attrs: {
+      "current-page": _vm.currentPage,
+      "page-sizes": [5, 10, 50, 100],
+      "page-size": _vm.pageNum,
+      "layout": "total, sizes, prev, pager, next, jumper",
+      "total": _vm.count
+    },
+    on: {
+      "size-change": _vm.handleSizeChange,
+      "current-change": _vm.handleCurrentChange
+    }
+  })], 1)], 1)
+},staticRenderFns: []}
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-0708ef34", module.exports)
+  }
+}
+
+/***/ }),
+/* 77 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(78)
+
+/* script */
+__vue_exports__ = __webpack_require__(80)
+
+/* template */
+var __vue_template__ = __webpack_require__(81)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/lvyang/HBuilderProjects/iae/views/hospital/hospitalEdit.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-528fae90", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-528fae90", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] hospitalEdit.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+/* 78 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(79);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(1)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-528fae90!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./hospitalEdit.vue", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-528fae90!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./hospitalEdit.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 79 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(0)();
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 80 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			ipc: null,
+			hospital: {
+				hospital_id: "",
+				hospital_name: "",
+				hospital_address: ""
+			},
+			hospitalRule: {
+				hospital_name: [{ required: true, message: '请输入机构名称', trigger: 'blur' }]
+			},
+			editmessage: ""
+		};
+	},
+	activated: function activated() {
+		this.resetForm("hospital");
+		this.hospital.hospital_id = "";
+		if (sessionStorage["hospital_edit"]) {
+			var sessionHospital = JSON.parse(sessionStorage["hospital_edit"]);
+			this.hospital = sessionHospital;
+			sessionStorage.removeItem('hospital_edit');
+			this.editmessage = "修改";
+		} else {
+			this.editmessage = "新增";
+		}
+	},
+	mounted: function mounted() {
+		var _this = this;
+
+		var that = this;
+		if (window.require) {
+			this.ipc = window.require('electron').ipcRenderer;
+			this.ipc.on('edit-hospital-return', function (event, arg) {
+				that.$confirm(that.editmessage + '成功', '提示', {
+					confirmButtonText: '继续添加',
+					cancelButtonText: '返回列表',
+					type: 'success'
+				}).then(function () {
+					that.resetForm("hospital");
+					_this.hospital.hospital_id = "";
+				}).catch(function () {
+					that.$router.push("/main/hospital");
+				});
+			});
+		}
+	},
+
+	methods: {
+		returnList: function returnList() {
+			this.$router.push("/main/hospital");
+		},
+		submitForm: function submitForm(formName) {
+			var _this2 = this;
+
+			var that = this;
+			this.$refs[formName].validate(function (valid) {
+				if (valid) {
+					that.ipc.send('edit-hospital', _this2.hospital);
+				} else {
+					return false;
+				}
+			});
+		},
+		resetForm: function resetForm(formName) {
+			this.$refs[formName].resetFields();
+		}
+	}
+});
+
+/***/ }),
+/* 81 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticStyle: {
+      "box-sizing": "border-box",
+      "padding": "0px 10px"
+    }
+  }, [_c('el-breadcrumb', {
+    attrs: {
+      "separator-class": "el-icon-arrow-right"
+    }
+  }, [_c('el-breadcrumb-item', [_vm._v("信息管理")]), _vm._v(" "), _c('el-breadcrumb-item', {
+    attrs: {
+      "to": {
+        path: '/main/hospital'
+      }
+    }
+  }, [_vm._v("销售机构管理")]), _vm._v(" "), _c('el-breadcrumb-item', [_vm._v(_vm._s(this.editmessage) + "机构")])], 1), _vm._v(" "), _c('div', {
+    staticClass: "add_div"
+  }, [_c('div', {
+    staticStyle: {
+      "width": "400px",
+      "margin": "20px auto"
+    }
+  }, [_c('el-form', {
+    ref: "hospital",
+    staticClass: "demo-ruleForm",
+    attrs: {
+      "model": _vm.hospital,
+      "status-icon": "",
+      "rules": _vm.hospitalRule,
+      "label-width": "80px"
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "销售机构",
+      "prop": "hospital_name"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "auto-complete": "off",
+      "placeholder": "请输入销售机构名称"
+    },
+    model: {
+      value: (_vm.hospital.hospital_name),
+      callback: function($$v) {
+        _vm.$set(_vm.hospital, "hospital_name", $$v)
+      },
+      expression: "hospital.hospital_name"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "机构地址",
+      "prop": "hospital_address"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "auto-complete": "off",
+      "placeholder": "请输入机构地址"
+    },
+    model: {
+      value: (_vm.hospital.hospital_address),
+      callback: function($$v) {
+        _vm.$set(_vm.hospital, "hospital_address", $$v)
+      },
+      expression: "hospital.hospital_address"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
+    attrs: {
+      "type": "primary"
+    },
+    on: {
+      "click": function($event) {
+        _vm.submitForm('hospital')
+      }
+    }
+  }, [_vm._v("提交")]), _vm._v(" "), _c('el-button', {
+    on: {
+      "click": function($event) {
+        _vm.resetForm('hospital')
+      }
+    }
+  }, [_vm._v("重置")]), _vm._v(" "), _c('el-button', {
+    on: {
+      "click": _vm.returnList
+    }
+  }, [_vm._v("返回")])], 1)], 1)], 1)])], 1)
+},staticRenderFns: []}
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-528fae90", module.exports)
+  }
+}
+
+/***/ }),
+/* 82 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(83)
+
+/* script */
+__vue_exports__ = __webpack_require__(85)
+
+/* template */
+var __vue_template__ = __webpack_require__(86)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -36023,13 +37373,13 @@ module.exports = __vue_exports__
 
 
 /***/ }),
-/* 68 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(69);
+var content = __webpack_require__(84);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(1)(content, {});
@@ -36049,7 +37399,7 @@ if(false) {
 }
 
 /***/ }),
-/* 69 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(0)();
@@ -36063,7 +37413,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 
 /***/ }),
-/* 70 */
+/* 85 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -36198,7 +37548,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 71 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -36211,7 +37561,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "separator-class": "el-icon-arrow-right"
     }
-  }, [_c('el-breadcrumb-item', [_vm._v("基础数据")]), _vm._v(" "), _c('el-breadcrumb-item', [_vm._v("联系人信息")])], 1), _vm._v(" "), _c('el-form', {
+  }, [_c('el-breadcrumb-item', [_vm._v("信息管理")]), _vm._v(" "), _c('el-breadcrumb-item', [_vm._v("联系人管理")])], 1), _vm._v(" "), _c('el-form', {
     staticClass: "demo-form-inline search",
     attrs: {
       "inline": true,
@@ -36326,20 +37676,20 @@ if (false) {
 }
 
 /***/ }),
-/* 72 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(73)
+__webpack_require__(88)
 
 /* script */
-__vue_exports__ = __webpack_require__(75)
+__vue_exports__ = __webpack_require__(90)
 
 /* template */
-var __vue_template__ = __webpack_require__(76)
+var __vue_template__ = __webpack_require__(91)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -36373,13 +37723,13 @@ module.exports = __vue_exports__
 
 
 /***/ }),
-/* 73 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(74);
+var content = __webpack_require__(89);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(1)(content, {});
@@ -36399,7 +37749,7 @@ if(false) {
 }
 
 /***/ }),
-/* 74 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(0)();
@@ -36413,7 +37763,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 
 /***/ }),
-/* 75 */
+/* 90 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -36524,7 +37874,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 76 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -36537,13 +37887,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "separator-class": "el-icon-arrow-right"
     }
-  }, [_c('el-breadcrumb-item', [_vm._v("基础数据")]), _vm._v(" "), _c('el-breadcrumb-item', {
+  }, [_c('el-breadcrumb-item', [_vm._v("信息管理")]), _vm._v(" "), _c('el-breadcrumb-item', {
     attrs: {
       "to": {
         path: '/main/contacts'
       }
     }
-  }, [_vm._v("联系人信息")]), _vm._v(" "), _c('el-breadcrumb-item', [_vm._v(_vm._s(this.editmessage) + "联系人")])], 1), _vm._v(" "), _c('div', {
+  }, [_vm._v("联系人管理")]), _vm._v(" "), _c('el-breadcrumb-item', [_vm._v(_vm._s(this.editmessage) + "联系人")])], 1), _vm._v(" "), _c('div', {
     staticClass: "add_div"
   }, [_c('div', {
     staticStyle: {
@@ -36623,19 +37973,19 @@ if (false) {
 }
 
 /***/ }),
-/* 77 */
+/* 92 */
 /***/ (function(module, exports) {
 
 module.exports = {"dbPath":""}
 
 /***/ }),
-/* 78 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(79);
+var content = __webpack_require__(94);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(4)(content, {});
@@ -36655,7 +38005,7 @@ if(false) {
 }
 
 /***/ }),
-/* 79 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(0)();
