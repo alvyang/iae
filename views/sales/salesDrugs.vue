@@ -1,36 +1,25 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;">
 		<el-breadcrumb separator-class="el-icon-arrow-right">
-		  <el-breadcrumb-item :to="{ path: '/main/purchase' }">进货管理</el-breadcrumb-item>
-			<el-breadcrumb-item>选择药品<a style="color:#f24040;">（请先选择进货药品）</a></el-breadcrumb-item>
+		  <el-breadcrumb-item :to="{ path: '/main/sales' }">销售管理</el-breadcrumb-item>
+			<el-breadcrumb-item>选择药品<a style="color:#f24040;">（请先选择销售药品）</a></el-breadcrumb-item>
 		</el-breadcrumb>
 		<el-form :inline="true" :model="formInline" class="demo-form-inline search">
-		  <el-form-item label="产品通用名">
-		    <el-input v-model="params.productCommonName" size="small" placeholder="产品通用名"></el-input>
-		  </el-form-item>
-		  <el-form-item label="联系人">
-		    <el-select v-model="params.contactId" size="small" filterable placeholder="请选择">
-		    	<el-option key="" label="全部" value=""></el-option>
-			    <el-option v-for="item in contacts"
-			      :key="item.contacts_id"
-			      :label="item.contacts_name"
-			      :value="item.contacts_id">
-			    </el-option>
-			</el-select>
+		  <el-form-item label="产品名称">
+		    <el-input v-model="params.productCommonName" size="small" placeholder="产品名称"></el-input>
 		  </el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" @click="searchDrugsList" size="small">查询</el-button>
-				<el-button type="primary" @click="returnPurchase" size="small">返回进货管理</el-button>
+				<el-button type="primary" @click="returnSale" size="small">返回销售管理</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="drugs" style="width: 100%">
-  			<el-table-column fixed prop="product_common_name" label="产品通用名" width="200"></el-table-column>
+  			<el-table-column fixed prop="product_common_name" label="产品名称" width="200"></el-table-column>
+        <el-table-column prop="product_code" label="产品编号" width="200"></el-table-column>
   			<el-table-column prop="product_specifications" label="产品规格" width="150"></el-table-column>
   			<el-table-column prop="product_unit" label="单位" width="120"></el-table-column>
   			<el-table-column prop="product_price" label="中标价" width="120"></el-table-column>
-  			<el-table-column prop="contacts_name" label="联系人" width="120"></el-table-column>
-  			<el-table-column prop="product_business" label="商业" width="120"></el-table-column>
-  			<el-table-column prop="product_commission" label="佣金" width="120"></el-table-column>
+        <el-table-column prop="product_makesmakers" label="生产产家" width="200"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="200">
 			    <template slot-scope="scope">
 						<el-button @click.native.prevent="selectRow(scope)" type="primary" size="small">选择</el-button>
@@ -55,15 +44,13 @@
 		data(){
 			return {
 				drugs:[],
-				contacts:[],
 				ipc:null,
 				pageNum:10,
 				currentPage:1,
 				count:0,
 				params:{
-					productType:"1",
+					productType:"2",
 					productCommonName:"",
-					contactId:"",
 					start:0,
 					limit:10
 				}
@@ -83,26 +70,21 @@
 				  	that.count = arg.count;
 				});
 				this.getDrugsList();
-				this.ipc.on('return-contacts-all-data', (event, arg) => {
-				  	that.contacts = arg.data;
-				  	sessionStorage["contacts_all"]=JSON.stringify(arg.data);
-				});
-				this.ipc.send('get-contacts-list-all');
 			}
 		},
 		methods:{
 			//选择要进货的药品
 			selectRow(scope){
 				sessionStorage["drugs_select"] = JSON.stringify(this.drugs[scope.$index]);
-				this.$router.push("/main/purchaseedit");
+				this.$router.push("/main/salesedit");
 			},
-			//搜索所有药品信息
+			//搜索药品信息
 			searchDrugsList(){
 				this.params.start = 0;
 				this.getDrugsList();
 			},
-			returnPurchase(){
-				this.$router.push("/main/purchase");
+			returnSale(){
+				this.$router.push("/main/sales");
 			},
 			getDrugsList(){
 				this.ipc.send('get-drugs-list',this.params);

@@ -6,8 +6,8 @@
 			  text-color="#fff"
 			  active-text-color="#ffd04b">
 			  <el-menu-item index="/main/home">首页</el-menu-item>
-			  <el-menu-item index="/main/purchase">进货记录</el-menu-item>
-			  <el-menu-item index="/main/sales">销售记录</el-menu-item>
+			  <el-menu-item index="/main/purchase">进货管理</el-menu-item>
+			  <el-menu-item index="/main/sales">销售管理</el-menu-item>
 				<el-submenu index="drugs">
 			    <template slot="title">药品管理</template>
 			    <el-menu-item index="/main/drugs/1">高打品种药品管理</el-menu-item>

@@ -1,7 +1,7 @@
 <template>
 	<div style="padding:0 10px;">
 		<el-breadcrumb separator-class="el-icon-arrow-right">
-			<el-breadcrumb-item :to="{ path: '/main/purchase' }">进货记录</el-breadcrumb-item>
+			<el-breadcrumb-item :to="{ path: '/main/purchase' }">进货管理</el-breadcrumb-item>
 			<el-breadcrumb-item v-show="editmessage == '新增'" :to="{ path: '/main/purchasedrugs' }">选择药品</el-breadcrumb-item>
 			<el-breadcrumb-item>{{editmessage}}记录</el-breadcrumb-item>
 		</el-breadcrumb>
@@ -52,7 +52,7 @@
 				    <el-button type="primary" @click="submitForm('purchase')">提交</el-button>
 				    <el-button @click="resetForm('purchase')">重置</el-button>
 						<el-button @click="returnList('/main/purchasedrugs')" v-show="editmessage == '新增'">重新选择药品</el-button>
-				    <el-button @click="returnList('/main/purchase')">返回进货记录</el-button>
+				    <el-button @click="returnList('/main/purchase')">返回进货管理</el-button>
 				  </el-form-item>
 				</el-form>
 			</div>
@@ -172,8 +172,8 @@
 			purchaseNumBlur(){
 				var regu = /^\+?[1-9][0-9]*$/;
 				if(this.purchase.puchase_number && regu.test(this.purchase.puchase_number)){
-					this.purchase.puchase_money = this.purchase.puchase_number * this.drug.product_price;
-					this.purchase.shoule_return_money = this.purchase.puchase_number * this.drug.product_commission;
+					this.purchase.puchase_money =(this.purchase.puchase_number * this.drug.product_price).toFixed(2);
+					this.purchase.shoule_return_money = (this.purchase.puchase_number * this.drug.product_commission).toFixed(2);
 					if(this.purchase.shoule_return_money < this.purchase.real_return_money){
 						this.purchase.real_return_money = this.purchase.shoule_return_money;
 					}

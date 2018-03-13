@@ -15,6 +15,7 @@ import PurchaseEdit from "../views/purchase/purchaseEdit.vue";
 import PurchaseDrugs from "../views/purchase/purchaseDrugs.vue";
 //销售记录页面
 import Sales from "../views/sales/sales.vue";
+import SalesDrugs from "../views/sales/salesDrugs.vue";
 import SalesEdit from "../views/sales/salesEdit.vue";
 //销售渠道页面
 import Hospital from "../views/hospital/hospital.vue";
@@ -46,6 +47,7 @@ const router = new VueRouter({
 			{path:"purchasedrugs",component:PurchaseDrugs},
 			{path:"purchaseedit",component:PurchaseEdit},
 			{path:"sales",component:Sales},
+			{path:"salesdrugs",component:SalesDrugs},
 			{path:"salesedit",component:SalesEdit},
 			{path:"contacts",component:Contacts},
 			{path:"contactsedit",component:ContactsEdit}]

@@ -1,10 +1,10 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;">
-		<el-form :inline="true" :model="formInline" class="demo-form-inline search">
-		  <el-form-item label="产品通用名">
+		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
+		  <el-form-item label="产品通用名" prop="productCommonName">
 		    <el-input v-model="params.productCommonName" size="small" placeholder="产品通用名"></el-input>
 		  </el-form-item>
-		  <el-form-item label="联系人">
+		  <el-form-item label="联系人" prop="contactId">
 		    <el-select v-model="params.contactId" filterable size="small" placeholder="请选择">
 		    		<el-option key="" label="全部" value=""></el-option>
 			    <el-option v-for="item in contacts"
@@ -14,8 +14,12 @@
 			    </el-option>
 			</el-select>
 		  </el-form-item>
+			<el-form-item label="入库时间" prop="storageTime">
+ 			 <el-date-picker v-model="params.storageTime" type="date" size="small" placeholder="请选择日期"></el-date-picker>
+ 		 </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" @click="searchDrugsList" size="small">查询</el-button>
+		    <el-button type="primary" style="margin-left: 14px;" @click="searchDrugsList" size="small">查询</el-button>
+				<el-button type="primary" @click="reSearch" size="small">重置</el-button>
 		    <el-button type="primary" @click="add" size="small">新增</el-button>
 		  </el-form-item>
 		</el-form>
@@ -71,6 +75,7 @@
 				params:{
 					productCommonName:"",
 					contactId:"",
+					storageTime:"",
 					start:0,
 					limit:10
 				}
@@ -133,6 +138,10 @@
 			//搜索所有药品信息
 			searchDrugsList(){
 				this.params.start = 0;
+				this.getPurchasesList();
+			},
+			reSearch(){
+				this.$refs["params"].resetFields();
 				this.getPurchasesList();
 			},
 			getPurchasesList(){
