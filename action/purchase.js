@@ -19,20 +19,25 @@ exports.purchase = function(){
     //查询进货记录
     var purchaseSql = "select * from purchase p left join ("+sql+") d where p.drugs_id == d.product_id and p.delete_flag != '1' ";
     var countSql = "select count(*) as count from purchase p left join ("+sql+") d where p.drugs_id == d.product_id and p.delete_flag != '1' ";
-
-		if(arg.storageTime){
-      var d = new Date(arg.storageTime).format("yyyy-MM-dd");
-      purchaseSql += " and p.storage_time like '%"+d+"%'";
-      countSql += " and p.storage_time like '%"+d+"%'";
+		var moneySql = "select sum(p.puchase_money) as pm,sum(p.shoule_return_money) as sm,sum(p.real_return_money) as rm from purchase p left join ("+sql+") d where p.drugs_id == d.product_id and p.delete_flag != '1' ";
+		if(arg.storageTime.length > 0){
+      var start = new Date(arg.storageTime[0]).format("yyyy-MM-dd") + " 00:00:00";
+			var end = new Date(arg.storageTime[1]).format("yyyy-MM-dd") + " 23:59:59";
+      purchaseSql += " and datetime(p.storage_time) >= datetime('"+start+"') and datetime(p.storage_time) <= datetime('"+end+"')";
+      countSql += " and datetime(p.storage_time) >= datetime('"+start+"') and datetime(p.storage_time) <= datetime('"+end+"')";
+			moneySql += " and datetime(p.storage_time) >= datetime('"+start+"') and datetime(p.storage_time) <= datetime('"+end+"')";
     }
-		purchaseSql += " order by p.purchase_id limit "+arg.limit+" offset " +arg.start;
+		purchaseSql += " order by p.purchase_id desc limit "+arg.limit+" offset " +arg.start;
 		db.all(purchaseSql,function(err,res){
 			db.get(countSql,function(err1,count){
-				// 返回消息
-		  		event.sender.send('return-purchase-data', {
-		  			count:count.count,
-		  			data:res
-		  		});
+				db.get(moneySql,function(err1,money){
+					// 返回消息
+			  		event.sender.send('return-purchase-data', {
+			  			count:count.count,
+							money:money,
+			  			data:res
+			  		});
+				});
 			});
 		});
 		db.close();

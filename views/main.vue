@@ -19,6 +19,7 @@
 					<el-menu-item index="/main/hospital">销售机构管理</el-menu-item>
 			  </el-submenu>
 			</el-menu>
+			<router-link :to="{ path: '/login'}" class="login_out">退出登陆</router-link>
 		</div>
 		<div style="height: 70px;"></div>
 		<div class="main_content" style="padding-bottom: 20px;">
@@ -43,6 +44,17 @@
 	})
 </script>
 <style>
+	.login_out{
+		position: fixed;
+		float: right;
+		top:0px;
+		right: 0px;
+		height: 61px;
+		line-height: 61px;
+		padding-right: 20px;
+		color: #fff;
+		text-decoration: none;
+	}
 	.main_top{
 		position: fixed;
 		width: 100%;

@@ -1,6 +1,7 @@
 var fs = require("fs")
 var sqlite3 = require("sqlite3").verbose();
 var dbPath = require("./sql.js").getdbPath();
+// var UUID = require('uuid');
 function execSql(flag){
 	const db = new sqlite3.Database(dbPath);
 	/*
@@ -13,6 +14,8 @@ function execSql(flag){
 			  db.run(ts[i]);
 			});
 		}
+		// var sql = "insert into purchase (code) values ("+UUID.v1()+")"
+		// db.run(sql);
 	}else{
 
 	}

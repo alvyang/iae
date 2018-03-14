@@ -13,6 +13,7 @@ import DrugsEdit from "../views/drugs/drugsEdit.vue";
 import Purchase from "../views/purchase/purchase.vue";
 import PurchaseEdit from "../views/purchase/purchaseEdit.vue";
 import PurchaseDrugs from "../views/purchase/purchaseDrugs.vue";
+import ReturnMoney from "../views/purchase/ReturnMoney.vue";
 //销售记录页面
 import Sales from "../views/sales/sales.vue";
 import SalesDrugs from "../views/sales/salesDrugs.vue";
@@ -46,6 +47,7 @@ const router = new VueRouter({
 			{path:"purchase",component:Purchase},
 			{path:"purchasedrugs",component:PurchaseDrugs},
 			{path:"purchaseedit",component:PurchaseEdit},
+			{path:"returnmoney",component:ReturnMoney},
 			{path:"sales",component:Sales},
 			{path:"salesdrugs",component:SalesDrugs},
 			{path:"salesedit",component:SalesEdit},

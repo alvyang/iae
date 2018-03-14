@@ -31,9 +31,11 @@
     data(){
       return {
         datetime:"",
+        ipc:"",
         login:{
           username:"",
           password:"",
+          machineCode:"",
           code:"",
         },
         rules: {
@@ -55,13 +57,21 @@
       });
     },
     mounted(){
-
+      if (window.require) {
+				//获取药品信息
+		    this.ipc = window.require('electron').ipcRenderer;
+				this.ipc.on('code-return', (event, arg) => {
+				  	this.login.machineCode = arg;
+				});
+				this.ipc.send('get-code');
+			}
     },
     methods:{
       refreshCode(){
         this.datetime = new Date().getTime();
       },
       submitForm(formName) {
+          console.log(this.login);
          this.$refs[formName].validate((valid) => {
            if (valid) {
               var _self = this;
@@ -79,7 +89,9 @@
                   } else if(res.code == "100002"){
                     var temp = res.message.startTime.substring(0,10)+" - "+res.message.endTime.substring(0,10);
                     _self.$message.warning("使用期限为："+temp+"。请续费。");
-                  } else if(res.code == "000000"){
+                  } else if(res.code == "100003"){
+                    _self.$message.error("该电脑没有授权登陆");
+                  }  else if(res.code == "000000"){
        							_self.$router.push("/main");
        						}
        					}

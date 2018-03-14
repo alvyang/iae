@@ -3,6 +3,8 @@ const contacts = require("./contacts.js");
 const purchase = require("./purchase.js");
 const hospital = require("./hospital.js");
 const sqles = require("./sales.js");
+const report = require("./report.js");
+const code = require("./code.js");
 const sql = require("./runSql.js");
 
 Date.prototype.format = function(fmt) {
@@ -24,7 +26,7 @@ Date.prototype.format = function(fmt) {
          }
      }
     return fmt;
-}   
+}
 
 exports.runAction = function(){
 	drugs.drugs();
@@ -32,5 +34,7 @@ exports.runAction = function(){
 	purchase.purchase();
 	hospital.hospital();
 	sqles.sales();
+  report.report();
+  code.getCode();
 	sql.runSql();
 }

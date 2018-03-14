@@ -6,7 +6,7 @@
 		  </el-form-item>
 		  <el-form-item label="联系人" prop="contactId">
 		    <el-select v-model="params.contactId" filterable size="small" placeholder="请选择">
-		    		<el-option key="" label="全部" value=""></el-option>
+	    		<el-option key="" label="全部" value=""></el-option>
 			    <el-option v-for="item in contacts"
 			      :key="item.contacts_id"
 			      :label="item.contacts_name"
@@ -15,14 +15,24 @@
 			</el-select>
 		  </el-form-item>
 			<el-form-item label="入库时间" prop="storageTime">
- 			 <el-date-picker v-model="params.storageTime" type="date" size="small" placeholder="请选择日期"></el-date-picker>
- 		 </el-form-item>
+				<el-date-picker v-model="params.storageTime" type="daterange" size="small" align="right" unlink-panels
+					range-separator="至"
+					start-placeholder="开始日期"
+					end-placeholder="结束日期"
+					:picker-options="pickerOptions2">
+				</el-date-picker>
+ 		 	</el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" style="margin-left: 14px;" @click="searchDrugsList" size="small">查询</el-button>
 				<el-button type="primary" @click="reSearch" size="small">重置</el-button>
 		    <el-button type="primary" @click="add" size="small">新增</el-button>
+				<!-- <el-button type="primary" @click="exportExcel" size="small">导出</el-button> -->
 		  </el-form-item>
 		</el-form>
+		<div class="sum_money">
+			<a>采购总额：</a>{{money.pm?money.pm:"0"}} 元 <a>应返金额：</a>{{money.sm?money.sm:"0"}} 元 <a>实返金额：</a>{{money.rm?money.rm:"0"}} 元 <a>未返金额：</a>{{money.sm - money.rm}} 元
+			<router-link :to="{path:'returnmoney'}" class="more_detail">查看详情</router-link>
+		</div>
 		<el-table :data="purchase" style="width: 100%">
   			<el-table-column fixed prop="product_common_name" label="产品通用名" width="180"></el-table-column>
 				<el-table-column prop="puchase_number" label="购入数量" width="120"></el-table-column>
@@ -41,11 +51,11 @@
   			<el-table-column prop="contacts_name" label="联系人" width="120"></el-table-column>
   			<el-table-column prop="product_business" label="商业" width="120"></el-table-column>
   			<el-table-column prop="product_commission" label="佣金" width="120"></el-table-column>
-  			<el-table-column fixed="right" label="操作" width="200">
-		    <template slot-scope="scope">
-			    <el-button @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
-	        <el-button @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
-		    </template>
+  			<el-table-column fixed="right" label="操作" width="160">
+			    <template slot-scope="scope">
+				    <el-button @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
+		        <el-button @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
+			    </template>
   			</el-table-column>
 		</el-table>
 		<div class="page_div">
@@ -65,8 +75,36 @@
 	export default({
 		data(){
 			return {
+				pickerOptions2: {
+					shortcuts: [{
+						text: '最近一周',
+						onClick(picker) {
+							const end = new Date();
+							const start = new Date();
+							start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+							picker.$emit('pick', [start, end]);
+						}
+					}, {
+						text: '最近一个月',
+						onClick(picker) {
+							const end = new Date();
+							const start = new Date();
+							start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+							picker.$emit('pick', [start, end]);
+						}
+					}, {
+						text: '最近三个月',
+						onClick(picker) {
+							const end = new Date();
+							const start = new Date();
+							start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+							picker.$emit('pick', [start, end]);
+						}
+					}]
+				},
 				purchase:[],
 				contacts:[],
+				money:{},//总额统计
 				ipc:null,
 				pageNum:10,
 				deleteId:"",
@@ -75,7 +113,7 @@
 				params:{
 					productCommonName:"",
 					contactId:"",
-					storageTime:"",
+					storageTime:[],
 					start:0,
 					limit:10
 				}
@@ -92,6 +130,7 @@
 		    this.ipc = window.require('electron').ipcRenderer;
 				this.ipc.on('return-purchase-data', (event, arg) => {
 				  	that.purchase = arg.data;
+						that.money = arg.money;
 				  	that.count = arg.count;
 				});
 				this.getPurchasesList();
@@ -162,6 +201,28 @@
 		}
 	});
 </script>
-<style>
-
+<style scoped="scoped">
+	.sum_money > a{
+		padding-left: 20px;
+	}
+	.sum_money .more_detail{
+		position: absolute;
+		right: 10px;
+		height: 30px;
+		line-height: 30px;
+		color: #409EFF;
+		text-decoration: none;
+	}
+	.sum_money{
+		position: relative;
+		background-color: #fff;
+		border-bottom: 1px solid #ebeef5;
+		height: 30px;
+		line-height: 30px;
+		color: #f24040;
+		font-size: 14px;
+	}
+	.el-date-editor--daterange{
+		width: 310px !important;
+	}
 </style>

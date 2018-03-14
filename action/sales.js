@@ -5,6 +5,33 @@ var dbPath = require("./sql.js").getdbPath();
 
 exports.sales = function(){
 	//查询药品列表信息
+	ipcMain.on('export-sales-list', (event, arg) => {
+		sqlite3.verbose();
+		const db = new sqlite3.Database(dbPath);
+    //查询报表时，先查询药品信息
+		var sql = "select * from drugs where 1=1 ";
+		if(arg.productCommonName){
+			sql += "and product_common_name like '%"+arg.productCommonName+"%'";
+		}
+    //查询销售记录
+    var salesSql = "select *,date(s.sales_time) as st,h.hospital_name from sales s inner join ("+sql+") d on s.drugs_id == d.product_id  left join hospital h on s.sales_hospital_id == h.hospital_id where s.delete_flag != '1' ";
+		if(arg.hospitalsId){
+      salesSql += " and s.sales_hospital_id = '"+arg.hospitalsId+"'";
+    }
+    if(arg.salesTime.length > 0){
+			var start = new Date(arg.salesTime[0]).format("yyyy-MM-dd") + " 00:00:00";
+			var end = new Date(arg.salesTime[1]).format("yyyy-MM-dd") + " 23:59:59";
+      salesSql += " and datetime(s.sales_time) >= datetime('"+start+"') and datetime(s.sales_time) <= datetime('"+end+"')";
+    }
+    db.all(salesSql,function(err,res){
+			// 返回消息
+			event.sender.send('return-export-sales-data', {
+				data:res
+			});
+		});
+		db.close();
+	});
+	//查询药品列表信息
 	ipcMain.on('get-sales-list', (event, arg) => {
 		sqlite3.verbose();
 		const db = new sqlite3.Database(dbPath);
@@ -16,23 +43,30 @@ exports.sales = function(){
     //查询销售记录
     var salesSql = "select *,h.hospital_name from sales s inner join ("+sql+") d on s.drugs_id == d.product_id  left join hospital h on s.sales_hospital_id == h.hospital_id where s.delete_flag != '1' ";
     var countSql = "select count(*) as count from sales s inner join ("+sql+") d on s.drugs_id == d.product_id where s.delete_flag != '1' ";
-    if(arg.hospitalsId){
+		var countMoneySql = "select sum(s.sales_money) as money from sales s inner join ("+sql+") d on s.drugs_id == d.product_id where s.delete_flag != '1' ";
+		if(arg.hospitalsId){
       salesSql += " and s.sales_hospital_id = '"+arg.hospitalsId+"'";
       countSql += " and s.sales_hospital_id = '"+arg.hospitalsId+"'";
+			countMoneySql += " and s.sales_hospital_id = '"+arg.hospitalsId+"'";
     }
-    if(arg.salesTime){
-      var d = new Date(arg.salesTime).format("yyyy-MM-dd");
-      salesSql += " and s.sales_time like '%"+d+"%'";
-      countSql += " and s.sales_time like '%"+d+"%'";
+    if(arg.salesTime.length > 0){
+			var start = new Date(arg.salesTime[0]).format("yyyy-MM-dd") + " 00:00:00";
+			var end = new Date(arg.salesTime[1]).format("yyyy-MM-dd") + " 23:59:59";
+      salesSql += " and datetime(s.sales_time) >= datetime('"+start+"') and datetime(s.sales_time) <= datetime('"+end+"')";
+      countSql += " and datetime(s.sales_time) >= datetime('"+start+"') and datetime(s.sales_time) <= datetime('"+end+"')";
+			countMoneySql += " and datetime(s.sales_time) >= datetime('"+start+"') and datetime(s.sales_time) <= datetime('"+end+"')";
     }
     salesSql += " order by s.sales_id desc limit "+arg.limit+" offset " + arg.start;
     db.all(salesSql,function(err,res){
 			db.get(countSql,function(err1,count){
-				// 返回消息
-	  		event.sender.send('return-sales-data', {
-	  			count:count.count,
-	  			data:res
-	  		});
+				db.get(countMoneySql,function(err1,money){
+					// 返回消息
+		  		event.sender.send('return-sales-data', {
+		  			count:count.count,
+						money:money.money,
+		  			data:res
+		  		});
+				});
 			});
 		});
 		db.close();

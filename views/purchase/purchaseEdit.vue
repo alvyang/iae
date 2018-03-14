@@ -164,7 +164,7 @@
 		methods:{
 			//填写实返金额后，计算外欠佣金的值的值
 			realReturnMoneyBlur(){
-				if(this.purchase.real_return_money > 0 && this.purchase.real_return_money < this.purchase.shoule_return_money){
+				if(this.purchase.real_return_money > 0 && this.purchase.real_return_money <= this.purchase.shoule_return_money){
 					this.purchase.own_money = this.purchase.shoule_return_money - this.purchase.real_return_money;
 				}
 			},

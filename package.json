@@ -38,15 +38,18 @@
     "electron-prebuilt": "^1.4.13",
     "electron-rebuild": "^1.7.3",
     "element-ui": "^2.2.0",
+    "excel-export": "^0.5.1",
     "exports-loader": "^0.6.3",
     "expose-loader": "^0.7.1",
     "express-session": "^1.15.0",
     "file-loader": "^0.9.0",
     "fs": "0.0.1-security",
+    "getmac": "^1.4.0",
     "imports-loader": "^0.6.5",
     "jquery": "^3.3.1",
     "json-loader": "^0.5.7",
     "node-sass": "^4.7.2",
+    "node-uuid": "^1.4.8",
     "sqlite": "^2.9.1",
     "sqlite3": "^3.1.13",
     "style-loader": "^0.13.1",
@@ -60,7 +63,8 @@
     "vue-template-compiler": "^2.5.2",
     "vuex": "^2.2.1",
     "webpack": "^3.11.0",
-    "webpack-dev-server": "^1.16.2"
+    "webpack-dev-server": "^1.16.2",
+    "xlsx": "^0.12.5"
   },
   "dependencies": {
     "electron-rebuild": "^1.7.3",
