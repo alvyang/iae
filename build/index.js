@@ -33509,7 +33509,7 @@ exports = module.exports = __webpack_require__(0)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n.advertisement{\n\tposition: fixed;\n\tbottom: 0px;\n\twidth: 100%;\n\theight: 60px;\n}\n", ""]);
 
 // exports
 
@@ -33528,6 +33528,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({});
 
@@ -33538,12 +33543,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _vm._m(0)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
+  return _c('div', [_c('div', {
     staticStyle: {
       "box-sizing": "border-box",
       "padding": "0px 10px"
     }
-  }, [_vm._v("\n\t软件声明："), _c('br'), _vm._v("\n\t1.为保证用户数据安全，软件中核心数据为本地存储。"), _c('br'), _vm._v("\n\t2.为避免磁盘损坏，造成数据不可逆转丢失，请及时备份数据。"), _c('br'), _vm._v("\n\t3.首次登陆，会将软件与电脑绑定。一个用户，只能在一个电脑上使用。"), _c('br')])
+  }, [_vm._v("\n\t\t软件声明："), _c('br'), _vm._v("\n\t\t1.为保证用户数据安全，软件中核心数据为本地存储。"), _c('br'), _vm._v("\n\t\t2.为避免磁盘损坏，造成数据不可逆转丢失，请及时备份数据。"), _c('br'), _vm._v("\n\t\t3.首次登陆，会将软件与电脑绑定。一个用户，只能在一个电脑上使用。"), _c('br')]), _vm._v(" "), _c('div', {
+    staticClass: "advertisement"
+  }, [_c('iframe', {
+    attrs: {
+      "src": "http://139.129.238.114/web/ad.html",
+      "frameborder": "0",
+      "width": "100%"
+    }
+  })])])
 }]}
 if (false) {
   module.hot.accept()
