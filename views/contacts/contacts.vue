@@ -13,7 +13,7 @@
 		    <el-button type="primary" @click="add" size="small">新增</el-button>
 		  </el-form-item>
 		</el-form>
-		<el-table :data="contacts" style="width: 100%">
+		<el-table :data="contacts" style="width: 100%" :stripe="true">
     			<el-table-column prop="contacts_name" label="联系人"></el-table-column>
     			<el-table-column prop="contacts_phone" label="电话"></el-table-column>
     			<el-table-column fixed="right" label="操作" width="200">

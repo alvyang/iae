@@ -19,7 +19,7 @@
 		    <el-button type="primary" @click="add" size="small">新增</el-button>
 		  </el-form-item>
 		</el-form>
-		<el-table :data="drugs" style="width: 100%" v-show="type == 2">
+		<el-table :data="drugs" style="width: 100%" v-show="type == 2" :stripe="true">
   			<el-table-column fixed prop="product_common_name" label="产品通用名" width="200"></el-table-column>
 				<el-table-column prop="product_code" label="产品编号" width="150"></el-table-column>
   			<el-table-column prop="product_specifications" label="产品规格" width="150"></el-table-column>
@@ -33,7 +33,7 @@
 			    </template>
   			</el-table-column>
 		</el-table>
-		<el-table :data="drugs" style="width: 100%" v-show="type == 1">
+		<el-table :data="drugs" style="width: 100%" v-show="type == 1" :stripe="true">
   			<el-table-column fixed prop="product_common_name" label="产品通用名" width="200"></el-table-column>
   			<el-table-column prop="product_specifications" label="产品规格" width="150"></el-table-column>
   			<el-table-column prop="product_unit" label="单位" width="120"></el-table-column>

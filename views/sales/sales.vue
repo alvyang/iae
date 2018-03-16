@@ -30,7 +30,7 @@
 	   </el-form-item>
 		</el-form>
 		<div class="sum_money">销售总额：{{money?money:"0"}} 元</div>
-		<el-table :data="sales" style="width: 100%">
+		<el-table :data="sales" style="width: 100%" :stripe="true">
   			<el-table-column fixed prop="sales_time" label="日期" width="120" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="hospital_name" label="销售机构" width="180"></el-table-column>
 				<el-table-column prop="product_code" label="产品编码" width="140"></el-table-column>
@@ -40,7 +40,7 @@
 				<el-table-column prop="product_price" label="中标价" width="120"></el-table-column>
 				<el-table-column prop="sales_number" label="计划数量" width="120"></el-table-column>
 				<el-table-column prop="sales_money" label="购入金额" width="120"></el-table-column>
-  			<el-table-column fixed="right" label="操作" width="160">
+  			<el-table-column fixed="right" label="操作" width="130">
 		    <template slot-scope="scope">
 			    <el-button @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
 	        <el-button @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
@@ -64,6 +64,8 @@
 	import XLSX from 'xlsx';
 	export default({
 		data(){
+			const defaultEnd = new Date();
+			const defaultStart = new Date(defaultEnd.getFullYear()+"-01"+"-01");
 			return {
 				pickerOptions2: {
 					shortcuts: [{
@@ -103,7 +105,7 @@
 				money:'',//销售总额
 				params:{//查询参数
 					productCommonName:"",
-					salesTime:[],
+					salesTime:[defaultStart,defaultEnd],
 					hospitalsId:"",
 					start:0,
 					limit:10
@@ -235,7 +237,7 @@
 		}
 	});
 </script>
-<style scoped="scoped">
+<style>
 	.sum_money{
 		background-color: #fff;
 		border-bottom: 1px solid #ebeef5;
@@ -245,7 +247,10 @@
 		color: #f24040;
 		font-size: 14px;
 	}
-	.el-date-editor--daterange{
+	.main_content .el-date-editor--daterange{
 		width: 310px !important;
+	}
+	.main_content .el-date-editor--daterange > input{
+		width: 37% !important;
 	}
 </style>

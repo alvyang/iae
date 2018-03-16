@@ -13,7 +13,7 @@
 		    <el-button type="primary" @click="add" size="small">新增</el-button>
 		  </el-form-item>
 		</el-form>
-		<el-table :data="hospitals" style="width: 100%">
+		<el-table :data="hospitals" style="width: 100%" :stripe="true">
   			<el-table-column prop="hospital_name" label="销售机构"></el-table-column>
   			<el-table-column prop="hospital_address" label="机构地址"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="200">

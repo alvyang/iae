@@ -33,7 +33,7 @@
 			<a>采购总额：</a>{{money.pm?money.pm:"0"}} 元 <a>应返金额：</a>{{money.sm?money.sm:"0"}} 元 <a>实返金额：</a>{{money.rm?money.rm:"0"}} 元 <a>未返金额：</a>{{money.sm - money.rm}} 元
 			<router-link :to="{path:'returnmoney'}" class="more_detail">查看详情</router-link>
 		</div>
-		<el-table :data="purchase" style="width: 100%">
+		<el-table :data="purchase" style="width: 100%" :stripe="true">
   			<el-table-column fixed prop="product_common_name" label="产品通用名" width="180"></el-table-column>
 				<el-table-column prop="puchase_number" label="购入数量" width="120"></el-table-column>
 				<el-table-column prop="puchase_money" label="购入金额" width="120"></el-table-column>
@@ -51,7 +51,13 @@
   			<el-table-column prop="contacts_name" label="联系人" width="120"></el-table-column>
   			<el-table-column prop="product_business" label="商业" width="120"></el-table-column>
   			<el-table-column prop="product_commission" label="佣金" width="120"></el-table-column>
-  			<el-table-column fixed="right" label="操作" width="160">
+				<el-table-column fixed="right" label="是否全返" width="80">
+					 <template slot-scope="scope">
+ 						 <el-tag :type="scope.row.own_money == 0 ? 'success':(scope.row.shoule_return_money > scope.row.own_money ? 'warning':'danger')"
+							 size="medium">{{scope.row.own_money == 0 ? "全返":(scope.row.shoule_return_money > scope.row.own_money ? "部分返":"未返")}}</el-tag>
+					 </template>
+				</el-table-column>
+  			<el-table-column fixed="right" label="操作" width="130">
 			    <template slot-scope="scope">
 				    <el-button @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
 		        <el-button @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
@@ -74,6 +80,8 @@
 <script>
 	export default({
 		data(){
+			const defaultEnd = new Date();
+			const defaultStart = new Date(defaultEnd.getFullYear()+"-01"+"-01");
 			return {
 				pickerOptions2: {
 					shortcuts: [{
@@ -113,7 +121,7 @@
 				params:{
 					productCommonName:"",
 					contactId:"",
-					storageTime:[],
+					storageTime:[defaultStart,defaultEnd],
 					start:0,
 					limit:10
 				}
@@ -181,6 +189,7 @@
 			},
 			reSearch(){
 				this.$refs["params"].resetFields();
+				// this.params.storageTime=[];
 				this.getPurchasesList();
 			},
 			getPurchasesList(){
@@ -201,7 +210,7 @@
 		}
 	});
 </script>
-<style scoped="scoped">
+<style>
 	.sum_money > a{
 		padding-left: 20px;
 	}
@@ -222,7 +231,10 @@
 		color: #f24040;
 		font-size: 14px;
 	}
-	.el-date-editor--daterange{
+	.main_content .el-date-editor--daterange{
 		width: 310px !important;
+	}
+	.main_content .el-date-editor--daterange > input{
+		width: 37% !important;
 	}
 </style>

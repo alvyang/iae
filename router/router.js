@@ -24,13 +24,12 @@ import HospitalEdit from "../views/hospital/hospitalEdit.vue";
 
 import Contacts from "../views/contacts/contacts.vue";
 import ContactsEdit from "../views/contacts/contactsEdit.vue";
-import config from "../data/config.json";
 
 const router = new VueRouter({
 	routes:[{
 		path:"/",
 		redirect:to => {
-			return "/main";
+			return "/login";
 		}
 	},{
 		path:"/login",

@@ -20426,10 +20426,6 @@ var _contactsEdit = __webpack_require__(93);
 
 var _contactsEdit2 = _interopRequireDefault(_contactsEdit);
 
-var _config = __webpack_require__(98);
-
-var _config2 = _interopRequireDefault(_config);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _vue2.default.use(_vueRouter2.default);
@@ -20448,7 +20444,7 @@ var router = new _vueRouter2.default({
 	routes: [{
 		path: "/",
 		redirect: function redirect(to) {
-			return "/main";
+			return "/login";
 		}
 	}, {
 		path: "/login",
@@ -33513,7 +33509,7 @@ exports = module.exports = __webpack_require__(0)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -33524,6 +33520,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -33546,7 +33543,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "box-sizing": "border-box",
       "padding": "0px 10px"
     }
-  }, [_vm._v("\n\t软件声明："), _c('br'), _vm._v("\n\t1.为保证用户数据安全，软件中核心数据为本地存储。"), _c('br'), _vm._v("\n\t2.为避免磁盘损坏，造成数据不可逆转丢失，请及时备份数据。"), _c('br')])
+  }, [_vm._v("\n\t软件声明："), _c('br'), _vm._v("\n\t1.为保证用户数据安全，软件中核心数据为本地存储。"), _c('br'), _vm._v("\n\t2.为避免磁盘损坏，造成数据不可逆转丢失，请及时备份数据。"), _c('br'), _vm._v("\n\t3.首次登陆，会将软件与电脑绑定。一个用户，只能在一个电脑上使用。"), _c('br')])
 }]}
 if (false) {
   module.hot.accept()
@@ -33922,7 +33919,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "width": "100%"
     },
     attrs: {
-      "data": _vm.drugs
+      "data": _vm.drugs,
+      "stripe": true
     }
   }, [_c('el-table-column', {
     attrs: {
@@ -34008,7 +34006,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "width": "100%"
     },
     attrs: {
-      "data": _vm.drugs
+      "data": _vm.drugs,
+      "stripe": true
     }
   }, [_c('el-table-column', {
     attrs: {
@@ -34728,7 +34727,7 @@ var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(48)
+__webpack_require__(115)
 
 /* script */
 __vue_exports__ = __webpack_require__(50)
@@ -34749,7 +34748,6 @@ if (typeof __vue_options__ === "function") {
 __vue_options__.__file = "/Users/lvyang/HBuilderProjects/iae/views/purchase/purchase.vue"
 __vue_options__.render = __vue_template__.render
 __vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-__vue_options__._scopeId = "data-v-245e4846"
 
 /* hot reload */
 if (false) {(function () {
@@ -34769,46 +34767,8 @@ module.exports = __vue_exports__
 
 
 /***/ }),
-/* 48 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(49);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(1)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-245e4846&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./purchase.vue", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-245e4846&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./purchase.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 49 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(0)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.sum_money > a[data-v-245e4846]{\n\tpadding-left: 20px;\n}\n.sum_money .more_detail[data-v-245e4846]{\n\tposition: absolute;\n\tright: 10px;\n\theight: 30px;\n\tline-height: 30px;\n\tcolor: #409EFF;\n\ttext-decoration: none;\n}\n.sum_money[data-v-245e4846]{\n\tposition: relative;\n\tbackground-color: #fff;\n\tborder-bottom: 1px solid #ebeef5;\n\theight: 30px;\n\tline-height: 30px;\n\tcolor: #f24040;\n\tfont-size: 14px;\n}\n.el-date-editor--daterange[data-v-245e4846]{\n\twidth: 310px !important;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
+/* 48 */,
+/* 49 */,
 /* 50 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -34887,9 +34847,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
+		var defaultEnd = new Date();
+		var defaultStart = new Date(defaultEnd.getFullYear() + "-01" + "-01");
 		return {
 			pickerOptions2: {
 				shortcuts: [{
@@ -34929,7 +34897,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			params: {
 				productCommonName: "",
 				contactId: "",
-				storageTime: [],
+				storageTime: [defaultStart, defaultEnd],
 				start: 0,
 				limit: 10
 			}
@@ -35005,6 +34973,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		reSearch: function reSearch() {
 			this.$refs["params"].resetFields();
+			// this.params.storageTime=[];
 			this.getPurchasesList();
 		},
 		getPurchasesList: function getPurchasesList() {
@@ -35155,7 +35124,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "width": "100%"
     },
     attrs: {
-      "data": _vm.purchase
+      "data": _vm.purchase,
+      "stripe": true
     }
   }, [_c('el-table-column', {
     attrs: {
@@ -35266,8 +35236,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
       "fixed": "right",
+      "label": "是否全返",
+      "width": "80"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(scope) {
+        return [_c('el-tag', {
+          attrs: {
+            "type": scope.row.own_money == 0 ? 'success' : (scope.row.shoule_return_money > scope.row.own_money ? 'warning' : 'danger'),
+            "size": "medium"
+          }
+        }, [_vm._v(_vm._s(scope.row.own_money == 0 ? "全返" : (scope.row.shoule_return_money > scope.row.own_money ? "部分返" : "未返")))])]
+      }
+    }])
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "fixed": "right",
       "label": "操作",
-      "width": "160"
+      "width": "130"
     },
     scopedSlots: _vm._u([{
       key: "default",
@@ -36375,7 +36362,7 @@ var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(64)
+__webpack_require__(117)
 
 /* script */
 __vue_exports__ = __webpack_require__(66)
@@ -36396,7 +36383,6 @@ if (typeof __vue_options__ === "function") {
 __vue_options__.__file = "/Users/lvyang/HBuilderProjects/iae/views/sales/sales.vue"
 __vue_options__.render = __vue_template__.render
 __vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-__vue_options__._scopeId = "data-v-09cbfa80"
 
 /* hot reload */
 if (false) {(function () {
@@ -36416,46 +36402,8 @@ module.exports = __vue_exports__
 
 
 /***/ }),
-/* 64 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(65);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(1)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-09cbfa80&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./sales.vue", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-09cbfa80&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./sales.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 65 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(0)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.sum_money[data-v-09cbfa80]{\n\tbackground-color: #fff;\n\tborder-bottom: 1px solid #ebeef5;\n\theight: 30px;\n\tline-height: 30px;\n\tpadding-left: 10px;\n\tcolor: #f24040;\n\tfont-size: 14px;\n}\n.el-date-editor--daterange[data-v-09cbfa80]{\n\twidth: 310px !important;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
+/* 64 */,
+/* 65 */,
 /* 66 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -36531,6 +36479,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
+		var defaultEnd = new Date();
+		var defaultStart = new Date(defaultEnd.getFullYear() + "-01" + "-01");
 		return {
 			pickerOptions2: {
 				shortcuts: [{
@@ -36570,7 +36520,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 			money: '', //销售总额
 			params: { //查询参数
 				productCommonName: "",
-				salesTime: [],
+				salesTime: [defaultStart, defaultEnd],
 				hospitalsId: "",
 				start: 0,
 				limit: 10
@@ -36857,7 +36807,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "width": "100%"
     },
     attrs: {
-      "data": _vm.sales
+      "data": _vm.sales,
+      "stripe": true
     }
   }, [_c('el-table-column', {
     attrs: {
@@ -36919,7 +36870,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "fixed": "right",
       "label": "操作",
-      "width": "160"
+      "width": "130"
     },
     scopedSlots: _vm._u([{
       key: "default",
@@ -38038,7 +37989,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "width": "100%"
     },
     attrs: {
-      "data": _vm.hospitals
+      "data": _vm.hospitals,
+      "stripe": true
     }
   }, [_c('el-table-column', {
     attrs: {
@@ -38676,7 +38628,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "width": "100%"
     },
     attrs: {
-      "data": _vm.contacts
+      "data": _vm.contacts,
+      "stripe": true
     }
   }, [_c('el-table-column', {
     attrs: {
@@ -39045,12 +38998,7 @@ if (false) {
 }
 
 /***/ }),
-/* 98 */
-/***/ (function(module, exports) {
-
-module.exports = {"dbPath":""}
-
-/***/ }),
+/* 98 */,
 /* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -54041,6 +53989,86 @@ Note: since JSZip 3 removed critical functionality, this version assigns to the
 /***/ (function(module, exports) {
 
 /* (ignored) */
+
+/***/ }),
+/* 115 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(116);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(1)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-245e4846!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./purchase.vue", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-245e4846!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./purchase.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 116 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(0)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.sum_money > a{\n\tpadding-left: 20px;\n}\n.sum_money .more_detail{\n\tposition: absolute;\n\tright: 10px;\n\theight: 30px;\n\tline-height: 30px;\n\tcolor: #409EFF;\n\ttext-decoration: none;\n}\n.sum_money{\n\tposition: relative;\n\tbackground-color: #fff;\n\tborder-bottom: 1px solid #ebeef5;\n\theight: 30px;\n\tline-height: 30px;\n\tcolor: #f24040;\n\tfont-size: 14px;\n}\n.main_content .el-date-editor--daterange{\n\twidth: 310px !important;\n}\n.main_content .el-date-editor--daterange > input{\n\twidth: 37% !important;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 117 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(118);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(1)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-09cbfa80!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./sales.vue", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-09cbfa80!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./sales.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 118 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(0)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.sum_money{\n\tbackground-color: #fff;\n\tborder-bottom: 1px solid #ebeef5;\n\theight: 30px;\n\tline-height: 30px;\n\tpadding-left: 10px;\n\tcolor: #f24040;\n\tfont-size: 14px;\n}\n.main_content .el-date-editor--daterange{\n\twidth: 310px !important;\n}\n.main_content .el-date-editor--daterange > input{\n\twidth: 37% !important;\n}\n", ""]);
+
+// exports
+
 
 /***/ })
 /******/ ]);
