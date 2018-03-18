@@ -33548,7 +33548,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "box-sizing": "border-box",
       "padding": "0px 10px"
     }
-  }, [_vm._v("\n\t\t软件声明："), _c('br'), _vm._v("\n\t\t1.为保证用户数据安全，软件中核心数据为本地存储。"), _c('br'), _vm._v("\n\t\t2.为避免磁盘损坏，造成数据不可逆转丢失，请及时备份数据。"), _c('br'), _vm._v("\n\t\t3.首次登陆，会将软件与电脑绑定。一个用户，只能在一个电脑上使用。"), _c('br')]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\n\t\t软件声明："), _c('br'), _vm._v("\n\t\t1.为保证用户数据安全，软件中核心数据为本地存储。update"), _c('br'), _vm._v("\n\t\t2.为避免磁盘损坏，造成数据不可逆转丢失，请及时备份数据。"), _c('br'), _vm._v("\n\t\t3.首次登陆，会将软件与电脑绑定。一个用户，只能在一个电脑上使用。"), _c('br')]), _vm._v(" "), _c('div', {
     staticClass: "advertisement"
   }, [_c('iframe', {
     attrs: {

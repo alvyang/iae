@@ -1,17 +1,18 @@
 {
   "name": "IAE",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "iae",
   "main": "main.js",
   "scripts": {
     "build": "node start-electron.js",
     "start": "electron --inspect=5858 .",
+    "asar":"asar pack . app.asar",
     "rebuild-sqlite3-win64": "cd node_modules/sqlite3 && npm install nan --save && node-gyp configure --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-win32-x64 && node-gyp rebuild --target=1.8.2 --arch=x64 --target_platform=win32 --dist-url=https://atom.io/download/electron/ --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-win32-x64",
     "rebuild-sqlite3-darwin": "cd node_modules/sqlite3 && npm install nan --save && node-gyp configure --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-darwin-x64 && node-gyp rebuild --target=1.8.2 --arch=x64 --target_platform=darwin --dist-url=https://atom.io/download/atom-shell --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-darwin-x64",
     "rebuild-sqlite3-win32": "cd node_modules/sqlite3 && npm install nan --save && node-gyp configure --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-win32-ia32 && node-gyp rebuild --target=1.8.2 --arch=ia32 --target_platform=win32 --dist-url=https://atom.io/download/electron/ --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-win32-ia32",
     "packager": "electron-packager . 'IAE' --platform=darwin --arch=x64 --icon=favicon.icns --out=./dist --asar --app-version=0.0.1 --ignore='(dist|.gitignore|README.md|webpack.config.js|iae.db)'",
-    "packageWin32": "electron-packager . IAE --platform=win32 --arch=ia32 --icon=favicon.ico --out=./dist --asar --app-version=0.0.1 --ignore='(dist|.gitignore|README.md|webpack.config.js|iae.db)'",
-    "packageWin64": "electron-packager . IAE --platform=win32 --arch=x64 --icon=favicon.ico --out=./dist --asar --app-version=0.0.1 --ignore='(dist|.gitignore|README.md|webpack.config.js|iae.db)'"
+    "packageWin32": "electron-packager . IAE --platform=win32 --arch=ia32 --icon=favicon.ico --out=./dist --asar --app-version=0.0.1",
+    "packageWin64": "electron-packager . IAE --platform=win32 --arch=x64 --icon=favicon.ico --out=./dist --asar --app-version=0.0.1"
   },
   "repository": "https://github.com/alvyang/iae.git",
   "keywords": [
@@ -24,6 +25,7 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
+    "asar": "^0.14.3",
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.7",
     "babel-plugin-component": "^1.1.0",
