@@ -117,6 +117,7 @@
 	      var myChart = echarts.init(document.getElementById('echart5'));
 	      // 指定图表的配置项和数据
 				var option = {
+					color: ["#8ad163","#b373f4"],
 			    title: {
 		        text: '普通品种销售曲线'
 			    },
@@ -153,6 +154,7 @@
 	      var myChart = echarts.init(document.getElementById('echart6'));
 	      // 指定图表的配置项和数据
 	      var option = {
+					color: ["#8ad163","#36c9ff","#63e0d9","#b373f4"],
 			    title: {
 			        text: '高打品种销售曲线'
 			    },
