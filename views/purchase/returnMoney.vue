@@ -1,7 +1,7 @@
 <template>
 	<div style="padding:0 10px;">
 		<el-breadcrumb separator-class="el-icon-arrow-right">
-			<el-breadcrumb-item :to="{ path: '/main/purchase' }">进货管理</el-breadcrumb-item>
+			<el-breadcrumb-item :to="{ path: '/main/purchase' }">高打品种销售管理</el-breadcrumb-item>
 			<el-breadcrumb-item>返现详情</el-breadcrumb-item>
 		</el-breadcrumb>
     <el-table :data="report" style="width: 100%">

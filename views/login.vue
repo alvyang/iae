@@ -1,7 +1,7 @@
 <template>
   <div class="login" :style="{'background-image':'url('+bg+')','height':height+'px'}">
     <div class="login_div">
-      <div class="login_title">欢迎使用进销存管理软件</div>
+      <div class="login_title">欢迎使用药品销售管理软件</div>
       <div class="login_operation">
         <div class="login_operation_title">登&nbsp&nbsp&nbsp陆</div>
         <div style="padding-left:20px;padding-right:20px;margin-top:16px;">

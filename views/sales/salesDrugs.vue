@@ -1,7 +1,7 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;">
 		<el-breadcrumb separator-class="el-icon-arrow-right">
-		  <el-breadcrumb-item :to="{ path: '/main/sales' }">销售管理</el-breadcrumb-item>
+		  <el-breadcrumb-item :to="{ path: '/main/sales' }">普通品种销售管理</el-breadcrumb-item>
 			<el-breadcrumb-item>选择药品<a style="color:#f24040;">（请先选择销售药品）</a></el-breadcrumb-item>
 		</el-breadcrumb>
 		<el-form :inline="true" :model="formInline" class="demo-form-inline search">

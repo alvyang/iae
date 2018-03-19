@@ -1,7 +1,7 @@
 <template>
 	<div style="padding:0 10px;">
 		<el-breadcrumb separator-class="el-icon-arrow-right">
-			<el-breadcrumb-item :to="{ path: '/main/purchase' }">进货管理</el-breadcrumb-item>
+			<el-breadcrumb-item :to="{ path: '/main/purchase' }">高打品种销售管理</el-breadcrumb-item>
 			<el-breadcrumb-item v-show="editmessage == '新增'" :to="{ path: '/main/purchasedrugs' }">选择药品</el-breadcrumb-item>
 			<el-breadcrumb-item>{{editmessage}}记录</el-breadcrumb-item>
 		</el-breadcrumb>
@@ -52,7 +52,7 @@
 				    <el-button type="primary" @click="submitForm('purchase')">提交</el-button>
 				    <el-button @click="resetForm('purchase')">重置</el-button>
 						<el-button @click="returnList('/main/purchasedrugs')" v-show="editmessage == '新增'">重新选择药品</el-button>
-				    <el-button @click="returnList('/main/purchase')">返回进货管理</el-button>
+				    <el-button @click="returnList('/main/purchase')">返回列表</el-button>
 				  </el-form-item>
 				</el-form>
 			</div>
