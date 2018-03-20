@@ -29,8 +29,8 @@
 				<!-- <el-button type="primary" @click="exportExcel" size="small">导出</el-button> -->
 		  </el-form-item>
 		</el-form>
-		<div class="sum_money">
-			<a>采购总额：</a>{{money.pm?money.pm:"0"}} 元 <a>应返金额：</a>{{money.sm?money.sm:"0"}} 元 <a>实返金额：</a>{{money.rm?money.rm:"0"}} 元 <a>未返金额：</a>{{money.sm - money.rm}} 元
+		<div class="sum_money_purchase">
+			<a>采购总额：</a>{{money.pm?money.pm:"0"}} <span>元</span> <a>应返金额：</a>{{money.sm?money.sm:"0"}} <span>元</span> <a>实返金额：</a>{{money.rm?money.rm:"0"}} <span>元</span> <a>未返金额：</a>{{money.sm - money.rm}} <span>元</span>
 			<router-link :to="{path:'returnmoney'}" class="more_detail">查看详情</router-link>
 		</div>
 		<el-table :data="purchase" style="width: 100%" :stripe="true">
@@ -211,10 +211,14 @@
 	});
 </script>
 <style>
-	.sum_money > a{
+	.sum_money_purchase > a{
 		padding-left: 20px;
+		color: #606266;
 	}
-	.sum_money .more_detail{
+	.sum_money_purchase > span{
+		color:#606266;
+	}
+	.sum_money_purchase .more_detail{
 		position: absolute;
 		right: 10px;
 		height: 30px;
@@ -222,13 +226,13 @@
 		color: #409EFF;
 		text-decoration: none;
 	}
-	.sum_money{
+	.sum_money_purchase{
 		position: relative;
 		background-color: #fff;
 		border-bottom: 1px solid #ebeef5;
 		height: 30px;
+		color:#f24040;
 		line-height: 30px;
-		color: #f24040;
 		font-size: 14px;
 	}
 	.main_content .el-date-editor--daterange{

@@ -9,10 +9,10 @@
 			<div style="width:400px;margin: 20px auto;">
 				<el-form :model="hospital" status-icon :rules="hospitalRule" ref="hospital" label-width="80px" class="demo-ruleForm">
 				  <el-form-item label="销售机构" prop="hospital_name">
-				    <el-input v-model="hospital.hospital_name" auto-complete="off" placeholder="请输入销售机构名称"></el-input>
+				    <el-input v-model="hospital.hospital_name" auto-complete="off" :maxlength="50" placeholder="请输入销售机构名称"></el-input>
 				  </el-form-item>
 				  <el-form-item label="机构地址" prop="hospital_address">
-				    <el-input v-model="hospital.hospital_address" auto-complete="off" placeholder="请输入机构地址"></el-input>
+				    <el-input v-model="hospital.hospital_address" auto-complete="off" :maxlength="100" placeholder="请输入机构地址"></el-input>
 				  </el-form-item>
 				  <el-form-item>
 				    <el-button type="primary" @click="submitForm('hospital')">提交</el-button>

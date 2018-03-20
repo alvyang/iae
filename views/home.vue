@@ -119,22 +119,28 @@
 				var option = {
 					color: ["#8ad163","#b373f4"],
 			    title: {
-		        text: '普通品种销售曲线'
+		        text: '普通品种销售曲线',
+						left:'40px'
 			    },
 			    legend: {
 						top:'30px',
 		        data:['销售量','销售额']
 			    },
+					grid:{
+						top:"80px",
+					},
 					tooltip: {
 		        trigger: 'axis'
 			    },
 			    xAxis: {
 		        type: 'category',
 		        boundaryGap: false,
+						name: '日期',
 		        data:arg.time.reverse()
 			    },
 			    yAxis: {
-		        type: 'value'
+		        type: 'value',
+						name: '销售值',
 			    },
 			    series: [{
             name:'销售量',
@@ -156,8 +162,12 @@
 	      var option = {
 					color: ["#8ad163","#36c9ff","#63e0d9","#b373f4"],
 			    title: {
-			        text: '高打品种销售曲线'
+			        text: '高打品种销售曲线',
+							left:'40px'
 			    },
+					grid:{
+						top:"80px",
+					},
 					tooltip: {
 		        trigger: 'axis'
 			    },
@@ -168,10 +178,12 @@
 			    xAxis: {
 		        type: 'category',
 		        boundaryGap: false,
+						name: '日期',
 		        data:arg.time.reverse()
 			    },
 			    yAxis: {
-			        type: 'value'
+			        type: 'value',
+							name: '销售值',
 			    },
 			    series: [{
 	            name:'销售量',
@@ -201,10 +213,12 @@
 	      var option = {
 						color: ["#8ad163"],
 	          title: {
-              text:'普通品种药品销售量排行'
+              text:'普通品种药品销售量TOP5',
+							left:'40px'
 	          },
 	          tooltip: {},
 						grid:{
+							top:"80px",
 							left:"20%"
 						},
 	          yAxis: {
@@ -212,14 +226,22 @@
 							axisLabel:{
 		            interval: 0
 			        },
+							name: '药品名',
               data: arg.pcn.reverse()
 	          },
 						xAxis: {
-			        type: 'value'
+			        type: 'value',
+							name: '销售量',
 				    },
 	          series: [{
 	              name: '销售量',
 	              type: 'bar',
+								label: {
+		                normal: {
+		                    show: true,
+		                    position: 'inside'
+		                }
+		            },
 	              data: arg.sm.reverse()
 	          }]
 	      };
@@ -233,10 +255,12 @@
 	      var option = {
 						color: ["#36c9ff"],
 	          title: {
-              text:'普通品种药品销售额排行'
+              text:'普通品种药品销售额TOP5',
+							left:'40px'
 	          },
 	          tooltip: {},
 						grid:{
+							top:"80px",
 							left:"20%"
 						},
 	          yAxis: {
@@ -244,14 +268,22 @@
 							axisLabel:{
 		            interval: 0
 			        },
+							name: '药品名',
               data: arg.pcn.reverse()
 	          },
 						xAxis: {
-			        type: 'value'
+			        type: 'value',
+							name: '销售额',
 				    },
 	          series: [{
 	              name: '销售额',
 	              type: 'bar',
+								label: {
+		                normal: {
+		                    show: true,
+		                    position: 'inside'
+		                }
+		            },
 	              data: arg.sm.reverse()
 	          }]
 	      };
@@ -265,10 +297,12 @@
 	      var option = {
 						color: ["#85a0f6"],
 	          title: {
-              text:'高打品种药品销售量排行'
+              text:'高打品种药品销售量TOP5',
+							left:'40px'
 	          },
 	          tooltip: {},
 						grid:{
+							top:"80px",
 							left:"20%"
 						},
 	          yAxis: {
@@ -276,14 +310,22 @@
 							axisLabel:{
 		            interval: 0
 			        },
+							name: '药品名',
               data: arg.pcn.reverse()
 	          },
 						xAxis: {
-			        type: 'value'
+			        type: 'value',
+							name: '销售量',
 				    },
 	          series: [{
 	              name: '销售量',
 	              type: 'bar',
+								label: {
+		                normal: {
+		                    show: true,
+		                    position: 'inside'
+		                }
+		            },
 	              data: arg.pn.reverse()
 	          }]
 	      };
@@ -297,11 +339,13 @@
 	      var option = {
 						color: ["#63e0d9","#b373f4"],
 	          title: {
-              text:'高打品种药品销售返利排行'
+              text:'高打品种药品销售返利TOP5',
+							left:'40px'
 	          },
 	          tooltip: {},
 						grid:{
-							left:"20%"
+							left:"20%",
+							top:"80px"
 						},
 	          legend: {
 							top:'30px',
@@ -312,18 +356,32 @@
 							axisLabel:{
 		            interval: 0
 			        },
+							name: '药品名',
               data: arg.pcn.reverse()
 	          },
 						xAxis: {
-			        type: 'value'
+			        type: 'value',
+							name: '金额',
 				    },
 	          series: [{
 	              name: '应返金额',
 	              type: 'bar',
+								label: {
+		                normal: {
+		                    show: true,
+		                    position: 'inside'
+		                }
+		            },
 	              data: arg.srm.reverse()
 	          },{
 	              name: '实返金额',
 	              type: 'bar',
+								label: {
+		                normal: {
+		                    show: true,
+		                    position: 'inside'
+		                }
+		            },
 	              data: arg.rrm.reverse()
 	          }]
 	      };
@@ -342,7 +400,10 @@
 	.echarts_div > div{
 		display: inline-block;
 		width: 50%;
-		height: 400px;
+		height: 350px;
+		margin-bottom:10px;
+		background:#fff;
+		padding-top: 10px;
 	}
 	.advertisement{
 		position: fixed;

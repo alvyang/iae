@@ -9,7 +9,7 @@
 			<div style="width:400px;margin: 20px auto;">
 				<el-form :model="contacts" status-icon :rules="contactsRule" ref="contacts" label-width="70px" class="demo-ruleForm">
 				  <el-form-item label="联系人" prop="contacts_name">
-				    <el-input v-model="contacts.contacts_name" auto-complete="off" placeholder="请输入联系人姓名"></el-input>
+				    <el-input v-model="contacts.contacts_name" auto-complete="off" :maxlength="20" placeholder="请输入联系人姓名"></el-input>
 				  </el-form-item>
 				  <el-form-item label="手机号码" prop="contacts_phone">
 				    <el-input v-model="contacts.contacts_phone" auto-complete="off" :maxlength="11" placeholder="请输入联系人手机号码"></el-input>

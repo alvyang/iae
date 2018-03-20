@@ -19,7 +19,7 @@
 			<div class="purchase_add">
 				<el-form :model="purchase" status-icon :rules="purchaseRule" :inline="true" ref="purchase" label-width="100px" class="demo-ruleForm">
 				  <el-form-item label="购入数量" prop="puchase_number" :required="true" >
-				    <el-input v-model="purchase.puchase_number" placeholder="请输入购入数量" @blur="purchaseNumBlur();"></el-input>
+				    <el-input v-model="purchase.puchase_number" :maxlength="10" placeholder="请输入购入数量" @blur="purchaseNumBlur();"></el-input>
 				  </el-form-item>
 				  <el-form-item label="购入金额" prop="puchase_money">
 				    <el-input v-model="purchase.puchase_money" auto-complete="off" :readonly="true"></el-input>
@@ -34,7 +34,7 @@
 						<el-date-picker v-model="purchase.should_return_time" type="date" placeholder="请选择应返时间"></el-date-picker>
 				  </el-form-item>
 				  <el-form-item label="实返金额" prop="real_return_money">
-				    <el-input v-model="purchase.real_return_money" placeholder="请输入实返金额" @blur="realReturnMoneyBlur();"></el-input>
+				    <el-input v-model="purchase.real_return_money" :maxlength="10" placeholder="请输入实返金额" @blur="realReturnMoneyBlur();"></el-input>
 				  </el-form-item>
 		      <el-form-item label="返费时间" prop="real_return_time">
 						<el-date-picker v-model="purchase.real_return_time" type="date" placeholder="请选择返费时间"></el-date-picker>
@@ -42,10 +42,10 @@
 		      <el-form-item label="外欠佣金" prop="own_money">
 				    <el-input v-model="purchase.own_money" auto-complete="off" :readonly="true"></el-input>
 				  </el-form-item>
-					<el-form-item label="返款人" prop="regenerator" v-show="editmessage == '修改'">
+					<el-form-item label="返款人" prop="regenerator" :maxlength="20"  v-show="editmessage == '修改'">
 				    <el-input v-model="purchase.regenerator" auto-complete="off"></el-input>
 				  </el-form-item>
-					<el-form-item label="收款人" prop="payee" v-show="editmessage == '修改'">
+					<el-form-item label="收款人" prop="payee" :maxlength="20" v-show="editmessage == '修改'">
 				    <el-input v-model="purchase.payee" auto-complete="off"></el-input>
 				  </el-form-item>
 				  <el-form-item>
@@ -76,7 +76,7 @@
 				var reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
         if(!reg.test(value)){
 					callback(new Error('请输入正确的实返金额'));
-				} else if(this.purchase.shoule_return_money && value > this.purchase.shoule_return_money){
+				} else if(this.purchase.shoule_return_money && parseFloat(value) > parseFloat(this.purchase.shoule_return_money)){
 					callback(new Error('实返金额不能大于应返金额'));
 				} else {
           callback();
@@ -164,7 +164,7 @@
 		methods:{
 			//填写实返金额后，计算外欠佣金的值的值
 			realReturnMoneyBlur(){
-				if(this.purchase.real_return_money > 0 && this.purchase.real_return_money <= this.purchase.shoule_return_money){
+				if(parseFloat(this.purchase.real_return_money) > 0 && parseFloat(this.purchase.real_return_money) <= parseFloat(this.purchase.shoule_return_money)){
 					this.purchase.own_money = this.purchase.shoule_return_money - this.purchase.real_return_money;
 				}
 			},
@@ -174,7 +174,7 @@
 				if(this.purchase.puchase_number && regu.test(this.purchase.puchase_number)){
 					this.purchase.puchase_money =(this.purchase.puchase_number * this.drug.product_price).toFixed(2);
 					this.purchase.shoule_return_money = (this.purchase.puchase_number * this.drug.product_commission).toFixed(2);
-					if(this.purchase.shoule_return_money < this.purchase.real_return_money){
+					if(parseFloat(this.purchase.shoule_return_money) < parseFloat(this.purchase.real_return_money)){
 						this.purchase.real_return_money = this.purchase.shoule_return_money;
 					}
 					this.purchase.own_money = this.purchase.shoule_return_money - this.purchase.real_return_money;

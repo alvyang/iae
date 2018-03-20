@@ -29,7 +29,7 @@
 			 <el-button type="primary" @click="exportExcel" size="small">导出</el-button>
 	   </el-form-item>
 		</el-form>
-		<div class="sum_money">销售总额：{{money?money:"0"}} 元</div>
+		<div class="sum_money">销售总额：<a>{{money?money:"0"}}</a> 元</div>
 		<el-table :data="sales" style="width: 100%" :stripe="true">
   			<el-table-column fixed prop="sales_time" label="日期" width="120" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="hospital_name" label="销售机构" width="180"></el-table-column>
@@ -244,8 +244,11 @@
 		height: 30px;
 		line-height: 30px;
 		padding-left: 10px;
-		color: #f24040;
 		font-size: 14px;
+		color:#606266;
+	}
+	.sum_money a{
+		color: #f24040;
 	}
 	.main_content .el-date-editor--daterange{
 		width: 310px !important;

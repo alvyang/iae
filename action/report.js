@@ -14,7 +14,7 @@ exports.report = function(){
 			reportSql1 += " and datetime(p.storage_time) >= datetime('"+start+"') and datetime(p.storage_time) <= datetime('"+end+"')";
 		}
 
-		reportSql1 += "group by d.product_id order by sum(p.shoule_return_money) desc limit 7 offset 0"
+		reportSql1 += "group by d.product_id order by sum(p.shoule_return_money) desc limit 5 offset 0"
 		db.all(reportSql1,function(err,res){
 			var d = {
 				srm:[],//应返金额
@@ -41,7 +41,7 @@ exports.report = function(){
 			reportSql2 += " and datetime(p.storage_time) >= datetime('"+start+"') and datetime(p.storage_time) <= datetime('"+end+"') ";
 		}
 
-		reportSql2 += "group by d.product_id order by sum(p.puchase_number) desc limit 7 offset 0"
+		reportSql2 += "group by d.product_id order by sum(p.puchase_number) desc limit 5 offset 0"
 		db.all(reportSql2,function(err,res){
 			var d = {
 				pn:[],//销售量
@@ -66,7 +66,7 @@ exports.report = function(){
 			reportSql3 += " and datetime(s.sales_time) >= datetime('"+start+"') and datetime(s.sales_time) <= datetime('"+end+"') ";
 		}
 
-		reportSql3 += "group by d.product_id order by sum(s.sales_money) desc limit 7 offset 0"
+		reportSql3 += "group by d.product_id order by sum(s.sales_money) desc limit 5 offset 0"
 		db.all(reportSql3,function(err,res){
 			var d = {
 				sm:[],//销售额
@@ -91,7 +91,7 @@ exports.report = function(){
 			reportSql3 += " and datetime(s.sales_time) >= datetime('"+start+"') and datetime(s.sales_time) <= datetime('"+end+"') ";
 		}
 
-		reportSql3 += "group by d.product_id order by sum(s.sales_number) desc limit 7 offset 0"
+		reportSql3 += "group by d.product_id order by sum(s.sales_number) desc limit 5 offset 0"
 		db.all(reportSql3,function(err,res){
 			var d = {
 				sm:[],//销售额

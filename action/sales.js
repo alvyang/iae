@@ -79,8 +79,14 @@ exports.sales = function(){
 			var id = new Date().getTime();
 			var keys="sales_id,",value="'"+id+"',";
 			for(a in arg){
-				keys += a+",";
-				value += "'"+arg[a]+"',";
+				if(a == "sales_time"){
+					var time = new Date(arg[a]).format("yyyy-MM-dd")+"T00:00:00.000Z";
+					keys += a+",";
+					value += "'"+time+"',";
+				}else{
+					keys += a+",";
+					value += "'"+arg[a]+"',";
+				}
 			}
 			keys = keys.substring(0,keys.length-1); //取键
 			value = value.substring(0,value.length-1);//取值
@@ -88,12 +94,16 @@ exports.sales = function(){
 		}else{//修改
 			var keyValue="";
 			for(a in arg){
-				keyValue += ""+a+"='"+arg[a]+"',";
+				if(a == "sales_time"){
+					var time = new Date(arg[a]).format("yyyy-MM-dd")+"T00:00:00.000Z";
+					keyValue += ""+a+"='"+time+"',";
+				}else{
+					keyValue += ""+a+"='"+arg[a]+"',";
+				}
 			}
 			keyValue = keyValue.substring(0,keyValue.length-1);
 			sql = "update sales set "+keyValue+" where sales_id = '"+arg.sales_id+"'";
 		}
-    console.log(sql);
 		db.run(sql,function(err,res){
 			event.sender.send('edit-sale-return',"success");
 		});

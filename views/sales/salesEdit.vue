@@ -17,7 +17,7 @@
 			</el-collapse>
 			<div class="sale_add">
 				<el-form :model="sale" status-icon :rules="saleRule" :inline="true" ref="sale" label-width="100px" class="demo-ruleForm">
-				  <el-form-item label="计划数量" prop="sales_number" :required="true" >
+				  <el-form-item label="计划数量" prop="sales_number" :maxlength="10" :required="true" >
 				    <el-input v-model="sale.sales_number" placeholder="请输入计划数量" @blur="saleNumBlur();"></el-input>
 				  </el-form-item>
 				  <el-form-item label="购入金额" prop="sales_money">

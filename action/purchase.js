@@ -50,8 +50,14 @@ exports.purchase = function(){
 			var id = new Date().getTime();
 			var keys="purchase_id,",value="'"+id+"',";
 			for(a in arg){
-				keys += a+",";
-				value += "'"+arg[a]+"',";
+				if(a == "storage_time" || a == "should_return_time" || a == "real_return_time"){
+					var time = new Date(arg[a]).format("yyyy-MM-dd")+"T00:00:00.000Z";
+					keys += a+",";
+					value += "'"+time+"',";
+				}else{
+					keys += a+",";
+					value += "'"+arg[a]+"',";
+				}
 			}
 			keys = keys.substring(0,keys.length-1); //取键
 			value = value.substring(0,value.length-1);//取值
@@ -59,7 +65,12 @@ exports.purchase = function(){
 		}else{//修改
 			var keyValue="";
 			for(a in arg){
-				keyValue += ""+a+"='"+arg[a]+"',";
+				if(a == "storage_time" || a == "should_return_time" || a == "real_return_time"){
+					var time = new Date(arg[a]).format("yyyy-MM-dd")+"T00:00:00.000Z";
+					keyValue += ""+a+"='"+time+"',";
+				}else{
+					keyValue += ""+a+"='"+arg[a]+"',";
+				}
 			}
 			keyValue = keyValue.substring(0,keyValue.length-1);
 			sql = "update purchase set "+keyValue+" where purchase_id = '"+arg.purchase_id+"'";

@@ -8,16 +8,16 @@
 			<div style="width:700px;margin: 20px auto;" v-if="type == '1'">
 				<el-form :model="drugs" status-icon :rules="drugsRule" ref="drugs" :inline="true" label-width="100px" class="demo-ruleForm">
 					<el-form-item label="产品通用名" prop="product_common_name">
-						<el-input v-model="drugs.product_common_name" auto-complete="off" placeholder="请输入产品通用名"></el-input>
+						<el-input v-model="drugs.product_common_name" auto-complete="off" :maxlength="20" placeholder="请输入产品通用名"></el-input>
 					</el-form-item>
 					<el-form-item label="产品规格" prop="product_specifications">
-						<el-input v-model="drugs.product_specifications" auto-complete="off" placeholder="请输入产品规格"></el-input>
+						<el-input v-model="drugs.product_specifications" auto-complete="off" :maxlength="10" placeholder="请输入产品规格"></el-input>
 					</el-form-item>
 					<el-form-item label="单位" prop="product_unit">
-						<el-input v-model="drugs.product_unit" auto-complete="off" placeholder="请输入单位"></el-input>
+						<el-input v-model="drugs.product_unit" auto-complete="off" :maxlength="10" placeholder="请输入单位"></el-input>
 					</el-form-item>
 					<el-form-item label="中标价" prop="product_price">
-						<el-input v-model="drugs.product_price" auto-complete="off" placeholder="请输入中标价"></el-input>
+						<el-input v-model="drugs.product_price" auto-complete="off" :maxlength="20" placeholder="请输入中标价"></el-input>
 					</el-form-item>
 					<el-form-item label="联系人" prop="contacts">
 						<el-select v-model="drugs.contacts" filterable placeholder="请选择联系人">
@@ -29,10 +29,10 @@
 					</el-select>
 					</el-form-item>
 					<el-form-item label="商业" prop="product_business">
-						<el-input v-model="drugs.product_business" auto-complete="off" placeholder="请输入商业"></el-input>
+						<el-input v-model="drugs.product_business" auto-complete="off" :maxlength="20" placeholder="请输入商业"></el-input>
 					</el-form-item>
 					<el-form-item label="佣金" prop="product_commission">
-						<el-input v-model="drugs.product_commission" auto-complete="off" placeholder="请输入佣金"></el-input>
+						<el-input v-model="drugs.product_commission" auto-complete="off" :maxlength="20" placeholder="请输入佣金"></el-input>
 					</el-form-item>
 					<div style="text-align:center;">
 						<el-form-item>
@@ -46,22 +46,22 @@
 			<div style="width:700px;margin: 20px auto;" v-else-if="type == '2'">
 				<el-form :model="drugs" status-icon :rules="drugsRule" ref="drugs" :inline="true" label-width="100px" class="demo-ruleForm">
 					<el-form-item label="产品通用名" prop="product_common_name">
-						<el-input v-model="drugs.product_common_name" auto-complete="off" placeholder="请输入产品通用名"></el-input>
+						<el-input v-model="drugs.product_common_name" auto-complete="off" :maxlength="20" placeholder="请输入产品通用名"></el-input>
 					</el-form-item>
 					<el-form-item label="产品编号" prop="product_code">
-						<el-input v-model="drugs.product_code" auto-complete="off" placeholder="请输入产品编号"></el-input>
+						<el-input v-model="drugs.product_code" auto-complete="off" :maxlength="20" placeholder="请输入产品编号"></el-input>
 					</el-form-item>
 					<el-form-item label="产品规格" prop="product_specifications">
-						<el-input v-model="drugs.product_specifications" auto-complete="off" placeholder="请输入产品规格"></el-input>
+						<el-input v-model="drugs.product_specifications" :maxlength="10" auto-complete="off" placeholder="请输入产品规格"></el-input>
 					</el-form-item>
 					<el-form-item label="单位" prop="product_unit">
-						<el-input v-model="drugs.product_unit" auto-complete="off" placeholder="请输入单位"></el-input>
+						<el-input v-model="drugs.product_unit" auto-complete="off" :maxlength="10" placeholder="请输入单位"></el-input>
 					</el-form-item>
 					<el-form-item label="中标价" prop="product_price">
-						<el-input v-model="drugs.product_price" auto-complete="off" placeholder="请输入中标价"></el-input>
+						<el-input v-model="drugs.product_price" auto-complete="off" :maxlength="20" placeholder="请输入中标价"></el-input>
 					</el-form-item>
 					<el-form-item label="生产产家" prop="product_makesmakers">
-						<el-input v-model="drugs.product_makesmakers" auto-complete="off" placeholder="请输入中标价"></el-input>
+						<el-input v-model="drugs.product_makesmakers" auto-complete="off" :maxlength="100" placeholder="请输入生产产家"></el-input>
 					</el-form-item>
 					<div style="text-align:center;">
 						<el-form-item>
