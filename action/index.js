@@ -6,7 +6,6 @@ const sqles = require("./sales.js");
 const report = require("./report.js");
 const code = require("./code.js");
 const sql = require("./runSql.js");
-const autoUploader = require("./autoUploader.js");
 
 Date.prototype.format = function(fmt) {
      var o = {
@@ -37,6 +36,5 @@ exports.runAction = function(){
 	sqles.sales();
   report.report();
   code.getCode();
-  autoUploader.autoUploader();
 	sql.runSql();
 }
