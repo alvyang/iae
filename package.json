@@ -3,46 +3,10 @@
   "version": "0.0.2",
   "description": "iae",
   "main": "main.js",
-  "build": {
-    "productName": "IAE",
-    "appId": "iae",
-    "directories":{
-      "output": "build"
-    },
-    "publish":[{
-      "provider": "generic",
-      "url": "http://139.129.238.114/web/upload"
-    }],
-    "dmg": {
-      "contents":[{
-        "x": 410,
-        "y": 150,
-        "type": "link",
-        "path": "/Applications"
-      },{
-        "x": 130,
-        "y": 150,
-        "type": "file"
-      }]
-    },
-    "mac": {
-      "icon": "favicon.icns",
-      "artifactName": "${productName}_setup_${version}.${ext}"
-    },
-    "win": {
-      "icon": "favicon.ico",
-      "artifactName": "${productName}_setup_${version}.${ext}"
-    },
-    "linux": {
-      "icon": "favicon",
-      "artifactName": "${productName}_setup_${version}.${ext}"
-    }
-  },
   "scripts": {
     "build": "node start-electron.js",
     "start": "electron --inspect=5858 .",
     "asar": "asar pack . dist/app.asar",
-    "eb": "electron-builder -wm",
     "rebuild-sqlite3-win64": "cd node_modules/sqlite3 && npm install nan --save && node-gyp configure --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-win32-x64 && node-gyp rebuild --target=1.8.2 --arch=x64 --target_platform=win32 --dist-url=https://atom.io/download/electron/ --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-win32-x64",
     "rebuild-sqlite3-darwin": "cd node_modules/sqlite3 && npm install nan --save && node-gyp configure --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-darwin-x64 && node-gyp rebuild --target=1.8.2 --arch=x64 --target_platform=darwin --dist-url=https://atom.io/download/atom-shell --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-darwin-x64",
     "rebuild-sqlite3-win32": "cd node_modules/sqlite3 && npm install nan --save && node-gyp configure --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-win32-ia32 && node-gyp rebuild --target=1.8.2 --arch=ia32 --target_platform=win32 --dist-url=https://atom.io/download/electron/ --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-win32-ia32",

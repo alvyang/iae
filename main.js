@@ -1,5 +1,4 @@
 const electron = require('electron');
-const autoUpdater = electron.autoUpdater
 const action = require("./action/index.js");
 
 // Module to control application life.
@@ -39,56 +38,6 @@ function createWindow () {
     mainWindow = null
   })
 }
-
-// mainWindow = new BrowserWindow()
-function sendUpdateMessage(text){
-    mainWindow.webContents.send('message', text)
-}
-
-ipcMain.on('checkForUpdate', function(event, arg) {
-    //设置检查更新的 url，并且初始化自动更新。这个 url 一旦设置就无法更改。
-    let message={
-        appName:'药品销售管理软件',
-        error:'检查更新出错, 请联系开发人员',
-        checking:'正在检查更新……',
-        updateAva:'检测到新版本，正在下载……',
-        updateNotAva:'现在使用的就是最新版本，不用更新',
-        downloaded: '最新版本已下载，将在重启程序后更新'
-    };
-    //设置检查更新的 url，并且初始化自动更新。这个 url 一旦设置就无法更改。
-    const updateFeedUrl='http://139.129.238.114/web/upload';
-    // if(os.platform()==='darwin'){
-    //     updateFeedUrl='http://139.129.238.114/web/upload';
-    // }
-    autoUpdater.setFeedURL(updateFeedUrl);
-    autoUpdater.on('error', function(error){
-      sendUpdateMessage(message.error)
-    });
-    autoUpdater.on('checking-for-update', function() {
-      sendUpdateMessage(message.checking)
-    });
-    autoUpdater.on('update-available', function(info) {
-      sendUpdateMessage(message.updateAva)
-    });
-    autoUpdater.on('update-not-available', function(info) {
-      sendUpdateMessage(message.updateNotAva)
-    });
-
-    // 更新下载进度事件
-    autoUpdater.on('download-progress', function(progressObj) {
-      mainWindow.webContents.send('downloadProgress', progressObj)
-    })
-    autoUpdater.on('update-downloaded',  function (event, releaseNotes, releaseName, releaseDate, updateUrl, quitAndUpdate) {
-      ipcMain.on('isUpdateNow', (e, arg) => {
-          //some code here to handle event
-          autoUpdater.quitAndInstall();
-      })
-      mainWindow.webContents.send('isUpdateNow')
-    });
-
-    //执行自动更新检查
-    autoUpdater.checkForUpdates();
-});
 
 //运行监听事件
 action.runAction();

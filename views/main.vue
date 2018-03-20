@@ -19,7 +19,6 @@
 					<el-menu-item index="/main/hospital">销售机构管理</el-menu-item>
 			  </el-submenu>
 			</el-menu>
-			<a @click="uploader">更新</a>
 			<router-link :to="{ path: '/login'}" class="login_out">退出登陆</router-link>
 		</div>
 		<div style="height: 70px;"></div>
@@ -34,29 +33,14 @@
 	export default({
 		data(){
 			return {
-				routerFlag:true,
-				ipc:null,
+				routerFlag:true
 			}
 		},
 		mounted(){
-			if (window.require) {
-				//获取药品信息
-		    this.ipc = window.require('electron').ipcRenderer;
-				this.ipc.on("message", (event, text) => {
-            this.tips = text;
-        });
-        this.ipc.on("downloadProgress", (event, progressObj)=> {
-            this.downloadPercent = progressObj.percent || 0;
-        });
-        this.ipc.on("isUpdateNow", () => {
-            this.ipc.send("isUpdateNow");
-        });
-			}
+
 		},
 		methods:{
-			uploader(){
-				this.ipc.send('checkForUpdate');
-			}
+
 		}
 	})
 </script>
