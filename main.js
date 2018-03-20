@@ -1,6 +1,5 @@
 const electron = require('electron');
-const electronUpdater = require("electron-updater");
-const autoUpdater = electronUpdater.autoUpdater
+const autoUpdater = electron.autoUpdater
 const action = require("./action/index.js");
 
 // Module to control application life.
@@ -46,7 +45,7 @@ function sendUpdateMessage(text){
     mainWindow.webContents.send('message', text)
 }
 
-ipcMain.on('check-for-update', function(event, arg) {
+ipcMain.on('checkForUpdate', function(event, arg) {
     //设置检查更新的 url，并且初始化自动更新。这个 url 一旦设置就无法更改。
     let message={
         appName:'药品销售管理软件',

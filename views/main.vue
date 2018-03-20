@@ -42,11 +42,20 @@
 			if (window.require) {
 				//获取药品信息
 		    this.ipc = window.require('electron').ipcRenderer;
+				this.ipc.on("message", (event, text) => {
+            this.tips = text;
+        });
+        this.ipc.on("downloadProgress", (event, progressObj)=> {
+            this.downloadPercent = progressObj.percent || 0;
+        });
+        this.ipc.on("isUpdateNow", () => {
+            this.ipc.send("isUpdateNow");
+        });
 			}
 		},
 		methods:{
 			uploader(){
-				this.ipc.send('check-for-update','event-update');
+				this.ipc.send('checkForUpdate');
 			}
 		}
 	})
