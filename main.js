@@ -1,4 +1,5 @@
-const electron = require('electron')
+const electron = require('electron');
+const electronUpdater = require(‘electron-updater‘);
 const action = require("./action/index.js");
 
 // Module to control application life.

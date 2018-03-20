@@ -19,6 +19,7 @@
 					<el-menu-item index="/main/hospital">销售机构管理</el-menu-item>
 			  </el-submenu>
 			</el-menu>
+			<a @click="uploader">更新</a>
 			<router-link :to="{ path: '/login'}" class="login_out">退出登陆</router-link>
 		</div>
 		<div style="height: 70px;"></div>
@@ -33,13 +34,21 @@
 	export default({
 		data(){
 			return {
-				routerFlag:true
+				routerFlag:true,
+				ipc:null,
 			}
 		},
 		mounted(){
+			if (window.require) {
+				//获取药品信息
+		    this.ipc = window.require('electron').ipcRenderer;
+				this.ipc.send('check-for-update','event-update');
+			}
 		},
 		methods:{
+			uploader(){
 
+			}
 		}
 	})
 </script>
