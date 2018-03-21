@@ -2,7 +2,7 @@
 	<div style="box-sizing: border-box;padding: 0px 10px;">
 		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
 		  <el-form-item label="产品名称" prop="productCommonName">
-		    <el-input v-model="params.productCommonName" size="small" placeholder="产品名称"></el-input>
+		    <el-input v-model="params.productCommonName" @keyup.13.native="searchDrugsList" size="small" placeholder="产品名称"></el-input>
 		  </el-form-item>
 			<el-form-item label="销售机构" prop="hospitalsId">
 			 <el-select v-model="params.hospitalsId" filterable size="small" placeholder="请选择">
@@ -12,7 +12,7 @@
 					 :label="item.hospital_name"
 					 :value="item.hospital_id">
 				 </el-option>
-		 </el-select>
+		 	</el-select>
 		 </el-form-item>
 		 <el-form-item label="日期" prop="salesTime">
 			 <el-date-picker v-model="params.salesTime" type="daterange" size="small" align="right" unlink-panels
@@ -29,7 +29,7 @@
 			 <el-button type="primary" @click="exportExcel" size="small">导出</el-button>
 	   </el-form-item>
 		</el-form>
-		<div class="sum_money">销售总额：<a>{{money?money:"0"}}</a> 元</div>
+		<div class="sum_money">销售总额：<a>{{money?money.toFixed(2):"0"}}</a> 元</div>
 		<el-table :data="sales" style="width: 100%" :stripe="true">
   			<el-table-column fixed prop="sales_time" label="日期" width="120" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="hospital_name" label="销售机构" width="180"></el-table-column>
@@ -115,6 +115,7 @@
 		activated(){
 			this.params.start = 0;
 			this.getSalesList();
+			this.ipc.send('get-hospitals-list-all',this.sale);
 		},
 		mounted(){
 			var that = this;
@@ -126,13 +127,10 @@
 						this.money = arg.money;
 				  	that.count = arg.count;
 				});
-				this.getSalesList();
-
 				this.ipc.on('return-hospital-all-data', (event, arg) => {
           this.hospitals = arg.data;
 					sessionStorage["hospital_all"]=JSON.stringify(arg.data);
 				});
-        this.ipc.send('get-hospitals-list-all',this.sale);
 			}
 		},
 		methods:{

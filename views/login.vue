@@ -7,13 +7,13 @@
         <div style="padding-left:20px;padding-right:20px;margin-top:16px;">
           <el-form :model="login" status-icon :rules="rules" ref="login" label-width="0px" class="demo-ruleForm">
             <el-form-item prop="username">
-              <el-input type="text" class="username" v-model="login.username" placeholder="请输入用户名"></el-input>
+              <el-input type="text" class="username" @keyup.13.native="submitForm('login')" v-model="login.username" placeholder="请输入用户名"></el-input>
             </el-form-item>
             <el-form-item prop="password">
-              <el-input type="password" class="password" v-model="login.password" placeholder="请输入密码"></el-input>
+              <el-input type="password" class="password" @keyup.13.native="submitForm('login')" v-model="login.password" placeholder="请输入密码"></el-input>
             </el-form-item>
             <el-form-item prop="code" class="code" >
-              <el-input type="text" v-model="login.code" :maxlength="4" placeholder="请输入验证码"></el-input>
+              <el-input type="text" v-model="login.code" @keyup.13.native="submitForm('login')" :maxlength="4" placeholder="请输入验证码"></el-input>
               <div class="img_div" @click="refreshCode" title="点击刷新">
                 <img :src="'http://139.129.238.114/iae/login/captcha?v='+datetime" style="height:40px;"/>
               </div>
@@ -27,6 +27,7 @@
 </template>
 <script>
   import $ from "jquery";
+  import p from "../package.json";
   export default({
     data(){
       return {
@@ -37,6 +38,7 @@
           password:"",
           machineCode:"",
           code:"",
+          version:p.version,
         },
         rules: {
           username:[{required: true, message: '请输入用户名', trigger: 'blur'}],
@@ -71,7 +73,6 @@
         this.datetime = new Date().getTime();
       },
       submitForm(formName) {
-          console.log(this.login);
          this.$refs[formName].validate((valid) => {
            if (valid) {
               var _self = this;
@@ -87,12 +88,16 @@
                     _self.refreshCode();
                     _self.$message.error("用户名或密码错误");
                   } else if(res.code == "100002"){
+                    _self.refreshCode();
                     var temp = res.message.startTime.substring(0,10)+" - "+res.message.endTime.substring(0,10);
                     _self.$message.warning("使用期限为："+temp+"。请续费。");
                   } else if(res.code == "100003"){
+                    _self.refreshCode();
                     _self.$message.error("该电脑没有授权登陆");
                   }  else if(res.code == "000000"){
+                    sessionStorage["username"]=_self.login.username;
        							_self.$router.push("/main");
+
        						}
        					}
        				});

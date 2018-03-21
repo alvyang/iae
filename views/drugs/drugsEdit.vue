@@ -2,6 +2,8 @@
 	<div style="box-sizing: border-box;padding: 0px 10px;">
 		<el-breadcrumb separator-class="el-icon-arrow-right">
 			<el-breadcrumb-item :to="{ path: '/main/drugs' }">药品信息</el-breadcrumb-item>
+			<el-breadcrumb-item v-if="type == '1'" :to="{ path: '/main/drugs/1' }">高打品种药品管理</el-breadcrumb-item>
+			<el-breadcrumb-item v-if="type == '2'" :to="{ path: '/main/drugs/2' }">普通药品管理</el-breadcrumb-item>
 			<el-breadcrumb-item>{{this.editmessage}}药品</el-breadcrumb-item>
 		</el-breadcrumb>
 		<div class="add_div">
@@ -154,9 +156,9 @@
 				var that = this;
         this.$refs[formName].validate((valid) => {
           	if (valid) {
-            		that.ipc.send('edit-drugs',this.drugs);
+          		that.ipc.send('edit-drugs',this.drugs);
           	} else {
-            		return false;
+          		return false;
           	}
         });
     	},

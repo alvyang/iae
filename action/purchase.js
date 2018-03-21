@@ -7,19 +7,21 @@ exports.purchase = function(){
 	ipcMain.on('get-purchases-list', (event, arg) => {
 		sqlite3.verbose();
 		const db = new sqlite3.Database(dbPath);
-    //查询报表时，先查询药品信息
-		var sql = "select drugs.*,contacts.contacts_name from drugs left join contacts on drugs.contacts=contacts.contacts_id where 1=1 ";
+    //查询进货记录
+    var purchaseSql = "select * from purchase p left join drugs d left join contacts c on d.contacts=c.contacts_id where p.drugs_id == d.product_id and p.delete_flag != '1' ";
+    var countSql = "select count(*) as count from purchase p left join drugs d left join contacts c on d.contacts=c.contacts_id where p.drugs_id == d.product_id and p.delete_flag != '1' ";
+		var moneySql = "select sum(p.puchase_money) as pm,sum(p.shoule_return_money) as sm,sum(p.real_return_money) as rm from purchase p left join drugs d left join contacts c on d.contacts=c.contacts_id where p.drugs_id == d.product_id and p.delete_flag != '1' ";
+
 		if(arg.productCommonName){
-			sql += "and product_common_name like '%"+arg.productCommonName+"%'";
+			purchaseSql += "and d.product_common_name like '%"+arg.productCommonName+"%'";
+			countSql += "and d.product_common_name like '%"+arg.productCommonName+"%'";
+			moneySql += "and d.product_common_name like '%"+arg.productCommonName+"%'";
 		}
 		if(arg.contactId){
-			sql += "and contacts = '"+arg.contactId+"'";
+			purchaseSql += "and d.contacts = '"+arg.contactId+"'";
+			countSql += "and d.contacts = '"+arg.contactId+"'";
+			moneySql += "and d.contacts = '"+arg.contactId+"'";
 		}
-
-    //查询进货记录
-    var purchaseSql = "select * from purchase p left join ("+sql+") d where p.drugs_id == d.product_id and p.delete_flag != '1' ";
-    var countSql = "select count(*) as count from purchase p left join ("+sql+") d where p.drugs_id == d.product_id and p.delete_flag != '1' ";
-		var moneySql = "select sum(p.puchase_money) as pm,sum(p.shoule_return_money) as sm,sum(p.real_return_money) as rm from purchase p left join ("+sql+") d where p.drugs_id == d.product_id and p.delete_flag != '1' ";
 		if(arg.storageTime.length > 0){
       var start = new Date(arg.storageTime[0]).format("yyyy-MM-dd") + " 00:00:00";
 			var end = new Date(arg.storageTime[1]).format("yyyy-MM-dd") + " 23:59:59";
@@ -27,6 +29,19 @@ exports.purchase = function(){
       countSql += " and datetime(p.storage_time) >= datetime('"+start+"') and datetime(p.storage_time) <= datetime('"+end+"')";
 			moneySql += " and datetime(p.storage_time) >= datetime('"+start+"') and datetime(p.storage_time) <= datetime('"+end+"')";
     }
+		if(arg.status == "1"){//未返
+			purchaseSql += " and p.shoule_return_money == p.own_money";
+			countSql += " and p.shoule_return_money == p.own_money";
+			moneySql += " and p.shoule_return_money == p.own_money";
+		}else if(arg.status == "2"){//部分返
+			purchaseSql += " and p.shoule_return_money - p.real_return_money > 0 and p.real_return_money != '0'";
+			countSql += " and p.shoule_return_money - p.real_return_money > 0 and p.real_return_money != '0'";
+			moneySql += " and p.shoule_return_money - p.real_return_money > 0 and p.real_return_money != '0'";
+		}else if(arg.status == "3"){//全返
+			purchaseSql += " and p.own_money == '0'";
+			countSql += " and p.own_money == '0'";
+			moneySql += " and p.own_money == '0'";
+		}
 		purchaseSql += " order by p.purchase_id desc limit "+arg.limit+" offset " +arg.start;
 		db.all(purchaseSql,function(err,res){
 			db.get(countSql,function(err1,count){

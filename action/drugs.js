@@ -21,7 +21,7 @@ exports.drugs = function(){
 			sql += "and product_type = '"+arg.productType+"'";
 			countSql += "and product_type = '"+arg.productType+"'";
 		}
-		sql += " order by product_id limit "+arg.limit+" offset " +arg.start;
+		sql += " order by product_id desc limit "+arg.limit+" offset " +arg.start;
 		db.all(sql,function(err,res){
 			db.get(countSql,function(err1,count){
 				// 返回消息

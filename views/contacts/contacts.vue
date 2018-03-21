@@ -4,12 +4,13 @@
 		  <el-breadcrumb-item>信息管理</el-breadcrumb-item>
 			<el-breadcrumb-item>联系人管理</el-breadcrumb-item>
 		</el-breadcrumb>
-		<el-form :inline="true" :model="formInline" class="demo-form-inline search">
-		  <el-form-item label="联系人">
-		    <el-input v-model="params.contactName" size="small" placeholder="联系人"></el-input>
+		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
+		  <el-form-item label="联系人" prop="contactName">
+		    <el-input v-model="params.contactName" @keyup.13.native="searchContactsList" size="small" placeholder="联系人"></el-input>
 		  </el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" @click="searchContactsList" size="small">查询</el-button>
+				<el-button type="primary" @click="reSearch" size="small">重置</el-button>
 		    <el-button type="primary" @click="add" size="small">新增</el-button>
 		  </el-form-item>
 		</el-form>
@@ -62,12 +63,11 @@
 		mounted(){
 			var that = this;
 			if (window.require) {
-			    this.ipc = window.require('electron').ipcRenderer;
+		    this.ipc = window.require('electron').ipcRenderer;
 					this.ipc.on('return-contacts-data', (event, arg) => {
 			  	that.contacts = arg.data;
 			  	that.count = arg.count;
 				});
-				this.getContactsList();
 			}
 		},
 		methods:{
@@ -106,6 +106,10 @@
 			},
 			getContactsList(){
 				this.ipc.send('get-contacts-list',this.params);
+			},
+			reSearch(){
+				this.$refs["params"].resetFields();
+				this.getContactsList();
 			},
 			handleSizeChange(val) {
         this.pageNum = val;

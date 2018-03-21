@@ -19,7 +19,17 @@
 					<el-menu-item index="/main/hospital">销售机构管理</el-menu-item>
 			  </el-submenu>
 			</el-menu>
-			<router-link :to="{ path: '/login'}" class="login_out">退出登陆</router-link>
+			<div class="login_out" v-show="username">
+				<el-dropdown @command="handleCommand">
+		      <span class="el-dropdown-link">
+		       	{{username}}<i class="el-icon-arrow-down el-icon--right"></i>
+		      </span>
+		      <el-dropdown-menu slot="dropdown">
+		        <el-dropdown-item command="login_out">退出登陆</el-dropdown-item>
+		        <el-dropdown-item command="modify_password">修改密码</el-dropdown-item>
+		      </el-dropdown-menu>
+		    </el-dropdown>
+			</div>
 		</div>
 		<div style="height: 70px;"></div>
 		<div class="main_content" style="padding-bottom: 20px;">
@@ -33,14 +43,21 @@
 	export default({
 		data(){
 			return {
-				routerFlag:true
+				routerFlag:true,
+				username:"",
 			}
 		},
 		mounted(){
-
+			this.username = sessionStorage["username"];
 		},
 		methods:{
-
+			handleCommand(command) {
+				if(command == "login_out"){
+					this.$router.push({path:"/login"});
+				}else if(command == "modify_password"){
+					this.$router.push({path:"/main/password"});
+				}
+      }
 		}
 	})
 </script>
@@ -50,11 +67,15 @@
 		float: right;
 		top:0px;
 		right: 0px;
-		height: 61px;
 		line-height: 61px;
 		padding-right: 20px;
 		color: #fff;
 		text-decoration: none;
+		cursor: pointer;
+	}
+	.login_out .el-dropdown{
+		color: #fff;
+		height: 40px;
 	}
 	.main_top{
 		position: fixed;

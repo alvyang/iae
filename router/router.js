@@ -25,11 +25,14 @@ import HospitalEdit from "../views/hospital/hospitalEdit.vue";
 import Contacts from "../views/contacts/contacts.vue";
 import ContactsEdit from "../views/contacts/contactsEdit.vue";
 
+//修改密码
+import password from "../views/password.vue";
+
 const router = new VueRouter({
 	routes:[{
 		path:"/",
 		redirect:to => {
-			return "/login";
+			return "/main";
 		}
 	},{
 		path:"/login",
@@ -51,6 +54,7 @@ const router = new VueRouter({
 			{path:"salesdrugs",component:SalesDrugs},
 			{path:"salesedit",component:SalesEdit},
 			{path:"contacts",component:Contacts},
+			{path:"password",component:password},
 			{path:"contactsedit",component:ContactsEdit}]
 	}]
 });

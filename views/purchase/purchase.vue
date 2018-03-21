@@ -2,7 +2,7 @@
 	<div style="box-sizing: border-box;padding: 0px 10px;">
 		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
 		  <el-form-item label="产品通用名" prop="productCommonName">
-		    <el-input v-model="params.productCommonName" size="small" placeholder="产品通用名"></el-input>
+		    <el-input v-model="params.productCommonName" size="small" @keyup.13.native="searchDrugsList" placeholder="产品通用名"></el-input>
 		  </el-form-item>
 		  <el-form-item label="联系人" prop="contactId">
 		    <el-select v-model="params.contactId" filterable size="small" placeholder="请选择">
@@ -14,6 +14,11 @@
 			    </el-option>
 			</el-select>
 		  </el-form-item>
+			<el-form-item label="返款状态" prop="status">
+				<el-select v-model="params.status" placeholder="请选择" size="small">
+					<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+			 	</el-select>
+			</el-form-item>
 			<el-form-item label="入库时间" prop="storageTime">
 				<el-date-picker v-model="params.storageTime" type="daterange" size="small" align="right" unlink-panels
 					range-separator="至"
@@ -30,7 +35,7 @@
 		  </el-form-item>
 		</el-form>
 		<div class="sum_money_purchase">
-			<a>采购总额：</a>{{money.pm?money.pm:"0"}} <span>元</span> <a>应返金额：</a>{{money.sm?money.sm:"0"}} <span>元</span> <a>实返金额：</a>{{money.rm?money.rm:"0"}} <span>元</span> <a>未返金额：</a>{{money.sm - money.rm}} <span>元</span>
+			<a>采购总额：</a>{{money.pm?money.pm.toFixed(2):"0"}} <span>元</span> <a>应返金额：</a>{{money.sm?money.sm.toFixed(2):"0"}} <span>元</span> <a>实返金额：</a>{{money.rm?money.rm.toFixed(2):"0"}} <span>元</span> <a>未返金额：</a>{{money.sm - money.rm}} <span>元</span>
 			<router-link :to="{path:'returnmoney'}" class="more_detail">查看详情</router-link>
 		</div>
 		<el-table :data="purchase" style="width: 100%" :stripe="true">
@@ -51,10 +56,10 @@
   			<el-table-column prop="contacts_name" label="联系人" width="120"></el-table-column>
   			<el-table-column prop="product_business" label="商业" width="120"></el-table-column>
   			<el-table-column prop="product_commission" label="佣金" width="120"></el-table-column>
-				<el-table-column fixed="right" label="是否全返" width="80">
+				<el-table-column fixed="right" label="返款状态" width="80">
 					 <template slot-scope="scope">
- 						 <el-tag :type="scope.row.own_money == 0 ? 'success':(scope.row.shoule_return_money > scope.row.own_money ? 'warning':'danger')"
-							 size="medium">{{scope.row.own_money == 0 ? "全返":(scope.row.shoule_return_money > scope.row.own_money ? "部分返":"未返")}}</el-tag>
+ 						 <el-tag :type="scope.row.own_money == 0 ? 'success':(scope.row.shoule_return_money - scope.row.real_return_money > 0 && scope.row.real_return_money != '0' ? 'warning':'danger')"
+							 size="medium">{{scope.row.own_money == 0 ? "全返":(scope.row.shoule_return_money - scope.row.real_return_money > 0 && scope.row.real_return_money != '0' ? "部分返":"未返")}}</el-tag>
 					 </template>
 				</el-table-column>
   			<el-table-column fixed="right" label="操作" width="130">
@@ -118,9 +123,13 @@
 				deleteId:"",
 				currentPage:1,
 				count:0,
+				options: [{value: '1',label: '未返'},
+					{value: '2',label: '部分返'},
+					{value: '3',label: '全返'}],
 				params:{
 					productCommonName:"",
 					contactId:"",
+					status:"",
 					storageTime:[defaultStart,defaultEnd],
 					start:0,
 					limit:10
@@ -130,6 +139,7 @@
 		activated(){
 			this.params.start = 0;
 			this.getPurchasesList();
+			this.ipc.send('get-contacts-list-all');
 		},
 		mounted(){
 			var that = this;
@@ -141,11 +151,9 @@
 						that.money = arg.money;
 				  	that.count = arg.count;
 				});
-				this.getPurchasesList();
 				this.ipc.on('return-contacts-all-data', (event, arg) => {
 				  	that.contacts = arg.data;
 				});
-				this.ipc.send('get-contacts-list-all');
 			}
 		},
 		methods:{

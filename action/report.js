@@ -14,7 +14,7 @@ exports.report = function(){
 			reportSql1 += " and datetime(p.storage_time) >= datetime('"+start+"') and datetime(p.storage_time) <= datetime('"+end+"')";
 		}
 
-		reportSql1 += "group by d.product_id order by sum(p.shoule_return_money) desc limit 5 offset 0"
+		reportSql1 += "group by d.product_id order by sum(p.shoule_return_money) desc limit "+arg.limit+" offset " +arg.start;
 		db.all(reportSql1,function(err,res){
 			var d = {
 				srm:[],//应返金额
@@ -22,8 +22,8 @@ exports.report = function(){
 				pcn:[]//药品名称
 			};
 			for(var i = 0 ;i < res.length;i++){
-				d.srm.push(res[i].srm);
-				d.rrm.push(res[i].rrm);
+				d.srm.push(res[i].srm.toFixed(2));
+				d.rrm.push(res[i].rrm.toFixed(2));
 				d.pcn.push(res[i].product_common_name);
 			}
 			event.sender.send('get_report_return1',d);
@@ -41,14 +41,14 @@ exports.report = function(){
 			reportSql2 += " and datetime(p.storage_time) >= datetime('"+start+"') and datetime(p.storage_time) <= datetime('"+end+"') ";
 		}
 
-		reportSql2 += "group by d.product_id order by sum(p.puchase_number) desc limit 5 offset 0"
+		reportSql2 += "group by d.product_id order by sum(p.puchase_number) desc limit "+arg.limit+" offset " +arg.start;
 		db.all(reportSql2,function(err,res){
 			var d = {
 				pn:[],//销售量
 				pcn:[]//药品名称
 			};
 			for(var i = 0 ;i < res.length;i++){
-				d.pn.push(res[i].pn);
+				d.pn.push(res[i].pn.toFixed(2));
 				d.pcn.push(res[i].product_common_name);
 			}
 			event.sender.send('get_report_return2',d);
@@ -66,14 +66,14 @@ exports.report = function(){
 			reportSql3 += " and datetime(s.sales_time) >= datetime('"+start+"') and datetime(s.sales_time) <= datetime('"+end+"') ";
 		}
 
-		reportSql3 += "group by d.product_id order by sum(s.sales_money) desc limit 5 offset 0"
+		reportSql3 += "group by d.product_id order by sum(s.sales_money) desc limit "+arg.limit+" offset " +arg.start;
 		db.all(reportSql3,function(err,res){
 			var d = {
 				sm:[],//销售额
 				pcn:[]//药品名称
 			};
 			for(var i = 0 ;i < res.length;i++){
-				d.sm.push(res[i].sm);
+				d.sm.push(res[i].sm.toFixed(2));
 				d.pcn.push(res[i].product_common_name);
 			}
 			event.sender.send('get_report_return3',d);
@@ -91,14 +91,14 @@ exports.report = function(){
 			reportSql3 += " and datetime(s.sales_time) >= datetime('"+start+"') and datetime(s.sales_time) <= datetime('"+end+"') ";
 		}
 
-		reportSql3 += "group by d.product_id order by sum(s.sales_number) desc limit 5 offset 0"
+		reportSql3 += "group by d.product_id order by sum(s.sales_number) desc limit "+arg.limit+" offset " +arg.start;
 		db.all(reportSql3,function(err,res){
 			var d = {
 				sm:[],//销售额
 				pcn:[]//药品名称
 			};
 			for(var i = 0 ;i < res.length;i++){
-				d.sm.push(res[i].sm);
+				d.sm.push(res[i].sm.toFixed(2));
 				d.pcn.push(res[i].product_common_name);
 			}
 			event.sender.send('get_report_return4',d);
@@ -118,8 +118,8 @@ exports.report = function(){
 				time:[]//药品名称
 			};
 			for(var i = 0 ;i < res.length;i++){
-				d.sm.push(res[i].sm);
-				d.sm2.push(res[i].sm2);
+				d.sm.push(res[i].sm.toFixed(2));
+				d.sm2.push(res[i].sm2.toFixed(2));
 				d.time.push(res[i].time);
 			}
 			event.sender.send('get_report_return5',d);
@@ -141,10 +141,10 @@ exports.report = function(){
 				time:[]//药品名称
 			};
 			for(var i = 0 ;i < res.length;i++){
-				d.pn.push(res[i].pn);
-				d.srm.push(res[i].srm);
-				d.rrm.push(res[i].rrm);
-				d.pm.push(res[i].pm);
+				d.pn.push(res[i].pn.toFixed(2));
+				d.srm.push(res[i].srm.toFixed(2));
+				d.rrm.push(res[i].rrm.toFixed(2));
+				d.pm.push(res[i].pm.toFixed(2));
 				d.time.push(res[i].time);
 			}
 			event.sender.send('get_report_return6',d);

@@ -61,7 +61,9 @@
 					}]
 				},
 				params:{//查询参数
-					time:[defaultStart,defaultEnd]
+					time:[defaultStart,defaultEnd],
+					start:0,
+					limit:5
 				},
 				ipc:null,
 			}

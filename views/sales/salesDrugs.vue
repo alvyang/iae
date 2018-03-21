@@ -4,13 +4,14 @@
 		  <el-breadcrumb-item :to="{ path: '/main/sales' }">普通品种销售管理</el-breadcrumb-item>
 			<el-breadcrumb-item>选择药品<a style="color:#f24040;">（请先选择销售药品）</a></el-breadcrumb-item>
 		</el-breadcrumb>
-		<el-form :inline="true" :model="formInline" class="demo-form-inline search">
-		  <el-form-item label="产品名称">
-		    <el-input v-model="params.productCommonName" size="small" placeholder="产品名称"></el-input>
+		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
+		  <el-form-item label="产品名称" prop="productCommonName">
+		    <el-input v-model="params.productCommonName" @keyup.13.native="searchDrugsList" size="small" placeholder="产品名称"></el-input>
 		  </el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" @click="searchDrugsList" size="small">查询</el-button>
-				<el-button type="primary" @click="returnSale" size="small">返回销售管理</el-button>
+				<el-button type="primary" @click="reSearch" size="small">重置</el-button>
+				<el-button type="primary" @click="returnSale" size="small">返回列表</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="drugs" style="width: 100%">
@@ -88,6 +89,10 @@
 			},
 			getDrugsList(){
 				this.ipc.send('get-drugs-list',this.params);
+			},
+			reSearch(){
+				this.$refs["params"].resetFields();
+				this.getDrugsList();
 			},
 			handleSizeChange(val) {
         this.pageNum = val;

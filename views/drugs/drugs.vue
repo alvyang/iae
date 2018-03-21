@@ -1,10 +1,15 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;">
-		<el-form :inline="true" :model="formInline" class="demo-form-inline search">
-		  <el-form-item label="产品通用名">
-		    <el-input v-model="params.productCommonName" size="small" placeholder="产品通用名"></el-input>
+		<el-breadcrumb separator-class="el-icon-arrow-right">
+			<el-breadcrumb-item>药品信息</el-breadcrumb-item>
+			<el-breadcrumb-item v-if="params.productType == '1'">高打品种药品管理</el-breadcrumb-item>
+			<el-breadcrumb-item v-if="params.productType == '2'">普通药品管理</el-breadcrumb-item>
+		</el-breadcrumb>
+		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
+		  <el-form-item label="产品通用名" prop="productCommonName">
+		    <el-input v-model="params.productCommonName" @keyup.13.native="searchDrugsList" size="small" placeholder="产品通用名"></el-input>
 		  </el-form-item>
-		  <el-form-item label="联系人" v-show="type == 1">
+		  <el-form-item label="联系人" v-show="type == 1" prop="contactId">
 		    <el-select v-model="params.contactId" filterable size="small" placeholder="请选择">
 	    		<el-option key="" label="全部" value=""></el-option>
 			    <el-option v-for="item in contacts"
@@ -16,6 +21,7 @@
 		  </el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" @click="searchDrugsList" size="small">查询</el-button>
+			  <el-button type="primary" @click="reSearch" size="small">重置</el-button>
 		    <el-button type="primary" @click="add" size="small">新增</el-button>
 		  </el-form-item>
 		</el-form>
@@ -87,7 +93,10 @@
 				this.type = this.$route.params.type;
 				this.params.productType = this.type;
 				this.params.start = 0;
+				this.params.productCommonName = "";
+				this.params.contactId = "";
 				this.getDrugsList();
+				this.ipc.send('get-contacts-list-all');
 	    }
 		},
 		mounted(){
@@ -151,6 +160,11 @@
 			},
 			getDrugsList(){
 				this.ipc.send('get-drugs-list',this.params);
+			},
+			reSearch(){
+				this.$refs["params"].resetFields();
+				// this.params.salesTime=[];
+				this.getDrugsList();
 			},
 			handleSizeChange(val) {
         this.pageNum = val;

@@ -63,17 +63,17 @@
 		mounted(){
 			var that = this;
 			if (window.require) {
-			    this.ipc = window.require('electron').ipcRenderer;
+		    this.ipc = window.require('electron').ipcRenderer;
 				this.ipc.on('edit-contacts-return', (event, arg) => {
 				  	that.$confirm(that.editmessage+'成功', '提示', {
-			          	confirmButtonText:'继续添加',
-			          	cancelButtonText:'返回列表',
-			          	type: 'success'
-			        }).then(() => {
-			          	that.resetForm("contacts");
-			          	this.contacts.contacts_id = "";
-			        }).catch(() => {
-			          	that.$router.push("/main/contacts");
+		          	confirmButtonText:'继续添加',
+		          	cancelButtonText:'返回列表',
+		          	type: 'success'
+		        }).then(() => {
+		          	that.resetForm("contacts");
+		          	this.contacts.contacts_id = "";
+		        }).catch(() => {
+		          	that.$router.push("/main/contacts");
 					});
 				});
 			}

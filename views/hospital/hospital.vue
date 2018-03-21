@@ -4,12 +4,13 @@
 		  <el-breadcrumb-item>信息管理</el-breadcrumb-item>
 			<el-breadcrumb-item>销售机构管理</el-breadcrumb-item>
 		</el-breadcrumb>
-		<el-form :inline="true" :model="formInline" class="demo-form-inline search">
-		  <el-form-item label="机构名称">
-		    <el-input v-model="params.hospitalName" size="small" placeholder="机构名称"></el-input>
+		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
+		  <el-form-item label="机构名称" prop="hospitalName">
+		    <el-input v-model="params.hospitalName" @keyup.13.native="searchHospitalsList" size="small" placeholder="机构名称"></el-input>
 		  </el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" @click="searchHospitalsList" size="small">查询</el-button>
+				<el-button type="primary" @click="reSearch" size="small">重置</el-button>
 		    <el-button type="primary" @click="add" size="small">新增</el-button>
 		  </el-form-item>
 		</el-form>
@@ -66,7 +67,6 @@
 			  	that.hospitals = arg.data;
 			  	that.count = arg.count;
 				});
-				this.getHospitalsList();
 			}
 		},
 		methods:{
@@ -105,6 +105,10 @@
 			},
 			getHospitalsList(){
 				this.ipc.send('get-hospitals-list',this.params);
+			},
+			reSearch(){
+				this.$refs["params"].resetFields();
+				this.getHospitalsList();
 			},
 			handleSizeChange(val) {
         this.pageNum = val;

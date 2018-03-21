@@ -35,20 +35,20 @@ exports.sales = function(){
 	ipcMain.on('get-sales-list', (event, arg) => {
 		sqlite3.verbose();
 		const db = new sqlite3.Database(dbPath);
-    //查询报表时，先查询药品信息
-		var sql = "select * from drugs where 1=1 ";
-		if(arg.productCommonName){
-			sql += "and product_common_name like '%"+arg.productCommonName+"%'";
-		}
     //查询销售记录
-    var salesSql = "select *,h.hospital_name from sales s inner join ("+sql+") d on s.drugs_id == d.product_id  left join hospital h on s.sales_hospital_id == h.hospital_id where s.delete_flag != '1' ";
-    var countSql = "select count(*) as count from sales s inner join ("+sql+") d on s.drugs_id == d.product_id where s.delete_flag != '1' ";
-		var countMoneySql = "select sum(s.sales_money) as money from sales s inner join ("+sql+") d on s.drugs_id == d.product_id where s.delete_flag != '1' ";
+    var salesSql = "select *,h.hospital_name from sales s inner join drugs d on s.drugs_id == d.product_id  left join hospital h on s.sales_hospital_id == h.hospital_id where s.delete_flag != '1' ";
+    var countSql = "select count(*) as count from sales s inner join drugs d on s.drugs_id == d.product_id where s.delete_flag != '1' ";
+		var countMoneySql = "select sum(s.sales_money) as money from sales s inner join drugs d on s.drugs_id == d.product_id where s.delete_flag != '1' ";
 		if(arg.hospitalsId){
       salesSql += " and s.sales_hospital_id = '"+arg.hospitalsId+"'";
       countSql += " and s.sales_hospital_id = '"+arg.hospitalsId+"'";
 			countMoneySql += " and s.sales_hospital_id = '"+arg.hospitalsId+"'";
     }
+		if(arg.productCommonName){
+			salesSql += "and d.product_common_name like '%"+arg.productCommonName+"%'";
+			countSql += "and d.product_common_name like '%"+arg.productCommonName+"%'";
+			countMoneySql += "and d.product_common_name like '%"+arg.productCommonName+"%'";
+		}
     if(arg.salesTime.length > 0){
 			var start = new Date(arg.salesTime[0]).format("yyyy-MM-dd") + " 00:00:00";
 			var end = new Date(arg.salesTime[1]).format("yyyy-MM-dd") + " 23:59:59";
