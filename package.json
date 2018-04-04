@@ -36,7 +36,7 @@
     "child_process": "^1.0.2",
     "css-loader": "^0.25.0",
     "echarts": "^4.0.4",
-    "electron": "^1.8.2",
+    "electron": "^1.8.4",
     "electron-builder": "^20.5.1",
     "electron-packager": "^11.0.1",
     "electron-prebuilt": "^1.4.13",
@@ -73,7 +73,6 @@
     "xlsx": "^0.12.5"
   },
   "dependencies": {
-    "sqlite3": "^3.1.13",
     "nan": "^2.9.2",
     "node-webkit": "0.0.0"
   }
