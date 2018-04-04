@@ -5,7 +5,7 @@
 			  background-color="#545c64"
 			  text-color="#fff"
 			  active-text-color="#ffd04b">
-			  <el-menu-item index="/main/home">首页</el-menu-item>
+			  <el-menu-item index="/main/home">首页1</el-menu-item>
 				<el-menu-item index="/main/sales">普通品种销售管理</el-menu-item>
 			  <el-menu-item index="/main/purchase">高打品种销售管理</el-menu-item>
 				<el-submenu index="drugs">
