@@ -3,7 +3,12 @@ import router from "../router/router.js";
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import '../css/global.css';
+import $ from 'jquery'
 Vue.use(ElementUI)
+import VueBus from './vue-bus.js'
+Vue.use(VueBus);
+import mixin from './mixin.js'
+Vue.mixin(mixin)
 
 Date.prototype.format = function(fmt) {
      var o = {

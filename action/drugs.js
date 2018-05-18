@@ -7,19 +7,11 @@ exports.drugs = function(){
 	ipcMain.on('get-drugs-list', (event, arg) => {
 		sqlite3.verbose();
 		const db = new sqlite3.Database(dbPath);
-		var sql = "select drugs.*,contacts.contacts_name from drugs left join contacts on drugs.contacts=contacts.contacts_id  where drugs.delete_flag !='1' ";
+		var sql = "select * from drugs where delete_flag !='1' ";
 		var countSql = "select count(*) as count from drugs where delete_flag !='1' ";
 		if(arg.productCommonName){
 			sql += "and product_common_name like '%"+arg.productCommonName+"%'";
 			countSql += "and product_common_name like '%"+arg.productCommonName+"%'";
-		}
-		if(arg.contactId){
-			sql += "and contacts = '"+arg.contactId+"'";
-			countSql += "and contacts = '"+arg.contactId+"'";
-		}
-		if(arg.productType){
-			sql += "and product_type = '"+arg.productType+"'";
-			countSql += "and product_type = '"+arg.productType+"'";
 		}
 		sql += " order by product_id desc limit "+arg.limit+" offset " +arg.start;
 		db.all(sql,function(err,res){

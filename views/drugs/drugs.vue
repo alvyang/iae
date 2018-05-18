@@ -1,23 +1,8 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;">
-		<el-breadcrumb separator-class="el-icon-arrow-right">
-			<el-breadcrumb-item>药品信息</el-breadcrumb-item>
-			<el-breadcrumb-item v-if="params.productType == '1'">高打品种药品管理</el-breadcrumb-item>
-			<el-breadcrumb-item v-if="params.productType == '2'">普通药品管理</el-breadcrumb-item>
-		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
 		  <el-form-item label="产品通用名" prop="productCommonName">
 		    <el-input v-model="params.productCommonName" @keyup.13.native="searchDrugsList" size="small" placeholder="产品通用名"></el-input>
-		  </el-form-item>
-		  <el-form-item label="联系人" v-show="type == 1" prop="contactId">
-		    <el-select v-model="params.contactId" filterable size="small" placeholder="请选择">
-	    		<el-option key="" label="全部" value=""></el-option>
-			    <el-option v-for="item in contacts"
-			      :key="item.contacts_id"
-			      :label="item.contacts_name"
-			      :value="item.contacts_id">
-			    </el-option>
-			</el-select>
 		  </el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" @click="searchDrugsList" size="small">查询</el-button>
@@ -25,29 +10,14 @@
 		    <el-button type="primary" @click="add" size="small">新增</el-button>
 		  </el-form-item>
 		</el-form>
-		<el-table :data="drugs" style="width: 100%" v-show="type == 2" :stripe="true">
+		<el-table :data="drugs" style="width: 100%" :stripe="true">
   			<el-table-column fixed prop="product_common_name" label="产品通用名" width="200"></el-table-column>
 				<el-table-column prop="product_code" label="产品编号" width="150"></el-table-column>
   			<el-table-column prop="product_specifications" label="产品规格" width="150"></el-table-column>
   			<el-table-column prop="product_unit" label="单位" width="120"></el-table-column>
-  			<el-table-column prop="product_price" label="中标价" width="120"></el-table-column>
+  			<el-table-column prop="product_price" label="价格" width="120"></el-table-column>
   			<el-table-column prop="product_makesmakers" label="生产产家" width="200"></el-table-column>
-  			<el-table-column fixed="right" label="操作" width="200">
-			    <template slot-scope="scope">
-				    <el-button @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
-		        <el-button @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
-			    </template>
-  			</el-table-column>
-		</el-table>
-		<el-table :data="drugs" style="width: 100%" v-show="type == 1" :stripe="true">
-  			<el-table-column fixed prop="product_common_name" label="产品通用名" width="200"></el-table-column>
-  			<el-table-column prop="product_specifications" label="产品规格" width="150"></el-table-column>
-  			<el-table-column prop="product_unit" label="单位" width="120"></el-table-column>
-  			<el-table-column prop="product_price" label="中标价" width="120"></el-table-column>
-  			<el-table-column prop="contacts_name" label="联系人" width="120"></el-table-column>
-  			<el-table-column prop="product_business" label="商业" width="120"></el-table-column>
-  			<el-table-column prop="product_commission" label="佣金" width="120"></el-table-column>
-				<el-table-column prop="per" label="返款比例" width="120" :formatter="formatterPer"></el-table-column>
+				<el-table-column prop="product_packing" label="包装" width="200"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="200">
 			    <template slot-scope="scope">
 				    <el-button @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
@@ -77,10 +47,8 @@
 				ipc:null,
 				pageNum:10,
 				currentPage:1,
-				type:"",
 				count:0,
 				params:{
-					productType:"",
 					productCommonName:"",
 					contactId:"",
 					start:0,
@@ -88,20 +56,7 @@
 				}
 			}
 		},
-		watch:{
-			"$route" (to, from) {
-				this.type = this.$route.params.type;
-				this.params.productType = this.type;
-				this.params.start = 0;
-				this.params.productCommonName = "";
-				this.params.contactId = "";
-				this.getDrugsList();
-				this.ipc.send('get-contacts-list-all');
-	    }
-		},
 		mounted(){
-			this.type = this.$route.params.type;
-			this.params.productType = this.type;
 			var that = this;
 			if (window.require) {
 				//获取药品信息
@@ -111,11 +66,6 @@
 				  	that.count = arg.count;
 				});
 				this.getDrugsList();
-				this.ipc.on('return-contacts-all-data', (event, arg) => {
-				  	that.contacts = arg.data;
-				  	sessionStorage["contacts_all"]=JSON.stringify(arg.data);
-				});
-				this.ipc.send('get-contacts-list-all');
 			}
 		},
 		methods:{
@@ -125,7 +75,7 @@
 			},
 			editRow(scope){//编辑药品信息
 				sessionStorage["drugs_edit"] = JSON.stringify(this.drugs[scope.$index]);
-				this.$router.push({path:`/main/drugsedit/${this.type}`});
+				this.$router.push({path:`/main/drugsedit`});
 			},
 			deleteRow(scope){//删除
 				this.deleteId = scope.row.product_id;
@@ -151,7 +101,7 @@
 			},
 			//跳转到编辑页面
 			add(){
-				this.$router.push({path:`/main/drugsedit/${this.type}`});
+				this.$router.push({path:`/main/drugsedit`});
 			},
 			//搜索所有药品信息
 			searchDrugsList(){

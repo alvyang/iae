@@ -2,50 +2,10 @@
 	<div style="box-sizing: border-box;padding: 0px 10px;">
 		<el-breadcrumb separator-class="el-icon-arrow-right">
 			<el-breadcrumb-item :to="{ path: '/main/drugs' }">药品信息</el-breadcrumb-item>
-			<el-breadcrumb-item v-if="type == '1'" :to="{ path: '/main/drugs/1' }">高打品种药品管理</el-breadcrumb-item>
-			<el-breadcrumb-item v-if="type == '2'" :to="{ path: '/main/drugs/2' }">普通药品管理</el-breadcrumb-item>
 			<el-breadcrumb-item>{{this.editmessage}}药品</el-breadcrumb-item>
 		</el-breadcrumb>
 		<div class="add_div">
-			<div style="width:700px;margin: 20px auto;" v-if="type == '1'">
-				<el-form :model="drugs" status-icon :rules="drugsRule" ref="drugs" :inline="true" label-width="100px" class="demo-ruleForm">
-					<el-form-item label="产品通用名" prop="product_common_name">
-						<el-input v-model="drugs.product_common_name" auto-complete="off" :maxlength="20" placeholder="请输入产品通用名"></el-input>
-					</el-form-item>
-					<el-form-item label="产品规格" prop="product_specifications">
-						<el-input v-model="drugs.product_specifications" auto-complete="off" :maxlength="10" placeholder="请输入产品规格"></el-input>
-					</el-form-item>
-					<el-form-item label="单位" prop="product_unit">
-						<el-input v-model="drugs.product_unit" auto-complete="off" :maxlength="10" placeholder="请输入单位"></el-input>
-					</el-form-item>
-					<el-form-item label="中标价" prop="product_price">
-						<el-input v-model="drugs.product_price" auto-complete="off" :maxlength="20" placeholder="请输入中标价"></el-input>
-					</el-form-item>
-					<el-form-item label="联系人" prop="contacts">
-						<el-select v-model="drugs.contacts" filterable placeholder="请选择联系人">
-							<el-option v-for="item in contacts"
-								:key="item.contacts_id"
-								:label="item.contacts_name"
-								:value="item.contacts_id">
-							</el-option>
-					</el-select>
-					</el-form-item>
-					<el-form-item label="商业" prop="product_business">
-						<el-input v-model="drugs.product_business" auto-complete="off" :maxlength="20" placeholder="请输入商业"></el-input>
-					</el-form-item>
-					<el-form-item label="佣金" prop="product_commission">
-						<el-input v-model="drugs.product_commission" auto-complete="off" :maxlength="20" placeholder="请输入佣金"></el-input>
-					</el-form-item>
-					<div style="text-align:center;">
-						<el-form-item>
-							<el-button type="primary" @click="submitForm('drugs')">提交</el-button>
-							<el-button @click="resetForm('drugs')">重置</el-button>
-							<el-button @click="returnList">返回</el-button>
-						</el-form-item>
-					</div>
-				</el-form>
-			</div>
-			<div style="width:700px;margin: 20px auto;" v-else-if="type == '2'">
+			<div style="width:700px;margin: 20px auto;">
 				<el-form :model="drugs" status-icon :rules="drugsRule" ref="drugs" :inline="true" label-width="100px" class="demo-ruleForm">
 					<el-form-item label="产品通用名" prop="product_common_name">
 						<el-input v-model="drugs.product_common_name" auto-complete="off" :maxlength="20" placeholder="请输入产品通用名"></el-input>
@@ -59,10 +19,13 @@
 					<el-form-item label="单位" prop="product_unit">
 						<el-input v-model="drugs.product_unit" auto-complete="off" :maxlength="10" placeholder="请输入单位"></el-input>
 					</el-form-item>
-					<el-form-item label="中标价" prop="product_price">
+					<el-form-item label="价格" prop="product_price">
 						<el-input v-model="drugs.product_price" auto-complete="off" :maxlength="20" placeholder="请输入中标价"></el-input>
 					</el-form-item>
 					<el-form-item label="生产产家" prop="product_makesmakers">
+						<el-input v-model="drugs.product_makesmakers" auto-complete="off" :maxlength="100" placeholder="请输入生产产家"></el-input>
+					</el-form-item>
+					<el-form-item label="包装" prop="product_packing">
 						<el-input v-model="drugs.product_makesmakers" auto-complete="off" :maxlength="100" placeholder="请输入生产产家"></el-input>
 					</el-form-item>
 					<div style="text-align:center;">
@@ -82,29 +45,21 @@
 		data(){
 			return {
 				ipc:null,
-				contacts:[],
-				type:"",
 				drugs:{
 					product_id:"",
 					product_common_name:"",
 					product_specifications:"",
 					product_unit:"",
-					product_business:"",
-					contacts:"",
+					product_packing:"",
 					product_price:"",
-					product_commission:"",
 					product_code:"",
 					product_makesmakers:"",
-					product_type:"",
 				},
 				drugsRule:{
 					product_common_name:[{ required: true, message: '请输入产品通用名', trigger: 'blur' }],
 					product_specifications:[{ required: true, message: '请输入产品规格', trigger: 'blur' }],
 					product_unit:[{ required: true, message: '请输入单位', trigger: 'blur' }],
-					product_business:[{ required: true, message: '请输入中标价', trigger: 'blur' }],
-					contacts:[{ required: true, message: '请选择联系人', trigger: 'change' }],
-					product_price:[{ required: true, message: '请输入商业', trigger: 'blur' }],
-					product_commission:[{ required: true, message: '请输入佣金', trigger: 'blur' }],
+					product_price:[{ required: true, message: '请输入价格', trigger: 'blur' }],
 					product_code:[{ required: true, message: '请输入产品编号', trigger: 'blur' }],
 					product_makesmakers:[{ required: true, message: '请输入生产产家', trigger: 'blur' }],
 				},
@@ -113,8 +68,6 @@
 		},
 		activated(){
 			this.resetForm("drugs");
-			this.type = this.$route.params.type;
-			this.drugs.product_type = this.type;
 			this.drugs.product_id = "";
 			if(sessionStorage["drugs_edit"]){
 				var sessionDrugs = JSON.parse(sessionStorage["drugs_edit"]);
@@ -128,13 +81,9 @@
 		},
 		mounted(){
 			var that = this;
-			this.type = this.$route.params.type;
-			this.drugs.product_type = this.type;
-			this.contacts = JSON.parse(sessionStorage["contacts_all"]);
 			if (window.require) {
 		    this.ipc = window.require('electron').ipcRenderer;
 				this.ipc.on('edit-drugs-return', (event, arg) => {
-					console.log(arg);
 			  	that.$confirm(that.editmessage+'成功', '提示', {
 	          	confirmButtonText:'继续添加',
 	          	cancelButtonText:'返回列表',
@@ -143,14 +92,14 @@
 	          	that.resetForm("drugs");
 	          	that.drugs.product_id = "";
 	        }).catch(() => {
-	          	that.$router.push({path:`/main/drugs/${that.type}`});
+	          	that.$router.push({path:`/main/drugs`});
 					});
 				});
 			}
 		},
 		methods:{
 			returnList(){
-				this.$router.push({path:`/main/drugs/${this.type}`});
+				this.$router.push({path:`/main/drugs`});
 			},
 			submitForm(formName) {
 				var that = this;

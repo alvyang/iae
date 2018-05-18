@@ -21,9 +21,14 @@ import SalesEdit from "../views/sales/salesEdit.vue";
 //销售渠道页面
 import Hospital from "../views/hospital/hospital.vue";
 import HospitalEdit from "../views/hospital/hospitalEdit.vue";
-
+//联系人页面
 import Contacts from "../views/contacts/contacts.vue";
 import ContactsEdit from "../views/contacts/contactsEdit.vue";
+//权限管理
+import Authority from "../views/authority/authority.vue";
+import Role from "../views/authority/role.vue";
+import Group from "../views/authority/group.vue";
+import User from "../views/authority/user.vue";
 
 //修改密码
 import password from "../views/password.vue";
@@ -40,22 +45,28 @@ const router = new VueRouter({
 	},{
 		path:"/main",
 		component:Main,
-		children:[{path:"",redirect: 'home'},
-			{path:"home",component:Home,},
-			{path:"drugs/:type",component:Drugs,},
-			{path:"drugsedit/:type",component:DrugsEdit,},
-			{path:"hospital",component:Hospital,},
-			{path:"hospitaledit",component:HospitalEdit,},
-			{path:"purchase",component:Purchase},
-			{path:"purchasedrugs",component:PurchaseDrugs},
-			{path:"purchaseedit",component:PurchaseEdit},
-			{path:"returnmoney",component:ReturnMoney},
-			{path:"sales",component:Sales},
-			{path:"salesdrugs",component:SalesDrugs},
-			{path:"salesedit",component:SalesEdit},
+		children:[{path:"",redirect: 'drugs'},
+			// {path:"home",component:Home,},
+			{path:"drugs",component:Drugs},
+			{path:"drugsedit",component:DrugsEdit},
+			{path:"authority",component:Authority},
+			{path:"role",component:Role},
+			{path:"user",component:User},
+			{path:"group",component:Group},
+			// {path:"hospital",component:Hospital,},
+			// {path:"hospitaledit",component:HospitalEdit,},
+			// {path:"purchase",component:Purchase},
+			// {path:"purchasedrugs",component:PurchaseDrugs},
+			// {path:"purchaseedit",component:PurchaseEdit},
+			// {path:"returnmoney",component:ReturnMoney},
+			// {path:"sales",component:Sales},
+			// {path:"salesdrugs",component:SalesDrugs},
+			// {path:"salesedit",component:SalesEdit},
 			{path:"contacts",component:Contacts},
-			{path:"password",component:password},
-			{path:"contactsedit",component:ContactsEdit}]
+			{path:"contactsedit",component:ContactsEdit}
+			// {path:"password",component:password},
+
+		]
 	}]
 });
 

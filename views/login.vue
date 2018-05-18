@@ -15,7 +15,7 @@
             <el-form-item prop="code" class="code" >
               <el-input type="text" v-model="login.code" @keyup.13.native="submitForm('login')" :maxlength="4" placeholder="请输入验证码"></el-input>
               <div class="img_div" @click="refreshCode" title="点击刷新">
-                <img :src="'http://139.129.238.114/iae/login/captcha?v='+datetime" style="height:40px;"/>
+                <img :src="ip+'/iae/login/captcha?v='+datetime" style="height:40px;"/>
               </div>
             </el-form-item>
           </el-form>
@@ -26,13 +26,14 @@
   </div>
 </template>
 <script>
-  import $ from "jquery";
   import p from "../package.json";
   export default({
     data(){
       return {
         datetime:"",
         ipc:"",
+        // ip:"http://139.129.238.114",
+        ip:"http://127.0.0.1:5000",
         login:{
           username:"",
           password:"",
@@ -78,7 +79,7 @@
               var _self = this;
        				$.ajax({
        					type: "post",
-       					url: "http://139.129.238.114/iae/login/login",
+       					url: _self.ip+"/iae/login/login",
        					data:_self.login,
        					success: function(res) {
                   if(res.code == "100001"){//验证码错识
