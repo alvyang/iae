@@ -7,12 +7,12 @@
     <div class="authority_content" :style="{height:height+'px'}">
       <div class="custom-tree-container">
         <div class="block">
-          <el-tree :data="data" node-key="id" ref="tree" @node-click="nodeClick" :expand-on-click-node="false">
+          <el-tree :data="data" node-key="id" ref="tree" @node-click="nodeClick" :default-expand-all="true" :expand-on-click-node="false">
             <span class="custom-tree-node" slot-scope="{ node, data }">
               <span>{{ node.label }}</span>
               <span>
-                <el-button type="text" v-show="data.authority_type != 3" icon='el-icon-circle-plus' size="mini" @click.stop="() => append(data)"></el-button>
-                <el-button type="text" v-show="data.authority_type != 3" icon='el-icon-delete' size="mini" @click.stop="() => remove(node, data)"></el-button>
+                <el-button type="text" v-show="data.authority_type != 3 && authCode.indexOf('18') > -1" icon='el-icon-circle-plus' size="mini" @click.stop="() => append(data)"></el-button>
+                <el-button type="text" v-show="authCode.indexOf('19') > -1" icon='el-icon-delete' size="mini" @click.stop="() => remove(node, data)"></el-button>
               </span>
             </span>
           </el-tree>
@@ -32,6 +32,8 @@
             <el-radio v-model="authorityData.button_type" label="1">增加</el-radio>
             <el-radio v-model="authorityData.button_type" label="2">删除</el-radio>
             <el-radio v-model="authorityData.button_type" label="3">修改</el-radio>
+            <el-radio v-model="authorityData.button_type" label="4">权限控制</el-radio>
+            <el-radio v-model="authorityData.button_type" label="5">导出</el-radio>
           </el-form-item>
           <el-form-item label="菜单路径" prop="authority_path" v-show="authorityData.authority_type == 2">
             <el-input v-model="authorityData.authority_path" maxlength='50'></el-input>
@@ -46,7 +48,7 @@
             <el-input v-model="authorityData.authority_describe" maxlength='100'></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" size="mini" @click="submitForm('authorityData')">保存</el-button>
+            <el-button type="primary" size="mini" v-show="authCode.indexOf('23') > -1" @click="submitForm('authorityData')">保存</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -59,6 +61,7 @@
       return {
         height:0,
         formWidth:0,
+        authCode:"",
         authorityData:{
           authority_name:'',
           authority_describe:'',
@@ -87,6 +90,7 @@
 					that.height = $(window).height() - 105;
           that.formWidth = $(window).width()-301;
 			});
+      this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
     },
     methods: {
       nodeClick(data,node,com){
@@ -163,7 +167,7 @@
     overflow-y: auto;
   }
   .authority_form > form{
-    width: 500px;
+    width: 600px;
   }
   .custom-tree-container{
     background: #fff;

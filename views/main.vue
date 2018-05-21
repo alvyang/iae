@@ -6,21 +6,14 @@
 			  text-color="#fff"
 			  active-text-color="#ffd04b">
 			  <el-menu-item index="/main/home">首页</el-menu-item>
-				<el-menu-item index="/main/sales">普通品种销售管理</el-menu-item>
-			  <el-menu-item index="/main/purchase">高打品种销售管理</el-menu-item>
-				<el-menu-item index="/main/drugs">药品管理</el-menu-item>
-			  <el-submenu index="database">
-			    <template slot="title">信息管理</template>
-			    <el-menu-item index="/main/contacts">联系人管理</el-menu-item>
-					<el-menu-item index="/main/hospital">销售机构管理</el-menu-item>
-			  </el-submenu>
-				<el-submenu index="system">
-			    <template slot="title">系统管理</template>
-			    <el-menu-item index="/main/authority">权限管理</el-menu-item>
-					<el-menu-item index="/main/role">角色管理</el-menu-item>
-					<el-menu-item index="/main/group">用户组管理</el-menu-item>
-					<el-menu-item index="/main/user">用户管理</el-menu-item>
-			  </el-submenu>
+
+				<template v-for="a in authList">
+					<el-menu-item v-if="a.children.length == 0" :index="a.authority_path">{{a.authority_name}}</el-menu-item>
+					<el-submenu v-else :index="a.authority_id+''">
+						<template slot="title">{{a.authority_name}}</template>
+						<el-menu-item v-for="sa in a.children"  :index="sa.authority_path">{{sa.authority_name}}</el-menu-item>
+					</el-submenu>
+				</template>
 			</el-menu>
 			<div class="login_out" v-show="username">
 				<el-dropdown @command="handleCommand">
@@ -49,17 +42,34 @@
 				routerFlag:true,
 				username:"",
 				height:0,
+				authList:[]
 			}
+		},
+		activated(){
+			this.getAuthorityList();
+			this.username = sessionStorage["username"];
 		},
 		mounted(){
 			this.height = $(window).height() - 60;
-			this.username = sessionStorage["username"];
 			var that = this;
 			$(window).resize(function(){
 					that.height = $(window).height() - 60;
 			});
 		},
 		methods:{
+			getAuthorityList(){
+				var _self = this;
+				var user = JSON.parse(sessionStorage["user"])
+				var authCode = user.authority_code;
+				if(user.authority_parent_code){
+					authCode += ","+user.authority_parent_code;
+				}
+				this.jquery('/iae/authority/getAuthoritysList',{
+					authority_code:authCode,
+				},function(res){
+					_self.authList = res.message[0].children;
+				});
+			},
 			handleCommand(command) {
 				if(command == "login_out"){
 					this.$router.push({path:"/login"});

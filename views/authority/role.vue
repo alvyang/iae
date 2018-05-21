@@ -11,7 +11,7 @@
 		  <el-form-item>
 		    <el-button type="primary" @click="searchRolesList" size="small">查询</el-button>
 				<el-button type="primary" @click="reSearch" size="small">重置</el-button>
-		    <el-button type="primary" @click="add" size="small">新增</el-button>
+		    <el-button type="primary" @click="add" v-show="authCode.indexOf('22') > -1" size="small">新增</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="roles" style="width: 100%" highlight-current-row :stripe="true">
@@ -19,9 +19,9 @@
     			<el-table-column prop="role_describe" label="角色描述"></el-table-column>
     			<el-table-column fixed="right" label="操作" width="200">
 			    <template slot-scope="scope">
-				    <el-button @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
-	          <el-button @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
-            <el-button @click.native.prevent="editAuthorityShow(scope)" type="primary" size="small">授权</el-button>
+				    <el-button v-show="authCode.indexOf('26') > -1" @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
+	          <el-button v-show="authCode.indexOf('27') > -1" @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
+            <el-button v-show="authCode.indexOf('35') > -1" @click.native.prevent="editAuthorityShow(scope)" type="primary" size="small">授权</el-button>
 			    </template>
     			</el-table-column>
   		</el-table>
@@ -71,6 +71,7 @@
 	export default({
 		data(){
 			return {
+				authCode:"",
 				roles:[],
         data:[],
 				pageNum:10,
@@ -97,8 +98,10 @@
 		activated(){
 			this.searchRolesList();
       this.getAuthority();
+			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		mounted(){
+
 		},
 		methods:{
       editAuthorityShow(scope){//授权
@@ -113,9 +116,11 @@
 			editAuthority(){
 				var _self = this;
 				var keys = this.$refs.tree.getCheckedKeys();
+				var halfKeys = this.$refs.tree.getHalfCheckedKeys();
 				this.authorityRole.authority_code = keys.toString();
 				this.jquery('/iae/role/editRoles',{
 					authority_code:keys.toString(),
+					authority_parent_code:halfKeys.toString(),
 					role_id:_self.roleId
 				},function(res){
 					_self.$message({message: '授权成功',type: 'success'});
@@ -184,7 +189,6 @@
           data:_self.params,
           page:page
         },function(res){
-					console.log(res);
             _self.roles = res.message.data;
             _self.pageNum=parseInt(res.message.limit);
     				_self.count=res.message.totalCount;

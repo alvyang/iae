@@ -6,7 +6,7 @@
 		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
 		  <el-form-item label="用户名" prop="username">
-		    <el-input v-model="params.username" @keyup.13.native="searchUsersList" size="small" placeholder="用户名"></el-input>
+		    <el-input v-model="params.username" v-show="authCode.indexOf('21') > -1" @keyup.13.native="searchUsersList" size="small" placeholder="用户名"></el-input>
 		  </el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" @click="searchUsersList" size="small">查询</el-button>
@@ -20,9 +20,9 @@
 			<el-table-column prop="role_name" label="角色名"></el-table-column>
 			<el-table-column fixed="right" label="操作" width="200">
 	    <template slot-scope="scope">
-		    <el-button @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
-        <el-button @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
-				<el-button @click.native.prevent="addRole(scope)" type="primary" size="small">授权</el-button>
+		    <el-button v-show="authCode.indexOf('24') > -1" @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
+        <el-button v-show="authCode.indexOf('25') > -1" @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
+				<el-button v-show="authCode.indexOf('34') > -1" @click.native.prevent="addRole(scope)" type="primary" size="small">授权</el-button>
 	    </template>
 			</el-table-column>
 		</el-table>
@@ -100,6 +100,7 @@
 				}
       };
 			return {
+				authCode:"",
         dialogFormVisible:false,
 				dialogTableVisible:false,
 				user:{
@@ -132,6 +133,7 @@
 		activated(){
 			this.searchUsersList();
 			this.searchRolesList();
+			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		mounted(){
 			var that = this;

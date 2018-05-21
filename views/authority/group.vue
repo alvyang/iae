@@ -16,6 +16,7 @@
 		</el-form>
 		<el-table :data="groups" style="width: 100%" :stripe="true">
 			<el-table-column prop="group_name" label="组名称"></el-table-column>
+			<el-table-column prop="group_code" label="组编码"></el-table-column>
 			<el-table-column prop="start_time" :formatter="formatValue" label="开始时间"></el-table-column>
       <el-table-column prop="end_time" :formatter="formatValue" label="结束时间"></el-table-column>
 			<el-table-column fixed="right" label="操作" width="200">
@@ -41,6 +42,9 @@
         <el-form-item label="组名称" prop="group_name">
           <el-input v-model="group.group_name" maxlength='20' auto-complete="off"></el-input>
         </el-form-item>
+				<el-form-item label="组编码" prop="group_code" :required="true">
+          <el-input v-model="group.group_code" maxlength='20' auto-complete="off"></el-input>
+        </el-form-item>
         <el-form-item label="有效期开始日期" prop="start_time">
           <el-date-picker v-model="group.start_time" type="date" placeholder="选择开始日期"></el-date-picker>
         </el-form-item>
@@ -58,15 +62,33 @@
 <script>
 	export default({
 		data(){
+			var validateGroup = (rule, value, callback) => {
+				var _self = this;
+        if (value === '') {
+          callback(new Error('请输入组编码'));
+        } else {
+					this.jquery('/iae/group/exitsGroup',{
+						group_code:_self.group.group_code
+					},function(res){
+						if (_self.title == 1 && res.message.length > 0) {
+		          callback(new Error('该组编码已存在'));
+		        } else {
+		          callback();
+		        }
+					});
+				}
+      };
 			return {
         dialogFormVisible:false,
 				group:{
           group_name:"",
+					group_code:"",
           start_time:null,
           end_time:null
         },
         rules: {
-          group_name: [{ required: true, message: '请输入组名称', trigger: 'blur' }]
+          group_name: [{ required: true, message: '请输入组名称', trigger: 'blur' }],
+					group_code: [{validator: validateGroup, trigger: 'blur' }]
         },
         groups:[],
         title:1,
@@ -88,12 +110,14 @@
 		methods:{
 			addShow(){
 				this.dialogFormVisible = true;
-				this.user={
+				this.group={
           group_name:"",
+					group_code:"",
           start_time:null,
           end_time:null
         };
 				var _self = this;
+				this.title=1;
 				setTimeout(function(){
 					_self.$refs["group"].clearValidate();
 				});

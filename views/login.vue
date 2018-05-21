@@ -15,7 +15,7 @@
             <el-form-item prop="code" class="code" >
               <el-input type="text" v-model="login.code" @keyup.13.native="submitForm('login')" :maxlength="4" placeholder="请输入验证码"></el-input>
               <div class="img_div" @click="refreshCode" title="点击刷新">
-                <img :src="ip+'/iae/login/captcha?v='+datetime" style="height:40px;"/>
+                <img :src="$bus.data.host+'/iae/login/captcha?v='+datetime" style="height:40px;"/>
               </div>
             </el-form-item>
           </el-form>
@@ -31,9 +31,6 @@
     data(){
       return {
         datetime:"",
-        ipc:"",
-        // ip:"http://139.129.238.114",
-        ip:"http://127.0.0.1:5000",
         login:{
           username:"",
           password:"",
@@ -60,14 +57,7 @@
       });
     },
     mounted(){
-      if (window.require) {
-				//获取药品信息
-		    this.ipc = window.require('electron').ipcRenderer;
-				this.ipc.on('code-return', (event, arg) => {
-				  	this.login.machineCode = arg;
-				});
-				this.ipc.send('get-code');
-			}
+
     },
     methods:{
       refreshCode(){
@@ -79,7 +69,7 @@
               var _self = this;
        				$.ajax({
        					type: "post",
-       					url: _self.ip+"/iae/login/login",
+       					url: _self.$bus.data.host+"/iae/login/login",
        					data:_self.login,
        					success: function(res) {
                   if(res.code == "100001"){//验证码错识
@@ -97,6 +87,7 @@
                     _self.$message.error("该电脑没有授权登陆");
                   }  else if(res.code == "000000"){
                     sessionStorage["username"]=_self.login.username;
+                    sessionStorage["user"] = JSON.stringify(res.message[0]);
        							_self.$router.push("/main");
 
        						}
