@@ -2,27 +2,27 @@
 	<div style="box-sizing: border-box;padding: 0px 10px;">
 		<el-breadcrumb separator-class="el-icon-arrow-right">
 		  <el-breadcrumb-item>信息管理</el-breadcrumb-item>
-			<el-breadcrumb-item>销售机构管理</el-breadcrumb-item>
+			<el-breadcrumb-item>医院管理</el-breadcrumb-item>
 		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
-		  <el-form-item label="机构名称" prop="hospitalName">
-		    <el-input v-model="params.hospitalName" @keyup.13.native="searchHospitalsList" size="small" placeholder="机构名称"></el-input>
+		  <el-form-item label="机构名称" prop="hospital_name">
+		    <el-input v-model="params.hospital_name" @keyup.13.native="reSearch(false)" size="small" placeholder="机构名称"></el-input>
 		  </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" @click="searchHospitalsList" size="small">查询</el-button>
-				<el-button type="primary" @click="reSearch" size="small">重置</el-button>
-		    <el-button type="primary" @click="add" size="small">新增</el-button>
+		    <el-button type="primary" @click="reSearch(false)" size="small">查询</el-button>
+				<el-button type="primary" @click="reSearch(true)" size="small">重置</el-button>
+		    <el-button type="primary" @click="addShow" size="small">新增</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="hospitals" style="width: 100%" :stripe="true">
-  			<el-table-column prop="hospital_name" label="销售机构"></el-table-column>
-  			<el-table-column prop="hospital_address" label="机构地址"></el-table-column>
-  			<el-table-column fixed="right" label="操作" width="200">
+			<el-table-column prop="hospital_name" label="销售机构"></el-table-column>
+			<el-table-column prop="hospital_address" label="机构地址"></el-table-column>
+			<el-table-column fixed="right" label="操作" width="200">
 		    <template slot-scope="scope">
 			    <el-button @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
          	<el-button @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
 		    </template>
-  			</el-table-column>
+			</el-table-column>
 		</el-table>
 		<div class="page_div">
 			<el-pagination
@@ -35,91 +35,149 @@
 	      :total="count">
 	    </el-pagination>
 		</div>
+		<el-dialog :title="title == 1?'新增医院':'修改医院'" width="500px" :visible.sync="dialogFormVisible">
+			<el-form :model="hospital" status-icon :rules="hospitalRule" ref="hospital" label-width="80px" class="demo-ruleForm">
+				<el-form-item label="销售机构" prop="hospital_name">
+					<el-input v-model="hospital.hospital_name" auto-complete="off" :maxlength="50" placeholder="请输入销售机构名称"></el-input>
+				</el-form-item>
+				<el-form-item label="机构地址" prop="hospital_address">
+					<el-input v-model="hospital.hospital_address" auto-complete="off" :maxlength="100" placeholder="请输入机构地址"></el-input>
+				</el-form-item>
+			</el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button size="mini" @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" size="mini" @click="add('hospital')">确 定</el-button>
+      </div>
+    </el-dialog>
 	</div>
 </template>
 <script>
 	export default({
 		data(){
 			return {
+				dialogFormVisible:false,
+				hospital:{
+					hospital_name:"",
+					hospital_address:""
+				},
+				hospitalRule:{
+					hospital_name:[{ required: true, message: '请输入机构名称', trigger: 'blur' }],
+				},
+				title:1,
 				hospitals:[],
-				ipc:null,
 				pageNum:10,
 				currentPage:1,
 				count:0,
 				deleteId:null,
 				params:{
-					hospitalName:"",
-					start:0,
-					limit:10,
+					hospital_name:""
 				}
 			}
 		},
 		activated(){
-			this.params.start = 0;
 			this.getHospitalsList();
 		},
 		mounted(){
-			var that = this;
-			if (window.require) {
-		    this.ipc = window.require('electron').ipcRenderer;
-				this.ipc.on('return-hospitals-data', (event, arg) => {
-					console.log(arg);
-			  	that.hospitals = arg.data;
-			  	that.count = arg.count;
-				});
-			}
+
 		},
 		methods:{
 			editRow(scope){//编辑药品信息
-				sessionStorage["hospital_edit"] = JSON.stringify(this.hospitals[scope.$index]);
-				this.$router.push("/main/hospitaledit");
+				this.dialogFormVisible = true;
+				this.title=2;
+				this.hospital = scope.row;
+				var _self = this;
+				setTimeout(function(){
+					_self.$refs["hospital"].clearValidate();
+				});
 			},
 			deleteRow(scope){
-				this.deleteId = scope.row.hospital_id;
 				this.$confirm('是否删除?', '提示', {
         	confirmButtonText: '确定',
         	cancelButtonText: '取消',
         	type: 'warning'
       	}).then(() => {
-					this.deleteItem();
+					this.deleteItem(scope);
       	}).catch(() => {
       	});
 			},
-			deleteItem(){
-				var that = this;
-				this.ipc.send('delete-hospital',this.deleteId);
-				this.ipc.on('delete-hospital-return', (event, arg) => {
-			  	this.$message({
-	          	message: '删除成功',
-	          	type: 'success'
-	        });
-	        this.getHospitalsList();
+			deleteItem(scope){
+				var _self = this;
+				this.jquery('/iae/hospitals/deleteHospitals',{
+					hospital_id:scope.row.hospital_id
+				},function(res){
+					_self.$message({message: '删除成功',type: 'success'});
+					_self.getHospitalsList();
+					_self.dialogFormVisible = false;
 				});
 			},
-			add(){
-				this.$router.push("/main/hospitaledit");
+			addShow(){
+				this.hospital={
+					hospital_name:"",
+					hospital_address:""
+				};
+				this.dialogFormVisible = true;
+			},
+			add(formName){
+				var _self = this;
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            if(this.title == 1){
+              this.jquery('/iae/hospitals/saveHospitals',_self.hospital,function(res){
+                _self.$message({message: '新增成功',type: 'success'});
+                _self.dialogFormVisible = false;
+								_self.getHospitalsList();
+              });
+            }else{
+              this.jquery('/iae/hospitals/editHospitals',_self.hospital,function(res){
+                _self.$message({message: '修改成功',type: 'success'});
+                _self.dialogFormVisible = false;
+              });
+            }
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
 			},
 			searchHospitalsList(){
-				this.params.start = 0;
+				this.currentPage = 1;
 				this.getHospitalsList();
 			},
 			getHospitalsList(){
-				this.ipc.send('get-hospitals-list',this.params);
+				var _self = this;
+        if(!_self.currentPage){
+          _self.currentPage = 1;
+        }
+        if(!_self.pageNum){
+          _self.pageNum = 10;
+        }
+				var page = {
+          start:(_self.currentPage-1)*_self.pageNum,
+          limit:_self.pageNum
+        }
+        this.jquery('/iae/hospitals/getHospitals',{
+					data:_self.params,
+          page:page
+        },function(res){
+            _self.hospitals = res.message.data;
+            _self.pageNum=parseInt(res.message.limit);
+    				_self.count=res.message.totalCount;
+        });
 			},
-			reSearch(){
-				this.$refs["params"].resetFields();
+			reSearch(arg){
+				if(arg){
+					this.$refs["params"].resetFields();
+				}
+				this.currentPage = 1;
 				this.getHospitalsList();
 			},
 			handleSizeChange(val) {
         this.pageNum = val;
     		this.currentPage = 1;
-    		this.params.limit = this.pageNum;
         this.getHospitalsList();
     	},
     	handleCurrentChange(val) {
     		this.currentPage = val;
-    		this.params.start = (val-1)*this.pageNum;
-    		this.params.limit = this.pageNum;
 				this.getHospitalsList();
     	}
 		}

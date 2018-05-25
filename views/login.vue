@@ -7,10 +7,10 @@
         <div style="padding-left:20px;padding-right:20px;margin-top:16px;">
           <el-form :model="login" status-icon :rules="rules" ref="login" label-width="0px" class="demo-ruleForm">
             <el-form-item prop="username">
-              <el-input type="text" class="username" @keyup.13.native="submitForm('login')" v-model="login.username" placeholder="请输入用户名"></el-input>
+              <el-input type="text" class="username" style="width:320px;" @keyup.13.native="submitForm('login')" v-model="login.username" placeholder="请输入用户名"></el-input>
             </el-form-item>
             <el-form-item prop="password">
-              <el-input type="password" class="password" @keyup.13.native="submitForm('login')" v-model="login.password" placeholder="请输入密码"></el-input>
+              <el-input type="password" class="password" style="width:320px;" @keyup.13.native="submitForm('login')" v-model="login.password" placeholder="请输入密码"></el-input>
             </el-form-item>
             <el-form-item prop="code" class="code" >
               <el-input type="text" v-model="login.code" @keyup.13.native="submitForm('login')" :maxlength="4" placeholder="请输入验证码"></el-input>
@@ -86,7 +86,6 @@
                     _self.refreshCode();
                     _self.$message.error("该电脑没有授权登陆");
                   }  else if(res.code == "000000"){
-                    sessionStorage["username"]=_self.login.username;
                     sessionStorage["user"] = JSON.stringify(res.message[0]);
        							_self.$router.push("/main");
 

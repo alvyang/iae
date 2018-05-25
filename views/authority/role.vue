@@ -6,11 +6,11 @@
 		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
 		  <el-form-item label="角色名" prop="role_name">
-		    <el-input v-model="params.role_name" @keyup.13.native="searchRolesList" size="small" placeholder="角色名"></el-input>
+		    <el-input v-model="params.role_name" @keyup.13.native="reSearch" size="small" placeholder="角色名"></el-input>
 		  </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" @click="searchRolesList" size="small">查询</el-button>
-				<el-button type="primary" @click="reSearch" size="small">重置</el-button>
+		    <el-button type="primary" @click="reSearch" size="small">查询</el-button>
+				<el-button type="primary" @click="reSearch(true)" size="small">重置</el-button>
 		    <el-button type="primary" @click="add" v-show="authCode.indexOf('22') > -1" size="small">新增</el-button>
 		  </el-form-item>
 		</el-form>
@@ -194,8 +194,11 @@
     				_self.count=res.message.totalCount;
         });
 			},
-			reSearch(){//重置
-				this.$refs["params"].resetFields();
+			reSearch(arg){//重置
+				if(arg){
+					this.$refs["params"].resetFields();
+				}
+				this.currentPage = 1;
         this.searchRolesList();
 			},
 			handleSizeChange(val) {

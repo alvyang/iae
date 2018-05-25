@@ -6,11 +6,11 @@
 		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
 		  <el-form-item label="组名称" prop="group_name">
-		    <el-input v-model="params.group_name" @keyup.13.native="searchGroupsList" size="small" placeholder="组名称"></el-input>
+		    <el-input v-model="params.group_name" @keyup.13.native="reSearch" size="small" placeholder="组名称"></el-input>
 		  </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" @click="searchGroupsList" size="small">查询</el-button>
-				<el-button type="primary" @click="reSearch" size="small">重置</el-button>
+		    <el-button type="primary" @click="reSearch" size="small">查询</el-button>
+				<el-button type="primary" @click="reSearch(true)" size="small">重置</el-button>
 		    <el-button type="primary" @click="addShow" size="small">新增</el-button>
 		  </el-form-item>
 		</el-form>
@@ -195,8 +195,11 @@
   				_self.count=res.message.totalCount;
         });
 			},
-			reSearch(){
-				this.$refs["params"].resetFields();
+			reSearch(arg){
+				if(arg){
+					this.$refs["params"].resetFields();
+				}
+				this.currentPage = 1;
         this.searchGroupsList();
 			},
 			handleSizeChange(val) {

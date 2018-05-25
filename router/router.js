@@ -24,6 +24,9 @@ import HospitalEdit from "../views/hospital/hospitalEdit.vue";
 //联系人页面
 import Contacts from "../views/contacts/contacts.vue";
 import ContactsEdit from "../views/contacts/contactsEdit.vue";
+//标签管理
+import Label from "../views/label/label.vue";
+import LabelEdit from "../views/label/labelEdit.vue";
 //权限管理
 import Authority from "../views/authority/authority.vue";
 import Role from "../views/authority/role.vue";
@@ -53,8 +56,12 @@ const router = new VueRouter({
 			{path:"role",component:Role},
 			{path:"user",component:User},
 			{path:"group",component:Group},
-			// {path:"hospital",component:Hospital,},
-			// {path:"hospitaledit",component:HospitalEdit,},
+			{path:"hospital",component:Hospital},//医院管理
+			{path:"hospitaledit",component:HospitalEdit},
+			{path:"contacts",component:Contacts},//联系人管理
+			{path:"contactsedit",component:ContactsEdit},
+			{path:"label",component:Label},//标签管理
+			{path:"labeledit",component:LabelEdit},
 			// {path:"purchase",component:Purchase},
 			// {path:"purchasedrugs",component:PurchaseDrugs},
 			// {path:"purchaseedit",component:PurchaseEdit},
@@ -62,8 +69,6 @@ const router = new VueRouter({
 			// {path:"sales",component:Sales},
 			// {path:"salesdrugs",component:SalesDrugs},
 			// {path:"salesedit",component:SalesEdit},
-			{path:"contacts",component:Contacts},
-			{path:"contactsedit",component:ContactsEdit}
 			// {path:"password",component:password},
 
 		]

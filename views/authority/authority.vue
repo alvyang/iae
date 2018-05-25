@@ -7,7 +7,7 @@
     <div class="authority_content" :style="{height:height+'px'}">
       <div class="custom-tree-container">
         <div class="block">
-          <el-tree :data="data" node-key="id" ref="tree" @node-click="nodeClick" :default-expand-all="true" :expand-on-click-node="false">
+          <el-tree :data="data" node-key="id" ref="tree" @node-click="nodeClick" :expand-on-click-node="false">
             <span class="custom-tree-node" slot-scope="{ node, data }">
               <span>{{ node.label }}</span>
               <span>
@@ -29,6 +29,7 @@
             <el-radio v-model="authorityData.authority_type" label="3">按钮</el-radio>
           </el-form-item>
           <el-form-item label="按钮类型" prop="button_type" v-show="authorityData.authority_type == 3">
+            <el-radio v-model="authorityData.button_type" label="6">查询</el-radio>
             <el-radio v-model="authorityData.button_type" label="1">增加</el-radio>
             <el-radio v-model="authorityData.button_type" label="2">删除</el-radio>
             <el-radio v-model="authorityData.button_type" label="3">修改</el-radio>
@@ -167,7 +168,7 @@
     overflow-y: auto;
   }
   .authority_form > form{
-    width: 600px;
+    width: 650px;
   }
   .custom-tree-container{
     background: #fff;
