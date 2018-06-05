@@ -17,7 +17,7 @@ import ReturnMoney from "../views/purchase/ReturnMoney.vue";
 //销售记录页面
 import Sales from "../views/sales/sales.vue";
 import SalesDrugs from "../views/sales/salesDrugs.vue";
-import SalesEdit from "../views/sales/salesEdit.vue";
+// import SalesEdit from "../views/sales/salesEdit.vue";
 //销售渠道页面
 import Hospital from "../views/hospital/hospital.vue";
 import HospitalEdit from "../views/hospital/hospitalEdit.vue";
@@ -36,6 +36,11 @@ import User from "../views/authority/user.vue";
 //修改密码
 import password from "../views/password.vue";
 
+//报表管理
+import Report from "../views/report/report.vue";
+//返款管理
+import Refunds from "../views/refunds/refunds.vue";
+
 const router = new VueRouter({
 	routes:[{
 		path:"/",
@@ -48,8 +53,8 @@ const router = new VueRouter({
 	},{
 		path:"/main",
 		component:Main,
-		children:[{path:"",redirect: 'drugs'},
-			// {path:"home",component:Home,},
+		children:[{path:"",redirect: 'home'},
+			{path:"home",component:Home},
 			{path:"drugs",component:Drugs},
 			{path:"drugsedit",component:DrugsEdit},
 			{path:"authority",component:Authority},
@@ -62,15 +67,17 @@ const router = new VueRouter({
 			{path:"contactsedit",component:ContactsEdit},
 			{path:"label",component:Label},//标签管理
 			{path:"labeledit",component:LabelEdit},
+			{path:"purchase",component:Purchase},
+			{path:"sales",component:Sales},
+			{path:"salesdrugs",component:SalesDrugs},
+			// {path:"salesedit",component:SalesEdit},
+			{path:"report",component:Report},
+			{path:"refunds",component:Refunds},
 			// {path:"purchase",component:Purchase},
 			// {path:"purchasedrugs",component:PurchaseDrugs},
 			// {path:"purchaseedit",component:PurchaseEdit},
 			// {path:"returnmoney",component:ReturnMoney},
-			// {path:"sales",component:Sales},
-			// {path:"salesdrugs",component:SalesDrugs},
-			// {path:"salesedit",component:SalesEdit},
 			// {path:"password",component:password},
-
 		]
 	}]
 });

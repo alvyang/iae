@@ -1,29 +1,7 @@
 <template>
 	<div>
-		<div class="echarts_div">
-			<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
-				<el-form-item label="销售日期" prop="time">
-	 			 <el-date-picker v-model="params.time" type="daterange" size="small" align="right" unlink-panels
-	 				 range-separator="至"
-	 				 start-placeholder="开始日期"
-	 				 end-placeholder="结束日期"
-	 				 :picker-options="pickerOptions2">
-	 			 </el-date-picker>
-	 		 	</el-form-item>
-				<el-form-item>
-	 	     <el-button type="primary" @click="search" size="small">查询</el-button>
-	 	   </el-form-item>
-			</el-form>
-			<div id="echart1"></div>
-			<div id="echart2"></div>
-			<div id="echart6" style="display:block;width:100%"></div>
-			<div id="echart3"></div>
-			<div id="echart4"></div>
-			<div id="echart5" style="display:block;width:100%"></div>
-		</div>
-		<div class="advertisement">
-			<iframe src="http://139.129.238.114/web/ad.html" frameborder="0" width="100%"></iframe>
-		</div>
+		首页
+
 	</div>
 </template>
 <script>
@@ -70,37 +48,37 @@
 		},
 		mounted(){
 			if (window.require) {
-				//获取药品信息
-		    this.ipc = window.require('electron').ipcRenderer;
-				this.ipc.on('get_report_return1', (event, arg) => {
-					this.getReport1(arg);
-				});
-				this.ipc.on('get_report_return2', (event, arg) => {
-					this.getReport2(arg);
-				});
-				this.ipc.on('get_report_return3', (event, arg) => {
-					this.getReport3(arg);
-				});
-				this.ipc.on('get_report_return4', (event, arg) => {
-					this.getReport4(arg);
-				});
-				this.ipc.on('get_report_return5', (event, arg) => {
-					for(var i = 0 ; i < arg.time.length ;i++){
-						arg.time[i] = arg.time[i].substring(0,10);
-					}
-					this.getReport5(arg);
-				});
-				this.ipc.on('get_report_return6', (event, arg) => {
-					for(var i = 0 ; i < arg.time.length ;i++){
-						arg.time[i] = arg.time[i].substring(0,10);
-					}
-					this.getReport6(arg);
-				});
-				this.search();
-				//高打品种销售返利排行数据
-				this.ipc.send('get_report_5',this.params);
-				//高打品种销售量排行数据
-				this.ipc.send('get_report_6',this.params);
+				// //获取药品信息
+		    // this.ipc = window.require('electron').ipcRenderer;
+				// this.ipc.on('get_report_return1', (event, arg) => {
+				// 	this.getReport1(arg);
+				// });
+				// this.ipc.on('get_report_return2', (event, arg) => {
+				// 	this.getReport2(arg);
+				// });
+				// this.ipc.on('get_report_return3', (event, arg) => {
+				// 	this.getReport3(arg);
+				// });
+				// this.ipc.on('get_report_return4', (event, arg) => {
+				// 	this.getReport4(arg);
+				// });
+				// this.ipc.on('get_report_return5', (event, arg) => {
+				// 	for(var i = 0 ; i < arg.time.length ;i++){
+				// 		arg.time[i] = arg.time[i].substring(0,10);
+				// 	}
+				// 	this.getReport5(arg);
+				// });
+				// this.ipc.on('get_report_return6', (event, arg) => {
+				// 	for(var i = 0 ; i < arg.time.length ;i++){
+				// 		arg.time[i] = arg.time[i].substring(0,10);
+				// 	}
+				// 	this.getReport6(arg);
+				// });
+				// this.search();
+				// //高打品种销售返利排行数据
+				// this.ipc.send('get_report_5',this.params);
+				// //高打品种销售量排行数据
+				// this.ipc.send('get_report_6',this.params);
 			}
 		},
 		methods:{

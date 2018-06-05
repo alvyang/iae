@@ -5,12 +5,21 @@
 		    <el-input v-model="params.productCommonName" @keyup.13.native="reSearch(false)" size="small" placeholder="产品通用名"></el-input>
 		  </el-form-item>
 			<el-form-item label="联系人" prop="contactId">
-				<el-select v-model="params.contactId" filterable placeholder="请选择联系人">
+				<el-select v-model="params.contactId" size="small" filterable placeholder="请选择联系人">
 					<el-option v-for="item in contacts" :key="item.contacts_id" :label="item.contacts_name" :value="item.contacts_id"></el-option>
 				</el-select>
 			</el-form-item>
+			<el-form-item label="品种类型" prop="product_type">
+				<el-select v-model="params.product_type" size="small" multiple placeholder="请选择">
+					<el-option key="普药" label="普药" value="普药"></el-option>
+					<el-option key="佣金" label="佣金" value="佣金"></el-option>
+					<el-option key="高打" label="高打" value="高打"></el-option>
+					<el-option key="高打(底价)" label="高打(底价)" value="高打(底价)"></el-option>
+					<el-option key="其它" label="其它" value="其它"></el-option>
+				</el-select>
+			</el-form-item>
 			<el-form-item label="医保类型" prop="product_medical_type">
-				<el-select v-model="params.product_medical_type" placeholder="请选择">
+				<el-select v-model="params.product_medical_type" size="small" placeholder="请选择">
 					<el-option key="甲类" label="甲类" value="甲类"></el-option>
 					<el-option key="乙类" label="乙类" value="乙类"></el-option>
 					<el-option key="丙类" label="丙类" value="丙类"></el-option>
@@ -27,16 +36,17 @@
   			<el-table-column fixed prop="product_common_name" label="产品通用名" width="150"></el-table-column>
 				<el-table-column prop="product_code" label="产品编号" width="150"></el-table-column>
   			<el-table-column prop="product_makesmakers" :title="product_makesmakers" label="生产产家" width="120"></el-table-column>
-  			<el-table-column prop="product_specifications" label="产品规格" width="180"></el-table-column>
+  			<el-table-column prop="product_specifications" label="产品规格" width="120"></el-table-column>
   			<el-table-column prop="product_packing" label="包装" width="60"></el-table-column>
   			<el-table-column prop="product_unit" label="单位" width="60"></el-table-column>
+				<el-table-column prop="buyer" label="采购员" width="80"></el-table-column>
 				<el-table-column prop="product_price" label="中标价" width="80"></el-table-column>
 				<el-table-column prop="product_discount" label="扣率" width="80"></el-table-column>
 				<el-table-column prop="product_mack_price" label="打款价" width="80"></el-table-column>
 				<el-table-column prop="product_type" label="返费类型" width="100"></el-table-column>
-				<el-table-column prop="product_return_money" label="返费金额" width="80"></el-table-column>
-				<el-table-column prop="product_return_discount" label="返费率" width="80"></el-table-column>
-				<el-table-column prop="product_return_explain" label="返费说明" width="200"></el-table-column>
+				<el-table-column prop="product_return_money" label="返费金额" width="80" :formatter="formatNull"></el-table-column>
+				<el-table-column prop="product_return_discount" label="返费率" width="80" :formatter="formatNull"></el-table-column>
+				<el-table-column prop="product_return_explain" label="返费说明" width="200" :formatter="formatNull"></el-table-column>
 				<el-table-column prop="contacts_name" label="联系人" width="80"></el-table-column>
 				<el-table-column prop="product_medical_type" label="医保类型" width="80"></el-table-column>
 				<el-table-column prop="remark" label="备注" width="200"></el-table-column>
@@ -49,6 +59,7 @@
 		</el-table>
 		<div class="page_div">
 			<el-pagination
+				background
 	      @size-change="handleSizeChange"
 	      @current-change="handleCurrentChange"
 	      :current-page="currentPage"
@@ -72,7 +83,9 @@
 				authCode:"",
 				params:{
 					productCommonName:"",
-					contactId:""
+					contactId:"",
+					product_type:"",
+					product_medical_type:"",
 				}
 			}
 		},
@@ -85,6 +98,13 @@
 
 		},
 		methods:{
+			formatNull(row, column, cellValue, index){
+				if(row.product_type == "基药" || row.product_type == "其它"){
+					return "-";
+				}else{
+					return cellValue;
+				}
+			},
 			getContacts(){
 				var _self = this;
 				this.jquery('/iae/contacts/getAllContacts',{group_id:0},function(res){
@@ -111,7 +131,6 @@
         });
 			},
 			deleteItem(scope){
-				console.log(scope);
 				var _self = this;
         this.jquery('/iae/drugs/deleteDrugs',{
           product_id:scope.row.product_id

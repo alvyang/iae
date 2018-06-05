@@ -1,34 +1,68 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;">
 		<el-breadcrumb separator-class="el-icon-arrow-right">
-		  <el-breadcrumb-item :to="{ path: '/main/sales' }">普通品种销售管理</el-breadcrumb-item>
+		  <el-breadcrumb-item :to="{ path: '/main/sales' }">销售管理</el-breadcrumb-item>
 			<el-breadcrumb-item>选择药品<a style="color:#f24040;">（请先选择销售药品）</a></el-breadcrumb-item>
 		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
-		  <el-form-item label="产品名称" prop="productCommonName">
-		    <el-input v-model="params.productCommonName" @keyup.13.native="searchDrugsList" size="small" placeholder="产品名称"></el-input>
+			<el-form-item label="产品通用名" prop="productCommonName">
+		    <el-input v-model="params.productCommonName" @keyup.13.native="reSearch(false)" size="small" placeholder="产品通用名"></el-input>
 		  </el-form-item>
+			<el-form-item label="联系人" prop="contactId">
+				<el-select v-model="params.contactId" size="small" filterable placeholder="请选择联系人">
+					<el-option v-for="item in contacts" :key="item.contacts_id" :label="item.contacts_name" :value="item.contacts_id"></el-option>
+				</el-select>
+			</el-form-item>
+			<el-form-item label="品种类型" prop="product_type">
+				<el-select v-model="params.product_type" size="small" multiple placeholder="请选择">
+					<el-option key="普药" label="普药" value="普药"></el-option>
+					<el-option key="佣金" label="佣金" value="佣金"></el-option>
+					<el-option key="高打" label="高打" value="高打"></el-option>
+					<el-option key="高打(底价)" label="高打(底价)" value="高打(底价)"></el-option>
+					<el-option key="其它" label="其它" value="其它"></el-option>
+				</el-select>
+			</el-form-item>
+			<el-form-item label="医保类型" prop="product_medical_type">
+				<el-select v-model="params.product_medical_type" size="small" placeholder="请选择">
+					<el-option key="甲类" label="甲类" value="甲类"></el-option>
+					<el-option key="乙类" label="乙类" value="乙类"></el-option>
+					<el-option key="丙类" label="丙类" value="丙类"></el-option>
+					<el-option key="省医保" label="省医保" value="省医保"></el-option>
+				</el-select>
+			</el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" @click="searchDrugsList" size="small">查询</el-button>
 				<el-button type="primary" @click="reSearch" size="small">重置</el-button>
 				<el-button type="primary" @click="returnSale" size="small">返回列表</el-button>
 		  </el-form-item>
 		</el-form>
-		<el-table :data="drugs" style="width: 100%">
-  			<el-table-column fixed prop="product_common_name" label="产品名称" width="200"></el-table-column>
-        <el-table-column prop="product_code" label="产品编号" width="200"></el-table-column>
-  			<el-table-column prop="product_specifications" label="产品规格" width="150"></el-table-column>
-  			<el-table-column prop="product_unit" label="单位" width="120"></el-table-column>
-  			<el-table-column prop="product_price" label="中标价" width="120"></el-table-column>
-        <el-table-column prop="product_makesmakers" label="生产产家" width="200"></el-table-column>
-  			<el-table-column fixed="right" label="操作" width="200">
-			    <template slot-scope="scope">
-						<el-button @click.native.prevent="selectRow(scope)" type="primary" size="small">选择</el-button>
-			    </template>
-  			</el-table-column>
+		<el-table :data="drugs" style="width: 100%" :stripe="true" :border="true">
+			<el-table-column fixed prop="product_common_name" label="产品通用名" width="150"></el-table-column>
+			<el-table-column prop="product_code" label="产品编号" width="150"></el-table-column>
+			<el-table-column prop="product_makesmakers" :title="product_makesmakers" label="生产产家" width="120"></el-table-column>
+			<el-table-column prop="product_specifications" label="产品规格" width="120"></el-table-column>
+			<el-table-column prop="product_packing" label="包装" width="60"></el-table-column>
+			<el-table-column prop="product_unit" label="单位" width="60"></el-table-column>
+			<el-table-column prop="buyer" label="采购员" width="80"></el-table-column>
+			<el-table-column prop="product_price" label="中标价" width="80"></el-table-column>
+			<el-table-column prop="product_discount" label="扣率" width="80"></el-table-column>
+			<el-table-column prop="product_mack_price" label="打款价" width="80"></el-table-column>
+			<el-table-column prop="product_type" label="返费类型" width="100"></el-table-column>
+			<el-table-column prop="product_return_money" label="返费金额" width="80" :formatter="formatNull"></el-table-column>
+			<el-table-column prop="product_return_discount" label="返费率" width="80" :formatter="formatNull"></el-table-column>
+			<el-table-column prop="product_return_explain" label="返费说明" width="200" :formatter="formatNull"></el-table-column>
+			<el-table-column prop="contacts_name" label="联系人" width="80"></el-table-column>
+			<el-table-column prop="product_medical_type" label="医保类型" width="80"></el-table-column>
+			<el-table-column prop="remark" label="备注" width="200"></el-table-column>
+			<el-table-column fixed="right" label="操作" width="200">
+		    <template slot-scope="scope">
+					<el-button @click.native.prevent="selectRow(scope)" type="primary" size="small">选择</el-button>
+		    </template>
+			</el-table-column>
 		</el-table>
 		<div class="page_div">
 			<el-pagination
+				background
 	      @size-change="handleSizeChange"
 	      @current-change="handleCurrentChange"
 	      :current-page="currentPage"
@@ -38,77 +72,256 @@
 	      :total="count">
 	    </el-pagination>
 		</div>
+		<el-dialog title="新增销售记录" width="700px" :visible.sync="dialogFormVisible">
+			<el-collapse v-model="activeNames">
+			  <el-collapse-item :title="'药品信息（药品名：'+drug.product_common_name+ '）'" name="1">
+			    <div><span>产品编号:</span>{{drug.product_code}}</div>
+			    <div><span>产品规格:</span>{{drug.product_specifications}}</div>
+					<div><span>中标价:</span>{{drug.product_price}}</div>
+					<div><span>包装:</span>{{drug.product_packing}}</div>
+					<div><span>单位:</span>{{drug.product_unit}}</div>
+					<div style="display:block;width:100%;"><span>生产产家:</span>{{drug.product_makesmakers}}</div>
+			  </el-collapse-item>
+			</el-collapse>
+			<el-form :model="sale" status-icon :rules="saleRule" style="margin-top:20px;" :inline="true" ref="sale" label-width="100px" class="demo-ruleForm">
+				<el-form-item label="计划数量" prop="sale_num" :maxlength="10" :required="true" >
+					<el-input v-model="sale.sale_num" style="width:194px;" placeholder="请输入计划数量" @blur="saleNumBlur();"></el-input>
+				</el-form-item>
+				<el-form-item label="购入金额" prop="sale_money">
+					<el-input v-model="sale.sale_money" style="width:194px;"  auto-complete="off" :readonly="true"></el-input>
+				</el-form-item>
+				<el-form-item label="销售机构" prop="hospital_id">
+					<el-select v-model="sale.hospital_id" filterable placeholder="请选择销售机构">
+						<el-option v-for="item in hospitals"
+							:key="item.hospital_id"
+							:label="item.hospital_name"
+							:value="item.hospital_id">
+						</el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="销售日期" prop="bill_date">
+					<el-date-picker v-model="sale.bill_date" style="width:194px;" type="date" placeholder="请选择销售时间"></el-date-picker>
+				</el-form-item>
+			</el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button size="mini" @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" size="mini" @click="addSales('sale')">确 定</el-button>
+      </div>
+    </el-dialog>
 	</div>
 </template>
 <script>
-	export default({
-		data(){
-			return {
-				drugs:[],
-				ipc:null,
-				pageNum:10,
-				currentPage:1,
-				count:0,
-				params:{
-					productType:"2",
-					productCommonName:"",
-					start:0,
-					limit:10
-				}
+export default({
+	data(){
+		var validateNum = (rule, value, callback) => {
+			var regu = /^\+?[1-9][0-9]*$/;
+			if (value === '') {
+				callback(new Error('请输入计划数量'));
+			} else if(!regu.test(value)){
+				callback(new Error('请输入正整数'));
+			} else {
+				callback();
+			}
+		};
+		return {
+			drugs:[],
+			contacts:[],
+			pageNum:10,
+			currentPage:1,
+			count:0,
+			authCode:"",
+			dialogFormVisible:false,
+			params:{
+				productCommonName:"",
+				contactId:"",
+				product_type:"",
+				product_medical_type:"",
+			},
+			sale:{
+				product_code:"",
+				sale_money:"",
+				sale_price:"",
+				sale_num:"",
+				gross_profit:"",
+				real_gross_profit:"",
+				accounting_cost:"",
+				cost_univalent:"",
+				group_id:"",
+				bill_date:new Date(),
+				hospital_id:""
+			},
+			drug:{},//选择的药品信息
+			hospitals:[],
+			saleRule:{
+				sale_num:[{validator: validateNum,trigger: 'blur,change' }],
+				bill_date:[{ required: true, message: '请选择销售时间', trigger: 'blur,change' }],
+				hospital_id:[{ required: true, message: '请选择销售机构', trigger: 'blur,change' }],
+			}
+		}
+	},
+	activated(){
+		this.getDrugsList();
+		this.getContacts();
+		this.hospitals = JSON.parse(sessionStorage["hospitals"]);
+		this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
+	},
+	mounted(){
+
+	},
+	methods:{
+		addSales(formName){
+			this.sale.sale_price = this.drug.product_price;
+			this.sale.gross_profit = (this.drug.product_price - this.drug.product_mack_price)*this.sale.sale_num;
+			this.sale.gross_profit = this.sale.gross_profit.toFixed(2);
+			this.sale.real_gross_profit = this.sale.gross_profit;
+			this.sale.accounting_cost = this.drug.product_mack_price;
+			this.sale.cost_univalent = this.drug.product_mack_price;
+			this.sale.product_code = this.drug.product_code;
+			var _self = this;
+			this.$refs[formName].validate((valid) => {
+					if (valid) {
+						_self.jquery('/iae/sales/saveSales',_self.sale,function(res){
+							_self.$confirm('新增成功', '提示', {
+									confirmButtonText:'继续添加',
+									cancelButtonText:'返回销售列表',
+									type: 'success'
+							}).then(() => {
+									_self.$refs["sale"].resetFields();
+									_self.dialogFormVisible = false;
+							}).catch(() => {
+									_self.$refs["sale"].resetFields();
+									_self.dialogFormVisible = false;
+									_self.$router.push({path:`/main/sales`});
+							});
+						});
+					} else {
+						return false;
+					}
+			});
+		},
+		returnSale(){
+			this.$router.push({path:"/main/sales"});
+		},
+		selectRow(scope){
+			this.drug = scope.row;
+			this.sale={
+				product_code:"",
+				sale_money:"",
+				sale_price:"",
+				sale_num:"",
+				gross_profit:"",
+				real_gross_profit:"",
+				accounting_cost:"",
+				cost_univalent:"",
+				group_id:"",
+				bill_date:new Date(),
+				hospital_id:""
+			},
+			this.dialogFormVisible = true;
+		},
+		formatNull(row, column, cellValue, index){
+			if(row.product_type == "基药" || row.product_type == "其它"){
+				return "-";
+			}else{
+				return cellValue;
 			}
 		},
-		activated(){
-			this.params.start = 0;
+		getContacts(){
+			var _self = this;
+			this.jquery('/iae/contacts/getAllContacts',{group_id:0},function(res){
+				_self.contacts = res.message;
+			});
+		},
+		formatterPer(row, column, cellValue){
+			var per = row.product_commission/row.product_price*100;
+			return per.toFixed(2)+"%";
+		},
+		deleteRow(scope){//删除
+			this.$confirm('是否删除?', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+			}).then(() => {
+					this.deleteItem(scope);
+			}).catch(() => {
+			});
+		},
+		deleteItem(scope){
+			var _self = this;
+			this.jquery('/iae/drugs/deleteDrugs',{
+				product_id:scope.row.product_id
+			},function(res){
+				_self.$message({message: '删除成功',type: 'success'});
+				_self.getDrugsList();
+				_self.dialogFormVisible = false;
+			});
+		},
+		//搜索所有药品信息
+		searchDrugsList(){
 			this.getDrugsList();
 		},
-		mounted(){
-			var that = this;
-			if (window.require) {
-				//获取药品信息
-		    this.ipc = window.require('electron').ipcRenderer;
-				this.ipc.on('return-drugs-data', (event, arg) => {
-				  	that.drugs = arg.data;
-				  	that.count = arg.count;
-				});
-				this.getDrugsList();
+		getDrugsList(){
+			var _self = this;
+			if(!_self.currentPage){
+				_self.currentPage = 1;
+			}
+			if(!_self.pageNum){
+				_self.pageNum = 10;
+			}
+			var page = {
+				start:(_self.currentPage-1)*_self.pageNum,
+				limit:_self.pageNum
+			}
+			this.jquery('/iae/drugs/getDrugs',{
+				data:_self.params,
+				page:page
+			},function(res){
+					_self.drugs = res.message.data;
+					_self.pageNum=parseInt(res.message.limit);
+					_self.count=res.message.totalCount;
+			});
+		},
+		reSearch(arg){
+			if(arg){
+				this.$refs["params"].resetFields();
+			}
+			this.currentPage = 1;
+			this.getDrugsList();
+		},
+		//输入购买数量后，计算购买金额、应返金额、外欠佣金的值
+		saleNumBlur(){
+			var regu = /^\+?[1-9][0-9]*$/;
+			if(this.sale.sale_num && regu.test(this.sale.sale_num)){
+				this.sale.sale_money = (this.sale.sale_num * this.drug.product_price).toFixed(2);
 			}
 		},
-		methods:{
-			//选择要进货的药品
-			selectRow(scope){
-				sessionStorage["drugs_select"] = JSON.stringify(this.drugs[scope.$index]);
-				this.$router.push("/main/salesedit");
-			},
-			//搜索药品信息
-			searchDrugsList(){
-				this.params.start = 0;
-				this.getDrugsList();
-			},
-			returnSale(){
-				this.$router.push("/main/sales");
-			},
-			getDrugsList(){
-				this.ipc.send('get-drugs-list',this.params);
-			},
-			reSearch(){
-				this.$refs["params"].resetFields();
-				this.getDrugsList();
-			},
-			handleSizeChange(val) {
-        this.pageNum = val;
-    		this.currentPage = 1;
-    		this.params.limit = this.pageNum;
-        this.getDrugsList();
-    	},
-    	handleCurrentChange(val) {
-    		this.currentPage = val;
-    		this.params.start = (val-1)*this.pageNum;
-    		this.params.limit = this.pageNum;
-				this.getDrugsList();
-    	}
+		handleSizeChange(val) {
+			this.pageNum = val;
+			this.currentPage = 1;
+			this.params.limit = this.pageNum;
+			this.getDrugsList();
+		},
+		handleCurrentChange(val) {
+			this.currentPage = val;
+			this.params.start = (val-1)*this.pageNum;
+			this.params.limit = this.pageNum;
+			this.getDrugsList();
 		}
-	});
+	}
+});
 </script>
-<style>
-
+<style scoped="scoped">
+.el-table .cell{
+	white-space: nowrap;
+}
+.el-collapse-item__content > div{
+	display: inline-block;
+	width: 30%;
+}
+.el-collapse-item__content > div > span{
+	display: inline-block;
+	width: 56px;
+	text-align: right;
+	padding-right: 10px;
+}
 </style>

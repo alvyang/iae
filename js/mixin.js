@@ -13,6 +13,20 @@ const mixin = {
           callback(res);
         }
       });
+    },
+    jqueryGet(url,data,callback){
+      var _self = this;
+      $.ajax({
+        type: "get",
+        url: _self.$bus.data.host + url,
+        data:data,
+        success: function(res) {
+          if(res.code == "111111"){
+            _self.$router.push("/login");
+          }
+          callback(res);
+        }
+      });
     }
   }
 }

@@ -28,6 +28,7 @@
 		</el-table>
 		<div class="page_div">
 			<el-pagination
+				background
 	      @size-change="handleSizeChange"
 	      @current-change="handleCurrentChange"
 	      :current-page="currentPage"
@@ -66,6 +67,7 @@
 		  </el-table>
 			<div class="page_div">
 				<el-pagination
+					background
 		      @current-change="handleRoleCurrentChange"
 		      :current-page="role.currentPage"
 		      :page-size="role.pageNum"
