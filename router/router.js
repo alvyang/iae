@@ -39,7 +39,8 @@ import password from "../views/password.vue";
 //报表管理
 import Report from "../views/report/report.vue";
 //返款管理
-import Refunds from "../views/refunds/refunds.vue";
+import Refundsale from "../views/refunds/refundsale.vue";
+import Refundpurchase from "../views/refunds/refundpurchase.vue";
 
 const router = new VueRouter({
 	routes:[{
@@ -68,14 +69,15 @@ const router = new VueRouter({
 			{path:"label",component:Label},//标签管理
 			{path:"labeledit",component:LabelEdit},
 			{path:"purchase",component:Purchase},
+			{path:"purchase",component:Purchase},
+			{path:"purchasedrugs",component:PurchaseDrugs},
+			{path:"purchaseedit",component:PurchaseEdit},
 			{path:"sales",component:Sales},
 			{path:"salesdrugs",component:SalesDrugs},
 			// {path:"salesedit",component:SalesEdit},
 			{path:"report",component:Report},
-			{path:"refunds",component:Refunds},
-			// {path:"purchase",component:Purchase},
-			// {path:"purchasedrugs",component:PurchaseDrugs},
-			// {path:"purchaseedit",component:PurchaseEdit},
+			{path:"refundsale",component:Refundsale},
+			{path:"refundpurchase",component:Refundpurchase},
 			// {path:"returnmoney",component:ReturnMoney},
 			// {path:"password",component:password},
 		]

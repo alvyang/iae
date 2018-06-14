@@ -14,11 +14,11 @@
 		    <el-button type="primary" @click="addShow" size="small">新增</el-button>
 		  </el-form-item>
 		</el-form>
-		<el-table :data="groups" style="width: 100%" :stripe="true">
+		<el-table :data="groups" style="width: 100%" :stripe="true" :border="true">
 			<el-table-column prop="group_name" label="组名称"></el-table-column>
 			<el-table-column prop="group_code" label="组编码"></el-table-column>
-			<el-table-column prop="start_time" :formatter="formatValue" label="开始时间"></el-table-column>
-      <el-table-column prop="end_time" :formatter="formatValue" label="结束时间"></el-table-column>
+			<el-table-column prop="start_time" :formatter="formatValue" label="有效期开始时间"></el-table-column>
+      <el-table-column prop="end_time" :formatter="formatValue" label="有效期结束时间"></el-table-column>
 			<el-table-column fixed="right" label="操作" width="200">
 	    <template slot-scope="scope">
 		    <el-button @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
@@ -47,10 +47,10 @@
           <el-input v-model="group.group_code" maxlength='20' auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="有效期开始日期" prop="start_time">
-          <el-date-picker v-model="group.start_time" type="date" placeholder="选择开始日期"></el-date-picker>
+          <el-date-picker v-model="group.start_time" style="width:100%;" type="date" placeholder="选择开始日期"></el-date-picker>
         </el-form-item>
         <el-form-item label="有效期结束日期" prop="end_time">
-          <el-date-picker v-model="group.end_time" type="date" placeholder="选择结束日期"></el-date-picker>
+          <el-date-picker v-model="group.end_time" style="width:100%;" type="date" placeholder="选择结束日期"></el-date-picker>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -222,7 +222,5 @@
 	})
 </script>
 <style scoped="scoped">
-  .el-date-editor{
-    width:100% !important;
-  }
+
 </style>

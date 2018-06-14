@@ -8,11 +8,11 @@
 			<div>
 				<el-form :model="drugs" status-icon :rules="drugsRule" ref="drugs" :inline="true" label-width="100px" class="demo-ruleForm">
 					<div>
-						<el-form-item label="产品通用名" prop="product_common_name">
-							<el-input v-model="drugs.product_common_name" style="width:300px;" auto-complete="off" :maxlength="50" placeholder="产品通用名"></el-input>
+						<el-form-item label="产品名称" prop="product_common_name">
+							<el-input v-model="drugs.product_common_name" @blur="drugs.product_name_pinyin = getFirstLetter(drugs.product_common_name)" style="width:300px;" auto-complete="off" :maxlength="50" placeholder="产品名称"></el-input>
 						</el-form-item>
-						<el-form-item label="产品编号" prop="product_code">
-							<el-input v-model="drugs.product_code" style="width:250px;" auto-complete="off" :maxlength="20" placeholder="产品编号"></el-input>
+						<el-form-item label="产品助记码" prop="product_name_pinyin">
+							<el-input v-model="drugs.product_name_pinyin" style="width:250px;" auto-complete="off" :maxlength="20" placeholder="产品编号"></el-input>
 						</el-form-item>
 					</div>
 					<div>
@@ -28,18 +28,37 @@
 							  </template>
 							</el-autocomplete>
 						</el-form-item>
-						<el-form-item label="产品规格" prop="product_specifications">
-							<el-input v-model="drugs.product_specifications" style="width:250px;" :maxlength="30" auto-complete="off" placeholder="产品规格"></el-input>
+						<el-form-item label="产品编号" prop="product_code">
+							<el-input v-model="drugs.product_code" style="width:250px;" :disabled="drugs.readonly?true:false" auto-complete="off" :maxlength="20" placeholder="产品编号"></el-input>
+							<el-button type="text" @click="randomCode" v-show="!drugs.readonly">随机编码</el-button>
 						</el-form-item>
 					</div>
 					<div>
 						<el-form-item label="供货单位" prop="product_supplier">
 							<el-input v-model="drugs.product_supplier" style="width:300px;" auto-complete="off" :maxlength="50" placeholder="供货单位"></el-input>
 						</el-form-item>
+						<el-form-item label="产品规格" prop="product_specifications">
+							<el-input v-model="drugs.product_specifications" style="width:250px;" :maxlength="30" auto-complete="off" placeholder="产品规格"></el-input>
+						</el-form-item>
+					</div>
+					<div>
 						<el-form-item label="联系人" prop="contacts_id">
-						  <el-select v-model="drugs.contacts_id" filterable placeholder="请选择联系人" style="width: 250px;">
+						  <el-select v-model="drugs.contacts_id" filterable placeholder="请选择联系人" style="width: 179px;">
 						    <el-option v-for="item in contacts" :key="item.contacts_id" :label="item.contacts_name" :value="item.contacts_id"></el-option>
 						  </el-select>
+						</el-form-item>
+						<el-form-item label="采购员" prop="buyer">
+							<el-input v-model="drugs.buyer" auto-complete="off" :maxlength="10" placeholder="采购员"></el-input>
+						</el-form-item>
+						<el-form-item label="商业" prop="product_business">
+							<el-autocomplete popper-class="my-autocomplete" style="width:179px;"
+							  v-model="drugs.product_business"
+							  :fetch-suggestions="querySearchBusiness"
+							  placeholder="商业" @select="handleSelectBusiness">
+							  <template slot-scope="{ item }">
+							    <div class="name">{{ item.product_business }}</div>
+							  </template>
+							</el-autocomplete>
 						</el-form-item>
 					</div>
 					<div>
@@ -84,9 +103,6 @@
 								<el-radio border label="高打(底价)"></el-radio>
 								<el-radio border label="其它"></el-radio>
 					    </el-radio-group>
-						</el-form-item>
-						<el-form-item label="采购员" prop="buyer">
-							<el-input v-model="drugs.buyer" auto-complete="off" :maxlength="10" placeholder="采购员"></el-input>
 						</el-form-item>
 					</div>
 					<div v-show="drugs.product_type == '高打(底价)'">
@@ -143,9 +159,12 @@
         }
     	};
 			var validateCode = (rule, value, callback) => {
-        if (!value) {
-          	callback(new Error('请再输入产品编号'));
-        } else {
+        // if (!value) {
+        // 	callback(new Error('请输入产品编号'));
+        // } else
+				if((this.editmessage == "修改" && this.product_code == this.drugs.product_code) || !value){
+					callback();
+        }else{
 					this.jquery("/iae/drugs/exitsCode",{product_code:this.drugs.product_code},function(res){
 						if(res.message.length > 0){
 							callback(new Error('该产品编号已存在'));
@@ -153,8 +172,7 @@
 							callback();
 						}
 					});
-
-        }
+				}
     	};
 			return {
 				drugs:{
@@ -179,9 +197,11 @@
 					product_return_explain:"",
 					buyer:"",
 					remark:"",
+					product_name_pinyin:"",
+					product_business:"",
 				},
 				drugsRule:{
-					product_common_name:[{ required: true, message: '请输入产品能用名', trigger: 'blur' }],
+					product_common_name:[{ required: true, message: '请输入产品名称', trigger: 'blur' }],
 					product_code:[{ validator: validateCode,trigger: 'blur' }],
 					product_makesmakers:[{ required: true, message: '请输入生产产家', trigger: 'blur,change' }],
 					product_specifications:[{ required: true, message: '请输入产品规格', trigger: 'blur' }],
@@ -198,14 +218,18 @@
 				price:/\d{1,10}(\.\d{1,2})?$/,
 				percent : /^100$|^(\d|[1-9]\d)(\.\d+)*$/,
 				productMakesmakers: [],//生产企业
+				business:[],//商业
+				product_code:"",//修改时，用于存放修改前的编码
 			}
 		},
 		activated(){
 			this.resetForm("drugs");
 			this.drugs.product_id = "";
 			this.contacts = JSON.parse(sessionStorage["contacts"]);
+			this.business = JSON.parse(sessionStorage["business"]);
 			if(sessionStorage["drugs_edit"]){
 				var sessionDrugs = JSON.parse(sessionStorage["drugs_edit"]);
+				this.product_code = sessionDrugs.product_code;
 				delete sessionDrugs.contacts_name;
 				this.drugs = sessionDrugs;
 				sessionStorage.removeItem('drugs_edit');
@@ -219,6 +243,29 @@
 
 		},
 		methods:{
+			randomCode(){
+				this.drugs.product_code = new Date().getTime();
+			},
+			getFirstLetter(){
+				var _self = this;
+				this.jquery("/iae/drugs/getFirstLetter",{name:this.drugs.product_common_name},function(res){//查询添加过的生产企业
+					_self.drugs.product_name_pinyin = res.message;
+				});
+			},
+			handleSelectBusiness(item) {
+				this.drugs.product_business = item.product_business
+      },
+			querySearchBusiness(queryString, cb) {
+        var productBusiness = this.business;
+        var results = queryString ? productBusiness.filter(this.createFilterBusiness(queryString)) : productBusiness;
+        // 调用 callback 返回建议列表的数据
+        cb(results);
+      },
+      createFilterBusiness(queryString) {
+        return (productBusiness) => {
+          return (productBusiness.product_business.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
+        };
+      },
 			handleSelect(item) {
 				this.drugs.product_makesmakers = item.product_makesmakers;
         this.drugs.product_supplier = item.product_supplier;
@@ -300,7 +347,7 @@
 				if(this.drugs.product_price &&
 					this.drugs.product_return_money &&
 					this.price.test(this.drugs.product_price) &&
-					this.percent.test(this.drugs.product_return_money)){
+					this.price.test(this.drugs.product_return_money)){
 
 					this.drugs.product_return_discount = (this.drugs.product_return_money/this.drugs.product_price)*100;
 					this.drugs.product_return_discount = this.drugs.product_return_discount.toFixed(2);

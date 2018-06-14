@@ -3,7 +3,7 @@
 		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
 			<div>
 			  <el-form-item label="产品名称" prop="productCommonName">
-			    <el-input v-model="params.productCommonName" @keyup.13.native="reSearch(false)" size="small" placeholder="产品名称"></el-input>
+			    <el-input v-model="params.productCommonName" @keyup.13.native="reSearch(false)" size="small" placeholder="产品名称/助记码"></el-input>
 			  </el-form-item>
 				<el-form-item label="销售机构" prop="hospitalsId">
 				 <el-select v-model="params.hospitalsId" filterable size="small" placeholder="请选择">
@@ -34,6 +34,11 @@
 					 :picker-options="pickerOptions2">
 				 </el-date-picker>
 			 </el-form-item>
+			 <el-form-item label="　商业" prop="business">
+				 <el-select v-model="params.business" style="width:178px;" size="small" filterable placeholder="请选择商业">
+					 <el-option v-for="item in business" :key="item.product_business" :label="item.product_business" :value="item.product_business"></el-option>
+				 </el-select>
+			 </el-form-item>
 		   <el-form-item>
 		     <el-button type="primary" style="margin-left: 14px;" @click="reSearch(false)" size="small">查询</el-button>
 				 <el-button type="primary" @click="reSearch(true)" size="small">重置</el-button>
@@ -44,16 +49,18 @@
 		</el-form>
 		<div class="sum_money">销售总额：<a>{{money}}</a> 元</div>
 		<el-table :data="sales" style="width: 100%" :stripe="true" :border="true">
-  			<el-table-column fixed prop="bill_date" label="日期" width="120" :formatter="formatterDate"></el-table-column>
-				<el-table-column prop="hospital_name" label="医院名称" width="180"></el-table-column>
+  			<el-table-column fixed prop="bill_date" label="日期" width="100" :formatter="formatterDate"></el-table-column>
+				<el-table-column prop="hospital_name" label="医院名称" width="140"></el-table-column>
 				<el-table-column prop="product_code" label="产品编码" width="140"></el-table-column>
 				<el-table-column prop="product_common_name" label="产品名称" width="180" ></el-table-column>
 				<el-table-column prop="product_specifications" label="产品规格" width="120"></el-table-column>
-				<el-table-column prop="product_packing" label="单位" width="60"></el-table-column>
+				<el-table-column prop="product_makesmakers" label="生产厂家" width="150"></el-table-column>
+				<el-table-column prop="product_packing" label="包装" width="60"></el-table-column>
 				<el-table-column prop="product_unit" label="单位" width="60"></el-table-column>
 				<el-table-column prop="sale_price" label="中标价" width="100"></el-table-column>
 				<el-table-column prop="sale_num" label="计划数量" width="100"></el-table-column>
 				<el-table-column prop="sale_money" label="购入金额" width="120"></el-table-column>
+				<el-table-column prop="product_business" label="商业" width="80"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="130">
 		    <template slot-scope="scope">
 			    <el-button @click.native.prevent="deleteRow(scope)" v-show="authCode.indexOf('67') > -1"  icon="el-icon-delete" type="primary" size="small"></el-button>
@@ -112,7 +119,6 @@
 	</div>
 </template>
 <script>
-	import XLSX from 'xlsx';
 	export default({
 		data(){
 			var validateNum = (rule, value, callback) => {
@@ -157,6 +163,7 @@
 				},
 				sales:[],
 				contacts:[],
+				business:[],
 				pageNum:10,
 				currentPage:1,
 				count:0,
@@ -166,7 +173,8 @@
 					productCommonName:"",
 					salesTime:[defaultStart,defaultEnd],
 					hospitalsId:"",
-					productType:""
+					productType:"",
+					business:""
 				},
 				sale:{},//修改的销售信息
 				saleRule:{
@@ -181,12 +189,19 @@
 		activated(){
 			this.getSalesList();
 			this.getHospitals();
+			this.getProductBusiness();
 			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		mounted(){
 
 		},
 		methods:{
+			getProductBusiness(){
+				var _self = this;
+				this.jquery("/iae/drugs/getProductBusiness",null,function(res){//查询商业
+					_self.business=res.message;
+				});
+			},
 			exportExcel(){
 				var url = this.$bus.data.host + "/iae/sales/exportSales?1=1";
 				if(this.params.productCommonName){
@@ -210,39 +225,6 @@
 					url+="&start="+start+"&end="+end;
 			  }
 				window.location = url;
-				// var _self = this;
-				// this.jquery('/iae/sales/getAllSales',{
-				// 	data:_self.params
-        // },function(res){
-				// 	var _headers = ['bill_date', 'hospital_name', 'product_code', 'product_common_name', 'product_specifications','product_unit','sale_price','sale_num','sale_money','product_type','buyer'];
-			  //   var _headersCha = ['日期', '销售机构', '产品编码', '产品名称', '产品规格','单位','中标价','计划数量','购入金额','品种类型','采购员']
-			  //   var _data = res.message;
-				// 	for(var i = 0 ; i < _data.length; i++){
-				// 		_data[i].bill_date = new Date(_data[i].bill_date).format('yyyy-MM-dd');
-				// 		_data[i].sale_price = parseFloat(_data[i].sale_price);
-				// 		_data[i].sale_num = parseInt(_data[i].sale_num);
-				// 		_data[i].sale_money = parseFloat(_data[i].sale_money);
-				// 	}
-			  //   var headers = _headers.map((v, i) => Object.assign({}, {v: v, position: String.fromCharCode(65+i) + 1 })).reduce((prev, next) => Object.assign({}, prev, {[next.position]: {v: next.v}}), {});
-			  //   var headersCha = _headersCha.map((v, i) => Object.assign({}, {v: v, position: String.fromCharCode(65+i) + 1 })).reduce((prev, next) => Object.assign({}, prev, {[next.position]: {v: next.v}}), {});
-			  //   var data = _data.map((v, i) => _headers.map((k, j) => Object.assign({}, { v: v[k], position: String.fromCharCode(65+j) + (i+2) })))
-			  //                 .reduce((prev, next) => prev.concat(next))
-			  //                 .reduce((prev, next) => Object.assign({}, prev, {[next.position]: {v: next.v}}), {});
-				// 	// 合并 headers 和 data
-			  //   var output = Object.assign({}, headersCha, data);
-			  //   // 获取所有单元格的位置
-			  //   var outputPos = Object.keys(output);
-			  //   // 计算出范围
-			  //   var ref = outputPos[0] + ':' + outputPos[outputPos.length - 1];
-			  //   // 构建 workbook 对象
-			  //   var wb = {
-			  //     SheetNames: ["report"],
-			  //     Sheets: {}
-			  //   };
-			  //   wb.Sheets["report"] = Object.assign({}, output, { '!ref': ref });
-			  //   // 导出 Excel
-			  //   XLSX.writeFile(wb, "report"+'.xlsx');
-        // });
 			},
 			formatterDate(row, column, cellValue){
 				var temp = cellValue.substring(0,10);
@@ -309,7 +291,6 @@
 					data:_self.params,
           page:page
         },function(res){
-						console.log(res);
 						_self.money = res.message.saleMoney;
             _self.sales = res.message.data;
             _self.pageNum=parseInt(res.message.limit);

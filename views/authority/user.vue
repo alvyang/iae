@@ -301,9 +301,6 @@
 	})
 </script>
 <style>
-  .el-date-editor{
-    width:100% !important;
-  }
 	.el-dialog__body{
 		padding-top: 0 !important;
 		padding-bottom: 0 !important;

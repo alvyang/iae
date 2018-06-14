@@ -55,6 +55,7 @@
     "imports-loader": "^0.6.5",
     "jquery": "^3.3.1",
     "json-loader": "^0.5.7",
+    "node-pinyin": "^0.2.3",
     "node-sass": "^4.8.3",
     "node-uuid": "^1.4.8",
     "node-webkit": "0.0.0",

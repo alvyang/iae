@@ -8,9 +8,17 @@
 			<el-form-item label="产品通用名" prop="productCommonName">
 		    <el-input v-model="params.productCommonName" @keyup.13.native="reSearch(false)" size="small" placeholder="产品通用名"></el-input>
 		  </el-form-item>
+			<el-form-item label="产品编号" prop="product_code">
+		    <el-input v-model="params.product_code" @keyup.13.native="reSearch(false)" size="small" placeholder="产品通用名"></el-input>
+		  </el-form-item>
 			<el-form-item label="联系人" prop="contactId">
 				<el-select v-model="params.contactId" size="small" filterable placeholder="请选择联系人">
 					<el-option v-for="item in contacts" :key="item.contacts_id" :label="item.contacts_name" :value="item.contacts_id"></el-option>
+				</el-select>
+			</el-form-item>
+			<el-form-item label="商业" prop="business">
+				<el-select v-model="params.business" style="width:178px;" size="small" filterable placeholder="请选择商业">
+					<el-option v-for="item in business" :key="item.product_business" :label="item.product_business" :value="item.product_business"></el-option>
 				</el-select>
 			</el-form-item>
 			<el-form-item label="品种类型" prop="product_type">
@@ -39,21 +47,22 @@
 		<el-table :data="drugs" style="width: 100%" :stripe="true" :border="true">
 			<el-table-column fixed prop="product_common_name" label="产品通用名" width="150"></el-table-column>
 			<el-table-column prop="product_code" label="产品编号" width="150"></el-table-column>
-			<el-table-column prop="product_makesmakers" :title="product_makesmakers" label="生产产家" width="120"></el-table-column>
+			<el-table-column prop="product_makesmakers" label="生产产家" width="120"></el-table-column>
 			<el-table-column prop="product_specifications" label="产品规格" width="120"></el-table-column>
 			<el-table-column prop="product_packing" label="包装" width="60"></el-table-column>
 			<el-table-column prop="product_unit" label="单位" width="60"></el-table-column>
+			<el-table-column prop="product_business" label="商业" width="60"></el-table-column>
 			<el-table-column prop="buyer" label="采购员" width="80"></el-table-column>
 			<el-table-column prop="product_price" label="中标价" width="80"></el-table-column>
 			<el-table-column prop="product_discount" label="扣率" width="80"></el-table-column>
 			<el-table-column prop="product_mack_price" label="打款价" width="80"></el-table-column>
 			<el-table-column prop="product_type" label="返费类型" width="100"></el-table-column>
-			<el-table-column prop="product_return_money" label="返费金额" width="80" :formatter="formatNull"></el-table-column>
+			<!-- <el-table-column prop="product_return_money" label="返费金额" width="80" :formatter="formatNull"></el-table-column>
 			<el-table-column prop="product_return_discount" label="返费率" width="80" :formatter="formatNull"></el-table-column>
-			<el-table-column prop="product_return_explain" label="返费说明" width="200" :formatter="formatNull"></el-table-column>
+			<el-table-column prop="product_return_explain" label="返费说明" width="200" :formatter="formatNull"></el-table-column> -->
 			<el-table-column prop="contacts_name" label="联系人" width="80"></el-table-column>
 			<el-table-column prop="product_medical_type" label="医保类型" width="80"></el-table-column>
-			<el-table-column prop="remark" label="备注" width="200"></el-table-column>
+			<!-- <el-table-column prop="remark" label="备注" width="200"></el-table-column> -->
 			<el-table-column fixed="right" label="操作" width="200">
 		    <template slot-scope="scope">
 					<el-button @click.native.prevent="selectRow(scope)" type="primary" size="small">选择</el-button>
@@ -103,6 +112,7 @@
 					<el-date-picker v-model="sale.bill_date" style="width:194px;" type="date" placeholder="请选择销售时间"></el-date-picker>
 				</el-form-item>
 			</el-form>
+			<div style="font-size:12px;color:#f04040;" v-show="!drug.product_code">温馨提示：该药品无产品编码，不可添加。请到药品管理中维护。</div>
       <div slot="footer" class="dialog-footer">
         <el-button size="mini" @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="primary" size="mini" @click="addSales('sale')">确 定</el-button>
@@ -136,6 +146,8 @@ export default({
 				contactId:"",
 				product_type:"",
 				product_medical_type:"",
+				product_code:"",
+				business:""
 			},
 			sale:{
 				product_code:"",
@@ -154,14 +166,15 @@ export default({
 			hospitals:[],
 			saleRule:{
 				sale_num:[{validator: validateNum,trigger: 'blur,change' }],
-				bill_date:[{ required: true, message: '请选择销售时间', trigger: 'blur,change' }],
-				hospital_id:[{ required: true, message: '请选择销售机构', trigger: 'blur,change' }],
+				bill_date:[{ required: true, message: '请选择销售时间', trigger: 'change' }],
+				hospital_id:[{ required: true, message: '请选择销售机构', trigger: 'change' }],
 			}
 		}
 	},
 	activated(){
 		this.getDrugsList();
 		this.getContacts();
+		this.getProductBusiness();
 		this.hospitals = JSON.parse(sessionStorage["hospitals"]);
 		this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
 	},
@@ -169,7 +182,16 @@ export default({
 
 	},
 	methods:{
+		getProductBusiness(){
+			var _self = this;
+			this.jquery("/iae/drugs/getProductBusiness",null,function(res){//查询商业
+				_self.business=res.message;
+			});
+		},
 		addSales(formName){
+			if(!this.drug.product_code){
+				return;
+			}
 			this.sale.sale_price = this.drug.product_price;
 			this.sale.gross_profit = (this.drug.product_price - this.drug.product_mack_price)*this.sale.sale_num;
 			this.sale.gross_profit = this.sale.gross_profit.toFixed(2);
