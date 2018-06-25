@@ -221,7 +221,6 @@ export default({
     editRow(scope){//编辑返款信息
       this.dialogFormVisible = true;
       this.refund = scope.row;
-      console.log(this.refund);
       if(this.refund.product_return_money && !this.refund.refunds_should_money){
         var num = this.refund.sale_num?this.refund.sale_num:this.refund.purchase_number;
         if(this.refund.product_type=="高打(底价)"){
@@ -236,6 +235,7 @@ export default({
     reSearch(arg){
       if(arg){
         this.$refs["params"].resetFields();
+        this.params.returnTime = null;
       }
       this.currentPage = 1;
       this.getPurchasesList();
@@ -258,9 +258,9 @@ export default({
       },function(res){
           _self.purchases = res.message.data;
           _self.refundMoney = {
-            rrm:res.message.rrm,
-            rsm:res.message.rsm,
-            sc:res.message.sc
+            rrm:(res.message.rrm+"").replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+            rsm:(res.message.rsm+"").replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+            sc:(res.message.sc+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',')
           };
           _self.pageNum=parseInt(res.message.limit);
           _self.count=res.message.totalCount;

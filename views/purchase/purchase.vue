@@ -61,6 +61,7 @@
 				<el-table-column prop="purchase_mack_price" label="打款价" width="80"></el-table-column>
 				<el-table-column prop="purchase_price" label="中标价" width="80"></el-table-column>
 				<el-table-column prop="puchase_gross_rate" label="毛利率" width="80" :formatter="formatPercent"></el-table-column>
+				<el-table-column prop="contacts_name" label="联系人" width="80"></el-table-column>
 				<el-table-column prop="make_money_time" label="打款时间" width="120" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="send_out_time" label="发货时间" width="120" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="storage_time" label="入库时间" width="120" :formatter="formatterDate"></el-table-column>
@@ -299,6 +300,7 @@
 			editRow(scope){//编辑药品信息
 				this.dialogFormVisible = true;
 				this.purchase = scope.row;
+				this.purchase.purchase_number_temp = scope.row.purchase_number;
 			},
 			deleteRow(scope){//删除
 				this.$confirm('是否删除?', '提示', {
@@ -314,7 +316,11 @@
 				var _self = this;
 				this.jquery('/iae/purchase/deletePurchases',{
 					purchase_id:scope.row.purchase_id,
-					delete_flag:""
+					delete_flag:"",
+					storage_time:scope.row.storage_time,
+					product_id:scope.row.product_id,
+					stock:scope.row.stock,
+					purchase_number:scope.row.purchase_number
 				},function(res){
 					_self.$message({message: '删除成功',type: 'success'});
 					_self.getPurchasesList();
@@ -355,11 +361,10 @@
 					data:_self.params,
 					page:page
 				},function(res){
-						console.log(res);
 						_self.purchases = res.message.data;
 						_self.pageNum=parseInt(res.message.limit);
 						_self.count=res.message.totalCount;
-						_self.money = res.message.purchaseMoney;
+						_self.money = res.message.purchaseMoney.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 				});
 			},
 			handleSizeChange(val) {

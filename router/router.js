@@ -11,9 +11,12 @@ import Drugs from "../views/drugs/drugs.vue";
 import DrugsEdit from "../views/drugs/drugsEdit.vue";
 //进货记录页面
 import Purchase from "../views/purchase/purchase.vue";
-import PurchaseEdit from "../views/purchase/purchaseEdit.vue";
 import PurchaseDrugs from "../views/purchase/purchaseDrugs.vue";
-import ReturnMoney from "../views/purchase/ReturnMoney.vue";
+// import PurchaseEdit from "../views/purchase/purchaseEdit.vue";
+// import ReturnMoney from "../views/purchase/ReturnMoney.vue";
+//调货记录页面
+import Allot from "../views/allot/allot.vue";
+import AllotDrugs from "../views/allot/allotDrugs.vue";
 //销售记录页面
 import Sales from "../views/sales/sales.vue";
 import SalesDrugs from "../views/sales/salesDrugs.vue";
@@ -42,6 +45,9 @@ import Report from "../views/report/report.vue";
 import Refundsale from "../views/refunds/refundsale.vue";
 import Refundpurchase from "../views/refunds/refundpurchase.vue";
 
+//库存
+import Stock from "../views/stock/stock.vue";
+
 const router = new VueRouter({
 	routes:[{
 		path:"/",
@@ -69,17 +75,16 @@ const router = new VueRouter({
 			{path:"label",component:Label},//标签管理
 			{path:"labeledit",component:LabelEdit},
 			{path:"purchase",component:Purchase},
-			{path:"purchase",component:Purchase},
 			{path:"purchasedrugs",component:PurchaseDrugs},
-			{path:"purchaseedit",component:PurchaseEdit},
+			{path:"allot",component:Allot},
+			{path:"allotdrugs",component:AllotDrugs},
 			{path:"sales",component:Sales},
 			{path:"salesdrugs",component:SalesDrugs},
-			// {path:"salesedit",component:SalesEdit},
 			{path:"report",component:Report},
 			{path:"refundsale",component:Refundsale},
 			{path:"refundpurchase",component:Refundpurchase},
-			// {path:"returnmoney",component:ReturnMoney},
-			// {path:"password",component:password},
+			{path:"stock",component:Stock},
+			{path:"password",component:password},
 		]
 	}]
 });

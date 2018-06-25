@@ -62,6 +62,9 @@
 				}
 			}
 		},
+		activated(){
+			this.$refs['params'].resetFields();
+		},
 		mounted(){
 			this.params.username = sessionStorage["username"];
 		},
@@ -74,18 +77,13 @@
         this.$refs[formName].validate((valid) => {
         	if (valid) {
             var _self = this;
-            $.ajax({
-              type: "post",
-              url: "http://139.129.238.114/iae/login/password",
-              data:_self.params,
-              success: function(res) {
-                if(res.code == "100000"){//验证码错识
-                  _self.$message.error("旧密码错误！");
-                } else if(res.code == "000000"){
-                  _self.$message.success("修改成功！");
-                }
-              }
-            });
+						this.jquery('/iae/login/password',_self.params,function(res){
+							if(res.code == "100000"){//验证码错识
+								_self.$message.error("旧密码错误！");
+							} else if(res.code == "000000"){
+								_self.$message.success("修改成功！");
+							}
+						});
         	} else {
           		return false;
         	}

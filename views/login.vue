@@ -6,6 +6,9 @@
         <div class="login_operation_title">登&nbsp&nbsp&nbsp陆</div>
         <div style="padding-left:20px;padding-right:20px;margin-top:16px;">
           <el-form :model="login" status-icon :rules="rules" ref="login" label-width="0px" class="demo-ruleForm">
+            <el-form-item prop="groupCode">
+              <el-input type="text" class="group" style="width:320px;" @keyup.13.native="submitForm('login')" v-model="login.groupCode" placeholder="请输入组编码"></el-input>
+            </el-form-item>
             <el-form-item prop="username">
               <el-input type="text" class="username" style="width:320px;" @keyup.13.native="submitForm('login')" v-model="login.username" placeholder="请输入用户名"></el-input>
             </el-form-item>
@@ -19,6 +22,9 @@
               </div>
             </el-form-item>
           </el-form>
+          <div style="margin-bottom:5px;">
+            <el-checkbox v-model="login.remember">记住密码</el-checkbox>
+          </div>
           <el-button type="primary" style="width:100%;font-size28px;" @keyup.13="submitForm('login')" @click="submitForm('login')">登&nbsp&nbsp&nbsp陆</el-button>
         </div>
       </div>
@@ -30,6 +36,7 @@
   export default({
     data(){
       return {
+        session:null,
         datetime:"",
         login:{
           username:"",
@@ -37,8 +44,11 @@
           machineCode:"",
           code:"",
           version:p.version,
+          remember:true,
+          groupCode:""
         },
         rules: {
+          groupCode:[{required: true, message: '请输入组编码', trigger: 'blur'}],
           username:[{required: true, message: '请输入用户名', trigger: 'blur'}],
           password:[{required: true, message: '请输入密码', trigger: 'blur' }],
           code:[{required: true, message: '请输入验证码', trigger: 'blur' }]
@@ -48,6 +58,7 @@
       }
     },
     activated(){
+      this.getCookies("login_message");
       this.refreshCode();
       this.datetime = new Date().getTime();
       this.height = $(window).height();
@@ -57,9 +68,48 @@
       });
     },
     mounted(){
-
+      this.session = window.require('electron').remote.session;
     },
     methods:{
+      setCookie(name, value){
+        let Days = 60;
+        let exp = new Date();
+        let date = Math.round(exp.getTime() / 1000) + Days * 24 * 60 * 60;
+        const cookie = {
+          url: this.$bus.data.host,
+          name: name,
+          value: value,
+          expirationDate: date
+        };
+        this.session.defaultSession.cookies.set(cookie, (error) => {
+          if (error) console.error(error);
+        });
+      },
+      clearCookies(){
+        this.session.defaultSession.clearStorageData({
+          origin: this.$bus.data.host,
+          storages: ['cookies']
+        }, function (error) {
+          if (error) console.error(error);
+        })
+      },
+      getCookies(){
+        var _self = this;
+        this.session.defaultSession.cookies.get({ url: this.$bus.data.host}, function (error, cookies) {
+          if (cookies.length > 0) {
+            for(var i = 0 ; i < cookies.length ; i++){
+              if(cookies[i].name == "login_message"){
+                var temp = JSON.parse(cookies[i].value);
+                _self.login.username = temp.username;
+                _self.login.password = temp.password;
+                _self.login.remember = temp.remember;
+                _self.login.groupCode = temp.groupCode;
+                break;
+              }
+            }
+          }
+        });
+      },
       refreshCode(){
         this.datetime = new Date().getTime();
       },
@@ -86,9 +136,11 @@
                     _self.refreshCode();
                     _self.$message.error("该电脑没有授权登陆");
                   }  else if(res.code == "000000"){
+                    if(_self.login.remember){
+                      _self.setCookie("login_message",JSON.stringify(_self.login),1000 * 60 * 60);
+                    }
                     sessionStorage["user"] = JSON.stringify(res.message[0]);
        							_self.$router.push("/main");
-
        						}
        					}
        				});
@@ -115,6 +167,11 @@
   }
   .code .el-input{
     width:180px;
+  }
+  .group input{
+    background: url("../img/group.png") 8px center no-repeat;
+    background-size: 20px 20px;
+    text-indent: 20px;
   }
   .code input{
     background: url("../img/code.png") 8px center no-repeat;
@@ -144,17 +201,17 @@
   }
   .login_operation{
     background: #fff;
-    height: 300px;
+    height: 390px;
     border-radius: 4px;
   }
   .login_div{
     width: 360px;
-    height: 300px;
+    height: 390px;
     position: absolute;
     left:50%;
     top: 50%;
     margin-left: -180px;
-    margin-top:-180px;
+    margin-top:-210px;
   }
   .login_title{
     padding-bottom:20px;

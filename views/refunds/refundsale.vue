@@ -241,6 +241,7 @@ export default({
     reSearch(arg){
       if(arg){
         this.$refs["params"].resetFields();
+        this.params.returnTime = null;
       }
       this.currentPage = 1;
       this.getRefundsList();
@@ -263,9 +264,9 @@ export default({
       },function(res){
           _self.refunds = res.message.data;
           _self.refundMoney = {
-            rrm:res.message.rrm,
-            rsm:res.message.rsm,
-            sc:res.message.sc
+            rrm:(res.message.rrm+"").replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+            rsm:(res.message.rsm+"").replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+            sc:(res.message.sc+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',')
           };
           _self.pageNum=parseInt(res.message.limit);
           _self.count=res.message.totalCount;

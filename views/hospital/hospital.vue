@@ -39,10 +39,10 @@
 		<el-dialog :title="title == 1?'新增医院':'修改医院'" width="500px" :visible.sync="dialogFormVisible">
 			<el-form :model="hospital" status-icon :rules="hospitalRule" ref="hospital" label-width="80px" class="demo-ruleForm">
 				<el-form-item label="销售机构" prop="hospital_name">
-					<el-input v-model="hospital.hospital_name" auto-complete="off" :maxlength="50" placeholder="请输入销售机构名称"></el-input>
+					<el-input v-model="hospital.hospital_name" auto-complete="off" style="width:350px;" :maxlength="50" placeholder="请输入销售机构名称"></el-input>
 				</el-form-item>
 				<el-form-item label="机构地址" prop="hospital_address">
-					<el-input v-model="hospital.hospital_address" auto-complete="off" :maxlength="100" placeholder="请输入机构地址"></el-input>
+					<el-input v-model="hospital.hospital_address" auto-complete="off" style="width:350px;" :maxlength="100" placeholder="请输入机构地址"></el-input>
 				</el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">

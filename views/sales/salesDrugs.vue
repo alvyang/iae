@@ -63,7 +63,7 @@
 			<el-table-column prop="contacts_name" label="联系人" width="80"></el-table-column>
 			<el-table-column prop="product_medical_type" label="医保类型" width="80"></el-table-column>
 			<!-- <el-table-column prop="remark" label="备注" width="200"></el-table-column> -->
-			<el-table-column fixed="right" label="操作" width="200">
+			<el-table-column fixed="right" label="操作" width="80">
 		    <template slot-scope="scope">
 					<el-button @click.native.prevent="selectRow(scope)" type="primary" size="small">选择</el-button>
 		    </template>
@@ -93,8 +93,14 @@
 			  </el-collapse-item>
 			</el-collapse>
 			<el-form :model="sale" status-icon :rules="saleRule" style="margin-top:20px;" :inline="true" ref="sale" label-width="100px" class="demo-ruleForm">
+				<div>
+					<el-form-item label="销售类型" prop="sale_type">
+						<el-radio v-model="sale.sale_type" label="1">销售出库</el-radio>
+						<el-radio v-model="sale.sale_type" label="2">销售退回</el-radio>
+					</el-form-item>
+				</div>
 				<el-form-item label="计划数量" prop="sale_num" :maxlength="10" :required="true" >
-					<el-input v-model="sale.sale_num" style="width:194px;" placeholder="请输入计划数量" @blur="saleNumBlur();"></el-input>
+					<el-input v-model="sale.sale_num" style="width:194px;" placeholder="请输入计划数量"></el-input>
 				</el-form-item>
 				<el-form-item label="购入金额" prop="sale_money">
 					<el-input v-model="sale.sale_money" style="width:194px;"  auto-complete="off" :readonly="true"></el-input>
@@ -124,12 +130,13 @@
 export default({
 	data(){
 		var validateNum = (rule, value, callback) => {
-			var regu = /^\+?[1-9][0-9]*$/;
+			var regu = /^(0|[1-9][0-9]*|-[1-9][0-9]*)$/;
 			if (value === '') {
 				callback(new Error('请输入计划数量'));
 			} else if(!regu.test(value)){
-				callback(new Error('请输入正整数'));
+				callback(new Error('请输入整数'));
 			} else {
+				this.sale.sale_money = (this.sale.sale_num * this.drug.product_price).toFixed(2);
 				callback();
 			}
 		};
@@ -160,12 +167,13 @@ export default({
 				cost_univalent:"",
 				group_id:"",
 				bill_date:new Date(),
-				hospital_id:""
+				hospital_id:"",
+				sale_type:"1"
 			},
 			drug:{},//选择的药品信息
 			hospitals:[],
 			saleRule:{
-				sale_num:[{validator: validateNum,trigger: 'blur,change' }],
+				sale_num:[{validator: validateNum,trigger: 'blur' }],
 				bill_date:[{ required: true, message: '请选择销售时间', trigger: 'change' }],
 				hospital_id:[{ required: true, message: '请选择销售机构', trigger: 'change' }],
 			}
@@ -199,6 +207,9 @@ export default({
 			this.sale.accounting_cost = this.drug.product_mack_price;
 			this.sale.cost_univalent = this.drug.product_mack_price;
 			this.sale.product_code = this.drug.product_code;
+			this.sale.product_type = this.drug.product_type;
+			this.sale.product_id = this.drug.product_id;
+			this.sale.stock = this.drug.stock;
 			var _self = this;
 			this.$refs[formName].validate((valid) => {
 					if (valid) {
@@ -226,19 +237,9 @@ export default({
 		},
 		selectRow(scope){
 			this.drug = scope.row;
-			this.sale={
-				product_code:"",
-				sale_money:"",
-				sale_price:"",
-				sale_num:"",
-				gross_profit:"",
-				real_gross_profit:"",
-				accounting_cost:"",
-				cost_univalent:"",
-				group_id:"",
-				bill_date:new Date(),
-				hospital_id:""
-			},
+			if(this.$refs["sale"]){
+				this.$refs["sale"].resetFields();
+			}
 			this.dialogFormVisible = true;
 		},
 		formatNull(row, column, cellValue, index){
@@ -309,13 +310,6 @@ export default({
 			}
 			this.currentPage = 1;
 			this.getDrugsList();
-		},
-		//输入购买数量后，计算购买金额、应返金额、外欠佣金的值
-		saleNumBlur(){
-			var regu = /^\+?[1-9][0-9]*$/;
-			if(this.sale.sale_num && regu.test(this.sale.sale_num)){
-				this.sale.sale_money = (this.sale.sale_num * this.drug.product_price).toFixed(2);
-			}
 		},
 		handleSizeChange(val) {
 			this.pageNum = val;

@@ -211,6 +211,7 @@
 				this.purchase.purchase_price = this.drug.product_price;
 				this.purchase.purchase_mack_price = this.drug.product_mack_price;
 				this.purchase.drug_id = this.drug.product_id;
+				this.purchase.stock = this.drug.stock,
 				this.purchase.puchase_gross_rate = (100 - this.drug.product_discount).toFixed(0);
 				this.$refs[formName].validate((valid) => {
 						if (valid) {
@@ -261,13 +262,10 @@
 			handleSizeChange(val) {
         this.pageNum = val;
     		this.currentPage = 1;
-    		this.params.limit = this.pageNum;
         this.getDrugsList();
     	},
     	handleCurrentChange(val) {
     		this.currentPage = val;
-    		this.params.start = (val-1)*this.pageNum;
-    		this.params.limit = this.pageNum;
 				this.getDrugsList();
     	}
 		}

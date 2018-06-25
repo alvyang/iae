@@ -16,12 +16,18 @@
 			 	</el-select>
 			 </el-form-item>
 			 <el-form-item label="品种类型" prop="productType">
-				 <el-select v-model="params.productType" style="width: 240px;" size="small" multiple placeholder="请选择">
+				 <el-select v-model="params.productType" style="width:178px;" size="small" multiple placeholder="请选择">
 					 <el-option key="普药" label="普药" value="普药"></el-option>
 					 <el-option key="佣金" label="佣金" value="佣金"></el-option>
 					 <el-option key="高打" label="高打" value="高打"></el-option>
 					 <el-option key="高打(底价)" label="高打(底价)" value="高打(底价)"></el-option>
 					 <el-option key="其它" label="其它" value="其它"></el-option>
+				 </el-select>
+			 </el-form-item>
+			 <el-form-item label="销售类型" prop="sale_type">
+				 <el-select v-model="params.sale_type" style="width:178px;" size="small" placeholder="请选择">
+					 <el-option key="1" label="销售出库" value="1"></el-option>
+					 <el-option key="2" label="销售退回" value="2"></el-option>
 				 </el-select>
 			 </el-form-item>
 		 </div>
@@ -57,9 +63,9 @@
 				<el-table-column prop="product_makesmakers" label="生产厂家" width="150"></el-table-column>
 				<el-table-column prop="product_packing" label="包装" width="60"></el-table-column>
 				<el-table-column prop="product_unit" label="单位" width="60"></el-table-column>
-				<el-table-column prop="sale_price" label="中标价" width="100"></el-table-column>
-				<el-table-column prop="sale_num" label="计划数量" width="100"></el-table-column>
-				<el-table-column prop="sale_money" label="购入金额" width="120"></el-table-column>
+				<el-table-column prop="sale_price" label="中标价" width="80"></el-table-column>
+				<el-table-column prop="sale_num" label="计划数量" width="80"></el-table-column>
+				<el-table-column prop="sale_money" label="购入金额" width="80"></el-table-column>
 				<el-table-column prop="product_business" label="商业" width="80"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="130">
 		    <template slot-scope="scope">
@@ -92,11 +98,17 @@
 			  </el-collapse-item>
 			</el-collapse>
 			<el-form :model="sale" status-icon :rules="saleRule" style="margin-top:20px;" :inline="true" ref="sale" label-width="100px" class="demo-ruleForm">
+				<div>
+					<el-form-item label="销售类型" prop="sale_type">
+						<el-radio disabled v-model="sale.sale_type" label="1">销售出库</el-radio>
+	  				<el-radio disabled v-model="sale.sale_type" label="2">销售退回</el-radio>
+					</el-form-item>
+				</div>
 				<el-form-item label="计划数量" prop="sale_num" :maxlength="10" :required="true" >
-					<el-input v-model="sale.sale_num" style="width:194px;" placeholder="请输入计划数量" @blur="saleNumBlur();"></el-input>
+					<el-input v-model="sale.sale_num" style="width:194px;" placeholder="请输入计划数量"></el-input>
 				</el-form-item>
 				<el-form-item label="购入金额" prop="sale_money">
-					<el-input v-model="sale.sale_money" style="width:194px;"  auto-complete="off" :readonly="true"></el-input>
+					<el-input v-model="sale.sale_money" style="width:194px;" :readonly="true"></el-input>
 				</el-form-item>
 				<el-form-item label="销售机构" prop="hospital_id">
 					<el-select v-model="sale.hospital_id" filterable placeholder="请选择销售机构">
@@ -122,12 +134,13 @@
 	export default({
 		data(){
 			var validateNum = (rule, value, callback) => {
-				var regu = /^\+?[1-9][0-9]*$/;
+				var regu = /^(0|[1-9][0-9]*|-[1-9][0-9]*)$/;
 				if (value === '') {
 					callback(new Error('请输入计划数量'));
 				} else if(!regu.test(value)){
-					callback(new Error('请输入正整数'));
+					callback(new Error('请输入整数'));
 				} else {
+					this.sale.sale_money = (this.sale.sale_num * this.sale.sale_price).toFixed(2);
 					callback();
 				}
 			};
@@ -174,11 +187,12 @@
 					salesTime:[defaultStart,defaultEnd],
 					hospitalsId:"",
 					productType:"",
+					// sale_type:"",
 					business:""
 				},
 				sale:{},//修改的销售信息
 				saleRule:{
-					sale_num:[{validator: validateNum,trigger: 'blur,change' }],
+					sale_num:[{validator: validateNum,trigger: 'blur' }],
 					bill_date:[{ required: true, message: '请选择销售时间', trigger: 'blur,change' }],
 					hospital_id:[{ required: true, message: '请选择销售机构', trigger: 'blur,change' }],
 				},
@@ -235,6 +249,7 @@
 			editRow(scope){//编辑药品信息
 				this.dialogFormVisible = true;
 				this.sale = scope.row;
+				this.sale.sale_num_temp = scope.row.sale_num;
 			},
 			deleteRow(scope){//删除
 				this.$confirm('是否删除?', '提示', {
@@ -250,7 +265,11 @@
 				var _self = this;
 				this.jquery('/iae/sales/deleteSales',{
 					sale_id:scope.row.sale_id,
-					delete_flag:""
+					delete_flag:"",
+					product_type:scope.row.product_type,
+					stock:scope.row.stock,
+					product_id:scope.row.product_id,
+					sale_num:scope.row.sale_num
 				},function(res){
 					_self.$message({message: '删除成功',type: 'success'});
 					_self.getSalesList();
@@ -291,7 +310,7 @@
 					data:_self.params,
           page:page
         },function(res){
-						_self.money = res.message.saleMoney;
+						_self.money = res.message.saleMoney.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             _self.sales = res.message.data;
             _self.pageNum=parseInt(res.message.limit);
     				_self.count=res.message.totalCount;
@@ -299,7 +318,6 @@
 			},
 			editSales(formName){
 				var _self = this;
-				this.sale.sale_price = this.sale.product_price;
 				this.sale.gross_profit = this.sale.cost_univalent*this.sale.sale_num;
 				this.sale.gross_profit = this.sale.gross_profit.toFixed(2);
 				this.$refs[formName].validate((valid) => {
@@ -313,12 +331,6 @@
 							return false;
 						}
 				});
-			},
-			saleNumBlur(){
-				var regu = /^\+?[1-9][0-9]*$/;
-				if(this.sale.sale_num && regu.test(this.sale.sale_num)){
-					this.sale.sale_money = (this.sale.sale_num * this.sale.sale_price).toFixed(2);
-				}
 			},
 			handleSizeChange(val) {
         this.pageNum = val;
