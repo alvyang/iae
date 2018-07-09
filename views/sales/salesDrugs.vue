@@ -39,9 +39,9 @@
 				</el-select>
 			</el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" @click="searchDrugsList" size="small">查询</el-button>
-				<el-button type="primary" @click="reSearch" size="small">重置</el-button>
-				<el-button type="primary" @click="returnSale" size="small">返回列表</el-button>
+		    <el-button type="primary" v-dbClick @click="searchDrugsList" size="small">查询</el-button>
+				<el-button type="primary" v-dbClick @click="reSearch" size="small">重置</el-button>
+				<el-button type="primary" v-dbClick @click="returnSale" size="small">返回列表</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="drugs" style="width: 100%" :stripe="true" :border="true">
@@ -65,7 +65,7 @@
 			<!-- <el-table-column prop="remark" label="备注" width="200"></el-table-column> -->
 			<el-table-column fixed="right" label="操作" width="80">
 		    <template slot-scope="scope">
-					<el-button @click.native.prevent="selectRow(scope)" type="primary" size="small">选择</el-button>
+					<el-button v-dbClick @click.native.prevent="selectRow(scope)" type="primary" size="small">选择</el-button>
 		    </template>
 			</el-table-column>
 		</el-table>
@@ -120,8 +120,8 @@
 			</el-form>
 			<div style="font-size:12px;color:#f04040;" v-show="!drug.product_code">温馨提示：该药品无产品编码，不可添加。请到药品管理中维护。</div>
       <div slot="footer" class="dialog-footer">
-        <el-button size="mini" @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" size="mini" @click="addSales('sale')">确 定</el-button>
+        <el-button size="mini" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" v-dbClick :loading="loading" size="mini" @click="addSales('sale')">确 定</el-button>
       </div>
     </el-dialog>
 	</div>
@@ -148,6 +148,7 @@ export default({
 			count:0,
 			authCode:"",
 			dialogFormVisible:false,
+			loading:false,
 			params:{
 				productCommonName:"",
 				contactId:"",
@@ -200,6 +201,7 @@ export default({
 			if(!this.drug.product_code){
 				return;
 			}
+			this.loading = true;
 			this.sale.sale_price = this.drug.product_price;
 			this.sale.gross_profit = (this.drug.product_price - this.drug.product_mack_price)*this.sale.sale_num;
 			this.sale.gross_profit = this.sale.gross_profit.toFixed(2);
@@ -221,9 +223,11 @@ export default({
 							}).then(() => {
 									_self.$refs["sale"].resetFields();
 									_self.dialogFormVisible = false;
+									_self.loading = false;
 							}).catch(() => {
 									_self.$refs["sale"].resetFields();
 									_self.dialogFormVisible = false;
+									_self.loading = false;
 									_self.$router.push({path:`/main/sales`});
 							});
 						});

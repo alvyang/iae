@@ -40,10 +40,10 @@
 			 </el-select>
 		 </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-show="authCode.indexOf('76') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="small">查询</el-button>
-				<el-button type="primary" @click="reSearch(true)" size="small">重置</el-button>
-		    <el-button type="primary" v-show="authCode.indexOf('73') > -1"  @click="add" size="small">新增</el-button>
-				<el-button type="primary" v-show="authCode.indexOf('77') > -1"  @click="exportExcel" size="small">导出</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('56') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="small">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('56') > -1" @click="reSearch(true)" size="small">重置</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('53') > -1"  @click="add" size="small">新增</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('57') > -1"  @click="exportExcel" size="small">导出</el-button>
 		  </el-form-item>
 		</el-form>
 		<div class="sum_money_purchase">
@@ -76,8 +76,8 @@
 				</el-table-column>
   			<el-table-column fixed="right" label="操作" width="130">
 			    <template slot-scope="scope">
-				    <el-button v-show="authCode.indexOf('74') > -1" @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
-		        <el-button v-show="authCode.indexOf('75') > -1" @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
+				    <el-button v-show="authCode.indexOf('55') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
+		        <el-button v-show="authCode.indexOf('54') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
 			    </template>
   			</el-table-column>
 		</el-table>
@@ -136,8 +136,8 @@
 			 </el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button size="mini" @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" size="mini" @click="editPurchases('purchase')">确 定</el-button>
+        <el-button size="mini" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" v-dbClick size="mini" :loading="loading" @click="editPurchases('purchase')">确 定</el-button>
       </div>
     </el-dialog>
 	</div>
@@ -196,6 +196,7 @@
 				count:0,
 				remarks:[],
 				dialogFormVisible:false,
+				loading:false,
 				params:{
 					productCommonName:"",
 					contactId:"",
@@ -268,10 +269,12 @@
       },
 			editPurchases(formName){
 				var _self = this;
+				this.loading = true;
 				this.$refs[formName].validate((valid) => {
 						if (valid) {
 							_self.jquery('/iae/purchase/editPurchase',_self.purchase,function(res){
 								_self.dialogFormVisible = false;
+								_self.loading = false;
 								_self.$message({message: '修改成功',type: 'success'});
 								_self.getPurchasesList();
 							});
@@ -301,6 +304,7 @@
 				this.dialogFormVisible = true;
 				this.purchase = scope.row;
 				this.purchase.purchase_number_temp = scope.row.purchase_number;
+				this.purchase.storage_time_temp = scope.row.storage_time;
 			},
 			deleteRow(scope){//删除
 				this.$confirm('是否删除?', '提示', {
@@ -364,7 +368,7 @@
 						_self.purchases = res.message.data;
 						_self.pageNum=parseInt(res.message.limit);
 						_self.count=res.message.totalCount;
-						_self.money = res.message.purchaseMoney.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+						_self.money = (res.message.purchaseMoney+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 				});
 			},
 			handleSizeChange(val) {

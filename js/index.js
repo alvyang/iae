@@ -10,6 +10,19 @@ Vue.use(VueBus);
 import mixin from './mixin.js'
 Vue.mixin(mixin)
 
+Vue.directive('dbClick', {
+  inserted(el, binding) {
+    el.addEventListener('click', e => {
+      if(!el.disabled) {
+        el.disabled = true;
+        let timer = setTimeout( () => {
+          el.disabled = false;
+        },1000)
+      }
+    })
+  }
+});
+
 Date.prototype.format = function(fmt) {
      var o = {
         "M+" : this.getMonth()+1,                 //月份

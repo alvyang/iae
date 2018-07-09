@@ -9,9 +9,9 @@
 		    <el-input v-model="params.hospital_name" @keyup.13.native="reSearch(false)" size="small" placeholder="机构名称"></el-input>
 		  </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" @click="reSearch(false)" size="small">查询</el-button>
-				<el-button type="primary" @click="reSearch(true)" size="small">重置</el-button>
-		    <el-button type="primary" @click="addShow" size="small">新增</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('31') > -1" @click="reSearch(false)" size="small">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('31') > -1" @click="reSearch(true)" size="small">重置</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('28') > -1" @click="addShow" size="small">新增</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="hospitals" style="width: 100%" :stripe="true">
@@ -19,8 +19,8 @@
 			<el-table-column prop="hospital_address" label="机构地址"></el-table-column>
 			<el-table-column fixed="right" label="操作" width="200">
 		    <template slot-scope="scope">
-			    <el-button @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
-         	<el-button @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
+			    <el-button v-dbClick v-show="authCode.indexOf('29') > -1" @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
+         	<el-button v-dbClick v-show="authCode.indexOf('30') > -1" @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
 		    </template>
 			</el-table-column>
 		</el-table>
@@ -46,8 +46,8 @@
 				</el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button size="mini" @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" size="mini" @click="add('hospital')">确 定</el-button>
+        <el-button size="mini" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" v-dbClick :loading="loading" size="mini" @click="add('hospital')">确 定</el-button>
       </div>
     </el-dialog>
 	</div>
@@ -65,6 +65,8 @@
 					hospital_name:[{ required: true, message: '请输入机构名称', trigger: 'blur' }],
 				},
 				title:1,
+				authCode:"",
+				loading:false,
 				hospitals:[],
 				pageNum:10,
 				currentPage:1,
@@ -79,7 +81,7 @@
 			this.getHospitalsList();
 		},
 		mounted(){
-
+			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		methods:{
 			editRow(scope){//编辑药品信息
@@ -120,22 +122,24 @@
 			},
 			add(formName){
 				var _self = this;
+				this.loading = true;
         this.$refs[formName].validate((valid) => {
           if (valid) {
             if(this.title == 1){
               this.jquery('/iae/hospitals/saveHospitals',_self.hospital,function(res){
                 _self.$message({message: '新增成功',type: 'success'});
                 _self.dialogFormVisible = false;
+								_self.loading = false;
 								_self.getHospitalsList();
               });
             }else{
               this.jquery('/iae/hospitals/editHospitals',_self.hospital,function(res){
                 _self.$message({message: '修改成功',type: 'success'});
+								_self.loading = false;
                 _self.dialogFormVisible = false;
               });
             }
           } else {
-            console.log('error submit!!');
             return false;
           }
         });

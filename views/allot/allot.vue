@@ -27,9 +27,9 @@
 				</el-date-picker>
  		 	</el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-show="authCode.indexOf('76') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="small">查询</el-button>
-				<el-button type="primary" @click="reSearch(true)" size="small">重置</el-button>
-		    <el-button type="primary" v-show="authCode.indexOf('73') > -1"  @click="add" size="small">新增</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('61') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="small">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('61') > -1" @click="reSearch(true)" size="small">重置</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('58') > -1" @click="add" size="small">新增</el-button>
 		  </el-form-item>
 		</el-form>
 		<div class="sum_money_allot">
@@ -53,8 +53,8 @@
 				<el-table-column fixed="right" prop="allot_return_flag" label="是否返款" width="80"></el-table-column>
 				<el-table-column fixed="right" label="操作" width="130">
 			    <template slot-scope="scope">
-				    <el-button v-show="authCode.indexOf('74') > -1" @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
-		        <el-button v-show="authCode.indexOf('75') > -1" @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
+				    <el-button v-show="authCode.indexOf('60') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
+		        <el-button v-show="authCode.indexOf('59') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
 			    </template>
   			</el-table-column>
 		</el-table>
@@ -121,7 +121,7 @@
 			</el-form>
       <div slot="footer" class="dialog-footer">
         <el-button size="mini" @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" size="mini" @click="editallots('allot')">确 定</el-button>
+        <el-button type="primary" v-dbClick :loading="loading" size="mini" @click="editallots('allot')">确 定</el-button>
       </div>
     </el-dialog>
 	</div>
@@ -188,6 +188,7 @@
 				allots:[],
 				allot:{},
 				hospitals:[],
+				loading:false,
 				money:0,//总额统计
 				pageNum:10,
 				currentPage:1,
@@ -247,10 +248,12 @@
       },
 			editallots(formName){
 				var _self = this;
+				_self.loading=true;
 				this.$refs[formName].validate((valid) => {
 						if (valid) {
 							_self.jquery('/iae/allot/editAllot',_self.allot,function(res){
 								_self.dialogFormVisible = false;
+								_self.loading=false;
 								_self.$message({message: '修改成功',type: 'success'});
 								_self.getAllotsList();
 							});

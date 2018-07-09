@@ -22,9 +22,9 @@
 			</el-select>
 		  </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" @click="searchDrugsList" size="small">查询</el-button>
-				<el-button type="primary" @click="reSearch" size="small">重置</el-button>
-				<el-button type="primary" @click="returnPurchase" size="small">返回列表</el-button>
+		    <el-button type="primary" v-dbClick @click="searchDrugsList" size="small">查询</el-button>
+				<el-button type="primary" v-dbClick @click="reSearch" size="small">重置</el-button>
+				<el-button type="primary" v-dbClick @click="returnPurchase" size="small">返回列表</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="drugs" style="width: 100%" :stripe="true" :border="true">
@@ -42,7 +42,7 @@
 				<el-table-column prop="contacts_name" label="联系人" width="120"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="100">
 			    <template slot-scope="scope">
-						<el-button @click.native.prevent="selectRow(scope)" type="primary" size="small">选择</el-button>
+						<el-button v-dbClick @click.native.prevent="selectRow(scope)" type="primary" size="small">选择</el-button>
 			    </template>
   			</el-table-column>
 		</el-table>
@@ -101,8 +101,8 @@
 			 </el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button size="mini" @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" size="mini" @click="addPurchases('purchase')">确 定</el-button>
+        <el-button size="mini" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" v-dbClick size="mini" :loading="loading" @click="addPurchases('purchase')">确 定</el-button>
       </div>
     </el-dialog>
 	</div>
@@ -133,6 +133,7 @@
         }
       };
 			return {
+				loading:false,
 				dialogFormVisible:false,
 				drugs:[],
 				drug:{},
@@ -208,6 +209,7 @@
 			},
 			addPurchases(formName){
 				var _self = this;
+				this.loading = true;
 				this.purchase.purchase_price = this.drug.product_price;
 				this.purchase.purchase_mack_price = this.drug.product_mack_price;
 				this.purchase.drug_id = this.drug.product_id;
@@ -216,7 +218,6 @@
 				this.$refs[formName].validate((valid) => {
 						if (valid) {
 							_self.jquery('/iae/purchase/savePurchases',_self.purchase,function(res){
-								console.log(res);
 								_self.$confirm('新增成功', '提示', {
 										confirmButtonText:'继续添加',
 										cancelButtonText:'返回备货列表',
@@ -224,8 +225,10 @@
 								}).then(() => {
 									_self.$refs["purchase"].resetFields();
 									_self.dialogFormVisible = false;
+									_self.loading = false;
 								}).catch(() => {
 									_self.dialogFormVisible = false;
+									_self.loading = false;
 									_self.$router.push({path:`/main/purchase`});
 								});
 							});

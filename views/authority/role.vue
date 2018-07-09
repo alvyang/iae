@@ -9,9 +9,9 @@
 		    <el-input v-model="params.role_name" @keyup.13.native="reSearch" size="small" placeholder="角色名"></el-input>
 		  </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" @click="reSearch" size="small">查询</el-button>
-				<el-button type="primary" @click="reSearch(true)" size="small">重置</el-button>
-		    <el-button type="primary" @click="add" v-show="authCode.indexOf('22') > -1" size="small">新增</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('14') > -1" @click="reSearch" size="small">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('14') > -1" @click="reSearch(true)" size="small">重置</el-button>
+		    <el-button type="primary" v-dbClick @click="add" v-show="authCode.indexOf('11') > -1" size="small">新增</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="roles" style="width: 100%" highlight-current-row :stripe="true">
@@ -19,9 +19,9 @@
     			<el-table-column prop="role_describe" label="角色描述"></el-table-column>
     			<el-table-column fixed="right" label="操作" width="200">
 			    <template slot-scope="scope">
-				    <el-button v-show="authCode.indexOf('26') > -1" @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
-	          <el-button v-show="authCode.indexOf('27') > -1" @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
-            <el-button v-show="authCode.indexOf('35') > -1" @click.native.prevent="editAuthorityShow(scope)" type="primary" size="small">授权</el-button>
+				    <el-button v-dbClick v-show="authCode.indexOf('13') > -1" @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
+	          <el-button v-dbClick v-show="authCode.indexOf('12') > -1" @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
+            <el-button v-dbClick v-show="authCode.indexOf('15') > -1" @click.native.prevent="editAuthorityShow(scope)" type="primary" size="small">授权</el-button>
 			    </template>
     			</el-table-column>
   		</el-table>
@@ -47,8 +47,8 @@
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button size="mini" @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" size="mini" @click="submitForm('role')">确 定</el-button>
+          <el-button size="mini" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
+          <el-button type="primary" v-dbClick size="mini" :loading="loading" @click="submitForm('role')">确 定</el-button>
         </div>
       </el-dialog>
       <el-dialog title="角色授权" :visible.sync="dialogTreeVisible" width="315px">
@@ -62,8 +62,8 @@
           </div>
         </div>
         <div slot="footer" class="dialog-footer">
-          <el-button size="mini" @click="dialogTreeVisible = false">取 消</el-button>
-          <el-button type="primary" size="mini" @click="editAuthority">确 定</el-button>
+          <el-button size="mini" v-dbClick @click="dialogTreeVisible = false">取 消</el-button>
+          <el-button type="primary" v-dbClick size="mini" @click="editAuthority">确 定</el-button>
         </div>
       </el-dialog>
 	</div>
@@ -93,6 +93,7 @@
         },
         dialogFormVisible: false,
         dialogTreeVisible: false,
+				loading:false,
 				authorityRole:null//授权时，暂存。点击确定修改，避免重新请求，刷新数据
 			}
 		},
@@ -213,6 +214,7 @@
     	},
       submitForm(formName) {//新增修改
         var _self = this;
+				this.loading = true;
         this.$refs[formName].validate((valid) => {
           if (valid) {
             if(this.title == 1){
@@ -220,11 +222,13 @@
                 _self.$message({message: '新增成功',type: 'success'});
                 _self.searchRolesList();
                 _self.dialogFormVisible = false;
+								_self.loading = true;
               });
             }else{
               this.jquery('/iae/role/editRoles',_self.role,function(res){
                 _self.$message({message: '修改成功',type: 'success'});
                 _self.dialogFormVisible = false;
+								_self.loading = true;
               });
             }
           } else {

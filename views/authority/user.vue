@@ -9,9 +9,9 @@
 		    <el-input v-model="params.username" v-show="authCode.indexOf('21') > -1" @keyup.13.native="reSearch" size="small" placeholder="用户名"></el-input>
 		  </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" @click="reSearch" size="small">查询</el-button>
-				<el-button type="primary" @click="reSearch(true)" size="small">重置</el-button>
-		    <el-button type="primary" @click="addShow" size="small">新增</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('19') > -1" @click="reSearch" size="small">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('19') > -1" @click="reSearch(true)" size="small">重置</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('16') > -1" @click="addShow" size="small">新增</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="users" style="width: 100%" :stripe="true">
@@ -20,9 +20,9 @@
 			<el-table-column prop="role_name" label="角色名"></el-table-column>
 			<el-table-column fixed="right" label="操作" width="200">
 	    <template slot-scope="scope">
-		    <el-button v-show="authCode.indexOf('24') > -1" @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
-        <el-button v-show="authCode.indexOf('25') > -1" @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
-				<el-button v-show="authCode.indexOf('34') > -1" @click.native.prevent="addRole(scope)" type="primary" size="small">授权</el-button>
+		    <el-button v-show="authCode.indexOf('18') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
+        <el-button v-show="authCode.indexOf('17') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
+				<el-button v-show="authCode.indexOf('24') > -1" v-dbClick @click.native.prevent="addRole(scope)" type="primary" size="small">授权</el-button>
 	    </template>
 			</el-table-column>
 		</el-table>
@@ -51,8 +51,8 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button size="mini" @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" size="mini" @click="add('user')">确 定</el-button>
+        <el-button size="mini" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" v-dbClick size="mini" :loading="loading" @click="add('user')">确 定</el-button>
       </div>
     </el-dialog>
 		<el-dialog title="选择角色" :visible.sync="dialogTableVisible">
@@ -76,8 +76,8 @@
 		    </el-pagination>
 			</div>
 			<div slot="footer" class="dialog-footer">
-				<el-button size="mini" @click="dialogTableVisible = false">取 消</el-button>
-				<el-button type="primary" size="mini" @click="selectRole">确 定</el-button>
+				<el-button size="mini" v-dbClick @click="dialogTableVisible = false">取 消</el-button>
+				<el-button type="primary" v-dbClick size="mini" @click="selectRole">确 定</el-button>
 			</div>
 		</el-dialog>
 	</div>
@@ -105,6 +105,7 @@
 				authCode:"",
         dialogFormVisible:false,
 				dialogTableVisible:false,
+				loading:false,
 				user:{
           username:"",
           password:"",
@@ -209,17 +210,20 @@
 			},
 			add(formName){
         var _self = this;
+				this.loading = true;
         this.$refs[formName].validate((valid) => {
           if (valid) {
             if(this.title == 1){
               this.jquery('/iae/user/saveUsers',_self.user,function(res){
                 _self.$message({message: '新增成功',type: 'success'});
                 _self.dialogFormVisible = false;
+								_self.loading = false;
               });
             }else{
               this.jquery('/iae/user/editUsers',_self.user,function(res){
                 _self.$message({message: '修改成功',type: 'success'});
                 _self.dialogFormVisible = false;
+								_self.loading =false;
               });
             }
           } else {

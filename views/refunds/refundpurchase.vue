@@ -41,12 +41,12 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-         <el-button type="primary" v-show="authCode.indexOf('79') > -1"  style="margin-left: 14px;" @click="reSearch(false)" size="small">查询</el-button>
-         <el-button type="primary" v-show="authCode.indexOf('79') > -1"  @click="reSearch(true)" size="small">重置</el-button>
+         <el-button type="primary" v-dbClick v-show="authCode.indexOf('44') > -1"  style="margin-left: 14px;" @click="reSearch(false)" size="small">查询</el-button>
+         <el-button type="primary" v-dbClick v-show="authCode.indexOf('44') > -1"  @click="reSearch(true)" size="small">重置</el-button>
         </el-form-item>
       </div>
     </el-form>
-    <div class="sum_money">应返金额：<a>{{refundMoney.rsm}}</a> 元；实返金额：<a>{{refundMoney.rrm}}</a> 元；手续费：<a>{{refundMoney.sc}}</a> 元</div>
+    <div class="sum_money">应返金额：<a>{{refundMoney.rsm}}</a> 元；实返金额：<a>{{refundMoney.rrm}}</a> 元；手续费：<a>{{refundMoney.sc}}</a> 元；外欠金额：<a>{{refundMoney.own}}</a> 元</div>
     <el-table :data="purchases" style="width: 100%" :stripe="true" :border="true">
       <el-table-column fixed prop="product_code" label="产品编码" width="120"></el-table-column>
       <el-table-column fixed prop="product_common_name" label="产品名称" width="160" ></el-table-column>
@@ -70,7 +70,7 @@
       <el-table-column  prop="receiver" label="收款人" width="100"></el-table-column>
       <el-table-column fixed="right" label="操作" width="80">
       <template slot-scope="scope">
-        <el-button v-show="authCode.indexOf('78') > -1" @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
+        <el-button v-show="authCode.indexOf('45') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
       </template>
     </el-table-column>
     </el-table>
@@ -124,8 +124,8 @@
 				</el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button size="mini" @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" size="mini" @click="editRefunds('refund')">确 定</el-button>
+        <el-button size="mini" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" v-dbClick size="mini" :loading="loading"  @click="editRefunds('refund')">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -189,6 +189,7 @@ export default({
         status:""
       },
       dialogFormVisible:false,
+      loading:false,
       authCode:"",
     }
   },
@@ -257,10 +258,12 @@ export default({
         page:page
       },function(res){
           _self.purchases = res.message.data;
+          var own = res.message.rsm-res.message.rrm-res.message.sc;
           _self.refundMoney = {
             rrm:(res.message.rrm+"").replace(/\B(?=(\d{3})+(?!\d))/g, ','),
             rsm:(res.message.rsm+"").replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-            sc:(res.message.sc+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+            sc:(res.message.sc+"").replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+            own:(own.toFixed(2)+"").replace(/\B(?=(\d{3})+(?!\d))/g, ','),
           };
           _self.pageNum=parseInt(res.message.limit);
           _self.count=res.message.totalCount;
@@ -268,6 +271,7 @@ export default({
     },
     editRefunds(formName){
       var _self = this;
+      this.loading = true;
       var url = this.refund.refunds_id?"/iae/refunds/editRefunds":"/iae/refunds/saveRefunds";
       this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -285,6 +289,7 @@ export default({
             };
             _self.jquery(url,params,function(res){
               _self.dialogFormVisible = false;
+              _self.loading = false;
               _self.$message({message: '修改成功',type: 'success'});
               _self.getPurchasesList();
             });

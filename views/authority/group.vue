@@ -9,9 +9,9 @@
 		    <el-input v-model="params.group_name" @keyup.13.native="reSearch" size="small" placeholder="组名称"></el-input>
 		  </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" @click="reSearch" size="small">查询</el-button>
-				<el-button type="primary" @click="reSearch(true)" size="small">重置</el-button>
-		    <el-button type="primary" @click="addShow" size="small">新增</el-button>
+		    <el-button type="primary" v-dbClick @click="reSearch" size="small">查询</el-button>
+				<el-button type="primary" v-dbClick @click="reSearch(true)" size="small">重置</el-button>
+		    <el-button type="primary" v-dbClick @click="addShow" size="small">新增</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="groups" style="width: 100%" :stripe="true" :border="true">
@@ -21,8 +21,8 @@
       <el-table-column prop="end_time" :formatter="formatValue" label="有效期结束时间"></el-table-column>
 			<el-table-column fixed="right" label="操作" width="200">
 	    <template slot-scope="scope">
-		    <el-button @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
-        <el-button @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
+		    <el-button v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
+        <el-button v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
 	    </template>
 			</el-table-column>
 		</el-table>
@@ -54,8 +54,8 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button size="mini" @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" size="mini" @click="add('group')">确 定</el-button>
+        <el-button size="mini" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" v-dbClick size="mini" :loading="loading"  @click="add('group')">确 定</el-button>
       </div>
     </el-dialog>
 	</div>
@@ -80,6 +80,7 @@
 				}
       };
 			return {
+				loading:false,
         dialogFormVisible:false,
 				group:{
           group_name:"",
@@ -156,17 +157,20 @@
 			},
 			add(formName){
         var _self = this;
+				this.loading = true;
         this.$refs[formName].validate((valid) => {
           if (valid) {
             if(this.title == 1){
               this.jquery('/iae/group/saveGroups',_self.group,function(res){
                 _self.$message({message: '新增成功',type: 'success'});
+								_self.loading = false;
                 _self.dialogFormVisible = false;
               });
             }else{
               this.jquery('/iae/group/editGroups',_self.group,function(res){
                 _self.$message({message: '修改成功',type: 'success'});
                 _self.dialogFormVisible = false;
+								_self.loading = false;
               });
             }
           } else {

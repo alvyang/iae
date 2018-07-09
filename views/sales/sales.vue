@@ -46,10 +46,10 @@
 				 </el-select>
 			 </el-form-item>
 		   <el-form-item>
-		     <el-button type="primary" style="margin-left: 14px;" @click="reSearch(false)" size="small">查询</el-button>
-				 <el-button type="primary" @click="reSearch(true)" size="small">重置</el-button>
-		     <el-button type="primary" v-show="authCode.indexOf('68') > -1"  @click="add" size="small">新增</el-button>
-				 <el-button type="primary" v-show="authCode.indexOf('70') > -1" @click="exportExcel" size="small">导出</el-button>
+		     <el-button type="primary" v-dbClick v-show="authCode.indexOf('51') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="small">查询</el-button>
+				 <el-button type="primary" v-dbClick v-show="authCode.indexOf('51') > -1" @click="reSearch(true)" size="small">重置</el-button>
+		     <el-button type="primary" v-dbClick v-show="authCode.indexOf('48') > -1" @click="add" size="small">新增</el-button>
+				 <el-button type="primary" v-dbClick v-show="authCode.indexOf('52') > -1" @click="exportExcel" size="small">导出</el-button>
 		   </el-form-item>
 		 </div>
 		</el-form>
@@ -69,8 +69,8 @@
 				<el-table-column prop="product_business" label="商业" width="80"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="130">
 		    <template slot-scope="scope">
-			    <el-button @click.native.prevent="deleteRow(scope)" v-show="authCode.indexOf('67') > -1"  icon="el-icon-delete" type="primary" size="small"></el-button>
-	        <el-button @click.native.prevent="editRow(scope)" v-show="authCode.indexOf('66') > -1"  icon="el-icon-edit-outline" type="primary" size="small"></el-button>
+			    <el-button @click.native.prevent="deleteRow(scope)" v-dbClick v-show="authCode.indexOf('50') > -1"  icon="el-icon-delete" type="primary" size="small"></el-button>
+	        <el-button @click.native.prevent="editRow(scope)" v-dbClick v-show="authCode.indexOf('49') > -1"  icon="el-icon-edit-outline" type="primary" size="small"></el-button>
 		    </template>
   			</el-table-column>
 		</el-table>
@@ -100,15 +100,15 @@
 			<el-form :model="sale" status-icon :rules="saleRule" style="margin-top:20px;" :inline="true" ref="sale" label-width="100px" class="demo-ruleForm">
 				<div>
 					<el-form-item label="销售类型" prop="sale_type">
-						<el-radio disabled v-model="sale.sale_type" label="1">销售出库</el-radio>
-	  				<el-radio disabled v-model="sale.sale_type" label="2">销售退回</el-radio>
+						<el-radio  v-model="sale.sale_type" label="1">销售出库</el-radio>
+	  				<el-radio  v-model="sale.sale_type" label="2">销售退回</el-radio>
 					</el-form-item>
 				</div>
 				<el-form-item label="计划数量" prop="sale_num" :maxlength="10" :required="true" >
 					<el-input v-model="sale.sale_num" style="width:194px;" placeholder="请输入计划数量"></el-input>
 				</el-form-item>
 				<el-form-item label="购入金额" prop="sale_money">
-					<el-input v-model="sale.sale_money" style="width:194px;" :readonly="true"></el-input>
+					<el-input v-model="sale.sale_money" style="width:194px;"></el-input>
 				</el-form-item>
 				<el-form-item label="销售机构" prop="hospital_id">
 					<el-select v-model="sale.hospital_id" filterable placeholder="请选择销售机构">
@@ -124,8 +124,8 @@
 				</el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button size="mini" @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" size="mini" @click="editSales('sale')">确 定</el-button>
+        <el-button size="mini" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" size="mini" v-dbClick :loading="loading" @click="editSales('sale')">确 定</el-button>
       </div>
     </el-dialog>
 	</div>
@@ -187,7 +187,7 @@
 					salesTime:[defaultStart,defaultEnd],
 					hospitalsId:"",
 					productType:"",
-					// sale_type:"",
+					sale_type:"",
 					business:""
 				},
 				sale:{},//修改的销售信息
@@ -197,6 +197,7 @@
 					hospital_id:[{ required: true, message: '请选择销售机构', trigger: 'blur,change' }],
 				},
 				dialogFormVisible:false,
+				loading:false,
 				authCode:"",
 			}
 		},
@@ -310,7 +311,8 @@
 					data:_self.params,
           page:page
         },function(res){
-						_self.money = res.message.saleMoney.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+					console.log(res);
+						_self.money = (res.message.saleMoney+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             _self.sales = res.message.data;
             _self.pageNum=parseInt(res.message.limit);
     				_self.count=res.message.totalCount;
@@ -318,12 +320,14 @@
 			},
 			editSales(formName){
 				var _self = this;
+				this.loading = true;
 				this.sale.gross_profit = this.sale.cost_univalent*this.sale.sale_num;
 				this.sale.gross_profit = this.sale.gross_profit.toFixed(2);
 				this.$refs[formName].validate((valid) => {
 						if (valid) {
 							_self.jquery('/iae/sales/editSales',_self.sale,function(res){
 								_self.dialogFormVisible = false;
+								_self.loading = false;
 								_self.$message({message: '修改成功',type: 'success'});
 								_self.getSalesList();
 							});

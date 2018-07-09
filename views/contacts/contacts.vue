@@ -9,9 +9,9 @@
 		    <el-input v-model="params.contacts_name" @keyup.13.native="reSearch(false)" size="small" placeholder="联系人"></el-input>
 		  </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" @click="reSearch(false)" size="small">查询</el-button>
-				<el-button type="primary" @click="reSearch(true)" size="small">重置</el-button>
-		    <el-button type="primary" @click="addShow" size="small">新增</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('35') > -1" @click="reSearch(false)" size="small">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('35') > -1" @click="reSearch(true)" size="small">重置</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('32') > -1" @click="addShow" size="small">新增</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="contacts" style="width: 100%" :stripe="true">
@@ -19,8 +19,8 @@
 			<el-table-column prop="contacts_phone" label="电话"></el-table-column>
 			<el-table-column fixed="right" label="操作" width="200">
 	    <template slot-scope="scope">
-		    <el-button @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
-        <el-button @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
+		    <el-button v-show="authCode.indexOf('34') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
+        <el-button v-show="authCode.indexOf('33') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
 	    </template>
 			</el-table-column>
 		</el-table>
@@ -46,8 +46,8 @@
 				</el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button size="mini" @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" size="mini" @click="add('contact')">确 定</el-button>
+        <el-button size="mini" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" v-dbClick size="mini" :loading="loading" @click="add('contact')">确 定</el-button>
       </div>
     </el-dialog>
 	</div>
@@ -65,6 +65,8 @@
 			return {
 				title:1,
 				dialogFormVisible:false,
+				loading:false,
+				authCode:"",
 				contact:{
 					contacts_name:"",
 					contacts_phone:"",
@@ -86,7 +88,7 @@
 			this.getContactsList();
 		},
 		mounted(){
-
+			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		methods:{
 			editRow(scope){//编辑药品信息
@@ -127,18 +129,21 @@
 			},
 			add(formName){
 				var _self = this;
+				this.loading = true;
         this.$refs[formName].validate((valid) => {
           if (valid) {
             if(this.title == 1){
               this.jquery('/iae/contacts/saveContacts',_self.contact,function(res){
                 _self.$message({message: '新增成功',type: 'success'});
                 _self.dialogFormVisible = false;
+								_self.loading = false;
 								_self.getContactsList();
               });
             }else{
               this.jquery('/iae/contacts/editContacts',_self.contact,function(res){
                 _self.$message({message: '修改成功',type: 'success'});
                 _self.dialogFormVisible = false;
+								_self.loading = false;
               });
             }
           } else {

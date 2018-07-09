@@ -8,8 +8,8 @@
 		    <el-input v-model="params.product_code" @keyup.13.native="reSearch(false)" size="small" placeholder="产品通用名"></el-input>
 		  </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" @click="reSearch(false)" size="small">查询</el-button>
-			  <el-button type="primary" @click="reSearch(true)" size="small">重置</el-button>
+		    <el-button type="primary" v-dbClick @click="reSearch(false)" size="small">查询</el-button>
+			  <el-button type="primary" v-dbClick @click="reSearch(true)" size="small">重置</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="drugs" style="width: 100%" :stripe="true" :border="true">
@@ -21,9 +21,10 @@
   			<el-table-column prop="product_unit" label="单位" width="80"></el-table-column>
         <el-table-column prop="stock" label="库存" width="100"></el-table-column>
 				<el-table-column prop="contacts_name" label="联系人" width="80"></el-table-column>
-  			<el-table-column fixed="right" label="操作" width="130">
+  			<el-table-column fixed="right" label="操作" width="200">
 			    <template slot-scope="scope">
-		        <el-button @click.native.prevent="editRow(scope)" type="primary" size="small">库存分析</el-button>
+		        <el-button v-dbClick @click.native.prevent="analysis(scope)" type="primary" size="small">销售分析</el-button>
+						<el-button v-dbClick @click.native.prevent="editStockShow(scope)" type="primary" size="small">修改库存</el-button>
 			    </template>
   			</el-table-column>
 		</el-table>
@@ -39,19 +40,67 @@
 	      :total="count">
 	    </el-pagination>
 		</div>
+		<el-dialog title="库存分析" width="700px" :visible.sync="dialogFormVisible">
+				<div><span>产品名称:</span>{{drug.product_common_name}}</div>
+				<div>
+					<span>产品编号:</span>{{drug.product_code}}
+					<span style="padding-left:30px;">产品规格:</span>{{drug.product_specifications}}
+					<span style="padding-left:30px;">库存:</span>{{drug.stock}}
+				</div>
+				<div><span>生产产家:</span>{{drug.product_makesmakers}}</div>
+				<div>
+					<div id="stock_analysis_line" style="width:660px;height:200px;"></div>
+				</div>
+    </el-dialog>
+		<el-dialog title="修改库存" width="500px" :visible.sync="dialogFormVisibleStock">
+			<div><span>产品名称:</span>{{drug.product_common_name}}</div>
+			<div>
+				<span>产品编号:</span>{{drug.product_code}}
+				<span style="padding-left:30px;">产品规格:</span>{{drug.product_specifications}}
+				<span style="padding-left:30px;">库存:</span>{{drug.stock}}
+			</div>
+			<div><span>生产产家:</span>{{drug.product_makesmakers}}</div>
+			<el-form :model="drug" ref="drug" status-icon :rules="drugRule" style="margin-top:20px;" :inline="true" label-width="100px" class="demo-ruleForm">
+				<el-form-item label="库存" prop="stock" :required="true">
+					<el-input v-model="drug.stock" :maxlength="10" placeholder="请输入购入数量"></el-input>
+			 	</el-form-item>
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+				<el-button size="mini" v-dbClick @click="dialogFormVisibleStock = false">取 消</el-button>
+				<el-button type="primary" v-dbClick size="mini" :loading="loading" @click="editStock('drug')">确 定</el-button>
+			</div>
+    </el-dialog>
 	</div>
 </template>
 <script>
+  import echarts from "echarts";
 	export default({
 		data(){
+			var validateNum = (rule, value, callback) => {
+				var regu = /^([1-9]\d*|[0]{1,1})$/;;
+				if (value === '') {
+					callback(new Error('请输入库存'));
+				} else if(!regu.test(value)){
+					callback(new Error('请输入正整数'));
+				} else {
+					callback();
+				}
+			};
 			return {
 				drugs:[],
+				drug:{},
+				drugRule:{
+					stock:[{validator:validateNum,trigger: 'blur' }]
+				},
 				contacts:[],
 				business:[],
 				pageNum:10,
 				currentPage:1,
 				count:0,
 				authCode:"",
+				dialogFormVisible:false,
+				dialogFormVisibleStock:false,
+				loading:false;
 				params:{
 					productCommonName:"",
 					contactId:"",
@@ -70,6 +119,77 @@
 
 		},
 		methods:{
+			editStockShow(scope){
+				this.dialogFormVisibleStock = true;
+				this.drug = scope.row;
+			},
+			editStock(formName){
+				var _self = this;
+				this.loading =  true;
+				this.$refs[formName].validate((valid) => {
+						if (valid) {
+							_self.jquery('/iae/stock/editStock',{
+								product_id:_self.drug.product_id,
+								stock:_self.drug.stock,
+							},function(res){
+								_self.dialogFormVisibleStock = false;
+								_self.loading = false;
+								_self.$message({message: '修改成功',type: 'success'});
+								_self.getDrugsList();
+							});
+						} else {
+							return false;
+						}
+				});
+			},
+			analysis(scope){
+				var _self = this;
+				this.jquery('/iae/stock/getStockAnalysis',{
+					productCode:scope.row.product_code,
+					productId:scope.row.product_id
+				},function(res){
+					_self.dialogFormVisible = true;
+					_self.drug = scope.row;
+					setTimeout(function(){
+						_self.getStockAnalysis(res.message);
+					},10);
+				});
+			},
+			getStockAnalysis(arg){
+				// 基于准备好的dom，初始化echarts实例
+	      var myChart = echarts.init(document.getElementById('stock_analysis_line'));
+	      // 指定图表的配置项和数据
+				var option = {
+					color: ["#8ad163","#b373f4"],
+					grid:{
+						top:"40px",
+					},
+					tooltip: {
+		        trigger: 'axis'
+			    },
+			    xAxis: {
+		        type: 'category',
+						name: '日期',
+						boundaryGap: false,
+		        data:arg.time.reverse()
+			    },
+			    yAxis: {
+		        type: 'value',
+						name: '销售量',
+			    },
+			    series: [{
+            name:'销售量',
+            type:'line',
+            data:arg.num.reverse()
+	        },{
+            name:'调货量',
+            type:'line',
+            data:arg.anum.reverse()
+	        }]
+				};
+	      // 使用刚指定的配置项和数据显示图表。
+	      myChart.setOption(option);
+			},
 			//搜索所有药品信息
 			searchDrugsList(){
 				this.getDrugsList();

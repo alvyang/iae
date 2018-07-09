@@ -35,9 +35,9 @@
 				</el-select>
 			</el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" @click="reSearch(false)" size="small">查询</el-button>
-			  <el-button type="primary" @click="reSearch(true)" size="small">重置</el-button>
-		    <el-button type="primary" v-show="authCode.indexOf('59') > -1" @click="add" size="small">新增</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('65') > -1" @click="reSearch(false)" size="small">查询</el-button>
+			  <el-button type="primary" v-dbClick v-show="authCode.indexOf('65') > -1" @click="reSearch(true)" size="small">重置</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('62') > -1" @click="add" size="small">新增</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="drugs" style="width: 100%" :stripe="true" :border="true">
@@ -61,8 +61,8 @@
 				<el-table-column prop="remark" label="备注" width="200"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="200">
 			    <template slot-scope="scope">
-				    <el-button v-show="authCode.indexOf('58') > -1" @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
-		        <el-button v-show="authCode.indexOf('57') > -1" @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
+				    <el-button v-dbClick v-show="authCode.indexOf('64') > -1" @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
+		        <el-button v-dbClick v-show="authCode.indexOf('63') > -1" @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
 			    </template>
   			</el-table-column>
 		</el-table>

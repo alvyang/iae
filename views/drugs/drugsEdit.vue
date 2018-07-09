@@ -28,7 +28,7 @@
 							  </template>
 							</el-autocomplete>
 						</el-form-item>
-						<el-form-item label="产品编号" prop="product_code">
+						<el-form-item label="产品编号" prop="product_code" :required="true">
 							<el-input v-model="drugs.product_code" style="width:250px;" :disabled="drugs.readonly?true:false" auto-complete="off" :maxlength="20" placeholder="产品编号"></el-input>
 							<el-button type="text" @click="randomCode" v-show="!drugs.readonly">随机编码</el-button>
 						</el-form-item>
@@ -131,9 +131,9 @@
 					</div>
 					<div style="text-align:center;">
 						<el-form-item>
-							<el-button type="primary" @click="submitForm('drugs')">提交</el-button>
-							<el-button @click="resetForm('drugs')">重置</el-button>
-							<el-button @click="returnList">返回</el-button>
+							<el-button type="primary" v-dbClick :loading="loading" @click="submitForm('drugs')">提交</el-button>
+							<el-button v-dbClick @click="resetForm('drugs')">重置</el-button>
+							<el-button v-dbClick @click="returnList">返回</el-button>
 						</el-form-item>
 					</div>
 				</el-form>
@@ -159,10 +159,9 @@
         }
     	};
 			var validateCode = (rule, value, callback) => {
-        // if (!value) {
-        // 	callback(new Error('请输入产品编号'));
-        // } else
-				if((this.editmessage == "修改" && this.product_code == this.drugs.product_code) || !value){
+        if (!value) {
+        	callback(new Error('请输入产品编号'));
+        } else if((this.editmessage == "修改" && this.product_code == this.drugs.product_code) || !value){
 					callback();
         }else{
 					this.jquery("/iae/drugs/exitsCode",{product_code:this.drugs.product_code},function(res){
@@ -175,6 +174,7 @@
 				}
     	};
 			return {
+				loading:false,
 				drugs:{
 					product_id:"",
 					product_common_name:"",
@@ -199,6 +199,7 @@
 					remark:"",
 					product_name_pinyin:"",
 					product_business:"",
+					readonly:""
 				},
 				drugsRule:{
 					product_common_name:[{ required: true, message: '请输入产品名称', trigger: 'blur' }],
@@ -225,6 +226,7 @@
 		activated(){
 			this.resetForm("drugs");
 			this.drugs.product_id = "";
+			this.drugs.readonly = "";
 			this.contacts = JSON.parse(sessionStorage["contacts"]);
 			this.business = JSON.parse(sessionStorage["business"]);
 			if(sessionStorage["drugs_edit"]){
@@ -292,9 +294,9 @@
 			},
 			submitForm(formName) {
 				var _self = this;
+				this.loading = true;
         this.$refs[formName].validate((valid) => {
           	if (valid) {
-							console.log(_self.drugs);
 							var url = _self.editmessage == '新增'?"/iae/drugs/saveDrugs":"/iae/drugs/editDrugs";
 							this.jquery(url,_self.drugs,function(res){
 								_self.$confirm(_self.editmessage+'成功', '提示', {
@@ -304,7 +306,9 @@
 				        }).then(() => {
 				          	_self.resetForm("drugs");
 				          	_self.drugs.product_id = "";
+										_self.loading = false;
 				        }).catch(() => {
+										_self.loading = false;
 				          	_self.$router.push({path:`/main/drugs`});
 								});
 							});

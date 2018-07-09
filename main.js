@@ -1,5 +1,5 @@
 const electron = require('electron');
-const action = require("./action/index.js");
+// const action = require("./action/index.js");
 
 // Module to control application life.
 const app = electron.app;
@@ -40,7 +40,7 @@ function createWindow () {
 }
 
 //运行监听事件
-action.runAction();
+// action.runAction();
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.

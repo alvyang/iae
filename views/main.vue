@@ -6,7 +6,6 @@
 			  text-color="#fff"
 			  active-text-color="#ffd04b">
 			  <el-menu-item index="/main/home">首页</el-menu-item>
-
 				<template v-for="a in authList">
 					<el-menu-item v-if="a.children.length == 0 || a.authority_type == '2'" :index="a.authority_path">{{a.authority_name}}</el-menu-item>
 					<el-submenu v-else :index="a.authority_id+''">
@@ -67,6 +66,7 @@
 				this.jquery('/iae/authority/getAuthoritysList',{
 					authority_code:authCode,
 				},function(res){
+					console.log(res);
 					_self.authList = res.message[0].children;
 				});
 			},

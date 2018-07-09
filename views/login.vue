@@ -25,7 +25,7 @@
           <div style="margin-bottom:5px;">
             <el-checkbox v-model="login.remember">记住密码</el-checkbox>
           </div>
-          <el-button type="primary" style="width:100%;font-size28px;" @keyup.13="submitForm('login')" @click="submitForm('login')">登&nbsp&nbsp&nbsp陆</el-button>
+          <el-button type="primary" v-dbClick style="width:100%;font-size28px;" @keyup.13="submitForm('login')" @click="submitForm('login')">登&nbsp&nbsp&nbsp陆</el-button>
         </div>
       </div>
     </div>
@@ -140,7 +140,7 @@
                       _self.setCookie("login_message",JSON.stringify(_self.login),1000 * 60 * 60);
                     }
                     sessionStorage["user"] = JSON.stringify(res.message[0]);
-       							_self.$router.push("/main");
+       							_self.$router.push("/main/home");
        						}
        					}
        				});
