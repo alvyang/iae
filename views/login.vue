@@ -1,5 +1,9 @@
 <template>
   <div class="login" :style="{'background-image':'url('+bg+')','height':height+'px'}">
+    <div class="mask" v-show="tips != 'new'">
+      <el-progress type="circle" :percentage="downloadPercent"></el-progress>
+      <div class="download_title">{{tips}}</div>
+    </div>
     <div class="login_div">
       <div class="login_title">欢迎使用药品进销存管理软件</div>
       <div class="login_operation">
@@ -38,6 +42,8 @@
       return {
         session:null,
         datetime:"",
+        tips:"new",
+        downloadPercent:0,
         login:{
           username:"",
           password:"",
@@ -47,6 +53,7 @@
           remember:true,
           groupCode:""
         },
+        ipcRenderer:"",
         rules: {
           groupCode:[{required: true, message: '请输入组编码', trigger: 'blur'}],
           username:[{required: true, message: '请输入用户名', trigger: 'blur'}],
@@ -66,6 +73,23 @@
       $(window).resize(function(){
         that.height = $(window).height();
       });
+
+      this.ipcRenderer = window.require('electron').ipcRenderer;
+      this.ipcRenderer.send("checkForUpdate");
+			this.ipcRenderer.on("message", (event, text) => {
+         this.tips = text;
+     	});
+     	this.ipcRenderer.on("downloadProgress", (event, progressObj)=> {
+         this.downloadPercent = progressObj.percent || 0;
+         this.downloadPercent = Math.round(this.downloadPercent);
+     	});
+     	this.ipcRenderer.on("isUpdateNow", () => {
+         that.ipcRenderer.send("isUpdateNow");
+     	});
+    },
+    deactivated(){
+      //组件销毁前移除所有事件监听channel
+      this.ipcRenderer.removeAll(["message", "downloadProgress", "isUpdateNow"]);
     },
     mounted(){
       this.session = window.require('electron').remote.session;
@@ -154,6 +178,38 @@
   });
 </script>
 <style>
+  .mask{
+    position:absolute;
+    width: 100%;
+    height: 100%;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    background-color:rgba(0,0,0,0.7);
+    z-index: 10;
+  }
+  .mask .el-progress__text{
+    color: #ffffff;
+  }
+  .mask > .download_title{
+    position: absolute;
+    height: 40px;
+    width: 100%;
+    top: 50%;
+    margin-top: -140px;
+    /* margin-top: -200px; */
+    font-size: 18px;
+    text-align:center;
+    color: #ffffff;
+  }
+  .mask > .el-progress{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -84px;
+    margin-left: -64px;
+  }
   .code{
     position: relative;
   }

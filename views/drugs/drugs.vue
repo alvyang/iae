@@ -2,18 +2,20 @@
 	<div style="box-sizing: border-box;padding: 0px 10px;">
 		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
 		  <el-form-item label="产品名称" prop="productCommonName">
-		    <el-input v-model="params.productCommonName" @keyup.13.native="reSearch(false)" size="small" placeholder="产品名称/助记码"></el-input>
+		    <el-input v-model="params.productCommonName" style="width:178px;" @keyup.13.native="reSearch(false)" size="small" placeholder="产品名称/助记码"></el-input>
 		  </el-form-item>
 			<el-form-item label="产品编号" prop="product_code">
-		    <el-input v-model="params.product_code" @keyup.13.native="reSearch(false)" size="small" placeholder="产品通用名"></el-input>
+		    <el-input v-model="params.product_code" style="width:178px;" @keyup.13.native="reSearch(false)" size="small" placeholder="产品编号"></el-input>
 		  </el-form-item>
 			<el-form-item label="联系人" prop="contactId">
 				<el-select v-model="params.contactId" style="width:178px;" size="small" filterable placeholder="请选择联系人">
+					<el-option key="" label="全部" value=""></el-option>
 					<el-option v-for="item in contacts" :key="item.contacts_id" :label="item.contacts_name" :value="item.contacts_id"></el-option>
 				</el-select>
 			</el-form-item>
 			<el-form-item label="商业" prop="business">
 				<el-select v-model="params.business" style="width:178px;" size="small" filterable placeholder="请选择商业">
+					<el-option key="" label="全部" value=""></el-option>
 					<el-option v-for="item in business" :key="item.product_business" :label="item.product_business" :value="item.product_business"></el-option>
 				</el-select>
 			</el-form-item>
@@ -28,6 +30,7 @@
 			</el-form-item>
 			<el-form-item label="医保类型" prop="product_medical_type">
 				<el-select v-model="params.product_medical_type" style="width:178px;" size="small" placeholder="请选择">
+					<el-option key="" label="全部" value=""></el-option>
 					<el-option key="甲类" label="甲类" value="甲类"></el-option>
 					<el-option key="乙类" label="乙类" value="乙类"></el-option>
 					<el-option key="丙类" label="丙类" value="丙类"></el-option>
@@ -40,7 +43,7 @@
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('62') > -1" @click="add" size="small">新增</el-button>
 		  </el-form-item>
 		</el-form>
-		<el-table :data="drugs" style="width: 100%" :stripe="true" :border="true">
+		<el-table :data="drugs" style="width: 100%" size="mini" :stripe="true" :border="true">
   			<el-table-column fixed prop="product_common_name" label="产品通用名" width="150"></el-table-column>
 				<el-table-column prop="product_code" label="产品编号" width="120"></el-table-column>
   			<el-table-column prop="product_makesmakers" label="生产产家" width="180"></el-table-column>
@@ -52,6 +55,8 @@
 				<el-table-column prop="product_price" label="中标价" width="80"></el-table-column>
 				<el-table-column prop="product_discount" label="扣率" width="80" :formatter="formatPercent"></el-table-column>
 				<el-table-column prop="product_mack_price" label="打款价" width="80"></el-table-column>
+				<el-table-column prop="gross_interest_rate" label="毛利率" width="80" :formatter="formatPercent"></el-table-column>
+				<el-table-column prop="accounting_cost" label="核算成本" width="80"></el-table-column>
 				<el-table-column prop="product_type" label="返费类型" width="100"></el-table-column>
 				<el-table-column prop="product_return_money" label="返费金额" width="80" :formatter="formatNull"></el-table-column>
 				<el-table-column prop="product_return_discount" label="返费率" width="80" :formatter="formatPercent"></el-table-column>
@@ -162,7 +167,7 @@
         this.jquery('/iae/drugs/deleteDrugs',{
           product_id:scope.row.product_id
         },function(res){
-          _self.$message({message: '删除成功',type: 'success'});
+          _self.$message({showClose: true,message: '删除成功',type: 'success'});
           _self.getDrugsList();
           _self.dialogFormVisible = false;
         });

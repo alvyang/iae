@@ -23,10 +23,11 @@ import SalesDrugs from "../views/sales/salesDrugs.vue";
 // import SalesEdit from "../views/sales/salesEdit.vue";
 //销售渠道页面
 import Hospital from "../views/hospital/hospital.vue";
-import HospitalEdit from "../views/hospital/hospitalEdit.vue";
 //联系人页面
 import Contacts from "../views/contacts/contacts.vue";
-import ContactsEdit from "../views/contacts/contactsEdit.vue";
+//银行账号管理
+import Account from "../views/bank_account/account.vue";
+import AccountDetail from "../views/bank_account/accountDetail.vue";
 //标签管理
 import Label from "../views/label/label.vue";
 import LabelEdit from "../views/label/labelEdit.vue";
@@ -69,9 +70,9 @@ const router = new VueRouter({
 			{path:"user",component:User},
 			{path:"group",component:Group},
 			{path:"hospital",component:Hospital},//医院管理
-			{path:"hospitaledit",component:HospitalEdit},
 			{path:"contacts",component:Contacts},//联系人管理
-			{path:"contactsedit",component:ContactsEdit},
+			{path:"account",component:Account},//银行账号管理
+			{path:"accountdetail",component:AccountDetail},//流水账管理
 			{path:"label",component:Label},//标签管理
 			{path:"labeledit",component:LabelEdit},
 			{path:"purchase",component:Purchase},

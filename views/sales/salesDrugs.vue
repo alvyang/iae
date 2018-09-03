@@ -5,24 +5,26 @@
 			<el-breadcrumb-item>选择药品<a style="color:#f24040;">（请先选择销售药品）</a></el-breadcrumb-item>
 		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
-			<el-form-item label="产品通用名" prop="productCommonName">
-		    <el-input v-model="params.productCommonName" @keyup.13.native="reSearch(false)" size="small" placeholder="产品通用名"></el-input>
+			<el-form-item label="产品名称" prop="productCommonName">
+		    <el-input v-model="params.productCommonName" style="width:178px;" @keyup.13.native="reSearch(false)" size="small" placeholder="产品名称"></el-input>
 		  </el-form-item>
 			<el-form-item label="产品编号" prop="product_code">
-		    <el-input v-model="params.product_code" @keyup.13.native="reSearch(false)" size="small" placeholder="产品通用名"></el-input>
+		    <el-input v-model="params.product_code" style="width:178px;" @keyup.13.native="reSearch(false)" size="small" placeholder="产品编号"></el-input>
 		  </el-form-item>
 			<el-form-item label="联系人" prop="contactId">
-				<el-select v-model="params.contactId" size="small" filterable placeholder="请选择联系人">
+				<el-select v-model="params.contactId" style="width:178px;" size="small" filterable placeholder="请选择联系人">
+					<el-option key="" label="全部" value=""></el-option>
 					<el-option v-for="item in contacts" :key="item.contacts_id" :label="item.contacts_name" :value="item.contacts_id"></el-option>
 				</el-select>
 			</el-form-item>
 			<el-form-item label="商业" prop="business">
 				<el-select v-model="params.business" style="width:178px;" size="small" filterable placeholder="请选择商业">
+					<el-option key="" label="全部" value=""></el-option>
 					<el-option v-for="item in business" :key="item.product_business" :label="item.product_business" :value="item.product_business"></el-option>
 				</el-select>
 			</el-form-item>
 			<el-form-item label="品种类型" prop="product_type">
-				<el-select v-model="params.product_type" size="small" multiple placeholder="请选择">
+				<el-select v-model="params.product_type" style="width:178px;" size="small" multiple placeholder="请选择">
 					<el-option key="普药" label="普药" value="普药"></el-option>
 					<el-option key="佣金" label="佣金" value="佣金"></el-option>
 					<el-option key="高打" label="高打" value="高打"></el-option>
@@ -31,7 +33,8 @@
 				</el-select>
 			</el-form-item>
 			<el-form-item label="医保类型" prop="product_medical_type">
-				<el-select v-model="params.product_medical_type" size="small" placeholder="请选择">
+				<el-select v-model="params.product_medical_type" style="width:178px;" size="small" placeholder="请选择">
+					<el-option key="" label="全部" value=""></el-option>
 					<el-option key="甲类" label="甲类" value="甲类"></el-option>
 					<el-option key="乙类" label="乙类" value="乙类"></el-option>
 					<el-option key="丙类" label="丙类" value="丙类"></el-option>
@@ -44,7 +47,7 @@
 				<el-button type="primary" v-dbClick @click="returnSale" size="small">返回列表</el-button>
 		  </el-form-item>
 		</el-form>
-		<el-table :data="drugs" style="width: 100%" :stripe="true" :border="true">
+		<el-table :data="drugs" style="width: 100%" size="mini" :stripe="true" :border="true">
 			<el-table-column fixed prop="product_common_name" label="产品通用名" width="150"></el-table-column>
 			<el-table-column prop="product_code" label="产品编号" width="150"></el-table-column>
 			<el-table-column prop="product_makesmakers" label="生产产家" width="120"></el-table-column>
@@ -99,6 +102,9 @@
 						<el-radio v-model="sale.sale_type" label="2">销售退回</el-radio>
 					</el-form-item>
 				</div>
+				<el-form-item label="销售单价" prop="sale_price" :maxlength="10" :required="true" >
+					<el-input v-model="sale.sale_price" style="width:194px;" placeholder="请输入销售单价"></el-input>
+				</el-form-item>
 				<el-form-item label="计划数量" prop="sale_num" :maxlength="10" :required="true" >
 					<el-input v-model="sale.sale_num" style="width:194px;" placeholder="请输入计划数量"></el-input>
 				</el-form-item>
@@ -136,7 +142,7 @@ export default({
 			} else if(!regu.test(value)){
 				callback(new Error('请输入整数'));
 			} else {
-				this.sale.sale_money = (this.sale.sale_num * this.drug.product_price).toFixed(2);
+				this.sale.sale_money = (this.sale.sale_num * this.sale.sale_price).toFixed(2);
 				callback();
 			}
 		};
@@ -169,7 +175,8 @@ export default({
 				group_id:"",
 				bill_date:new Date(),
 				hospital_id:"",
-				sale_type:"1"
+				sale_type:"1",
+				sale_return_flag:"",
 			},
 			drug:{},//选择的药品信息
 			hospitals:[],
@@ -201,20 +208,20 @@ export default({
 			if(!this.drug.product_code){
 				return;
 			}
-			this.loading = true;
-			this.sale.sale_price = this.drug.product_price;
 			this.sale.gross_profit = (this.drug.product_price - this.drug.product_mack_price)*this.sale.sale_num;
 			this.sale.gross_profit = this.sale.gross_profit.toFixed(2);
 			this.sale.real_gross_profit = this.sale.gross_profit;
-			this.sale.accounting_cost = this.drug.product_mack_price;
+			this.sale.accounting_cost = this.drug.accounting_cost;
 			this.sale.cost_univalent = this.drug.product_mack_price;
 			this.sale.product_code = this.drug.product_code;
 			this.sale.product_type = this.drug.product_type;
 			this.sale.product_id = this.drug.product_id;
+			this.sale.sale_return_flag = this.drug.product_return_statistics;
 			this.sale.stock = this.drug.stock;
 			var _self = this;
 			this.$refs[formName].validate((valid) => {
 					if (valid) {
+						this.loading = true;
 						_self.jquery('/iae/sales/saveSales',_self.sale,function(res){
 							_self.$confirm('新增成功', '提示', {
 									confirmButtonText:'继续添加',
@@ -244,6 +251,7 @@ export default({
 			if(this.$refs["sale"]){
 				this.$refs["sale"].resetFields();
 			}
+			this.sale.sale_price = this.drug.product_price;
 			this.dialogFormVisible = true;
 		},
 		formatNull(row, column, cellValue, index){
@@ -278,7 +286,7 @@ export default({
 			this.jquery('/iae/drugs/deleteDrugs',{
 				product_id:scope.row.product_id
 			},function(res){
-				_self.$message({message: '删除成功',type: 'success'});
+				_self.$message({showClose: true,message: '删除成功',type: 'success'});
 				_self.getDrugsList();
 				_self.dialogFormVisible = false;
 			});

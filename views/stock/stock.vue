@@ -12,7 +12,8 @@
 			  <el-button type="primary" v-dbClick @click="reSearch(true)" size="small">重置</el-button>
 		  </el-form-item>
 		</el-form>
-		<el-table :data="drugs" style="width: 100%" :stripe="true" :border="true">
+		<div class="sum_money">库存总额：<a>{{stockMoney}}</a> 元；库存量：<a>{{stockNum}}</a> 元</div>
+		<el-table :data="drugs" style="width: 100%" size="mini" :stripe="true" :border="true">
   			<el-table-column fixed prop="product_common_name" label="产品通用名" width="200"></el-table-column>
 				<el-table-column prop="product_code" label="产品编号" width="150"></el-table-column>
   			<el-table-column prop="product_makesmakers" label="生产产家" width="240"></el-table-column>
@@ -100,7 +101,9 @@
 				authCode:"",
 				dialogFormVisible:false,
 				dialogFormVisibleStock:false,
-				loading:false;
+				loading:false,
+				stockMoney:"",
+				stockNum:"",
 				params:{
 					productCommonName:"",
 					contactId:"",
@@ -125,16 +128,16 @@
 			},
 			editStock(formName){
 				var _self = this;
-				this.loading =  true;
 				this.$refs[formName].validate((valid) => {
 						if (valid) {
+							this.loading =  true;
 							_self.jquery('/iae/stock/editStock',{
 								product_id:_self.drug.product_id,
 								stock:_self.drug.stock,
 							},function(res){
 								_self.dialogFormVisibleStock = false;
 								_self.loading = false;
-								_self.$message({message: '修改成功',type: 'success'});
+								_self.$message({showClose: true,message: '修改成功',type: 'success'});
 								_self.getDrugsList();
 							});
 						} else {
@@ -213,6 +216,13 @@
 						_self.drugs = res.message.data;
 						_self.pageNum=parseInt(res.message.limit);
 						_self.count=res.message.totalCount;
+				});
+				this.jquery('/iae/drugs/getStockNum',{
+					data:_self.params,
+					page:page
+				},function(res){
+						_self.stockMoney = res.message.mpn;
+						_self.stockNum = res.message.sn;
 				});
 			},
 			reSearch(arg){

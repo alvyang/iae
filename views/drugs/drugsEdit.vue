@@ -48,7 +48,7 @@
 						  </el-select>
 						</el-form-item>
 						<el-form-item label="采购员" prop="buyer">
-							<el-input v-model="drugs.buyer" auto-complete="off" :maxlength="10" placeholder="采购员"></el-input>
+							<el-input v-model="drugs.buyer" auto-complete="off" style="width: 179px;" :maxlength="10" placeholder="采购员"></el-input>
 						</el-form-item>
 						<el-form-item label="商业" prop="product_business">
 							<el-autocomplete popper-class="my-autocomplete" style="width:179px;"
@@ -63,7 +63,7 @@
 					</div>
 					<div>
 						<el-form-item label="包装" prop="product_packing">
-							<el-input v-model="drugs.product_packing" auto-complete="off" :maxlength="20" placeholder="包装"></el-input>
+							<el-input v-model="drugs.product_packing" auto-complete="off" style="width: 179px;" :maxlength="20" placeholder="包装"></el-input>
 						</el-form-item>
 						<el-form-item label="单位" prop="product_unit">
 							<el-select v-model="drugs.product_unit" placeholder="请选择" style="width: 179px;">
@@ -85,18 +85,26 @@
 					</div>
 					<div>
 						<el-form-item label="中标价" prop="product_price">
-							<el-input v-model="drugs.product_price" @blur="priceBlur" auto-complete="off" :maxlength="10" placeholder="中标价"></el-input>
-						</el-form-item>
-						<el-form-item label="扣率" prop="product_discount">
-							<el-input v-model="drugs.product_discount" style="width:163px;" @blur="priceBlur" auto-complete="off" :maxlength="10" placeholder="扣率（如：88）"></el-input> %
+							<el-input v-model="drugs.product_price" @blur="priceBlur" style="width: 179px;" auto-complete="off" :maxlength="10" placeholder="中标价"></el-input>
 						</el-form-item>
 						<el-form-item label="打款价" prop="product_mack_price">
-							<el-input v-model="drugs.product_mack_price" auto-complete="off" @blur="priceBlur" :maxlength="10" placeholder="打款价"></el-input>
+							<el-input v-model="drugs.product_mack_price" style="width: 179px;" auto-complete="off" @blur="priceBlur" :maxlength="10" placeholder="打款价"></el-input>
+						</el-form-item>
+						<el-form-item label="扣率" prop="product_discount">
+							<el-input v-model="drugs.product_discount" style="width:163px;" auto-complete="off" :maxlength="10" placeholder="扣率（如：88）"></el-input> %
+						</el-form-item>
+					</div>
+					<div style="padding-left:292px;box-sizing: border-box;">
+						<el-form-item label="核算成本" prop="accounting_cost">
+							<el-input v-model="drugs.accounting_cost" style="width: 179px;" auto-complete="off" @blur="priceBlur" :maxlength="10" placeholder="核算成本"></el-input>
+						</el-form-item>
+						<el-form-item label="毛利率" prop="gross_interest_rate">
+							<el-input v-model="drugs.gross_interest_rate" style="width:163px;" auto-complete="off" :maxlength="10" placeholder="毛利率（如：12）"></el-input> %
 						</el-form-item>
 					</div>
 					<div>
 						<el-form-item label="品种类型" prop="product_type">
-							<el-radio-group v-model="drugs.product_type">
+							<el-radio-group v-model="drugs.product_type" @change="typeChange">
 								<el-radio border label="普药"></el-radio>
 								<el-radio border label="佣金"></el-radio>
 			 					<el-radio border label="高打"></el-radio>
@@ -107,21 +115,30 @@
 					</div>
 					<div v-show="drugs.product_type == '高打(底价)'">
 						<el-form-item label="底价" prop="product_floor_price">
-							<el-input v-model="drugs.product_floor_price" @blur="priceBlur" auto-complete="off" :maxlength="10" placeholder="底价"></el-input>
+							<el-input v-model="drugs.product_floor_price" style="width: 179px;" @blur="priceBlur" auto-complete="off" :maxlength="10" placeholder="底价"></el-input>
 						</el-form-item>
-						<el-form-item label="高开返费率" prop="product_high_discount">
-							<el-input v-model="drugs.product_high_discount" @blur="priceBlur" style="width:163px;"  auto-complete="off" :maxlength="10" placeholder="高开返费率（如：23）"></el-input> %
+						<el-form-item label="高开返款率" prop="product_high_discount">
+							<el-input v-model="drugs.product_high_discount" @blur="priceBlur" style="width:163px;"  auto-complete="off" :maxlength="10" placeholder="高开返款率（如：23）"></el-input> %
 						</el-form-item>
 					</div>
 					<div v-show="drugs.product_type != '普药' && drugs.product_type != '其它' ">
-						<el-form-item label="返费金额" prop="product_return_money">
-							<el-input v-model="drugs.product_return_money" @blur="priceBlur" auto-complete="off" :maxlength="10" placeholder="返费金额"></el-input>
+						<el-form-item label="返款金额" prop="product_return_money">
+							<el-input v-model="drugs.product_return_money" style="width: 179px;" @blur="priceBlur" auto-complete="off" :maxlength="10" placeholder="返款金额"></el-input>
 						</el-form-item>
-						<el-form-item label="返费率" prop="product_return_discount">
-							<el-input v-model="drugs.product_return_discount" style="width:163px;" auto-complete="off" :maxlength="10" placeholder="返费率（如：40）"></el-input> %
+						<el-form-item label="返款率" prop="product_return_discount">
+							<el-input v-model="drugs.product_return_discount" style="width:163px;" auto-complete="off" :maxlength="10" placeholder="返款率（如：40）"></el-input> %
 						</el-form-item>
-						<el-form-item label="返费说明" prop="product_return_explain">
-							<el-input v-model="drugs.product_return_explain" auto-complete="off" :maxlength="50" placeholder="返费说明"></el-input>
+						<el-form-item label="返款说明" prop="product_return_explain">
+							<el-input v-model="drugs.product_return_explain" style="width: 179px;" auto-complete="off" :maxlength="50" placeholder="返款说明"></el-input>
+						</el-form-item>
+					</div>
+					<div>
+						<el-form-item label="返款统计" prop="product_return_statistics">
+							<el-radio-group v-model="drugs.product_return_statistics">
+								<el-radio border label="1" v-show="drugs.product_type =='佣金' || drugs.product_type =='高打' || drugs.product_type =='高打(底价)'">按销售记录统计</el-radio>
+								<el-radio border label="2" v-show="drugs.product_type =='高打' || drugs.product_type =='高打(底价)'">按备货记录统计</el-radio>
+			 					<el-radio border label="3" v-show="drugs.product_type =='普药' || drugs.product_type =='其它' ">无返款</el-radio>
+					    </el-radio-group>
 						</el-form-item>
 					</div>
 					<div>
@@ -145,7 +162,8 @@
 	export default({
 		data(){
 			var validateMoney = (rule, value, callback) => {
-        if (value && !/\d{1,10}(\.\d{1,2})?$/.test(value)) {
+				var reg = /^(([1-9]\d+(.[0-9]{1,4})?|\d(.[0-9]{1,4})?)|([-]([1-9]\d+(.[0-9]{1,4})?|\d(.[0-9]{1,4})?)))$/;
+        if (value && !reg.test(value)) {
           	callback(new Error('请再输入正确的'+rule.labelname));
         } else {
          	callback();
@@ -175,6 +193,7 @@
     	};
 			return {
 				loading:false,
+				product_return_statistics:"",
 				drugs:{
 					product_id:"",
 					product_common_name:"",
@@ -199,7 +218,11 @@
 					remark:"",
 					product_name_pinyin:"",
 					product_business:"",
-					readonly:""
+					readonly:"",
+					accounting_cost:"",
+					gross_interest_rate:"",
+					product_return_statistics:"1",//返款统计方式
+					product_return_statistics_update:false,//是否更新销售记录中返款方式
 				},
 				drugsRule:{
 					product_common_name:[{ required: true, message: '请输入产品名称', trigger: 'blur' }],
@@ -210,7 +233,9 @@
 					product_mack_price:[{ validator: validateMoney,labelname:'打款价', trigger: 'blur' }],
 					product_return_money:[{ validator: validateMoney,labelname:'返费金额', trigger: 'blur' }],
 					product_floor_price:[{ validator: validateMoney,labelname:'底价', trigger: 'blur' }],
-					product_discount:[{ validator: validatePercent,labelname:'扣率', trigger: 'blur' }],
+					accounting_cost:[{ validator: validateMoney,labelname:'核算成本', trigger: 'blur' }],
+					product_discount:[{ validator: validateMoney,labelname:'扣率', trigger: 'blur' }],
+					gross_interest_rate:[{ validator: validateMoney,labelname:'毛利率', trigger: 'blur' }],
 					product_return_discount:[{ validator: validatePercent,labelname:'返费率', trigger: 'blur' }],
 					product_high_discount:[{ validator: validatePercent,labelname:'底价', trigger: 'blur' }]
 				},
@@ -235,6 +260,10 @@
 				delete sessionDrugs.contacts_name;
 				this.drugs = sessionDrugs;
 				sessionStorage.removeItem('drugs_edit');
+				/*
+				 * 返款统计由无返款  改为  按销售记录的返款，则更新销售记录
+				 */
+				this.product_return_statistics = this.drugs.product_return_statistics;
 				this.editmessage = "修改";
 			}else{
 				this.editmessage = "新增";
@@ -245,6 +274,15 @@
 
 		},
 		methods:{
+			typeChange(label){
+				if(label=="高打" || label=="高打(底价)"){
+					this.drugs.product_return_statistics = "2";
+				}else if(label == "佣金"){
+					this.drugs.product_return_statistics = "1";
+				}else{
+					this.drugs.product_return_statistics = "3";
+				}
+			},
 			randomCode(){
 				this.drugs.product_code = new Date().getTime();
 			},
@@ -294,9 +332,13 @@
 			},
 			submitForm(formName) {
 				var _self = this;
-				this.loading = true;
+				var f1 = this.product_return_statistics != this.drugs.product_return_statistics;
+				var f2 = this.product_return_statistics == 3;
+				var f3 = this.drugs.product_return_statistics == 1;
+				this.drugs.product_return_statistics_update = f1 && f2 && f3;
         this.$refs[formName].validate((valid) => {
           	if (valid) {
+							this.loading = true;
 							var url = _self.editmessage == '新增'?"/iae/drugs/saveDrugs":"/iae/drugs/editDrugs";
 							this.jquery(url,_self.drugs,function(res){
 								_self.$confirm(_self.editmessage+'成功', '提示', {
@@ -313,6 +355,7 @@
 								});
 							});
           	} else {
+							this.loading = false;
           		return false;
           	}
         });
@@ -328,31 +371,33 @@
 					this.drugs.product_high_discount &&
 					this.price.test(this.drugs.product_floor_price) &&
 					this.percent.test(this.drugs.product_high_discount)){
-
 					this.drugs.product_return_money = (this.drugs.product_mack_price - this.drugs.product_floor_price) * (1-this.drugs.product_high_discount/100);
 					this.drugs.product_return_money = this.drugs.product_return_money.toFixed(2);
-
 				}
+				//计算扣率
 				if(this.drugs.product_mack_price &&
 					this.drugs.product_price &&
 					this.price.test(this.drugs.product_mack_price)){
 						this.drugs.product_discount = (this.drugs.product_mack_price*100/this.drugs.product_price).toFixed(2);
 				}
 				//计算打款价
-				if(this.drugs.product_price &&
-					this.drugs.product_discount &&
-					this.price.test(this.drugs.product_price) &&
-					this.percent.test(this.drugs.product_discount)){
-
-					this.drugs.product_mack_price = (this.drugs.product_discount * this.drugs.product_price)/100;
-					this.drugs.product_mack_price = this.drugs.product_mack_price.toFixed(2);
+				if(this.drugs.product_mack_price &&
+					!this.drugs.accounting_cost &&
+					this.percent.test(this.drugs.product_mack_price)){
+					this.drugs.accounting_cost = this.drugs.product_mack_price;
+				}
+				//计算毛利率
+				if(this.drugs.accounting_cost &&
+					this.drugs.product_price &&
+					this.price.test(this.drugs.accounting_cost)){
+						var temp = this.drugs.product_price - this.drugs.accounting_cost;
+						this.drugs.gross_interest_rate = (temp*100/this.drugs.product_price).toFixed(2);
 				}
 				//计算返费率
 				if(this.drugs.product_price &&
 					this.drugs.product_return_money &&
 					this.price.test(this.drugs.product_price) &&
 					this.price.test(this.drugs.product_return_money)){
-
 					this.drugs.product_return_discount = (this.drugs.product_return_money/this.drugs.product_price)*100;
 					this.drugs.product_return_discount = this.drugs.product_return_discount.toFixed(2);
 				}

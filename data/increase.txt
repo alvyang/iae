@@ -1,0 +1,88 @@
+//未发版sql
+update bank_account_detail bad set bad.flag_id = concat('purchase_',bad.flag_id) where bad.account_detail_mark like '%高打%'
+
+alter table bank_account_detail modify column flag_id varchar(30);
+
+update bank_account_detail bad set bad.flag_id = concat('sale_',bad.flag_id) where bad.account_detail_mark like '%销售%'
+
+
+//20180830发版
+INSERT INTO `authority` VALUES
+('66', '银行账号管理', '银行账号管理', '20012', '/main/account', '71', '0', '1', '2', '1'),
+('67', '查询', '查询', '200124', '/', '66', '0', '1', '3', '6'),
+('68', '新增', '新增', '200121', '/', '66', '0', '1', '3', '1'),
+('69', '删除', '删除', '200122', '/', '66', '0', '1', '3', '2'),
+('70', '修改', '修改', '200123', '/', '66', '0', '1', '3', '3'),
+('71', '财务管理', '财务管理', '2001', '/', '1', '0', '1', '1', '1'),
+('72', '流水账管理', '流水账管理', '20011', '/main/accountdetail', '71', '0', '1', '2', '1'),
+('73', '查询', '查询', '200114', '/', '72', '0', '1', '3', '6'),
+('74', '修改', '修改', '200113', '/', '72', '0', '1', '3', '3'),
+('75', '删除', '删除', '200112', '/', '72', '0', '1', '3', '2'),
+('76', '新增', '新增', '200111', '/', '72', '0', '1', '3', '1'),
+('77', '药品管理', '药品管理', '4001', '/', '1', '0', '1', '1', '1');
+
+update authority a set a.authority_parent_id = '77' where a.authority_id in (36,41);
+
+CREATE TABLE `bank_account` (
+  `account_id` int(20) NOT NULL AUTO_INCREMENT,
+  `account_number` varchar(50) DEFAULT NULL COMMENT '收款账号',
+  `account_person` varchar(50) DEFAULT NULL COMMENT '持卡人',
+  `account_group_id` int(20) DEFAULT NULL COMMENT '组id',
+  `account_delete_flag` varchar(5) DEFAULT '0' COMMENT '删除标识',
+  PRIMARY KEY (`account_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+insert into bank_account(account_number) select r.receiver from refunds r where r.receiver != '' group by r.receiver
+update bank_account set account_group_id = '1'
+update refunds r set r.receiver = (select b.account_id from bank_account b where r.receiver = b.account_number);
+
+CREATE TABLE `bank_account_detail` (
+  `account_detail_id` int(20) NOT NULL AUTO_INCREMENT,
+  `account_detail_money` varchar(20) DEFAULT NULL COMMENT '金额',
+  `account_detail_time` datetime DEFAULT NULL COMMENT '时间',
+  `account_detail_mark` varchar(200) DEFAULT NULL COMMENT '详情',
+  `account_id` int(20) DEFAULT NULL,
+  `account_detail_deleta_flag` varchar(2) DEFAULT '0' COMMENT '删除标识',
+  `account_detail_group_id` int(20) DEFAULT NULL COMMENT '组标识',
+  `flag_id` int(20) DEFAULT NULL COMMENT '返款id',
+  PRIMARY KEY (`account_detail_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=143 DEFAULT CHARSET=utf8;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+insert into bank_account_detail(flag_id,account_id,account_detail_money,account_detail_time,account_detail_mark)
+select sr.sale_id,sr.receiver,sr.refunds_real_money,sr.refunds_real_time,CONCAT(DATE_FORMAT(sr.bill_date,'%Y-%m-%d'),'销售',d.product_common_name,'返款') mark from (
+select r.receiver,r.refunds_real_money,r.refunds_real_time,s.product_code,s.bill_date,s.sale_id from sales s left join refunds r on s.sale_id = r.sales_id
+where s.sale_return_flag='1' and r.refunds_real_time is not null and r.refunds_real_money is not null
+) sr left join drugs d on d.product_code = sr.product_code where sr.receiver is not null
+
+insert into bank_account_detail(flag_id,account_id,account_detail_money,account_detail_time,account_detail_mark)
+select pr.purchase_id,pr.receiver,pr.refunds_real_money,pr.refunds_real_time,CONCAT(DATE_FORMAT(pr.make_money_time,'%Y-%m-%d'),'高打',d.product_common_name,'返款') from (
+select r.receiver,r.refunds_real_money,p.make_money_time,r.refunds_real_time,p.drug_id,p.purchase_id from purchase p left join refunds r on p.purchase_id = r.purchases_id
+where p.purchase_return_flag='2' and p.make_money_time is not null and r.refunds_real_time is not null and r.refunds_real_money is not null
+) pr left join drugs d on pr.drug_id = d.product_id where pr.receiver is not null
+
+update bank_account_detail ba set ba.account_detail_deleta_flag = '0',ba.account_detail_group_id = '1'
+
+
+#第一次发版
+alter table drugs add gross_interest_rate varchar(20) ; # 毛利率
+alter table drugs add accounting_cost varchar(20) ; # 核算成本
+
+alter table drugs add product_return_statistics varchar(5) ; # 返款统计
+update drugs set product_return_statistics = 3;
+update drugs set product_return_statistics = 1 where product_type='佣金';
+update drugs set product_return_statistics = 2 where product_type='高打' or product_type='高打(底价)';
+
+alter table sales add sale_return_flag varchar(5) ;#//销售记录表，添加标识
+update sales set sale_return_flag = 3;
+update sales join drugs on sales.product_code = drugs.product_code set sales.sale_return_flag = 1 where drugs.product_type='佣金';
+update sales join drugs on sales.product_code = drugs.product_code set sales.sale_return_flag = 2 where drugs.product_type='高打' or drugs.product_type='高打(底价)';
+
+alter table purchase add purchase_return_flag varchar(5) ;
+update purchase set purchase_return_flag = 2;
+
+
+select c.contacts_name,d.* from drugs d  left join contacts c on d.contacts_id = c.contacts_id where d.delete_flag = '0' and product_business = '九州通' ORDER BY d.product_type desc,c.contacts_name desc into outfile '/var/lib/mysql-files/drugs.xls';

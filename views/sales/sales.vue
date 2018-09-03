@@ -1,21 +1,23 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;">
 		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
-			<div>
-			  <el-form-item label="产品名称" prop="productCommonName">
-			    <el-input v-model="params.productCommonName" @keyup.13.native="reSearch(false)" size="small" placeholder="产品名称/助记码"></el-input>
-			  </el-form-item>
-				<el-form-item label="销售机构" prop="hospitalsId">
-				 <el-select v-model="params.hospitalsId" filterable size="small" placeholder="请选择">
-					 <el-option key="" label="全部" value=""></el-option>
-					 <el-option v-for="item in hospitals"
-						 :key="item.hospital_id"
-						 :label="item.hospital_name"
-						 :value="item.hospital_id">
-					 </el-option>
-			 	</el-select>
-			 </el-form-item>
-			 <el-form-item label="品种类型" prop="productType">
+		  <el-form-item label="产品名称" prop="productCommonName">
+		    <el-input v-model="params.productCommonName" style="width:178px;" @keyup.13.native="reSearch(false)" size="small" placeholder="产品名称/助记码"></el-input>
+		  </el-form-item>
+			<el-form-item label="产品编号" prop="product_code">
+		    <el-input v-model="params.product_code" style="width:178px;" @keyup.13.native="reSearch(false)" size="small" placeholder="产品编号"></el-input>
+		  </el-form-item>
+			<el-form-item label="　联系人" prop="contactId">
+        <el-select v-model="params.contactId" style="width:178px;" filterable size="small" placeholder="请选择">
+					<el-option key="" label="全部" value=""></el-option>
+					<el-option v-for="item in contacts"
+            :key="item.contacts_id"
+            :label="item.contacts_name"
+            :value="item.contacts_id">
+          </el-option>
+        </el-select>
+      </el-form-item>
+			<el-form-item label="品种类型" prop="productType">
 				 <el-select v-model="params.productType" style="width:178px;" size="small" multiple placeholder="请选择">
 					 <el-option key="普药" label="普药" value="普药"></el-option>
 					 <el-option key="佣金" label="佣金" value="佣金"></el-option>
@@ -24,37 +26,46 @@
 					 <el-option key="其它" label="其它" value="其它"></el-option>
 				 </el-select>
 			 </el-form-item>
-			 <el-form-item label="销售类型" prop="sale_type">
-				 <el-select v-model="params.sale_type" style="width:178px;" size="small" placeholder="请选择">
-					 <el-option key="1" label="销售出库" value="1"></el-option>
-					 <el-option key="2" label="销售退回" value="2"></el-option>
-				 </el-select>
-			 </el-form-item>
-		 </div>
-		 <div>
-			 <el-form-item label="　　日期" prop="salesTime">
-				 <el-date-picker v-model="params.salesTime" type="daterange" size="small" align="right" unlink-panels
-					 range-separator="至"
-					 start-placeholder="开始日期"
-					 end-placeholder="结束日期"
-					 :picker-options="pickerOptions2">
-				 </el-date-picker>
-			 </el-form-item>
-			 <el-form-item label="　商业" prop="business">
-				 <el-select v-model="params.business" style="width:178px;" size="small" filterable placeholder="请选择商业">
-					 <el-option v-for="item in business" :key="item.product_business" :label="item.product_business" :value="item.product_business"></el-option>
-				 </el-select>
-			 </el-form-item>
-		   <el-form-item>
-		     <el-button type="primary" v-dbClick v-show="authCode.indexOf('51') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="small">查询</el-button>
-				 <el-button type="primary" v-dbClick v-show="authCode.indexOf('51') > -1" @click="reSearch(true)" size="small">重置</el-button>
-		     <el-button type="primary" v-dbClick v-show="authCode.indexOf('48') > -1" @click="add" size="small">新增</el-button>
-				 <el-button type="primary" v-dbClick v-show="authCode.indexOf('52') > -1" @click="exportExcel" size="small">导出</el-button>
-		   </el-form-item>
-		 </div>
+			<el-form-item label="销售机构" prop="hospitalsId">
+			 <el-select v-model="params.hospitalsId" style="width:178px;" filterable size="small" placeholder="请选择">
+				 <el-option key="" label="全部" value=""></el-option>
+				 <el-option v-for="item in hospitals"
+					 :key="item.hospital_id"
+					 :label="item.hospital_name"
+					 :value="item.hospital_id">
+				 </el-option>
+		 	</el-select>
+		 </el-form-item>
+		 <el-form-item label="销售类型" prop="sale_type">
+			 <el-select v-model="params.sale_type" style="width:178px;" size="small" placeholder="请选择">
+				 <el-option key="" label="全部" value=""></el-option>
+				 <el-option key="1" label="销售出库" value="1"></el-option>
+				 <el-option key="2" label="销售退回" value="2"></el-option>
+			 </el-select>
+		 </el-form-item>
+		 <el-form-item label="　　日期" prop="salesTime">
+			 <el-date-picker v-model="params.salesTime" type="daterange" size="small" align="right" unlink-panels
+				 range-separator="至"
+				 start-placeholder="开始日期"
+				 end-placeholder="结束日期"
+				 :picker-options="pickerOptions2">
+			 </el-date-picker>
+		 </el-form-item>
+		 <el-form-item label="　　商业" prop="business">
+			 <el-select v-model="params.business" style="width:178px;" size="small" filterable placeholder="请选择商业">
+				 <el-option key="" label="全部" value=""></el-option>
+				 <el-option v-for="item in business" :key="item.product_business" :label="item.product_business" :value="item.product_business"></el-option>
+			 </el-select>
+		 </el-form-item>
+	   <el-form-item>
+	     <el-button type="primary" v-dbClick v-show="authCode.indexOf('51') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="small">查询</el-button>
+			 <el-button type="primary" v-dbClick v-show="authCode.indexOf('51') > -1" @click="reSearch(true)" size="small">重置</el-button>
+	     <el-button type="primary" v-dbClick v-show="authCode.indexOf('48') > -1" @click="add" size="small">新增</el-button>
+			 <el-button type="primary" v-dbClick v-show="authCode.indexOf('52') > -1" @click="exportExcel" size="small">导出</el-button>
+	   </el-form-item>
 		</el-form>
 		<div class="sum_money">销售总额：<a>{{money}}</a> 元</div>
-		<el-table :data="sales" style="width: 100%" :stripe="true" :border="true">
+		<el-table :data="sales" style="width: 100%" size="mini" :stripe="true" :border="true">
   			<el-table-column fixed prop="bill_date" label="日期" width="100" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="hospital_name" label="医院名称" width="140"></el-table-column>
 				<el-table-column prop="product_code" label="产品编码" width="140"></el-table-column>
@@ -111,7 +122,7 @@
 					<el-input v-model="sale.sale_money" style="width:194px;"></el-input>
 				</el-form-item>
 				<el-form-item label="销售机构" prop="hospital_id">
-					<el-select v-model="sale.hospital_id" filterable placeholder="请选择销售机构">
+					<el-select v-model="sale.hospital_id" style="width:194px;" filterable placeholder="请选择销售机构">
 						<el-option v-for="item in hospitals"
 							:key="item.hospital_id"
 							:label="item.hospital_name"
@@ -188,7 +199,9 @@
 					hospitalsId:"",
 					productType:"",
 					sale_type:"",
-					business:""
+					business:"",
+					contactId:"",
+					product_code:"",
 				},
 				sale:{},//修改的销售信息
 				saleRule:{
@@ -204,6 +217,7 @@
 		activated(){
 			this.getSalesList();
 			this.getHospitals();
+			this.getContacts();
 			this.getProductBusiness();
 			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
 		},
@@ -211,6 +225,12 @@
 
 		},
 		methods:{
+			getContacts(){
+	      var _self = this;
+	      this.jquery('/iae/contacts/getAllContacts',{group_id:0},function(res){
+	        _self.contacts = res.message;
+	      });
+	    },
 			getProductBusiness(){
 				var _self = this;
 				this.jquery("/iae/drugs/getProductBusiness",null,function(res){//查询商业
@@ -242,10 +262,16 @@
 				window.location = url;
 			},
 			formatterDate(row, column, cellValue){
-				var temp = cellValue.substring(0,10);
-				var d = new Date(temp);
-				d.setDate(d.getDate()+1);
-				return d.format("yyyy-MM-dd");
+				if(cellValue && typeof cellValue == "string"){
+	        var temp = cellValue.substring(0,10);
+	        var d = new Date(temp);
+	        d.setDate(d.getDate()+1);
+	        return d.format("yyyy-MM-dd");
+	      }else if(cellValue && typeof cellValue == "object"){
+	        return new Date(cellValue).format("yyyy-MM-dd");
+	      }else{
+	        return "";
+	      }
 			},
 			editRow(scope){//编辑药品信息
 				this.dialogFormVisible = true;
@@ -272,7 +298,7 @@
 					product_id:scope.row.product_id,
 					sale_num:scope.row.sale_num
 				},function(res){
-					_self.$message({message: '删除成功',type: 'success'});
+					_self.$message({showClose: true,message: '删除成功',type: 'success'});
 					_self.getSalesList();
 					_self.dialogFormVisible = false;
 				});
@@ -311,7 +337,6 @@
 					data:_self.params,
           page:page
         },function(res){
-					console.log(res);
 						_self.money = (res.message.saleMoney+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             _self.sales = res.message.data;
             _self.pageNum=parseInt(res.message.limit);
@@ -320,15 +345,15 @@
 			},
 			editSales(formName){
 				var _self = this;
-				this.loading = true;
 				this.sale.gross_profit = this.sale.cost_univalent*this.sale.sale_num;
 				this.sale.gross_profit = this.sale.gross_profit.toFixed(2);
 				this.$refs[formName].validate((valid) => {
 						if (valid) {
+							this.loading = true;
 							_self.jquery('/iae/sales/editSales',_self.sale,function(res){
 								_self.dialogFormVisible = false;
 								_self.loading = false;
-								_self.$message({message: '修改成功',type: 'success'});
+								_self.$message({showClose: true,message: '修改成功',type: 'success'});
 								_self.getSalesList();
 							});
 						} else {

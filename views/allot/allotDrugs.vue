@@ -1,14 +1,14 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;">
 		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
-		  <el-form-item label="产品通用名" prop="productCommonName">
-		    <el-input v-model="params.productCommonName" @keyup.13.native="searchDrugsList" size="small" placeholder="产品通用名"></el-input>
+		  <el-form-item label="产品名称" prop="productCommonName">
+		    <el-input v-model="params.productCommonName" style="width:178px;" @keyup.13.native="searchDrugsList" size="small" placeholder="产品名称"></el-input>
 		  </el-form-item>
-			<el-form-item label="产品通用名" prop="product_code">
-		    <el-input v-model="params.product_code" @keyup.13.native="searchDrugsList" size="small" placeholder="产品通用名"></el-input>
+			<el-form-item label="产品编码" prop="product_code">
+		    <el-input v-model="params.product_code" style="width:178px;" @keyup.13.native="searchDrugsList" size="small" placeholder="产品编码"></el-input>
 		  </el-form-item>
 		  <el-form-item label="联系人" prop="contactId">
-		    <el-select v-model="params.contactId" size="small" filterable placeholder="请选择">
+		    <el-select v-model="params.contactId" style="width:178px;" size="small" filterable placeholder="请选择">
 		    	<el-option key="" label="全部" value=""></el-option>
 			    <el-option v-for="item in contacts"
 			      :key="item.contacts_id"
@@ -23,7 +23,7 @@
 				<el-button type="primary" v-dbClick @click="returnallot" size="small">返回列表</el-button>
 		  </el-form-item>
 		</el-form>
-		<el-table :data="drugs" style="width: 100%" :stripe="true" :border="true">
+		<el-table :data="drugs" style="width: 100%" size="mini" :stripe="true" :border="true">
   			<el-table-column fixed prop="product_common_name" label="产品名称" width="200"></el-table-column>
 				<el-table-column prop="product_code" label="产品编号" width="150"></el-table-column>
 				<!-- <el-table-column prop="product_supplier" label="供货单位" width="150"></el-table-column> -->
@@ -82,16 +82,16 @@
 					</el-autocomplete>
 			  </el-form-item>
 				<el-form-item label="调货数量" prop="allot_number" :required="true">
-					<el-input v-model="allot.allot_number" :maxlength="10" placeholder="请输入购入数量"></el-input>
+					<el-input v-model="allot.allot_number" style="width:179px;" :maxlength="10" placeholder="请输入购入数量"></el-input>
 				</el-form-item>
 				<el-form-item label="调货金额" prop="allot_money">
-					<el-input v-model="allot.allot_money" :readonly="true"></el-input>
+					<el-input v-model="allot.allot_money" style="width:179px;" :readonly="true"></el-input>
 				</el-form-item>
 				<el-form-item label="返款单价" prop="allot_return_price">
-					<el-input v-model="allot.allot_return_price" @blur="returnMoney"></el-input>
+					<el-input v-model="allot.allot_return_price" style="width:179px;" @blur="returnMoney"></el-input>
 				</el-form-item>
 				<el-form-item label="返款金额" prop="allot_return_money">
-					<el-input v-model="allot.allot_return_money" :readonly="true"></el-input>
+					<el-input v-model="allot.allot_return_money" style="width:179px;" :readonly="true"></el-input>
 				</el-form-item>
 				<el-form-item label="返款时间" prop="allot_return_time">
 					<el-date-picker v-model="allot.allot_return_time" style="width:179px;" type="date" placeholder="请选择打款时间"></el-date-picker>
@@ -155,6 +155,7 @@
 					product_code:""
 				},
 				remarks:[],
+				contacts:[],
 				allot:{
 					allot_time:new Date(),
 					allot_number:"",
@@ -177,6 +178,7 @@
 			}
 		},
 		activated(){
+			this.getContacts();
 			this.getDrugsList();
 			this.hospitals = JSON.parse(sessionStorage["allot_hospital"]);
 		},
@@ -184,6 +186,12 @@
 
 		},
 		methods:{
+			getContacts(){
+				var _self = this;
+				this.jquery('/iae/contacts/getAllContacts',{group_id:0},function(res){
+					_self.contacts = res.message;
+				});
+			},
 			handleSelect(item) {
 				this.allot.allot_hospital = item.allot_hospital;
       },
@@ -215,7 +223,6 @@
 			},
 			addallots(formName){
 				var _self = this;
-				this.loading = true;
 				this.allot.allot_price = this.drug.product_price;
 				this.allot.allot_mack_price = this.drug.product_mack_price;
 				this.allot.allot_drug_id = this.drug.product_id;
@@ -223,6 +230,7 @@
 				this.allot.stock = this.drug.stock;
 				this.$refs[formName].validate((valid) => {
 						if (valid) {
+							_self.loading = true;
 							_self.jquery('/iae/allot/saveAllot',_self.allot,function(res){
 								_self.$confirm('新增成功', '提示', {
 										confirmButtonText:'继续添加',

@@ -2,18 +2,20 @@
 	<div style="box-sizing: border-box;padding: 0px 10px;">
 		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
 		  <el-form-item label="产品名称" prop="productCommonName">
-		    <el-input v-model="params.productCommonName" size="small" @keyup.13.native="reSearch(false)" placeholder="产品名称/助记码"></el-input>
+		    <el-input v-model="params.productCommonName" style="width:178px;" size="small" @keyup.13.native="reSearch(false)" placeholder="产品名称/助记码"></el-input>
 		  </el-form-item>
 			<el-form-item label="产品编号" prop="product_code">
-		    <el-input v-model="params.product_code" @keyup.13.native="reSearch(false)" size="small" placeholder="产品通用名"></el-input>
+		    <el-input v-model="params.product_code" style="width:178px;" @keyup.13.native="reSearch(false)" size="small" placeholder="产品通用名"></el-input>
 		  </el-form-item>
 			<el-form-item label="调货单位" prop="allot_hospital">
 				<el-select v-model="params.allot_hospital" style="width:178px;" size="small" filterable placeholder="请选择供货单位">
+					<el-option key="" label="全部" value=""></el-option>
 					<el-option v-for="item in hospitals" :key="item.allot_hospital" :label="item.allot_hospital" :value="item.allot_hospital"></el-option>
 				</el-select>
 			</el-form-item>
 			<el-form-item label="是否返款" prop="allot_return_flag">
 				<el-select v-model="params.allot_return_flag" style="width:178px;" size="small" filterable placeholder="请选择供货单位">
+					<el-option key="" label="全部" value=""></el-option>
 					<el-option key="是" label="是" value="是"></el-option>
 					<el-option key="否" label="否" value="否"></el-option>
 				</el-select>
@@ -35,7 +37,7 @@
 		<div class="sum_money_allot">
 			<a>返款总额：</a>{{money}} <span>元</span>
 		</div>
-		<el-table :data="allots" style="width: 100%" :stripe="true" :border="true">
+		<el-table :data="allots" style="width: 100%" size="mini" :stripe="true" :border="true">
 				<el-table-column fixed prop="allot_time" label="调货时间" width="90" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="allot_hospital" label="调货单位" width="120"></el-table-column>
 				<el-table-column prop="product_code" label="产品通用名" width="150"></el-table-column>
@@ -98,16 +100,16 @@
 					</el-autocomplete>
 			  </el-form-item>
 				<el-form-item label="调货数量" prop="allot_number" :required="true">
-					<el-input v-model="allot.allot_number" :maxlength="10" placeholder="请输入购入数量"></el-input>
+					<el-input v-model="allot.allot_number" style="width:179px;" :maxlength="10" placeholder="请输入购入数量"></el-input>
 				</el-form-item>
 				<el-form-item label="调货金额" prop="allot_money">
-					<el-input v-model="allot.allot_money" :readonly="true"></el-input>
+					<el-input v-model="allot.allot_money" style="width:179px;" :readonly="true"></el-input>
 				</el-form-item>
 				<el-form-item label="返款单价" prop="allot_return_price">
-					<el-input v-model="allot.allot_return_price"></el-input>
+					<el-input v-model="allot.allot_return_price" style="width:179px;" ></el-input>
 				</el-form-item>
 				<el-form-item label="返款金额" prop="allot_return_money">
-					<el-input v-model="allot.allot_return_money" :readonly="true"></el-input>
+					<el-input v-model="allot.allot_return_money" style="width:179px;" :readonly="true"></el-input>
 				</el-form-item>
 				<el-form-item label="返款时间" prop="allot_return_time">
 					<el-date-picker v-model="allot.allot_return_time" style="width:179px;" type="date" placeholder="请选择打款时间"></el-date-picker>
@@ -147,9 +149,11 @@
         }
       };
 			var validateRealReturnMoney = (rule, value, callback) => {
-        if(!value && !reg.test(value)){
+				if(!value){
+					  callback();
+				}else if(value && !reg.test(value)){
 					callback(new Error('请输入正确的返款单价'));
-				} else {
+				}else{
 					this.allot.allot_return_money = value * this.allot.allot_number;
 					this.allot.allot_return_money =	this.allot.allot_return_money.toFixed(2);
           callback();
@@ -248,13 +252,13 @@
       },
 			editallots(formName){
 				var _self = this;
-				_self.loading=true;
 				this.$refs[formName].validate((valid) => {
 						if (valid) {
+							_self.loading=true;
 							_self.jquery('/iae/allot/editAllot',_self.allot,function(res){
 								_self.dialogFormVisible = false;
 								_self.loading=false;
-								_self.$message({message: '修改成功',type: 'success'});
+								_self.$message({showClose: true,message: '修改成功',type: 'success'});
 								_self.getAllotsList();
 							});
 						} else {
@@ -263,14 +267,16 @@
 				});
 			},
 			formatterDate(row, column, cellValue){
-				if(cellValue){
-					var temp = cellValue.substring(0,10);
-					var d = new Date(temp);
-					d.setDate(d.getDate()+1);
-					return d.format("yyyy-MM-dd");
-				}else{
-					return "";
-				}
+				if(cellValue && typeof cellValue == "string"){
+	        var temp = cellValue.substring(0,10);
+	        var d = new Date(temp);
+	        d.setDate(d.getDate()+1);
+	        return d.format("yyyy-MM-dd");
+	      }else if(cellValue && typeof cellValue == "object"){
+	        return new Date(cellValue).format("yyyy-MM-dd");
+	      }else{
+	        return "";
+	      }
 			},
 			editRow(scope){//编辑药品信息
 				this.dialogFormVisible = true;
@@ -296,7 +302,7 @@
 					product_id:scope.row.product_id,
 					allot_number:scope.row.allot_number
 				},function(res){
-					_self.$message({message: '删除成功',type: 'success'});
+					_self.$message({showClose: true,message: '删除成功',type: 'success'});
 					_self.getAllotsList();
 					_self.dialogFormVisible = false;
 				});

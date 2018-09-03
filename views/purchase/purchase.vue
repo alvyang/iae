@@ -2,14 +2,15 @@
 	<div style="box-sizing: border-box;padding: 0px 10px;">
 		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
 		  <el-form-item label="产品名称" prop="productCommonName">
-		    <el-input v-model="params.productCommonName" size="small" @keyup.13.native="reSearch(false)" placeholder="产品名称/助记码"></el-input>
+		    <el-input v-model="params.productCommonName" style="width:178px;" size="small" @keyup.13.native="reSearch(false)" placeholder="产品名称/助记码"></el-input>
 		  </el-form-item>
 			<el-form-item label="产品编号" prop="product_code">
-		    <el-input v-model="params.product_code" @keyup.13.native="reSearch(false)" size="small" placeholder="产品通用名"></el-input>
+		    <el-input v-model="params.product_code" style="width:178px;" @keyup.13.native="reSearch(false)" size="small" placeholder="产品通用名"></el-input>
 		  </el-form-item>
 		  <el-form-item label="联系人" prop="contactId">
-		    <el-select v-model="params.contactId" filterable size="small" placeholder="请选择">
-			    <el-option v-for="item in contacts"
+		    <el-select v-model="params.contactId" style="width:178px;" filterable size="small" placeholder="请选择">
+					<el-option key="" label="全部" value=""></el-option>
+					<el-option v-for="item in contacts"
 			      :key="item.contacts_id"
 			      :label="item.contacts_name"
 			      :value="item.contacts_id">
@@ -17,7 +18,8 @@
 				</el-select>
 		  </el-form-item>
 			<el-form-item label="备货状态" prop="status">
-		    <el-select v-model="params.status" size="small" placeholder="请选择">
+		    <el-select v-model="params.status" style="width:178px;" size="small" placeholder="请选择">
+					<el-option key="" label="全部" value=""></el-option>
 					<el-option key="1" label="未打款" value="1"></el-option>
 					<el-option key="2" label="打款,未发货" value="2"></el-option>
 					<el-option key="3" label="发货,未入库" value="3"></el-option>
@@ -37,8 +39,8 @@
 				 <el-option v-for="item in remarks"
 					 :key="item.remark" :label="item.remark" :value="item.remark">
 				 </el-option>
-			 </el-select>
-		 </el-form-item>
+			  </el-select>
+		 	</el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('56') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="small">查询</el-button>
 				<el-button type="primary" v-dbClick v-show="authCode.indexOf('56') > -1" @click="reSearch(true)" size="small">重置</el-button>
@@ -49,9 +51,10 @@
 		<div class="sum_money_purchase">
 			<a>采购总额：</a>{{money}} <span>元</span>
 		</div>
-		<el-table :data="purchases" style="width: 100%" :stripe="true" :border="true">
+		<el-table :data="purchases" style="width: 100%" size="mini" :stripe="true" :border="true">
 				<el-table-column fixed prop="time" label="备货时间" width="90" :formatter="formatterDate"></el-table-column>
   			<el-table-column fixed prop="product_common_name" label="产品通用名" width="150"></el-table-column>
+				<el-table-column prop="product_code" label="产品编码" width="150"></el-table-column>
 				<el-table-column prop="product_specifications" label="产品规格" width="100"></el-table-column>
 				<el-table-column prop="product_makesmakers" label="生厂企业" width="200"></el-table-column>
 				<el-table-column prop="product_packing" label="包装" width="60"></el-table-column>
@@ -107,10 +110,10 @@
 			</el-collapse>
 			<el-form :model="purchase" ref="purchase" status-icon :rules="purchaseRule" style="margin-top:20px;" :inline="true" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="购入数量" prop="purchase_number" :required="true">
-					<el-input v-model="purchase.purchase_number" :maxlength="10" placeholder="请输入购入数量"></el-input>
+					<el-input v-model="purchase.purchase_number" style="width:179px;" :maxlength="10" placeholder="请输入购入数量"></el-input>
 				</el-form-item>
 				<el-form-item label="购入金额" prop="purchase_money">
-					<el-input v-model="purchase.purchase_money" :readonly="true"></el-input>
+					<el-input v-model="purchase.purchase_money" style="width:179px;" :readonly="true"></el-input>
 				</el-form-item>
 				<el-form-item label="备货时间" prop="time">
 					<el-date-picker v-model="purchase.time" style="width:179px;" type="date" placeholder="请选择打款时间"></el-date-picker>
@@ -269,13 +272,13 @@
       },
 			editPurchases(formName){
 				var _self = this;
-				this.loading = true;
 				this.$refs[formName].validate((valid) => {
 						if (valid) {
+							this.loading = true;
 							_self.jquery('/iae/purchase/editPurchase',_self.purchase,function(res){
 								_self.dialogFormVisible = false;
 								_self.loading = false;
-								_self.$message({message: '修改成功',type: 'success'});
+								_self.$message({showClose: true,message: '修改成功',type: 'success'});
 								_self.getPurchasesList();
 							});
 						} else {
@@ -290,15 +293,16 @@
 				});
 			},
 			formatterDate(row, column, cellValue){
-				if(cellValue){
-					var temp = cellValue.substring(0,10);
-					var d = new Date(temp);
-					d.setDate(d.getDate()+1);
-					return d.format("yyyy-MM-dd");
-				}else{
-					return "";
-				}
-
+				if(cellValue && typeof cellValue == "string"){
+	        var temp = cellValue.substring(0,10);
+	        var d = new Date(temp);
+	        d.setDate(d.getDate()+1);
+	        return d.format("yyyy-MM-dd");
+	      }else if(cellValue && typeof cellValue == "object"){
+	        return new Date(cellValue).format("yyyy-MM-dd");
+	      }else{
+	        return "";
+	      }
 			},
 			editRow(scope){//编辑药品信息
 				this.dialogFormVisible = true;
@@ -326,7 +330,7 @@
 					stock:scope.row.stock,
 					purchase_number:scope.row.purchase_number
 				},function(res){
-					_self.$message({message: '删除成功',type: 'success'});
+					_self.$message({showClose: true,message: '删除成功',type: 'success'});
 					_self.getPurchasesList();
 					_self.dialogFormVisible = false;
 				});

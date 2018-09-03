@@ -136,13 +136,13 @@
       },
       submitForm(formName) {
         var _self = this;
-        this.loading = true;
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            this.loading = true;
             this.jquery('/iae/authority/editAuthoritys',this.authorityData,function(res){
               _self.authorityData.label =  _self.authorityData.authority_name;
               _self.loading = false;
-              _self.$message({message: '修改成功',type: 'success'});
+              _self.$message({showClose: true,message: '修改成功',type: 'success'});
             });
           } else {
             console.log('error submit!!');

@@ -14,7 +14,7 @@
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('16') > -1" @click="addShow" size="small">新增</el-button>
 		  </el-form-item>
 		</el-form>
-		<el-table :data="users" style="width: 100%" :stripe="true">
+		<el-table :data="users" style="width: 100%" size="mini" :stripe="true">
 			<el-table-column prop="username" label="用户名"></el-table-column>
 			<el-table-column prop="realname" label="真实姓名"></el-table-column>
 			<el-table-column prop="role_name" label="角色名"></el-table-column>
@@ -41,13 +41,13 @@
     <el-dialog :title="title == 1?'新增用户':'修改用户'" width="500px" :visible.sync="dialogFormVisible">
       <el-form :model="user" :rules="rules" ref="user" label-width="100px" class="demo-ruleForm">
         <el-form-item label="用户名" prop="username" :required="true">
-          <el-input v-model="user.username" maxlength='20' placeholder="用户名" auto-complete="off"></el-input>
+          <el-input v-model="user.username" maxlength='20' style="width: 300px;" placeholder="用户名" auto-complete="off"></el-input>
         </el-form-item>
 				<el-form-item label="密码" prop="password">
-          <el-input v-model="user.password" maxlength='20' type='password' placeholder="密码" auto-complete="off"></el-input>
+          <el-input v-model="user.password" maxlength='20' style="width: 300px;" type='password' placeholder="密码" auto-complete="off"></el-input>
         </el-form-item>
 				<el-form-item label="真实姓名" prop="realname">
-          <el-input v-model="user.realname" maxlength='20' placeholder="真实姓名" auto-complete="off"></el-input>
+          <el-input v-model="user.realname" maxlength='20' style="width: 300px;" placeholder="真实姓名" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -149,6 +149,7 @@
           password:"",
           realname:""
         };
+				this.title=1;
 				var _self = this;
 				setTimeout(function(){
 					_self.$refs["user"].clearValidate();
@@ -173,7 +174,7 @@
 					id:this.selectUser.id,
 					role_id:this.currentRow.role_id+""
 				},function(res){
-					_self.$message({message: '修改成功',type: 'success'});
+					_self.$message({showClose: true,message: '修改成功',type: 'success'});
 					_self.dialogTableVisible = false;
 					_self.selectUser.role_name = _self.currentRow.role_name;
 					_self.selectUser.role_id = _self.currentRow.role_id;
@@ -203,25 +204,25 @@
         this.jquery('/iae/user/deleteUsers',{
           id:scope.row.id
         },function(res){
-          _self.$message({message: '删除成功',type: 'success'});
+          _self.$message({showClose: true,message: '删除成功',type: 'success'});
           _self.searchUsersList();
           _self.dialogFormVisible = false;
         });
 			},
 			add(formName){
         var _self = this;
-				this.loading = true;
         this.$refs[formName].validate((valid) => {
           if (valid) {
+						this.loading = true;
             if(this.title == 1){
               this.jquery('/iae/user/saveUsers',_self.user,function(res){
-                _self.$message({message: '新增成功',type: 'success'});
+                _self.$message({showClose: true,message: '新增成功',type: 'success'});
                 _self.dialogFormVisible = false;
 								_self.loading = false;
               });
             }else{
               this.jquery('/iae/user/editUsers',_self.user,function(res){
-                _self.$message({message: '修改成功',type: 'success'});
+                _self.$message({showClose: true,message: '修改成功',type: 'success'});
                 _self.dialogFormVisible = false;
 								_self.loading =false;
               });

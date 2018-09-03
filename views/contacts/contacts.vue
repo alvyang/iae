@@ -14,7 +14,7 @@
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('32') > -1" @click="addShow" size="small">新增</el-button>
 		  </el-form-item>
 		</el-form>
-		<el-table :data="contacts" style="width: 100%" :stripe="true">
+		<el-table :data="contacts" style="width: 100%" size="mini" :stripe="true">
 			<el-table-column prop="contacts_name" label="联系人"></el-table-column>
 			<el-table-column prop="contacts_phone" label="电话"></el-table-column>
 			<el-table-column fixed="right" label="操作" width="200">
@@ -115,7 +115,7 @@
         this.jquery('/iae/contacts/deleteContacts',{
           contacts_id:scope.row.contacts_id
         },function(res){
-          _self.$message({message: '删除成功',type: 'success'});
+          _self.$message({showClose: true,message: '删除成功',type: 'success'});
           _self.getContactsList();
           _self.dialogFormVisible = false;
         });
@@ -125,23 +125,24 @@
 					contacts_name:"",
 					contacts_phone:"",
 				};
+				this.title=1;
 				this.dialogFormVisible = true;
 			},
 			add(formName){
 				var _self = this;
-				this.loading = true;
         this.$refs[formName].validate((valid) => {
           if (valid) {
+						this.loading = true;
             if(this.title == 1){
               this.jquery('/iae/contacts/saveContacts',_self.contact,function(res){
-                _self.$message({message: '新增成功',type: 'success'});
+                _self.$message({showClose: true,message: '新增成功',type: 'success'});
                 _self.dialogFormVisible = false;
 								_self.loading = false;
 								_self.getContactsList();
               });
             }else{
               this.jquery('/iae/contacts/editContacts',_self.contact,function(res){
-                _self.$message({message: '修改成功',type: 'success'});
+                _self.$message({showClose: true,message: '修改成功',type: 'success'});
                 _self.dialogFormVisible = false;
 								_self.loading = false;
               });

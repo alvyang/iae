@@ -5,21 +5,21 @@
 			<el-breadcrumb-item>选择药品<a style="color:#f24040;">（请先选择备货药品）</a></el-breadcrumb-item>
 		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
-		  <el-form-item label="产品通用名" prop="productCommonName">
-		    <el-input v-model="params.productCommonName" @keyup.13.native="searchDrugsList" size="small" placeholder="产品通用名"></el-input>
+		  <el-form-item label="产品名称" prop="productCommonName">
+		    <el-input v-model="params.productCommonName" style="width:178px;" @keyup.13.native="searchDrugsList" size="small" placeholder="产品名称"></el-input>
 		  </el-form-item>
-			<el-form-item label="产品通用名" prop="product_code">
-		    <el-input v-model="params.product_code" @keyup.13.native="searchDrugsList" size="small" placeholder="产品通用名"></el-input>
+			<el-form-item label="产品编码" prop="product_code">
+		    <el-input v-model="params.product_code" style="width:178px;" @keyup.13.native="searchDrugsList" size="small" placeholder="产品编码"></el-input>
 		  </el-form-item>
 		  <el-form-item label="联系人" prop="contactId">
-		    <el-select v-model="params.contactId" size="small" filterable placeholder="请选择">
+		    <el-select v-model="params.contactId" style="width:178px;" size="small" filterable placeholder="请选择">
 		    	<el-option key="" label="全部" value=""></el-option>
 			    <el-option v-for="item in contacts"
 			      :key="item.contacts_id"
 			      :label="item.contacts_name"
 			      :value="item.contacts_id">
 			    </el-option>
-			</el-select>
+				</el-select>
 		  </el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" v-dbClick @click="searchDrugsList" size="small">查询</el-button>
@@ -27,7 +27,7 @@
 				<el-button type="primary" v-dbClick @click="returnPurchase" size="small">返回列表</el-button>
 		  </el-form-item>
 		</el-form>
-		<el-table :data="drugs" style="width: 100%" :stripe="true" :border="true">
+		<el-table :data="drugs" style="width: 100%" size="mini" :stripe="true" :border="true">
   			<el-table-column fixed prop="product_common_name" label="产品名称" width="200"></el-table-column>
 				<el-table-column prop="product_code" label="产品编号" width="150"></el-table-column>
 				<!-- <el-table-column prop="product_supplier" label="供货单位" width="150"></el-table-column> -->
@@ -72,10 +72,10 @@
 			</el-collapse>
 			<el-form :model="purchase" ref="purchase" status-icon :rules="purchaseRule" style="margin-top:20px;" :inline="true" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="购入数量" prop="purchase_number" :required="true">
-					<el-input v-model="purchase.purchase_number" :maxlength="10" placeholder="请输入购入数量"></el-input>
+					<el-input v-model="purchase.purchase_number" style="width:179px;" :maxlength="10" placeholder="请输入购入数量"></el-input>
 				</el-form-item>
 				<el-form-item label="购入金额" prop="purchase_money">
-					<el-input v-model="purchase.purchase_money" :readonly="true"></el-input>
+					<el-input v-model="purchase.purchase_money" style="width:179px;" :readonly="true"></el-input>
 				</el-form-item>
 				<el-form-item label="备货时间" prop="time">
 					<el-date-picker v-model="purchase.time" style="width:179px;" type="date" placeholder="请选择打款时间"></el-date-picker>
@@ -159,7 +159,8 @@
 					purchase_price:"",
 					purchase_mack_price:"",
 					puchase_gross_rate:"",
-					remark:""
+					remark:"",
+					purchase_return_flag:""
 				},
 				purchaseRule:{
 					purchase_number:[{validator:validateNum,trigger: 'blur' }],
@@ -209,14 +210,15 @@
 			},
 			addPurchases(formName){
 				var _self = this;
-				this.loading = true;
 				this.purchase.purchase_price = this.drug.product_price;
 				this.purchase.purchase_mack_price = this.drug.product_mack_price;
 				this.purchase.drug_id = this.drug.product_id;
 				this.purchase.stock = this.drug.stock,
 				this.purchase.puchase_gross_rate = (100 - this.drug.product_discount).toFixed(0);
+				this.purchase.purchase_return_flag = this.drug.product_return_statistics;
 				this.$refs[formName].validate((valid) => {
 						if (valid) {
+							this.loading = true;
 							_self.jquery('/iae/purchase/savePurchases',_self.purchase,function(res){
 								_self.$confirm('新增成功', '提示', {
 										confirmButtonText:'继续添加',

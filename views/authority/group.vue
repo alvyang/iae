@@ -14,7 +14,7 @@
 		    <el-button type="primary" v-dbClick @click="addShow" size="small">新增</el-button>
 		  </el-form-item>
 		</el-form>
-		<el-table :data="groups" style="width: 100%" :stripe="true" :border="true">
+		<el-table :data="groups" style="width: 100%" size="mini" :stripe="true" :border="true">
 			<el-table-column prop="group_name" label="组名称"></el-table-column>
 			<el-table-column prop="group_code" label="组编码"></el-table-column>
 			<el-table-column prop="start_time" :formatter="formatValue" label="有效期开始时间"></el-table-column>
@@ -41,16 +41,16 @@
     <el-dialog :title="title == 1?'新增用户组':'修改用户组'" width="500px" :visible.sync="dialogFormVisible">
       <el-form :model="group" :rules="rules" ref="group" label-width="130px" class="demo-ruleForm">
         <el-form-item label="组名称" prop="group_name">
-          <el-input v-model="group.group_name" maxlength='20' auto-complete="off"></el-input>
+          <el-input v-model="group.group_name" style="width: 300px;" maxlength='20' auto-complete="off"></el-input>
         </el-form-item>
 				<el-form-item label="组编码" prop="group_code" :required="true">
-          <el-input v-model="group.group_code" maxlength='20' auto-complete="off"></el-input>
+          <el-input v-model="group.group_code" style="width: 300px;" maxlength='20' auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="有效期开始日期" prop="start_time">
-          <el-date-picker v-model="group.start_time" style="width:100%;" type="date" placeholder="选择开始日期"></el-date-picker>
+          <el-date-picker v-model="group.start_time" style="width: 300px;" type="date" placeholder="选择开始日期"></el-date-picker>
         </el-form-item>
         <el-form-item label="有效期结束日期" prop="end_time">
-          <el-date-picker v-model="group.end_time" style="width:100%;" type="date" placeholder="选择结束日期"></el-date-picker>
+          <el-date-picker v-model="group.end_time" style="width: 300px;" type="date" placeholder="选择结束日期"></el-date-picker>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -149,7 +149,7 @@
         this.jquery('/iae/group/deleteGroups',{
           group_id:scope.row.group_id
         },function(res){
-          _self.$message({message: '删除成功',type: 'success'});
+          _self.$message({showClose: true,message: '删除成功',type: 'success'});
           _self.searchGroupsList();
           _self.dialogFormVisible = false;
         });
@@ -157,18 +157,18 @@
 			},
 			add(formName){
         var _self = this;
-				this.loading = true;
         this.$refs[formName].validate((valid) => {
           if (valid) {
+						this.loading = true;
             if(this.title == 1){
               this.jquery('/iae/group/saveGroups',_self.group,function(res){
-                _self.$message({message: '新增成功',type: 'success'});
+                _self.$message({showClose: true,message: '新增成功',type: 'success'});
 								_self.loading = false;
                 _self.dialogFormVisible = false;
               });
             }else{
               this.jquery('/iae/group/editGroups',_self.group,function(res){
-                _self.$message({message: '修改成功',type: 'success'});
+                _self.$message({showClose: true,message: '修改成功',type: 'success'});
                 _self.dialogFormVisible = false;
 								_self.loading = false;
               });

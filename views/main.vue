@@ -66,7 +66,6 @@
 				this.jquery('/iae/authority/getAuthoritysList',{
 					authority_code:authCode,
 				},function(res){
-					console.log(res);
 					_self.authList = res.message[0].children;
 				});
 			},

@@ -7,14 +7,35 @@
     <el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
       <div>
         <el-form-item label="产品名称" prop="productCommonName">
-          <el-input v-model="params.productCommonName" @keyup.13.native="reSearch(false)" size="small" placeholder="产品名称/助记码"></el-input>
+          <el-input v-model="params.productCommonName" style="width:178px;" @keyup.13.native="reSearch(false)" size="small" placeholder="产品名称/助记码"></el-input>
+        </el-form-item>
+        <el-form-item label="产品编码" prop="product_code">
+          <el-input v-model="params.product_code" style="width:178px;" @keyup.13.native="reSearch(false)" size="small" placeholder="产品编码"></el-input>
         </el-form-item>
         <el-form-item label="联系人" prop="contactId">
-          <el-select v-model="params.contactId" filterable size="small" placeholder="请选择">
+          <el-select v-model="params.contactId" style="width:178px;" filterable size="small" placeholder="请选择">
+            <el-option key="" label="全部" value=""></el-option>
             <el-option v-for="item in contacts"
               :key="item.contacts_id"
               :label="item.contacts_name"
               :value="item.contacts_id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="返款状态" prop="status">
+          <el-select v-model="params.status" filterable size="small" style="width:178px;" placeholder="请选择">
+            <el-option key="" label="全部" value=""></el-option>
+            <el-option key="已返" label="已返" value="已返"></el-option>
+            <el-option key="未返" label="未返" value="未返"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="　返款人" prop="refundser">
+          <el-select v-model="params.refundser" style="width:178px;" filterable size="small" placeholder="请选择">
+            <el-option key="" label="全部" value=""></el-option>
+            <el-option v-for="item in refundser" v-if="item.refundser"
+              :key="item.refundser"
+              :label="item.refundser"
+              :value="item.refundser">
             </el-option>
           </el-select>
         </el-form-item>
@@ -34,12 +55,6 @@
            :picker-options="pickerOptions2">
          </el-date-picker>
         </el-form-item>
-        <el-form-item label="返款状态" prop="status">
-          <el-select v-model="params.status" filterable size="small" style="width:178px;" placeholder="请选择">
-            <el-option key="已返" label="已返" value="已返"></el-option>
-            <el-option key="未返" label="未返" value="未返"></el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item>
          <el-button type="primary" v-dbClick v-show="authCode.indexOf('44') > -1"  style="margin-left: 14px;" @click="reSearch(false)" size="small">查询</el-button>
          <el-button type="primary" v-dbClick v-show="authCode.indexOf('44') > -1"  @click="reSearch(true)" size="small">重置</el-button>
@@ -47,7 +62,7 @@
       </div>
     </el-form>
     <div class="sum_money">应返金额：<a>{{refundMoney.rsm}}</a> 元；实返金额：<a>{{refundMoney.rrm}}</a> 元；手续费：<a>{{refundMoney.sc}}</a> 元；外欠金额：<a>{{refundMoney.own}}</a> 元</div>
-    <el-table :data="purchases" style="width: 100%" :stripe="true" :border="true">
+    <el-table :data="purchases" style="width: 100%" size="mini" :stripe="true" :border="true">
       <el-table-column fixed prop="product_code" label="产品编码" width="120"></el-table-column>
       <el-table-column fixed prop="product_common_name" label="产品名称" width="160" ></el-table-column>
       <el-table-column prop="product_specifications" label="产品规格" width="120"></el-table-column>
@@ -67,7 +82,7 @@
       <el-table-column  prop="refunds_real_money" label="实返金额" width="100"></el-table-column>
       <el-table-column  prop="service_charge" label="手续费" width="100"></el-table-column>
       <el-table-column  prop="refundser" label="返款人" width="100"></el-table-column>
-      <el-table-column  prop="receiver" label="收款人" width="100"></el-table-column>
+      <el-table-column  prop="account_number" label="收款人" width="100"></el-table-column>
       <el-table-column fixed="right" label="操作" width="80">
       <template slot-scope="scope">
         <el-button v-show="authCode.indexOf('45') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
@@ -100,27 +115,40 @@
           <div style="display:block;width:100%;"><span>返款说明:</span>{{refund.product_return_explain}}</div>
 			  </el-collapse-item>
 			</el-collapse>
-			<el-form :model="refund" status-icon style="margin-top:20px;" :inline="true" ref="refund" label-width="100px" class="demo-ruleForm">
-				<el-form-item label="应返日期" prop="refunds_should_time" :maxlength="10">
+			<el-form :model="refund" status-icon style="margin-top:20px;" :inline="true" :rules="refundRule" ref="refund" label-width="100px" class="demo-ruleForm">
+				<el-form-item label="应返日期" prop="refunds_should_time">
           <el-date-picker v-model="refund.refunds_should_time" style="width:194px;" type="date" placeholder="请选择应返日期"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="应返金额" prop="refunds_should_money">
 					<el-input v-model="refund.refunds_should_money" style="width:194px;" placeholder="应返金额" auto-complete="off"></el-input>
 				</el-form-item>
-        <el-form-item label="实返日期" prop="refunds_real_time" :maxlength="10">
+        <el-form-item label="实返日期" prop="refunds_real_time">
           <el-date-picker v-model="refund.refunds_real_time" style="width:194px;" type="date" placeholder="请选择实返日期"></el-date-picker>
         </el-form-item>
         <el-form-item label="实返金额" prop="refunds_real_money">
           <el-input v-model="refund.refunds_real_money" style="width:194px;" placeholder="实返金额" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="手续费" prop="refunds_real_money">
+        <el-form-item label="手续费" prop="service_charge">
           <el-input v-model="refund.service_charge" style="width:194px;" placeholder="实返金额" auto-complete="off"></el-input>
         </el-form-item>
 				<el-form-item label="返款信息" prop="refundser">
-					<el-input v-model="refund.refundser" style="width:194px;" placeholder="返款信息" auto-complete="off"></el-input>
+          <el-autocomplete popper-class="my-autocomplete" style="width:194px;"
+           v-model="refund.refundser"
+           :fetch-suggestions="querySearch"
+           placeholder="返款信息" @select="handleSelect">
+           <template slot-scope="{ item }">
+             <div class="name">{{ item.refundser }}</div>
+           </template>
+          </el-autocomplete>
 				</el-form-item>
         <el-form-item label="收款信息" prop="receiver">
-					<el-input v-model="refund.receiver" style="width:194px;" placeholder="收款信息" auto-complete="off"></el-input>
+          <el-select v-model="refund.receiver" style="width:194px;" filterable placeholder="请选择">
+            <el-option v-for="item in accounts"
+              :key="item.account_id"
+              :label="item.account_number"
+              :value="item.account_id">
+            </el-option>
+          </el-select>
 				</el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">
@@ -139,6 +167,23 @@ export default({
         callback(new Error('请输入计划数量'));
       } else if(!regu.test(value)){
         callback(new Error('请输入正整数'));
+      } else {
+        callback();
+      }
+    };
+    var validateNull = (rule, value, callback) =>{
+      if(this.refund.receiver && !value){
+        callback(new Error('请选择返款时间'));
+      }else{
+        callback();
+      }
+    }
+    var validateMoney = (rule, value, callback) => {
+      var reg = /^(([1-9]\d+(.[0-9]{1,4})?|\d(.[0-9]{1,4})?)|([-]([1-9]\d+(.[0-9]{1,4})?|\d(.[0-9]{1,4})?)))$/;
+      if(this.refund.receiver && !value){
+        callback(new Error('请再输入'+rule.labelname));
+      }else if (this.refund.receiver && !reg.test(value)) {
+        callback(new Error('请再输入正确的'+rule.labelname));
       } else {
         callback();
       }
@@ -176,7 +221,19 @@ export default({
       },
       purchases:[],
       contacts:[],
-      refund:{},
+      accounts:[],//收款人账号列表
+      refundser:[],//返款人列表
+      contactRefunders:[],//与当前联系人相关返款人列表
+      refund:{
+        refunds_real_time:null,
+        refunds_should_money:"",
+        refunds_real_money:""
+      },
+      refundRule:{
+        refunds_real_time:[{validator: validateNull,trigger: 'blur' }],
+        refunds_should_money:[{validator: validateMoney,labelname:'应返金额',trigger: 'blur' }],
+        refunds_real_money:[{validator: validateMoney,labelname:'实返金额',trigger: 'blur' }]
+      },
       refundMoney:{},//返费总额
       pageNum:10,
       currentPage:1,
@@ -186,7 +243,9 @@ export default({
         time:[defaultStart,defaultEnd],
         returnTime:null,
         contactId:"",
-        status:""
+        status:"",
+        product_code:"",
+        refundser:""
       },
       dialogFormVisible:false,
       loading:false,
@@ -196,12 +255,26 @@ export default({
   activated(){
     this.getPurchasesList();
     this.getContacts();
+    this.getPurchasesRefunder();
+    this.getBankAccount();
     this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
   },
   mounted(){
 
   },
   methods:{
+    getPurchasesRefunder(){
+      var _self = this;
+      this.jquery("/iae/refunds/getPurchasesRefunder",null,function(res){//查询返款人
+        _self.refundser=res.message;
+      });
+    },
+    getBankAccount(){
+      var _self = this;
+      this.jquery("/iae/bankaccount/getAllAccounts",null,function(res){//查询返款人
+        _self.accounts=res.message;
+      });
+    },
     getContacts(){
       var _self = this;
       this.jquery('/iae/contacts/getAllContacts',{group_id:0},function(res){
@@ -209,19 +282,31 @@ export default({
       });
     },
     formatterDate(row, column, cellValue){
-      if(cellValue){
+      if(cellValue && typeof cellValue == "string"){
         var temp = cellValue.substring(0,10);
         var d = new Date(temp);
         d.setDate(d.getDate()+1);
         return d.format("yyyy-MM-dd");
+      }else if(cellValue && typeof cellValue == "object"){
+        return new Date(cellValue).format("yyyy-MM-dd");
       }else{
         return "";
       }
 
     },
     editRow(scope){//编辑返款信息
+      //获取返款人信息
+      var _self = this;
+      this.jquery('/iae/refunds/getContactPurchasesRefunder',{contact_name:scope.row.contacts_name},function(res){
+        _self.contactRefunders = res.message;
+      });
+
       this.dialogFormVisible = true;
+      if(this.$refs["refund"]){
+        this.$refs["refund"].resetFields();
+      }
       this.refund = scope.row;
+      this.refund.receiver = this.refund.receiver?parseInt(this.refund.receiver):this.refund.receiver;
       if(this.refund.product_return_money && !this.refund.refunds_should_money){
         var num = this.refund.sale_num?this.refund.sale_num:this.refund.purchase_number;
         if(this.refund.product_type=="高打(底价)"){
@@ -232,6 +317,20 @@ export default({
         }
         this.refund.refunds_should_money = this.refund.refunds_should_money.toFixed(2);
       }
+    },
+    handleSelect(item) {
+      this.refund.refundser = item.refundser;
+    },
+    querySearch(queryString, cb) {
+      var receiver = this.contactRefunders;
+      var results = queryString ? receiver.filter(this.createFilter(queryString)) : receiver;
+      // 调用 callback 返回建议列表的数据
+      cb(results);
+    },
+    createFilter(queryString) {
+      return (refundser) => {
+        return (refundser.refundser.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
+      };
     },
     reSearch(arg){
       if(arg){
@@ -271,10 +370,11 @@ export default({
     },
     editRefunds(formName){
       var _self = this;
-      this.loading = true;
       var url = this.refund.refunds_id?"/iae/refunds/editRefunds":"/iae/refunds/saveRefunds";
       this.$refs[formName].validate((valid) => {
           if (valid) {
+            this.loading = true;
+            var accountDetail = this.formatterDate(null,null,this.refund.make_money_time)+"高打"+this.refund.product_common_name+"返款";
             var params = {
               refunds_should_time:this.refund.refunds_should_time,
           		refunds_real_time:this.refund.refunds_real_time,
@@ -285,12 +385,13 @@ export default({
               refunds_id:this.refund.refunds_id,
               purchases_id:this.refund.purchase_id,
               sales_id:this.refund.sale_id,
-              service_charge:this.refund.service_charge
+              service_charge:this.refund.service_charge,
+              account_detail:accountDetail
             };
             _self.jquery(url,params,function(res){
               _self.dialogFormVisible = false;
               _self.loading = false;
-              _self.$message({message: '修改成功',type: 'success'});
+              _self.$message({showClose: true,message: '修改成功',type: 'success'});
               _self.getPurchasesList();
             });
           } else {

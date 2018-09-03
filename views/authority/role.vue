@@ -14,7 +14,7 @@
 		    <el-button type="primary" v-dbClick @click="add" v-show="authCode.indexOf('11') > -1" size="small">新增</el-button>
 		  </el-form-item>
 		</el-form>
-		<el-table :data="roles" style="width: 100%" highlight-current-row :stripe="true">
+		<el-table :data="roles" style="width: 100%" size="mini" highlight-current-row :stripe="true">
     			<el-table-column prop="role_name" label="角色名"></el-table-column>
     			<el-table-column prop="role_describe" label="角色描述"></el-table-column>
     			<el-table-column fixed="right" label="操作" width="200">
@@ -37,13 +37,13 @@
 		      :total="count">
 		    </el-pagination>
   		</div>
-      <el-dialog :title="title == 1?'新增角色':'修改角色'" :visible.sync="dialogFormVisible">
+      <el-dialog :title="title == 1?'新增角色':'修改角色'" width="450px" :visible.sync="dialogFormVisible">
         <el-form :model="role" :rules="rules" ref="role" label-width="80px" class="demo-ruleForm">
           <el-form-item label="角色名" prop="role_name">
-            <el-input v-model="role.role_name" maxlength='20' auto-complete="off"></el-input>
+            <el-input v-model="role.role_name" style="width: 300px;" maxlength='20' auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item label="角色描述">
-            <el-input v-model="role.role_describe" maxlength='100' auto-complete="off"></el-input>
+            <el-input v-model="role.role_describe" style="width: 300px;" maxlength='100' auto-complete="off"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -125,7 +125,7 @@
 					authority_parent_code:halfKeys.toString(),
 					role_id:_self.roleId
 				},function(res){
-					_self.$message({message: '授权成功',type: 'success'});
+					_self.$message({showClose: true,message: '授权成功',type: 'success'});
 					_self.dialogTreeVisible = false;
 				});
 			},
@@ -170,7 +170,7 @@
 			deleteItem(scope){
 				var _self = this;
         this.jquery('/iae/role/deleteRoles',scope.row,function(res){
-          _self.$message({message: '删除成功',type: 'success'});
+          _self.$message({showClose: true,message: '删除成功',type: 'success'});
           _self.searchRolesList();
           _self.dialogFormVisible = false;
         });
@@ -214,19 +214,19 @@
     	},
       submitForm(formName) {//新增修改
         var _self = this;
-				this.loading = true;
         this.$refs[formName].validate((valid) => {
           if (valid) {
+						this.loading = true;
             if(this.title == 1){
               this.jquery('/iae/role/saveRoles',_self.role,function(res){
-                _self.$message({message: '新增成功',type: 'success'});
+                _self.$message({showClose: true,message: '新增成功',type: 'success'});
                 _self.searchRolesList();
                 _self.dialogFormVisible = false;
 								_self.loading = true;
               });
             }else{
               this.jquery('/iae/role/editRoles',_self.role,function(res){
-                _self.$message({message: '修改成功',type: 'success'});
+                _self.$message({showClose: true,message: '修改成功',type: 'success'});
                 _self.dialogFormVisible = false;
 								_self.loading = true;
               });
