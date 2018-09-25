@@ -51,14 +51,13 @@
 							<el-input v-model="drugs.buyer" auto-complete="off" style="width: 179px;" :maxlength="10" placeholder="采购员"></el-input>
 						</el-form-item>
 						<el-form-item label="商业" prop="product_business">
-							<el-autocomplete popper-class="my-autocomplete" style="width:179px;"
-							  v-model="drugs.product_business"
-							  :fetch-suggestions="querySearchBusiness"
-							  placeholder="商业" @select="handleSelectBusiness">
-							  <template slot-scope="{ item }">
-							    <div class="name">{{ item.product_business }}</div>
-							  </template>
-							</el-autocomplete>
+							<el-select v-model="drugs.product_business" style="width:179px;" filterable placeholder="请选择商业">
+								<el-option v-for="item in business"
+			 					 :key="item.business_id"
+			 					 :label="item.business_name"
+			 					 :value="item.business_id"></el-option>
+			 			 		</el-select>
+							</el-select>
 						</el-form-item>
 					</div>
 					<div>
@@ -94,7 +93,10 @@
 							<el-input v-model="drugs.product_discount" style="width:163px;" auto-complete="off" :maxlength="10" placeholder="扣率（如：88）"></el-input> %
 						</el-form-item>
 					</div>
-					<div style="padding-left:292px;box-sizing: border-box;">
+					<div>
+						<el-form-item label="产品税率" prop="product_tax_rate" :required="true">
+							<el-input v-model="drugs.product_tax_rate" style="width: 179px;" auto-complete="off" :maxlength="10" placeholder="产品税率（如：0.16）"></el-input>
+						</el-form-item>
 						<el-form-item label="核算成本" prop="accounting_cost">
 							<el-input v-model="drugs.accounting_cost" style="width: 179px;" auto-complete="off" @blur="priceBlur" :maxlength="10" placeholder="核算成本"></el-input>
 						</el-form-item>
@@ -162,10 +164,20 @@
 	export default({
 		data(){
 			var validateMoney = (rule, value, callback) => {
-				var reg = /^(([1-9]\d+(.[0-9]{1,4})?|\d(.[0-9]{1,4})?)|([-]([1-9]\d+(.[0-9]{1,4})?|\d(.[0-9]{1,4})?)))$/;
+				var reg = /^(([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)|([-]([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)))$/;
         if (value && !reg.test(value)) {
           	callback(new Error('请再输入正确的'+rule.labelname));
         } else {
+         	callback();
+        }
+    	};
+			var validateDecimal = (rule, value, callback) => {
+				var reg = /^(([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)|([-]([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)))$/;
+        if (!reg.test(value)) {
+        	callback(new Error('请再输入正确的产品税率'));
+        } else if(parseFloat(value) <= 0 || parseFloat(value) >= 1){
+					callback(new Error('产品税率大于0且小于1'));
+				} else {
          	callback();
         }
     	};
@@ -223,6 +235,7 @@
 					gross_interest_rate:"",
 					product_return_statistics:"1",//返款统计方式
 					product_return_statistics_update:false,//是否更新销售记录中返款方式
+					product_tax_rate:"",//产品税率
 				},
 				drugsRule:{
 					product_common_name:[{ required: true, message: '请输入产品名称', trigger: 'blur' }],
@@ -237,7 +250,8 @@
 					product_discount:[{ validator: validateMoney,labelname:'扣率', trigger: 'blur' }],
 					gross_interest_rate:[{ validator: validateMoney,labelname:'毛利率', trigger: 'blur' }],
 					product_return_discount:[{ validator: validatePercent,labelname:'返费率', trigger: 'blur' }],
-					product_high_discount:[{ validator: validatePercent,labelname:'底价', trigger: 'blur' }]
+					product_high_discount:[{ validator: validatePercent,labelname:'底价', trigger: 'blur' }],
+					product_tax_rate:[{ validator: validateDecimal,trigger: 'blur' }]
 				},
 				editmessage:"",
 				contacts:[],
@@ -256,8 +270,10 @@
 			this.business = JSON.parse(sessionStorage["business"]);
 			if(sessionStorage["drugs_edit"]){
 				var sessionDrugs = JSON.parse(sessionStorage["drugs_edit"]);
+				sessionDrugs.product_business = parseInt(sessionDrugs.product_business);
 				this.product_code = sessionDrugs.product_code;
 				delete sessionDrugs.contacts_name;
+				delete sessionDrugs.business_name;
 				this.drugs = sessionDrugs;
 				sessionStorage.removeItem('drugs_edit');
 				/*
@@ -292,20 +308,6 @@
 					_self.drugs.product_name_pinyin = res.message;
 				});
 			},
-			handleSelectBusiness(item) {
-				this.drugs.product_business = item.product_business
-      },
-			querySearchBusiness(queryString, cb) {
-        var productBusiness = this.business;
-        var results = queryString ? productBusiness.filter(this.createFilterBusiness(queryString)) : productBusiness;
-        // 调用 callback 返回建议列表的数据
-        cb(results);
-      },
-      createFilterBusiness(queryString) {
-        return (productBusiness) => {
-          return (productBusiness.product_business.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
-        };
-      },
 			handleSelect(item) {
 				this.drugs.product_makesmakers = item.product_makesmakers;
         this.drugs.product_supplier = item.product_supplier;
@@ -318,7 +320,11 @@
       },
       createFilter(queryString) {
         return (productMakesmakers) => {
-          return (productMakesmakers.product_makesmakers.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
+					if(productMakesmakers.product_makesmakers){
+						return (productMakesmakers.product_makesmakers.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
+					}else{
+						return ;
+					}
         };
       },
 			getProductMakesmakers(){

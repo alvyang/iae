@@ -4,16 +4,16 @@
 		  <el-breadcrumb-item>返款管理</el-breadcrumb-item>
 			<el-breadcrumb-item>高打返款管理</el-breadcrumb-item>
 		</el-breadcrumb>
-    <el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
+    <el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
       <div>
         <el-form-item label="产品名称" prop="productCommonName">
-          <el-input v-model="params.productCommonName" style="width:178px;" @keyup.13.native="reSearch(false)" size="small" placeholder="产品名称/助记码"></el-input>
+          <el-input v-model="params.productCommonName" style="width:178px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品名称/助记码"></el-input>
         </el-form-item>
         <el-form-item label="产品编码" prop="product_code">
-          <el-input v-model="params.product_code" style="width:178px;" @keyup.13.native="reSearch(false)" size="small" placeholder="产品编码"></el-input>
+          <el-input v-model="params.product_code" style="width:178px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品编码"></el-input>
         </el-form-item>
         <el-form-item label="联系人" prop="contactId">
-          <el-select v-model="params.contactId" style="width:178px;" filterable size="small" placeholder="请选择">
+          <el-select v-model="params.contactId" style="width:178px;" filterable size="mini" placeholder="请选择">
             <el-option key="" label="全部" value=""></el-option>
             <el-option v-for="item in contacts"
               :key="item.contacts_id"
@@ -22,15 +22,24 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="　　商业" prop="business">
+   			 <el-select v-model="params.business" style="width:178px;" size="mini" filterable placeholder="请选择商业">
+   				 <el-option key="" label="全部" value=""></el-option>
+   				 <el-option v-for="item in business"
+   					 :key="item.business_id"
+   					 :label="item.business_name"
+   					 :value="item.business_id"></el-option>
+   			 </el-select>
+   		 </el-form-item>
         <el-form-item label="返款状态" prop="status">
-          <el-select v-model="params.status" filterable size="small" style="width:178px;" placeholder="请选择">
+          <el-select v-model="params.status" filterable size="mini" style="width:178px;" placeholder="请选择">
             <el-option key="" label="全部" value=""></el-option>
             <el-option key="已返" label="已返" value="已返"></el-option>
             <el-option key="未返" label="未返" value="未返"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="　返款人" prop="refundser">
-          <el-select v-model="params.refundser" style="width:178px;" filterable size="small" placeholder="请选择">
+          <el-select v-model="params.refundser" style="width:178px;" filterable size="mini" placeholder="请选择">
             <el-option key="" label="全部" value=""></el-option>
             <el-option v-for="item in refundser" v-if="item.refundser"
               :key="item.refundser"
@@ -40,7 +49,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="备货日期" prop="time">
-         <el-date-picker v-model="params.time" type="daterange" size="small" align="right" unlink-panels
+         <el-date-picker v-model="params.time" type="daterange" size="mini" align="right" unlink-panels
            range-separator="至"
            start-placeholder="开始日期"
            end-placeholder="结束日期"
@@ -48,7 +57,7 @@
          </el-date-picker>
         </el-form-item>
         <el-form-item label="应返日期" prop="returnTime">
-         <el-date-picker v-model="params.returnTime" type="daterange" size="small" align="right" unlink-panels
+         <el-date-picker v-model="params.returnTime" type="daterange" size="mini" align="right" unlink-panels
            range-separator="至"
            start-placeholder="开始日期"
            end-placeholder="结束日期"
@@ -56,36 +65,37 @@
          </el-date-picker>
         </el-form-item>
         <el-form-item>
-         <el-button type="primary" v-dbClick v-show="authCode.indexOf('44') > -1"  style="margin-left: 14px;" @click="reSearch(false)" size="small">查询</el-button>
-         <el-button type="primary" v-dbClick v-show="authCode.indexOf('44') > -1"  @click="reSearch(true)" size="small">重置</el-button>
+         <el-button type="primary" v-dbClick v-show="authCode.indexOf('44') > -1"  style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
+         <el-button type="primary" v-dbClick v-show="authCode.indexOf('44') > -1"  @click="reSearch(true)" size="mini">重置</el-button>
         </el-form-item>
       </div>
     </el-form>
     <div class="sum_money">应返金额：<a>{{refundMoney.rsm}}</a> 元；实返金额：<a>{{refundMoney.rrm}}</a> 元；手续费：<a>{{refundMoney.sc}}</a> 元；外欠金额：<a>{{refundMoney.own}}</a> 元</div>
     <el-table :data="purchases" style="width: 100%" size="mini" :stripe="true" :border="true">
-      <el-table-column fixed prop="product_code" label="产品编码" width="120"></el-table-column>
-      <el-table-column fixed prop="product_common_name" label="产品名称" width="160" ></el-table-column>
-      <el-table-column prop="product_specifications" label="产品规格" width="120"></el-table-column>
+      <el-table-column fixed prop="product_code" label="产品编码" width="100"></el-table-column>
+      <el-table-column fixed prop="product_common_name" label="产品名称" width="120" ></el-table-column>
+      <el-table-column prop="product_specifications" label="产品规格" width="100"></el-table-column>
       <el-table-column prop="product_makesmakers" label="生产产家" width="150"></el-table-column>
-      <el-table-column prop="product_packing" label="包装" width="60"></el-table-column>
-      <el-table-column prop="product_unit" label="单位" width="60"></el-table-column>
-      <el-table-column prop="purchase_price" label="中标价" width="80"></el-table-column>
-      <el-table-column prop="purchase_number" label="购入数量" width="80"></el-table-column>
-      <el-table-column prop="purchase_money" label="购入金额" width="90"></el-table-column>
-      <el-table-column prop="contacts_name" label="联系人" width="90"></el-table-column>
-      <el-table-column  prop="time" label="备货日期" width="100" :formatter="formatterDate"></el-table-column>
-      <el-table-column  prop="make_money_time" label="打款日期" width="100" :formatter="formatterDate"></el-table-column>
-      <el-table-column  prop="send_out_time" label="发货日期" width="100" :formatter="formatterDate"></el-table-column>
-      <el-table-column  prop="refunds_should_time" label="应返日期" width="100" :formatter="formatterDate"></el-table-column>
-      <el-table-column  prop="refunds_should_money" label="应返金额" width="100"></el-table-column>
-      <el-table-column  prop="refunds_real_time" label="实返日期" width="100" :formatter="formatterDate"></el-table-column>
-      <el-table-column  prop="refunds_real_money" label="实返金额" width="100"></el-table-column>
-      <el-table-column  prop="service_charge" label="手续费" width="100"></el-table-column>
-      <el-table-column  prop="refundser" label="返款人" width="100"></el-table-column>
-      <el-table-column  prop="account_number" label="收款人" width="100"></el-table-column>
-      <el-table-column fixed="right" label="操作" width="80">
+      <el-table-column prop="product_packing" label="包装" width="50"></el-table-column>
+      <el-table-column prop="product_unit" label="单位" width="50"></el-table-column>
+      <el-table-column prop="purchase_price" label="中标价" width="60"></el-table-column>
+      <el-table-column prop="purchase_number" label="购入数量" width="70"></el-table-column>
+      <el-table-column prop="purchase_money" label="购入金额" width="70"></el-table-column>
+      <el-table-column prop="business_name" label="商业" width="60"></el-table-column>
+      <el-table-column prop="contacts_name" label="联系人" width="60"></el-table-column>
+      <el-table-column  prop="time" label="备货日期" width="80" :formatter="formatterDate"></el-table-column>
+      <el-table-column  prop="make_money_time" label="打款日期" width="80" :formatter="formatterDate"></el-table-column>
+      <el-table-column  prop="send_out_time" label="发货日期" width="80" :formatter="formatterDate"></el-table-column>
+      <el-table-column  prop="refunds_should_time" label="应返日期" width="80" :formatter="formatterDate"></el-table-column>
+      <el-table-column  prop="refunds_should_money" label="应返金额" width="80"></el-table-column>
+      <el-table-column  prop="refunds_real_time" label="实返日期" width="80" :formatter="formatterDate"></el-table-column>
+      <el-table-column  prop="refunds_real_money" label="实返金额" width="70"></el-table-column>
+      <el-table-column  prop="service_charge" label="手续费" width="60"></el-table-column>
+      <el-table-column  prop="refundser" label="返款人" width="60"></el-table-column>
+      <el-table-column  prop="account_number" label="收款人" width="80"></el-table-column>
+      <el-table-column fixed="right" label="操作" width="55">
       <template slot-scope="scope">
-        <el-button v-show="authCode.indexOf('45') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
+        <el-button v-show="authCode.indexOf('45') > -1" size="mini" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary"></el-button>
       </template>
     </el-table-column>
     </el-table>
@@ -152,8 +162,8 @@
 				</el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button size="mini" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" v-dbClick size="mini" :loading="loading"  @click="editRefunds('refund')">确 定</el-button>
+        <el-button size="small" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" v-dbClick size="small" :loading="loading"  @click="editRefunds('refund')">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -221,6 +231,7 @@ export default({
       },
       purchases:[],
       contacts:[],
+      business:[],//商业
       accounts:[],//收款人账号列表
       refundser:[],//返款人列表
       contactRefunders:[],//与当前联系人相关返款人列表
@@ -245,7 +256,8 @@ export default({
         contactId:"",
         status:"",
         product_code:"",
-        refundser:""
+        refundser:"",
+        business:""
       },
       dialogFormVisible:false,
       loading:false,
@@ -257,12 +269,19 @@ export default({
     this.getContacts();
     this.getPurchasesRefunder();
     this.getBankAccount();
+    this.getProductBusiness();
     this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
   },
   mounted(){
 
   },
   methods:{
+    getProductBusiness(){
+      var _self = this;
+      this.jquery("/iae/business/getAllBusiness",null,function(res){//查询商业
+        _self.business=res.message;
+      });
+    },
     getPurchasesRefunder(){
       var _self = this;
       this.jquery("/iae/refunds/getPurchasesRefunder",null,function(res){//查询返款人
@@ -329,7 +348,12 @@ export default({
     },
     createFilter(queryString) {
       return (refundser) => {
-        return (refundser.refundser.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
+        if(refundser.refundser){
+          return (refundser.refundser.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
+        }else{
+          return ;
+        }
+
       };
     },
     reSearch(arg){

@@ -1,14 +1,14 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;">
-		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
+		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 		  <el-form-item label="产品名称" prop="productCommonName">
-		    <el-input v-model="params.productCommonName" style="width:178px;" size="small" @keyup.13.native="reSearch(false)" placeholder="产品名称/助记码"></el-input>
+		    <el-input v-model="params.productCommonName" style="width:178px;" size="mini" @keyup.13.native="reSearch(false)" placeholder="产品名称/助记码"></el-input>
 		  </el-form-item>
 			<el-form-item label="产品编号" prop="product_code">
-		    <el-input v-model="params.product_code" style="width:178px;" @keyup.13.native="reSearch(false)" size="small" placeholder="产品通用名"></el-input>
+		    <el-input v-model="params.product_code" style="width:178px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品通用名"></el-input>
 		  </el-form-item>
 		  <el-form-item label="联系人" prop="contactId">
-		    <el-select v-model="params.contactId" style="width:178px;" filterable size="small" placeholder="请选择">
+		    <el-select v-model="params.contactId" style="width:178px;" filterable size="mini" placeholder="请选择">
 					<el-option key="" label="全部" value=""></el-option>
 					<el-option v-for="item in contacts"
 			      :key="item.contacts_id"
@@ -18,7 +18,7 @@
 				</el-select>
 		  </el-form-item>
 			<el-form-item label="备货状态" prop="status">
-		    <el-select v-model="params.status" style="width:178px;" size="small" placeholder="请选择">
+		    <el-select v-model="params.status" style="width:178px;" size="mini" placeholder="请选择">
 					<el-option key="" label="全部" value=""></el-option>
 					<el-option key="1" label="未打款" value="1"></el-option>
 					<el-option key="2" label="打款,未发货" value="2"></el-option>
@@ -26,8 +26,17 @@
 					<el-option key="4" label="已入库" value="4"></el-option>
 				</el-select>
 		  </el-form-item>
+			<el-form-item label="　　商业" prop="business">
+ 			 <el-select v-model="params.business" style="width:178px;" size="mini" filterable placeholder="请选择商业">
+ 				 <el-option key="" label="全部" value=""></el-option>
+ 				 <el-option v-for="item in business"
+ 					 :key="item.business_id"
+ 					 :label="item.business_name"
+ 					 :value="item.business_id"></el-option>
+ 			 </el-select>
+ 		 </el-form-item>
 			<el-form-item label="备货时间" prop="time">
-				<el-date-picker v-model="params.time" type="daterange" size="small" align="right" unlink-panels
+				<el-date-picker v-model="params.time" type="daterange" size="mini" align="right" unlink-panels
 					range-separator="至"
 					start-placeholder="开始日期"
 					end-placeholder="结束日期"
@@ -35,52 +44,53 @@
 				</el-date-picker>
  		 	</el-form-item>
 			<el-form-item label="备注" prop="remark">
-				<el-select v-model="params.remark" filterable size="small" style="width:300px;" placeholder="请选择">
+				<el-select v-model="params.remark" filterable size="mini" style="width:300px;" placeholder="请选择">
 				 <el-option v-for="item in remarks"
 					 :key="item.remark" :label="item.remark" :value="item.remark">
 				 </el-option>
 			  </el-select>
 		 	</el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('56') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="small">查询</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('56') > -1" @click="reSearch(true)" size="small">重置</el-button>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('53') > -1"  @click="add" size="small">新增</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('57') > -1"  @click="exportExcel" size="small">导出</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('56') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('56') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('53') > -1"  @click="add" size="mini">新增</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('57') > -1"  @click="exportExcel" size="mini">导出</el-button>
 		  </el-form-item>
 		</el-form>
 		<div class="sum_money_purchase">
 			<a>采购总额：</a>{{money}} <span>元</span>
 		</div>
 		<el-table :data="purchases" style="width: 100%" size="mini" :stripe="true" :border="true">
-				<el-table-column fixed prop="time" label="备货时间" width="90" :formatter="formatterDate"></el-table-column>
-  			<el-table-column fixed prop="product_common_name" label="产品通用名" width="150"></el-table-column>
-				<el-table-column prop="product_code" label="产品编码" width="150"></el-table-column>
+				<el-table-column fixed prop="time" label="备货时间" width="80" :formatter="formatterDate"></el-table-column>
+  			<el-table-column fixed prop="product_common_name" label="产品通用名" width="120"></el-table-column>
+				<el-table-column prop="product_code" label="产品编码" width="100"></el-table-column>
 				<el-table-column prop="product_specifications" label="产品规格" width="100"></el-table-column>
-				<el-table-column prop="product_makesmakers" label="生厂企业" width="200"></el-table-column>
-				<el-table-column prop="product_packing" label="包装" width="60"></el-table-column>
-				<el-table-column prop="product_unit" label="单位" width="60"></el-table-column>
-				<el-table-column prop="purchase_number" label="购入数量" width="90"></el-table-column>
-				<el-table-column prop="purchase_money" label="购入金额" width="90"></el-table-column>
-				<el-table-column prop="purchase_mack_price" label="打款价" width="80"></el-table-column>
-				<el-table-column prop="purchase_price" label="中标价" width="80"></el-table-column>
-				<el-table-column prop="puchase_gross_rate" label="毛利率" width="80" :formatter="formatPercent"></el-table-column>
-				<el-table-column prop="contacts_name" label="联系人" width="80"></el-table-column>
-				<el-table-column prop="make_money_time" label="打款时间" width="120" :formatter="formatterDate"></el-table-column>
-				<el-table-column prop="send_out_time" label="发货时间" width="120" :formatter="formatterDate"></el-table-column>
-				<el-table-column prop="storage_time" label="入库时间" width="120" :formatter="formatterDate"></el-table-column>
+				<el-table-column prop="product_makesmakers" label="生厂企业" width="150"></el-table-column>
+				<el-table-column prop="product_packing" label="包装" width="50"></el-table-column>
+				<el-table-column prop="product_unit" label="单位" width="50"></el-table-column>
+				<el-table-column prop="purchase_number" label="购入数量" width="70"></el-table-column>
+				<el-table-column prop="purchase_money" label="购入金额" width="70"></el-table-column>
+				<el-table-column prop="purchase_mack_price" label="打款价" width="60"></el-table-column>
+				<el-table-column prop="purchase_price" label="中标价" width="60"></el-table-column>
+				<el-table-column prop="puchase_gross_rate" label="毛利率" width="60" :formatter="formatPercent"></el-table-column>
+				<el-table-column prop="contacts_name" label="联系人" width="60"></el-table-column>
+				<el-table-column prop="business_name" label="商业" width="60"></el-table-column>
+				<el-table-column prop="make_money_time" label="打款时间" width="80" :formatter="formatterDate"></el-table-column>
+				<el-table-column prop="send_out_time" label="发货时间" width="80" :formatter="formatterDate"></el-table-column>
+				<el-table-column prop="storage_time" label="入库时间" width="80" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="remark" label="备注" width="200"></el-table-column>
-				<el-table-column fixed="right" prop="remark" label="备货状态" width="80">
+				<el-table-column fixed="right" prop="remark" label="备货状态" width="70">
 					<template slot-scope="scope">
-						<el-tag type="success" v-show="scope.row.storage_time">已入库</el-tag>
-						<el-tag type="info" v-show="scope.row.make_money_time && !scope.row.send_out_time">未发货</el-tag>
-						<el-tag type="warning" v-show="scope.row.send_out_time && !scope.row.storage_time">未入库</el-tag>
-						<el-tag type="danger" v-show="!scope.row.make_money_time">未打款</el-tag>
+						<el-tag type="success" size="mini" v-show="scope.row.storage_time">已入库</el-tag>
+						<el-tag type="info" size="mini" v-show="scope.row.make_money_time && !scope.row.send_out_time">未发货</el-tag>
+						<el-tag type="warning" size="mini" v-show="scope.row.send_out_time && !scope.row.storage_time">未入库</el-tag>
+						<el-tag type="danger" size="mini" v-show="!scope.row.make_money_time">未打款</el-tag>
 					</template>
 				</el-table-column>
-  			<el-table-column fixed="right" label="操作" width="130">
+  			<el-table-column fixed="right" label="操作" width="100">
 			    <template slot-scope="scope">
-				    <el-button v-show="authCode.indexOf('55') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
-		        <el-button v-show="authCode.indexOf('54') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
+				    <el-button v-show="authCode.indexOf('55') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
+		        <el-button v-show="authCode.indexOf('54') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
 			    </template>
   			</el-table-column>
 		</el-table>
@@ -139,8 +149,8 @@
 			 </el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button size="mini" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" v-dbClick size="mini" :loading="loading" @click="editPurchases('purchase')">确 定</el-button>
+        <el-button size="small" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" v-dbClick size="small" :loading="loading" @click="editPurchases('purchase')">确 定</el-button>
       </div>
     </el-dialog>
 	</div>
@@ -207,18 +217,21 @@
 					product_code:"",
 					status:"",
 					remark:"",
+					business:"",
 				},
 				purchaseRule:{
 					purchase_number:[{validator:validateNum,trigger: 'blur' }],
 					time:[{ required: true, message: '请选择备货时间', trigger: 'blur,change' }]
 				},
 				authCode:"",
+				business:[],
 			}
 		},
 		activated(){
 			this.getContacts();
 			this.getPurchaseRemarks();
 			this.getPurchasesList();
+			this.getProductBusiness();
 			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		mounted(){
@@ -231,6 +244,13 @@
 				}else{
 					return "-";
 				}
+			},
+			getProductBusiness(){
+				var _self = this;
+				this.jquery("/iae/business/getAllBusiness",null,function(res){//查询商业
+					_self.business=res.message;
+					sessionStorage["productbusiness"] = JSON.stringify(_self.business);
+				});
 			},
 			exportExcel(){
 				var url = this.$bus.data.host + "/iae/purchase/exportPurchases?1=1";
@@ -267,7 +287,12 @@
       },
 			createFilter(queryString) {
         return (remarks) => {
-          return (remarks.remark.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
+					if(remarks.remark){
+						return (remarks.remark.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
+					}else{
+						return ;
+					}
+
         };
       },
 			editPurchases(formName){

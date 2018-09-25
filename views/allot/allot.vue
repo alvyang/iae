@@ -1,27 +1,36 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;">
-		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
+		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 		  <el-form-item label="产品名称" prop="productCommonName">
-		    <el-input v-model="params.productCommonName" style="width:178px;" size="small" @keyup.13.native="reSearch(false)" placeholder="产品名称/助记码"></el-input>
+		    <el-input v-model="params.productCommonName" style="width:178px;" size="mini" @keyup.13.native="reSearch(false)" placeholder="产品名称/助记码"></el-input>
 		  </el-form-item>
 			<el-form-item label="产品编号" prop="product_code">
-		    <el-input v-model="params.product_code" style="width:178px;" @keyup.13.native="reSearch(false)" size="small" placeholder="产品通用名"></el-input>
+		    <el-input v-model="params.product_code" style="width:178px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品通用名"></el-input>
 		  </el-form-item>
 			<el-form-item label="调货单位" prop="allot_hospital">
-				<el-select v-model="params.allot_hospital" style="width:178px;" size="small" filterable placeholder="请选择供货单位">
+				<el-select v-model="params.allot_hospital" style="width:178px;" size="mini" filterable placeholder="请选择供货单位">
 					<el-option key="" label="全部" value=""></el-option>
 					<el-option v-for="item in hospitals" :key="item.allot_hospital" :label="item.allot_hospital" :value="item.allot_hospital"></el-option>
 				</el-select>
 			</el-form-item>
 			<el-form-item label="是否返款" prop="allot_return_flag">
-				<el-select v-model="params.allot_return_flag" style="width:178px;" size="small" filterable placeholder="请选择供货单位">
+				<el-select v-model="params.allot_return_flag" style="width:178px;" size="mini" filterable placeholder="请选择供货单位">
 					<el-option key="" label="全部" value=""></el-option>
 					<el-option key="是" label="是" value="是"></el-option>
 					<el-option key="否" label="否" value="否"></el-option>
 				</el-select>
 			</el-form-item>
+			<el-form-item label="　　商业" prop="business">
+ 			 <el-select v-model="params.business" style="width:178px;" size="mini" filterable placeholder="请选择商业">
+ 				 <el-option key="" label="全部" value=""></el-option>
+ 				 <el-option v-for="item in business"
+ 					 :key="item.business_id"
+ 					 :label="item.business_name"
+ 					 :value="item.business_id"></el-option>
+ 			 </el-select>
+ 		 </el-form-item>
 			<el-form-item label="调货时间" prop="allot_time">
-				<el-date-picker v-model="params.allot_time" type="daterange" size="small" align="right" unlink-panels
+				<el-date-picker v-model="params.allot_time" type="daterange" size="mini" align="right" unlink-panels
 					range-separator="至"
 					start-placeholder="开始日期"
 					end-placeholder="结束日期"
@@ -29,34 +38,35 @@
 				</el-date-picker>
  		 	</el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('61') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="small">查询</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('61') > -1" @click="reSearch(true)" size="small">重置</el-button>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('58') > -1" @click="add" size="small">新增</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('61') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('61') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('58') > -1" @click="add" size="mini">新增</el-button>
 		  </el-form-item>
 		</el-form>
 		<div class="sum_money_allot">
 			<a>返款总额：</a>{{money}} <span>元</span>
 		</div>
 		<el-table :data="allots" style="width: 100%" size="mini" :stripe="true" :border="true">
-				<el-table-column fixed prop="allot_time" label="调货时间" width="90" :formatter="formatterDate"></el-table-column>
+				<el-table-column fixed prop="allot_time" label="调货时间" width="80" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="allot_hospital" label="调货单位" width="120"></el-table-column>
-				<el-table-column prop="product_code" label="产品通用名" width="150"></el-table-column>
-  			<el-table-column prop="product_common_name" label="产品通用名" width="150"></el-table-column>
+				<el-table-column prop="product_code" label="产品编码" width="100"></el-table-column>
+  			<el-table-column prop="product_common_name" label="产品通用名" width="120"></el-table-column>
 				<el-table-column prop="product_specifications" label="产品规格" width="100"></el-table-column>
-				<el-table-column prop="product_makesmakers" label="生厂企业" width="200"></el-table-column>
-				<el-table-column prop="product_unit" label="单位" width="60"></el-table-column>
-				<el-table-column prop="allot_number" label="数量" width="60"></el-table-column>
-				<el-table-column prop="allot_mack_price" label="打款价" width="80"></el-table-column>
-				<el-table-column prop="allot_price" label="中标价" width="80"></el-table-column>
-				<el-table-column prop="allot_money" label="金额" width="80"></el-table-column>
-				<el-table-column prop="allot_return_price" label="返款单价" width="80"></el-table-column>
-				<el-table-column prop="allot_return_money" label="返款金额" width="80"></el-table-column>
-				<el-table-column prop="allot_return_time" label="返款时间" width="90" :formatter="formatterDate"></el-table-column>
+				<el-table-column prop="product_makesmakers" label="生厂企业" width="150"></el-table-column>
+				<el-table-column prop="product_unit" label="单位" width="50"></el-table-column>
+				<el-table-column prop="business_name" label="商业" width="60"></el-table-column>
+				<el-table-column prop="allot_number" label="数量" width="50"></el-table-column>
+				<el-table-column prop="allot_mack_price" label="打款价" width="60"></el-table-column>
+				<el-table-column prop="allot_price" label="中标价" width="60"></el-table-column>
+				<el-table-column prop="allot_money" label="金额" width="70"></el-table-column>
+				<el-table-column prop="allot_return_price" label="返款单价" width="70"></el-table-column>
+				<el-table-column prop="allot_return_money" label="返款金额" width="70"></el-table-column>
+				<el-table-column prop="allot_return_time" label="返款时间" width="80" :formatter="formatterDate"></el-table-column>
 				<el-table-column fixed="right" prop="allot_return_flag" label="是否返款" width="80"></el-table-column>
-				<el-table-column fixed="right" label="操作" width="130">
+				<el-table-column fixed="right" label="操作" width="100">
 			    <template slot-scope="scope">
-				    <el-button v-show="authCode.indexOf('60') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
-		        <el-button v-show="authCode.indexOf('59') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
+				    <el-button v-show="authCode.indexOf('60') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
+		        <el-button v-show="authCode.indexOf('59') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
 			    </template>
   			</el-table-column>
 		</el-table>
@@ -111,6 +121,15 @@
 				<el-form-item label="返款金额" prop="allot_return_money">
 					<el-input v-model="allot.allot_return_money" style="width:179px;" :readonly="true"></el-input>
 				</el-form-item>
+				<el-form-item label="返款账号" prop="allot_account_id">
+          <el-select v-model="allot.allot_account_id" style="width:179px;" filterable placeholder="请选择">
+            <el-option v-for="item in accounts"
+              :key="item.account_id"
+              :label="item.account_number"
+              :value="item.account_id">
+            </el-option>
+          </el-select>
+				</el-form-item>
 				<el-form-item label="返款时间" prop="allot_return_time">
 					<el-date-picker v-model="allot.allot_return_time" style="width:179px;" type="date" placeholder="请选择打款时间"></el-date-picker>
 				</el-form-item>
@@ -122,8 +141,8 @@
 				</el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button size="mini" @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" v-dbClick :loading="loading" size="mini" @click="editallots('allot')">确 定</el-button>
+        <el-button size="small" @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" v-dbClick :loading="loading" size="small" @click="editallots('allot')">确 定</el-button>
       </div>
     </el-dialog>
 	</div>
@@ -148,12 +167,19 @@
           callback();
         }
       };
-			var validateRealReturnMoney = (rule, value, callback) => {
-				if(!value){
-					  callback();
-				}else if(value && !reg.test(value)){
-					callback(new Error('请输入正确的返款单价'));
+			var validateNull = (rule, value, callback) =>{
+				if(this.allot.allot_return_flag && !value){
+					callback(new Error('请选择'+rule.labelname));
 				}else{
+					callback();
+				}
+			}
+			var validateRealReturnMoney = (rule, value, callback) => {
+				if(this.allot.allot_return_flag && !value){
+					callback(new Error('请输入返款单价'));
+				}else if(this.allot.allot_return_flag && value && !reg.test(value)){
+					callback(new Error('请输入正确的返款单价'));
+				} else {
 					this.allot.allot_return_money = value * this.allot.allot_number;
 					this.allot.allot_return_money =	this.allot.allot_return_money.toFixed(2);
           callback();
@@ -192,6 +218,7 @@
 				allots:[],
 				allot:{},
 				hospitals:[],
+				business:[],
 				loading:false,
 				money:0,//总额统计
 				pageNum:10,
@@ -203,9 +230,12 @@
 					allot_hospital:"",
 					allot_time:[defaultStart,defaultEnd],
 					product_code:"",
-					allot_return_flag:""
+					allot_return_flag:"",
+					business:""
 				},
 				allotRule:{
+					allot_account_id:[{validator:validateNull,labelname:'返款账号',trigger: 'change' }],
+					allot_return_time:[{validator:validateNull,labelname:'返款时间',trigger: 'change' }],
 					allot_number:[{validator:validateNum,trigger: 'blur' }],
 					allot_return_price:[{validator:validateRealReturnMoney,trigger: 'blur' }],
 					allot_time:[{ required: true, message: '请选择调货时间', trigger: 'blur,change' }],
@@ -217,12 +247,27 @@
 		activated(){
 			this.getAllotsList();
 			this.getAllotHospitalList();
+			this.getBankAccount();
+			this.getProductBusiness();
 			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		mounted(){
 
 		},
 		methods:{
+			getProductBusiness(){
+				var _self = this;
+				this.jquery("/iae/business/getAllBusiness",null,function(res){//查询商业
+					_self.business=res.message;
+					sessionStorage["productbusiness"] = JSON.stringify(_self.business);
+				});
+			},
+			getBankAccount(){
+				var _self = this;
+				this.jquery("/iae/bankaccount/getAllAccounts",null,function(res){//查询账号
+					_self.accounts=res.message;
+				});
+			},
 			getAllotHospitalList(){
 				var _self = this;
 				this.jquery('/iae/allot/getHospitals',null,function(res){
@@ -247,11 +292,17 @@
       },
 			createFilter(queryString) {
         return (hospitals) => {
-          return (hospitals.allot_hospital.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
+					if(hospitals.allot_hospital){
+						return (hospitals.allot_hospital.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
+					}else{
+						return;
+					}
+
         };
       },
 			editallots(formName){
 				var _self = this;
+				this.allot.account_detail = this.formatterDate(null,null,this.allot.allot_time)+this.allot.allot_hospital+"调货（"+this.allot.allot_number+"）"+this.allot.product_common_name+"返款";
 				this.$refs[formName].validate((valid) => {
 						if (valid) {
 							_self.loading=true;

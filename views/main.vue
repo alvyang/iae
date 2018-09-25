@@ -2,10 +2,11 @@
 	<div>
 		<div class="main_top">
 			<el-menu :default-active="activeIndex2" class="el-menu-demo" mode="horizontal" :router="routerFlag"
+				@select="handleSelect"
 			  background-color="#545c64"
 			  text-color="#fff"
 			  active-text-color="#ffd04b">
-			  <el-menu-item index="/main/home">首页</el-menu-item>
+			  <!-- <el-menu-item index="/main/home">首页</el-menu-item> -->
 				<template v-for="a in authList">
 					<el-menu-item v-if="a.children.length == 0 || a.authority_type == '2'" :index="a.authority_path">{{a.authority_name}}</el-menu-item>
 					<el-submenu v-else :index="a.authority_id+''">
@@ -38,6 +39,7 @@
 	export default({
 		data(){
 			return {
+				activeIndex2:"/main/sales",
 				routerFlag:true,
 				username:"",
 				height:0,
@@ -45,6 +47,7 @@
 			}
 		},
 		activated(){
+			this.activeIndex2 = "/main/sales";
 			this.getAuthorityList();
 			this.username = JSON.parse(sessionStorage["user"]).realname;
 		},
@@ -56,6 +59,9 @@
 			});
 		},
 		methods:{
+			handleSelect(key, keyPath) {
+				this.activeIndex2 = key;
+      },
 			getAuthorityList(){
 				var _self = this;
 				var user = JSON.parse(sessionStorage["user"])
@@ -80,6 +86,12 @@
 	})
 </script>
 <style>
+	.el-table--mini td{
+		padding: 4px 0 !important;
+	}
+	.el-table__body .el-button--mini{
+		padding: 4px 10px;
+	}
 	.login_out{
 		position: fixed;
 		float: right;

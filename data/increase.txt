@@ -1,10 +1,101 @@
 //未发版sql
-update bank_account_detail bad set bad.flag_id = concat('purchase_',bad.flag_id) where bad.account_detail_mark like '%高打%'
 
-alter table bank_account_detail modify column flag_id varchar(30);
 
-update bank_account_detail bad set bad.flag_id = concat('sale_',bad.flag_id) where bad.account_detail_mark like '%销售%'
+//20190920发版sql
+INSERT INTO `authority` VALUES
+('78', '商业提成管理', '商业提成管理', '20013', '/main/businesscommission', '71', '0', '1', '2', '1'),
+('83', '医院回款管理', '医院回款管理', '20014', '/main/returnmoney', '71', '0', '1', '2', '1'),
+('88', '商业管理', '商业管理', '2003', '/main/business', '25', '0', '1', '2', '1');
+INSERT INTO `authority` VALUES
+('79', '查询', '查询', '200134', '/', '78', '0', '1', '3', '6'),
+('80', '修改', '修改', '200133', '/', '78', '0', '1', '3', '2'),
+('81', '删除', '删除', '200132', '/', '78', '0', '1', '3', '2'),
+('82', '新增', '新增', '200131', '/', '78', '0', '1', '3', '1'),
+('84', '查询', '查询', '200144', '/', '83', '0', '1', '3', '6'),
+('85', '修改', '修改', '200143', '/', '83', '0', '1', '3', '3'),
+('86', '删除', '删除', '200142', '/', '83', '0', '1', '3', '2'),
+('87', '新增', '新增', '200141', '/', '83', '0', '1', '3', '1'),
+('89', '查询', '查询', '20034', '/', '88', '0', '1', '3', '6'),
+('90', '删除', '删除', '20033', '/', '88', '0', '1', '3', '2'),
+('91', '修改', '修改', '20032', '/', '88', '0', '1', '3', '3'),
+('92', '新增', '新增', '20031', '/', '88', '0', '1', '3', '1');
 
+CREATE TABLE `business` (
+  `business_id` int(20) NOT NULL AUTO_INCREMENT,
+  `business_name` varchar(50) DEFAULT NULL COMMENT '商业公司名称',
+  `business_mark` varchar(100) DEFAULT NULL COMMENT '商业公司描述',
+  `business_group_id` varchar(5) DEFAULT NULL COMMENT '组id',
+  `business_delete_flag` varchar(5) DEFAULT '0' COMMENT '删除',
+  PRIMARY KEY (`business_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+SET FOREIGN_KEY_CHECKS = 1;
+
+insert into business(business_name) select d.product_business from drugs d where d.delete_flag='0' and d.product_business is not null group by d.product_business;
+
+update business set business_group_id = '1';
+
+update drugs d set d.product_business = (select bu.business_id from business bu where d.product_business = bu.business_name);
+
+alter table sales add sale_tax_rate varchar(20) COMMENT '单据税率';
+update sales s set s.sale_tax_rate = '0.17' where DATE_FORMAT(s.bill_date,'%Y-%m-%d') <= "2018-05-31";
+update sales s set s.sale_tax_rate = '0.16' where DATE_FORMAT(s.bill_date,'%Y-%m-%d') >= "2018-06-01";
+
+alter table drugs add product_tax_rate varchar(20) COMMENT '商品税率';
+update drugs d set d.product_tax_rate = '0.16';
+
+CREATE TABLE `hospital_business_config` (
+  `hb_config_id` int(20)  NOT NULL AUTO_INCREMENT,
+  `hb_start_time` datetime DEFAULT NULL COMMENT '成本计算开始时间',
+  `hb_start_money` varchar(50) DEFAULT NULL COMMENT '期初未回款金额',
+  `hb_fixed_rate` varchar(50) DEFAULT NULL COMMENT '固定成本率',
+  `hb_floating_rate` varchar(50) DEFAULT NULL COMMENT '浮动成本率/月',
+  `hb_business_id` int(20) DEFAULT NULL COMMENT '商业id',
+  `hb_hospital_id` int(20) DEFAULT NULL COMMENT '医院id',
+  `hb_group_id` varchar(5) DEFAULT NULL COMMENT '组id',
+  `hb_delete_flag` varchar(5) DEFAULT '0' COMMENT '删除',
+  PRIMARY KEY (`hb_config_id`)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+SET FOREIGN_KEY_CHECKS = 1;
+
+CREATE TABLE `hospital_return_money` (
+  `return_money_id` int(20)  NOT NULL AUTO_INCREMENT,
+  `return_money_hospital` varchar(10)  DEFAULT NULL COMMENT '回款医院',
+  `return_money_business` varchar(10)  DEFAULT NULL COMMENT '回款商业',
+  `return_money_time` datetime DEFAULT NULL COMMENT '回款时间',
+  `return_money` varchar(50) DEFAULT NULL COMMENT '回款金额',
+  `return_money_delete_flag` varchar(5) DEFAULT '0' COMMENT '删除标识',
+  `return_money_group_id` varchar(5) DEFAULT NULL COMMENT '组id',
+  PRIMARY KEY (`return_money_id`)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+SET FOREIGN_KEY_CHECKS = 1;
+
+CREATE TABLE `business_commission` (
+  `commission_id` int(20) NOT NULL AUTO_INCREMENT,
+  `commission_time` datetime DEFAULT NULL COMMENT '统计时间',
+  `commission_hospital_id` int(20) DEFAULT NULL COMMENT '医院机构id',
+  `commission_business` int(20) DEFAULT NULL COMMENT '医院机构id',
+  `commission_fixed_rate` varchar(50) DEFAULT NULL COMMENT '固定成本率',
+  `commission_floating_rate` varchar(50) DEFAULT NULL COMMENT '浮动成本率',
+  `commission_delete_flag` varchar(5) DEFAULT '0' COMMENT '删除标识',
+  `commission_group_id` varchar(5) DEFAULT NULL COMMENT '组id',
+  PRIMARY KEY (`commission_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+SET FOREIGN_KEY_CHECKS = 1;
+//20180908发版
+alter table allot add allot_account_id int(20) COMMENT '返款账号';
+
+insert into bank_account_detail(flag_id,account_id,account_detail_money,account_detail_time,account_detail_mark,account_detail_deleta_flag,account_detail_group_id)
+select CONCAT('allot_',a.allot_id),a.allot_account_id,CONCAT("-",a.allot_return_money),a.allot_return_time,CONCAT(DATE_FORMAT(a.allot_time,'%Y-%m-%d'),a.allot_hospital,'调货（',a.allot_number,'）',d.product_common_name,'返款'),'0',1 from
+allot a left join drugs d on a.allot_drug_id = d.product_id where a.allot_return_flag = '是';
+
+
+insert into bank_account_detail(flag_id,account_id,account_detail_money,account_detail_time,account_detail_mark,account_detail_deleta_flag,account_detail_group_id)
+select CONCAT('allot_',a.allot_id),a.allot_account_id,CONCAT("-",a.allot_return_money),a.allot_return_time,CONCAT(DATE_FORMAT(a.allot_time,'%Y-%m-%d'),a.allot_hospital,'调货（',a.allot_number,'）',d.product_common_name,'返款'),'1',1 from
+allot a left join drugs d on a.allot_drug_id = d.product_id where a.allot_return_flag = '否' or a.allot_return_flag = '';
+
+select CONCAT("update sales s set s.accounting_cost ='",s.accounting_cost,
+"',s.cost_univalent='",s.cost_univalent,"',s.gross_profit ='",s.gross_profit,
+"',s.real_gross_profit ='",s.real_gross_profit,"' where s.sale_id = '" ,s.sale_id,"';") from sales s
 
 //20180830发版
 INSERT INTO `authority` VALUES
@@ -65,6 +156,12 @@ where p.purchase_return_flag='2' and p.make_money_time is not null and r.refunds
 ) pr left join drugs d on pr.drug_id = d.product_id where pr.receiver is not null
 
 update bank_account_detail ba set ba.account_detail_deleta_flag = '0',ba.account_detail_group_id = '1'
+
+update bank_account_detail bad set bad.flag_id = concat('purchase_',bad.flag_id) where bad.account_detail_mark like '%高打%'
+
+alter table bank_account_detail modify column flag_id varchar(30);
+
+update bank_account_detail bad set bad.flag_id = concat('sale_',bad.flag_id) where bad.account_detail_mark like '%销售%'
 
 
 #第一次发版

@@ -1,31 +1,41 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;">
-		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
+		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 		  <el-form-item label="产品名称" prop="productCommonName">
-		    <el-input v-model="params.productCommonName" @keyup.13.native="reSearch(false)" size="small" placeholder="产品名称/助记码"></el-input>
+		    <el-input v-model="params.productCommonName" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品名称/助记码"></el-input>
 		  </el-form-item>
 			<el-form-item label="产品编号" prop="product_code">
-		    <el-input v-model="params.product_code" @keyup.13.native="reSearch(false)" size="small" placeholder="产品通用名"></el-input>
+		    <el-input v-model="params.product_code" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品通用名"></el-input>
 		  </el-form-item>
-		  <el-form-item>
-		    <el-button type="primary" v-dbClick @click="reSearch(false)" size="small">查询</el-button>
-			  <el-button type="primary" v-dbClick @click="reSearch(true)" size="small">重置</el-button>
+			<el-form-item label="　　商业" prop="business">
+	 			 <el-select v-model="params.business" style="width:178px;" size="mini" filterable placeholder="请选择商业">
+	 				 <el-option key="" label="全部" value=""></el-option>
+	 				 <el-option v-for="item in business"
+	 					 :key="item.business_id"
+	 					 :label="item.business_name"
+	 					 :value="item.business_id"></el-option>
+	 			 </el-select>
+ 		 </el-form-item>
+		 <el-form-item>
+		    <el-button type="primary" v-dbClick @click="reSearch(false)" size="mini">查询</el-button>
+			  <el-button type="primary" v-dbClick @click="reSearch(true)" size="mini">重置</el-button>
 		  </el-form-item>
 		</el-form>
 		<div class="sum_money">库存总额：<a>{{stockMoney}}</a> 元；库存量：<a>{{stockNum}}</a> 元</div>
 		<el-table :data="drugs" style="width: 100%" size="mini" :stripe="true" :border="true">
-  			<el-table-column fixed prop="product_common_name" label="产品通用名" width="200"></el-table-column>
-				<el-table-column prop="product_code" label="产品编号" width="150"></el-table-column>
-  			<el-table-column prop="product_makesmakers" label="生产产家" width="240"></el-table-column>
-  			<el-table-column prop="product_specifications" label="产品规格" width="150"></el-table-column>
-  			<el-table-column prop="product_packing" label="包装" width="80"></el-table-column>
-  			<el-table-column prop="product_unit" label="单位" width="80"></el-table-column>
-        <el-table-column prop="stock" label="库存" width="100"></el-table-column>
+  			<el-table-column fixed prop="product_common_name" label="产品通用名" width="180"></el-table-column>
+				<el-table-column prop="product_code" label="产品编号" width="130"></el-table-column>
+  			<el-table-column prop="product_makesmakers" label="生产产家" width="200"></el-table-column>
+  			<el-table-column prop="product_specifications" label="产品规格" width="130"></el-table-column>
+  			<el-table-column prop="product_packing" label="包装" width="60"></el-table-column>
+  			<el-table-column prop="product_unit" label="单位" width="60"></el-table-column>
+				<el-table-column prop="business_name" label="商业" width="60"></el-table-column>
+        <el-table-column prop="stock" label="库存" width="60"></el-table-column>
 				<el-table-column prop="contacts_name" label="联系人" width="80"></el-table-column>
-  			<el-table-column fixed="right" label="操作" width="200">
+  			<el-table-column fixed="right" label="操作" width="180">
 			    <template slot-scope="scope">
-		        <el-button v-dbClick @click.native.prevent="analysis(scope)" type="primary" size="small">销售分析</el-button>
-						<el-button v-dbClick @click.native.prevent="editStockShow(scope)" type="primary" size="small">修改库存</el-button>
+		        <el-button v-dbClick @click.native.prevent="analysis(scope)" type="primary" size="mini">销售分析</el-button>
+						<el-button v-dbClick @click.native.prevent="editStockShow(scope)" type="primary" size="mini">修改库存</el-button>
 			    </template>
   			</el-table-column>
 		</el-table>
@@ -67,8 +77,8 @@
 			 	</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
-				<el-button size="mini" v-dbClick @click="dialogFormVisibleStock = false">取 消</el-button>
-				<el-button type="primary" v-dbClick size="mini" :loading="loading" @click="editStock('drug')">确 定</el-button>
+				<el-button size="small" v-dbClick @click="dialogFormVisibleStock = false">取 消</el-button>
+				<el-button type="primary" v-dbClick size="small" :loading="loading" @click="editStock('drug')">确 定</el-button>
 			</div>
     </el-dialog>
 	</div>
@@ -116,12 +126,19 @@
 		},
 		activated(){
 			this.getDrugsList();
+			this.getProductBusiness();
 			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		mounted(){
 
 		},
 		methods:{
+			getProductBusiness(){
+				var _self = this;
+				this.jquery("/iae/business/getAllBusiness",null,function(res){//查询商业
+					_self.business=res.message;
+				});
+			},
 			editStockShow(scope){
 				this.dialogFormVisibleStock = true;
 				this.drug = scope.row;

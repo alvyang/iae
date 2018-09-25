@@ -49,7 +49,7 @@
             <el-input v-model="authorityData.authority_describe" maxlength='100'></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" v-dbClick size="mini" :loading="loading" v-show="authCode.indexOf('8') > -1" @click="submitForm('authorityData')">保存</el-button>
+            <el-button type="primary" v-dbClick size="small" :loading="loading" v-show="authCode.indexOf('8') > -1" @click="submitForm('authorityData')">保存</el-button>
           </el-form-item>
         </el-form>
       </div>

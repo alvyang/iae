@@ -4,14 +4,14 @@
 		  <el-breadcrumb-item>系统管理</el-breadcrumb-item>
 			<el-breadcrumb-item>角色管理</el-breadcrumb-item>
 		</el-breadcrumb>
-		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
+		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 		  <el-form-item label="角色名" prop="role_name">
-		    <el-input v-model="params.role_name" @keyup.13.native="reSearch" size="small" placeholder="角色名"></el-input>
+		    <el-input v-model="params.role_name" @keyup.13.native="reSearch" size="mini" placeholder="角色名"></el-input>
 		  </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('14') > -1" @click="reSearch" size="small">查询</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('14') > -1" @click="reSearch(true)" size="small">重置</el-button>
-		    <el-button type="primary" v-dbClick @click="add" v-show="authCode.indexOf('11') > -1" size="small">新增</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('14') > -1" @click="reSearch" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('14') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+		    <el-button type="primary" v-dbClick @click="add" v-show="authCode.indexOf('11') > -1" size="mini">新增</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="roles" style="width: 100%" size="mini" highlight-current-row :stripe="true">
@@ -19,9 +19,9 @@
     			<el-table-column prop="role_describe" label="角色描述"></el-table-column>
     			<el-table-column fixed="right" label="操作" width="200">
 			    <template slot-scope="scope">
-				    <el-button v-dbClick v-show="authCode.indexOf('13') > -1" @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
-	          <el-button v-dbClick v-show="authCode.indexOf('12') > -1" @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
-            <el-button v-dbClick v-show="authCode.indexOf('15') > -1" @click.native.prevent="editAuthorityShow(scope)" type="primary" size="small">授权</el-button>
+				    <el-button v-dbClick v-show="authCode.indexOf('13') > -1" @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
+	          <el-button v-dbClick v-show="authCode.indexOf('12') > -1" @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
+            <el-button v-dbClick v-show="authCode.indexOf('15') > -1" @click.native.prevent="editAuthorityShow(scope)" type="primary" size="mini">授权</el-button>
 			    </template>
     			</el-table-column>
   		</el-table>
@@ -47,8 +47,8 @@
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button size="mini" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" v-dbClick size="mini" :loading="loading" @click="submitForm('role')">确 定</el-button>
+          <el-button size="small" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
+          <el-button type="primary" v-dbClick size="small" :loading="loading" @click="submitForm('role')">确 定</el-button>
         </div>
       </el-dialog>
       <el-dialog title="角色授权" :visible.sync="dialogTreeVisible" width="315px">
@@ -62,8 +62,8 @@
           </div>
         </div>
         <div slot="footer" class="dialog-footer">
-          <el-button size="mini" v-dbClick @click="dialogTreeVisible = false">取 消</el-button>
-          <el-button type="primary" v-dbClick size="mini" @click="editAuthority">确 定</el-button>
+          <el-button size="small" v-dbClick @click="dialogTreeVisible = false">取 消</el-button>
+          <el-button type="primary" v-dbClick size="small" @click="editAuthority">确 定</el-button>
         </div>
       </el-dialog>
 	</div>

@@ -4,15 +4,15 @@
 		  <el-breadcrumb-item :to="{ path: '/main/purchase' }">备货管理</el-breadcrumb-item>
 			<el-breadcrumb-item>选择药品<a style="color:#f24040;">（请先选择备货药品）</a></el-breadcrumb-item>
 		</el-breadcrumb>
-		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
+		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 		  <el-form-item label="产品名称" prop="productCommonName">
-		    <el-input v-model="params.productCommonName" style="width:178px;" @keyup.13.native="searchDrugsList" size="small" placeholder="产品名称"></el-input>
+		    <el-input v-model="params.productCommonName" style="width:178px;" @keyup.13.native="searchDrugsList" size="mini" placeholder="产品名称"></el-input>
 		  </el-form-item>
 			<el-form-item label="产品编码" prop="product_code">
-		    <el-input v-model="params.product_code" style="width:178px;" @keyup.13.native="searchDrugsList" size="small" placeholder="产品编码"></el-input>
+		    <el-input v-model="params.product_code" style="width:178px;" @keyup.13.native="searchDrugsList" size="mini" placeholder="产品编码"></el-input>
 		  </el-form-item>
 		  <el-form-item label="联系人" prop="contactId">
-		    <el-select v-model="params.contactId" style="width:178px;" size="small" filterable placeholder="请选择">
+		    <el-select v-model="params.contactId" style="width:178px;" size="mini" filterable placeholder="请选择">
 		    	<el-option key="" label="全部" value=""></el-option>
 			    <el-option v-for="item in contacts"
 			      :key="item.contacts_id"
@@ -21,10 +21,19 @@
 			    </el-option>
 				</el-select>
 		  </el-form-item>
+			<el-form-item label="　　商业" prop="business">
+ 			 <el-select v-model="params.business" style="width:178px;" size="mini" filterable placeholder="请选择商业">
+ 				 <el-option key="" label="全部" value=""></el-option>
+ 				 <el-option v-for="item in business"
+ 					 :key="item.business_id"
+ 					 :label="item.business_name"
+ 					 :value="item.business_id"></el-option>
+ 			 </el-select>
+ 		 </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick @click="searchDrugsList" size="small">查询</el-button>
-				<el-button type="primary" v-dbClick @click="reSearch" size="small">重置</el-button>
-				<el-button type="primary" v-dbClick @click="returnPurchase" size="small">返回列表</el-button>
+		    <el-button type="primary" v-dbClick @click="searchDrugsList" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick @click="reSearch" size="mini">重置</el-button>
+				<el-button type="primary" v-dbClick @click="returnPurchase" size="mini">返回列表</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="drugs" style="width: 100%" size="mini" :stripe="true" :border="true">
@@ -32,17 +41,18 @@
 				<el-table-column prop="product_code" label="产品编号" width="150"></el-table-column>
 				<!-- <el-table-column prop="product_supplier" label="供货单位" width="150"></el-table-column> -->
 				<el-table-column prop="product_specifications" label="产品规格" width="150"></el-table-column>
-				<el-table-column prop="product_makesmakers" label="生厂企业" width="200"></el-table-column>
-				<el-table-column prop="product_packing" label="包装" width="80"></el-table-column>
-				<el-table-column prop="product_unit" label="单位" width="80"></el-table-column>
-  			<el-table-column prop="product_price" label="中标价" width="80"></el-table-column>
-				<el-table-column prop="product_mack_price" label="打款价" width="80"></el-table-column>
-				<el-table-column prop="product_discount" label="毛利率(百分比)" :formatter="formatPercent" width="120"></el-table-column>
-				<el-table-column prop="product_specifications" label="产品规格" width="150"></el-table-column>
-				<el-table-column prop="contacts_name" label="联系人" width="120"></el-table-column>
-  			<el-table-column fixed="right" label="操作" width="100">
+				<el-table-column prop="product_makesmakers" label="生厂企业" width="150"></el-table-column>
+				<el-table-column prop="product_packing" label="包装" width="50"></el-table-column>
+				<el-table-column prop="product_unit" label="单位" width="50"></el-table-column>
+  			<el-table-column prop="product_price" label="中标价" width="60"></el-table-column>
+				<el-table-column prop="product_mack_price" label="打款价" width="60"></el-table-column>
+				<el-table-column prop="product_discount" label="毛利率(百分比)" :formatter="formatPercent" width="60"></el-table-column>
+				<!-- <el-table-column prop="product_specifications" label="产品规格" width="150"></el-table-column> -->
+				<el-table-column prop="contacts_name" label="联系人" width="60"></el-table-column>
+				<el-table-column prop="business_name" label="商业" width="60"></el-table-column>
+  			<el-table-column fixed="right" label="操作" width="70">
 			    <template slot-scope="scope">
-						<el-button v-dbClick @click.native.prevent="selectRow(scope)" type="primary" size="small">选择</el-button>
+						<el-button v-dbClick @click.native.prevent="selectRow(scope)" type="primary" size="mini">选择</el-button>
 			    </template>
   			</el-table-column>
 		</el-table>
@@ -101,8 +111,8 @@
 			 </el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button size="mini" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" v-dbClick size="mini" :loading="loading" @click="addPurchases('purchase')">确 定</el-button>
+        <el-button size="small" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" v-dbClick size="small" :loading="loading" @click="addPurchases('purchase')">确 定</el-button>
       </div>
     </el-dialog>
 	</div>
@@ -138,6 +148,7 @@
 				drugs:[],
 				drug:{},
 				contacts:[],
+				business:[],
 				pageNum:10,
 				currentPage:1,
 				count:0,
@@ -145,7 +156,8 @@
 					product_type:['高打','高打(底价)'],
 					productCommonName:"",
 					contactId:"",
-					product_code:""
+					product_code:"",
+					business:""
 				},
 				remarks:[],
 				purchase:{
@@ -171,6 +183,7 @@
 		activated(){
 			this.getDrugsList();
 			this.remarks = JSON.parse(sessionStorage["remarks"]);
+			this.business = JSON.parse(sessionStorage["productbusiness"]);
 		},
 		mounted(){
 
@@ -187,7 +200,12 @@
       },
 			createFilter(queryString) {
         return (remarks) => {
-          return (remarks.remark.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
+					if(remarks.remark){
+						return (remarks.remark.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
+					}else{
+						return ;
+					}
+
         };
       },
 			formatPercent(row, column, cellValue, index){

@@ -4,27 +4,30 @@
 		  <el-breadcrumb-item :to="{ path: '/main/sales' }">销售管理</el-breadcrumb-item>
 			<el-breadcrumb-item>选择药品<a style="color:#f24040;">（请先选择销售药品）</a></el-breadcrumb-item>
 		</el-breadcrumb>
-		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
+		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 			<el-form-item label="产品名称" prop="productCommonName">
-		    <el-input v-model="params.productCommonName" style="width:178px;" @keyup.13.native="reSearch(false)" size="small" placeholder="产品名称"></el-input>
+		    <el-input v-model="params.productCommonName" style="width:178px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品名称"></el-input>
 		  </el-form-item>
 			<el-form-item label="产品编号" prop="product_code">
-		    <el-input v-model="params.product_code" style="width:178px;" @keyup.13.native="reSearch(false)" size="small" placeholder="产品编号"></el-input>
+		    <el-input v-model="params.product_code" style="width:178px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品编号"></el-input>
 		  </el-form-item>
 			<el-form-item label="联系人" prop="contactId">
-				<el-select v-model="params.contactId" style="width:178px;" size="small" filterable placeholder="请选择联系人">
+				<el-select v-model="params.contactId" style="width:178px;" size="mini" filterable placeholder="请选择联系人">
 					<el-option key="" label="全部" value=""></el-option>
 					<el-option v-for="item in contacts" :key="item.contacts_id" :label="item.contacts_name" :value="item.contacts_id"></el-option>
 				</el-select>
 			</el-form-item>
 			<el-form-item label="商业" prop="business">
-				<el-select v-model="params.business" style="width:178px;" size="small" filterable placeholder="请选择商业">
+				<el-select v-model="params.business" style="width:178px;" size="mini" filterable placeholder="请选择商业">
 					<el-option key="" label="全部" value=""></el-option>
-					<el-option v-for="item in business" :key="item.product_business" :label="item.product_business" :value="item.product_business"></el-option>
+					<el-option v-for="item in business"
+ 					 :key="item.business_id"
+ 					 :label="item.business_name"
+ 					 :value="item.business_id"></el-option>
 				</el-select>
 			</el-form-item>
 			<el-form-item label="品种类型" prop="product_type">
-				<el-select v-model="params.product_type" style="width:178px;" size="small" multiple placeholder="请选择">
+				<el-select v-model="params.product_type" style="width:178px;" size="mini" multiple placeholder="请选择">
 					<el-option key="普药" label="普药" value="普药"></el-option>
 					<el-option key="佣金" label="佣金" value="佣金"></el-option>
 					<el-option key="高打" label="高打" value="高打"></el-option>
@@ -33,7 +36,7 @@
 				</el-select>
 			</el-form-item>
 			<el-form-item label="医保类型" prop="product_medical_type">
-				<el-select v-model="params.product_medical_type" style="width:178px;" size="small" placeholder="请选择">
+				<el-select v-model="params.product_medical_type" style="width:178px;" size="mini" placeholder="请选择">
 					<el-option key="" label="全部" value=""></el-option>
 					<el-option key="甲类" label="甲类" value="甲类"></el-option>
 					<el-option key="乙类" label="乙类" value="乙类"></el-option>
@@ -42,33 +45,33 @@
 				</el-select>
 			</el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick @click="searchDrugsList" size="small">查询</el-button>
-				<el-button type="primary" v-dbClick @click="reSearch" size="small">重置</el-button>
-				<el-button type="primary" v-dbClick @click="returnSale" size="small">返回列表</el-button>
+		    <el-button type="primary" v-dbClick @click="searchDrugsList" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick @click="reSearch" size="mini">重置</el-button>
+				<el-button type="primary" v-dbClick @click="returnSale" size="mini">返回列表</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="drugs" style="width: 100%" size="mini" :stripe="true" :border="true">
-			<el-table-column fixed prop="product_common_name" label="产品通用名" width="150"></el-table-column>
-			<el-table-column prop="product_code" label="产品编号" width="150"></el-table-column>
-			<el-table-column prop="product_makesmakers" label="生产产家" width="120"></el-table-column>
-			<el-table-column prop="product_specifications" label="产品规格" width="120"></el-table-column>
-			<el-table-column prop="product_packing" label="包装" width="60"></el-table-column>
-			<el-table-column prop="product_unit" label="单位" width="60"></el-table-column>
-			<el-table-column prop="product_business" label="商业" width="60"></el-table-column>
-			<el-table-column prop="buyer" label="采购员" width="80"></el-table-column>
-			<el-table-column prop="product_price" label="中标价" width="80"></el-table-column>
-			<el-table-column prop="product_discount" label="扣率" width="80"></el-table-column>
-			<el-table-column prop="product_mack_price" label="打款价" width="80"></el-table-column>
-			<el-table-column prop="product_type" label="返费类型" width="100"></el-table-column>
+			<el-table-column fixed prop="product_common_name" label="产品通用名" width="120"></el-table-column>
+			<el-table-column prop="product_code" label="产品编号" width="100"></el-table-column>
+			<el-table-column prop="product_makesmakers" label="生产产家" width="150"></el-table-column>
+			<el-table-column prop="product_specifications" label="产品规格" width="100"></el-table-column>
+			<el-table-column prop="product_packing" label="包装" width="50"></el-table-column>
+			<el-table-column prop="product_unit" label="单位" width="50"></el-table-column>
+			<el-table-column prop="business_name" label="商业" width="60"></el-table-column>
+			<el-table-column prop="buyer" label="采购员" width="60"></el-table-column>
+			<el-table-column prop="product_price" label="中标价" width="60"></el-table-column>
+			<el-table-column prop="product_discount" label="扣率" width="60"></el-table-column>
+			<el-table-column prop="product_mack_price" label="打款价" width="60"></el-table-column>
+			<el-table-column prop="product_type" label="返费类型" width="70"></el-table-column>
 			<!-- <el-table-column prop="product_return_money" label="返费金额" width="80" :formatter="formatNull"></el-table-column>
 			<el-table-column prop="product_return_discount" label="返费率" width="80" :formatter="formatNull"></el-table-column>
 			<el-table-column prop="product_return_explain" label="返费说明" width="200" :formatter="formatNull"></el-table-column> -->
-			<el-table-column prop="contacts_name" label="联系人" width="80"></el-table-column>
-			<el-table-column prop="product_medical_type" label="医保类型" width="80"></el-table-column>
+			<el-table-column prop="contacts_name" label="联系人" width="60"></el-table-column>
+			<el-table-column prop="product_medical_type" label="医保类型" width="70"></el-table-column>
 			<!-- <el-table-column prop="remark" label="备注" width="200"></el-table-column> -->
-			<el-table-column fixed="right" label="操作" width="80">
+			<el-table-column fixed="right" label="操作" width="70">
 		    <template slot-scope="scope">
-					<el-button v-dbClick @click.native.prevent="selectRow(scope)" type="primary" size="small">选择</el-button>
+					<el-button v-dbClick @click.native.prevent="selectRow(scope)" type="primary" size="mini">选择</el-button>
 		    </template>
 			</el-table-column>
 		</el-table>
@@ -100,6 +103,7 @@
 					<el-form-item label="销售类型" prop="sale_type">
 						<el-radio v-model="sale.sale_type" label="1">销售出库</el-radio>
 						<el-radio v-model="sale.sale_type" label="2">销售退回</el-radio>
+						<el-radio v-model="sale.sale_type" label="3">销售退补价</el-radio>
 					</el-form-item>
 				</div>
 				<el-form-item label="销售单价" prop="sale_price" :maxlength="10" :required="true" >
@@ -126,8 +130,8 @@
 			</el-form>
 			<div style="font-size:12px;color:#f04040;" v-show="!drug.product_code">温馨提示：该药品无产品编码，不可添加。请到药品管理中维护。</div>
       <div slot="footer" class="dialog-footer">
-        <el-button size="mini" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" v-dbClick :loading="loading" size="mini" @click="addSales('sale')">确 定</el-button>
+        <el-button size="small" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" v-dbClick :loading="loading" size="small" @click="addSales('sale')">确 定</el-button>
       </div>
     </el-dialog>
 	</div>
@@ -180,6 +184,7 @@ export default({
 			},
 			drug:{},//选择的药品信息
 			hospitals:[],
+			business:[],
 			saleRule:{
 				sale_num:[{validator: validateNum,trigger: 'blur' }],
 				bill_date:[{ required: true, message: '请选择销售时间', trigger: 'change' }],
@@ -190,27 +195,26 @@ export default({
 	activated(){
 		this.getDrugsList();
 		this.getContacts();
-		this.getProductBusiness();
 		this.hospitals = JSON.parse(sessionStorage["hospitals"]);
+		this.business = JSON.parse(sessionStorage["business"]);
 		this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
 	},
 	mounted(){
 
 	},
 	methods:{
-		getProductBusiness(){
-			var _self = this;
-			this.jquery("/iae/drugs/getProductBusiness",null,function(res){//查询商业
-				_self.business=res.message;
-			});
-		},
 		addSales(formName){
 			if(!this.drug.product_code){
 				return;
 			}
-			this.sale.gross_profit = (this.drug.product_price - this.drug.product_mack_price)*this.sale.sale_num;
-			this.sale.gross_profit = this.sale.gross_profit.toFixed(2);
-			this.sale.real_gross_profit = this.sale.gross_profit;
+			this.sale.gross_profit = 0;
+			this.sale.real_gross_profit= 0;
+			if(this.drug.product_mack_price){
+				this.sale.gross_profit = this.mul(this.sale.sale_num,this.sub(this.drug.product_price,this.drug.product_mack_price),2);
+			}
+			if(this.drug.accounting_cost){
+				this.sale.real_gross_profit = this.mul(this.sale.sale_num,this.sub(this.drug.product_price,this.drug.accounting_cost),2);
+			}
 			this.sale.accounting_cost = this.drug.accounting_cost;
 			this.sale.cost_univalent = this.drug.product_mack_price;
 			this.sale.product_code = this.drug.product_code;
@@ -218,6 +222,7 @@ export default({
 			this.sale.product_id = this.drug.product_id;
 			this.sale.sale_return_flag = this.drug.product_return_statistics;
 			this.sale.stock = this.drug.stock;
+			this.sale.sale_tax_rate = this.drug.product_tax_rate;
 			var _self = this;
 			this.$refs[formName].validate((valid) => {
 					if (valid) {

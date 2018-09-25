@@ -4,9 +4,9 @@
 		  <el-breadcrumb-item>财务管理</el-breadcrumb-item>
 			<el-breadcrumb-item>流水账管理</el-breadcrumb-item>
 		</el-breadcrumb>
-		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
+		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 		  <el-form-item label="银行账户" prop="account_id">
-				<el-select v-model="params.account_id" style="width:178px;" filterable size="small" placeholder="请选择">
+				<el-select v-model="params.account_id" style="width:178px;" filterable size="mini" placeholder="请选择">
 					<el-option key="" label="全部" value=""></el-option>
 					<el-option v-for="item in accounts"
 						:key="item.account_id"
@@ -16,20 +16,20 @@
         </el-select>
 		  </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('73') > -1" @click="reSearch(false)" size="small">查询</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('73') > -1" @click="reSearch(true)" size="small">重置</el-button>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('76') > -1" @click="addShow" size="small">新增</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('73') > -1" @click="reSearch(false)" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('73') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('76') > -1" @click="addShow" size="mini">新增</el-button>
 		  </el-form-item>
 		</el-form>
-		<el-table :data="accountsDetails" style="width: 100%" size="mini" :stripe="true">
-      <el-table-column prop="account_detail_time" label="日期" :formatter="formatterDate"></el-table-column>
-			<el-table-column prop="account_detail_money" label="金额"></el-table-column>
-			<el-table-column prop="account_number" label="账户"></el-table-column>
-			<el-table-column prop="account_detail_mark" label="事项"  width="500"></el-table-column>
-			<el-table-column fixed="right" label="操作" width="200">
+		<el-table :data="accountsDetails" style="width: 100%" size="mini" :stripe="true" :border="true">
+      <el-table-column prop="account_detail_time" label="日期" width="100" :formatter="formatterDate"></el-table-column>
+			<el-table-column prop="account_detail_money" label="金额" width="120"></el-table-column>
+			<el-table-column prop="account_number" label="账户" width="120" ></el-table-column>
+			<el-table-column prop="account_detail_mark" label="事项"></el-table-column>
+			<el-table-column fixed="right" label="操作" width="100">
 	    <template slot-scope="scope">
-		    <el-button v-show="authCode.indexOf('75') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
-        <el-button v-show="authCode.indexOf('74') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
+		    <el-button v-show="authCode.indexOf('75') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
+        <el-button v-show="authCode.indexOf('74') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
 	    </template>
 			</el-table-column>
 		</el-table>
@@ -70,8 +70,8 @@
 				</el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button size="mini" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" v-dbClick size="mini" :loading="loading" @click="add('accountDetail')">确 定</el-button>
+        <el-button size="small" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" v-dbClick size="small" :loading="loading" @click="add('accountDetail')">确 定</el-button>
       </div>
     </el-dialog>
 	</div>

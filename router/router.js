@@ -22,12 +22,16 @@ import Sales from "../views/sales/sales.vue";
 import SalesDrugs from "../views/sales/salesDrugs.vue";
 // import SalesEdit from "../views/sales/salesEdit.vue";
 //销售渠道页面
-import Hospital from "../views/hospital/hospital.vue";
+import Hospital from "../views/message/hospital.vue";
 //联系人页面
-import Contacts from "../views/contacts/contacts.vue";
+import Contacts from "../views/message/contacts.vue";
+//商业
+import Business from "../views/message/Business.vue";
 //银行账号管理
 import Account from "../views/bank_account/account.vue";
 import AccountDetail from "../views/bank_account/accountDetail.vue";
+import BusinessCommission from "../views/bank_account/businesscommission.vue";
+import ReturnMoney from "../views/bank_account/returnmoney.vue";
 //标签管理
 import Label from "../views/label/label.vue";
 import LabelEdit from "../views/label/labelEdit.vue";
@@ -61,7 +65,7 @@ const router = new VueRouter({
 	},{
 		path:"/main",
 		component:Main,
-		children:[{path:"",redirect: 'home'},
+		children:[{path:"",redirect: 'sales'},
 			{path:"home",component:Home},
 			{path:"drugs",component:Drugs},
 			{path:"drugsedit",component:DrugsEdit},
@@ -70,9 +74,12 @@ const router = new VueRouter({
 			{path:"user",component:User},
 			{path:"group",component:Group},
 			{path:"hospital",component:Hospital},//医院管理
-			{path:"contacts",component:Contacts},//联系人管理
+			{path:"contacts",component:Contacts},//联系人管理B
+			{path:"business",component:Business},//商业管理
 			{path:"account",component:Account},//银行账号管理
 			{path:"accountdetail",component:AccountDetail},//流水账管理
+			{path:"returnmoney",component:ReturnMoney},//医院回款管理
+			{path:"businesscommission",component:BusinessCommission},//商务提成管理
 			{path:"label",component:Label},//标签管理
 			{path:"labeledit",component:LabelEdit},
 			{path:"purchase",component:Purchase},

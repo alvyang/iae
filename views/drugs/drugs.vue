@@ -1,26 +1,29 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;">
-		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
+		<el-form :inline="true" :model="params" ref="params" size="mini"  class="demo-form-inline search">
 		  <el-form-item label="产品名称" prop="productCommonName">
-		    <el-input v-model="params.productCommonName" style="width:178px;" @keyup.13.native="reSearch(false)" size="small" placeholder="产品名称/助记码"></el-input>
+		    <el-input v-model="params.productCommonName" style="width:178px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品名称/助记码"></el-input>
 		  </el-form-item>
 			<el-form-item label="产品编号" prop="product_code">
-		    <el-input v-model="params.product_code" style="width:178px;" @keyup.13.native="reSearch(false)" size="small" placeholder="产品编号"></el-input>
+		    <el-input v-model="params.product_code" style="width:178px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品编号"></el-input>
 		  </el-form-item>
 			<el-form-item label="联系人" prop="contactId">
-				<el-select v-model="params.contactId" style="width:178px;" size="small" filterable placeholder="请选择联系人">
+				<el-select v-model="params.contactId" style="width:178px;" size="mini" filterable placeholder="请选择联系人">
 					<el-option key="" label="全部" value=""></el-option>
 					<el-option v-for="item in contacts" :key="item.contacts_id" :label="item.contacts_name" :value="item.contacts_id"></el-option>
 				</el-select>
 			</el-form-item>
 			<el-form-item label="商业" prop="business">
-				<el-select v-model="params.business" style="width:178px;" size="small" filterable placeholder="请选择商业">
+				<el-select v-model="params.business" style="width:178px;" size="mini" filterable placeholder="请选择商业">
 					<el-option key="" label="全部" value=""></el-option>
-					<el-option v-for="item in business" :key="item.product_business" :label="item.product_business" :value="item.product_business"></el-option>
+					<el-option v-for="item in business"
+ 					 :key="item.business_id"
+ 					 :label="item.business_name"
+ 					 :value="item.business_id"></el-option>
 				</el-select>
 			</el-form-item>
 			<el-form-item label="品种类型" prop="product_type">
-				<el-select v-model="params.product_type" style="width:178px;" size="small" multiple placeholder="请选择">
+				<el-select v-model="params.product_type" style="width:178px;" size="mini" multiple placeholder="请选择">
 					<el-option key="普药" label="普药" value="普药"></el-option>
 					<el-option key="佣金" label="佣金" value="佣金"></el-option>
 					<el-option key="高打" label="高打" value="高打"></el-option>
@@ -29,7 +32,7 @@
 				</el-select>
 			</el-form-item>
 			<el-form-item label="医保类型" prop="product_medical_type">
-				<el-select v-model="params.product_medical_type" style="width:178px;" size="small" placeholder="请选择">
+				<el-select v-model="params.product_medical_type" style="width:178px;" size="mini" placeholder="请选择">
 					<el-option key="" label="全部" value=""></el-option>
 					<el-option key="甲类" label="甲类" value="甲类"></el-option>
 					<el-option key="乙类" label="乙类" value="乙类"></el-option>
@@ -38,36 +41,36 @@
 				</el-select>
 			</el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('65') > -1" @click="reSearch(false)" size="small">查询</el-button>
-			  <el-button type="primary" v-dbClick v-show="authCode.indexOf('65') > -1" @click="reSearch(true)" size="small">重置</el-button>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('62') > -1" @click="add" size="small">新增</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('65') > -1" @click="reSearch(false)" size="mini">查询</el-button>
+			  <el-button type="primary" v-dbClick v-show="authCode.indexOf('65') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('62') > -1" @click="add" size="mini">新增</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="drugs" style="width: 100%" size="mini" :stripe="true" :border="true">
-  			<el-table-column fixed prop="product_common_name" label="产品通用名" width="150"></el-table-column>
-				<el-table-column prop="product_code" label="产品编号" width="120"></el-table-column>
-  			<el-table-column prop="product_makesmakers" label="生产产家" width="180"></el-table-column>
-  			<el-table-column prop="product_specifications" label="产品规格" width="120"></el-table-column>
-  			<el-table-column prop="product_packing" label="包装" width="60"></el-table-column>
-  			<el-table-column prop="product_unit" label="单位" width="60"></el-table-column>
-				<el-table-column prop="product_business" label="商业" width="80"></el-table-column>
-				<el-table-column prop="buyer" label="采购员" width="80"></el-table-column>
-				<el-table-column prop="product_price" label="中标价" width="80"></el-table-column>
-				<el-table-column prop="product_discount" label="扣率" width="80" :formatter="formatPercent"></el-table-column>
-				<el-table-column prop="product_mack_price" label="打款价" width="80"></el-table-column>
-				<el-table-column prop="gross_interest_rate" label="毛利率" width="80" :formatter="formatPercent"></el-table-column>
-				<el-table-column prop="accounting_cost" label="核算成本" width="80"></el-table-column>
-				<el-table-column prop="product_type" label="返费类型" width="100"></el-table-column>
-				<el-table-column prop="product_return_money" label="返费金额" width="80" :formatter="formatNull"></el-table-column>
-				<el-table-column prop="product_return_discount" label="返费率" width="80" :formatter="formatPercent"></el-table-column>
+  			<el-table-column fixed prop="product_common_name" label="产品通用名" width="120"></el-table-column>
+				<el-table-column prop="product_code" label="产品编号" width="100"></el-table-column>
+  			<el-table-column prop="product_makesmakers" label="生产产家" width="150"></el-table-column>
+  			<el-table-column prop="product_specifications" label="产品规格" width="100"></el-table-column>
+  			<el-table-column prop="product_packing" label="包装" width="50"></el-table-column>
+  			<el-table-column prop="product_unit" label="单位" width="50"></el-table-column>
+				<el-table-column prop="business_name" label="商业" width="60"></el-table-column>
+				<el-table-column prop="buyer" label="采购员" width="60"></el-table-column>
+				<el-table-column prop="product_price" label="中标价" width="60"></el-table-column>
+				<el-table-column prop="product_discount" label="扣率" width="70" :formatter="formatPercent"></el-table-column>
+				<el-table-column prop="product_mack_price" label="打款价" width="60"></el-table-column>
+				<el-table-column prop="gross_interest_rate" label="毛利率" width="70" :formatter="formatPercent"></el-table-column>
+				<el-table-column prop="accounting_cost" label="核算成本" width="70"></el-table-column>
+				<el-table-column prop="product_type" label="返费类型" width="70"></el-table-column>
+				<el-table-column prop="product_return_money" label="返费金额" width="70" :formatter="formatNull"></el-table-column>
+				<el-table-column prop="product_return_discount" label="返费率" width="70" :formatter="formatPercent"></el-table-column>
 				<el-table-column prop="product_return_explain" label="返费说明" width="200" :formatter="formatNull"></el-table-column>
-				<el-table-column prop="contacts_name" label="联系人" width="80"></el-table-column>
-				<el-table-column prop="product_medical_type" label="医保类型" width="80"></el-table-column>
+				<el-table-column prop="contacts_name" label="联系人" width="60"></el-table-column>
+				<el-table-column prop="product_medical_type" label="医保类型" width="70"></el-table-column>
 				<el-table-column prop="remark" label="备注" width="200"></el-table-column>
-  			<el-table-column fixed="right" label="操作" width="200">
+  			<el-table-column fixed="right" label="操作" width="100">
 			    <template slot-scope="scope">
-				    <el-button v-dbClick v-show="authCode.indexOf('64') > -1" @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
-		        <el-button v-dbClick v-show="authCode.indexOf('63') > -1" @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
+				    <el-button v-dbClick v-show="authCode.indexOf('64') > -1" @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
+		        <el-button v-dbClick v-show="authCode.indexOf('63') > -1" @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
 			    </template>
   			</el-table-column>
 		</el-table>
@@ -138,7 +141,7 @@
 			},
 			getProductBusiness(){
 				var _self = this;
-				this.jquery("/iae/drugs/getProductBusiness",null,function(res){//查询商业
+				this.jquery("/iae/business/getAllBusiness",null,function(res){//查询商业
 					_self.business=res.message;
 				});
 			},

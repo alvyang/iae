@@ -4,24 +4,24 @@
 		  <el-breadcrumb-item>财务管理</el-breadcrumb-item>
 			<el-breadcrumb-item>银行账号管理</el-breadcrumb-item>
 		</el-breadcrumb>
-		<el-form :inline="true" :model="params" ref="params" class="demo-form-inline search">
+		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 		  <el-form-item label="持卡人" prop="contacts_name">
-		    <el-input v-model="params.account_person" @keyup.13.native="reSearch(false)" size="small" placeholder="持卡人"></el-input>
+		    <el-input v-model="params.account_person" @keyup.13.native="reSearch(false)" size="mini" placeholder="持卡人"></el-input>
 		  </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('67') > -1" @click="reSearch(false)" size="small">查询</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('67') > -1" @click="reSearch(true)" size="small">重置</el-button>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('68') > -1" @click="addShow" size="small">新增</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('67') > -1" @click="reSearch(false)" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('67') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('68') > -1" @click="addShow" size="mini">新增</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="accounts" style="width: 100%" size="mini" :stripe="true">
       <el-table-column prop="account_number" label="账号"></el-table-column>
 			<el-table-column prop="account_person" label="持卡人"></el-table-column>
 			<el-table-column prop="money" label="余额"></el-table-column>
-			<el-table-column fixed="right" label="操作" width="200">
+			<el-table-column fixed="right" label="操作" width="100">
 	    <template slot-scope="scope">
-		    <el-button v-show="authCode.indexOf('69') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="small"></el-button>
-        <el-button v-show="authCode.indexOf('70') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="small"></el-button>
+		    <el-button v-show="authCode.indexOf('69') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
+        <el-button v-show="authCode.indexOf('70') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
 	    </template>
 			</el-table-column>
 		</el-table>
@@ -47,8 +47,8 @@
 				</el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button size="mini" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" v-dbClick size="mini" :loading="loading" @click="add('account')">确 定</el-button>
+        <el-button size="small" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" v-dbClick size="small" :loading="loading" @click="add('account')">确 定</el-button>
       </div>
     </el-dialog>
 	</div>

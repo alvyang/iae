@@ -67,6 +67,7 @@
     activated(){
       this.getCookies("login_message");
       this.refreshCode();
+      this.login.code = "";
       this.datetime = new Date().getTime();
       this.height = $(window).height();
       var that = this;
@@ -164,7 +165,7 @@
                       _self.setCookie("login_message",JSON.stringify(_self.login),1000 * 60 * 60);
                     }
                     sessionStorage["user"] = JSON.stringify(res.message[0]);
-       							_self.$router.push("/main/home");
+       							_self.$router.push("/main");
        						}
        					}
        				});
