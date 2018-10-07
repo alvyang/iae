@@ -1,0 +1,211 @@
+<template>
+	<div style="box-sizing: border-box;padding: 0px 10px;">
+		<el-breadcrumb separator-class="el-icon-arrow-right">
+		  <el-breadcrumb-item>信息管理</el-breadcrumb-item>
+			<el-breadcrumb-item>标签管理</el-breadcrumb-item>
+		</el-breadcrumb>
+		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
+		  <el-form-item label="标签名称" prop="tag_name">
+		    <el-input v-model="params.tag_name" @keyup.13.native="reSearch(false)" size="mini" placeholder="标签名称"></el-input>
+		  </el-form-item>
+		  <el-form-item>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('94') > -1" @click="reSearch(false)" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('94') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('97') > -1" @click="addShow" size="mini">新增</el-button>
+		  </el-form-item>
+		</el-form>
+		<el-table :data="tags" style="width: 100%" size="mini" :stripe="true">
+			<el-table-column prop="tag_name" label="标签名称"></el-table-column>
+			<el-table-column prop="tag_quote_num" label="引用次数"></el-table-column>
+			<el-table-column fixed="right" label="操作" width="100">
+	    <template slot-scope="scope">
+		    <el-button v-show="authCode.indexOf('96') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
+        <el-button v-show="authCode.indexOf('95') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
+	    </template>
+			</el-table-column>
+		</el-table>
+		<div class="page_div">
+			<el-pagination
+				background
+	      @size-change="handleSizeChange"
+	      @current-change="handleCurrentChange"
+	      :current-page="currentPage"
+	      :page-sizes="[5, 10, 50, 100]"
+	      :page-size="pageNum"
+	      layout="total, sizes, prev, pager, next, jumper"
+	      :total="count">
+	    </el-pagination>
+		</div>
+		<el-dialog :title="title == 1?'新增标签':'修改标签'" width="500px" :visible.sync="dialogFormVisible">
+			<el-form :model="tag" status-icon :rules="tagRule" ref="tag" label-width="90px" class="demo-ruleForm">
+				<el-form-item label="标签名称" prop="tag_name">
+					<el-input v-model="tag.tag_name" style="width:350px;" auto-complete="off" :maxlength="20" placeholder="请输入标签名称"></el-input>
+				</el-form-item>
+			</el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button size="small" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" v-dbClick size="small" :loading="loading" @click="add('tag')">确 定</el-button>
+      </div>
+    </el-dialog>
+	</div>
+</template>
+<script>
+	export default({
+		data(){
+      var validateTag = (rule, value, callback) => {
+				var _self = this;
+        if (value === '') {
+          callback(new Error('请输入标签名称'));
+        } else {
+					this.jquery('/iae/tag/exitsTag',_self.tag,function(res){
+						if (_self.title == 1 && res.message.length > 0) {
+		          callback(new Error('该标签已存在'));
+		        } else {
+		          callback();
+		        }
+					});
+				}
+      };
+			return {
+				title:1,
+				dialogFormVisible:false,
+				loading:false,
+				authCode:"",
+				tag:{
+					tag_name:""
+				},
+				tagRule:{
+					tag_name:[{validator: validateTag, trigger: 'blur' }],
+				},
+				tags:[],
+				pageNum:10,
+				currentPage:1,
+				count:0,
+				params:{
+					tag_name:""
+				}
+			}
+		},
+		activated(){
+			this.getTagsList();
+		},
+		mounted(){
+			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
+		},
+		methods:{
+			editRow(scope){//编辑药品信息
+				this.dialogFormVisible = true;
+        this.title=2;
+        this.tag = scope.row;
+				var _self = this;
+				setTimeout(function(){
+					_self.$refs["tag"].clearValidate();
+				});
+			},
+			deleteRow(scope){
+				if(scope.row.tag_quote_num == "0"){
+					this.$confirm('是否删除?', '提示', {
+	        	confirmButtonText: '确定',
+	        	cancelButtonText: '取消',
+	        	type: 'warning'
+	      	}).then(() => {
+						this.deleteItem(scope);
+	      	}).catch(() => {
+	      	});
+				}else{
+					this.$alert('引用数据大于0，不可删除', '提示', {
+	          confirmButtonText: '确定',
+	          callback: action => {
+
+	          }
+	        });
+				}
+			},
+			deleteItem(scope){
+				var _self = this;
+        this.jquery('/iae/tag/deleteTag',{
+          tag_id:scope.row.tag_id
+        },function(res){
+          _self.$message({showClose: true,message: '删除成功',type: 'success'});
+          _self.getTagsList();
+          _self.dialogFormVisible = false;
+        });
+			},
+			addShow(){
+				this.tag={
+					tag_name:""
+				};
+				this.title=1;
+				this.dialogFormVisible = true;
+			},
+			add(formName){
+				var _self = this;
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+						this.loading = true;
+            if(this.title == 1){
+              this.jquery('/iae/tag/saveTag',_self.tag,function(res){
+                _self.$message({showClose: true,message: '新增成功',type: 'success'});
+                _self.dialogFormVisible = false;
+								_self.loading = false;
+								_self.getTagsList();
+              });
+            }else{
+              this.jquery('/iae/tag/editTag',_self.tag,function(res){
+                _self.$message({showClose: true,message: '修改成功',type: 'success'});
+                _self.dialogFormVisible = false;
+								_self.loading = false;
+              });
+            }
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+			},
+			searchContactsList(){
+				this.currentPage = 1;
+				this.getTagsList();
+			},
+			getTagsList(){
+				var _self = this;
+        if(!_self.currentPage){
+          _self.currentPage = 1;
+        }
+        if(!_self.pageNum){
+          _self.pageNum = 10;
+        }
+				var page = {
+          start:(_self.currentPage-1)*_self.pageNum,
+          limit:_self.pageNum
+        }
+        this.jquery('/iae/tag/getTags',{
+					data:_self.params,
+          page:page
+        },function(res){
+            _self.tags = res.message.data;
+            _self.pageNum=parseInt(res.message.limit);
+    				_self.count=res.message.totalCount;
+        });
+			},
+			reSearch(arg){
+				if(arg){
+					this.$refs["params"].resetFields();
+				}
+				this.currentPage = 1;
+				this.getTagsList();
+			},
+			handleSizeChange(val) {
+    		this.currentPage = 1;
+        this.getTagsList();
+    	},
+    	handleCurrentChange(val) {
+    		this.currentPage = val;
+				this.getTagsList();
+    	}
+		}
+	})
+</script>
+<style>
+
+</style>

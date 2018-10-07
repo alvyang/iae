@@ -19,7 +19,6 @@
       </el-form-item>
 			<el-form-item label="品种类型" prop="productType">
 				 <el-select v-model="params.productType" style="width:178px;" size="mini" multiple placeholder="请选择">
-					 <el-option key="普药" label="普药" value="普药"></el-option>
 					 <el-option key="佣金" label="佣金" value="佣金"></el-option>
 					 <el-option key="高打" label="高打" value="高打"></el-option>
 					 <el-option key="高打(底价)" label="高打(底价)" value="高打(底价)"></el-option>
@@ -83,6 +82,7 @@
 				<el-table-column prop="sale_num" label="计划数量" width="70"></el-table-column>
 				<el-table-column prop="sale_money" label="购入金额" width="70"></el-table-column>
 				<el-table-column prop="real_gross_profit" label="真实毛利" width="80"></el-table-column>
+				<el-table-column label="真实毛利率" width="80" :formatter="formatterRealProfitRate"></el-table-column>
 				<el-table-column prop="accounting_cost" label="核算成本" width="80"></el-table-column>
 				<el-table-column prop="gross_profit" label="毛利" width="80"></el-table-column>
 				<el-table-column prop="cost_univalent" label="成本单价" width="80"></el-table-column>
@@ -173,8 +173,12 @@
 					callback(new Error('请输入整数'));
 				} else {
 					this.sale.sale_money = this.mul(this.sale.sale_num,this.sale.sale_price,2);
-					this.sale.gross_profit = this.sub(this.sale.sale_money,this.mul(this.sale.sale_num,this.sale.cost_univalent),2);
-					this.sale.real_gross_profit = this.sub(this.sale.sale_money,this.mul(this.sale.sale_num,this.sale.accounting_cost),2);
+					if(this.sale.cost_univalent){
+						this.sale.gross_profit = this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.sale.cost_univalent),2);
+					}
+					if(this.sale.accounting_cost){
+						this.sale.real_gross_profit = this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.sale.accounting_cost),2);
+					}
          	callback();
 				}
 			};
@@ -184,8 +188,12 @@
           	callback(new Error('请再输入正确的'+rule.labelname));
         } else {
 					if(value){
-						this.sale.gross_profit = this.sub(this.sale.sale_money,this.mul(this.sale.sale_num,this.sale.cost_univalent),2);
-						this.sale.real_gross_profit = this.sub(this.sale.sale_money,this.mul(this.sale.sale_num,this.sale.accounting_cost),2);
+						if(this.sale.cost_univalent){
+							this.sale.gross_profit = this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.sale.cost_univalent),2);
+						}
+						if(this.sale.accounting_cost){
+							this.sale.real_gross_profit = this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.sale.accounting_cost),2);
+						}
 					}
          	callback();
         }
@@ -227,9 +235,9 @@
 				currentPage:1,
 				count:0,
 				hospitals:[],
-				money:'',//销售总额
-				realGrossProfit:'',
-				grossProfit:'',
+				money:0,//销售总额
+				realGrossProfit:0,
+				grossProfit:0,
 				params:{//查询参数
 					productCommonName:"",
 					salesTime:[defaultStart,defaultEnd],
@@ -312,6 +320,9 @@
 	        return "";
 	      }
 			},
+			formatterRealProfitRate(row, column, cellValue){
+				return this.mul(this.div(row.real_gross_profit,row.sale_money,2),100)+"%";
+			},
 			editRow(scope){//编辑药品信息
 				this.dialogFormVisible = true;
 				this.sale = scope.row;
@@ -387,8 +398,14 @@
 			},
 			editSales(formName){
 				var _self = this;
-				this.sale.gross_profit = this.sale.cost_univalent*this.sale.sale_num;
-				this.sale.gross_profit = this.sale.gross_profit.toFixed(2);
+				this.sale.gross_profit = 0;
+				this.sale.real_gross_profit= 0;
+				if(this.sale.cost_univalent){
+					this.sale.gross_profit = this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.sale.cost_univalent),2);
+				}
+				if(this.sale.accounting_cost){
+					this.sale.real_gross_profit = this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.sale.accounting_cost),2);
+				}
 				this.$refs[formName].validate((valid) => {
 						if (valid) {
 							this.loading = true;

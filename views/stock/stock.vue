@@ -1,5 +1,9 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;">
+		<el-breadcrumb separator-class="el-icon-arrow-right">
+		  <el-breadcrumb-item>药品管理</el-breadcrumb-item>
+			<el-breadcrumb-item>库存管理</el-breadcrumb-item>
+		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 		  <el-form-item label="产品名称" prop="productCommonName">
 		    <el-input v-model="params.productCommonName" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品名称/助记码"></el-input>
@@ -112,8 +116,8 @@
 				dialogFormVisible:false,
 				dialogFormVisibleStock:false,
 				loading:false,
-				stockMoney:"",
-				stockNum:"",
+				stockMoney:0,//库存金额
+				stockNum:0,//库存数量
 				params:{
 					productCommonName:"",
 					contactId:"",

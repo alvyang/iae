@@ -97,6 +97,7 @@
         <el-table-column prop="service_charge" label="手续费" width="60"></el-table-column>
         <el-table-column prop="refundser" label="返款人" width="60"></el-table-column>
         <el-table-column prop="account_number" label="收款人" width="80"></el-table-column>
+        <el-table-column prop="refunds_remark" label="备注" width="150"></el-table-column>
         <el-table-column fixed="right" label="操作" width="55">
         <template slot-scope="scope">
           <el-button v-show="authCode.indexOf('47') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
@@ -163,6 +164,9 @@
             </el-option>
           </el-select>
 				</el-form-item>
+        <el-form-item label="备注" prop="refunds_remark">
+          <el-input v-model="refund.refunds_remark" style="width:194px;" placeholder="备注" auto-complete="off"></el-input>
+        </el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">
         <el-button size="small" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
@@ -243,7 +247,12 @@ export default({
         refunds_should_money:[{validator: validateMoney,labelname:'应返金额',trigger: 'blur' }],
         refunds_real_money:[{validator: validateMoney,labelname:'实返金额',trigger: 'blur' }]
       },
-      refundMoney:{},//返费总额
+      refundMoney:{
+        rsm:0,
+        rrm:0,
+        sc:0,
+        own:0,
+      },//返费总额
       contacts:[],
       business:[],
       refundser:[],//返款人列表
@@ -411,6 +420,7 @@ export default({
               refunds_id:this.refund.refunds_id,
               sales_id:this.refund.sale_id,
               service_charge:this.refund.service_charge,
+              refunds_remark:this.refund.refunds_remark,
               account_detail:accountDetail,
             };
             _self.jquery(url,params,function(res){

@@ -173,6 +173,7 @@
 								_self.loading = false;
               });
             }
+						_self.searchGroupsList();
           } else {
             console.log('error submit!!');
             return false;

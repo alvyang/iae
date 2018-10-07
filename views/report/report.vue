@@ -1,13 +1,22 @@
 <template>
   <div>
-    近六个月返费统计（佣金、高打）柱状图<br/>
-    销售统计（按月） 曲线图<br/>
-    销售统计按医院（按月）曲线图<br/>
-
+    <el-button round @click="toReport('/main/reportsaleline')" >销售统计（按月） 折线图</el-button>
+    <el-button round @click="toReport('/main/reporttagbar')" >销售统计（按标签） 柱状图</el-button>
   </div>
 </template>
 <script>
+  export default({
+    data(){
+        return{
 
+        }
+    },
+    methods:{
+      toReport(url){
+        this.$router.push({path:url});
+      }
+    }
+  })
 </script>
 <style>
 </style>

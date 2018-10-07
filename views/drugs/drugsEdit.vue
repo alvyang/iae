@@ -105,17 +105,34 @@
 						</el-form-item>
 					</div>
 					<div>
+						<el-form-item label="标签" prop="tag_ids">
+							<tag-input :tag_ids="drugs.tag_ids" v-on:emitTagIds="emitTagIds"></tag-input>
+						</el-form-item>
+					</div>
+					<div>
+						<el-form-item label="采购方式" prop="product_purchase_mode">
+							<el-radio-group v-model="drugs.product_purchase_mode">
+								<el-radio border label="招标"></el-radio>
+			 					<el-radio border label="议价"></el-radio>
+					    </el-radio-group>
+						</el-form-item>
+						<el-form-item label="是否基药" prop="product_basic_medicine">
+							<el-radio-group v-model="drugs.product_basic_medicine">
+								<el-radio border label="基药"></el-radio>
+			 					<el-radio border label="非基药"></el-radio>
+					    </el-radio-group>
+						</el-form-item>
+					</div>
+					<div>
 						<el-form-item label="品种类型" prop="product_type">
 							<el-radio-group v-model="drugs.product_type" @change="typeChange">
-								<el-radio border label="普药"></el-radio>
 								<el-radio border label="佣金"></el-radio>
 			 					<el-radio border label="高打"></el-radio>
-								<el-radio border label="高打(底价)"></el-radio>
 								<el-radio border label="其它"></el-radio>
 					    </el-radio-group>
 						</el-form-item>
 					</div>
-					<div v-show="drugs.product_type == '高打(底价)'">
+					<div v-show="drugs.product_type != '其它'">
 						<el-form-item label="底价" prop="product_floor_price">
 							<el-input v-model="drugs.product_floor_price" style="width: 179px;" @blur="priceBlur" auto-complete="off" :maxlength="10" placeholder="底价"></el-input>
 						</el-form-item>
@@ -123,7 +140,7 @@
 							<el-input v-model="drugs.product_high_discount" @blur="priceBlur" style="width:163px;"  auto-complete="off" :maxlength="10" placeholder="高开返款率（如：23）"></el-input> %
 						</el-form-item>
 					</div>
-					<div v-show="drugs.product_type != '普药' && drugs.product_type != '其它' ">
+					<div v-show="drugs.product_type != '其它'">
 						<el-form-item label="返款金额" prop="product_return_money">
 							<el-input v-model="drugs.product_return_money" style="width: 179px;" @blur="priceBlur" auto-complete="off" :maxlength="10" placeholder="返款金额"></el-input>
 						</el-form-item>
@@ -137,9 +154,9 @@
 					<div>
 						<el-form-item label="返款统计" prop="product_return_statistics">
 							<el-radio-group v-model="drugs.product_return_statistics">
-								<el-radio border label="1" v-show="drugs.product_type =='佣金' || drugs.product_type =='高打' || drugs.product_type =='高打(底价)'">按销售记录统计</el-radio>
-								<el-radio border label="2" v-show="drugs.product_type =='高打' || drugs.product_type =='高打(底价)'">按备货记录统计</el-radio>
-			 					<el-radio border label="3" v-show="drugs.product_type =='普药' || drugs.product_type =='其它' ">无返款</el-radio>
+								<el-radio border label="1" v-show="drugs.product_type =='佣金' || drugs.product_type =='高打'">按销售记录统计</el-radio>
+								<el-radio border label="2" v-show="drugs.product_type =='高打'">按备货记录统计</el-radio>
+			 					<el-radio border label="3" v-show="drugs.product_type =='其它'">无返款</el-radio>
 					    </el-radio-group>
 						</el-form-item>
 					</div>
@@ -161,6 +178,7 @@
 	</div>
 </template>
 <script>
+	import taginput from "./tagInput.vue";
 	export default({
 		data(){
 			var validateMoney = (rule, value, callback) => {
@@ -207,6 +225,8 @@
 				loading:false,
 				product_return_statistics:"",
 				drugs:{
+					tag_ids:"",
+					tag_ids_temp:"",//用于记录修改前的标签id，后台修改标签引用次数
 					product_id:"",
 					product_common_name:"",
 					product_specifications:"",
@@ -236,6 +256,8 @@
 					product_return_statistics:"1",//返款统计方式
 					product_return_statistics_update:false,//是否更新销售记录中返款方式
 					product_tax_rate:"",//产品税率
+					product_purchase_mode:"",//采购方式
+					product_basic_medicine:"",//是否基药
 				},
 				drugsRule:{
 					product_common_name:[{ required: true, message: '请输入产品名称', trigger: 'blur' }],
@@ -262,8 +284,15 @@
 				product_code:"",//修改时，用于存放修改前的编码
 			}
 		},
+		name:"drugs_edit",
+		components:{
+			'tag-input':taginput
+		},
 		activated(){
-			this.resetForm("drugs");
+
+		},
+		beforeMount(){
+			// this.resetForm("drugs");
 			this.drugs.product_id = "";
 			this.drugs.readonly = "";
 			this.contacts = JSON.parse(sessionStorage["contacts"]);
@@ -275,6 +304,7 @@
 				delete sessionDrugs.contacts_name;
 				delete sessionDrugs.business_name;
 				this.drugs = sessionDrugs;
+				this.drugs.tag_ids_temp = this.drugs.tag_ids;
 				sessionStorage.removeItem('drugs_edit');
 				/*
 				 * 返款统计由无返款  改为  按销售记录的返款，则更新销售记录
@@ -286,10 +316,10 @@
 			}
 			this.getProductMakesmakers();
 		},
-		mounted(){
-
-		},
 		methods:{
+			emitTagIds(val){
+				this.drugs.tag_ids = val;
+			},
 			typeChange(label){
 				if(label=="高打" || label=="高打(底价)"){
 					this.drugs.product_return_statistics = "2";

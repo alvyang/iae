@@ -29,7 +29,7 @@
 		</div>
 		<div style="height: 60px;"></div>
 		<div class="main_content" :style="{height:height+'px'}">
-			<keep-alive>
+			<keep-alive exclude="drugs_edit">
 				<router-view class="view"></router-view>
 			</keep-alive>
 		</div>
@@ -119,5 +119,8 @@
 	.main_content{
 		padding: 10px;
 		box-sizing: border-box;
+	}
+	.el-dialog__header{
+		margin-bottom: 20px;
 	}
 </style>

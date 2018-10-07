@@ -1,5 +1,9 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;">
+		<el-breadcrumb separator-class="el-icon-arrow-right">
+		  <el-breadcrumb-item>药品管理</el-breadcrumb-item>
+			<el-breadcrumb-item>药品管理</el-breadcrumb-item>
+		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" size="mini"  class="demo-form-inline search">
 		  <el-form-item label="产品名称" prop="productCommonName">
 		    <el-input v-model="params.productCommonName" style="width:178px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品名称/助记码"></el-input>
@@ -24,10 +28,8 @@
 			</el-form-item>
 			<el-form-item label="品种类型" prop="product_type">
 				<el-select v-model="params.product_type" style="width:178px;" size="mini" multiple placeholder="请选择">
-					<el-option key="普药" label="普药" value="普药"></el-option>
 					<el-option key="佣金" label="佣金" value="佣金"></el-option>
 					<el-option key="高打" label="高打" value="高打"></el-option>
-					<el-option key="高打(底价)" label="高打(底价)" value="高打(底价)"></el-option>
 					<el-option key="其它" label="其它" value="其它"></el-option>
 				</el-select>
 			</el-form-item>
@@ -60,12 +62,14 @@
 				<el-table-column prop="product_mack_price" label="打款价" width="60"></el-table-column>
 				<el-table-column prop="gross_interest_rate" label="毛利率" width="70" :formatter="formatPercent"></el-table-column>
 				<el-table-column prop="accounting_cost" label="核算成本" width="70"></el-table-column>
-				<el-table-column prop="product_type" label="返费类型" width="70"></el-table-column>
+				<el-table-column prop="product_type" label="品种类型" width="70"></el-table-column>
 				<el-table-column prop="product_return_money" label="返费金额" width="70" :formatter="formatNull"></el-table-column>
 				<el-table-column prop="product_return_discount" label="返费率" width="70" :formatter="formatPercent"></el-table-column>
 				<el-table-column prop="product_return_explain" label="返费说明" width="200" :formatter="formatNull"></el-table-column>
 				<el-table-column prop="contacts_name" label="联系人" width="60"></el-table-column>
 				<el-table-column prop="product_medical_type" label="医保类型" width="70"></el-table-column>
+				<el-table-column prop="product_purchase_mode" label="采购方式" width="70"></el-table-column>
+				<el-table-column prop="product_basic_medicine" label="是否基药" width="70"></el-table-column>
 				<el-table-column prop="remark" label="备注" width="200"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="100">
 			    <template slot-scope="scope">

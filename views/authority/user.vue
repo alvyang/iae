@@ -227,6 +227,7 @@
 								_self.loading =false;
               });
             }
+						_self.searchUsersList();
           } else {
             console.log('error submit!!');
             return false;
@@ -270,7 +271,6 @@
           data:_self.params,
           page:page
         },function(res){
-					console.log(res);
           _self.users = res.message.data;
           _self.pageNum=parseInt(res.message.limit);
   				_self.count=res.message.totalCount;

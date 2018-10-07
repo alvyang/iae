@@ -1,5 +1,131 @@
 //未发版sql
 
+//20181007发版
+CREATE TABLE `tag_drug` (
+  `tag_drug_id` varchar(50) NOT NULL,
+	`drug_id` int(20) DEFAULT NULL COMMENT '药品id',
+	`tag_id` int(20) DEFAULT NULL COMMENT '标签id',
+  PRIMARY KEY (`tag_drug_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+SET FOREIGN_KEY_CHECKS = 1;
+alter table tag_drug add tag_drug_deleta_flag varchar(10) DEFAULT '0' COMMENT '删除';
+alter table tag_drug add tag_drug_group_id varchar(10) COMMENT '组id';
+
+insert into tag_drug(tag_drug_id,drug_id,tag_id) select d.product_id,d.product_id,d.tag_ids from drugs d where d.tag_ids is not null and d.tag_ids != '';
+update tag_drug set tag_drug_deleta_flag='0';
+update tag_drug set tag_drug_group_id='1';
+
+ALTER TABLE drugs DROP tag_ids;
+ALTER TABLE tag DROP tag_quote_num;
+
+alter table role drop foreign key role_ibfk_1;
+alter table authority drop foreign key authority_ibfk_1;
+alter table users drop foreign key users_ibfk_1;
+alter table users drop foreign key users_ibfk_2;
+
+alter table allot modify column allot_id varchar(50);
+alter table allot modify column allot_group_id varchar(50);
+alter table allot modify column allot_drug_id varchar(50);
+
+alter table authority modify column authority_id varchar(50);
+alter table authority modify column authority_parent_id varchar(50);
+
+alter table bank_account modify column account_id varchar(50);
+alter table bank_account modify column account_group_id varchar(50);
+
+alter table bank_account_detail modify column account_detail_id varchar(50);
+alter table bank_account_detail modify column account_id varchar(50);
+alter table bank_account_detail modify column account_detail_group_id varchar(50);
+
+alter table business modify column business_id varchar(50);
+alter table business modify column business_group_id varchar(50);
+
+alter table business_commission modify column commission_id varchar(50);
+alter table business_commission modify column commission_hospital_id varchar(50);
+alter table business_commission modify column commission_business varchar(50);
+
+alter table contacts modify column contacts_id varchar(50);
+alter table contacts modify column group_id varchar(50);
+
+alter table drugs modify column product_id varchar(50);
+alter table drugs modify column contacts_id varchar(50);
+alter table drugs modify column group_id varchar(50);
+
+alter table groups modify column group_id varchar(50);
+
+alter table hospital_business_config modify column hb_config_id varchar(50);
+alter table hospital_business_config modify column hb_business_id varchar(50);
+alter table hospital_business_config modify column hb_hospital_id varchar(50);
+alter table hospital_business_config modify column hb_group_id varchar(50);
+
+alter table hospital_return_money modify column return_money_id varchar(50);
+alter table hospital_return_money modify column return_money_group_id varchar(50);
+alter table hospital_return_money modify column return_money_hospital varchar(50);
+alter table hospital_return_money modify column return_money_business varchar(50);
+
+alter table hospitals modify column hospital_id varchar(50);
+alter table hospitals modify column group_id varchar(50);
+
+alter table purchase modify column purchase_id varchar(50);
+alter table purchase modify column group_id varchar(50);
+alter table purchase modify column drug_id varchar(50);
+
+alter table refunds modify column refunds_id varchar(50);
+alter table refunds modify column sales_id varchar(50);
+alter table refunds modify column purchases_id varchar(50);
+alter table refunds modify column refunds_group_id varchar(50);
+
+alter table role modify column role_id varchar(50);
+alter table role modify column group_id varchar(50);
+
+alter table sales modify column sale_id varchar(50);
+alter table sales modify column group_id varchar(50);
+alter table sales modify column hospital_id varchar(50);
+
+alter table tag modify column tag_id varchar(50);
+alter table tag modify column tag_group_id varchar(50);
+
+alter table tag_drug modify column tag_drug_group_id varchar(50);
+
+alter table users modify column id varchar(50);
+alter table users modify column group_id varchar(50);
+alter table users modify column role_id varchar(50);
+//20180929发版sql
+update drugs set product_type = '其它' where product_type = '普药';
+update drugs set product_type = '高打' where product_type = '高打(底价)';
+
+alter table drugs add product_basic_medicine varchar(10) COMMENT '是否基药';
+alter table drugs add product_purchase_mode varchar(10) COMMENT '产品采购方式';
+alter table drugs add tag_ids varchar(50) COMMENT '标签id';
+alter table refunds add refunds_remark varchar(200) COMMENT '返款备注';
+
+update drugs dd set dd.product_purchase_mode = (
+	select temp.r from (
+		select substring(d.remark,1,2) r,d.product_code from drugs d where d.delete_flag='0' and d.remark is not null and d.remark != ''
+	) temp where temp.product_code = dd.product_code
+)
+update drugs dd set dd.product_basic_medicine = (
+	select temp.r from (
+		select substring(d.remark,3) r,d.product_code from drugs d where d.delete_flag='0' and d.remark is not null and d.remark != ''
+	) temp where temp.product_code = dd.product_code
+)
+update drugs d set d.remark = ""
+
+CREATE TABLE `tag` (
+  `tag_id` int(20) NOT NULL AUTO_INCREMENT,
+  `tag_name` varchar(50) DEFAULT NULL COMMENT '标签名称',
+  `tag_quote_num` varchar(20) DEFAULT '0' COMMENT '标签引用次数',
+  `tag_group_id` varchar(5) DEFAULT NULL COMMENT '标签组id',
+  `tag_delete_flag` varchar(5) DEFAULT '0' COMMENT '删除',
+  PRIMARY KEY (`tag_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+SET FOREIGN_KEY_CHECKS = 1;
+
+INSERT INTO `authority` VALUES ('93', '标签管理', '标签管理', '2004', '/main/tag', '25', '0', '1', '2', '1');
+INSERT INTO `authority` VALUES ('94', '查询', '查询', '20044', '/', '93', '0', '1', '3', '6'),('95', '删除', '删除', '20043', '/', '93', '0', '1', '3', '2'), ('96', '修改', '修改', '20042', '/', '93', '0', '1', '3', '3'), ('97', '新增', '新增', '20041', '/', '93', '0', '1', '3', '1');
+INSERT INTO `authority` VALUES  ('98', '报表管理', '报表管理', '2001', '/main/report', '1', '0', '1', '2', '1');
+INSERT INTO `authority` VALUES  ('99', '查询', '', '20011', '/', '98', '0', '1', '3', '6');
+
 
 //20190920发版sql
 INSERT INTO `authority` VALUES

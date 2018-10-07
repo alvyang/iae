@@ -26,7 +26,9 @@ import Hospital from "../views/message/hospital.vue";
 //联系人页面
 import Contacts from "../views/message/contacts.vue";
 //商业
-import Business from "../views/message/Business.vue";
+import Business from "../views/message/business.vue";
+//标签管理
+import Tag from "../views/message/tag.vue";
 //银行账号管理
 import Account from "../views/bank_account/account.vue";
 import AccountDetail from "../views/bank_account/accountDetail.vue";
@@ -46,6 +48,8 @@ import password from "../views/password.vue";
 
 //报表管理
 import Report from "../views/report/report.vue";
+import ReportSaleLine from "../views/report/reportSaleLine.vue";//销售折现图
+import ReportTagBar from "../views/report/reportTagBar.vue";//标签销售柱状图
 //返款管理
 import Refundsale from "../views/refunds/refundsale.vue";
 import Refundpurchase from "../views/refunds/refundpurchase.vue";
@@ -74,8 +78,9 @@ const router = new VueRouter({
 			{path:"user",component:User},
 			{path:"group",component:Group},
 			{path:"hospital",component:Hospital},//医院管理
-			{path:"contacts",component:Contacts},//联系人管理B
+			{path:"contacts",component:Contacts},//联系人管理
 			{path:"business",component:Business},//商业管理
+			{path:"tag",component:Tag},//标签管理
 			{path:"account",component:Account},//银行账号管理
 			{path:"accountdetail",component:AccountDetail},//流水账管理
 			{path:"returnmoney",component:ReturnMoney},//医院回款管理
@@ -89,6 +94,8 @@ const router = new VueRouter({
 			{path:"sales",component:Sales},
 			{path:"salesdrugs",component:SalesDrugs},
 			{path:"report",component:Report},
+			{path:"reportsaleline",component:ReportSaleLine},
+			{path:"reporttagbar",component:ReportTagBar},
 			{path:"refundsale",component:Refundsale},
 			{path:"refundpurchase",component:Refundpurchase},
 			{path:"stock",component:Stock},
