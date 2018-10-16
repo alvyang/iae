@@ -2,7 +2,7 @@
 	<div>
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 			<el-form-item label="销售机构" prop="hospital_id">
-			 <el-select v-model="params.hospital_id" style="width:178px;" filterable size="mini" placeholder="请选择">
+			 <el-select v-model="params.hospital_id" style="width:210px;" filterable size="mini" placeholder="请选择">
 				 <el-option key="" label="全部" value=""></el-option>
 				 <el-option v-for="item in hospitals"
 					 :key="item.hospital_id"
@@ -12,7 +12,7 @@
 		 	</el-select>
 		 </el-form-item>
       <el-form-item label="　商业" prop="business_id">
- 			 <el-select v-model="params.business_id" style="width:178px;" size="mini" filterable placeholder="请选择商业">
+ 			 <el-select v-model="params.business_id" style="width:210px;" size="mini" filterable placeholder="请选择商业">
  				 <el-option key="" label="全部" value=""></el-option>
  				 <el-option v-for="item in business"
  					 :key="item.business_id"
@@ -134,7 +134,7 @@
 		methods:{
 			getHospitals(){
 				var _self = this;
-				this.jquery('/iae/hospitals/getAllHospitals',null,function(res){
+				this.jquery('/iae/hospitals/getAllHospitals',{hospital_type:'销售医院'},function(res){
 						_self.hospitals = res.message;
 				});
 			},

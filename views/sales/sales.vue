@@ -1,14 +1,22 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;">
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
-		  <el-form-item label="产品名称" prop="productCommonName">
-		    <el-input v-model="params.productCommonName" style="width:178px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品名称/助记码"></el-input>
+			<el-form-item label="销售日期" prop="salesTime">
+ 			 <el-date-picker v-model="params.salesTime" type="daterange" size="mini" align="right" unlink-panels
+ 				 range-separator="至"
+ 				 start-placeholder="开始日期"
+ 				 end-placeholder="结束日期"
+ 				 :picker-options="pickerOptions2">
+ 			 </el-date-picker>
+ 		 </el-form-item>
+			<el-form-item label="产品名称" prop="productCommonName">
+		    <el-input v-model="params.productCommonName" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品名称/助记码"></el-input>
 		  </el-form-item>
 			<el-form-item label="产品编号" prop="product_code">
-		    <el-input v-model="params.product_code" style="width:178px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品编号"></el-input>
+		    <el-input v-model="params.product_code" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品编号"></el-input>
 		  </el-form-item>
 			<el-form-item label="　联系人" prop="contactId">
-        <el-select v-model="params.contactId" style="width:178px;" filterable size="mini" placeholder="请选择">
+        <el-select v-model="params.contactId" style="width:210px;" filterable size="mini" placeholder="请选择">
 					<el-option key="" label="全部" value=""></el-option>
 					<el-option v-for="item in contacts"
             :key="item.contacts_id"
@@ -18,15 +26,14 @@
         </el-select>
       </el-form-item>
 			<el-form-item label="品种类型" prop="productType">
-				 <el-select v-model="params.productType" style="width:178px;" size="mini" multiple placeholder="请选择">
+				 <el-select v-model="params.productType" style="width:210px;" size="mini" multiple placeholder="请选择">
 					 <el-option key="佣金" label="佣金" value="佣金"></el-option>
 					 <el-option key="高打" label="高打" value="高打"></el-option>
-					 <el-option key="高打(底价)" label="高打(底价)" value="高打(底价)"></el-option>
 					 <el-option key="其它" label="其它" value="其它"></el-option>
 				 </el-select>
 			 </el-form-item>
-			<el-form-item label="销售机构" prop="hospitalsId">
-			 <el-select v-model="params.hospitalsId" style="width:178px;" filterable size="mini" placeholder="请选择">
+			<el-form-item label="销往单位" prop="hospitalsId">
+			 <el-select v-model="params.hospitalsId" style="width:210px;" filterable size="mini" placeholder="请选择">
 				 <el-option key="" label="全部" value=""></el-option>
 				 <el-option v-for="item in hospitals"
 					 :key="item.hospital_id"
@@ -35,24 +42,8 @@
 				 </el-option>
 		 	</el-select>
 		 </el-form-item>
-		 <el-form-item label="销售类型" prop="sale_type">
-			 <el-select v-model="params.sale_type" style="width:178px;" size="mini" placeholder="请选择">
-				 <el-option key="" label="全部" value=""></el-option>
-				 <el-option key="1" label="销售出库" value="1"></el-option>
-				 <el-option key="2" label="销售退回" value="2"></el-option>
-				 <el-option key="3" label="销售退补价" value="3"></el-option>
-			 </el-select>
-		 </el-form-item>
-		 <el-form-item label="　　日期" prop="salesTime">
-			 <el-date-picker v-model="params.salesTime" type="daterange" size="mini" align="right" unlink-panels
-				 range-separator="至"
-				 start-placeholder="开始日期"
-				 end-placeholder="结束日期"
-				 :picker-options="pickerOptions2">
-			 </el-date-picker>
-		 </el-form-item>
 		 <el-form-item label="　　商业" prop="business">
-			 <el-select v-model="params.business" style="width:178px;" size="mini" filterable placeholder="请选择商业">
+			 <el-select v-model="params.business" style="width:210px;" size="mini" filterable placeholder="请选择商业">
 				 <el-option key="" label="全部" value=""></el-option>
 				 <el-option v-for="item in business"
 					 :key="item.business_id"
@@ -60,6 +51,29 @@
 					 :value="item.business_id"></el-option>
 			 </el-select>
 		 </el-form-item>
+		 <el-form-item label="销售类型" prop="sale_type">
+			 <el-select v-model="params.sale_type" style="width:210px;" size="mini" placeholder="请选择">
+				 <el-option key="" label="全部" value=""></el-option>
+				 <el-option key="1" label="销售出库" value="1"></el-option>
+				 <el-option key="2" label="销售退回" value="2"></el-option>
+				 <el-option key="3" label="销售退补价" value="3"></el-option>
+			 </el-select>
+		 </el-form-item>
+		 <el-form-item label="　　标签" prop="tag">
+			<el-select v-model="params.tag" style="width:210px;" size="mini" placeholder="请选择">
+				<el-option key="" label="全部" value=""></el-option>
+				<el-option v-for="t in tags" :key="t.tag_id" :label="t.tag_name" :value="t.tag_id"></el-option>
+			</el-select>
+		</el-form-item>
+		<el-form-item label="真实毛利率" prop="rate_gap">
+			<el-select v-model="params.rate_formula" style="width:85px;" size="mini" placeholder="请选择">
+				<el-option key="<" label="<" value="<"></el-option>
+				<el-option key="<=" label="≤" value="<="></el-option>
+				<el-option key=">" label=">" value=">"></el-option>
+				<el-option key=">=" label="≥" value=">="></el-option>
+			</el-select>
+		 	<el-input-number v-model="params.rate_gap" style="width:106px;" :precision="0" :step="1" :max="100"></el-input-number>
+	 	</el-form-item>
 	   <el-form-item>
 	     <el-button type="primary" v-dbClick v-show="authCode.indexOf('51') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
 			 <el-button type="primary" v-dbClick v-show="authCode.indexOf('51') > -1" @click="reSearch(true)" size="mini">重置</el-button>
@@ -70,7 +84,7 @@
 		<div class="sum_money">销售总额：<a>{{money}}</a> 元；真实毛利：<a>{{realGrossProfit}}</a> 元；毛利：<a>{{grossProfit}}</a> 元</div>
 		<el-table :data="sales" style="width: 100%" size="mini" :stripe="true" :border="true">
   			<el-table-column fixed prop="bill_date" label="日期" width="80" :formatter="formatterDate"></el-table-column>
-				<el-table-column prop="hospital_name" label="医院名称" width="140"></el-table-column>
+				<el-table-column prop="hospital_name" label="销往单位" width="140"></el-table-column>
 				<el-table-column prop="product_code" label="产品编码" width="100"></el-table-column>
 				<el-table-column prop="product_common_name" label="产品名称" width="120" ></el-table-column>
 				<el-table-column prop="product_specifications" label="产品规格" width="100"></el-table-column>
@@ -78,6 +92,7 @@
 				<el-table-column prop="product_packing" label="包装" width="50"></el-table-column>
 				<el-table-column prop="product_unit" label="单位" width="50"></el-table-column>
 				<el-table-column prop="business_name" label="商业" width="60"></el-table-column>
+				<el-table-column prop="buyer" label="采购" width="60"></el-table-column>
 				<el-table-column prop="sale_price" label="中标价" width="60"></el-table-column>
 				<el-table-column prop="sale_num" label="计划数量" width="70"></el-table-column>
 				<el-table-column prop="sale_money" label="购入金额" width="70"></el-table-column>
@@ -85,7 +100,7 @@
 				<el-table-column label="真实毛利率" width="80" :formatter="formatterRealProfitRate"></el-table-column>
 				<el-table-column prop="accounting_cost" label="核算成本" width="80"></el-table-column>
 				<el-table-column prop="gross_profit" label="毛利" width="80"></el-table-column>
-				<el-table-column prop="cost_univalent" label="成本单价" width="80"></el-table-column>
+				<el-table-column prop="cost_univalent" label="成本单价"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="100">
 		    <template slot-scope="scope">
 			    <el-button @click.native.prevent="deleteRow(scope)" v-dbClick v-show="authCode.indexOf('50') > -1"  icon="el-icon-delete" type="primary" size="mini"></el-button>
@@ -198,37 +213,27 @@
          	callback();
         }
     	};
-			const defaultEnd = new Date();
-			const defaultStart = new Date(defaultEnd.getFullYear()+"-01"+"-01");
+			const nowDate = new Date();
 			return {
 				pickerOptions2: {
 					shortcuts: [{
-						text: '最近一周',
+						text: '本月',
 						onClick(picker) {
 							const end = new Date();
-							const start = new Date();
-							start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+							const start = new Date(end.getFullYear()+"-"+(end.getMonth()+1)+"-01");
 							picker.$emit('pick', [start, end]);
 						}
-					}, {
-						text: '最近一个月',
+					},{
+						text: nowDate.getFullYear()+'年',
 						onClick(picker) {
 							const end = new Date();
-							const start = new Date();
-							start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-							picker.$emit('pick', [start, end]);
-						}
-					}, {
-						text: '最近三个月',
-						onClick(picker) {
-							const end = new Date();
-							const start = new Date();
-							start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+							const start = new Date(end.getFullYear()+"-01"+"-01");
 							picker.$emit('pick', [start, end]);
 						}
 					}]
 				},
 				sales:[],
+				tags:[],//标签
 				contacts:[],
 				business:[],
 				pageNum:10,
@@ -240,13 +245,16 @@
 				grossProfit:0,
 				params:{//查询参数
 					productCommonName:"",
-					salesTime:[defaultStart,defaultEnd],
+					salesTime:[],
 					hospitalsId:"",
 					productType:"",
 					sale_type:"",
 					business:"",
 					contactId:"",
 					product_code:"",
+					tag:"",
+					rate_gap:0,
+					rate_formula:"<="
 				},
 				sale:{},//修改的销售信息
 				saleRule:{
@@ -266,15 +274,22 @@
 			this.getHospitals();
 			this.getContacts();
 			this.getProductBusiness();
+			this.getTags();
 			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		mounted(){
 
 		},
 		methods:{
+			getTags(){
+				var _self = this;
+				this.jquery("/iae/tag/getAllTags",null,function(res){//查询商业
+					_self.tags=res.message.tagAll;
+				});
+			},
 			getContacts(){
 	      var _self = this;
-	      this.jquery('/iae/contacts/getAllContacts',{group_id:0},function(res){
+	      this.jquery('/iae/contacts/getAllContacts',{group_id:0,contact_type:['高打品种','佣金品种']},function(res){
 	        _self.contacts = res.message;
 	      });
 	    },
@@ -368,7 +383,7 @@
 			},
 			getHospitals(){
 				var _self = this;
-				this.jquery('/iae/hospitals/getAllHospitals',null,function(res){
+				this.jquery('/iae/hospitals/getAllHospitals',{hospital_type:'销售医院'},function(res){
 						_self.hospitals = res.message;
 				});
 			},
@@ -444,12 +459,6 @@
 	}
 	.sum_money a{
 		color: #f24040;
-	}
-	.main_content .el-date-editor--daterange{
-		width: 310px !important;
-	}
-	.main_content .el-date-editor--daterange > input{
-		width: 37% !important;
 	}
 	.el-collapse-item__content > div{
 		display: inline-block;

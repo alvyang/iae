@@ -50,9 +50,16 @@ import password from "../views/password.vue";
 import Report from "../views/report/report.vue";
 import ReportSaleLine from "../views/report/reportSaleLine.vue";//销售折现图
 import ReportTagBar from "../views/report/reportTagBar.vue";//标签销售柱状图
+import reportPurchaseReturnMoney from "../views/report/reportPurchaseReturnMoney.vue";//高打返款金额统计按联系人
+import reportSalesReturnMoney from "../views/report/reportSalesReturnMoney.vue";//佣金返款金额统计按联系人
+import reportSalesByProduct from "../views/report/reportSalesByProduct.vue";//销售按产品
+import reportSalesByHospital from "../views/report/reportSalesByHospital.vue";//销售按医院
+import reportSalesByProfitRate from "../views/report/reportSalesByProfitRate.vue";//销售按毛利率
+
 //返款管理
 import Refundsale from "../views/refunds/refundsale.vue";
 import Refundpurchase from "../views/refunds/refundpurchase.vue";
+import AllotReturnMoney from "../views/allot/allotReturnMoney.vue";
 
 //库存
 import Stock from "../views/stock/stock.vue";
@@ -96,8 +103,14 @@ const router = new VueRouter({
 			{path:"report",component:Report},
 			{path:"reportsaleline",component:ReportSaleLine},
 			{path:"reporttagbar",component:ReportTagBar},
-			{path:"refundsale",component:Refundsale},
-			{path:"refundpurchase",component:Refundpurchase},
+			{path:"reportpurchasereturnmoney",component:reportPurchaseReturnMoney},
+			{path:"reportsalesreturnmoney",component:reportSalesReturnMoney},
+			{path:"reportsalesbyproduct",component:reportSalesByProduct},//报表销售按品种
+			{path:"reportsalesbyhospital",component:reportSalesByHospital},//报表销售按品种
+			{path:"reportsalesbyprofitrate",component:reportSalesByProfitRate},//报表销售按品种
+			{path:"refundsale",component:Refundsale},//佣金返款
+			{path:"refundpurchase",component:Refundpurchase},//高打返款
+			{path:"allotreturnmoney",component:AllotReturnMoney},//调货回款
 			{path:"stock",component:Stock},
 			{path:"password",component:password},
 		]

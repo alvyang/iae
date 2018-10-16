@@ -6,31 +6,6 @@
 		</el-breadcrumb>
     <el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
       <div>
-        <el-form-item label="产品名称" prop="productCommonName">
-          <el-input v-model="params.productCommonName" style="width:178px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品名称/助记码"></el-input>
-        </el-form-item>
-        <el-form-item label="产品编码" prop="product_code">
-          <el-input v-model="params.product_code" style="width:178px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品编码"></el-input>
-        </el-form-item>
-        <el-form-item label="联系人" prop="contactId">
-          <el-select v-model="params.contactId" style="width:178px;" filterable size="mini" placeholder="请选择">
-            <el-option key="" label="全部" value=""></el-option>
-            <el-option v-for="item in contacts"
-              :key="item.contacts_id"
-              :label="item.contacts_name"
-              :value="item.contacts_id">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="　　商业" prop="business">
-  				<el-select v-model="params.business" style="width:178px;" size="mini" filterable placeholder="请选择商业">
-            <el-option key="" label="全部" value=""></el-option>
-            <el-option v-for="item in business"
-   					 :key="item.business_id"
-   					 :label="item.business_name"
-   					 :value="item.business_id"></el-option>
-  				</el-select>
-  			</el-form-item>
         <el-form-item label="销售日期" prop="salesTime">
          <el-date-picker v-model="params.salesTime" type="daterange" size="mini" align="right" unlink-panels
            range-separator="至"
@@ -47,15 +22,41 @@
            :picker-options="pickerOptions2">
          </el-date-picker>
         </el-form-item>
+        <el-form-item label="产品名称" prop="productCommonName">
+          <el-input v-model="params.productCommonName" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品名称/助记码"></el-input>
+        </el-form-item>
+        <el-form-item label="产品编码" prop="product_code">
+          <el-input v-model="params.product_code" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品编码"></el-input>
+        </el-form-item>
+        <el-form-item label="　联系人" prop="contactId">
+          <el-select v-model="params.contactId" style="width:210px;" filterable size="mini" placeholder="请选择">
+            <el-option key="" label="全部" value=""></el-option>
+            <el-option v-for="item in contacts"
+              :key="item.contacts_id"
+              :label="item.contacts_name"
+              :value="item.contacts_id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="　　商业" prop="business">
+  				<el-select v-model="params.business" style="width:210px;" size="mini" filterable placeholder="请选择商业">
+            <el-option key="" label="全部" value=""></el-option>
+            <el-option v-for="item in business"
+   					 :key="item.business_id"
+   					 :label="item.business_name"
+   					 :value="item.business_id"></el-option>
+  				</el-select>
+  			</el-form-item>
+
         <el-form-item label="返款状态" prop="status">
-          <el-select v-model="params.status" filterable size="mini" style="width:178px;" placeholder="请选择">
+          <el-select v-model="params.status" filterable size="mini" style="width:210px;" placeholder="请选择">
             <el-option key="" label="全部" value=""></el-option>
             <el-option key="已返" label="已返" value="已返"></el-option>
             <el-option key="未返" label="未返" value="未返"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="　返款人" prop="refundser">
-          <el-select v-model="params.refundser" style="width:178px;" filterable size="mini" placeholder="请选择">
+          <el-select v-model="params.refundser" style="width:210px;" filterable size="mini" placeholder="请选择">
             <el-option key="" label="全部" value=""></el-option>
             <el-option v-for="item in refundser" v-if="item.refundser"
               :key="item.refundser"
@@ -205,33 +206,21 @@ export default({
         callback();
       }
     };
-    const defaultEnd = new Date();
-    const defaultStart = new Date(defaultEnd.getFullYear()+"-01"+"-01");
-    const defaultStart2 = new Date(defaultEnd.getTime() - 30 * 24 * 3600 * 1000);
+    const nowDate = new Date();
     return {
       pickerOptions2: {
         shortcuts: [{
-          text: '最近一周',
+          text: '本月',
           onClick(picker) {
             const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            const start = new Date(end.getFullYear()+"-"+(end.getMonth()+1)+"-01");
             picker.$emit('pick', [start, end]);
           }
-        }, {
-          text: '最近一个月',
+        },{
+          text: nowDate.getFullYear()+'年',
           onClick(picker) {
             const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-            picker.$emit('pick', [start, end]);
-          }
-        }, {
-          text: '最近三个月',
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+            const start = new Date(end.getFullYear()+"-01"+"-01");
             picker.$emit('pick', [start, end]);
           }
         }]
@@ -262,7 +251,7 @@ export default({
       count:0,
       params:{//查询参数
         productCommonName:"",
-        salesTime:[defaultStart,defaultEnd],
+        salesTime:[],
         returnTime:null,
         contactId:"",
         status:"",
@@ -307,7 +296,7 @@ export default({
     },
     getContacts(){
       var _self = this;
-      this.jquery('/iae/contacts/getAllContacts',{group_id:0},function(res){
+      this.jquery('/iae/contacts/getAllContacts',{group_id:0,contact_type:['佣金品种']},function(res){
         _self.contacts = res.message;
       });
     },
@@ -339,7 +328,7 @@ export default({
       this.refund = scope.row;
       this.refund.receiver = this.refund.receiver?parseInt(this.refund.receiver):this.refund.receiver;
       if(this.refund.product_return_money && !this.refund.refunds_should_money){
-        if(this.refund.product_type == "高打(底价)"){
+        if(this.refund.product_floor_price && this.refund.product_high_discount){
           var rMoney = (this.refund.product_mack_price - this.refund.product_floor_price) * (1-this.refund.product_high_discount/100);
           this.refund.refunds_should_money = rMoney * this.refund.sale_num;
         }else{

@@ -299,7 +299,6 @@
 			this.business = JSON.parse(sessionStorage["business"]);
 			if(sessionStorage["drugs_edit"]){
 				var sessionDrugs = JSON.parse(sessionStorage["drugs_edit"]);
-				sessionDrugs.product_business = parseInt(sessionDrugs.product_business);
 				this.product_code = sessionDrugs.product_code;
 				delete sessionDrugs.contacts_name;
 				delete sessionDrugs.business_name;
@@ -401,8 +400,7 @@
     	},
 			priceBlur(){
 				//计算返费金额
-				if(this.drugs.product_type == '高打(底价)' &&
-					this.drugs.product_mack_price &&
+				if(this.drugs.product_mack_price &&
 					this.drugs.product_floor_price &&
 					this.drugs.product_high_discount &&
 					this.price.test(this.drugs.product_floor_price) &&

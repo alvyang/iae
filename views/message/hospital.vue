@@ -5,8 +5,14 @@
 			<el-breadcrumb-item>医院管理</el-breadcrumb-item>
 		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
-		  <el-form-item label="机构名称" prop="hospital_name">
-		    <el-input v-model="params.hospital_name" @keyup.13.native="reSearch(false)" size="mini" placeholder="机构名称"></el-input>
+		  <el-form-item label="销往单位" prop="hospital_name">
+		    <el-input v-model="params.hospital_name" @keyup.13.native="reSearch(false)" style="width:210px;" size="mini" placeholder="机构医院"></el-input>
+		  </el-form-item>
+			<el-form-item label="医院类型" prop="hospital_type">
+				<el-select v-model="params.hospital_type" style="width:210px;" size="mini" placeholder="请选择">
+					<el-option key="销售医院" label="销售医院" value="销售医院"></el-option>
+					<el-option key="调货医院" label="调货医院" value="调货医院"></el-option>
+				</el-select>
 		  </el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('31') > -1" @click="reSearch(false)" size="mini">查询</el-button>
@@ -15,8 +21,9 @@
 		  </el-form-item>
 		</el-form>
 		<el-table :data="hospitals" style="width: 100%" size="mini" :stripe="true">
-			<el-table-column prop="hospital_name" label="销售机构"></el-table-column>
-			<el-table-column prop="hospital_address" label="机构地址"></el-table-column>
+			<el-table-column prop="hospital_name" label="销往单位"></el-table-column>
+			<el-table-column prop="hospital_type" label="单位类型"></el-table-column>
+			<el-table-column prop="hospital_address" label="单位地址"></el-table-column>
 			<el-table-column fixed="right" label="操作" width="100">
 		    <template slot-scope="scope">
 			    <el-button v-dbClick v-show="authCode.indexOf('29') > -1" @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
@@ -38,10 +45,14 @@
 		</div>
 		<el-dialog :title="title == 1?'新增医院':'修改医院'" width="500px" :visible.sync="dialogFormVisible">
 			<el-form :model="hospital" status-icon :rules="hospitalRule" ref="hospital" label-width="80px" class="demo-ruleForm">
-				<el-form-item label="销售机构" prop="hospital_name">
+				<el-form-item label="医院类型" prop="hospital_type">
+					<el-radio v-model="hospital.hospital_type" label="销售医院">销售医院</el-radio>
+  				<el-radio v-model="hospital.hospital_type" label="调货医院">调货医院</el-radio>
+				</el-form-item>
+				<el-form-item label="销售医院" prop="hospital_name">
 					<el-input v-model="hospital.hospital_name" auto-complete="off" style="width:350px;" :maxlength="50" placeholder="请输入销售机构名称"></el-input>
 				</el-form-item>
-				<el-form-item label="机构地址" prop="hospital_address">
+				<el-form-item label="医院地址" prop="hospital_address">
 					<el-input v-model="hospital.hospital_address" auto-complete="off" style="width:350px;" :maxlength="100" placeholder="请输入机构地址"></el-input>
 				</el-form-item>
 			</el-form>
@@ -59,7 +70,8 @@
 				dialogFormVisible:false,
 				hospital:{
 					hospital_name:"",
-					hospital_address:""
+					hospital_address:"",
+					hospital_type:"销售医院"
 				},
 				hospitalRule:{
 					hospital_name:[{ required: true, message: '请输入机构名称', trigger: 'blur' }],
@@ -73,7 +85,8 @@
 				count:0,
 				deleteId:null,
 				params:{
-					hospital_name:""
+					hospital_name:"",
+					hospital_type:""
 				}
 			}
 		},
@@ -116,7 +129,8 @@
 			addShow(){
 				this.hospital={
 					hospital_name:"",
-					hospital_address:""
+					hospital_address:"",
+					hospital_type:"销售医院"
 				};
 				this.title=1;
 				this.dialogFormVisible = true;

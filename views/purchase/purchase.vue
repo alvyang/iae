@@ -1,14 +1,22 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;">
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
-		  <el-form-item label="产品名称" prop="productCommonName">
-		    <el-input v-model="params.productCommonName" style="width:178px;" size="mini" @keyup.13.native="reSearch(false)" placeholder="产品名称/助记码"></el-input>
+			<el-form-item label="备货时间" prop="time">
+				<el-date-picker v-model="params.time" type="daterange" size="mini" align="right" unlink-panels
+					range-separator="至"
+					start-placeholder="开始日期"
+					end-placeholder="结束日期"
+					:picker-options="pickerOptions2">
+				</el-date-picker>
+ 		 	</el-form-item>
+			<el-form-item label="产品名称" prop="productCommonName">
+		    <el-input v-model="params.productCommonName" style="width:210px;" size="mini" @keyup.13.native="reSearch(false)" placeholder="产品名称/助记码"></el-input>
 		  </el-form-item>
 			<el-form-item label="产品编号" prop="product_code">
-		    <el-input v-model="params.product_code" style="width:178px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品通用名"></el-input>
+		    <el-input v-model="params.product_code" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品通用名"></el-input>
 		  </el-form-item>
-		  <el-form-item label="联系人" prop="contactId">
-		    <el-select v-model="params.contactId" style="width:178px;" filterable size="mini" placeholder="请选择">
+		  <el-form-item label="　联系人" prop="contactId">
+		    <el-select v-model="params.contactId" style="width:210px;" filterable size="mini" placeholder="请选择">
 					<el-option key="" label="全部" value=""></el-option>
 					<el-option v-for="item in contacts"
 			      :key="item.contacts_id"
@@ -18,7 +26,7 @@
 				</el-select>
 		  </el-form-item>
 			<el-form-item label="备货状态" prop="status">
-		    <el-select v-model="params.status" style="width:178px;" size="mini" placeholder="请选择">
+		    <el-select v-model="params.status" style="width:210px;" size="mini" placeholder="请选择">
 					<el-option key="" label="全部" value=""></el-option>
 					<el-option key="1" label="未打款" value="1"></el-option>
 					<el-option key="2" label="打款,未发货" value="2"></el-option>
@@ -27,7 +35,7 @@
 				</el-select>
 		  </el-form-item>
 			<el-form-item label="　　商业" prop="business">
- 			 <el-select v-model="params.business" style="width:178px;" size="mini" filterable placeholder="请选择商业">
+ 			 <el-select v-model="params.business" style="width:210px;" size="mini" filterable placeholder="请选择商业">
  				 <el-option key="" label="全部" value=""></el-option>
  				 <el-option v-for="item in business"
  					 :key="item.business_id"
@@ -35,16 +43,9 @@
  					 :value="item.business_id"></el-option>
  			 </el-select>
  		 </el-form-item>
-			<el-form-item label="备货时间" prop="time">
-				<el-date-picker v-model="params.time" type="daterange" size="mini" align="right" unlink-panels
-					range-separator="至"
-					start-placeholder="开始日期"
-					end-placeholder="结束日期"
-					:picker-options="pickerOptions2">
-				</el-date-picker>
- 		 	</el-form-item>
-			<el-form-item label="备注" prop="remark">
-				<el-select v-model="params.remark" filterable size="mini" style="width:300px;" placeholder="请选择">
+
+			<el-form-item label="　　备注" prop="remark">
+				<el-select v-model="params.remark" filterable size="mini" style="width:210px;" placeholder="请选择">
 				 <el-option v-for="item in remarks"
 					 :key="item.remark" :label="item.remark" :value="item.remark">
 				 </el-option>
@@ -170,32 +171,21 @@
 					callback();
 				}
 			};
-			const defaultEnd = new Date();
-			const defaultStart = new Date(defaultEnd.getFullYear()+"-01"+"-01");
+			const nowDate = new Date();
 			return {
 				pickerOptions2: {
 					shortcuts: [{
-						text: '最近一周',
+						text: '本月',
 						onClick(picker) {
 							const end = new Date();
-							const start = new Date();
-							start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+							const start = new Date(end.getFullYear()+"-"+(end.getMonth()+1)+"-01");
 							picker.$emit('pick', [start, end]);
 						}
-					}, {
-						text: '最近一个月',
+					},{
+						text: nowDate.getFullYear()+'年',
 						onClick(picker) {
 							const end = new Date();
-							const start = new Date();
-							start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-							picker.$emit('pick', [start, end]);
-						}
-					}, {
-						text: '最近三个月',
-						onClick(picker) {
-							const end = new Date();
-							const start = new Date();
-							start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+							const start = new Date(end.getFullYear()+"-01"+"-01");
 							picker.$emit('pick', [start, end]);
 						}
 					}]
@@ -213,7 +203,7 @@
 				params:{
 					productCommonName:"",
 					contactId:"",
-					time:[defaultStart,defaultEnd],
+					time:[],
 					product_code:"",
 					status:"",
 					remark:"",
@@ -313,7 +303,7 @@
 			},
 			getContacts(){
 				var _self = this;
-				this.jquery('/iae/contacts/getAllContacts',{group_id:0},function(res){
+				this.jquery('/iae/contacts/getAllContacts',{group_id:0,contact_type:['高打品种']},function(res){
 					_self.contacts = res.message;
 				});
 			},
@@ -436,11 +426,5 @@
 		color:#f24040;
 		line-height: 30px;
 		font-size: 14px;
-	}
-	.main_content .el-date-editor--daterange{
-		width: 310px !important;
-	}
-	.main_content .el-date-editor--daterange > input{
-		width: 37% !important;
 	}
 </style>

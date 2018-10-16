@@ -6,13 +6,13 @@
 		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 		  <el-form-item label="产品名称" prop="productCommonName">
-		    <el-input v-model="params.productCommonName" style="width:178px;" @keyup.13.native="searchDrugsList" size="mini" placeholder="产品名称"></el-input>
+		    <el-input v-model="params.productCommonName" style="width:210px;" @keyup.13.native="searchDrugsList" size="mini" placeholder="产品名称"></el-input>
 		  </el-form-item>
 			<el-form-item label="产品编码" prop="product_code">
-		    <el-input v-model="params.product_code" style="width:178px;" @keyup.13.native="searchDrugsList" size="mini" placeholder="产品编码"></el-input>
+		    <el-input v-model="params.product_code" style="width:210px;" @keyup.13.native="searchDrugsList" size="mini" placeholder="产品编码"></el-input>
 		  </el-form-item>
 		  <el-form-item label="联系人" prop="contactId">
-		    <el-select v-model="params.contactId" style="width:178px;" size="mini" filterable placeholder="请选择">
+		    <el-select v-model="params.contactId" style="width:210px;" size="mini" filterable placeholder="请选择">
 		    	<el-option key="" label="全部" value=""></el-option>
 			    <el-option v-for="item in contacts"
 			      :key="item.contacts_id"
@@ -22,7 +22,7 @@
 				</el-select>
 		  </el-form-item>
 			<el-form-item label="　　商业" prop="business">
- 			 <el-select v-model="params.business" style="width:178px;" size="mini" filterable placeholder="请选择商业">
+ 			 <el-select v-model="params.business" style="width:210px;" size="mini" filterable placeholder="请选择商业">
  				 <el-option key="" label="全部" value=""></el-option>
  				 <el-option v-for="item in business"
  					 :key="item.business_id"
@@ -49,7 +49,7 @@
 				<el-table-column prop="product_discount" label="毛利率(百分比)" :formatter="formatPercent" width="60"></el-table-column>
 				<!-- <el-table-column prop="product_specifications" label="产品规格" width="150"></el-table-column> -->
 				<el-table-column prop="contacts_name" label="联系人" width="60"></el-table-column>
-				<el-table-column prop="business_name" label="商业" width="60"></el-table-column>
+				<el-table-column prop="business_name" label="商业"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="70">
 			    <template slot-scope="scope">
 						<el-button v-dbClick @click.native.prevent="selectRow(scope)" type="primary" size="mini">选择</el-button>
@@ -182,6 +182,7 @@
 		},
 		activated(){
 			this.getDrugsList();
+			this.getContacts();
 			this.remarks = JSON.parse(sessionStorage["remarks"]);
 			this.business = JSON.parse(sessionStorage["productbusiness"]);
 		},
@@ -189,6 +190,12 @@
 
 		},
 		methods:{
+			getContacts(){
+				var _self = this;
+				this.jquery('/iae/contacts/getAllContacts',{group_id:0,contact_type:['高打品种']},function(res){
+					_self.contacts = res.message;
+				});
+			},
 			handleSelect(item) {
 				this.purchase.remark = item.remark;
       },

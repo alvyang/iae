@@ -1,5 +1,113 @@
 //未发版sql
 
+//发版20180914
+//联合主键
+INSERT INTO `authority` VALUES ('dcdb4360-cb66-11e8-9167-b9e7cf3cd8a2', '调货回款管理', '', '80010', '/main/allotreturnmoney', '40', '0', '1', '2', '1');
+INSERT INTO `authority` VALUES
+('12303a00-cb9b-11e8-81ff-23b7b224f706', '修改', '', '800102', '/', 'dcdb4360-cb66-11e8-9167-b9e7cf3cd8a2', '0', '1', '3', '3'),
+('130627a0-cb9b-11e8-81ff-23b7b224f706', '查询', '', '8001101', '/', 'dcdb4360-cb66-11e8-9167-b9e7cf3cd8a2', '0', '1', '3', '6');
+
+
+CREATE TABLE `role_authority` (
+	`role_id` varchar(50) NOT NULL COMMENT '角色id',
+	`authority_id` varchar(50) NOT NULL COMMENT '权限id',
+  `role_authority_group_id` varchar(50) DEFAULT NULL COMMENT '组id',
+  `role_authority_delete_flag` varchar(5) DEFAULT '0' COMMENT '删除',
+  PRIMARY KEY (`role_id`,`authority_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET FOREIGN_KEY_CHECKS = 1;
+
+ALTER TABLE role DROP authority_code;
+ALTER TABLE role DROP authority_parent_code;
+
+alter table allot add allot_account_id varchar(50) COMMENT '收款账号id';
+alter table bank_account_detail modify column flag_id varchar(50);
+alter table drugs modify column product_business varchar(50);
+alter table refunds modify column receiver varchar(50);
+
+update authority a set a.authority_open = '1' where a.authority_id = '1'
+
+alter table hospitals add hospital_type varchar(10) COMMENT '医院类型';
+update hospitals set hospital_type = '销售医院';
+
+alter table hospitals modify column hospital_name varchar(50);
+insert into hospitals(hospital_id,hospital_name,group_id,hospital_type)
+select UUID(),a.allot_hospital,'1','调货医院' from allot a where a.allot_delete_flag = '0' group by a.allot_hospital
+
+update allot a set a.allot_hospital = (select h.hospital_id from hospitals h where h.hospital_name = a.allot_hospital);
+update contacts c set c.contact_type = '佣金品种'
+
+alter table sales add sale_create_time datetime DEFAULT NULL COMMENT '创建时间';
+alter table purchase add purchase_create_time datetime DEFAULT NULL COMMENT '创建时间';
+alter table allot add allot_create_time datetime DEFAULT NULL COMMENT '创建时间';
+alter table bank_account_detail add account_detail_create_time datetime DEFAULT NULL COMMENT '创建时间';
+alter table refunds add refund_create_time datetime DEFAULT NULL COMMENT '创建时间';
+alter table drugs add product_create_time datetime DEFAULT NULL COMMENT '创建时间';
+alter table bank_account add bank_create_time datetime DEFAULT NULL COMMENT '创建时间';
+alter table hospital_return_money add return_money_create_time datetime DEFAULT NULL COMMENT '创建时间';
+alter table tag add tag_create_time datetime DEFAULT NULL COMMENT '创建时间';
+alter table business add business_create_time datetime DEFAULT NULL COMMENT '创建时间';
+alter table contacts add contact_create_time datetime DEFAULT NULL COMMENT '创建时间';
+alter table hospitals add hospital_create_time datetime DEFAULT NULL COMMENT '创建时间';
+alter table role add role_create_time datetime DEFAULT NULL COMMENT '创建时间';
+alter table users add user_create_time datetime DEFAULT NULL COMMENT '创建时间';
+alter table groups add group_create_time datetime DEFAULT NULL COMMENT '创建时间';
+
+update sales s set s.sale_create_time =DATE_ADD( now(),INTERVAL s.sale_id SECOND)
+where s.sale_create_time is null and s.sale_id REGEXP BINARY '[a-z]' = 0;
+
+update purchase s set s.purchase_create_time =DATE_ADD(now(),INTERVAL s.purchase_id SECOND)
+where s.purchase_create_time is null and s.purchase_id REGEXP BINARY '[a-z]' = 0;
+
+update allot s set s.allot_create_time =DATE_ADD( now(),INTERVAL s.allot_id SECOND)
+where s.allot_create_time is null and s.allot_id REGEXP BINARY '[a-z]' = 0;
+
+update refunds s set s.refund_create_time =DATE_ADD( now(),INTERVAL s.refunds_id SECOND)
+where s.refund_create_time is null and s.refunds_id REGEXP BINARY '[a-z]' = 0;
+
+update drugs s set s.product_create_time =DATE_ADD( now(),INTERVAL s.product_id SECOND)
+where s.product_create_time is null and s.product_id REGEXP BINARY '[a-z]' = 0;
+
+update bank_account s set s.bank_create_time =DATE_ADD( now(),INTERVAL s.account_id SECOND)
+where s.bank_create_time is null and s.account_id REGEXP BINARY '[a-z]' = 0;
+
+update hospital_return_money s set s.return_money_create_time =DATE_ADD( now(),INTERVAL s.return_money_id SECOND)
+where s.return_money_create_time is null and s.return_money_id REGEXP BINARY '[a-z]' = 0;
+
+update tag s set s.tag_create_time =DATE_ADD( now(),INTERVAL s.tag_id SECOND)
+where s.tag_create_time is null and s.tag_id REGEXP BINARY '[a-z]' = 0;
+
+update business s set s.business_create_time =DATE_ADD( now(),INTERVAL s.business_id SECOND)
+where s.business_create_time is null and s.business_id REGEXP BINARY '[a-z]' = 0;
+
+update contacts s set s.contact_create_time =DATE_ADD( now(),INTERVAL s.contacts_id SECOND)
+where s.contact_create_time is null and s.contacts_id REGEXP BINARY '[a-z]' = 0;
+
+update hospitals s set s.hospital_create_time =DATE_ADD( now(),INTERVAL s.hospital_id SECOND)
+where s.hospital_create_time is null and s.hospital_id REGEXP BINARY '[a-z]' = 0;
+
+update role s set s.role_create_time =DATE_ADD( now(),INTERVAL s.role_id SECOND)
+where s.role_create_time is null and s.role_id REGEXP BINARY '[a-z]' = 0;
+
+update users s set s.user_create_time =DATE_ADD( now(),INTERVAL s.id SECOND)
+where s.user_create_time is null and s.id REGEXP BINARY '[a-z]' = 0;
+
+update groups s set s.group_create_time =DATE_ADD( now(),INTERVAL s.group_id SECOND)
+where s.group_create_time is null and s.group_id REGEXP BINARY '[a-z]' = 0;
+
+CREATE TABLE `allot_policy` (
+	`allot_hospital_id` varchar(50) NOT NULL COMMENT '医院id',
+	`allot_drug_id` varchar(50) NOT NULL COMMENT '药品id',
+  `allot_policy_money` varchar(20) DEFAULT NULL COMMENT '政策金额',
+  `allot_policy_remark` varchar(200) DEFAULT NULL COMMENT '政策周期',
+  PRIMARY KEY (`allot_hospital_id`,`allot_drug_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET FOREIGN_KEY_CHECKS = 1;
+
+alter table allot_policy add allot_policy_contact_id varchar(50) DEFAULT NULL COMMENT '联系人id';
+alter table contacts add contact_type varchar(50) DEFAULT NULL COMMENT '联系人类型';
+
+
 //20181007发版
 CREATE TABLE `tag_drug` (
   `tag_drug_id` varchar(50) NOT NULL,
@@ -10,6 +118,8 @@ CREATE TABLE `tag_drug` (
 SET FOREIGN_KEY_CHECKS = 1;
 alter table tag_drug add tag_drug_deleta_flag varchar(10) DEFAULT '0' COMMENT '删除';
 alter table tag_drug add tag_drug_group_id varchar(10) COMMENT '组id';
+alter table tag_drug modify column drug_id varchar(50);
+alter table tag_drug modify column tag_id varchar(50);
 
 insert into tag_drug(tag_drug_id,drug_id,tag_id) select d.product_id,d.product_id,d.tag_ids from drugs d where d.tag_ids is not null and d.tag_ids != '';
 update tag_drug set tag_drug_deleta_flag='0';

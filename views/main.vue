@@ -66,9 +66,6 @@
 				var _self = this;
 				var user = JSON.parse(sessionStorage["user"])
 				var authCode = user.authority_code;
-				if(user.authority_parent_code){
-					authCode += ","+user.authority_parent_code;
-				}
 				this.jquery('/iae/authority/getAuthoritysList',{
 					authority_code:authCode,
 				},function(res){
@@ -122,5 +119,17 @@
 	}
 	.el-dialog__header{
 		margin-bottom: 20px;
+	}
+	.main_content .el-date-editor--daterange{
+		width: 210px !important;
+	}
+	.main_content .el-date-editor--daterange > input{
+		width: 37% !important;
+	}
+	.main_content .el-date-editor .el-range__close-icon{
+		width: 13px !important;
+	}
+	.main_content .el-range-editor.el-input__inner{
+		padding: 3px 5px !important;
 	}
 </style>

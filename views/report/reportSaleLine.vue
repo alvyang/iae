@@ -2,11 +2,11 @@
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
 			<el-breadcrumb-item :to="{ path: '/main/report' }">报表管理</el-breadcrumb-item>
-			<el-breadcrumb-item>销售折现图</el-breadcrumb-item>
+			<el-breadcrumb-item>销售额/毛利统计（按月）</el-breadcrumb-item>
 		</el-breadcrumb>
     <el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
       <el-form-item label="商业" prop="business">
-        <el-select v-model="params.business" style="width:178px;" size="mini" filterable>
+        <el-select v-model="params.business" style="width:210px;" size="mini" filterable>
           <el-option key="" label="全部" value=""></el-option>
           <el-option v-for="item in business"
             :key="item.business_id"
@@ -14,8 +14,8 @@
             :value="item.business_id"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="销售机构" prop="hospitalsId">
-			 <el-select v-model="params.hospitalsId" style="width:178px;" filterable size="mini">
+      <el-form-item label="销往单位" prop="hospitalsId">
+			 <el-select v-model="params.hospitalsId" style="width:210px;" filterable size="mini">
 				 <el-option key="" label="全部" value=""></el-option>
 				 <el-option v-for="item in hospitals"
 					 :key="item.hospital_id"
@@ -83,7 +83,7 @@
 			},
       getHospitals(){
 				var _self = this;
-				this.jquery('/iae/hospitals/getAllHospitals',null,function(res){
+				this.jquery('/iae/hospitals/getAllHospitals',{hospital_type:'销售医院'},function(res){
 						_self.hospitals = res.message;
 				});
 			},

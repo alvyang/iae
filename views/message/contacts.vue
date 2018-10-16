@@ -6,7 +6,15 @@
 		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 		  <el-form-item label="联系人" prop="contacts_name">
-		    <el-input v-model="params.contacts_name" @keyup.13.native="reSearch(false)" size="mini" placeholder="联系人"></el-input>
+		    <el-input v-model="params.contacts_name" @keyup.13.native="reSearch(false)" style="width:210px;" size="mini" placeholder="联系人"></el-input>
+		  </el-form-item>
+			<el-form-item label="联系人类型" prop="contact_type">
+				<el-select v-model="params.contact_type" style="width:210px;" filterable size="mini" placeholder="请选择">
+					<el-option key="" label="全部" value=""></el-option>
+					<el-option key="佣金品种" label="佣金品种" value="佣金品种"></el-option>
+					<el-option key="高打品种" label="高打品种" value="高打品种"></el-option>
+					<el-option key="调货" label="调货" value="调货"></el-option>
+				</el-select>
 		  </el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('35') > -1" @click="reSearch(false)" size="mini">查询</el-button>
@@ -16,6 +24,7 @@
 		</el-form>
 		<el-table :data="contacts" style="width: 100%" size="mini" :stripe="true">
 			<el-table-column prop="contacts_name" label="联系人"></el-table-column>
+			<el-table-column prop="contact_type" label="联系人类型"></el-table-column>
 			<el-table-column prop="contacts_phone" label="电话"></el-table-column>
 			<el-table-column fixed="right" label="操作" width="100">
 	    <template slot-scope="scope">
@@ -37,12 +46,19 @@
 	    </el-pagination>
 		</div>
 		<el-dialog :title="title == 1?'新增联系人':'修改联系人'" width="500px" :visible.sync="dialogFormVisible">
-			<el-form :model="contact" status-icon :rules="contactsRule" ref="contact" label-width="70px" class="demo-ruleForm">
+			<el-form :model="contact" status-icon :rules="contactsRule" ref="contact" label-width="90px" class="demo-ruleForm">
+				<el-form-item label="联系人类型" prop="contact_type">
+					<el-checkbox-group v-model="contact.contact_type">
+						<el-checkbox label="佣金品种"></el-checkbox>
+						<el-checkbox label="高打品种"></el-checkbox>
+				    <el-checkbox label="调货"></el-checkbox>
+					</el-checkbox-group>
+				</el-form-item>
 				<el-form-item label="联系人" prop="contacts_name">
-					<el-input v-model="contact.contacts_name" style="width:390px;" auto-complete="off" :maxlength="20" placeholder="请输入联系人姓名"></el-input>
+					<el-input v-model="contact.contacts_name" style="width:350px;" auto-complete="off" :maxlength="20" placeholder="请输入联系人姓名"></el-input>
 				</el-form-item>
 				<el-form-item label="手机号码" prop="contacts_phone">
-					<el-input v-model="contact.contacts_phone" style="width:390px;" auto-complete="off" :maxlength="11" placeholder="请输入联系人手机号码"></el-input>
+					<el-input v-model="contact.contacts_phone" style="width:350px;" auto-complete="off" :maxlength="11" placeholder="请输入联系人手机号码"></el-input>
 				</el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">
@@ -70,6 +86,7 @@
 				contact:{
 					contacts_name:"",
 					contacts_phone:"",
+					contact_type:['佣金品种'],
 				},
 				contactsRule:{
 					contacts_name:[{ required: true, message: '请输入联系人姓名', trigger: 'blur' }],
@@ -95,6 +112,7 @@
 				this.dialogFormVisible = true;
         this.title=2;
         this.contact = scope.row;
+				this.contact.contact_type = this.contact.contact_type?this.contact.contact_type.split(","):[];
 				var _self = this;
 				setTimeout(function(){
 					_self.$refs["contact"].clearValidate();
@@ -124,6 +142,7 @@
 				this.contact={
 					contacts_name:"",
 					contacts_phone:"",
+					contact_type:['佣金品种'],
 				};
 				this.title=1;
 				this.dialogFormVisible = true;
@@ -148,7 +167,6 @@
               });
             }
           } else {
-            console.log('error submit!!');
             return false;
           }
         });

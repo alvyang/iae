@@ -6,7 +6,7 @@
 		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 		  <el-form-item label="标签名称" prop="tag_name">
-		    <el-input v-model="params.tag_name" @keyup.13.native="reSearch(false)" size="mini" placeholder="标签名称"></el-input>
+		    <el-input v-model="params.tag_name" @keyup.13.native="reSearch(false)" style="width:210px;" size="mini" placeholder="标签名称"></el-input>
 		  </el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('94') > -1" @click="reSearch(false)" size="mini">查询</el-button>

@@ -2,7 +2,7 @@
   <div>
     <el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
       <el-form-item label="回款医院" prop="hospitalsId">
-			 <el-select v-model="params.hospitalsId" style="width:178px;" filterable size="mini" placeholder="请选择">
+			 <el-select v-model="params.hospitalsId" style="width:210px;" filterable size="mini" placeholder="请选择">
 				 <el-option key="" label="全部" value=""></el-option>
 				 <el-option v-for="item in hospitals"
 					 :key="item.hospital_id"
@@ -12,7 +12,7 @@
 		 	</el-select>
 		 </el-form-item>
       <el-form-item label="　商业" prop="business">
- 			 <el-select v-model="params.business" style="width:178px;" size="mini" filterable placeholder="请选择商业">
+ 			 <el-select v-model="params.business" style="width:210px;" size="mini" filterable placeholder="请选择商业">
  				 <el-option key="" label="全部" value=""></el-option>
  				 <el-option v-for="item in business"
  					 :key="item.business_id"
@@ -21,10 +21,10 @@
  			 </el-select>
  		 </el-form-item>
      <el-form-item label="开始日期" prop="startTime">
-			 <el-date-picker v-model="params.startTime" type="month" size="mini" style="width:178px;" placeholder="选择开始日期"></el-date-picker>
+			 <el-date-picker v-model="params.startTime" type="month" size="mini" style="width:210px;" placeholder="选择开始日期"></el-date-picker>
 		 </el-form-item>
      <el-form-item label="结束日期" prop="endTime">
-			 <el-date-picker v-model="params.endTime" type="month" size="mini" style="width:178px;" placeholder="选择结束日期"></el-date-picker>
+			 <el-date-picker v-model="params.endTime" type="month" size="mini" style="width:210px;" placeholder="选择结束日期"></el-date-picker>
 		 </el-form-item>
       <el-form-item>
         <el-button type="primary" v-dbClick v-show="authCode.indexOf('84') > -1" @click="reSearch(false)" size="mini">查询</el-button>
@@ -160,7 +160,7 @@
       },
       getHospitals(){
 				var _self = this;
-				this.jquery('/iae/hospitals/getAllHospitals',null,function(res){
+				this.jquery('/iae/hospitals/getAllHospitals',{hospital_type:'销售医院'},function(res){
 						_self.hospitals = res.message;
 				});
 			},

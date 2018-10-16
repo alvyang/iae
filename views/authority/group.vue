@@ -6,7 +6,7 @@
 		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 		  <el-form-item label="组名称" prop="group_name">
-		    <el-input v-model="params.group_name" @keyup.13.native="reSearch" size="mini" placeholder="组名称"></el-input>
+		    <el-input v-model="params.group_name" @keyup.13.native="reSearch" style="width:210px;" size="mini" placeholder="组名称"></el-input>
 		  </el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" v-dbClick @click="reSearch" size="mini">查询</el-button>

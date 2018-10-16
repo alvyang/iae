@@ -6,7 +6,7 @@
 		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 		  <el-form-item label="角色名" prop="role_name">
-		    <el-input v-model="params.role_name" @keyup.13.native="reSearch" size="mini" placeholder="角色名"></el-input>
+		    <el-input v-model="params.role_name" @keyup.13.native="reSearch" size="mini" style="width:210px;" placeholder="角色名"></el-input>
 		  </el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('14') > -1" @click="reSearch" size="mini">查询</el-button>
@@ -54,7 +54,8 @@
       <el-dialog title="角色授权" :visible.sync="dialogTreeVisible" width="315px">
         <div class="custom-tree-container">
           <div class="block">
-            <el-tree :data="data" node-key="id" ref="tree" show-checkbox :expand-on-click-node="false">
+            <el-tree :data="data" node-key="id" ref="tree" show-checkbox
+							:expand-on-click-node="false">
               <span class="custom-tree-node" slot-scope="{ node, data }">
                 <span>{{ node.label }}</span>
               </span>
@@ -91,10 +92,10 @@
         rules: {
           role_name: [{ required: true, message: '请输入菜单名称', trigger: 'blur' }]
         },
+				// defaultCheckedKeys:[],
         dialogFormVisible: false,
         dialogTreeVisible: false,
 				loading:false,
-				authorityRole:null//授权时，暂存。点击确定修改，避免重新请求，刷新数据
 			}
 		},
 		activated(){
@@ -108,21 +109,22 @@
 		methods:{
       editAuthorityShow(scope){//授权
 				var _self = this;
-				this.authorityRole = scope.row;
 				this.dialogTreeVisible = true;
 				this.roleId = scope.row.role_id;
 				setTimeout(function(){
-					_self.$refs.tree.setCheckedKeys(scope.row.authority_code.split(","));
+					_self.$refs.tree.setCheckedKeys([]);
+					var code = scope.row.authority_code.substring(0,scope.row.authority_code.length-1).split(",");
+					for(var i = 0 ; i < code.length;i++){
+							_self.$refs.tree.setChecked(code[i],true,false);
+					}
 				},10);
       },
-			editAuthority(){
+			editAuthority(){//授权
 				var _self = this;
 				var keys = this.$refs.tree.getCheckedKeys();
 				var halfKeys = this.$refs.tree.getHalfCheckedKeys();
-				this.authorityRole.authority_code = keys.toString();
-				this.jquery('/iae/role/editRoles',{
-					authority_code:keys.toString(),
-					authority_parent_code:halfKeys.toString(),
+				this.jquery('/iae/role/editAuthority',{
+					authority_code:keys.concat(halfKeys),
 					role_id:_self.roleId
 				},function(res){
 					_self.$message({showClose: true,message: '授权成功',type: 'success'});
@@ -222,13 +224,13 @@
                 _self.$message({showClose: true,message: '新增成功',type: 'success'});
                 _self.searchRolesList();
                 _self.dialogFormVisible = false;
-								_self.loading = true;
+								_self.loading = false;
               });
             }else{
               this.jquery('/iae/role/editRoles',_self.role,function(res){
                 _self.$message({showClose: true,message: '修改成功',type: 'success'});
                 _self.dialogFormVisible = false;
-								_self.loading = true;
+								_self.loading = false;
               });
             }
           } else {

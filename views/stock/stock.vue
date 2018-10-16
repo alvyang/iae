@@ -6,13 +6,13 @@
 		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 		  <el-form-item label="产品名称" prop="productCommonName">
-		    <el-input v-model="params.productCommonName" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品名称/助记码"></el-input>
+		    <el-input v-model="params.productCommonName" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品名称/助记码"></el-input>
 		  </el-form-item>
 			<el-form-item label="产品编号" prop="product_code">
-		    <el-input v-model="params.product_code" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品通用名"></el-input>
+		    <el-input v-model="params.product_code" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品通用名"></el-input>
 		  </el-form-item>
 			<el-form-item label="　　商业" prop="business">
-	 			 <el-select v-model="params.business" style="width:178px;" size="mini" filterable placeholder="请选择商业">
+	 			 <el-select v-model="params.business" style="width:210px;" size="mini" filterable placeholder="请选择商业">
 	 				 <el-option key="" label="全部" value=""></el-option>
 	 				 <el-option v-for="item in business"
 	 					 :key="item.business_id"
@@ -25,7 +25,7 @@
 			  <el-button type="primary" v-dbClick @click="reSearch(true)" size="mini">重置</el-button>
 		  </el-form-item>
 		</el-form>
-		<div class="sum_money">库存总额：<a>{{stockMoney}}</a> 元；库存量：<a>{{stockNum}}</a> 元</div>
+		<div class="sum_money">库存总额：<a>{{stockMoney}}</a> 元；库存量：<a>{{stockNum}}</a></div>
 		<el-table :data="drugs" style="width: 100%" size="mini" :stripe="true" :border="true">
   			<el-table-column fixed prop="product_common_name" label="产品通用名" width="180"></el-table-column>
 				<el-table-column prop="product_code" label="产品编号" width="130"></el-table-column>
@@ -35,7 +35,7 @@
   			<el-table-column prop="product_unit" label="单位" width="60"></el-table-column>
 				<el-table-column prop="business_name" label="商业" width="60"></el-table-column>
         <el-table-column prop="stock" label="库存" width="60"></el-table-column>
-				<el-table-column prop="contacts_name" label="联系人" width="80"></el-table-column>
+				<el-table-column prop="contacts_name" label="联系人" ></el-table-column>
   			<el-table-column fixed="right" label="操作" width="180">
 			    <template slot-scope="scope">
 		        <el-button v-dbClick @click.native.prevent="analysis(scope)" type="primary" size="mini">销售分析</el-button>
@@ -242,7 +242,7 @@
 					data:_self.params,
 					page:page
 				},function(res){
-						_self.stockMoney = res.message.mpn;
+						_self.stockMoney = Math.round(res.message.mpn*100)/100;
 						_self.stockNum = res.message.sn;
 				});
 			},

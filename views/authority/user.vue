@@ -6,7 +6,7 @@
 		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 		  <el-form-item label="用户名" prop="username">
-		    <el-input v-model="params.username" v-show="authCode.indexOf('21') > -1" @keyup.13.native="reSearch" size="mini" placeholder="用户名"></el-input>
+		    <el-input v-model="params.username" v-show="authCode.indexOf('21') > -1" style="width:210px;" @keyup.13.native="reSearch" size="mini" placeholder="用户名"></el-input>
 		  </el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('19') > -1" @click="reSearch" size="mini">查询</el-button>

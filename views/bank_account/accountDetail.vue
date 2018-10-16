@@ -6,7 +6,7 @@
 		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 		  <el-form-item label="银行账户" prop="account_id">
-				<el-select v-model="params.account_id" style="width:178px;" filterable size="mini" placeholder="请选择">
+				<el-select v-model="params.account_id" style="width:210px;" filterable size="mini" placeholder="请选择">
 					<el-option key="" label="全部" value=""></el-option>
 					<el-option v-for="item in accounts"
 						:key="item.account_id"

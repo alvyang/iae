@@ -6,19 +6,19 @@
 		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" size="mini"  class="demo-form-inline search">
 		  <el-form-item label="产品名称" prop="productCommonName">
-		    <el-input v-model="params.productCommonName" style="width:178px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品名称/助记码"></el-input>
+		    <el-input v-model="params.productCommonName" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品名称/助记码"></el-input>
 		  </el-form-item>
 			<el-form-item label="产品编号" prop="product_code">
-		    <el-input v-model="params.product_code" style="width:178px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品编号"></el-input>
+		    <el-input v-model="params.product_code" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品编号"></el-input>
 		  </el-form-item>
-			<el-form-item label="联系人" prop="contactId">
-				<el-select v-model="params.contactId" style="width:178px;" size="mini" filterable placeholder="请选择联系人">
+			<el-form-item label="　联系人" prop="contactId">
+				<el-select v-model="params.contactId" style="width:210px;" size="mini" filterable placeholder="请选择联系人">
 					<el-option key="" label="全部" value=""></el-option>
 					<el-option v-for="item in contacts" :key="item.contacts_id" :label="item.contacts_name" :value="item.contacts_id"></el-option>
 				</el-select>
 			</el-form-item>
-			<el-form-item label="商业" prop="business">
-				<el-select v-model="params.business" style="width:178px;" size="mini" filterable placeholder="请选择商业">
+			<el-form-item label="　　商业" prop="business">
+				<el-select v-model="params.business" style="width:210px;" size="mini" filterable placeholder="请选择商业">
 					<el-option key="" label="全部" value=""></el-option>
 					<el-option v-for="item in business"
  					 :key="item.business_id"
@@ -27,14 +27,19 @@
 				</el-select>
 			</el-form-item>
 			<el-form-item label="品种类型" prop="product_type">
-				<el-select v-model="params.product_type" style="width:178px;" size="mini" multiple placeholder="请选择">
+				<el-select v-model="params.product_type" style="width:210px;" size="mini" multiple placeholder="请选择">
 					<el-option key="佣金" label="佣金" value="佣金"></el-option>
 					<el-option key="高打" label="高打" value="高打"></el-option>
 					<el-option key="其它" label="其它" value="其它"></el-option>
 				</el-select>
 			</el-form-item>
+			<el-form-item label="　　标签" prop="tag">
+				<el-select v-model="params.tag" style="width:210px;" size="mini" placeholder="请选择">
+					<el-option v-for="t in tags" :key="t.tag_id" :label="t.tag_name" :value="t.tag_id"></el-option>
+				</el-select>
+			</el-form-item>
 			<el-form-item label="医保类型" prop="product_medical_type">
-				<el-select v-model="params.product_medical_type" style="width:178px;" size="mini" placeholder="请选择">
+				<el-select v-model="params.product_medical_type" style="width:210px;" size="mini" placeholder="请选择">
 					<el-option key="" label="全部" value=""></el-option>
 					<el-option key="甲类" label="甲类" value="甲类"></el-option>
 					<el-option key="乙类" label="乙类" value="乙类"></el-option>
@@ -42,6 +47,15 @@
 					<el-option key="省医保" label="省医保" value="省医保"></el-option>
 				</el-select>
 			</el-form-item>
+			<el-form-item label="真实毛利率" prop="rate_gap">
+				<el-select v-model="params.rate_formula" style="width:85px;" size="mini" placeholder="请选择">
+					<el-option key="<" label="<" value="<"></el-option>
+					<el-option key="<=" label="≤" value="<="></el-option>
+					<el-option key=">" label=">" value=">"></el-option>
+					<el-option key=">=" label="≥" value=">="></el-option>
+				</el-select>
+			 	<el-input-number v-model="params.rate_gap" style="width:106px;" :precision="0" :step="1" :max="100"></el-input-number>
+		 	</el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('65') > -1" @click="reSearch(false)" size="mini">查询</el-button>
 			  <el-button type="primary" v-dbClick v-show="authCode.indexOf('65') > -1" @click="reSearch(true)" size="mini">重置</el-button>
@@ -70,6 +84,7 @@
 				<el-table-column prop="product_medical_type" label="医保类型" width="70"></el-table-column>
 				<el-table-column prop="product_purchase_mode" label="采购方式" width="70"></el-table-column>
 				<el-table-column prop="product_basic_medicine" label="是否基药" width="70"></el-table-column>
+				<el-table-column prop="tag_names" label="标签" width="100"></el-table-column>
 				<el-table-column prop="remark" label="备注" width="200"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="100">
 			    <template slot-scope="scope">
@@ -99,6 +114,7 @@
 				drugs:[],
 				contacts:[],
 				business:[],
+				tags:[],//标签
 				pageNum:10,
 				currentPage:1,
 				count:0,
@@ -109,7 +125,10 @@
 					product_type:"",
 					product_medical_type:"",
 					product_code:"",
-					business:""
+					business:"",
+					tag:"",
+					rate_gap:0,
+					rate_formula:"<="
 				}
 			}
 		},
@@ -117,12 +136,19 @@
 			this.getDrugsList();
 			this.getContacts();
 			this.getProductBusiness();
+			this.getTags();
 			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		mounted(){
 
 		},
 		methods:{
+			getTags(){
+				var _self = this;
+				this.jquery("/iae/tag/getAllTags",null,function(res){//查询商业
+					_self.tags=res.message.tagAll;
+				});
+			},
 			formatPercent(row, column, cellValue, index){
 				if(cellValue){
 					return cellValue+" %";
@@ -139,7 +165,7 @@
 			},
 			getContacts(){
 				var _self = this;
-				this.jquery('/iae/contacts/getAllContacts',{group_id:0},function(res){
+				this.jquery('/iae/contacts/getAllContacts',{group_id:0,contact_type:['佣金品种','高打品种']},function(res){
 					_self.contacts = res.message;
 				});
 			},
