@@ -86,6 +86,9 @@
 						<el-option v-for="item in hospitals" :key="item.hospital_id" :label="item.hospital_name" :value="item.hospital_id"></el-option>
 					</el-select>
 			  </el-form-item>
+				<el-form-item label="调货价" prop="allot_price" :required="true">
+					<el-input v-model="allot.allot_price" style="width:179px;" :maxlength="10" placeholder="请输入调货价"></el-input>
+				</el-form-item>
 				<el-form-item label="调货数量" prop="allot_number" :required="true">
 					<el-input v-model="allot.allot_number" style="width:179px;" :maxlength="10" placeholder="请输入购入数量"></el-input>
 				</el-form-item>
@@ -121,7 +124,7 @@
         } else if(!regu.test(value)){
 					callback(new Error('请输入正整数'));
 				} else {
-					this.allot.allot_money = this.mul(this.allot.allot_number,this.drug.product_price,2);
+					this.allot.allot_money = this.mul(this.allot.allot_number,this.allot.allot_price,2);
           callback();
         }
       };
@@ -138,7 +141,17 @@
 				}else if(this.allot.allot_return_flag && value && !reg.test(value)){
 					callback(new Error('请输入正确的返款单价'));
 				} else {
-					this.allot.allot_return_money = this.mul(value,this.allot.allot_number,2);
+					this.allot.allot_return_money = this.mul(this.allot.allot_number,value,2);
+          callback();
+        }
+      };
+			var validateAllotPrice = (rule, value, callback) => {
+				if(!value){
+					callback(new Error('请输入调货价'));
+				}else if(!reg.test(value)){
+					callback(new Error('请输入正确的调货价'));
+				} else {
+					this.allot.allot_money = this.mul(this.allot.allot_number,value,2);
           callback();
         }
       };
@@ -176,9 +189,11 @@
 					allot_return_flag:"",//是否返款标识
 					allot_drug_id:"",
 					allot_policy_contact_id:"",
-					allot_account_id:""//返款账号
+					allot_account_id:"",//返款账号
+					allot_price:""
 				},
 				allotRule:{
+					allot_price:[{validator:validateAllotPrice,trigger: 'blur' }],
 					allot_return_price:[{validator:validateRealReturnMoney,trigger: 'blur' }],
 					allot_account_id:[{validator:validateNull,labelname:'返款账号',trigger: 'change' }],
 					allot_return_time:[{validator:validateNull,labelname:'返款时间',trigger: 'change' }],
@@ -256,6 +271,7 @@
 					this.$refs["allot"].resetFields();
 				}
 				this.dialogFormVisible = true;
+				this.allot.allot_price = this.drug.product_price;
 			},
 			//搜索所有药品信息
 			searchDrugsList(){
@@ -278,13 +294,15 @@
 			},
 			addallots(formName){
 				var _self = this;
-				this.allot.allot_price = this.drug.product_price;
 				this.allot.allot_mack_price = this.drug.product_mack_price;
 				this.allot.allot_drug_id = this.drug.product_id;
 				this.allot.product_type = this.drug.product_type;
 				this.allot.stock = this.drug.stock;
 				this.allot.account_detail = this.formatterDate(null,null,this.allot.allot_time)+this.allot.allot_hospital+"调货（"+this.allot.allot_number+"）"+this.drug.product_common_name+"返款";
 				this.$refs[formName].validate((valid) => {
+						if(_self.allot.allot_return_price){
+							_self.allot.allot_return_money = _self.mul(_self.allot.allot_return_price,_self.allot.allot_number,2);
+						}
 						if (valid) {
 							_self.loading = true;
 							_self.jquery('/iae/allot/saveAllot',_self.allot,function(res){

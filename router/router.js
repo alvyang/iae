@@ -60,7 +60,10 @@ import reportSalesByProfitRate from "../views/report/reportSalesByProfitRate.vue
 import Refundsale from "../views/refunds/refundsale.vue";
 import Refundpurchase from "../views/refunds/refundpurchase.vue";
 import AllotReturnMoney from "../views/allot/allotReturnMoney.vue";
-
+import SalesReturnMoney from "../views/sales/salesReturnMoney.vue";
+//政策管理
+import AllotPolicy from "../views/allot/allotPolicy.vue";
+import SalesPolicy from "../views/sales/salesPolicy.vue";
 //库存
 import Stock from "../views/stock/stock.vue";
 
@@ -111,6 +114,9 @@ const router = new VueRouter({
 			{path:"refundsale",component:Refundsale},//佣金返款
 			{path:"refundpurchase",component:Refundpurchase},//高打返款
 			{path:"allotreturnmoney",component:AllotReturnMoney},//调货回款
+			{path:"salesreturnmoney",component:SalesReturnMoney},//销售回款
+			{path:"allotpolicy",component:AllotPolicy},//调货政策
+			{path:"salespolicy",component:SalesPolicy},//销售政策
 			{path:"stock",component:Stock},
 			{path:"password",component:password},
 		]

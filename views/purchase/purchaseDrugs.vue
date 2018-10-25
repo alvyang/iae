@@ -241,6 +241,7 @@
 				this.purchase.stock = this.drug.stock,
 				this.purchase.puchase_gross_rate = (100 - this.drug.product_discount).toFixed(0);
 				this.purchase.purchase_return_flag = this.drug.product_return_statistics;
+				this.purchase.product_return_money = this.drug.product_return_money;
 				this.$refs[formName].validate((valid) => {
 						if (valid) {
 							this.loading = true;

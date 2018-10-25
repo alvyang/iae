@@ -93,6 +93,7 @@
 				<el-table-column prop="product_unit" label="单位" width="50"></el-table-column>
 				<el-table-column prop="business_name" label="商业" width="60"></el-table-column>
 				<el-table-column prop="buyer" label="采购" width="60"></el-table-column>
+				<el-table-column prop="sale_type" label="销售类型" width="60" :formatter="formatterType"></el-table-column>
 				<el-table-column prop="sale_price" label="中标价" width="60"></el-table-column>
 				<el-table-column prop="sale_num" label="计划数量" width="70"></el-table-column>
 				<el-table-column prop="sale_money" label="购入金额" width="70"></el-table-column>
@@ -300,28 +301,11 @@
 				});
 			},
 			exportExcel(){
-				var url = this.$bus.data.host + "/iae/sales/exportSales?1=1";
-				if(this.params.productCommonName){
-			    url+="&name="+this.params.productCommonName
-			  }
-			  if(this.params.productType){
-			    var type = this.params.productType;
-			    var t = "";
-			    for(var i = 0 ; i < type.length ; i++){
-			      t+="'"+type[i]+"',"
-			    }
-			    t = t.substring(0,t.length-1);
-			    url+="&type="+t;
-			  }
-			  if(this.params.hospitalsId){
-			    url+="&id="+this.params.hospitalsId;
-			  }
-			  if(this.params.salesTime){
-			    var start = new Date(this.params.salesTime[0]).format("yyyy-MM-dd");
-			    var end = new Date(this.params.salesTime[1]).format("yyyy-MM-dd");
-					url+="&start="+start+"&end="+end;
-			  }
-				window.location = url;
+				var url = this.$bus.data.host + "/iae/sales/exportSales";
+				this.download(url,this.params);
+			},
+			formatterType(row, column, cellValue){
+				return cellValue=='1'?"销售出库":(cellValue=='2'?"销售退回":"销售退补价");
 			},
 			formatterDate(row, column, cellValue){
 				if(cellValue && typeof cellValue == "string"){
@@ -341,6 +325,9 @@
 			editRow(scope){//编辑药品信息
 				this.dialogFormVisible = true;
 				this.sale = scope.row;
+				this.sale.sale_return_price=this.sale.sale_return_price?this.sale.sale_return_price:this.sale.sale_policy_money;
+			  this.sale.sale_contact_id=this.sale.sale_contact_id?this.sale.sale_contact_id:this.sale.sale_policy_contact_id;
+				this.sale.sale_return_money = this.mul(this.sale.sale_return_price,scope.row.sale_num,2);
 				this.sale.sale_num_temp = scope.row.sale_num;
 			},
 			deleteRow(scope){//删除

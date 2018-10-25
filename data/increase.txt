@@ -1,5 +1,79 @@
 //未发版sql
 
+
+//发版20191025
+INSERT INTO `authority` VALUES
+('017a3db0-d40a-11e8-bfbc-6f9a2209108b', '销售回款管理', '医院回款管理', '80016', '/main/salesreturnmoney', '40', '0', '1', '2', '1'),
+('08cc7230-d43d-11e8-984b-5b9b376cac6a', '销售政策管理', '', '80017', '/main/salespolicy', '40', '0', '1', '2', '1'),
+('ea631b50-d43c-11e8-984b-5b9b376cac6a', '调货政策管理', '', '80015', '/main/allotpolicy', '40', '0', '1', '2', '1');
+
+INSERT INTO `authority` VALUES
+('47979cc0-d40a-11e8-bfbc-6f9a2209108b', '查询', '', '8001101', '/', '017a3db0-d40a-11e8-bfbc-6f9a2209108b', '0', '1', '3', '6'),
+('4a023420-d40a-11e8-bfbc-6f9a2209108b', '修改', '', '800102', '/', '017a3db0-d40a-11e8-bfbc-6f9a2209108b', '0', '1', '3', '3'),
+('83ff2470-d43d-11e8-984b-5b9b376cac6a', '查询', '', '800172', '/', '08cc7230-d43d-11e8-984b-5b9b376cac6a', '0', '1', '3', '6'),
+('860afa00-d43d-11e8-984b-5b9b376cac6a', '修改', '', '800171', '/', '08cc7230-d43d-11e8-984b-5b9b376cac6a', '0', '1', '3', '3'),
+('a16deeb0-d43d-11e8-984b-5b9b376cac6a', '查询', '', '800152', '/', 'ea631b50-d43c-11e8-984b-5b9b376cac6a', '0', '1', '3', '6'),
+('a316bcb0-d43d-11e8-984b-5b9b376cac6a', '修改', '', '800151', '/', 'ea631b50-d43c-11e8-984b-5b9b376cac6a', '0', '1', '3', '3'),
+('61f34560-d801-11e8-b0cc-65c20b1efa48', '导出', '', '50010', '/', '37', '0', '1', '3', '5'),
+('e430d5a0-d802-11e8-a19c-cf0f6be47d2e', '导出', '', '800100', '/', '017a3db0-d40a-11e8-bfbc-6f9a2209108b', '0', '1', '3', '5'),
+('f8037330-d802-11e8-a19c-cf0f6be47d2e', '导出', '', '800100', '/', 'dcdb4360-cb66-11e8-9167-b9e7cf3cd8a2', '0', '1', '3', '5'),
+('0f32a940-d803-11e8-a19c-cf0f6be47d2e', '导出', '', '40010', '/', '41', '0', '1', '3', '5'),
+('c39f8f80-d81f-11e8-a52f-4f446572c8cf', '导出', '', '800150', '/', 'ea631b50-d43c-11e8-984b-5b9b376cac6a', '0', '1', '3', '5'),
+('c250c860-d81f-11e8-a52f-4f446572c8cf', '导出', '', '800170', '/', '08cc7230-d43d-11e8-984b-5b9b376cac6a', '0', '1', '3', '5');
+
+alter table contacts add contact_remark varchar(500) COMMENT '备注';
+alter table users add data_authority varchar(10) COMMENT '数据权限';
+update users u set u.data_authority = '1';
+
+alter table sales add sale_create_userid varchar(50) COMMENT '创建人';
+alter table purchase add purchase_create_userid varchar(50) COMMENT '创建人';
+alter table allot add allot_create_userid varchar(50) COMMENT '创建人';
+alter table bank_account_detail add account_detail_create_userid varchar(50) COMMENT '创建人';
+alter table refunds add refund_create_userid varchar(50) COMMENT '创建人';
+alter table drugs add product_create_userid varchar(50) COMMENT '创建人';
+alter table bank_account add bank_create_userid varchar(50) COMMENT '创建人';
+alter table hospital_return_money add return_money_create_userid varchar(50) COMMENT '创建人';
+alter table tag add tag_create_userid varchar(50) COMMENT '创建人';
+alter table business add business_create_userid varchar(50) COMMENT '创建人';
+alter table contacts add contact_create_userid varchar(50) COMMENT '创建人';
+alter table hospitals add hospital_create_userid varchar(50) COMMENT '创建人';
+alter table role add role_create_userid varchar(50) COMMENT '创建人';
+alter table users add user_create_userid varchar(50) COMMENT '创建人';
+alter table groups add group_create_userid varchar(50) COMMENT '创建人';
+
+update sales s set s.sale_create_userid = '2';
+update purchase s set s.purchase_create_userid = '2';
+update allot s set s.allot_create_userid = '2';
+update bank_account_detail s set s.account_detail_create_userid = '2';
+update refunds s set s.refund_create_userid = '2';
+update drugs s set s.product_create_userid = '2';
+update bank_account s set s.bank_create_userid = '2';
+update hospital_return_money s set s.return_money_create_userid = '2';
+update tag s set s.tag_create_userid = '2';
+update business s set s.business_create_userid = '2';
+update contacts s set s.contact_create_userid = '2';
+update hospitals s set s.hospital_create_userid = '2';
+update role s set s.role_create_userid = '2';
+update users s set s.user_create_userid = '2';
+update groups s set s.group_create_userid = '2';
+
+alter table sales add sale_account_id varchar(50) COMMENT '收款账号id';
+alter table sales add sale_return_time datetime DEFAULT NULL  COMMENT '医院回款时间';
+alter table sales add sale_return_money varchar(50) COMMENT '医院回款金额';
+alter table sales add sale_return_price varchar(50) COMMENT '医院回款单价';
+alter table sales add sale_contact_id varchar(50) COMMENT '销售联系人';
+
+
+CREATE TABLE `sale_policy` (
+	`sale_hospital_id` varchar(50) NOT NULL COMMENT '医院id',
+	`sale_drug_id` varchar(50) NOT NULL COMMENT '药品id',
+	`sale_policy_contact_id` varchar(50) NOT NULL COMMENT '联系人',
+  `sale_policy_money` varchar(20) DEFAULT NULL COMMENT '政策金额',
+  `sale_policy_remark` varchar(200) DEFAULT NULL COMMENT '政策周期',
+  PRIMARY KEY (`sale_hospital_id`,`sale_drug_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET FOREIGN_KEY_CHECKS = 1;
+
 //发版20180914
 //联合主键
 INSERT INTO `authority` VALUES ('dcdb4360-cb66-11e8-9167-b9e7cf3cd8a2', '调货回款管理', '', '80010', '/main/allotreturnmoney', '40', '0', '1', '2', '1');

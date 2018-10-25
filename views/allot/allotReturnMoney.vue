@@ -54,6 +54,7 @@
 		  <el-form-item>
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('130627a0-cb9b-11e8-81ff-23b7b224f706') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
 				<el-button type="primary" v-dbClick v-show="authCode.indexOf('130627a0-cb9b-11e8-81ff-23b7b224f706') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('f8037330-d802-11e8-a19c-cf0f6be47d2e') > -1" @click="exportAllotReturn" size="mini">导出</el-button>
 		  </el-form-item>
 		</el-form>
 		<div class="sum_money_allot">
@@ -73,8 +74,8 @@
 				<el-table-column prop="allot_mack_price" label="打款价" width="60"></el-table-column>
 				<el-table-column prop="allot_price" label="中标价" width="60"></el-table-column>
 				<el-table-column prop="allot_money" label="金额" width="70"></el-table-column>
-				<el-table-column prop="allot_return_price" label="返款单价" width="70"></el-table-column>
-				<el-table-column prop="allot_return_money" label="回款金额" width="70"></el-table-column>
+				<el-table-column prop="allot_return_price" label="回款金额" width="70"></el-table-column>
+				<el-table-column prop="allot_return_money" label="回款总额" width="70"></el-table-column>
 				<el-table-column prop="allot_return_time" label="回款时间" width="80" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="allot_policy_remark" label="回款备注" width="80"></el-table-column>
 				<!-- <el-table-column fixed="right" prop="allot_return_flag" label="是否回款" width="80"></el-table-column> -->
@@ -368,6 +369,10 @@
 				}
 				this.currentPage = 1;
 				this.getAllotsList();
+			},
+			exportAllotReturn(){
+				var url = this.$bus.data.host + "/iae/allot/exportAllotRefund";
+				this.download(url,this.params);
 			},
 			getAllotsList(){
 				var _self = this;

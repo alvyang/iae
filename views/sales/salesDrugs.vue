@@ -114,7 +114,7 @@
 					<el-input v-model="sale.sale_money" style="width:194px;"  auto-complete="off" :readonly="true"></el-input>
 				</el-form-item>
 				<el-form-item label="销往单位" prop="hospital_id">
-					<el-select v-model="sale.hospital_id" style="width:194px;" filterable placeholder="请选择销售机构">
+					<el-select v-model="sale.hospital_id" @change="hospitalChange" style="width:194px;" filterable placeholder="请选择销售机构">
 						<el-option v-for="item in hospitals"
 							:key="item.hospital_id"
 							:label="item.hospital_name"
@@ -144,7 +144,7 @@ export default({
 			} else if(!regu.test(value)){
 				callback(new Error('请输入整数'));
 			} else {
-				this.sale.sale_money = (this.sale.sale_num * this.sale.sale_price).toFixed(2);
+				this.sale.sale_money = this.mul(this.sale.sale_num,this.sale.sale_price,2);
 				callback();
 			}
 		};
@@ -201,6 +201,18 @@ export default({
 
 	},
 	methods:{
+		hospitalChange(){
+			var _self = this;
+			this.jquery('/iae/sales/selesPolicy',{product_id:this.drug.product_id,hospital_id:this.sale.hospital_id},function(res){
+				if(res.message.length > 0){
+					_self.sale.sale_return_price=res.message[0].sale_policy_money?res.message[0].sale_policy_money:"";
+					_self.sale.sale_contact_id = res.message[0].sale_policy_contact_id?res.message[0].sale_policy_contact_id:"";
+				}else{
+					_self.sale.sale_return_price="";
+					_self.sale.sale_contact_id = "";
+				}
+			});
+		},
 		addSales(formName){
 			if(!this.drug.product_code){
 				return;
@@ -221,8 +233,12 @@ export default({
 			this.sale.sale_return_flag = this.drug.product_return_statistics;
 			this.sale.stock = this.drug.stock;
 			this.sale.sale_tax_rate = this.drug.product_tax_rate;
+			this.sale.product_return_money = this.drug.product_return_money;
 			var _self = this;
 			this.$refs[formName].validate((valid) => {
+					if(_self.sale.sale_return_price){//销售回款金额
+						_self.sale.sale_return_money=_self.mul(_self.sale.sale_return_price,_self.sale.sale_num);
+					}
 					if (valid) {
 						this.loading = true;
 						_self.jquery('/iae/sales/saveSales',_self.sale,function(res){
@@ -258,7 +274,7 @@ export default({
 			this.dialogFormVisible = true;
 		},
 		formatNull(row, column, cellValue, index){
-			if(row.product_type == "基药" || row.product_type == "其它"){
+			if(row.product_type == "其它"){
 				return "-";
 			}else{
 				return cellValue;

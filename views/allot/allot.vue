@@ -45,6 +45,7 @@
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('61') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
 				<el-button type="primary" v-dbClick v-show="authCode.indexOf('61') > -1" @click="reSearch(true)" size="mini">重置</el-button>
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('58') > -1" @click="add" size="mini">新增</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('61f34560-d801-11e8-b0cc-65c20b1efa48') > -1" @click="exportAllot" size="mini">导出</el-button>
 		  </el-form-item>
 		</el-form>
 		<div class="sum_money_allot">
@@ -109,6 +110,9 @@
 						<el-option v-for="item in hospitals" :key="item.hospital_id" :label="item.hospital_name" :value="item.hospital_id"></el-option>
 					</el-select>
 			  </el-form-item>
+				<el-form-item label="调货价" prop="allot_price" :required="true">
+					<el-input v-model="allot.allot_price" style="width:179px;" :maxlength="10" placeholder="请输入调货价"></el-input>
+				</el-form-item>
 				<el-form-item label="调货数量" prop="allot_number" :required="true">
 					<el-input v-model="allot.allot_number" style="width:179px;" :maxlength="10" placeholder="请输入购入数量"></el-input>
 				</el-form-item>
@@ -144,11 +148,9 @@
         } else if(!regu.test(value)){
 					callback(new Error('请输入正整数'));
 				} else {
-					this.allot.allot_money = this.allot.allot_number * this.allot.allot_price;
-					this.allot.allot_money = this.allot.allot_money.toFixed(2);
+					this.allot.allot_money = this.mul(this.allot.allot_number,this.allot.allot_price,2);
 					if(this.allot.allot_return_price && reg.test(this.allot.allot_return_price)){
-						this.allot.allot_return_money = this.allot.allot_return_price * this.allot.allot_number;
-						this.allot.allot_return_money =	this.allot.allot_return_money.toFixed(2);
+						this.allot.allot_return_money = this.mul(this.allot.allot_return_price,this.allot.allot_number,2);
 					}
           callback();
         }
@@ -166,8 +168,17 @@
 				}else if(this.allot.allot_return_flag && value && !reg.test(value)){
 					callback(new Error('请输入正确的返款单价'));
 				} else {
-					this.allot.allot_return_money = value * this.allot.allot_number;
-					this.allot.allot_return_money =	this.allot.allot_return_money.toFixed(2);
+					this.allot.allot_return_money = this.mul(value,this.allot.allot_number);
+          callback();
+        }
+      };
+			var validateAllotPrice = (rule, value, callback) => {
+				if(!value){
+					callback(new Error('请输入调货价'));
+				}else if(!reg.test(value)){
+					callback(new Error('请输入正确的调货价'));
+				} else {
+					this.allot.allot_money = this.mul(this.allot.allot_number,value,2);
           callback();
         }
       };
@@ -210,6 +221,7 @@
 					contactId:"",
 				},
 				allotRule:{
+					allot_price:[{validator:validateAllotPrice,trigger: 'blur' }],
 					allot_account_id:[{validator:validateNull,labelname:'返款账号',trigger: 'change' }],
 					allot_return_time:[{validator:validateNull,labelname:'返款时间',trigger: 'change' }],
 					allot_number:[{validator:validateNum,trigger: 'blur' }],
@@ -232,6 +244,10 @@
 
 		},
 		methods:{
+			exportAllot(){
+				var url = this.$bus.data.host + "/iae/allot/exportAllot";
+				this.download(url,this.params);
+			},
 			hospitalChange(){
 				var _self = this;
 				this.jquery('/iae/allot/getAllotPolicy',{

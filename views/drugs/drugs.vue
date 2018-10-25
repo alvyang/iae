@@ -60,6 +60,7 @@
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('65') > -1" @click="reSearch(false)" size="mini">查询</el-button>
 			  <el-button type="primary" v-dbClick v-show="authCode.indexOf('65') > -1" @click="reSearch(true)" size="mini">重置</el-button>
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('62') > -1" @click="add" size="mini">新增</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('0f32a940-d803-11e8-a19c-cf0f6be47d2e') > -1" @click="exportDrugs" size="mini">导出</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="drugs" style="width: 100%" size="mini" :stripe="true" :border="true">
@@ -143,6 +144,7 @@
 
 		},
 		methods:{
+
 			getTags(){
 				var _self = this;
 				this.jquery("/iae/tag/getAllTags",null,function(res){//查询商业
@@ -214,6 +216,10 @@
 			//搜索所有药品信息
 			searchDrugsList(){
 				this.getDrugsList();
+			},
+			exportDrugs(){
+				var url = this.$bus.data.host + "/iae/drugs/exportDrugs";
+				this.download(url,this.params);
 			},
 			getDrugsList(){
 				var _self = this;

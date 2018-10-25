@@ -49,6 +49,21 @@ const mixin = {
         num = Math.pow(10,num);
         return Math.round(a*num)/num;
     },
+    download(url, data, method){ // 获得url和data
+      if( url && data ){
+          var inputs = '';
+          for(var key in data){
+            if(typeof data[key] == "object"){
+              for(var i = 0 ; i < data[key].length ;i++){
+                inputs+='<input type="hidden" name="'+ key +'" value="'+ data[key][i] +'" />';
+              }
+            }else{
+              inputs+='<input type="hidden" name="'+ key +'" value="'+ data[key] +'" />';
+            }
+          }
+          $('<form action="'+ url +'" method="'+ (method||'post') +'">'+inputs+'</form>').appendTo('body').submit().remove();
+      }
+    },
     jquery(url,data,callback){
       var _self = this;
       $.ajax({

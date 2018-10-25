@@ -14,6 +14,7 @@
 					<el-option key="佣金品种" label="佣金品种" value="佣金品种"></el-option>
 					<el-option key="高打品种" label="高打品种" value="高打品种"></el-option>
 					<el-option key="调货" label="调货" value="调货"></el-option>
+					<el-option key="业务员" label="业务员" value="业务员"></el-option>
 				</el-select>
 		  </el-form-item>
 		  <el-form-item>
@@ -26,6 +27,7 @@
 			<el-table-column prop="contacts_name" label="联系人"></el-table-column>
 			<el-table-column prop="contact_type" label="联系人类型"></el-table-column>
 			<el-table-column prop="contacts_phone" label="电话"></el-table-column>
+			<el-table-column prop="contact_remark" label="备注"></el-table-column>
 			<el-table-column fixed="right" label="操作" width="100">
 	    <template slot-scope="scope">
 		    <el-button v-show="authCode.indexOf('34') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
@@ -52,6 +54,7 @@
 						<el-checkbox label="佣金品种"></el-checkbox>
 						<el-checkbox label="高打品种"></el-checkbox>
 				    <el-checkbox label="调货"></el-checkbox>
+						<el-checkbox label="业务员"></el-checkbox>
 					</el-checkbox-group>
 				</el-form-item>
 				<el-form-item label="联系人" prop="contacts_name">
@@ -59,6 +62,9 @@
 				</el-form-item>
 				<el-form-item label="手机号码" prop="contacts_phone">
 					<el-input v-model="contact.contacts_phone" style="width:350px;" auto-complete="off" :maxlength="11" placeholder="请输入联系人手机号码"></el-input>
+				</el-form-item>
+				<el-form-item label="备注" prop="contact_remark">
+					<el-input v-model="contact.contact_remark" style="width:350px;" auto-complete="off" :maxlength="500" placeholder="请输入备注"></el-input>
 				</el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">
@@ -86,6 +92,7 @@
 				contact:{
 					contacts_name:"",
 					contacts_phone:"",
+					contact_remark:"",
 					contact_type:['佣金品种'],
 				},
 				contactsRule:{
@@ -142,6 +149,7 @@
 				this.contact={
 					contacts_name:"",
 					contacts_phone:"",
+					contact_remark:"",
 					contact_type:['佣金品种'],
 				};
 				this.title=1;

@@ -17,6 +17,7 @@
 		<el-table :data="users" style="width: 100%" size="mini" :stripe="true">
 			<el-table-column prop="username" label="用户名"></el-table-column>
 			<el-table-column prop="realname" label="真实姓名"></el-table-column>
+			<el-table-column prop="data_authority" label="数据权限" :formatter="formatterType"></el-table-column>
 			<el-table-column prop="role_name" label="角色名"></el-table-column>
 			<el-table-column fixed="right" label="操作" width="200">
 	    <template slot-scope="scope">
@@ -42,6 +43,10 @@
       <el-form :model="user" :rules="rules" ref="user" label-width="100px" class="demo-ruleForm">
         <el-form-item label="用户名" prop="username" :required="true">
           <el-input v-model="user.username" maxlength='20' style="width: 300px;" placeholder="用户名" auto-complete="off"></el-input>
+        </el-form-item>
+				<el-form-item label="数据权限" prop="data_authority">
+						<el-radio v-model="user.data_authority" label="1">系统级</el-radio>
+	  				<el-radio v-model="user.data_authority" label="2">用户级</el-radio>
         </el-form-item>
 				<el-form-item label="密码" prop="password">
           <el-input v-model="user.password" maxlength='20' style="width: 300px;" type='password' placeholder="密码" auto-complete="off"></el-input>
@@ -109,7 +114,8 @@
 				user:{
           username:"",
           password:"",
-          realname:""
+          realname:"",
+					data_authority:"1",
         },
         rules: {
           username: [{validator: validateUsername, trigger: 'blur' }],
@@ -142,12 +148,16 @@
 			var that = this;
 		},
 		methods:{
+			formatterType(row, column, cellValue){
+				return cellValue=='1'?"系统级":"用户级";
+			},
 			addShow(){
 				this.dialogFormVisible = true;
 				this.user={
           username:"",
           password:"",
-          realname:""
+          realname:"",
+					data_authority:"1",
         };
 				this.title=1;
 				var _self = this;

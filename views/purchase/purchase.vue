@@ -243,28 +243,8 @@
 				});
 			},
 			exportExcel(){
-				var url = this.$bus.data.host + "/iae/purchase/exportPurchases?1=1";
-				if(this.params.productCommonName){
-			    url+="&name="+this.params.productCommonName
-			  }
-				if(this.params.time){
-			    var start = new Date(this.params.time[0]).format("yyyy-MM-dd");
-			    var end = new Date(this.params.time[1]).format("yyyy-MM-dd");
-					url+="&start="+start+"&end="+end;
-			  }
-				if(this.params.contactId){
-			    url+="&contactId="+this.params.contactId;
-			  }
-				if(this.params.product_code){
-			    url+="&product_code="+this.params.product_code;
-			  }
-				if(this.params.contactId){
-			    url+="&status="+this.params.status;
-			  }
-				if(this.params.remark){
-			    url+="&remark="+this.params.remark;
-			  }
-				window.location = url;
+				var url = this.$bus.data.host + "/iae/purchase/exportPurchases";
+				this.download(url,this.params);
 			},
 			handleSelect(item) {
 				this.purchase.remark = item.remark;
