@@ -1,5 +1,16 @@
 //未发版sql
 
+//2018年11月4日发版sql
+INSERT INTO `authority` VALUES
+('100', '导入', '导入', '40010', '/', '41', '0', '1', '3', '7'),
+('101', '导入', '导入', '50010', '/', '37', '0', '1', '3', '7'),
+('102', '导入', '导入', '70010', '/', '39', '0', '1', '3', '7');
+
+alter table drugs add product_return_time_type varchar(10) DEFAULT '4' COMMENT '返款时间类型';
+alter table drugs add product_return_time_day varchar(10)  COMMENT '返款时间指定日期';
+alter table drugs add product_return_time_day_num varchar(10) DEFAULT '45' COMMENT '返款时间固定天数';
+update drugs set product_return_time_type = '4';
+update drugs set product_return_time_day_num =  '45';
 
 //发版20191025
 INSERT INTO `authority` VALUES

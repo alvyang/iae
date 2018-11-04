@@ -1,5 +1,5 @@
 <template>
-	<div style="box-sizing: border-box;padding: 0px 10px;">
+	<div style="box-sizing: border-box;padding: 0px 10px;" class="allot_list">
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 			<el-form-item label="调货时间" prop="allot_time">
 				<el-date-picker v-model="params.allot_time" type="daterange" size="mini" align="right" unlink-panels
@@ -14,6 +14,9 @@
 		  </el-form-item>
 			<el-form-item label="产品编号" prop="product_code">
 		    <el-input v-model="params.product_code" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品通用名"></el-input>
+		  </el-form-item>
+			<el-form-item label="生产企业" prop="product_makesmakers">
+		    <el-input v-model="params.product_makesmakers" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="生产企业"></el-input>
 		  </el-form-item>
 			<el-form-item label="调货单位" prop="allot_hospital">
 				<el-select v-model="params.allot_hospital" style="width:210px;" size="mini" filterable placeholder="请选择供货单位">
@@ -40,12 +43,13 @@
 				 </el-option>
 			 </el-select>
 		 </el-form-item>
-
 		  <el-form-item>
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('61') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
 				<el-button type="primary" v-dbClick v-show="authCode.indexOf('61') > -1" @click="reSearch(true)" size="mini">重置</el-button>
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('58') > -1" @click="add" size="mini">新增</el-button>
 				<el-button type="primary" v-dbClick v-show="authCode.indexOf('61f34560-d801-11e8-b0cc-65c20b1efa48') > -1" @click="exportAllot" size="mini">导出</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('101') > -1" @click="importShow" size="mini">导入</el-button>
+ 			 	<el-button type="primary" v-dbClick v-show="authCode.indexOf('101') > -1" @click="downloadTemplate" size="mini">导入模板下载</el-button>
 		  </el-form-item>
 		</el-form>
 		<div class="sum_money_allot">
@@ -135,6 +139,19 @@
         <el-button type="primary" v-dbClick :loading="loading" size="small" @click="editallots('allot')">确 定</el-button>
       </div>
     </el-dialog>
+		<el-dialog title="导入调货记录" width="600px" :visible.sync="dialogFormVisibleImport">
+			<el-upload
+			  class="upload-demo"
+				ref="upload"
+			  :action="importAllotsUrl"
+			  :before-upload="beforeUpload"
+				:on-success="importAllotsSuccess"
+			  :file-list="fileList">
+			  <el-button size="small" type="primary" v-dbClick :loading="loadingImport">{{uploadButtom}}</el-button>
+			  <div slot="tip" class="el-upload__tip" style="display:inline-block">　只能上传xls/xlsx文件</div>
+			</el-upload>
+			<div v-show="errorMessage" style="margin-top: 15px;" v-html="errorMessage"></div>
+		</el-dialog>
 	</div>
 </template>
 <script>
@@ -212,6 +229,7 @@
 				count:0,
 				dialogFormVisible:false,
 				params:{
+					product_makesmakers:"",
 					productCommonName:"",
 					allot_hospital:"",
 					allot_time:[],
@@ -230,6 +248,10 @@
 					allot_hospital:[{ required: true, message: '请输入调货单位', trigger: 'blur,change' }]
 				},
 				authCode:"",
+				importAllotsUrl:"",
+				dialogFormVisibleImport:false,
+				uploadButtom:"导入调货记录",
+				errorMessage:"",
 			}
 		},
 		activated(){
@@ -241,9 +263,30 @@
 			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		mounted(){
-
+				this.importAllotsUrl = this.$bus.data.host + "/iae/allot/importAllots";
 		},
 		methods:{
+			downloadTemplate(){
+				window.location.href=this.$bus.data.host+"/download/template_allots.xlsx";
+			},
+			importShow(){
+				this.dialogFormVisibleImport = true;
+				this.errorMessage="";
+				if(this.$refs.upload){
+					this.$refs.upload.clearFiles();
+				}
+			},
+			beforeUpload(file){
+				this.errorMessage="";
+				this.uploadButtom="上传成功，正在导入...";
+				this.loadingImport = true;
+			},
+			importAllotsSuccess(response, file, fileList){
+				this.uploadButtom="导入销售记录";
+				this.loadingImport = false;
+				var downloadErrorMessage = "<a style='color:red;' href='"+this.$bus.data.host+"/iae/allot/downloadErrorAllots'>下载错误数据</a>";
+				this.errorMessage = response.message+downloadErrorMessage;
+			},
 			exportAllot(){
 				var url = this.$bus.data.host + "/iae/allot/exportAllot";
 				this.download(url,this.params);
@@ -404,6 +447,9 @@
 	});
 </script>
 <style>
+	.main_content .allot_list .el-dialog__wrapper .el-dialog .el-dialog__body{
+		padding-bottom:30px !important;
+	}
 	.sum_money_allot > a{
 		padding-left: 20px;
 		color: #606266;

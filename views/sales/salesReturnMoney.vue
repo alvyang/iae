@@ -190,6 +190,7 @@
 					sale_contact_id:"",
 					product_code:"",
 					salesReturnFlag:"flag",
+					productType:['佣金','高打'],
 				},
 				sale:{},//修改的销售信息
 				saleRule:{

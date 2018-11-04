@@ -86,7 +86,7 @@
 						<el-form-item label="中标价" prop="product_price">
 							<el-input v-model="drugs.product_price" @blur="priceBlur" style="width: 179px;" auto-complete="off" :maxlength="10" placeholder="中标价"></el-input>
 						</el-form-item>
-						<el-form-item label="打款价" prop="product_mack_price">
+						<el-form-item label="成本价" prop="product_mack_price">
 							<el-input v-model="drugs.product_mack_price" style="width: 179px;" auto-complete="off" @blur="priceBlur" :maxlength="10" placeholder="打款价"></el-input>
 						</el-form-item>
 						<el-form-item label="扣率" prop="product_discount">
@@ -136,8 +136,8 @@
 						<el-form-item label="底价" prop="product_floor_price">
 							<el-input v-model="drugs.product_floor_price" style="width: 179px;" @blur="priceBlur" auto-complete="off" :maxlength="10" placeholder="底价"></el-input>
 						</el-form-item>
-						<el-form-item label="高开返款率" prop="product_high_discount">
-							<el-input v-model="drugs.product_high_discount" @blur="priceBlur" style="width:163px;"  auto-complete="off" :maxlength="10" placeholder="高开返款率（如：23）"></el-input> %
+						<el-form-item label="高开部分税率" prop="product_high_discount">
+							<el-input v-model="drugs.product_high_discount" @blur="priceBlur" style="width:163px;"  auto-complete="off" :maxlength="10" placeholder="税率（如：23）"></el-input> %
 						</el-form-item>
 					</div>
 					<div v-show="drugs.product_type != '其它'">
@@ -149,6 +149,22 @@
 						</el-form-item>
 						<el-form-item label="返款说明" prop="product_return_explain">
 							<el-input v-model="drugs.product_return_explain" style="width: 179px;" auto-complete="off" :maxlength="50" placeholder="返款说明"></el-input>
+						</el-form-item>
+					</div>
+					<div v-show="drugs.product_type != '其它'">
+						<el-form-item label="返款日期类型" prop="product_return_time_type">
+							<el-select v-model="drugs.product_return_time_type" placeholder="请选择" style="width: 179px;">
+						    <el-option key="1" label="当月返" value="1"></el-option>
+								<el-option key="2" label="次月返" value="2"></el-option>
+								<el-option key="3" label="隔月返" value="3"></el-option>
+								<el-option key="4" label="其它" value="4"></el-option>
+						  </el-select>
+						</el-form-item>
+						<el-form-item label="返款日" v-show="drugs.product_return_time_type != '4'" prop="product_return_time_day">
+							<el-input v-model="drugs.product_return_time_day" style="width:179px;" auto-complete="off" :maxlength="10" placeholder="返款日（如：1-31）"></el-input>
+						</el-form-item>
+						<el-form-item label="返款天数" v-show="drugs.product_return_time_type == '4'" prop="product_return_time_day_num">
+							<el-input v-model="drugs.product_return_time_day_num" style="width: 179px;" auto-complete="off" :maxlength="50" placeholder="返款天数"></el-input>
 						</el-form-item>
 					</div>
 					<div>
@@ -221,6 +237,28 @@
 					});
 				}
     	};
+			var validateDay = (rule, value, callback) => {
+				var regu = /^([1-9][0-9]*)$/;
+				if (this.drugs.product_return_time_type!='4' && value === '') {
+					callback(new Error('请输入返款日'));
+				} else if(this.drugs.product_return_time_type!='4' && !regu.test(value)){
+					callback(new Error('请输入非0正整数'));
+				} else if(this.drugs.product_return_time_type!='4' &&  value > 31){
+					callback(new Error('返款日为1-31'));
+				} else {
+         	callback();
+				}
+			};
+			var validateDayNumber = (rule, value, callback) => {
+				var regu = /^(0|[1-9][0-9]*)$/;
+				if (this.drugs.product_return_time_type=='4' && value === '') {
+					callback(new Error('请输入返款天数'));
+				} else if(this.drugs.product_return_time_type=='4' && !regu.test(value)){
+					callback(new Error('请输入正整数'));
+				} else {
+         	callback();
+				}
+			};
 			return {
 				loading:false,
 				product_return_statistics:"",
@@ -258,6 +296,9 @@
 					product_tax_rate:"",//产品税率
 					product_purchase_mode:"",//采购方式
 					product_basic_medicine:"",//是否基药
+					product_return_time_type:"4",//返款时间类型
+					product_return_time_day:"",//返款指定日期
+					product_return_time_day_num:"45",//返款指定天数
 				},
 				drugsRule:{
 					product_common_name:[{ required: true, message: '请输入产品名称', trigger: 'blur' }],
@@ -265,7 +306,7 @@
 					product_makesmakers:[{ required: true, message: '请输入生产产家', trigger: 'blur,change' }],
 					product_specifications:[{ required: true, message: '请输入产品规格', trigger: 'blur' }],
 					product_price:[{ validator: validateMoney,labelname:'中标价', trigger: 'blur' }],
-					product_mack_price:[{ validator: validateMoney,labelname:'打款价', trigger: 'blur' }],
+					product_mack_price:[{ validator: validateMoney,labelname:'成本价', trigger: 'blur' }],
 					product_return_money:[{ validator: validateMoney,labelname:'返费金额', trigger: 'blur' }],
 					product_floor_price:[{ validator: validateMoney,labelname:'底价', trigger: 'blur' }],
 					accounting_cost:[{ validator: validateMoney,labelname:'核算成本', trigger: 'blur' }],
@@ -273,7 +314,9 @@
 					gross_interest_rate:[{ validator: validateMoney,labelname:'毛利率', trigger: 'blur' }],
 					product_return_discount:[{ validator: validatePercent,labelname:'返费率', trigger: 'blur' }],
 					product_high_discount:[{ validator: validatePercent,labelname:'底价', trigger: 'blur' }],
-					product_tax_rate:[{ validator: validateDecimal,trigger: 'blur' }]
+					product_tax_rate:[{ validator: validateDecimal,trigger: 'blur' }],
+					product_return_time_day:[{ validator: validateDay,trigger: 'blur' }],
+					product_return_time_day_num:[{ validator: validateDayNumber,trigger: 'blur' }]
 				},
 				editmessage:"",
 				contacts:[],

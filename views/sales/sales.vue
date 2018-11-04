@@ -1,5 +1,5 @@
 <template>
-	<div style="box-sizing: border-box;padding: 0px 10px;">
+	<div style="box-sizing: border-box;padding: 0px 10px;" class="sale_list">
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 			<el-form-item label="销售日期" prop="salesTime">
  			 <el-date-picker v-model="params.salesTime" type="daterange" size="mini" align="right" unlink-panels
@@ -14,6 +14,9 @@
 		  </el-form-item>
 			<el-form-item label="产品编号" prop="product_code">
 		    <el-input v-model="params.product_code" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品编号"></el-input>
+		  </el-form-item>
+			<el-form-item label="生产企业" prop="product_makesmakers">
+		    <el-input v-model="params.product_makesmakers" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="生产企业"></el-input>
 		  </el-form-item>
 			<el-form-item label="　联系人" prop="contactId">
         <el-select v-model="params.contactId" style="width:210px;" filterable size="mini" placeholder="请选择">
@@ -79,6 +82,8 @@
 			 <el-button type="primary" v-dbClick v-show="authCode.indexOf('51') > -1" @click="reSearch(true)" size="mini">重置</el-button>
 	     <el-button type="primary" v-dbClick v-show="authCode.indexOf('48') > -1" @click="add" size="mini">新增</el-button>
 			 <el-button type="primary" v-dbClick v-show="authCode.indexOf('52') > -1" @click="exportExcel" size="mini">导出</el-button>
+			 <el-button type="primary" v-dbClick v-show="authCode.indexOf('102') > -1" @click="importShow" size="mini">导入</el-button>
+			 <el-button type="primary" v-dbClick v-show="authCode.indexOf('102') > -1" @click="downloadTemplate" size="mini">导入模板下载</el-button>
 	   </el-form-item>
 		</el-form>
 		<div class="sum_money">销售总额：<a>{{money}}</a> 元；真实毛利：<a>{{realGrossProfit}}</a> 元；毛利：<a>{{grossProfit}}</a> 元</div>
@@ -176,6 +181,19 @@
         <el-button type="primary" size="small" v-dbClick :loading="loading" @click="editSales('sale')">确 定</el-button>
       </div>
     </el-dialog>
+		<el-dialog title="导入销售记录" width="600px" :visible.sync="dialogFormVisibleImport">
+			<el-upload
+			  class="upload-demo"
+				ref="upload"
+			  :action="importDrugsUrl"
+			  :before-upload="beforeUpload"
+				:on-success="importDrugsSuccess"
+			  :file-list="fileList">
+			  <el-button size="small" type="primary" v-dbClick :loading="loadingImport">{{uploadButtom}}</el-button>
+			  <div slot="tip" class="el-upload__tip" style="display:inline-block">　只能上传xls/xlsx文件</div>
+			</el-upload>
+			<div v-show="errorMessage" style="margin-top: 15px;" v-html="errorMessage"></div>
+		</el-dialog>
 	</div>
 </template>
 <script>
@@ -245,6 +263,7 @@
 				realGrossProfit:0,
 				grossProfit:0,
 				params:{//查询参数
+					product_makesmakers:"",
 					productCommonName:"",
 					salesTime:[],
 					hospitalsId:"",
@@ -266,8 +285,13 @@
 					hospital_id:[{ required: true, message: '请选择销售机构', trigger: 'blur,change' }],
 				},
 				dialogFormVisible:false,
+				dialogFormVisibleImport:false,
 				loading:false,
 				authCode:"",
+				importSalesUrl:"",
+				loadingImport:false,
+				uploadButtom:"导入销售记录",
+				errorMessage:"",
 			}
 		},
 		activated(){
@@ -279,9 +303,30 @@
 			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		mounted(){
-
+			this.importDrugsUrl = this.$bus.data.host + "/iae/sales/importSales";
 		},
 		methods:{
+			downloadTemplate(){
+				window.location.href=this.$bus.data.host+"/download/template_sales.xlsx";
+			},
+			importShow(){
+				this.dialogFormVisibleImport = true;
+				this.errorMessage="";
+				if(this.$refs.upload){
+					this.$refs.upload.clearFiles();
+				}
+			},
+			beforeUpload(file){
+				this.errorMessage="";
+				this.uploadButtom="上传成功，正在导入...";
+				this.loadingImport = true;
+			},
+			importDrugsSuccess(response, file, fileList){
+				this.uploadButtom="导入销售记录";
+				this.loadingImport = false;
+				var downloadErrorMessage = "<a style='color:red;' href='"+this.$bus.data.host+"/iae/sales/downloadErrorSales'>下载错误数据</a>";
+				this.errorMessage = response.message+downloadErrorMessage;
+			},
 			getTags(){
 				var _self = this;
 				this.jquery("/iae/tag/getAllTags",null,function(res){//查询商业
@@ -327,7 +372,7 @@
 				this.sale = scope.row;
 				this.sale.sale_return_price=this.sale.sale_return_price?this.sale.sale_return_price:this.sale.sale_policy_money;
 			  this.sale.sale_contact_id=this.sale.sale_contact_id?this.sale.sale_contact_id:this.sale.sale_policy_contact_id;
-				this.sale.sale_return_money = this.mul(this.sale.sale_return_price,scope.row.sale_num,2);
+				// this.sale.sale_return_money = this.mul(this.sale.sale_return_price,scope.row.sale_num,2);
 				this.sale.sale_num_temp = scope.row.sale_num;
 			},
 			deleteRow(scope){//删除
@@ -435,6 +480,9 @@
 	});
 </script>
 <style>
+	.main_content .sale_list .el-dialog__wrapper .el-dialog .el-dialog__body{
+		padding-bottom:30px !important;
+	}
 	.sum_money{
 		background-color: #fff;
 		border-bottom: 1px solid #ebeef5;

@@ -64,6 +64,12 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="是否超期" prop="overdue">
+          <el-select v-model="params.overdue" filterable size="mini" style="width:210px;" placeholder="请选择">
+            <el-option key="是" label="是" value="是"></el-option>
+            <el-option key="" label="否" value=""></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item>
          <el-button type="primary" v-dbClick v-show="authCode.indexOf('44') > -1"  style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
          <el-button type="primary" v-dbClick v-show="authCode.indexOf('44') > -1"  @click="reSearch(true)" size="mini">重置</el-button>
@@ -247,6 +253,7 @@ export default({
       currentPage:1,
       count:0,
       params:{//查询参数
+        overdue:"",
         productCommonName:"",
         time:[],
         returnTime:null,
@@ -321,7 +328,6 @@ export default({
         this.$refs["refund"].resetFields();
       }
       this.refund = scope.row;
-      this.refund.receiver = this.refund.receiver?parseInt(this.refund.receiver):this.refund.receiver;
       if(this.refund.product_return_money && !this.refund.refunds_should_money){
         var num = this.refund.sale_num?this.refund.sale_num:this.refund.purchase_number;
         if(this.refund.product_floor_price && this.refund.product_high_discount){

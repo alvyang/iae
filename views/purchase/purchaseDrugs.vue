@@ -242,6 +242,9 @@
 				this.purchase.puchase_gross_rate = (100 - this.drug.product_discount).toFixed(0);
 				this.purchase.purchase_return_flag = this.drug.product_return_statistics;
 				this.purchase.product_return_money = this.drug.product_return_money;
+				this.purchase.product_return_time_type = this.drug.product_return_time_type;
+				this.purchase.product_return_time_day = this.drug.product_return_time_day;
+			  this.purchase.product_return_time_day_num = 	this.drug.product_return_time_day_num;
 				this.$refs[formName].validate((valid) => {
 						if (valid) {
 							this.loading = true;

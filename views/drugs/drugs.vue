@@ -1,5 +1,5 @@
 <template>
-	<div style="box-sizing: border-box;padding: 0px 10px;">
+	<div class="drug_list">
 		<el-breadcrumb separator-class="el-icon-arrow-right">
 		  <el-breadcrumb-item>药品管理</el-breadcrumb-item>
 			<el-breadcrumb-item>药品管理</el-breadcrumb-item>
@@ -61,6 +61,8 @@
 			  <el-button type="primary" v-dbClick v-show="authCode.indexOf('65') > -1" @click="reSearch(true)" size="mini">重置</el-button>
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('62') > -1" @click="add" size="mini">新增</el-button>
 				<el-button type="primary" v-dbClick v-show="authCode.indexOf('0f32a940-d803-11e8-a19c-cf0f6be47d2e') > -1" @click="exportDrugs" size="mini">导出</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('100') > -1" @click="importShow" size="mini">导入</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('100') > -1" @click="downloadTemplate" size="mini">导入模板下载</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="drugs" style="width: 100%" size="mini" :stripe="true" :border="true">
@@ -106,6 +108,19 @@
 	      :total="count">
 	    </el-pagination>
 		</div>
+		<el-dialog title="导入药品" width="600px" :visible.sync="dialogFormVisible">
+			<el-upload
+			  class="upload-demo"
+				ref="upload"
+			  :action="importDrugsUrl"
+			  :before-upload="beforeUpload"
+				:on-success="importDrugsSuccess"
+			  :file-list="fileList">
+			  <el-button size="small" type="primary" v-dbClick :loading="loading">{{uploadButtom}}</el-button>
+			  <div slot="tip" class="el-upload__tip" style="display:inline-block">　只能上传xls/xlsx文件</div>
+			</el-upload>
+			<div v-show="errorMessage" style="margin-top: 15px;" v-html="errorMessage"></div>
+		</el-dialog>
 	</div>
 </template>
 <script>
@@ -120,6 +135,7 @@
 				currentPage:1,
 				count:0,
 				authCode:"",
+				dialogFormVisible:false,
 				params:{
 					productCommonName:"",
 					contactId:"",
@@ -130,7 +146,12 @@
 					tag:"",
 					rate_gap:0,
 					rate_formula:"<="
-				}
+				},
+				fileList:[],//上传文件列表
+				importDrugsUrl:"",
+				loading:false,
+				uploadButtom:"导入药品",
+				errorMessage:"",
 			}
 		},
 		activated(){
@@ -141,10 +162,28 @@
 			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		mounted(){
-
+			this.importDrugsUrl = this.$bus.data.host + "/iae/drugs/importDrugs";
 		},
 		methods:{
-
+			downloadTemplate(){
+				window.location.href=this.$bus.data.host+"/download/template_drugs.xlsx";
+			},
+			importShow(){
+				this.dialogFormVisible = true;
+				this.errorMessage="";
+				this.$refs.upload.clearFiles();
+			},
+			beforeUpload(file){
+				this.errorMessage="";
+				this.uploadButtom="上传成功，正在导入...";
+				this.loading = true;
+			},
+			importDrugsSuccess(response, file, fileList){
+				this.uploadButtom="导入药品";
+				this.loading = false;
+				var downloadErrorMessage = "<a style='color:red;' href='"+this.$bus.data.host+"/iae/drugs/downloadErrorData'>下载错误数据</a>";
+				this.errorMessage = response.message+downloadErrorMessage;
+			},
 			getTags(){
 				var _self = this;
 				this.jquery("/iae/tag/getAllTags",null,function(res){//查询商业
@@ -264,7 +303,10 @@
 		}
 	});
 </script>
-<style>
+<style >
+	.main_content .drug_list .el-dialog__wrapper .el-dialog .el-dialog__body{
+		padding-bottom:30px !important;
+	}
 	.el-table .cell{
 		white-space: nowrap;
 	}

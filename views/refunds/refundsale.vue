@@ -65,6 +65,12 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="是否超期" prop="overdue">
+          <el-select v-model="params.overdue" filterable size="mini" style="width:210px;" placeholder="请选择">
+            <el-option key="是" label="是" value="是"></el-option>
+            <el-option key="" label="否" value=""></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item>
          <el-button type="primary" v-dbClick v-show="authCode.indexOf('46') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
          <el-button type="primary" v-dbClick v-show="authCode.indexOf('46') > -1" @click="reSearch(true)" size="mini">重置</el-button>
@@ -97,7 +103,7 @@
         <el-table-column prop="refunds_real_money" label="实返金额" width="80"></el-table-column>
         <el-table-column prop="service_charge" label="手续费" width="60"></el-table-column>
         <el-table-column prop="refundser" label="返款人" width="60"></el-table-column>
-        <el-table-column prop="account_number" label="收款人" width="80"></el-table-column>
+        <el-table-column prop="account_number" label="收款信息" width="80"></el-table-column>
         <el-table-column prop="refunds_remark" label="备注" width="150"></el-table-column>
         <el-table-column fixed="right" label="操作" width="55">
         <template slot-scope="scope">
@@ -250,6 +256,7 @@ export default({
       currentPage:1,
       count:0,
       params:{//查询参数
+        overdue:"",
         productCommonName:"",
         salesTime:[],
         returnTime:null,
@@ -326,7 +333,6 @@ export default({
         this.$refs["refund"].resetFields();
       }
       this.refund = scope.row;
-      this.refund.receiver = this.refund.receiver?parseInt(this.refund.receiver):this.refund.receiver;
       if(this.refund.product_return_money && !this.refund.refunds_should_money){
         if(this.refund.product_floor_price && this.refund.product_high_discount){
           var rMoney = (this.refund.product_mack_price - this.refund.product_floor_price) * (1-this.refund.product_high_discount/100);

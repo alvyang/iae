@@ -220,10 +220,10 @@ export default({
 			this.sale.gross_profit = 0;
 			this.sale.real_gross_profit= 0;
 			if(this.drug.product_mack_price){
-				this.sale.gross_profit = this.mul(this.sale.sale_num,this.sub(this.drug.product_price,this.drug.product_mack_price),2);
+				this.sale.gross_profit = this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.drug.product_mack_price),2);
 			}
 			if(this.drug.accounting_cost){
-				this.sale.real_gross_profit = this.mul(this.sale.sale_num,this.sub(this.drug.product_price,this.drug.accounting_cost),2);
+				this.sale.real_gross_profit = this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.drug.accounting_cost),2);
 			}
 			this.sale.accounting_cost = this.drug.accounting_cost;
 			this.sale.cost_univalent = this.drug.product_mack_price;
@@ -234,6 +234,9 @@ export default({
 			this.sale.stock = this.drug.stock;
 			this.sale.sale_tax_rate = this.drug.product_tax_rate;
 			this.sale.product_return_money = this.drug.product_return_money;
+			this.sale.product_return_time_type = this.drug.product_return_time_type;
+			this.sale.product_return_time_day = this.drug.product_return_time_day;
+		  this.sale.product_return_time_day_num = 	this.drug.product_return_time_day_num;
 			var _self = this;
 			this.$refs[formName].validate((valid) => {
 					if(_self.sale.sale_return_price){//销售回款金额

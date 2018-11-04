@@ -15,6 +15,9 @@
 			<el-form-item label="产品编号" prop="product_code">
 		    <el-input v-model="params.product_code" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品通用名"></el-input>
 		  </el-form-item>
+			<el-form-item label="生产企业" prop="product_makesmakers">
+		    <el-input v-model="params.product_makesmakers" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="生产企业"></el-input>
+		  </el-form-item>
 		  <el-form-item label="　联系人" prop="contactId">
 		    <el-select v-model="params.contactId" style="width:210px;" filterable size="mini" placeholder="请选择">
 					<el-option key="" label="全部" value=""></el-option>
@@ -201,6 +204,7 @@
 				dialogFormVisible:false,
 				loading:false,
 				params:{
+					product_makesmakers:"",
 					productCommonName:"",
 					contactId:"",
 					time:[],

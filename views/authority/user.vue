@@ -118,8 +118,7 @@
 					data_authority:"1",
         },
         rules: {
-          username: [{validator: validateUsername, trigger: 'blur' }],
-					password: [{required: true, message: '请输入密码', trigger: 'blur' }]
+          username: [{validator: validateUsername, trigger: 'blur' }]
         },
         users:[],
 				roles:[],
@@ -194,6 +193,7 @@
         this.dialogFormVisible = true;
         this.title=2;
         this.user = scope.row;
+				this.user.password = "";//密码不显示
 				var _self = this;
 				setTimeout(function(){
 					_self.$refs["user"].clearValidate();

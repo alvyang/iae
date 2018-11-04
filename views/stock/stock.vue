@@ -35,6 +35,7 @@
   			<el-table-column prop="product_unit" label="单位" width="60"></el-table-column>
 				<el-table-column prop="business_name" label="商业" width="60"></el-table-column>
         <el-table-column prop="stock" label="库存" width="60"></el-table-column>
+				<el-table-column prop="pnum" label="当前备货量" width="80"></el-table-column>
 				<el-table-column prop="contacts_name" label="联系人" ></el-table-column>
   			<el-table-column fixed="right" label="操作" width="180">
 			    <template slot-scope="scope">
@@ -230,7 +231,7 @@
 					start:(_self.currentPage-1)*_self.pageNum,
 					limit:_self.pageNum
 				}
-				this.jquery('/iae/drugs/getDrugs',{
+				this.jquery('/iae/drugs/getDrugsStock',{
 					data:_self.params,
 					page:page
 				},function(res){

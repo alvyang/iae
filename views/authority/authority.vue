@@ -35,6 +35,7 @@
             <el-radio v-model="authorityData.button_type" label="3">修改</el-radio>
             <el-radio v-model="authorityData.button_type" label="4">权限控制</el-radio>
             <el-radio v-model="authorityData.button_type" label="5">导出</el-radio>
+            <el-radio v-model="authorityData.button_type" label="7">导入</el-radio>
           </el-form-item>
           <el-form-item label="菜单路径" prop="authority_path" v-show="authorityData.authority_type == 2">
             <el-input v-model="authorityData.authority_path" maxlength='50'></el-input>
@@ -170,9 +171,9 @@
     box-sizing: border-box;
     overflow-y: auto;
   }
-  .authority_form > form{
+  /* .authority_form > form{
     width: 650px;
-  }
+  } */
   .custom-tree-container{
     background: #fff;
     border-right: 1px solid #eff2f6;
