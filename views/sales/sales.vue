@@ -15,7 +15,7 @@
 			<el-form-item label="产品编号" prop="product_code">
 		    <el-input v-model="params.product_code" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品编号"></el-input>
 		  </el-form-item>
-			<el-form-item label="生产企业" prop="product_makesmakers">
+			<el-form-item label="生产产家" prop="product_makesmakers">
 		    <el-input v-model="params.product_makesmakers" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="生产企业"></el-input>
 		  </el-form-item>
 			<el-form-item label="　联系人" prop="contactId">
@@ -99,6 +99,7 @@
 				<el-table-column prop="business_name" label="商业" width="60"></el-table-column>
 				<el-table-column prop="buyer" label="采购" width="60"></el-table-column>
 				<el-table-column prop="sale_type" label="销售类型" width="60" :formatter="formatterType"></el-table-column>
+				<el-table-column prop="product_type" label="品种类型" width="60"></el-table-column>
 				<el-table-column prop="sale_price" label="中标价" width="60"></el-table-column>
 				<el-table-column prop="sale_num" label="计划数量" width="70"></el-table-column>
 				<el-table-column prop="sale_money" label="购入金额" width="70"></el-table-column>

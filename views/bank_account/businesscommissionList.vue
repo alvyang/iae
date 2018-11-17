@@ -31,7 +31,7 @@
         <el-button type="primary" v-dbClick v-show="authCode.indexOf('79') > -1" @click="reSearch(true)" size="mini">重置</el-button>
       </el-form-item>
     </el-form>
-    <div class="sum_money">销售总额：<a>{{account.smAccount}}</a> 元；真实毛利：<a>{{account.rgpAccount}}</a> 元；真实毛利(不含税)：<a>{{account.rgptAccount}}</a> 元；商业提成：<a>{{account.profitAccount}}</a> 元</div>
+    <div class="sum_money">销售总额：<a>{{account.smAccount}}</a> 元；真实毛利：<a>{{account.rgpAccount}}</a> 元；真实毛利(不含税)：<a>{{account.rgptAccount}}</a> 元；商业提成：<a>{{account.profitAccount}}</a> 元；商业提成（按日均算）：<a>{{account.dayAvgprofitAccount}}</a> 元</div>
     <el-table :data="commission" style="width: 100%" size="mini" :stripe="true" :border="true">
       <el-table-column prop="bd" label="日期" width="70" fixed></el-table-column>
       <el-table-column prop="hospital_name" label="医院名称" width="150"></el-table-column>
@@ -53,8 +53,12 @@
       </el-table-column>
       <el-table-column prop="ownMoney" label="月末应收金额" width="100" :formatter="formatMoney"></el-table-column>
       <el-table-column prop="mouthCoefficient" label="月末应收系数" width="100"></el-table-column>
+      <el-table-column prop="day_avg" label="日均应收金额" width="100" :formatter="formatMoney"></el-table-column>
+      <el-table-column prop="dayAvgCoefficient" label="日均应收系数" width="100"></el-table-column>
       <el-table-column prop="profit" label="商务提成" width="100" :formatter="formatMoney" fixed="right"></el-table-column>
       <el-table-column prop="profitCoefficient" label="商务提成系数" width="100" fixed="right"></el-table-column>
+      <el-table-column prop="dayAvgprofit" label="商务提成（按日均算）" width="100" :formatter="formatMoney" fixed="right"></el-table-column>
+      <el-table-column prop="dayAvgprofitCoefficient" label="商务提成系数（按日均算）" width="100" fixed="right"></el-table-column>
 		</el-table>
     </el-table>
     <div class="page_div">
@@ -122,6 +126,7 @@
           rgpAccount:0,
           rgptAccount:0,
           profitAccount:0,
+          dayAvgprofitAccount:0,
         },//统计数据
       }
     },

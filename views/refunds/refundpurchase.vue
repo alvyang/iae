@@ -100,8 +100,9 @@
       <el-table-column  prop="refundser" label="返款人" width="60"></el-table-column>
       <el-table-column  prop="account_number" label="收款人" width="80"></el-table-column>
       <el-table-column prop="refunds_remark" label="备注" width="150"></el-table-column>
-      <el-table-column fixed="right" label="操作" width="55">
+      <el-table-column fixed="right" label="操作" width="100">
       <template slot-scope="scope">
+        <el-button v-show="authCode.indexOf('104') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
         <el-button v-show="authCode.indexOf('45') > -1" size="mini" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary"></el-button>
       </template>
     </el-table-column>
@@ -160,6 +161,7 @@
 				</el-form-item>
         <el-form-item label="收款信息" prop="receiver">
           <el-select v-model="refund.receiver" style="width:194px;" filterable placeholder="请选择">
+            <el-option key="" label="请选择" value=""></el-option>
             <el-option v-for="item in accounts"
               :key="item.account_id"
               :label="item.account_number"
@@ -280,6 +282,28 @@ export default({
 
   },
   methods:{
+    deleteRow(scope){//删除
+      this.$confirm('是否删除?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+      }).then(() => {
+          this.deleteItem(scope);
+      }).catch(() => {
+      });
+    },
+    deleteItem(scope){
+      var _self = this;
+      this.jquery('/iae/refunds/deleteRefunds',{
+        refunds_id:scope.row.refunds_id,
+        refund_delete_flag:'1',
+        purchases_id :scope.row.purchases_id
+      },function(res){
+        _self.$message({showClose: true,message: '删除成功',type: 'success'});
+        _self.getPurchasesList();
+        _self.dialogFormVisible = false;
+      });
+    },
     getProductBusiness(){
       var _self = this;
       this.jquery("/iae/business/getAllBusiness",null,function(res){//查询商业

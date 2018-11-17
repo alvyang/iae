@@ -11,6 +11,9 @@
 			<el-form-item label="产品编号" prop="product_code">
 		    <el-input v-model="params.product_code" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品编号"></el-input>
 		  </el-form-item>
+			<el-form-item label="生产产家" prop="product_makesmakers">
+		    <el-input v-model="params.product_makesmakers" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="生产企业"></el-input>
+		  </el-form-item>
 			<el-form-item label="　联系人" prop="contactId">
 				<el-select v-model="params.contactId" style="width:210px;" size="mini" filterable placeholder="请选择联系人">
 					<el-option key="" label="全部" value=""></el-option>
@@ -82,7 +85,7 @@
 				<el-table-column prop="product_type" label="品种类型" width="70"></el-table-column>
 				<el-table-column prop="product_return_money" label="返费金额" width="70" :formatter="formatNull"></el-table-column>
 				<el-table-column prop="product_return_discount" label="返费率" width="70" :formatter="formatPercent"></el-table-column>
-				<el-table-column prop="product_return_explain" label="返费说明" width="200" :formatter="formatNull"></el-table-column>
+				<el-table-column prop="product_return_explain" label="返费说明" width="200" :formatter="formatReturnExplain"></el-table-column>
 				<el-table-column prop="contacts_name" label="联系人" width="60"></el-table-column>
 				<el-table-column prop="product_medical_type" label="医保类型" width="70"></el-table-column>
 				<el-table-column prop="product_purchase_mode" label="采购方式" width="70"></el-table-column>
@@ -138,6 +141,7 @@
 				dialogFormVisible:false,
 				params:{
 					productCommonName:"",
+					product_makesmakers:"",
 					contactId:"",
 					product_type:"",
 					product_medical_type:"",
@@ -190,6 +194,19 @@
 					_self.tags=res.message.tagAll;
 				});
 			},
+			formatReturnExplain(row, column, cellValue, index){
+				if(row.product_type == "其它"){
+					return "-";
+				}else{
+					var t = {
+						1:"当月",
+						2:"次月",
+						3:"隔月"
+					}
+					var temp = row.product_return_time_type == '4'?row.product_return_time_day_num+"天返款":t[row.product_return_time_type]+row.product_return_time_day+"日返款"
+					return cellValue+temp ;
+				}
+			},
 			formatPercent(row, column, cellValue, index){
 				if(cellValue){
 					return cellValue+" %";
@@ -198,7 +215,7 @@
 				}
 			},
 			formatNull(row, column, cellValue, index){
-				if(row.product_type == "基药" || row.product_type == "其它"){
+				if(row.product_type == "其它"){
 					return "-";
 				}else{
 					return cellValue;

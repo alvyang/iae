@@ -1,5 +1,14 @@
 //未发版sql
 
+
+//2018年11月15日发版sql
+alter table refunds add refund_delete_flag varchar(10) DEFAULT '0' COMMENT '返款删除';
+update refunds set refund_delete_flag = '0';
+
+INSERT INTO `authority` VALUES
+('104', '删除', '', '800110', '/', '42', '0', '1', '3', '2'),
+('103', '删除', '', '800120', '/', '43', '0', '1', '3', '3');
+
 //2018年11月4日发版sql
 INSERT INTO `authority` VALUES
 ('100', '导入', '导入', '40010', '/', '41', '0', '1', '3', '7'),

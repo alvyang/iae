@@ -45,7 +45,7 @@
         <el-table-column prop="allot_policy_money" label="调货政策" width="80"></el-table-column>
         <el-table-column prop="business_name" label="政策比例" :formatter="formatterPercent"></el-table-column>
         <el-table-column prop="allot_policy_remark" label="政策备注" width="80"></el-table-column>
-        <el-table-column prop="contacts_name" label="业务员" ></el-table-column>
+        <el-table-column prop="contacts_name" label="调货联系人" ></el-table-column>
   			<el-table-column fixed="right" label="操作" width="100">
 		    <template slot-scope="scope">
 	        <el-button @click.native.prevent="editRow(scope)" v-dbClick v-show="authCode.indexOf('860afa00-d43d-11e8-984b-5b9b376cac6a') > -1"  icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
