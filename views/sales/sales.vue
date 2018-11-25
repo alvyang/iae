@@ -366,7 +366,7 @@
 	      }
 			},
 			formatterRealProfitRate(row, column, cellValue){
-				return this.mul(this.div(row.real_gross_profit,row.sale_money,2),100)+"%";
+				return this.mul(this.div(row.real_gross_profit,row.sale_money,4),100)+"%";
 			},
 			editRow(scope){//编辑药品信息
 				this.dialogFormVisible = true;

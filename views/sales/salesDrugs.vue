@@ -11,7 +11,7 @@
 			<el-form-item label="产品编号" prop="product_code">
 		    <el-input v-model="params.product_code" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品编号"></el-input>
 		  </el-form-item>
-			<el-form-item label="联系人" prop="contactId">
+			<el-form-item label="　联系人" prop="contactId">
 				<el-select v-model="params.contactId" style="width:210px;" size="mini" filterable placeholder="请选择联系人">
 					<el-option key="" label="全部" value=""></el-option>
 					<el-option v-for="item in contacts" :key="item.contacts_id" :label="item.contacts_name" :value="item.contacts_id"></el-option>
@@ -40,6 +40,13 @@
 					<el-option key="乙类" label="乙类" value="乙类"></el-option>
 					<el-option key="丙类" label="丙类" value="丙类"></el-option>
 					<el-option key="省医保" label="省医保" value="省医保"></el-option>
+				</el-select>
+			</el-form-item>
+			<el-form-item label="是否配送" prop="product_distribution_flag">
+				<el-select v-model="params.product_distribution_flag" style="width:210px;" size="mini" placeholder="请选择">
+					<el-option key="" label="全部" value=""></el-option>
+					<el-option key="0" label="配送" value="0"></el-option>
+					<el-option key="1" label="不配送" value="1"></el-option>
 				</el-select>
 			</el-form-item>
 		  <el-form-item>
@@ -163,7 +170,8 @@ export default({
 				product_type:"",
 				product_medical_type:"",
 				product_code:"",
-				business:""
+				business:"",
+				product_distribution_flag:"0",
 			},
 			sale:{
 				product_code:"",

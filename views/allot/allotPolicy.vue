@@ -249,11 +249,13 @@
 				});
       },
       reSearch(arg){
-				if(arg){
+				if(arg || !this.params.hospitalId){
 					this.$refs["params"].resetFields();
-				}
-				this.currentPage = 1;
-				this.getAllotPolicy();
+          this.drugPolicy = [];
+				}else{
+          this.currentPage = 1;
+  				this.getAllotPolicy();
+        }
 			},
       handleSizeChange(val) {
         this.pageNum = val;

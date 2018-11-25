@@ -111,13 +111,13 @@
 			  </el-collapse-item>
 			</el-collapse>
 			<el-form :model="sale" status-icon :rules="saleRule" style="margin-top:20px;" :inline="true" ref="sale" label-width="100px" class="demo-ruleForm">
-				<el-form-item label="回款单价" prop="allot_return_price">
-					<el-input v-model="sale.sale_return_price" style="width:179px;" ></el-input>
+				<el-form-item label="回款单价" prop="sale_return_price">
+					<el-input v-model="sale.sale_return_price" style="width:179px;" @blur='saleReturnPrice'></el-input>
 				</el-form-item>
-				<el-form-item label="回款金额" prop="allot_return_money">
+				<el-form-item label="回款金额" prop="sale_return_money">
 					<el-input v-model="sale.sale_return_money" style="width:179px;"></el-input>
 				</el-form-item>
-				<el-form-item label="回款账号" prop="allot_account_id">
+				<el-form-item label="回款账号" prop="sale_account_id">
 					<el-select v-model="sale.sale_account_id" style="width:179px;" filterable placeholder="请选择">
 						<el-option v-for="item in accounts"
 							:key="item.account_id"
@@ -126,10 +126,10 @@
 						</el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="回款时间" prop="allot_return_time">
+				<el-form-item label="回款时间" prop="sale_return_time">
 					<el-date-picker v-model="sale.sale_return_time" style="width:179px;" type="date" placeholder="请选择打款时间"></el-date-picker>
 				</el-form-item>
-				<el-form-item label="业务员" prop="allot_policy_contact_id">
+				<el-form-item label="业务员" prop="sale_contact_id">
 				 <el-select v-model="sale.sale_contact_id" style="width:179px;" filterable placeholder="请选择">
 					 <el-option key="" label="" value=""></el-option>
 					 <el-option v-for="item in contacts"
@@ -139,7 +139,7 @@
 					 </el-option>
 				 </el-select>
 			 </el-form-item>
-				<el-form-item label="回款备注" prop="allot_policy_remark">
+				<el-form-item label="回款备注" prop="sale_policy_remark">
 					<el-input v-model="sale.sale_policy_remark" style="width:179px;"></el-input>
 				</el-form-item>
 			</el-form>
@@ -212,7 +212,9 @@
 
 		},
 		methods:{
-
+			saleReturnPrice(){
+				this.sale.sale_return_money = this.mul(this.sale.sale_return_price,this.sale.sale_num,2);
+			},
 			getBankAccount(){
 				var _self = this;
 				this.jquery("/iae/bankaccount/getAllAccounts",null,function(res){//查询账号

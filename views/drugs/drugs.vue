@@ -59,6 +59,13 @@
 				</el-select>
 			 	<el-input-number v-model="params.rate_gap" style="width:106px;" :precision="0" :step="1" :max="100"></el-input-number>
 		 	</el-form-item>
+			<el-form-item label="是否配送" prop="product_distribution_flag">
+				<el-select v-model="params.product_distribution_flag" style="width:210px;" size="mini" placeholder="请选择">
+					<el-option key="" label="全部" value=""></el-option>
+					<el-option key="0" label="配送" value="0"></el-option>
+					<el-option key="1" label="不配送" value="1"></el-option>
+				</el-select>
+			</el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('65') > -1" @click="reSearch(false)" size="mini">查询</el-button>
 			  <el-button type="primary" v-dbClick v-show="authCode.indexOf('65') > -1" @click="reSearch(true)" size="mini">重置</el-button>
@@ -92,10 +99,12 @@
 				<el-table-column prop="product_basic_medicine" label="是否基药" width="70"></el-table-column>
 				<el-table-column prop="tag_names" label="标签" width="100"></el-table-column>
 				<el-table-column prop="remark" label="备注" width="200"></el-table-column>
-  			<el-table-column fixed="right" label="操作" width="100">
+  			<el-table-column fixed="right" label="操作" width="160">
 			    <template slot-scope="scope">
 				    <el-button v-dbClick v-show="authCode.indexOf('64') > -1" @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
 		        <el-button v-dbClick v-show="authCode.indexOf('63') > -1" @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
+						<el-button v-dbClick v-show="authCode.indexOf('63') > -1 && scope.row.product_distribution_flag == '1'" @click.native.prevent="distributionFlagShow(scope,'0')" type="primary" size="mini">配送</el-button>
+						<el-button v-dbClick v-show="authCode.indexOf('63') > -1 && scope.row.product_distribution_flag == '0'" @click.native.prevent="distributionFlagShow(scope,'1')" type="primary" size="mini">不配</el-button>
 			    </template>
   			</el-table-column>
 		</el-table>
@@ -149,7 +158,8 @@
 					business:"",
 					tag:"",
 					rate_gap:0,
-					rate_formula:"<="
+					rate_formula:"<=",
+					product_distribution_flag:"0"
 				},
 				fileList:[],//上传文件列表
 				importDrugsUrl:"",
@@ -243,6 +253,27 @@
 				sessionStorage["business"] = JSON.stringify(this.business);
 				this.$router.push({path:`/main/drugsedit`});
 			},
+			distributionFlagShow(scope,flag){
+				var message = flag == "0"?"是否将该品种，标记为配送":"是否将该品种，标记为不配送";
+				this.$confirm(message, '提示', {
+						confirmButtonText: '确定',
+						cancelButtonText: '取消',
+						type: 'warning'
+				}).then(() => {
+						this.distributionFlag(scope,flag);
+				});
+			},
+			distributionFlag(scope,flag){
+				var _self = this;
+				this.jquery('/iae/drugs/distributionFlag',{
+					product_id:scope.row.product_id,
+					product_distribution_flag:flag
+				},function(res){
+					_self.$message({showClose: true,message: '删除成功',type: 'success'});
+					_self.getDrugsList();
+					_self.dialogFormVisible = false;
+				});
+			},
 			deleteRow(scope){//删除
 				this.$confirm('是否删除?', '提示', {
           	confirmButtonText: '确定',
@@ -250,7 +281,6 @@
           	type: 'warning'
         }).then(() => {
 						this.deleteItem(scope);
-        }).catch(() => {
         });
 			},
 			deleteItem(scope){

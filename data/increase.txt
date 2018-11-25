@@ -1,5 +1,26 @@
 //未发版sql
 
+//2018年11月25日发版sql
+alter table drugs add product_distribution_flag varchar(10) DEFAULT '0' COMMENT '是否配送标识';
+update drugs set product_distribution_flag = '0';
+
+alter table tag add tag_type varchar(10) COMMENT '标签分类';
+update tag set tag_type = '0';
+
+CREATE TABLE `tag_type` (
+	`tag_type_id` varchar(50) NOT NULL COMMENT '标签类型id',
+	`tag_type_name` varchar(20) NOT NULL COMMENT '标签名称',
+  `tag_type_delete_flag` varchar(10) DEFAULT NULL COMMENT '删除标识',
+  `tag_type_group_id` varchar(50) DEFAULT NULL COMMENT '组id',
+  PRIMARY KEY (`tag_type_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET FOREIGN_KEY_CHECKS = 1;
+
+
+insert into refunds(refunds_id,sales_id) SELECT UUID(),s.sale_id from sales s left join refunds r on s.sale_id = r.sales_id where r.refunds_id is null
+and s.group_id = '1' and s.delete_flag = '0' and s.sale_return_flag='1'
+
+alter table allot modify column allot_account_id varchar(50);
 
 //2018年11月15日发版sql
 alter table refunds add refund_delete_flag varchar(10) DEFAULT '0' COMMENT '返款删除';

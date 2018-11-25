@@ -30,6 +30,13 @@
  					 :value="item.business_id"></el-option>
  			 </el-select>
  		 </el-form-item>
+		 <el-form-item label="是否配送" prop="product_distribution_flag">
+			 <el-select v-model="params.product_distribution_flag" style="width:210px;" size="mini" placeholder="请选择">
+				 <el-option key="" label="全部" value=""></el-option>
+				 <el-option key="0" label="配送" value="0"></el-option>
+				 <el-option key="1" label="不配送" value="1"></el-option>
+			 </el-select>
+		 </el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" v-dbClick @click="searchDrugsList" size="mini">查询</el-button>
 				<el-button type="primary" v-dbClick @click="reSearch" size="mini">重置</el-button>
@@ -157,7 +164,8 @@
 					productCommonName:"",
 					contactId:"",
 					product_code:"",
-					business:""
+					business:"",
+					product_distribution_flag:"0"
 				},
 				remarks:[],
 				purchase:{

@@ -8,6 +8,15 @@
 		  <el-form-item label="标签名称" prop="tag_name">
 		    <el-input v-model="params.tag_name" @keyup.13.native="reSearch(false)" style="width:210px;" size="mini" placeholder="标签名称"></el-input>
 		  </el-form-item>
+			<el-form-item label="标签类型" prop="tag_type">
+				<el-select v-model="params.tag_type" style="width:210px;" placeholder="请选择">
+					<el-option key="" label="请选择" value=""></el-option>
+					<el-option key="1" label="医院科室" value="1"></el-option>
+					<el-option key="2" label="药品分类" value="2"></el-option>
+					<el-option key="0" label="运营方式" value="0"></el-option>
+					<el-option key="3" label="其它" value="3"></el-option>
+				</el-select>
+			</el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('94') > -1" @click="reSearch(false)" size="mini">查询</el-button>
 				<el-button type="primary" v-dbClick v-show="authCode.indexOf('94') > -1" @click="reSearch(true)" size="mini">重置</el-button>
@@ -16,6 +25,7 @@
 		</el-form>
 		<el-table :data="tags" style="width: 100%" size="mini" :stripe="true">
 			<el-table-column prop="tag_name" label="标签名称"></el-table-column>
+			<el-table-column prop="tag_type" label="标签类型" :formatter="formatTagType"></el-table-column>
 			<el-table-column prop="tag_quote_num" label="引用次数"></el-table-column>
 			<el-table-column fixed="right" label="操作" width="100">
 	    <template slot-scope="scope">
@@ -38,6 +48,15 @@
 		</div>
 		<el-dialog :title="title == 1?'新增标签':'修改标签'" width="500px" :visible.sync="dialogFormVisible">
 			<el-form :model="tag" status-icon :rules="tagRule" ref="tag" label-width="90px" class="demo-ruleForm">
+				<el-form-item label="标签类型" prop="tag_type">
+					<el-select v-model="tag.tag_type" style="width:350px;" placeholder="请选择">
+				    <el-option key="" label="请选择" value=""></el-option>
+						<el-option key="1" label="医院科室" value="1"></el-option>
+						<el-option key="2" label="药品分类" value="2"></el-option>
+						<el-option key="0" label="运营方式" value="0"></el-option>
+						<el-option key="3" label="其它" value="3"></el-option>
+				  </el-select>
+				</el-form-item>
 				<el-form-item label="标签名称" prop="tag_name">
 					<el-input v-model="tag.tag_name" style="width:350px;" auto-complete="off" :maxlength="20" placeholder="请输入标签名称"></el-input>
 				</el-form-item>
@@ -72,17 +91,20 @@
 				loading:false,
 				authCode:"",
 				tag:{
-					tag_name:""
+					tag_name:"",
+					tag_type:""
 				},
 				tagRule:{
 					tag_name:[{validator: validateTag, trigger: 'blur' }],
+					tag_type:[{ required: true, message: '请选择标签类型', trigger: 'change' }],
 				},
 				tags:[],
 				pageNum:10,
 				currentPage:1,
 				count:0,
 				params:{
-					tag_name:""
+					tag_name:"",
+					tag_type:""
 				}
 			}
 		},
@@ -93,6 +115,17 @@
 			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		methods:{
+			formatTagType(row, column, cellValue, index){
+				if(cellValue == "0"){
+					return "运营方式";
+				}else if(cellValue == "1"){
+					return "医院科室";
+				}else if(cellValue == "2"){
+					return "药品分类";
+				}else if(cellValue == "3"){
+					return "其它";
+				}
+			},
 			editRow(scope){//编辑药品信息
 				this.dialogFormVisible = true;
         this.title=2;
@@ -133,10 +166,15 @@
 			},
 			addShow(){
 				this.tag={
-					tag_name:""
+					tag_name:"",
+					tag_type:""
 				};
 				this.title=1;
 				this.dialogFormVisible = true;
+				var _self = this;
+				setTimeout(function(){
+					_self.$refs["tag"].clearValidate();
+				});
 			},
 			add(formName){
 				var _self = this;
@@ -197,6 +235,7 @@
 			},
 			handleSizeChange(val) {
     		this.currentPage = 1;
+				this.pageNum = val;
         this.getTagsList();
     	},
     	handleCurrentChange(val) {
