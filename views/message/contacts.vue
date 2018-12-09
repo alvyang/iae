@@ -27,6 +27,9 @@
 			<el-table-column prop="contacts_name" label="联系人"></el-table-column>
 			<el-table-column prop="contact_type" label="联系人类型"></el-table-column>
 			<el-table-column prop="contacts_phone" label="电话"></el-table-column>
+			<el-table-column prop="account_name" label="持卡人姓名"></el-table-column>
+			<el-table-column prop="account_number" label="收款卡号"></el-table-column>
+			<el-table-column prop="account_address" label="开户行"></el-table-column>
 			<el-table-column prop="contact_remark" label="备注"></el-table-column>
 			<el-table-column fixed="right" label="操作" width="100">
 	    <template slot-scope="scope">
@@ -47,8 +50,8 @@
 	      :total="count">
 	    </el-pagination>
 		</div>
-		<el-dialog :title="title == 1?'新增联系人':'修改联系人'" width="500px" :visible.sync="dialogFormVisible">
-			<el-form :model="contact" status-icon :rules="contactsRule" ref="contact" label-width="90px" class="demo-ruleForm">
+		<el-dialog :title="title == 1?'新增联系人':'修改联系人'" width="600px" :visible.sync="dialogFormVisible">
+			<el-form :model="contact" status-icon :rules="contactsRule" ref="contact" :inline="true" label-width="90px" class="demo-ruleForm">
 				<el-form-item label="联系人类型" prop="contact_type">
 					<el-checkbox-group v-model="contact.contact_type">
 						<el-checkbox label="佣金品种"></el-checkbox>
@@ -58,13 +61,22 @@
 					</el-checkbox-group>
 				</el-form-item>
 				<el-form-item label="联系人" prop="contacts_name">
-					<el-input v-model="contact.contacts_name" style="width:350px;" auto-complete="off" :maxlength="20" placeholder="请输入联系人姓名"></el-input>
+					<el-input v-model="contact.contacts_name" style="width:175px;" auto-complete="off" :maxlength="20" placeholder="请输入联系人姓名"></el-input>
 				</el-form-item>
 				<el-form-item label="手机号码" prop="contacts_phone">
-					<el-input v-model="contact.contacts_phone" style="width:350px;" auto-complete="off" :maxlength="11" placeholder="请输入联系人手机号码"></el-input>
+					<el-input v-model="contact.contacts_phone" style="width:175px;" auto-complete="off" :maxlength="11" placeholder="请输入联系人手机号码"></el-input>
+				</el-form-item>
+				<el-form-item label="持卡人姓名" prop="account_name">
+					<el-input v-model="contact.account_name" style="width:175px;" auto-complete="off" :maxlength="20" placeholder="请输入持卡人姓名"></el-input>
+				</el-form-item>
+				<el-form-item label="收款卡号" prop="account_number">
+					<el-input v-model="contact.account_number" style="width:175px;" auto-complete="off" :maxlength="11" placeholder="请输入收款卡号"></el-input>
+				</el-form-item>
+				<el-form-item label="开户行" prop="account_address">
+					<el-input v-model="contact.account_address" style="width:453px;" auto-complete="off" :maxlength="20" placeholder="请输入开户行"></el-input>
 				</el-form-item>
 				<el-form-item label="备注" prop="contact_remark">
-					<el-input v-model="contact.contact_remark" style="width:350px;" auto-complete="off" :maxlength="500" placeholder="请输入备注"></el-input>
+					<el-input v-model="contact.contact_remark" style="width:453px;" auto-complete="off" :maxlength="500" placeholder="请输入备注"></el-input>
 				</el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">
@@ -93,6 +105,9 @@
 					contacts_name:"",
 					contacts_phone:"",
 					contact_remark:"",
+					account_name:"",
+					account_number:"",
+					account_address:"",
 					contact_type:['佣金品种'],
 				},
 				contactsRule:{
@@ -150,6 +165,9 @@
 					contacts_name:"",
 					contacts_phone:"",
 					contact_remark:"",
+					account_name:"",
+					account_number:"",
+					account_address:"",
 					contact_type:['佣金品种'],
 				};
 				this.title=1;

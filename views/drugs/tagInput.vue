@@ -8,20 +8,15 @@
       @close="handleClose(tag)">
       {{tag}}
     </el-tag>
-    <el-select v-model="inputValue" filterable placeholder="请选择"
-      class="input-new-tag"
+
+    <el-cascader
       v-if="inputVisible"
+      v-model="inputValue"
+      placeholder="搜索标签"
       size="small"
-      @keyup.enter.native="handleInputConfirm"
+      :options="tags"
       @change="handleInputConfirm"
-      >
-      <el-option v-for="t in tags"
-        :key="t.tag_id"
-        :label="t.tag_name"
-        :value="t.tag_name"
-        :disabled="t.disabled">
-      </el-option>
-    </el-select>
+      filterable></el-cascader>
     <el-button v-else class="button-new-tag" size="small" @click="showInput">选择标签</el-button>
   </div>
 </template>
@@ -33,7 +28,7 @@
         dynamicTags: [],
         dynamicTagIds:[],
         inputVisible: false,
-        inputValue: ''
+        inputValue: []
       };
     },
     props:['tag_ids'],
@@ -41,7 +36,7 @@
       this.dynamicTags=[];
       this.dynamicTagIds=this.tag_ids?this.tag_ids.split(","):[];
       this.inputVisible=false;
-      this.inputValue='';
+      this.inputValue=[];
       this.getTags();
     },
     methods: {
@@ -55,10 +50,12 @@
       handleClose(tag) {
         //下拉列表设置为不可选
         for(var i = 0 ; i < this.tags.length;i++){
-          if(this.tags[i].tag_name == tag){
-            this.tags[i].disabled = false;
-            this.dynamicTagIds.splice(this.dynamicTagIds.indexOf(this.tags[i].tag_id+""), 1);
-            break;
+          for(var j = 0 ; j < this.tags[i].children.length;j++){
+            if(this.tags[i].children[j].label == tag){
+              this.tags[i].children[j].disabled = false;
+              this.dynamicTagIds.splice(this.dynamicTagIds.indexOf(this.tags[i].children[j].value+""), 1);
+              break;
+            }
           }
         }
         this.$emit('emitTagIds',this.dynamicTagIds.join(","));
@@ -67,22 +64,25 @@
       showInput() {
         this.inputVisible = true;
       },
-      handleInputConfirm() {
+      handleInputConfirm(val) {
         let inputValue = this.inputValue;
         if (inputValue) {
           //下拉列表设置为不可选
           for(var i = 0 ; i < this.tags.length;i++){
-            if(this.tags[i].tag_name == inputValue){
-              this.tags[i].disabled = true;
-              this.dynamicTagIds.push(this.tags[i].tag_id);
-              break;
+            for(var j = 0 ; j < this.tags[i].children.length;j++){
+              if(this.tags[i].children[j].value == inputValue[1]){
+                this.tags[i].children[j].disabled = true;
+                this.dynamicTagIds.push(inputValue[1]);
+                this.dynamicTags.push(this.tags[i].children[j].label);
+                break;
+              }
             }
           }
-          this.dynamicTags.push(inputValue);
+
         }
         this.inputVisible = false;
         this.$emit('emitTagIds',this.dynamicTagIds.join(","));
-        this.inputValue = '';
+        this.inputValue = [];
       }
     }
   }

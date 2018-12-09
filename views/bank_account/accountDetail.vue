@@ -15,6 +15,13 @@
 					</el-option>
         </el-select>
 		  </el-form-item>
+			<el-form-item label="收支" prop="account_type">
+				<el-select v-model="params.account_type" style="width:210px;" filterable size="mini" placeholder="请选择">
+					<el-option key="" label="全部" value=""></el-option>
+					<el-option key="1" label="收入" value="1"></el-option>
+					<el-option key="2" label="支出" value="2"></el-option>
+        </el-select>
+		  </el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('73') > -1" @click="reSearch(false)" size="mini">查询</el-button>
 				<el-button type="primary" v-dbClick v-show="authCode.indexOf('73') > -1" @click="reSearch(true)" size="mini">重置</el-button>
@@ -23,7 +30,8 @@
 		</el-form>
 		<el-table :data="accountsDetails" style="width: 100%" size="mini" :stripe="true" :border="true">
       <el-table-column prop="account_detail_time" label="日期" width="100" :formatter="formatterDate"></el-table-column>
-			<el-table-column prop="account_detail_money" label="金额" width="120"></el-table-column>
+			<el-table-column prop="account_detail_money" label="收入" width="120" :formatter="formatterIncome"></el-table-column>
+			<el-table-column prop="account_detail_money" label="支出" width="120" :formatter="formatterExpenditure"></el-table-column>
 			<el-table-column prop="account_number" label="账户" width="120" ></el-table-column>
 			<el-table-column prop="account_detail_mark" label="事项"></el-table-column>
 			<el-table-column fixed="right" label="操作" width="100">
@@ -219,6 +227,20 @@
             _self.pageNum=parseInt(res.message.limit);
     				_self.count=res.message.totalCount;
         });
+			},
+			formatterIncome(row, column, cellValue){
+				if(cellValue>=0){
+					return cellValue;
+				}else{
+					return "-";
+				}
+			},
+			formatterExpenditure(row, column, cellValue){
+				if(cellValue<0){
+					return cellValue;
+				}else{
+					return "-";
+				}
 			},
 			formatterDate(row, column, cellValue){
 				if(cellValue && typeof cellValue == "string"){

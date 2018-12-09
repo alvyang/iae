@@ -427,7 +427,6 @@
 					data:_self.params,
 					page:page
 				},function(res){
-						console.log(res.message.data);
 						_self.allots = res.message.data;
 						_self.pageNum=parseInt(res.message.limit);
 						_self.count=res.message.totalCount;

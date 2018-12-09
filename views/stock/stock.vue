@@ -122,7 +122,7 @@
 				params:{
 					productCommonName:"",
 					contactId:"",
-					product_type:['高打','高打(底价)'],
+					product_type:['高打'],
 					product_medical_type:"",
 					product_code:"",
 					business:""

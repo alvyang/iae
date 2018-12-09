@@ -1,5 +1,46 @@
 //未发版sql
 
+//2018年12月09日  执行sql
+alter table contacts add account_name varchar(20) COMMENT '收款账号';
+alter table contacts add account_number varchar(50) COMMENT '收款账户';
+alter table contacts add account_address varchar(100) COMMENT '开户行';
+
+alter table sales add sale_account_name varchar(20) COMMENT '收款账号';
+alter table sales add sale_account_number varchar(50) COMMENT '收款账户';
+alter table sales add sale_account_address varchar(100) COMMENT '开户行';
+
+alter table allot add allot_account_name varchar(20) COMMENT '收款账号';
+alter table allot add allot_account_number varchar(50) COMMENT '收款账户';
+alter table allot add allot_account_address varchar(100) COMMENT '开户行';
+
+//2018年12月01日  执行sql
+ALTER TABLE purchase ADD INDEX drug_id( drug_id);
+ALTER TABLE purchase ADD INDEX group_id( group_id);
+ALTER TABLE purchase ADD INDEX delete_flag( delete_flag);
+
+ALTER TABLE allot_policy ADD INDEX allot_policy_contact_id( allot_policy_contact_id);
+
+ALTER TABLE allot ADD INDEX allot_drug_id( allot_drug_id);
+ALTER TABLE allot ADD INDEX allot_hospital( allot_hospital);
+ALTER TABLE allot ADD INDEX allot_group_id( allot_group_id);
+ALTER TABLE allot ADD INDEX allot_delete_flag( allot_delete_flag);
+
+ALTER TABLE drugs ADD INDEX product_type( product_type);
+
+ALTER TABLE drugs ADD INDEX product_code( product_code);
+ALTER TABLE drugs ADD INDEX delete_flag( delete_flag);
+ALTER TABLE drugs ADD INDEX group_id( group_id);
+ALTER TABLE drugs ADD INDEX product_business(product_business);
+ALTER TABLE drugs ADD INDEX contacts_id( contacts_id);
+
+ALTER TABLE sales ADD INDEX product_code( product_code);
+ALTER TABLE sales ADD INDEX hospital_id (hospital_id);
+ALTER TABLE sales ADD INDEX group_id (group_id);
+ALTER TABLE sales ADD INDEX delete_flag (delete_flag );
+
+ALTER TABLE refunds ADD INDEX sales_id( sales_id);
+ALTER TABLE refunds ADD INDEX receiver( receiver);
+
 //2018年11月25日发版sql
 alter table drugs add product_distribution_flag varchar(10) DEFAULT '0' COMMENT '是否配送标识';
 update drugs set product_distribution_flag = '0';

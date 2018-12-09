@@ -36,10 +36,8 @@
 					<el-option key="其它" label="其它" value="其它"></el-option>
 				</el-select>
 			</el-form-item>
-			<el-form-item label="　　标签" prop="tag">
-				<el-select v-model="params.tag" style="width:210px;" size="mini" placeholder="请选择">
-					<el-option v-for="t in tags" :key="t.tag_id" :label="t.tag_name" :value="t.tag_id"></el-option>
-				</el-select>
+			<el-form-item label="　　标签" prop="tag_type">
+				<el-cascader v-model="params.tag_type" style="width:210px;" size="mini" placeholder="搜索标签" :options="tags" filterable></el-cascader>
 			</el-form-item>
 			<el-form-item label="医保类型" prop="product_medical_type">
 				<el-select v-model="params.product_medical_type" style="width:210px;" size="mini" placeholder="请选择">
@@ -159,7 +157,8 @@
 					tag:"",
 					rate_gap:0,
 					rate_formula:"<=",
-					product_distribution_flag:"0"
+					product_distribution_flag:"0",
+					tag_type:[],
 				},
 				fileList:[],//上传文件列表
 				importDrugsUrl:"",
@@ -269,7 +268,7 @@
 					product_id:scope.row.product_id,
 					product_distribution_flag:flag
 				},function(res){
-					_self.$message({showClose: true,message: '删除成功',type: 'success'});
+					_self.$message({showClose: true,message: '修改成功',type: 'success'});
 					_self.getDrugsList();
 					_self.dialogFormVisible = false;
 				});
@@ -319,6 +318,7 @@
 					start:(_self.currentPage-1)*_self.pageNum,
 					limit:_self.pageNum
 				}
+				this.params.tag = this.params.tag_type[1];
 				this.jquery('/iae/drugs/getDrugs',{
 					data:_self.params,
 					page:page

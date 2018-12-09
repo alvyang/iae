@@ -79,6 +79,9 @@
 				<el-table-column prop="sale_return_price" label="回款金额" width="70" ></el-table-column>
 				<el-table-column prop="sale_return_money" label="回款总额" width="70"></el-table-column>
 				<el-table-column prop="sale_return_time" label="回款时间" width="70" :formatter="formatterDate"></el-table-column>
+				<el-table-column prop="sale_account_name" label="回款账户名" width="80" ></el-table-column>
+				<el-table-column prop="sale_account_number" label="回款账户" width="80" ></el-table-column>
+				<el-table-column prop="sale_account_address" label="开户行" width="80"></el-table-column>
 				<el-table-column prop="sale_policy_remark" label="回款备注" width="70"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="60">
 		    <template slot-scope="scope">
@@ -130,7 +133,7 @@
 					<el-date-picker v-model="sale.sale_return_time" style="width:179px;" type="date" placeholder="请选择打款时间"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="业务员" prop="sale_contact_id">
-				 <el-select v-model="sale.sale_contact_id" style="width:179px;" filterable placeholder="请选择">
+				 <el-select v-model="sale.sale_contact_id" style="width:179px;" @change="selectSalesContact"  filterable placeholder="请选择">
 					 <el-option key="" label="" value=""></el-option>
 					 <el-option v-for="item in contacts"
 						 :key="item.contacts_id"
@@ -142,6 +145,11 @@
 				<el-form-item label="回款备注" prop="sale_policy_remark">
 					<el-input v-model="sale.sale_policy_remark" style="width:179px;"></el-input>
 				</el-form-item>
+				<div style="padding-left: 16px;" v-show="selectContact.account_name && selectContact.account_number">
+						<div>回款账号名：{{selectContact.account_name}}</div>
+						<div>　回款账号：{{selectContact.account_number}}</div>
+						<div>　　开户行：{{selectContact.account_address}}</div>
+				</div>
 			</el-form>
       <div slot="footer" class="dialog-footer">
         <el-button size="small" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
@@ -198,6 +206,7 @@
 				dialogFormVisible:false,
 				loading:false,
 				authCode:"",
+				selectContact:{},
 			}
 		},
 		activated(){
@@ -212,6 +221,14 @@
 
 		},
 		methods:{
+			selectSalesContact(val){
+				this.selectContact={};
+				for(var i = 0 ; i < this.contacts.length;i++){
+					if(this.contacts[i].contacts_id == val){
+						this.selectContact = this.contacts[i];
+					}
+				}
+			},
 			saleReturnPrice(){
 				this.sale.sale_return_money = this.mul(this.sale.sale_return_price,this.sale.sale_num,2);
 			},
@@ -255,6 +272,11 @@
 				this.sale.sale_return_price = this.sale.sale_return_price?this.sale.sale_return_price:scope.row.sale_policy_money;
 				this.sale.sale_return_money = this.mul(this.sale.sale_return_price,this.sale.sale_num,2);
 				this.sale.sale_num_temp = scope.row.sale_num;
+				for(var i = 0 ; i < this.contacts.length;i++){
+					if(this.contacts[i].contacts_id == this.sale.sale_contact_id){
+						this.selectContact = this.contacts[i];
+					}
+				}
 			},
 			reSearch(arg){
 				if(arg){
@@ -304,6 +326,11 @@
 				}
 				if(this.sale.accounting_cost){
 					this.sale.real_gross_profit = this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.sale.accounting_cost),2);
+				}
+				if(this.sale.sale_account_id && this.sale.sale_return_money){
+					this.sale.sale_account_name = this.selectContact.account_name?this.selectContact.account_name:"";
+					this.sale.sale_account_number = this.selectContact.account_number?this.selectContact.account_number:"";
+					this.sale.sale_account_address = this.selectContact.account_address?this.selectContact.account_address:"";
 				}
 				this.$refs[formName].validate((valid) => {
 						if (valid) {

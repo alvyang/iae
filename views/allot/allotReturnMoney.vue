@@ -77,6 +77,9 @@
 				<el-table-column prop="allot_return_price" label="回款金额" width="70"></el-table-column>
 				<el-table-column prop="allot_return_money" label="回款总额" width="70"></el-table-column>
 				<el-table-column prop="allot_return_time" label="回款时间" width="80" :formatter="formatterDate"></el-table-column>
+				<el-table-column prop="allot_account_name" label="回款账户名" width="80" ></el-table-column>
+				<el-table-column prop="allot_account_number" label="回款账户" width="80" ></el-table-column>
+				<el-table-column prop="allot_account_address" label="开户行" width="80"></el-table-column>
 				<el-table-column prop="allot_policy_remark" label="回款备注" width="80"></el-table-column>
 				<!-- <el-table-column fixed="right" prop="allot_return_flag" label="是否回款" width="80"></el-table-column> -->
 				<el-table-column fixed="right" label="操作" width="60">
@@ -130,7 +133,7 @@
 					<el-date-picker v-model="allot.allot_return_time" style="width:179px;" type="date" placeholder="请选择打款时间"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="调货联系人" prop="allot_policy_contact_id">
-				 <el-select v-model="allot.allot_policy_contact_id" style="width:179px;" filterable placeholder="请选择">
+				 <el-select v-model="allot.allot_policy_contact_id" @change="selectAllotContact" style="width:179px;" filterable placeholder="请选择">
 					 <el-option key="" label="" value=""></el-option>
 					 <el-option v-for="item in contacts"
 						 :key="item.contacts_id"
@@ -148,6 +151,11 @@
 						<el-option key="否" label="否" value="否"></el-option>
 					</el-select>
 				</el-form-item> -->
+				<div style="padding-left: 16px;" v-show="selectContact.account_name && selectContact.account_number">
+						<div>回款账号名：{{selectContact.account_name}}</div>
+						<div>　回款账号：{{selectContact.account_number}}</div>
+						<div>　　开户行：{{selectContact.account_address}}</div>
+				</div>
 			</el-form>
       <div slot="footer" class="dialog-footer">
         <el-button size="small" @click="dialogFormVisible = false">取 消</el-button>
@@ -236,6 +244,7 @@
 					allot_return_price:[{validator:validateRealReturnMoney,trigger: 'blur' }],
 				},
 				authCode:"",
+				selectContact:{}
 			}
 		},
 		activated(){
@@ -250,6 +259,14 @@
 
 		},
 		methods:{
+			selectAllotContact(val){
+				this.selectContact={};
+				for(var i = 0 ; i < this.contacts.length;i++){
+					if(this.contacts[i].contacts_id == val){
+						this.selectContact = this.contacts[i];
+					}
+				}
+			},
 			getContacts(){
 				var _self = this;
 				this.jquery('/iae/contacts/getAllContacts',{group_id:0,contact_type:['调货']},function(res){
@@ -303,6 +320,11 @@
 			editallots(formName){
 				var _self = this;
 				this.allot.account_detail = this.formatterDate(null,null,this.allot.allot_time)+this.allot.hospital_name+"调货（"+this.allot.allot_number+"）"+this.allot.product_common_name+"返款";
+				if(this.allot.allot_account_id && this.allot.allot_return_money){
+					this.allot.allot_account_name = this.selectContact.account_name?this.selectContact.account_name:"";
+					this.allot.allot_account_number = this.selectContact.account_number?this.selectContact.account_number:"";
+					this.allot.allot_account_address = this.selectContact.account_address?this.selectContact.account_address:"";
+				}
 				this.$refs[formName].validate((valid) => {
 						if (valid) {
 							_self.loading=true;
@@ -338,6 +360,11 @@
 					this.allot.allot_return_money = this.mul(this.allot.allot_return_price,this.allot.allot_number,2);
 				}
 				this.allot.allot_number_temp = scope.row.allot_number;
+				for(var i = 0 ; i < this.contacts.length;i++){
+					if(this.contacts[i].contacts_id == this.allot.allot_policy_contact_id){
+						this.selectContact = this.contacts[i];
+					}
+				}
 			},
 			deleteRow(scope){//删除
 				this.$confirm('是否删除?', '提示', {

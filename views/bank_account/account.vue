@@ -17,6 +17,7 @@
 		<el-table :data="accounts" style="width: 100%" size="mini" :stripe="true">
       <el-table-column prop="account_number" label="账号"></el-table-column>
 			<el-table-column prop="account_person" label="持卡人"></el-table-column>
+			<!-- <el-table-column prop="bank_account_type" label="卡类型" :formatter="formatterType"></el-table-column> -->
 			<el-table-column prop="money" label="余额"></el-table-column>
 			<el-table-column fixed="right" label="操作" width="100">
 	    <template slot-scope="scope">
@@ -39,6 +40,10 @@
 		</div>
 		<el-dialog :title="title == 1?'新增银行账号':'修改银行账号'" width="500px" :visible.sync="dialogFormVisible">
 			<el-form :model="account" status-icon :rules="accountRule" ref="account" label-width="90px" class="demo-ruleForm">
+				<!-- <el-form-item label="账户类型" prop="bank_account_type">
+					<el-radio v-model="account.bank_account_type" label="0">收款账户</el-radio>
+					<el-radio v-model="account.bank_account_type" label="1">回款账户</el-radio>
+				</el-form-item> -->
 				<el-form-item label="银行账号" prop="account_number">
 					<el-input v-model="account.account_number" style="width:370px;" auto-complete="off" :maxlength="20" placeholder="请输入银行账号"></el-input>
 				</el-form-item>
@@ -84,6 +89,9 @@
 			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		methods:{
+			formatterType(row, column, cellValue){
+				return cellValue=="0"?"回款账户":"收款账户";
+			},
 			editRow(scope){//编辑药品信息
 				this.dialogFormVisible = true;
         this.title=2;
@@ -117,7 +125,7 @@
 				this.title=1;
 				this.account={
 					account_number:"",
-					account_person:"",
+					account_person:""
 				};
 				this.dialogFormVisible = true;
 			},
@@ -128,7 +136,6 @@
             this.loading = true;
             if(this.title == 1){
               this.jquery('/iae/bankaccount/saveAccounts',_self.account,function(res){
-                console.log(res);
                 _self.$message({showClose: true,message: '新增成功',type: 'success'});
                 _self.dialogFormVisible = false;
 								_self.loading = false;

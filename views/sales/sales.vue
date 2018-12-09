@@ -62,11 +62,8 @@
 				 <el-option key="3" label="销售退补价" value="3"></el-option>
 			 </el-select>
 		 </el-form-item>
-		 <el-form-item label="　　标签" prop="tag">
-			<el-select v-model="params.tag" style="width:210px;" size="mini" placeholder="请选择">
-				<el-option key="" label="全部" value=""></el-option>
-				<el-option v-for="t in tags" :key="t.tag_id" :label="t.tag_name" :value="t.tag_id"></el-option>
-			</el-select>
+		 <el-form-item label="　　标签" prop="tag_type">
+		  <el-cascader v-model="params.tag_type" style="width:210px;" size="mini" placeholder="搜索标签" :options="tags" filterable></el-cascader>
 		</el-form-item>
 		<el-form-item label="真实毛利率" prop="rate_gap">
 			<el-select v-model="params.rate_formula" style="width:85px;" size="mini" placeholder="请选择">
@@ -88,7 +85,7 @@
 		</el-form>
 		<div class="sum_money">销售总额：<a>{{money}}</a> 元；真实毛利：<a>{{realGrossProfit}}</a> 元；毛利：<a>{{grossProfit}}</a> 元</div>
 		<el-table :data="sales" style="width: 100%" size="mini" :stripe="true" :border="true">
-  			<el-table-column fixed prop="bill_date" label="日期" width="80" :formatter="formatterDate"></el-table-column>
+  			<el-table-column fixed="left" prop="bill_date" label="日期" width="80" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="hospital_name" label="销往单位" width="140"></el-table-column>
 				<el-table-column prop="product_code" label="产品编码" width="100"></el-table-column>
 				<el-table-column prop="product_common_name" label="产品名称" width="120" ></el-table-column>
@@ -275,7 +272,8 @@
 					product_code:"",
 					tag:"",
 					rate_gap:0,
-					rate_formula:"<="
+					rate_formula:"<=",
+					tag_type:[],
 				},
 				sale:{},//修改的销售信息
 				saleRule:{
@@ -432,6 +430,7 @@
           start:(_self.currentPage-1)*_self.pageNum,
           limit:_self.pageNum
         }
+				this.params.tag = this.params.tag_type[1];
         this.jquery('/iae/sales/getSales',{
 					data:_self.params,
           page:page
