@@ -141,18 +141,18 @@
 						</el-form-item>
 					</div>
 					<div v-show="drugs.product_type != '其它'">
-						<el-form-item label="返款金额" prop="product_return_money">
-							<el-input v-model="drugs.product_return_money" style="width: 179px;" @blur="priceBlur" auto-complete="off" :maxlength="10" placeholder="返款金额"></el-input>
+						<el-form-item label="积分" prop="product_return_money">
+							<el-input v-model="drugs.product_return_money" style="width: 179px;" @blur="priceBlur" auto-complete="off" :maxlength="10" placeholder="积分"></el-input>
 						</el-form-item>
-						<el-form-item label="返款率" prop="product_return_discount">
-							<el-input v-model="drugs.product_return_discount" style="width:163px;" auto-complete="off" :maxlength="10" placeholder="返款率（如：40）"></el-input> %
+						<el-form-item label="积分率" prop="product_return_discount">
+							<el-input v-model="drugs.product_return_discount" style="width:163px;" auto-complete="off" :maxlength="10" placeholder="积分率（如：40）"></el-input> %
 						</el-form-item>
-						<el-form-item label="返款说明" prop="product_return_explain">
-							<el-input v-model="drugs.product_return_explain" style="width: 179px;" auto-complete="off" :maxlength="50" placeholder="返款说明"></el-input>
+						<el-form-item label="积分说明" prop="product_return_explain">
+							<el-input v-model="drugs.product_return_explain" style="width: 179px;" auto-complete="off" :maxlength="50" placeholder="积分说明"></el-input>
 						</el-form-item>
 					</div>
 					<div v-show="drugs.product_type != '其它'">
-						<el-form-item label="返款日期类型" prop="product_return_time_type">
+						<el-form-item label="返积分类型" prop="product_return_time_type">
 							<el-select v-model="drugs.product_return_time_type" placeholder="请选择" style="width: 179px;">
 						    <el-option key="1" label="当月返" value="1"></el-option>
 								<el-option key="2" label="次月返" value="2"></el-option>
@@ -160,15 +160,15 @@
 								<el-option key="4" label="其它" value="4"></el-option>
 						  </el-select>
 						</el-form-item>
-						<el-form-item label="返款日" v-show="drugs.product_return_time_type != '4'" prop="product_return_time_day">
-							<el-input v-model="drugs.product_return_time_day" style="width:179px;" auto-complete="off" :maxlength="10" placeholder="返款日（如：1-31）"></el-input>
+						<el-form-item label="返积分日" v-show="drugs.product_return_time_type != '4'" prop="product_return_time_day">
+							<el-input v-model="drugs.product_return_time_day" style="width:179px;" auto-complete="off" :maxlength="10" placeholder="返积分日（如：1-31）"></el-input>
 						</el-form-item>
-						<el-form-item label="返款天数" v-show="drugs.product_return_time_type == '4'" prop="product_return_time_day_num">
-							<el-input v-model="drugs.product_return_time_day_num" style="width: 179px;" auto-complete="off" :maxlength="50" placeholder="返款天数"></el-input>
+						<el-form-item label="返积分天数" v-show="drugs.product_return_time_type == '4'" prop="product_return_time_day_num">
+							<el-input v-model="drugs.product_return_time_day_num" style="width: 179px;" auto-complete="off" :maxlength="50" placeholder="返积分天数"></el-input>
 						</el-form-item>
 					</div>
 					<div>
-						<el-form-item label="返款统计" prop="product_return_statistics">
+						<el-form-item label="返积分统计" prop="product_return_statistics">
 							<el-radio-group v-model="drugs.product_return_statistics">
 								<el-radio border label="1" v-show="drugs.product_type =='佣金' || drugs.product_type =='高打'">按销售记录统计</el-radio>
 								<el-radio border label="2" v-show="drugs.product_type =='高打'">按备货记录统计</el-radio>

@@ -69,6 +69,7 @@
 				<el-table-column prop="allot_mack_price" label="打款价" width="60"></el-table-column>
 				<el-table-column prop="allot_price" label="中标价" width="60"></el-table-column>
 				<el-table-column prop="allot_money" label="金额" ></el-table-column>
+				<el-table-column prop="batch_number" label="批号" ></el-table-column>
 				<!-- <el-table-column prop="allot_return_price" label="返款单价" width="70"></el-table-column>
 				<el-table-column prop="allot_return_money" label="返款金额" width="70"></el-table-column>
 				<el-table-column prop="allot_return_time" label="返款时间" width="80" :formatter="formatterDate"></el-table-column>
@@ -388,10 +389,10 @@
 				var _self = this;
 				this.jquery('/iae/allot/deleteAllot',{
 					allot_id:scope.row.allot_id,
-					product_type:scope.row.product_type,
 					stock:scope.row.stock,
 					product_id:scope.row.product_id,
-					allot_number:scope.row.allot_number
+					allot_number:scope.row.allot_number,
+					allot_purchase_id:scope.row.allot_purchase_id
 				},function(res){
 					_self.$message({showClose: true,message: '删除成功',type: 'success'});
 					_self.getAllotsList();

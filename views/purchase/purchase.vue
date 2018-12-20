@@ -77,6 +77,7 @@
 				<el-table-column prop="purchase_mack_price" label="打款价" width="60"></el-table-column>
 				<el-table-column prop="purchase_price" label="中标价" width="60"></el-table-column>
 				<el-table-column prop="puchase_gross_rate" label="毛利率" width="60" :formatter="formatPercent"></el-table-column>
+				<el-table-column prop="batch_number" label="批号" width="60"></el-table-column>
 				<el-table-column prop="contacts_name" label="联系人" width="60"></el-table-column>
 				<el-table-column prop="business_name" label="商业" width="60"></el-table-column>
 				<el-table-column prop="make_money_time" label="打款时间" width="80" :formatter="formatterDate"></el-table-column>
@@ -139,10 +140,10 @@
 					<el-date-picker v-model="purchase.send_out_time" style="width:179px;" type="date" placeholder="请选择发货时间"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="入库时间" prop="storage_time">
-					<el-date-picker v-model="purchase.storage_time" style="width:179px;" type="date" placeholder="请选择入库时间"></el-date-picker>
+					<el-date-picker v-model="purchase.storage_time" style="width:179px;" type="date" :clearable="false" placeholder="请选择入库时间"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="备注" prop="remark">
-				<el-autocomplete popper-class="my-autocomplete" style="width:300px;"
+				<el-autocomplete popper-class="my-autocomplete" style="width:179px;"
 					 v-model="purchase.remark"
 					 :fetch-suggestions="querySearch"
 					 placeholder="备注" @select="handleSelect">
@@ -150,6 +151,9 @@
 						 <div class="name">{{ item.remark }}</div>
 					 </template>
 				</el-autocomplete>
+			 </el-form-item>
+			 <el-form-item label="批号" prop="batch_number">
+				 <el-input v-model="purchase.batch_number" style="width:179px;"></el-input>
 			 </el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">
@@ -171,6 +175,14 @@
 				} else {
 					this.purchase.purchase_money = this.purchase.purchase_number * this.purchase.purchase_mack_price;
 					this.purchase.purchase_money = this.purchase.purchase_money.toFixed(2);
+					callback();
+				}
+			};
+			var validateBatchNumber = (rule, value, callback) => {
+				var regu = /^\+?[1-9][0-9]*$/;
+				if (this.purchase.storage_time && !value) {
+					callback(new Error('请输入批号'));
+				} else {
 					callback();
 				}
 			};
@@ -215,6 +227,7 @@
 				},
 				purchaseRule:{
 					purchase_number:[{validator:validateNum,trigger: 'blur' }],
+					batch_number:[{validator:validateBatchNumber,trigger: 'blur' }],
 					time:[{ required: true, message: '请选择备货时间', trigger: 'blur,change' }]
 				},
 				authCode:"",

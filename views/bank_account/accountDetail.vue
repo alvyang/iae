@@ -2,10 +2,10 @@
 	<div style="box-sizing: border-box;padding: 0px 10px;">
 		<el-breadcrumb separator-class="el-icon-arrow-right">
 		  <el-breadcrumb-item>财务管理</el-breadcrumb-item>
-			<el-breadcrumb-item>流水账管理</el-breadcrumb-item>
+			<el-breadcrumb-item>积分流水账管理</el-breadcrumb-item>
 		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
-		  <el-form-item label="银行账户" prop="account_id">
+		  <el-form-item label="积分账户" prop="account_id">
 				<el-select v-model="params.account_id" style="width:210px;" filterable size="mini" placeholder="请选择">
 					<el-option key="" label="全部" value=""></el-option>
 					<el-option v-for="item in accounts"

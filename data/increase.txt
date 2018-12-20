@@ -1,4 +1,38 @@
 //未发版sql
+INSERT INTO `authority` VALUES
+('105', '导出', '', '800123', '/', '43', '0', '1', '3', '2'),
+('106', '导出', '', '800113', '/', '42', '0', '1', '3', '3');
+
+update authority set authority_name = '积分管理' where authority_name='返款管理';
+update authority set authority_name = '积分管理-佣金' where authority_name='佣金返款管理';
+update authority set authority_name = '积分管理-高打' where authority_name='高打返款管理';
+update authority set authority_name = '销售积分管理-1' where authority_name='销售回款管理-1';
+update authority set authority_name = '调货积分管理-2' where authority_name='调货回款管理-2';
+update authority set authority_name = '积分账号管理' where authority_name='银行账号管理';
+update authority set authority_name = '积分流水账管理' where authority_name='流水账管理';
+
+update bank_account_detail SET account_detail_mark = REPLACE(account_detail_mark, '返款', '返积分' );
+update bank_account_detail SET account_detail_mark = REPLACE(account_detail_mark, '回款', '回积分' );
+
+alter table sales add batch_number varchar(50) COMMENT '批号';
+alter table purchase add batch_number varchar(50) COMMENT '批号';
+alter table allot add batch_number varchar(50) COMMENT '批号';
+
+CREATE TABLE `batch_stock` (
+	`batch_stock_drug_id` varchar(50) NOT NULL COMMENT '药品id',
+	`batch_stock_purchase_id` varchar(50) NOT NULL COMMENT '备货id',
+	`batch_stock_number` varchar(20) DEFAULT '0' COMMENT '批次库存',
+	`batch_stock_time` datetime DEFAULT NULL COMMENT '入库时间',
+	`batch_number` varchar(20) DEFAULT '0' COMMENT '批次号',
+  `tag_type_delete_flag` varchar(10) DEFAULT NULL COMMENT '删除标识',
+  `tag_type_group_id` varchar(50) DEFAULT NULL COMMENT '组id',
+  PRIMARY KEY (`batch_stock_drug_id`,`batch_stock_purchase_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET FOREIGN_KEY_CHECKS = 1;
+
+alter table sales add sales_purchase_id varchar(50) COMMENT '采购id';
+alter table allot add allot_purchase_id varchar(50) COMMENT '采购id';
+
 
 //2018年12月09日  执行sql
 alter table contacts add account_name varchar(20) COMMENT '收款账号';

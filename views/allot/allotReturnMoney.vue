@@ -44,7 +44,7 @@
 				 </el-option>
 			 </el-select>
 		 </el-form-item>
-		 <el-form-item label="回款状态" prop="allot_return_flag">
+		 <el-form-item label="积分状态" prop="allot_return_flag">
 			 <el-select v-model="params.allot_return_flag" style="width:210px;" size="mini" filterable placeholder="请选择供货单位">
 				 <el-option key="" label="全部" value=""></el-option>
 				 <el-option key="未回" label="未回" value="未回"></el-option>
@@ -74,13 +74,14 @@
 				<el-table-column prop="allot_mack_price" label="打款价" width="60"></el-table-column>
 				<el-table-column prop="allot_price" label="中标价" width="60"></el-table-column>
 				<el-table-column prop="allot_money" label="金额" width="70"></el-table-column>
-				<el-table-column prop="allot_return_price" label="回款金额" width="70"></el-table-column>
-				<el-table-column prop="allot_return_money" label="回款总额" width="70"></el-table-column>
-				<el-table-column prop="allot_return_time" label="回款时间" width="80" :formatter="formatterDate"></el-table-column>
-				<el-table-column prop="allot_account_name" label="回款账户名" width="80" ></el-table-column>
-				<el-table-column prop="allot_account_number" label="回款账户" width="80" ></el-table-column>
-				<el-table-column prop="allot_account_address" label="开户行" width="80"></el-table-column>
-				<el-table-column prop="allot_policy_remark" label="回款备注" width="80"></el-table-column>
+				<el-table-column label="上游实返积分" width="70" :formatter="formatterReturnMoney"></el-table-column>
+				<el-table-column prop="allot_return_price" label="政策积分" width="70"></el-table-column>
+				<el-table-column prop="allot_return_money" label="应回积分" width="70"></el-table-column>
+				<el-table-column prop="allot_return_time" label="回积分时间" width="80" :formatter="formatterDate"></el-table-column>
+				<el-table-column prop="allot_account_name" label="积分账户名" width="80" ></el-table-column>
+				<el-table-column prop="allot_account_number" label="积分账户" width="80" ></el-table-column>
+				<el-table-column prop="allot_account_address" label="积分账户地址" width="80"></el-table-column>
+				<el-table-column prop="allot_policy_remark" label="积分备注" width="80"></el-table-column>
 				<!-- <el-table-column fixed="right" prop="allot_return_flag" label="是否回款" width="80"></el-table-column> -->
 				<el-table-column fixed="right" label="操作" width="60">
 			    <template slot-scope="scope">
@@ -109,18 +110,18 @@
 					<div><span>包装:</span>{{allot.product_packing}}</div>
 					<div><span>单位:</span>{{allot.product_unit}}</div>
 					<div><span>打款价:</span>{{allot.product_mack_price}}</div>
-					<div><span>返款金额:</span>{{allot.product_return_money}}</div>
+					<div><span>积分:</span>{{allot.product_return_money}}</div>
 					<div style="display:block;width:100%;"><span>生产产家:</span>{{allot.product_makesmakers}}</div>
 			  </el-collapse-item>
 			</el-collapse>
 			<el-form :model="allot" ref="allot" status-icon :rules="allotRule" style="margin-top:20px;" :inline="true" label-width="100px" class="demo-ruleForm">
-				<el-form-item label="回款单价" prop="allot_return_price">
+				<el-form-item label="政策积分" prop="allot_return_price">
 					<el-input v-model="allot.allot_return_price" style="width:179px;" ></el-input>
 				</el-form-item>
-				<el-form-item label="回款金额" prop="allot_return_money">
+				<el-form-item label="应返积分" prop="allot_return_money">
 					<el-input v-model="allot.allot_return_money" style="width:179px;" :readonly="true"></el-input>
 				</el-form-item>
-				<el-form-item label="回款账号" prop="allot_account_id">
+				<el-form-item label="回积分账号" prop="allot_account_id">
           <el-select v-model="allot.allot_account_id" style="width:179px;" filterable placeholder="请选择">
             <el-option v-for="item in accounts"
               :key="item.account_id"
@@ -129,8 +130,8 @@
             </el-option>
           </el-select>
 				</el-form-item>
-				<el-form-item label="回款时间" prop="allot_return_time">
-					<el-date-picker v-model="allot.allot_return_time" style="width:179px;" type="date" placeholder="请选择打款时间"></el-date-picker>
+				<el-form-item label="回积分时间" prop="allot_return_time">
+					<el-date-picker v-model="allot.allot_return_time" style="width:179px;" type="date" placeholder="请选择回积分时间"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="调货联系人" prop="allot_policy_contact_id">
 				 <el-select v-model="allot.allot_policy_contact_id" @change="selectAllotContact" style="width:179px;" filterable placeholder="请选择">
@@ -142,7 +143,7 @@
 					 </el-option>
 				 </el-select>
 			 </el-form-item>
-				<el-form-item label="回款备注" prop="allot_policy_remark">
+				<el-form-item label="积分备注" prop="allot_policy_remark">
 					<el-input v-model="allot.allot_policy_remark" style="width:179px;"></el-input>
 				</el-form-item>
 				<!-- <el-form-item label="是否返款" prop="allot_return_flag">
@@ -152,9 +153,9 @@
 					</el-select>
 				</el-form-item> -->
 				<div style="padding-left: 16px;" v-show="selectContact.account_name && selectContact.account_number">
-						<div>回款账号名：{{selectContact.account_name}}</div>
-						<div>　回款账号：{{selectContact.account_number}}</div>
-						<div>　　开户行：{{selectContact.account_address}}</div>
+						<div>积分账号名：{{selectContact.account_name}}</div>
+						<div>　积分账号：{{selectContact.account_number}}</div>
+						<div>　积分地址：{{selectContact.account_address}}</div>
 				</div>
 			</el-form>
       <div slot="footer" class="dialog-footer">
@@ -259,6 +260,13 @@
 
 		},
 		methods:{
+			formatterReturnMoney(row, column, cellValue){
+				if(row.refunds_real_time && row.refunds_real_money){
+					return this.div(row.refunds_real_money,row.purchase_number,2);
+				}else{
+					return 0;
+				}
+			},
 			selectAllotContact(val){
 				this.selectContact={};
 				for(var i = 0 ; i < this.contacts.length;i++){
@@ -319,7 +327,7 @@
       },
 			editallots(formName){
 				var _self = this;
-				this.allot.account_detail = this.formatterDate(null,null,this.allot.allot_time)+this.allot.hospital_name+"调货（"+this.allot.allot_number+"）"+this.allot.product_common_name+"返款";
+				this.allot.account_detail = this.formatterDate(null,null,this.allot.allot_time)+this.allot.hospital_name+"调货（"+this.allot.allot_number+"）"+this.allot.product_common_name+"回积分";
 				if(this.allot.allot_account_id && this.allot.allot_return_money){
 					this.allot.allot_account_name = this.selectContact.account_name?this.selectContact.account_name:"";
 					this.allot.allot_account_number = this.selectContact.account_number?this.selectContact.account_number:"";
@@ -398,7 +406,7 @@
 				this.getAllotsList();
 			},
 			exportAllotReturn(){
-				var url = this.$bus.data.host + "/iae/allot/exportAllotRefund";
+				var url = this.$bus.data.host + "/iae/allotPolicy/exportAllotRefund";
 				this.download(url,this.params);
 			},
 			getAllotsList(){
@@ -413,7 +421,7 @@
 					start:(_self.currentPage-1)*_self.pageNum,
 					limit:_self.pageNum
 				}
-				this.jquery('/iae/allot/getAllot',{
+				this.jquery('/iae/allotPolicy/getAllotReturnMoney',{
 					data:_self.params,
 					page:page
 				},function(res){

@@ -2,10 +2,10 @@
 	<div style="box-sizing: border-box;padding: 0px 10px;">
 		<el-breadcrumb separator-class="el-icon-arrow-right">
 		  <el-breadcrumb-item>财务管理</el-breadcrumb-item>
-			<el-breadcrumb-item>银行账号管理</el-breadcrumb-item>
+			<el-breadcrumb-item>积分账号管理</el-breadcrumb-item>
 		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
-		  <el-form-item label="持卡人" prop="contacts_name">
+		  <el-form-item label="积分账号姓名" prop="contacts_name">
 		    <el-input v-model="params.account_person" @keyup.13.native="reSearch(false)" style="width:210px;" size="mini" placeholder="持卡人"></el-input>
 		  </el-form-item>
 		  <el-form-item>
@@ -15,10 +15,10 @@
 		  </el-form-item>
 		</el-form>
 		<el-table :data="accounts" style="width: 100%" size="mini" :stripe="true">
-      <el-table-column prop="account_number" label="账号"></el-table-column>
-			<el-table-column prop="account_person" label="持卡人"></el-table-column>
+      <el-table-column prop="account_number" label="积分账号"></el-table-column>
+			<el-table-column prop="account_person" label="积分账号姓名"></el-table-column>
 			<!-- <el-table-column prop="bank_account_type" label="卡类型" :formatter="formatterType"></el-table-column> -->
-			<el-table-column prop="money" label="余额"></el-table-column>
+			<el-table-column prop="money" label="积分"></el-table-column>
 			<el-table-column fixed="right" label="操作" width="100">
 	    <template slot-scope="scope">
 		    <el-button v-show="authCode.indexOf('69') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
@@ -38,17 +38,17 @@
 	      :total="count">
 	    </el-pagination>
 		</div>
-		<el-dialog :title="title == 1?'新增银行账号':'修改银行账号'" width="500px" :visible.sync="dialogFormVisible">
-			<el-form :model="account" status-icon :rules="accountRule" ref="account" label-width="90px" class="demo-ruleForm">
+		<el-dialog :title="title == 1?'新增积分账号':'修改积分账号'" width="500px" :visible.sync="dialogFormVisible">
+			<el-form :model="account" status-icon :rules="accountRule" ref="account" label-width="110px" class="demo-ruleForm">
 				<!-- <el-form-item label="账户类型" prop="bank_account_type">
 					<el-radio v-model="account.bank_account_type" label="0">收款账户</el-radio>
 					<el-radio v-model="account.bank_account_type" label="1">回款账户</el-radio>
 				</el-form-item> -->
-				<el-form-item label="银行账号" prop="account_number">
-					<el-input v-model="account.account_number" style="width:370px;" auto-complete="off" :maxlength="20" placeholder="请输入银行账号"></el-input>
+				<el-form-item label="积分账号" prop="account_number">
+					<el-input v-model="account.account_number" style="width:340px;" auto-complete="off" :maxlength="20" placeholder="请输入积分账号"></el-input>
 				</el-form-item>
-				<el-form-item label="持卡人" prop="account_person">
-					<el-input v-model="account.account_person" style="width:370px;" auto-complete="off" :maxlength="11" placeholder="请输入持卡人"></el-input>
+				<el-form-item label="积分账号姓名" prop="account_person">
+					<el-input v-model="account.account_person" style="width:340px;" auto-complete="off" :maxlength="11" placeholder="请输入积分账号姓名"></el-input>
 				</el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">
@@ -71,7 +71,7 @@
           account_person:""
 				},
 				accountRule:{
-					account_number:[{ required: true, message: '请输入银行账号', trigger: 'blur' }]
+					account_number:[{ required: true, message: '请输入积分账号', trigger: 'blur' }]
 				},
 				accounts:[],
 				pageNum:10,

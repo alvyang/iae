@@ -96,9 +96,11 @@
 				<el-table-column prop="business_name" label="商业" width="60"></el-table-column>
 				<el-table-column prop="buyer" label="采购" width="60"></el-table-column>
 				<el-table-column prop="sale_type" label="销售类型" width="60" :formatter="formatterType"></el-table-column>
+				<el-table-column prop="contacts_name" label="联系人" width="60"></el-table-column>
 				<el-table-column prop="product_type" label="品种类型" width="60"></el-table-column>
 				<el-table-column prop="sale_price" label="中标价" width="60"></el-table-column>
 				<el-table-column prop="sale_num" label="计划数量" width="70"></el-table-column>
+				<el-table-column prop="batch_number" label="批号" width="70"></el-table-column>
 				<el-table-column prop="sale_money" label="购入金额" width="70"></el-table-column>
 				<el-table-column prop="real_gross_profit" label="真实毛利" width="80"></el-table-column>
 				<el-table-column label="真实毛利率" width="80" :formatter="formatterRealProfitRate"></el-table-column>
@@ -173,6 +175,9 @@
 				<el-form-item label="毛利" prop="gross_profit">
 					<el-input v-model="sale.gross_profit" style="width:194px;"></el-input>
 				</el-form-item>
+				<el-form-item label="批号" prop="batch_number" :required="true">
+					<el-input :readonly="sale.product_type == '高打' " v-model="sale.batch_number" style="width:194px;" auto-complete="off" placeholder="请输入批号"></el-input>
+				</el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">
         <el-button size="small" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
@@ -230,6 +235,16 @@
          	callback();
         }
     	};
+			var validateBatchNumber = (rule, value, callback) => {
+				var regu = /^\+?[1-9][0-9]*$/;
+				if (!value && this.drug.product_type=='高打') {
+					callback(new Error('请选择批号'));
+				} else if(!value && this.drug.product_type!='高打'){
+					callback(new Error('请输入批号'));
+				} else {
+					callback();
+				}
+			};
 			const nowDate = new Date();
 			return {
 				pickerOptions2: {
@@ -277,6 +292,7 @@
 				},
 				sale:{},//修改的销售信息
 				saleRule:{
+					batch_number:[{validator:validateBatchNumber,trigger: 'blur' }],
 					accounting_cost:[{validator: validateMoney,labelname:"核算成本价",trigger: 'blur' }],
 					cost_univalent:[{validator: validateMoney,labelname:"成本单价",trigger: 'blur' }],
 					sale_num:[{validator: validateNum,trigger: 'blur' }],
@@ -345,6 +361,7 @@
 				});
 			},
 			exportExcel(){
+				// this.params.tag = this.params.tag_type[1];
 				var url = this.$bus.data.host + "/iae/sales/exportSales";
 				this.download(url,this.params);
 			},
@@ -392,7 +409,8 @@
 					product_type:scope.row.product_type,
 					stock:scope.row.stock,
 					product_id:scope.row.product_id,
-					sale_num:scope.row.sale_num
+					sale_num:scope.row.sale_num,
+					sales_purchase_id:scope.row.sales_purchase_id
 				},function(res){
 					_self.$message({showClose: true,message: '删除成功',type: 'success'});
 					_self.getSalesList();

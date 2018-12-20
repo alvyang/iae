@@ -88,9 +88,9 @@
 				<el-table-column prop="gross_interest_rate" label="毛利率" width="70" :formatter="formatPercent"></el-table-column>
 				<el-table-column prop="accounting_cost" label="核算成本" width="70"></el-table-column>
 				<el-table-column prop="product_type" label="品种类型" width="70"></el-table-column>
-				<el-table-column prop="product_return_money" label="返费金额" width="70" :formatter="formatNull"></el-table-column>
-				<el-table-column prop="product_return_discount" label="返费率" width="70" :formatter="formatPercent"></el-table-column>
-				<el-table-column prop="product_return_explain" label="返费说明" width="200" :formatter="formatReturnExplain"></el-table-column>
+				<el-table-column prop="product_return_money" label="积分" width="70" :formatter="formatNull"></el-table-column>
+				<el-table-column prop="product_return_discount" label="积分率" width="70" :formatter="formatPercent"></el-table-column>
+				<el-table-column prop="product_return_explain" label="积分说明" width="200" :formatter="formatReturnExplain"></el-table-column>
 				<el-table-column prop="contacts_name" label="联系人" width="60"></el-table-column>
 				<el-table-column prop="product_medical_type" label="医保类型" width="70"></el-table-column>
 				<el-table-column prop="product_purchase_mode" label="采购方式" width="70"></el-table-column>
@@ -212,7 +212,7 @@
 						2:"次月",
 						3:"隔月"
 					}
-					var temp = row.product_return_time_type == '4'?row.product_return_time_day_num+"天返款":t[row.product_return_time_type]+row.product_return_time_day+"日返款"
+					var temp = row.product_return_time_type == '4'?row.product_return_time_day_num+"天返积分":t[row.product_return_time_type]+row.product_return_time_day+"日返积分"
 					return cellValue+temp ;
 				}
 			},

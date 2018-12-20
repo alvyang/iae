@@ -34,13 +34,13 @@
   			<el-table-column prop="product_packing" label="包装" width="60"></el-table-column>
   			<el-table-column prop="product_unit" label="单位" width="60"></el-table-column>
 				<el-table-column prop="business_name" label="商业" width="60"></el-table-column>
-        <el-table-column prop="stock" label="库存" width="60"></el-table-column>
+        <el-table-column prop="batch_stock_number" label="总库存" width="60"></el-table-column>
 				<el-table-column prop="pnum" label="当前备货量" width="80"></el-table-column>
 				<el-table-column prop="contacts_name" label="联系人" ></el-table-column>
   			<el-table-column fixed="right" label="操作" width="180">
 			    <template slot-scope="scope">
 		        <el-button v-dbClick @click.native.prevent="analysis(scope)" type="primary" size="mini">销售分析</el-button>
-						<el-button v-dbClick @click.native.prevent="editStockShow(scope)" type="primary" size="mini">修改库存</el-button>
+						<el-button v-dbClick @click.native.prevent="editStockShow(scope)" type="primary" size="mini">批次库存</el-button>
 			    </template>
   			</el-table-column>
 		</el-table>
@@ -68,22 +68,32 @@
 					<div id="stock_analysis_line" style="width:660px;height:200px;"></div>
 				</div>
     </el-dialog>
-		<el-dialog title="修改库存" width="500px" :visible.sync="dialogFormVisibleStock">
-			<div><span>产品名称:</span>{{drug.product_common_name}}</div>
-			<div>
-				<span>产品编号:</span>{{drug.product_code}}
-				<span style="padding-left:30px;">产品规格:</span>{{drug.product_specifications}}
-				<span style="padding-left:30px;">库存:</span>{{drug.stock}}
-			</div>
-			<div><span>生产产家:</span>{{drug.product_makesmakers}}</div>
-			<el-form :model="drug" ref="drug" status-icon :rules="drugRule" style="margin-top:20px;" :inline="true" label-width="100px" class="demo-ruleForm">
-				<el-form-item label="库存" prop="stock" :required="true">
-					<el-input v-model="drug.stock" :maxlength="10" placeholder="请输入购入数量"></el-input>
-			 	</el-form-item>
-			</el-form>
-			<div slot="footer" class="dialog-footer">
-				<el-button size="small" v-dbClick @click="dialogFormVisibleStock = false">取 消</el-button>
-				<el-button type="primary" v-dbClick size="small" :loading="loading" @click="editStock('drug')">确 定</el-button>
+		<el-dialog :title="'修改库存  '+drug.product_common_name" width="700px" :visible.sync="dialogFormVisibleStock">
+			<el-table :data="drugsStock" style="width: 100%" size="mini" :stripe="true" :border="true">
+					<el-table-column fixed prop="batch_stock_time" label="入库时间" :formatter="formatterDate"></el-table-column>
+					<el-table-column prop="batch_number" label="批号"></el-table-column>
+					<el-table-column label="当前库存">
+						<template slot-scope="scope">
+		          <el-input v-model="scope.row.batch_stock_number" @blur="editBatchStock(scope)" size="mini"></el-input>
+		        </template>
+					</el-table-column>
+					<el-table-column fixed="right" label="操作" width="60">
+						<template slot-scope="scope">
+							<el-button v-dbClick @click.native.prevent="deleteBatchStockRow(scope)" type="primary" icon="el-icon-delete" size="mini"></el-button>
+						</template>
+					</el-table-column>
+			</el-table>
+			<div class="page_div"">
+				<el-pagination
+					background
+					@size-change="handleSizeChangeStock"
+					@current-change="handleCurrentChangeStock"
+					:current-page="currentPageStock"
+					:page-sizes="[5, 10, 50, 100]"
+					:page-size="pageNumStock"
+					layout="total, sizes, prev, pager, next, jumper"
+					:total="countStock">
+				</el-pagination>
 			</div>
     </el-dialog>
 	</div>
@@ -104,6 +114,7 @@
 			};
 			return {
 				drugs:[],
+				drugsStock:[],//库存列表
 				drug:{},
 				drugRule:{
 					stock:[{validator:validateNum,trigger: 'blur' }]
@@ -113,6 +124,9 @@
 				pageNum:10,
 				currentPage:1,
 				count:0,
+				pageNumStock:10,
+				currentPageStock:1,
+				countStock:0,
 				authCode:"",
 				dialogFormVisible:false,
 				dialogFormVisibleStock:false,
@@ -125,7 +139,8 @@
 					product_type:['高打'],
 					product_medical_type:"",
 					product_code:"",
-					business:""
+					business:"",
+					product_distribution_flag:"0"
 				}
 			}
 		},
@@ -138,6 +153,30 @@
 
 		},
 		methods:{
+			deleteBatchStockRow(scope){//删除
+				this.$confirm('是否删除?', '提示', {
+          	confirmButtonText: '确定',
+          	cancelButtonText: '取消',
+          	type: 'warning'
+        }).then(() => {
+						this.deleteBatchStock(scope);
+        }).catch(() => {
+        });
+			},
+			deleteBatchStock(scope){//删除批次库存
+				var _self = this;
+				this.jquery('/iae/stock/deleteBatchStock',scope.row,function(res){
+					_self.$message({showClose: true,message: '删除成功',type: 'success'});
+					_self.getBatchStock();
+					_self.getDrugsList();
+				});
+			},
+			editBatchStock(scope){//修改批次库存
+				var _self = this;
+				this.jquery('/iae/stock/editBatchStock',scope.row,function(res){
+					_self.getDrugsList();
+				});
+			},
 			getProductBusiness(){
 				var _self = this;
 				this.jquery("/iae/business/getAllBusiness",null,function(res){//查询商业
@@ -147,24 +186,25 @@
 			editStockShow(scope){
 				this.dialogFormVisibleStock = true;
 				this.drug = scope.row;
+				this.getBatchStock();//获取批次库存列表
 			},
 			editStock(formName){
 				var _self = this;
 				this.$refs[formName].validate((valid) => {
-						if (valid) {
-							this.loading =  true;
-							_self.jquery('/iae/stock/editStock',{
-								product_id:_self.drug.product_id,
-								stock:_self.drug.stock,
-							},function(res){
-								_self.dialogFormVisibleStock = false;
-								_self.loading = false;
-								_self.$message({showClose: true,message: '修改成功',type: 'success'});
-								_self.getDrugsList();
-							});
-						} else {
-							return false;
-						}
+					if (valid) {
+						this.loading =  true;
+						_self.jquery('/iae/stock/editStock',{
+							product_id:_self.drug.product_id,
+							stock:_self.drug.stock,
+						},function(res){
+							_self.dialogFormVisibleStock = false;
+							_self.loading = false;
+							_self.$message({showClose: true,message: '修改成功',type: 'success'});
+							_self.getDrugsList();
+						});
+					} else {
+						return false;
+					}
 				});
 			},
 			analysis(scope){
@@ -231,7 +271,7 @@
 					start:(_self.currentPage-1)*_self.pageNum,
 					limit:_self.pageNum
 				}
-				this.jquery('/iae/drugs/getDrugsStock',{
+				this.jquery('/iae/stock/getDrugsStock',{
 					data:_self.params,
 					page:page
 				},function(res){
@@ -247,12 +287,47 @@
 						_self.stockNum = res.message.sn;
 				});
 			},
+			getBatchStock(){
+				var _self = this;
+				if(!_self.currentPageStock){
+					_self.currentPageStock = 1;
+				}
+				if(!_self.pageNumStock){
+					_self.pageNumStock = 10;
+				}
+				var page = {
+					start:(_self.currentPageStock-1)*_self.pageNumStock,
+					limit:_self.pageNumStock
+				}
+				this.jquery('/iae/stock/getDrugsStockList',{
+					data:{
+						drug_id:this.drug.product_id
+					},
+					page:page
+				},function(res){
+						_self.drugsStock = res.message.data;
+						_self.pageNumStock=parseInt(res.message.limit);
+						_self.countStock=res.message.totalCount;
+				});
+			},
 			reSearch(arg){
 				if(arg){
 					this.$refs["params"].resetFields();
 				}
 				this.currentPage = 1;
 				this.getDrugsList();
+			},
+			formatterDate(row, column, cellValue){
+				if(cellValue && typeof cellValue == "string"){
+					var temp = cellValue.substring(0,10);
+					var d = new Date(temp);
+					d.setDate(d.getDate()+1);
+					return d.format("yyyy-MM-dd");
+				}else if(cellValue && typeof cellValue == "object"){
+					return new Date(cellValue).format("yyyy-MM-dd");
+				}else{
+					return "";
+				}
 			},
 			handleSizeChange(val) {
         this.pageNum = val;
@@ -261,6 +336,18 @@
         this.getDrugsList();
     	},
     	handleCurrentChange(val) {
+    		this.currentPage = val;
+    		this.params.start = (val-1)*this.pageNum;
+    		this.params.limit = this.pageNum;
+				this.getDrugsList();
+    	},
+			handleSizeChangeStock(val) {
+        this.pageNum = val;
+    		this.currentPage = 1;
+    		this.params.limit = this.pageNum;
+        this.getDrugsList();
+    	},
+    	handleCurrentChangeStock(val) {
     		this.currentPage = val;
     		this.params.start = (val-1)*this.pageNum;
     		this.params.limit = this.pageNum;

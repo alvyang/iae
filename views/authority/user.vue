@@ -6,16 +6,24 @@
 		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 		  <el-form-item label="用户名" prop="username">
-		    <el-input v-model="params.username" v-show="authCode.indexOf('21') > -1" style="width:210px;" @keyup.13.native="reSearch" size="mini" placeholder="用户名"></el-input>
+		    <el-input v-model="params.username" style="width:210px;" @keyup.13.native="reSearch" size="mini" placeholder="用户名"></el-input>
 		  </el-form-item>
+			<el-form-item label="用户组" prop="groupId">
+				<el-select v-model="params.groupId" style="width:210px;" size="mini" filterable placeholder="请选择组">
+					<el-option key="" label="全部" value=""></el-option>
+					<el-option v-for="item in groups" :key="item.group_id" :label="item.group_name" :value="item.group_id"></el-option>
+				</el-select>
+			</el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('19') > -1" @click="reSearch" size="mini">查询</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('19') > -1" @click="reSearch(false)" size="mini">查询</el-button>
 				<el-button type="primary" v-dbClick v-show="authCode.indexOf('19') > -1" @click="reSearch(true)" size="mini">重置</el-button>
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('16') > -1" @click="addShow" size="mini">新增</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="users" style="width: 100%" size="mini" :stripe="true">
 			<el-table-column prop="username" label="用户名"></el-table-column>
+			<el-table-column prop="role_name" label="组名称"></el-table-column>
+			<el-table-column prop="group_code" label="组编码"></el-table-column>
 			<el-table-column prop="realname" label="真实姓名"></el-table-column>
 			<el-table-column prop="data_authority" label="数据权限" :formatter="formatterType"></el-table-column>
 			<el-table-column prop="role_name" label="角色名"></el-table-column>
@@ -41,6 +49,11 @@
 		</div>
     <el-dialog :title="title == 1?'新增用户':'修改用户'" width="500px" :visible.sync="dialogFormVisible">
       <el-form :model="user" :rules="rules" ref="user" label-width="100px" class="demo-ruleForm">
+				<el-form-item label="用户组" prop="group_id" :required="true">
+					<el-select v-model="user.group_id" style="width:300px;" filterable placeholder="请选择组">
+						<el-option v-for="item in groups" :key="item.group_id" :label="item.group_name" :value="item.group_id"></el-option>
+					</el-select>
+				</el-form-item>
         <el-form-item label="用户名" prop="username" :required="true">
           <el-input v-model="user.username" maxlength='20' style="width: 300px;" placeholder="用户名" auto-complete="off"></el-input>
         </el-form-item>
@@ -115,6 +128,7 @@
           username:"",
           password:"",
           realname:"",
+					group_id:"",
 					data_authority:"1",
         },
         rules: {
@@ -127,7 +141,8 @@
 				currentPage:1,
 				count:0,
 				params:{
-					username:""
+					username:"",
+					groupId:""
 				},
 				role:{
 					pageNum:5,
@@ -135,16 +150,20 @@
 					count:0
 				},
 				selectUser:null,
-				currentRow: null
+				currentRow: null,
+				groups:[]
 			}
 		},
 		activated(){
 			this.searchUsersList();
 			this.searchRolesList();
+			this.getAllGroups();
+			this.params.groupId = JSON.parse(sessionStorage["user"]).group_id;
+			this.user.group_id = JSON.parse(sessionStorage["user"]).group_id;
 			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		mounted(){
-			var that = this;
+			this.params.groupId = JSON.parse(sessionStorage["user"]).group_id;
 		},
 		methods:{
 			formatterType(row, column, cellValue){
@@ -158,6 +177,7 @@
           realname:"",
 					data_authority:"1",
         };
+				this.user.group_id = JSON.parse(sessionStorage["user"]).group_id;
 				this.title=1;
 				var _self = this;
 				setTimeout(function(){
@@ -176,6 +196,12 @@
 						}
 					}
 				},10);
+			},
+			getAllGroups(){
+				var _self = this;
+				this.jquery('/iae/group/getAllGroups',null,function(res){
+					_self.groups = res.message;
+				});
 			},
 			selectRole(){
 				var _self = this;
@@ -289,6 +315,7 @@
 			reSearch(arg){
 				if(arg){
 					this.$refs["params"].resetFields();
+					this.params.groupId = JSON.parse(sessionStorage["user"]).group_id;
 				}
 				this.currentPage = 1;
         this.searchUsersList();

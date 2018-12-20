@@ -105,6 +105,18 @@
 	 				 </el-option>
 	 			 </el-select>
 	 		 </el-form-item>
+			 <el-form-item label="批号" prop="batch_number" :required="true">
+				 <el-select v-model="allot.batch_number" placeholder="请选择" style="width:179px;">
+					<el-option
+						v-for="item in batchStockList"
+						:key="item.batch_number"
+						:label="item.batch_number"
+						:value="item.batch_number">
+						<span style="float: left">{{ item.batch_number }}</span>
+						<span style="float: right; color: #8492a6; font-size: 13px">库存：{{ item.batch_stock_number }}</span>
+					</el-option>
+				</el-select>
+			 </el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">
         <el-button size="small" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
@@ -155,6 +167,14 @@
           callback();
         }
       };
+			var validateBatchNumber = (rule, value, callback) => {
+				var regu = /^\+?[1-9][0-9]*$/;
+				if (!value) {
+					callback(new Error('请选择批号'));
+				}else {
+					callback();
+				}
+			};
 			return {
 				dialogFormVisible:false,
 				loading:false,
@@ -190,9 +210,11 @@
 					allot_drug_id:"",
 					allot_policy_contact_id:"",
 					allot_account_id:"",//返款账号
-					allot_price:""
+					allot_price:"",
+					batch_number:""
 				},
 				allotRule:{
+					batch_number:[{validator:validateBatchNumber,trigger: 'blur' }],
 					allot_price:[{validator:validateAllotPrice,trigger: 'blur' }],
 					allot_return_price:[{validator:validateRealReturnMoney,trigger: 'blur' }],
 					allot_account_id:[{validator:validateNull,labelname:'返款账号',trigger: 'change' }],
@@ -202,6 +224,7 @@
 					allot_time:[{ required: true, message: '请选择调货时间', trigger: 'blur,change' }],
 					allot_hospital:[{ required: true, message: '请输入调货单位', trigger: 'blur,change' }]
 				},
+				batchStockList:[]
 			}
 		},
 		activated(){
@@ -271,6 +294,13 @@
 					this.$refs["allot"].resetFields();
 				}
 				this.dialogFormVisible = true;
+				//查询批次库存
+				if(this.drug.product_type == '高打'){//如果是高打品种，则选择批次库存
+					var _self = this;
+					this.jquery('/iae/stock/getBatchStockByDrugId',{productId:this.drug.product_id},function(res){
+						_self.batchStockList = res.message;
+					});
+				}
 				this.allot.allot_price = this.drug.product_price;
 			},
 			//搜索所有药品信息
@@ -298,6 +328,12 @@
 				this.allot.allot_drug_id = this.drug.product_id;
 				this.allot.product_type = this.drug.product_type;
 				this.allot.stock = this.drug.stock;
+				for(var i = 0 ; i < this.batchStockList.length;i++){
+					if(this.allot.batch_number == this.batchStockList[i].batch_number){
+						this.allot.allot_purchase_id = this.batchStockList[i].batch_stock_purchase_id;
+						break;
+					}
+				}
 				this.allot.account_detail = this.formatterDate(null,null,this.allot.allot_time)+this.allot.allot_hospital+"调货（"+this.allot.allot_number+"）"+this.drug.product_common_name+"返款";
 				this.$refs[formName].validate((valid) => {
 						if(_self.allot.allot_return_price){

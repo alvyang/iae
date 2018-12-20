@@ -107,7 +107,7 @@
 					<el-date-picker v-model="purchase.storage_time" style="width:179px;" type="date" placeholder="请选择入库时间"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="备注" prop="remark">
-				 <el-autocomplete popper-class="my-autocomplete" style="width:300px;"
+				 <el-autocomplete popper-class="my-autocomplete" style="width:179px;"
 					 v-model="purchase.remark"
 					 :fetch-suggestions="querySearch"
 					 placeholder="备注" @select="handleSelect">
@@ -116,6 +116,9 @@
 					 </template>
 				 </el-autocomplete>
 			 </el-form-item>
+			 <el-form-item label="批号" prop="batch_number">
+				<el-input v-model="purchase.batch_number" style="width:179px;"></el-input>
+			</el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">
         <el-button size="small" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
@@ -149,6 +152,14 @@
           callback();
         }
       };
+			var validateBatchNumber = (rule, value, callback) => {
+				var regu = /^\+?[1-9][0-9]*$/;
+				if (this.purchase.storage_time && !value) {
+					callback(new Error('请输入批号'));
+				} else {
+					callback();
+				}
+			};
 			return {
 				loading:false,
 				dialogFormVisible:false,
@@ -180,9 +191,11 @@
 					purchase_mack_price:"",
 					puchase_gross_rate:"",
 					remark:"",
-					purchase_return_flag:""
+					purchase_return_flag:"",
+					batch_number:""
 				},
 				purchaseRule:{
+					batch_number:[{validator:validateBatchNumber,trigger: 'blur' }],
 					purchase_number:[{validator:validateNum,trigger: 'blur' }],
 					time:[{ required: true, message: '请选择备货时间', trigger: 'blur,change' }]
 				},

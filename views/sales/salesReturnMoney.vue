@@ -2,7 +2,7 @@
 	<div style="box-sizing: border-box;padding: 0px 10px;">
 		<el-breadcrumb separator-class="el-icon-arrow-right">
 		  <el-breadcrumb-item>返款管理</el-breadcrumb-item>
-			<el-breadcrumb-item>销售回款管理</el-breadcrumb-item>
+			<el-breadcrumb-item>销售积分管理</el-breadcrumb-item>
 		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 			<el-form-item label="销售日期" prop="salesTime">
@@ -62,7 +62,7 @@
 			 <el-button type="primary" v-dbClick v-show="authCode.indexOf('e430d5a0-d802-11e8-a19c-cf0f6be47d2e') > -1" @click="exportSaleReturn" size="mini">导出</el-button>
 	   </el-form-item>
 		</el-form>
-		<div class="sum_money">回款总额：<a>{{saleReturnMoney}}</a> 元；</div>
+		<div class="sum_money">总积分：<a>{{saleReturnMoney}}</a> </div>
 		<el-table :data="sales" style="width: 100%" size="mini" :stripe="true" :border="true">
   			<el-table-column fixed prop="bill_date" label="日期" width="80" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="hospital_name" label="销往单位" width="140"></el-table-column>
@@ -72,17 +72,18 @@
 				<el-table-column prop="product_makesmakers" label="生产厂家" width="150"></el-table-column>
 				<el-table-column prop="business_name" label="商业" width="60"></el-table-column>
 				<el-table-column prop="sale_type" label="销售类型" width="60" :formatter="formatterType"></el-table-column>
+				<el-table-column prop="product_type" label="品种类型" width="60"></el-table-column>
 				<el-table-column prop="sale_price" label="中标价" width="60"></el-table-column>
 				<el-table-column prop="sale_num" label="销售数量" width="70"></el-table-column>
 				<el-table-column prop="sale_money" label="购入金额" width="70"></el-table-column>
-				<el-table-column prop="sale_money" label="购入金额" width="70"></el-table-column>
-				<el-table-column prop="sale_return_price" label="回款金额" width="70" ></el-table-column>
-				<el-table-column prop="sale_return_money" label="回款总额" width="70"></el-table-column>
-				<el-table-column prop="sale_return_time" label="回款时间" width="70" :formatter="formatterDate"></el-table-column>
-				<el-table-column prop="sale_account_name" label="回款账户名" width="80" ></el-table-column>
-				<el-table-column prop="sale_account_number" label="回款账户" width="80" ></el-table-column>
-				<el-table-column prop="sale_account_address" label="开户行" width="80"></el-table-column>
-				<el-table-column prop="sale_policy_remark" label="回款备注" width="70"></el-table-column>
+				<el-table-column label="上游实返积分" width="70" :formatter="formatterReturnMoney"></el-table-column>
+				<el-table-column prop="sale_return_price" label="政策积分" width="70" ></el-table-column>
+				<el-table-column prop="sale_return_money" label="应回积分" width="70"></el-table-column>
+				<el-table-column prop="sale_return_time" label="回积分时间" width="70" :formatter="formatterDate"></el-table-column>
+				<el-table-column prop="sale_account_name" label="积分账户名" width="80" ></el-table-column>
+				<el-table-column prop="sale_account_number" label="积分账户" width="80" ></el-table-column>
+				<el-table-column prop="sale_account_address" label="积分账户地址" width="80"></el-table-column>
+				<el-table-column prop="sale_policy_remark" label="积分备注" width="70"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="60">
 		    <template slot-scope="scope">
 	        <el-button @click.native.prevent="editRow(scope)" v-dbClick v-show="authCode.indexOf('4a023420-d40a-11e8-bfbc-6f9a2209108b') > -1"  icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
@@ -101,7 +102,7 @@
 	      :total="count">
 	    </el-pagination>
 		</div>
-		<el-dialog title="修改医院回款记录" width="700px" :visible.sync="dialogFormVisible">
+		<el-dialog title="修改销售积分记录" width="700px" :visible.sync="dialogFormVisible">
 			<el-collapse v-model="activeNames">
 			  <el-collapse-item :title="'药品信息（药品名：'+sale.product_common_name+ '）'" name="1">
 			    <div><span>产品编号:</span>{{sale.product_code}}</div>
@@ -109,18 +110,18 @@
 					<div><span>中标价:</span>{{sale.sale_price}}</div>
 					<div><span>包装:</span>{{sale.product_packing}}</div>
 					<div><span>单位:</span>{{sale.product_unit}}</div>
-					<div><span>返款金额:</span>{{sale.product_return_money}}</div>
+					<div><span>积分:</span>{{sale.product_return_money}}</div>
 					<div style="display:block;width:100%;"><span>生产产家:</span>{{sale.product_makesmakers}}</div>
 			  </el-collapse-item>
 			</el-collapse>
 			<el-form :model="sale" status-icon :rules="saleRule" style="margin-top:20px;" :inline="true" ref="sale" label-width="100px" class="demo-ruleForm">
-				<el-form-item label="回款单价" prop="sale_return_price">
+				<el-form-item label="积分" prop="sale_return_price">
 					<el-input v-model="sale.sale_return_price" style="width:179px;" @blur='saleReturnPrice'></el-input>
 				</el-form-item>
-				<el-form-item label="回款金额" prop="sale_return_money">
+				<el-form-item label="应回积分" prop="sale_return_money">
 					<el-input v-model="sale.sale_return_money" style="width:179px;"></el-input>
 				</el-form-item>
-				<el-form-item label="回款账号" prop="sale_account_id">
+				<el-form-item label="回积分账号" prop="sale_account_id">
 					<el-select v-model="sale.sale_account_id" style="width:179px;" filterable placeholder="请选择">
 						<el-option v-for="item in accounts"
 							:key="item.account_id"
@@ -129,7 +130,7 @@
 						</el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="回款时间" prop="sale_return_time">
+				<el-form-item label="回积分时间" prop="sale_return_time">
 					<el-date-picker v-model="sale.sale_return_time" style="width:179px;" type="date" placeholder="请选择打款时间"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="业务员" prop="sale_contact_id">
@@ -142,13 +143,13 @@
 					 </el-option>
 				 </el-select>
 			 </el-form-item>
-				<el-form-item label="回款备注" prop="sale_policy_remark">
+				<el-form-item label="积分备注" prop="sale_policy_remark">
 					<el-input v-model="sale.sale_policy_remark" style="width:179px;"></el-input>
 				</el-form-item>
 				<div style="padding-left: 16px;" v-show="selectContact.account_name && selectContact.account_number">
-						<div>回款账号名：{{selectContact.account_name}}</div>
-						<div>　回款账号：{{selectContact.account_number}}</div>
-						<div>　　开户行：{{selectContact.account_address}}</div>
+						<div>积分账号名：{{selectContact.account_name}}</div>
+						<div>　积分账号：{{selectContact.account_number}}</div>
+						<div>　积分地址：{{selectContact.account_address}}</div>
 				</div>
 			</el-form>
       <div slot="footer" class="dialog-footer">
@@ -250,6 +251,15 @@
 					_self.business=res.message;
 				});
 			},
+			formatterReturnMoney(row, column, cellValue){
+				if(row.product_type == '佣金' && row.refunds_real_time && row.refunds_real_money){
+					return	this.div(row.refunds_real_money,row.sale_num,2);
+				}else if(row.product_type == '高打' && row.refunds_real_time && row.refunds_real_money){
+					return this.div(row.refunds_real_money,row.purchase_number,2);
+				}else{
+					return 0;
+				}
+			},
 			formatterType(row, column, cellValue){
 				return cellValue=='1'?"销售出库":(cellValue=='2'?"销售退回":"销售退补价");
 			},
@@ -292,7 +302,7 @@
 				});
 			},
 			exportSaleReturn(){
-				var url = this.$bus.data.host + "/iae/sales/exportSalesRefund";
+				var url = this.$bus.data.host + "/iae/salesPolicy/exportSalesRefund";
 				this.download(url,this.params);
 			},
 			getSalesList(){
@@ -307,7 +317,7 @@
           start:(_self.currentPage-1)*_self.pageNum,
           limit:_self.pageNum
         }
-        this.jquery('/iae/sales/getSales',{
+        this.jquery('/iae/salesPolicy/getSalesReturnMoney',{
 					data:_self.params,
           page:page
         },function(res){

@@ -132,6 +132,19 @@
 				<el-form-item label="销售日期" prop="bill_date">
 					<el-date-picker v-model="sale.bill_date" style="width:194px;" type="date" placeholder="请选择销售时间"></el-date-picker>
 				</el-form-item>
+				<el-form-item label="批号" prop="batch_number" :required="true">
+					<el-select v-model="sale.batch_number" placeholder="请选择" v-show="this.drug.product_type == '高打'">
+					 <el-option
+						 v-for="item in batchStockList"
+						 :key="item.batch_number"
+						 :label="item.batch_number"
+						 :value="item.batch_number">
+						 <span style="float: left">{{ item.batch_number }}</span>
+						 <span style="float: right; color: #8492a6; font-size: 13px">库存：{{ item.batch_stock_number }}</span>
+					 </el-option>
+				 </el-select>
+					<el-input v-show="this.drug.product_type != '高打'" v-model="sale.batch_number" style="width:194px;"  auto-complete="off" placeholder="请输入批号"></el-input>
+				</el-form-item>
 			</el-form>
 			<div style="font-size:12px;color:#f04040;" v-show="!drug.product_code">温馨提示：该药品无产品编码，不可添加。请到药品管理中维护。</div>
       <div slot="footer" class="dialog-footer">
@@ -152,6 +165,16 @@ export default({
 				callback(new Error('请输入整数'));
 			} else {
 				this.sale.sale_money = this.mul(this.sale.sale_num,this.sale.sale_price,2);
+				callback();
+			}
+		};
+		var validateBatchNumber = (rule, value, callback) => {
+			var regu = /^\+?[1-9][0-9]*$/;
+			if (!value && this.drug.product_type=='高打') {
+				callback(new Error('请选择批号'));
+			} else if(!value && this.drug.product_type!='高打'){
+				callback(new Error('请输入批号'));
+			} else {
 				callback();
 			}
 		};
@@ -187,15 +210,18 @@ export default({
 				hospital_id:"",
 				sale_type:"1",
 				sale_return_flag:"",
+				batch_number:"",
 			},
 			drug:{},//选择的药品信息
 			hospitals:[],
 			business:[],
 			saleRule:{
+				batch_number:[{validator:validateBatchNumber,trigger: 'blur' }],
 				sale_num:[{validator: validateNum,trigger: 'blur' }],
 				bill_date:[{ required: true, message: '请选择销售时间', trigger: 'change' }],
 				hospital_id:[{ required: true, message: '请选择销售机构', trigger: 'change' }],
-			}
+			},
+			batchStockList:[],//库存列表
 		}
 	},
 	activated(){
@@ -245,6 +271,14 @@ export default({
 			this.sale.product_return_time_type = this.drug.product_return_time_type;
 			this.sale.product_return_time_day = this.drug.product_return_time_day;
 		  this.sale.product_return_time_day_num = 	this.drug.product_return_time_day_num;
+			if(this.drug.product_type == '高打'){
+				for(var i = 0 ; i < this.batchStockList.length;i++){
+					if(this.sale.batch_number == this.batchStockList[i].batch_number){
+						this.sale.sales_purchase_id = this.batchStockList[i].batch_stock_purchase_id;
+						break;
+					}
+				}
+			}
 			var _self = this;
 			this.$refs[formName].validate((valid) => {
 					if(_self.sale.sale_return_price){//销售回款金额
@@ -278,10 +312,18 @@ export default({
 		},
 		selectRow(scope){
 			this.drug = scope.row;
+			this.sale.sales_purchase_id = null;
 			if(this.$refs["sale"]){
 				this.$refs["sale"].resetFields();
 			}
 			this.sale.sale_price = this.drug.product_price;
+			//查询批次库存
+			if(this.drug.product_type == '高打'){//如果是高打品种，则选择批次库存
+				var _self = this;
+				this.jquery('/iae/stock/getBatchStockByDrugId',{productId:this.drug.product_id},function(res){
+					_self.batchStockList = res.message;
+				});
+			}
 			this.dialogFormVisible = true;
 		},
 		formatNull(row, column, cellValue, index){

@@ -41,10 +41,10 @@
 				<el-table-column prop="product_makesmakers" label="生产厂家" width="150"></el-table-column>
 				<el-table-column prop="business_name" label="商业" width="60"></el-table-column>
         <el-table-column prop="product_price" label="中标价" width="80"></el-table-column>
-        <el-table-column prop="product_return_money" label="厂家返利" width="80"></el-table-column>
-        <el-table-column prop="sale_policy_money" label="销售政策" width="80"></el-table-column>
-        <el-table-column prop="business_name" label="政策比例" width="80" :formatter="formatterPercent"></el-table-column>
-        <el-table-column prop="sale_policy_remark" label="政策备注" width="80"></el-table-column>
+        <el-table-column prop="product_return_money" label="积分" width="80"></el-table-column>
+        <el-table-column prop="sale_policy_money" label="销售积分" width="80"></el-table-column>
+        <el-table-column prop="business_name" label="积分比例" width="80" :formatter="formatterPercent"></el-table-column>
+        <el-table-column prop="sale_policy_remark" label="积分备注" width="80"></el-table-column>
         <el-table-column prop="contacts_name" label="业务员" ></el-table-column>
   			<el-table-column fixed="right" label="操作" width="100">
 		    <template slot-scope="scope">
@@ -89,16 +89,16 @@
           <el-button type="primary" size="small" v-dbClick :loading="loading" @click="copyPolicy('copyPolicyParams')">确 定</el-button>
         </div>
       </el-dialog>
-      <el-dialog title="修改销售记录" width="700px" :visible.sync="dialogFormVisible">
+      <el-dialog title="修改销售政策" width="700px" :visible.sync="dialogFormVisible">
   			<el-collapse v-model="activeNames" style="text-align:left;" >
   			  <el-collapse-item :title="'药品信息（药品名：'+drug.product_common_name+ '）'" name="1">
             <div><span>规格:</span>{{drug.product_specifications}}</div>
-  					<div><span>返款金额:</span>{{drug.product_return_money}}</div>
+  					<div><span>积分:</span>{{drug.product_return_money}}</div>
             <div style="display:block;width:100%;"><span>生产产家:</span>{{drug.product_makesmakers}}</div>
   			  </el-collapse-item>
   			</el-collapse>
   			<el-form :model="policy" status-icon :rules="policyRule" style="margin-top:20px;" :inline="true" ref="sale" label-width="100px" class="demo-ruleForm">
-  				<el-form-item label="回款金额" prop="sale_policy_money" :maxlength="10">
+  				<el-form-item label="销售积分" prop="sale_policy_money" :maxlength="10">
   					<el-input v-model="policy.sale_policy_money" style="width:179px;" placeholder="请输入回款金额"></el-input>
   				</el-form-item>
           <el-form-item label="业务员" prop="sale_policy_contact_id">
@@ -111,7 +111,7 @@
              </el-option>
            </el-select>
          </el-form-item>
-          <el-form-item label="回款备注" prop="sale_policy_remark">
+          <el-form-item label="积分备注" prop="sale_policy_remark">
             <el-input v-model="policy.sale_policy_remark" style="width:179px;" placeholder="请输入回款备注"></el-input>
           </el-form-item>
   			</el-form>
