@@ -132,7 +132,7 @@
 				<el-form-item label="销售日期" prop="bill_date">
 					<el-date-picker v-model="sale.bill_date" style="width:194px;" type="date" placeholder="请选择销售时间"></el-date-picker>
 				</el-form-item>
-				<el-form-item label="批号" prop="batch_number" :required="true">
+				<el-form-item label="批号" prop="batch_number">
 					<el-select v-model="sale.batch_number" placeholder="请选择" style="width:194px;"  v-show="this.drug.product_type == '高打'">
 					 <el-option
 						 v-for="item in batchStockList"
@@ -172,8 +172,6 @@ export default({
 			var regu = /^\+?[1-9][0-9]*$/;
 			if (!value && this.drug.product_type=='高打') {
 				callback(new Error('请选择批号'));
-			} else if(!value && this.drug.product_type!='高打'){
-				callback(new Error('请输入批号'));
 			} else {
 				callback();
 			}

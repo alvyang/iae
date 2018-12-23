@@ -175,8 +175,8 @@
 				<el-form-item label="毛利" prop="gross_profit">
 					<el-input v-model="sale.gross_profit" style="width:194px;"></el-input>
 				</el-form-item>
-				<el-form-item label="批号" prop="batch_number" :required="true">
-					<el-input :readonly="sale.product_type == '高打' " v-model="sale.batch_number" style="width:194px;" auto-complete="off" placeholder="请输入批号"></el-input>
+				<el-form-item label="批号" prop="batch_number" v-show="sale.product_type != '高打' " >
+					<el-input v-model="sale.batch_number" style="width:194px;" auto-complete="off" placeholder="请输入批号"></el-input>
 				</el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">
@@ -235,16 +235,6 @@
          	callback();
         }
     	};
-			var validateBatchNumber = (rule, value, callback) => {
-				var regu = /^\+?[1-9][0-9]*$/;
-				if (!value && this.drug.product_type=='高打') {
-					callback(new Error('请选择批号'));
-				} else if(!value && this.drug.product_type!='高打'){
-					callback(new Error('请输入批号'));
-				} else {
-					callback();
-				}
-			};
 			const nowDate = new Date();
 			return {
 				pickerOptions2: {
@@ -292,7 +282,6 @@
 				},
 				sale:{},//修改的销售信息
 				saleRule:{
-					batch_number:[{validator:validateBatchNumber,trigger: 'blur' }],
 					accounting_cost:[{validator: validateMoney,labelname:"核算成本价",trigger: 'blur' }],
 					cost_univalent:[{validator: validateMoney,labelname:"成本单价",trigger: 'blur' }],
 					sale_num:[{validator: validateNum,trigger: 'blur' }],
