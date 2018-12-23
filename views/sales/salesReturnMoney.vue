@@ -1,7 +1,7 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;">
 		<el-breadcrumb separator-class="el-icon-arrow-right">
-		  <el-breadcrumb-item>返款管理</el-breadcrumb-item>
+		  <el-breadcrumb-item>积分管理</el-breadcrumb-item>
 			<el-breadcrumb-item>销售积分管理</el-breadcrumb-item>
 		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">

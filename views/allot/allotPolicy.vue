@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
-		  <el-breadcrumb-item>返款管理</el-breadcrumb-item>
+		  <el-breadcrumb-item>积分管理</el-breadcrumb-item>
 			<el-breadcrumb-item>调货政策管理<a style="color:#f24040;">（请选择调货单位）</a></el-breadcrumb-item>
 		</el-breadcrumb>
     <el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
