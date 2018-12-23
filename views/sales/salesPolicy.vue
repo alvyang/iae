@@ -99,7 +99,7 @@
   			</el-collapse>
   			<el-form :model="policy" status-icon :rules="policyRule" style="margin-top:20px;" :inline="true" ref="sale" label-width="100px" class="demo-ruleForm">
   				<el-form-item label="销售积分" prop="sale_policy_money" :maxlength="10">
-  					<el-input v-model="policy.sale_policy_money" style="width:179px;" placeholder="请输入回款金额"></el-input>
+  					<el-input v-model="policy.sale_policy_money" style="width:179px;" placeholder="销售积分"></el-input>
   				</el-form-item>
           <el-form-item label="业务员" prop="sale_policy_contact_id">
            <el-select v-model="policy.sale_policy_contact_id" style="width:179px;" filterable placeholder="请选择">
@@ -112,7 +112,7 @@
            </el-select>
          </el-form-item>
           <el-form-item label="积分备注" prop="sale_policy_remark">
-            <el-input v-model="policy.sale_policy_remark" style="width:179px;" placeholder="请输入回款备注"></el-input>
+            <el-input v-model="policy.sale_policy_remark" style="width:179px;" placeholder="积分备注"></el-input>
           </el-form-item>
   			</el-form>
         <div slot="footer" class="dialog-footer">
@@ -228,6 +228,7 @@
 				var _self = this;
         _self.policy.sale_hospital_id = this.params.hospitalId;
         _self.policy.sale_drug_id = this.drug.product_id;
+        _self.policy.product_code = this.drug.product_code;
 				this.$refs[formName].validate((valid) => {
 						if (valid) {
 							this.loading = true;

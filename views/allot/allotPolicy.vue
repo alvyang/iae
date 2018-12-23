@@ -98,8 +98,8 @@
   			  </el-collapse-item>
   			</el-collapse>
   			<el-form :model="policy" status-icon :rules="policyRule" style="margin-top:20px;" :inline="true" ref="sale" label-width="100px" class="demo-ruleForm">
-  				<el-form-item label="积分" prop="allot_policy_money" :maxlength="10">
-  					<el-input v-model="policy.allot_policy_money" style="width:179px;" placeholder="请输入回款金额"></el-input>
+  				<el-form-item label="调货积分" prop="allot_policy_money" :maxlength="10">
+  					<el-input v-model="policy.allot_policy_money" style="width:179px;" placeholder="调货积分"></el-input>
   				</el-form-item>
           <el-form-item label="调货联系人" prop="allot_policy_contact_id">
            <el-select v-model="policy.allot_policy_contact_id" style="width:179px;" filterable placeholder="请选择">
@@ -112,7 +112,7 @@
            </el-select>
          </el-form-item>
           <el-form-item label="积分备注" prop="allot_policy_remark">
-            <el-input v-model="policy.allot_policy_remark" style="width:179px;" placeholder="请输入回款备注"></el-input>
+            <el-input v-model="policy.allot_policy_remark" style="width:179px;" placeholder="积分备注"></el-input>
           </el-form-item>
   			</el-form>
         <div slot="footer" class="dialog-footer">

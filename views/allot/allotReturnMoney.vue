@@ -2,7 +2,7 @@
 	<div>
 		<el-breadcrumb separator-class="el-icon-arrow-right">
 		  <el-breadcrumb-item>返款管理</el-breadcrumb-item>
-			<el-breadcrumb-item>调货回款管理</el-breadcrumb-item>
+			<el-breadcrumb-item>调货积分管理</el-breadcrumb-item>
 		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 			<el-form-item label="调货时间" prop="allot_time">
@@ -13,6 +13,14 @@
 					:picker-options="pickerOptions2">
 				</el-date-picker>
  		 	</el-form-item>
+			<el-form-item label="回积分日期" prop="allotReturnTime">
+ 			<el-date-picker v-model="params.allotReturnTime" type="daterange" style="width:196px !important;" size="mini" align="right" unlink-panels
+ 				range-separator="至"
+ 				start-placeholder="开始日期"
+ 				end-placeholder="结束日期"
+ 				:picker-options="pickerOptions2">
+ 			</el-date-picker>
+ 		</el-form-item>
 			<el-form-item label="产品名称" prop="productCommonName">
 		    <el-input v-model="params.productCommonName" style="width:210px;" size="mini" @keyup.13.native="reSearch(false)" placeholder="产品名称/助记码"></el-input>
 		  </el-form-item>
@@ -116,10 +124,10 @@
 			</el-collapse>
 			<el-form :model="allot" ref="allot" status-icon :rules="allotRule" style="margin-top:20px;" :inline="true" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="政策积分" prop="allot_return_price">
-					<el-input v-model="allot.allot_return_price" style="width:179px;" ></el-input>
+					<el-input v-model="allot.allot_return_price" style="width:179px;" placeholder="政策积分"></el-input>
 				</el-form-item>
 				<el-form-item label="应返积分" prop="allot_return_money">
-					<el-input v-model="allot.allot_return_money" style="width:179px;" :readonly="true"></el-input>
+					<el-input v-model="allot.allot_return_money" style="width:179px;" placeholder="应返积分" :readonly="true"></el-input>
 				</el-form-item>
 				<el-form-item label="回积分账号" prop="allot_account_id">
           <el-select v-model="allot.allot_account_id" style="width:179px;" filterable placeholder="请选择">
@@ -142,9 +150,9 @@
 						 :value="item.contacts_id">
 					 </el-option>
 				 </el-select>
-			 </el-form-item>
+			  </el-form-item>
 				<el-form-item label="积分备注" prop="allot_policy_remark">
-					<el-input v-model="allot.allot_policy_remark" style="width:179px;"></el-input>
+					<el-input v-model="allot.allot_policy_remark" style="width:179px;" placeholder="积分备注"></el-input>
 				</el-form-item>
 				<!-- <el-form-item label="是否返款" prop="allot_return_flag">
 					<el-select v-model="allot.allot_return_flag" placeholder="请选择" style="width:179px;" >
@@ -234,6 +242,7 @@
 					productCommonName:"",
 					allot_hospital:"",
 					allot_time:[],
+					allotReturnTime:[],
 					product_code:"",
 					allot_return_flag:"",
 					business:"",

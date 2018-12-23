@@ -55,6 +55,7 @@ import reportSalesReturnMoney from "../views/report/reportSalesReturnMoney.vue";
 import reportSalesByProduct from "../views/report/reportSalesByProduct.vue";//销售按产品
 import reportSalesByHospital from "../views/report/reportSalesByHospital.vue";//销售按医院
 import reportSalesByProfitRate from "../views/report/reportSalesByProfitRate.vue";//销售按毛利率
+import reportComprehensive from "../views/report/reportComprehensive.vue";//利润/负债综合统计
 
 //返款管理
 import Refundsale from "../views/refunds/refundsale.vue";
@@ -111,6 +112,7 @@ const router = new VueRouter({
 			{path:"reportsalesbyproduct",component:reportSalesByProduct},//报表销售按品种
 			{path:"reportsalesbyhospital",component:reportSalesByHospital},//报表销售按品种
 			{path:"reportsalesbyprofitrate",component:reportSalesByProfitRate},//报表销售按品种
+			{path:"reportcomprehensive",component:reportComprehensive},//利润/负债，综合统计
 			{path:"refundsale",component:Refundsale},//佣金返款
 			{path:"refundpurchase",component:Refundpurchase},//高打返款
 			{path:"allotreturnmoney",component:AllotReturnMoney},//调货回款

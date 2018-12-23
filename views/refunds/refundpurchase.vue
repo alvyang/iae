@@ -14,8 +14,24 @@
            :picker-options="pickerOptions2">
          </el-date-picker>
         </el-form-item>
+        <el-form-item label="打款日期" prop="returnTime">
+         <el-date-picker v-model="params.makeMoneyTime" type="daterange" size="mini" align="right" unlink-panels
+           range-separator="至"
+           start-placeholder="开始日期"
+           end-placeholder="结束日期"
+           :picker-options="pickerOptions2">
+         </el-date-picker>
+        </el-form-item>
         <el-form-item label="应返日期" prop="returnTime">
          <el-date-picker v-model="params.returnTime" type="daterange" size="mini" align="right" unlink-panels
+           range-separator="至"
+           start-placeholder="开始日期"
+           end-placeholder="结束日期"
+           :picker-options="pickerOptions2">
+         </el-date-picker>
+        </el-form-item>
+        <el-form-item label="实返日期" prop="realReturnTime">
+         <el-date-picker v-model="params.realReturnTime" type="daterange" size="mini" align="right" unlink-panels
            range-separator="至"
            start-placeholder="开始日期"
            end-placeholder="结束日期"
@@ -144,16 +160,16 @@
           <el-date-picker v-model="refund.refunds_should_time" style="width:194px;" type="date" placeholder="请选择应返日期"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="应返积分" prop="refunds_should_money">
-					<el-input v-model="refund.refunds_should_money" style="width:194px;" placeholder="应返金额" auto-complete="off"></el-input>
+					<el-input v-model="refund.refunds_should_money" style="width:194px;" placeholder="应返积分" auto-complete="off"></el-input>
 				</el-form-item>
         <el-form-item label="实返日期" prop="refunds_real_time">
           <el-date-picker v-model="refund.refunds_real_time" style="width:194px;" type="date" placeholder="请选择实返日期"></el-date-picker>
         </el-form-item>
         <el-form-item label="实返积分" prop="refunds_real_money">
-          <el-input v-model="refund.refunds_real_money" style="width:194px;" placeholder="实返金额" auto-complete="off"></el-input>
+          <el-input v-model="refund.refunds_real_money" style="width:194px;" placeholder="实返积分" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="其它积分" prop="service_charge">
-          <el-input v-model="refund.service_charge" style="width:194px;" placeholder="实返金额" auto-complete="off"></el-input>
+          <el-input v-model="refund.service_charge" style="width:194px;" placeholder="其它积分" auto-complete="off"></el-input>
         </el-form-item>
 				<el-form-item label="返积分人" prop="refundser">
           <el-autocomplete popper-class="my-autocomplete" style="width:194px;"
@@ -248,8 +264,8 @@ export default({
       },
       refundRule:{
         refunds_real_time:[{validator: validateNull,trigger: 'blur' }],
-        refunds_should_money:[{validator: validateMoney,labelname:'应返金额',trigger: 'blur' }],
-        refunds_real_money:[{validator: validateMoney,labelname:'实返金额',trigger: 'blur' }]
+        refunds_should_money:[{validator: validateMoney,labelname:'应返积分',trigger: 'blur' }],
+        refunds_real_money:[{validator: validateMoney,labelname:'实返积分',trigger: 'blur' }]
       },
       refundMoney:{
         rsm:0,
@@ -265,6 +281,8 @@ export default({
         productCommonName:"",
         time:[],
         returnTime:[],
+        makeMoneyTime:[],
+        realReturnTime:[],
         contactId:"",
         status:"",
         product_code:"",

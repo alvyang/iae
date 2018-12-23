@@ -133,7 +133,7 @@
 					<el-date-picker v-model="sale.bill_date" style="width:194px;" type="date" placeholder="请选择销售时间"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="批号" prop="batch_number" :required="true">
-					<el-select v-model="sale.batch_number" placeholder="请选择" v-show="this.drug.product_type == '高打'">
+					<el-select v-model="sale.batch_number" placeholder="请选择" style="width:194px;"  v-show="this.drug.product_type == '高打'">
 					 <el-option
 						 v-for="item in batchStockList"
 						 :key="item.batch_number"

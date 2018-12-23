@@ -13,6 +13,14 @@
  				 :picker-options="pickerOptions2">
  			 </el-date-picker>
  		 </el-form-item>
+		 <el-form-item label="回积分日期" prop="salesReturnTime">
+			<el-date-picker v-model="params.salesReturnTime" type="daterange" style="width:196px !important;" size="mini" align="right" unlink-panels
+				range-separator="至"
+				start-placeholder="开始日期"
+				end-placeholder="结束日期"
+				:picker-options="pickerOptions2">
+			</el-date-picker>
+		</el-form-item>
 			<el-form-item label="产品名称" prop="productCommonName">
 		    <el-input v-model="params.productCommonName" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品名称/助记码"></el-input>
 		  </el-form-item>
@@ -115,11 +123,11 @@
 			  </el-collapse-item>
 			</el-collapse>
 			<el-form :model="sale" status-icon :rules="saleRule" style="margin-top:20px;" :inline="true" ref="sale" label-width="100px" class="demo-ruleForm">
-				<el-form-item label="积分" prop="sale_return_price">
-					<el-input v-model="sale.sale_return_price" style="width:179px;" @blur='saleReturnPrice'></el-input>
+				<el-form-item label="政策积分" prop="sale_return_price">
+					<el-input v-model="sale.sale_return_price" style="width:179px;" placeholder="政策积分" @blur='saleReturnPrice'></el-input>
 				</el-form-item>
 				<el-form-item label="应回积分" prop="sale_return_money">
-					<el-input v-model="sale.sale_return_money" style="width:179px;"></el-input>
+					<el-input v-model="sale.sale_return_money" placeholder="应回积分" style="width:179px;"></el-input>
 				</el-form-item>
 				<el-form-item label="回积分账号" prop="sale_account_id">
 					<el-select v-model="sale.sale_account_id" style="width:179px;" filterable placeholder="请选择">
@@ -131,7 +139,7 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="回积分时间" prop="sale_return_time">
-					<el-date-picker v-model="sale.sale_return_time" style="width:179px;" type="date" placeholder="请选择打款时间"></el-date-picker>
+					<el-date-picker v-model="sale.sale_return_time" style="width:179px;" type="date" placeholder="请选择回积分时间"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="业务员" prop="sale_contact_id">
 				 <el-select v-model="sale.sale_contact_id" style="width:179px;" @change="selectSalesContact"  filterable placeholder="请选择">
@@ -144,7 +152,7 @@
 				 </el-select>
 			 </el-form-item>
 				<el-form-item label="积分备注" prop="sale_policy_remark">
-					<el-input v-model="sale.sale_policy_remark" style="width:179px;"></el-input>
+					<el-input v-model="sale.sale_policy_remark" style="width:179px;" placeholder="积分备注"></el-input>
 				</el-form-item>
 				<div style="padding-left: 16px;" v-show="selectContact.account_name && selectContact.account_number">
 						<div>积分账号名：{{selectContact.account_name}}</div>
@@ -193,6 +201,7 @@
 				params:{//查询参数
 					productCommonName:"",
 					salesTime:[],
+					salesReturnTime:[],
 					hospitalsId:"",
 					sale_type:"",
 					business:"",
