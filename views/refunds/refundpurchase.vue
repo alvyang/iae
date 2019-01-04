@@ -22,7 +22,7 @@
            :picker-options="pickerOptions2">
          </el-date-picker>
         </el-form-item>
-        <el-form-item label="应返日期" prop="returnTime">
+        <el-form-item label="应付日期" prop="returnTime">
          <el-date-picker v-model="params.returnTime" type="daterange" size="mini" align="right" unlink-panels
            range-separator="至"
            start-placeholder="开始日期"
@@ -30,7 +30,7 @@
            :picker-options="pickerOptions2">
          </el-date-picker>
         </el-form-item>
-        <el-form-item label="实返日期" prop="realReturnTime">
+        <el-form-item label="实收日期" prop="realReturnTime">
          <el-date-picker v-model="params.realReturnTime" type="daterange" size="mini" align="right" unlink-panels
            range-separator="至"
            start-placeholder="开始日期"
@@ -70,7 +70,7 @@
             <el-option key="未返" label="未返" value="未返"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="返积分人" prop="refundser">
+        <el-form-item label="付积分人" prop="refundser">
           <el-select v-model="params.refundser" style="width:210px;" filterable size="mini" placeholder="请选择">
             <el-option key="" label="全部" value=""></el-option>
             <el-option v-for="item in refundser" v-if="item.refundser"
@@ -95,8 +95,8 @@
     </el-form>
     <div class="sum_money">
       积分：<a>{{refundMoney.rsm}}</a>
-      实返积分：<a>{{refundMoney.rrm}}</a>
-      未返金额：<a>{{refundMoney.own}}</a>
+      实收积分：<a>{{refundMoney.rrm}}</a>
+      未付积分：<a>{{refundMoney.own}}</a>
       其它积分：<a>{{refundMoney.sc}}</a> </div>
     <el-table :data="purchases" style="width: 100%" size="mini" :stripe="true" :border="true">
       <el-table-column fixed prop="product_code" label="产品编码" width="100"></el-table-column>
@@ -114,12 +114,12 @@
       <el-table-column  prop="make_money_time" label="打款日期" width="80" :formatter="formatterDate"></el-table-column>
       <el-table-column  prop="send_out_time" label="发货日期" width="80" :formatter="formatterDate"></el-table-column>
       <el-table-column  prop="product_return_money" label="积分" width="80"></el-table-column>
-      <el-table-column  prop="refunds_should_time" label="应返日期" width="80" :formatter="formatterDate"></el-table-column>
-      <el-table-column  prop="refunds_should_money" label="应返积分" width="80"></el-table-column>
-      <el-table-column  prop="refunds_real_time" label="实返日期" width="80" :formatter="formatterDate"></el-table-column>
-      <el-table-column  prop="refunds_real_money" label="实返积分" width="70"></el-table-column>
+      <el-table-column  prop="refunds_should_time" label="应付日期" width="80" :formatter="formatterDate"></el-table-column>
+      <el-table-column  prop="refunds_should_money" label="应付积分" width="80"></el-table-column>
+      <el-table-column  prop="refunds_real_time" label="实收日期" width="80" :formatter="formatterDate"></el-table-column>
+      <el-table-column  prop="refunds_real_money" label="实收积分" width="70"></el-table-column>
       <el-table-column  prop="service_charge" label="其它积分" width="60"></el-table-column>
-      <el-table-column  prop="refundser" label="返积分人" width="60"></el-table-column>
+      <el-table-column  prop="refundser" label="付积分人" width="60"></el-table-column>
       <el-table-column  prop="account_number" label="收积分账号" width="80"></el-table-column>
       <el-table-column prop="refunds_remark" label="备注" width="150"></el-table-column>
       <el-table-column fixed="right" label="操作" width="100">
@@ -156,26 +156,26 @@
 			  </el-collapse-item>
 			</el-collapse>
 			<el-form :model="refund" status-icon style="margin-top:20px;" :inline="true" :rules="refundRule" ref="refund" label-width="100px" class="demo-ruleForm">
-				<el-form-item label="应返日期" prop="refunds_should_time">
-          <el-date-picker v-model="refund.refunds_should_time" style="width:194px;" type="date" placeholder="请选择应返日期"></el-date-picker>
+				<el-form-item label="应付日期" prop="refunds_should_time">
+          <el-date-picker v-model="refund.refunds_should_time" style="width:194px;" type="date" placeholder="请选择应付日期"></el-date-picker>
 				</el-form-item>
-				<el-form-item label="应返积分" prop="refunds_should_money">
-					<el-input v-model="refund.refunds_should_money" style="width:194px;" placeholder="应返积分" auto-complete="off"></el-input>
+				<el-form-item label="应付积分" prop="refunds_should_money">
+					<el-input v-model="refund.refunds_should_money" style="width:194px;" placeholder="应付积分" auto-complete="off"></el-input>
 				</el-form-item>
-        <el-form-item label="实返日期" prop="refunds_real_time">
-          <el-date-picker v-model="refund.refunds_real_time" style="width:194px;" type="date" placeholder="请选择实返日期"></el-date-picker>
+        <el-form-item label="实收日期" prop="refunds_real_time">
+          <el-date-picker v-model="refund.refunds_real_time" style="width:194px;" type="date" placeholder="请选择实收日期"></el-date-picker>
         </el-form-item>
-        <el-form-item label="实返积分" prop="refunds_real_money">
-          <el-input v-model="refund.refunds_real_money" style="width:194px;" placeholder="实返积分" auto-complete="off"></el-input>
+        <el-form-item label="实收积分" prop="refunds_real_money">
+          <el-input v-model="refund.refunds_real_money" style="width:194px;" placeholder="实收积分" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="其它积分" prop="service_charge">
           <el-input v-model="refund.service_charge" style="width:194px;" placeholder="其它积分" auto-complete="off"></el-input>
         </el-form-item>
-				<el-form-item label="返积分人" prop="refundser">
+				<el-form-item label="付积分人" prop="refundser">
           <el-autocomplete popper-class="my-autocomplete" style="width:194px;"
            v-model="refund.refundser"
            :fetch-suggestions="querySearch"
-           placeholder="返款信息" @select="handleSelect">
+           placeholder="付积分人" @select="handleSelect">
            <template slot-scope="{ item }">
              <div class="name">{{ item.refundser }}</div>
            </template>
@@ -217,7 +217,7 @@ export default({
     };
     var validateNull = (rule, value, callback) =>{
       if(this.refund.receiver && !value){
-        callback(new Error('请选择返款时间'));
+        callback(new Error('请选择实付日期'));
       }else{
         callback();
       }
@@ -384,7 +384,7 @@ export default({
         }else{
           this.refund.refunds_should_money = this.refund.product_return_money * num;
         }
-        this.refund.refunds_should_money = this.refund.refunds_should_money.toFixed(2);
+        this.refund.refunds_should_money = Math.round(this.refund.refunds_should_money*100)/100;
       }
     },
     handleSelect(item) {
@@ -451,7 +451,7 @@ export default({
       this.$refs[formName].validate((valid) => {
           if (valid) {
             this.loading = true;
-            var accountDetail = this.formatterDate(null,null,this.refund.make_money_time)+"高打"+this.refund.product_common_name+"返积分";
+            var accountDetail = this.formatterDate(null,null,this.refund.make_money_time)+"高打"+this.refund.product_common_name+"收积分";
             var params = {
               refunds_should_time:this.refund.refunds_should_time,
           		refunds_real_time:this.refund.refunds_real_time,

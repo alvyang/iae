@@ -131,7 +131,7 @@
 			saleNumBlur(){
 				var regu = /^\+?[1-9][0-9]*$/;
 				if(this.sale.sales_number && regu.test(this.sale.sales_number)){
-					this.sale.sales_money = (this.sale.sales_number * this.drug.product_price).toFixed(2);
+					this.sale.sales_money = this.mul(this.sale.sales_number,this.drug.product_price,2);
 				}
 			},
 			returnList(path){

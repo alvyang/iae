@@ -35,32 +35,32 @@
           <el-table-column prop="saleMoney0" label="高打销售额" width="100" :formatter="formatNumber"></el-table-column>
           <el-table-column prop="saleMoney1" label="佣金销售额" width="100" :formatter="formatNumber"></el-table-column>
           <el-table-column prop="saleMoney2" label="其它销售额" width="140" :formatter="formatNumber"></el-table-column>
-          <el-table-column label="按返(回)款时间算">
-            <el-table-column prop="apurchaseReturnMoney1" label="备货返款" width="120" :formatter="formatNumber"></el-table-column>
-            <el-table-column prop="crefundsMoney1" label="销售返款(佣金)" width="120" :formatter="formatNumber"></el-table-column>
-            <el-table-column prop="cReturnMoney0" label="销售回款(高打)" width="120" :formatter="formatNumber"></el-table-column>
-            <el-table-column prop="cReturnMoney1" label="销售回款(佣金)" width="120" :formatter="formatNumber"></el-table-column>
-            <el-table-column prop="callotReturnMoney0" label="调货回款" width="120" :formatter="formatNumber"></el-table-column>
+          <el-table-column label="按收(付)款时间算">
+            <el-table-column prop="apurchaseReturnMoney1" label="备货收款" width="120" :formatter="formatNumber"></el-table-column>
+            <el-table-column prop="crefundsMoney1" label="销售收款(佣金)" width="120" :formatter="formatNumber"></el-table-column>
+            <el-table-column prop="cReturnMoney0" label="销售付款(高打)" width="120" :formatter="formatNumber"></el-table-column>
+            <el-table-column prop="cReturnMoney1" label="销售付款(佣金)" width="120" :formatter="formatNumber"></el-table-column>
+            <el-table-column prop="callotReturnMoney0" label="调货付款" width="120" :formatter="formatNumber"></el-table-column>
             <el-table-column label="利润" width="120" :formatter="formatRefundProfit"></el-table-column>
           </el-table-column>
           <el-table-column label="按销售(打款)时间">
-            <el-table-column prop="apurchaseReturnMoney0" label="备货返款" width="120" :formatter="formatNumber"></el-table-column>
-            <el-table-column prop="refundsMoney1" label="销售返款(佣金)" width="120" :formatter="formatNumber"></el-table-column>
-            <el-table-column prop="aReturnMoney0" label="销售回款(高打)" width="120" :formatter="formatNumber"></el-table-column>
-            <el-table-column prop="aReturnMoney1" label="销售回款(佣金)" width="120" :formatter="formatNumber"></el-table-column>
-            <el-table-column prop="allotReturnMoney0" label="调货回款" width="120" :formatter="formatNumber"></el-table-column>
+            <el-table-column prop="apurchaseReturnMoney0" label="备货收款" width="120" :formatter="formatNumber"></el-table-column>
+            <el-table-column prop="refundsMoney1" label="销售收款(佣金)" width="120" :formatter="formatNumber"></el-table-column>
+            <el-table-column prop="aReturnMoney0" label="销售付款(高打)" width="120" :formatter="formatNumber"></el-table-column>
+            <el-table-column prop="aReturnMoney1" label="销售付款(佣金)" width="120" :formatter="formatNumber"></el-table-column>
+            <el-table-column prop="allotReturnMoney0" label="调货付款" width="120" :formatter="formatNumber"></el-table-column>
             <el-table-column label="利润" width="120" :formatter="formatSaleProfit"></el-table-column>
           </el-table-column>
-          <el-table-column label="按销售(打款)时间-欠款">
-            <el-table-column prop="npurchaseReturnMoney0" label="备货未返款" width="120" :formatter="formatNumber"></el-table-column>
-            <el-table-column prop="srefundsMoney1" label="销售未返款(佣金)" width="120" :formatter="formatNumber"></el-table-column>
-            <el-table-column label="未返款总额" width="120" :formatter="formatNofefund"></el-table-column>
+          <el-table-column label="按销售(打款)时间-未收款">
+            <el-table-column prop="npurchaseReturnMoney0" label="备货未收款" width="120" :formatter="formatNumber"></el-table-column>
+            <el-table-column prop="srefundsMoney1" label="销售未收款(佣金)" width="120" :formatter="formatNumber"></el-table-column>
+            <el-table-column label="未收款总额" width="120" :formatter="formatNofefund"></el-table-column>
           </el-table-column>
-          <el-table-column label="按销售(打款)时间-负债">
-            <el-table-column prop="nReturnMoney0" label="销售未回款(高打)" width="120" :formatter="formatNumber"></el-table-column>
-            <el-table-column prop="nReturnMoney1" label="销售未回款(佣金)" width="120" :formatter="formatNumber"></el-table-column>
-            <el-table-column prop="allotReturnMoney1" label="调货未回款" width="120" :formatter="formatNumber"></el-table-column>
-            <el-table-column label="未回款总负债" width="100" :formatter="formatNoRefund"></el-table-column>
+          <el-table-column label="按销售(打款)时间-未付款">
+            <el-table-column prop="nReturnMoney0" label="销售未付款(高打)" width="120" :formatter="formatNumber"></el-table-column>
+            <el-table-column prop="nReturnMoney1" label="销售未付款(佣金)" width="120" :formatter="formatNumber"></el-table-column>
+            <el-table-column prop="allotReturnMoney1" label="调货未付款" width="120" :formatter="formatNumber"></el-table-column>
+            <el-table-column label="未付款总额" width="100" :formatter="formatNoRefund"></el-table-column>
           </el-table-column>
           <el-table-column prop="stockMoneyReturn" label="库存总负债" width="90" :formatter="formatNumber"></el-table-column>
 

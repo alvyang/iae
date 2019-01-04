@@ -13,7 +13,7 @@
  				 :picker-options="pickerOptions2">
  			 </el-date-picker>
  		 </el-form-item>
-		 <el-form-item label="回积分日期" prop="salesReturnTime">
+		 <el-form-item label="付积分日期" prop="salesReturnTime">
 			<el-date-picker v-model="params.salesReturnTime" type="daterange" style="width:196px !important;" size="mini" align="right" unlink-panels
 				range-separator="至"
 				start-placeholder="开始日期"
@@ -84,13 +84,13 @@
 				<el-table-column prop="sale_price" label="中标价" width="60"></el-table-column>
 				<el-table-column prop="sale_num" label="销售数量" width="70"></el-table-column>
 				<el-table-column prop="sale_money" label="购入金额" width="70"></el-table-column>
-				<el-table-column label="上游实返积分" width="70" :formatter="formatterReturnMoney"></el-table-column>
+				<el-table-column label="上游实付积分" width="70" :formatter="formatterReturnMoney"></el-table-column>
 				<el-table-column prop="sale_return_price" label="政策积分" width="70" ></el-table-column>
-				<el-table-column prop="sale_return_money" label="应回积分" width="70"></el-table-column>
-				<el-table-column prop="sale_return_time" label="回积分时间" width="70" :formatter="formatterDate"></el-table-column>
-				<el-table-column prop="sale_account_name" label="积分账户名" width="80" ></el-table-column>
-				<el-table-column prop="sale_account_number" label="积分账户" width="80" ></el-table-column>
-				<el-table-column prop="sale_account_address" label="积分账户地址" width="80"></el-table-column>
+				<el-table-column prop="sale_return_money" label="应付积分" width="70"></el-table-column>
+				<el-table-column prop="sale_return_time" label="付积分时间" width="70" :formatter="formatterDate"></el-table-column>
+				<el-table-column prop="sale_account_name" label="收积分账户名" width="80" ></el-table-column>
+				<el-table-column prop="sale_account_number" label="收积分账户" width="80" ></el-table-column>
+				<el-table-column prop="sale_account_address" label="收积分账户地址" width="80"></el-table-column>
 				<el-table-column prop="sale_policy_remark" label="积分备注" width="70"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="60">
 		    <template slot-scope="scope">
@@ -126,10 +126,10 @@
 				<el-form-item label="政策积分" prop="sale_return_price">
 					<el-input v-model="sale.sale_return_price" style="width:179px;" placeholder="政策积分" @blur='saleReturnPrice'></el-input>
 				</el-form-item>
-				<el-form-item label="应回积分" prop="sale_return_money">
-					<el-input v-model="sale.sale_return_money" placeholder="应回积分" style="width:179px;"></el-input>
+				<el-form-item label="应付积分" prop="sale_return_money">
+					<el-input v-model="sale.sale_return_money" placeholder="应付积分" style="width:179px;"></el-input>
 				</el-form-item>
-				<el-form-item label="回积分账号" prop="sale_account_id">
+				<el-form-item label="付积分账号" prop="sale_account_id">
 					<el-select v-model="sale.sale_account_id" style="width:179px;" filterable placeholder="请选择">
 						<el-option v-for="item in accounts"
 							:key="item.account_id"
@@ -138,8 +138,8 @@
 						</el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="回积分时间" prop="sale_return_time">
-					<el-date-picker v-model="sale.sale_return_time" style="width:179px;" type="date" placeholder="请选择回积分时间"></el-date-picker>
+				<el-form-item label="付积分时间" prop="sale_return_time">
+					<el-date-picker v-model="sale.sale_return_time" style="width:179px;" type="date" placeholder="请选择付积分时间"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="业务员" prop="sale_contact_id">
 				 <el-select v-model="sale.sale_contact_id" style="width:179px;" @change="selectSalesContact"  filterable placeholder="请选择">

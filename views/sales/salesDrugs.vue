@@ -67,7 +67,7 @@
 			<el-table-column prop="product_price" label="中标价" width="60"></el-table-column>
 			<el-table-column prop="product_discount" label="扣率" width="60"></el-table-column>
 			<el-table-column prop="product_mack_price" label="打款价" width="60"></el-table-column>
-			<el-table-column prop="product_type" label="返费类型" width="70"></el-table-column>
+			<el-table-column prop="product_type" label="品种类型" width="70"></el-table-column>
 			<!-- <el-table-column prop="product_return_money" label="返费金额" width="80" :formatter="formatNull"></el-table-column>
 			<el-table-column prop="product_return_discount" label="返费率" width="80" :formatter="formatNull"></el-table-column>
 			<el-table-column prop="product_return_explain" label="返费说明" width="200" :formatter="formatNull"></el-table-column> -->
@@ -133,7 +133,7 @@
 					<el-date-picker v-model="sale.bill_date" style="width:194px;" type="date" placeholder="请选择销售时间"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="批号" prop="batch_number">
-					<el-select v-model="sale.batch_number" placeholder="请选择" style="width:194px;"  v-show="this.drug.product_type == '高打'">
+					<el-select v-model="sale.batch_number" placeholder="请选择" filterable style="width:194px;"  v-show="this.drug.product_type == '高打'">
 					 <el-option
 						 v-for="item in batchStockList"
 						 :key="item.batch_number"

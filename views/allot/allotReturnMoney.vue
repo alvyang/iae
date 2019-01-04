@@ -13,7 +13,7 @@
 					:picker-options="pickerOptions2">
 				</el-date-picker>
  		 	</el-form-item>
-			<el-form-item label="回积分日期" prop="allotReturnTime">
+			<el-form-item label="付积分日期" prop="allotReturnTime">
  			<el-date-picker v-model="params.allotReturnTime" type="daterange" style="width:196px !important;" size="mini" align="right" unlink-panels
  				range-separator="至"
  				start-placeholder="开始日期"
@@ -82,13 +82,13 @@
 				<el-table-column prop="allot_mack_price" label="打款价" width="60"></el-table-column>
 				<el-table-column prop="allot_price" label="中标价" width="60"></el-table-column>
 				<el-table-column prop="allot_money" label="金额" width="70"></el-table-column>
-				<el-table-column label="上游实返积分" width="70" :formatter="formatterReturnMoney"></el-table-column>
+				<el-table-column label="上游实付积分" width="70" :formatter="formatterReturnMoney"></el-table-column>
 				<el-table-column prop="allot_return_price" label="政策积分" width="70"></el-table-column>
-				<el-table-column prop="allot_return_money" label="应回积分" width="70"></el-table-column>
-				<el-table-column prop="allot_return_time" label="回积分时间" width="80" :formatter="formatterDate"></el-table-column>
-				<el-table-column prop="allot_account_name" label="积分账户名" width="80" ></el-table-column>
-				<el-table-column prop="allot_account_number" label="积分账户" width="80" ></el-table-column>
-				<el-table-column prop="allot_account_address" label="积分账户地址" width="80"></el-table-column>
+				<el-table-column prop="allot_return_money" label="应付积分" width="70"></el-table-column>
+				<el-table-column prop="allot_return_time" label="付积分时间" width="80" :formatter="formatterDate"></el-table-column>
+				<el-table-column prop="allot_account_name" label="收积分账户名" width="80" ></el-table-column>
+				<el-table-column prop="allot_account_number" label="收积分账户" width="80" ></el-table-column>
+				<el-table-column prop="allot_account_address" label="收积分账户地址" width="80"></el-table-column>
 				<el-table-column prop="allot_policy_remark" label="积分备注" width="80"></el-table-column>
 				<!-- <el-table-column fixed="right" prop="allot_return_flag" label="是否回款" width="80"></el-table-column> -->
 				<el-table-column fixed="right" label="操作" width="60">
@@ -126,10 +126,10 @@
 				<el-form-item label="政策积分" prop="allot_return_price">
 					<el-input v-model="allot.allot_return_price" style="width:179px;" placeholder="政策积分"></el-input>
 				</el-form-item>
-				<el-form-item label="应返积分" prop="allot_return_money">
-					<el-input v-model="allot.allot_return_money" style="width:179px;" placeholder="应返积分" :readonly="true"></el-input>
+				<el-form-item label="应付积分" prop="allot_return_money">
+					<el-input v-model="allot.allot_return_money" style="width:179px;" placeholder="应付积分" :readonly="true"></el-input>
 				</el-form-item>
-				<el-form-item label="回积分账号" prop="allot_account_id">
+				<el-form-item label="付积分账号" prop="allot_account_id">
           <el-select v-model="allot.allot_account_id" style="width:179px;" filterable placeholder="请选择">
             <el-option v-for="item in accounts"
               :key="item.account_id"
@@ -138,8 +138,8 @@
             </el-option>
           </el-select>
 				</el-form-item>
-				<el-form-item label="回积分时间" prop="allot_return_time">
-					<el-date-picker v-model="allot.allot_return_time" style="width:179px;" type="date" placeholder="请选择回积分时间"></el-date-picker>
+				<el-form-item label="付积分时间" prop="allot_return_time">
+					<el-date-picker v-model="allot.allot_return_time" style="width:179px;" type="date" placeholder="请选择付积分时间"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="调货联系人" prop="allot_policy_contact_id">
 				 <el-select v-model="allot.allot_policy_contact_id" @change="selectAllotContact" style="width:179px;" filterable placeholder="请选择">
@@ -200,9 +200,9 @@
 			}
 			var validateRealReturnMoney = (rule, value, callback) => {
 				if(this.allot.allot_return_flag && !value){
-					callback(new Error('请输入回款单价'));
+					callback(new Error('请输入政策积分'));
 				}else if(this.allot.allot_return_flag && value && !reg.test(value)){
-					callback(new Error('请输入正确的回款单价'));
+					callback(new Error('请输入正确的政策积分'));
 				} else {
 					this.allot.allot_return_money = this.mul(value,this.allot.allot_number,2);
           callback();

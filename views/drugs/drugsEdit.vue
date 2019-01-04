@@ -449,13 +449,14 @@
 					this.price.test(this.drugs.product_floor_price) &&
 					this.percent.test(this.drugs.product_high_discount)){
 					this.drugs.product_return_money = (this.drugs.product_mack_price - this.drugs.product_floor_price) * (1-this.drugs.product_high_discount/100);
-					this.drugs.product_return_money = this.drugs.product_return_money.toFixed(2);
+					this.drugs.product_return_money = Math.round(this.drugs.product_return_money*100)/100;
 				}
 				//计算扣率
 				if(this.drugs.product_mack_price &&
 					this.drugs.product_price &&
 					this.price.test(this.drugs.product_mack_price)){
-						this.drugs.product_discount = (this.drugs.product_mack_price*100/this.drugs.product_price).toFixed(2);
+						this.drugs.product_discount = (this.drugs.product_mack_price*100/this.drugs.product_price);
+						this.drugs.product_discount = Math.round(this.drugs.product_discount*100)/100;
 				}
 				//计算打款价
 				if(this.drugs.product_mack_price &&
@@ -468,7 +469,8 @@
 					this.drugs.product_price &&
 					this.price.test(this.drugs.accounting_cost)){
 						var temp = this.drugs.product_price - this.drugs.accounting_cost;
-						this.drugs.gross_interest_rate = (temp*100/this.drugs.product_price).toFixed(2);
+						this.drugs.gross_interest_rate = (temp*100/this.drugs.product_price);
+						this.drugs.gross_interest_rate = Math.round(this.drugs.gross_interest_rate*100)/100;
 				}
 				//计算返费率
 				if(this.drugs.product_price &&
@@ -476,7 +478,7 @@
 					this.price.test(this.drugs.product_price) &&
 					this.price.test(this.drugs.product_return_money)){
 					this.drugs.product_return_discount = (this.drugs.product_return_money/this.drugs.product_price)*100;
-					this.drugs.product_return_discount = this.drugs.product_return_discount.toFixed(2);
+					this.drugs.product_return_discount = Math.round(this.drugs.product_return_discount*100)/100;
 				}
 			}
 		}

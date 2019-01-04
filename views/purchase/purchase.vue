@@ -174,7 +174,7 @@
 					callback(new Error('请输入正整数'));
 				} else {
 					this.purchase.purchase_money = this.purchase.purchase_number * this.purchase.purchase_mack_price;
-					this.purchase.purchase_money = this.purchase.purchase_money.toFixed(2);
+					this.purchase.purchase_money = Math.round(this.purchase.purchase_money*100)/100;
 					callback();
 				}
 			};

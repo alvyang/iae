@@ -106,7 +106,7 @@
 	 			 </el-select>
 	 		 </el-form-item>
 			 <el-form-item label="批号" prop="batch_number" :required="true">
-				 <el-select v-model="allot.batch_number" placeholder="请选择" style="width:179px;">
+				 <el-select v-model="allot.batch_number" filterable placeholder="请选择" style="width:179px;">
 					<el-option
 						v-for="item in batchStockList"
 						:key="item.batch_number"
@@ -383,8 +383,7 @@
 				});
 			},
 			returnMoney(){
-				this.allot.allot_return_money = this.allot.allot_return_price * this.allot.allot_number;
-				this.allot.allot_return_money =	this.allot.allot_return_money.toFixed(2);
+				this.allot.allot_return_money = this.mul(this.allot.allot_return_price,this.allot.allot_number,2);
 			},
 			reSearch(){
 				this.$refs["params"].resetFields();

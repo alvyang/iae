@@ -166,20 +166,22 @@
 			realReturnMoneyBlur(){
 				if(parseFloat(this.purchase.real_return_money) > 0 && parseFloat(this.purchase.real_return_money) <= parseFloat(this.purchase.shoule_return_money)){
 					var temp = this.purchase.shoule_return_money - this.purchase.real_return_money;
-					this.purchase.own_money = temp == 0 ? temp:temp.toFixed(2);
+					this.purchase.own_money = temp == 0 ? temp:Math.round(temp*100)/100;
 				}
 			},
 			//输入购买数量后，计算购买金额、应返金额、外欠佣金的值
 			purchaseNumBlur(){
 				var regu = /^\+?[1-9][0-9]*$/;
 				if(this.purchase.puchase_number && regu.test(this.purchase.puchase_number)){
-					this.purchase.puchase_money =(this.purchase.puchase_number * this.drug.product_price).toFixed(2);
-					this.purchase.shoule_return_money = (this.purchase.puchase_number * this.drug.product_commission).toFixed(2);
+
+					this.purchase.puchase_money =this.mul(this.purchase.puchase_number,this.drug.product_price,2);
+					this.purchase.shoule_return_money = this.mul(this.purchase.puchase_number,this.drug.product_commission,2);
+
 					if(parseFloat(this.purchase.shoule_return_money) < parseFloat(this.purchase.real_return_money)){
-						this.purchase.real_return_money = this.purchase.shoule_return_money.toFixed(2);
+						this.purchase.real_return_money = Math.round(this.purchase.shoule_return_money*100)/100;
 					}
 					var temp = this.purchase.shoule_return_money - this.purchase.real_return_money;
-					this.purchase.own_money = temp == 0 ? temp:temp.toFixed(2);
+					this.purchase.own_money = temp == 0 ? temp:Math.round(temp*100)/100;
 				}
 			},
 			returnList(path){

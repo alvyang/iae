@@ -174,8 +174,6 @@
         this.dialogFormVisible = true;
         this.title=2;
         this.returnMoney = scope.row;
-        this.returnMoney.return_money_hospital = parseInt(this.returnMoney.return_money_hospital);
-        this.returnMoney.return_money_business = parseInt(this.returnMoney.return_money_business);
         var _self = this;
         setTimeout(function(){
           _self.$refs["returnMoney"].clearValidate();

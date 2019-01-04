@@ -14,9 +14,17 @@ const mixin = {
         m = Math.pow(10,Math.max(r1,r2));
         n = (r1>=r2)?r1:r2;
         num = num?num:n;
-        var a = (num1*m + num2*m)/m;
+        var a = (num1*m + num2*m)/m; var temp = a;
         num = Math.pow(10,num);
-        return Math.round(a*num)/num;
+        if(temp < 0){
+          a = -a;
+        }
+        a=a+0.000001;
+        var result =  Math.round(a*num)/num;
+        if(temp < 0){
+          result = -result;
+        }
+        return result
     },
     sub(num1,num2,num){//减法
         var r1,r2,m,n;
@@ -25,18 +33,35 @@ const mixin = {
         n = (r1>=r2)?r1:r2;
         num = num?num:n;
         m = Math.pow(10,Math.max(r1,r2));
-        var a = (num1*m - num2*m)/m
+        var a = (num1*m - num2*m)/m;var temp = a;
         num = Math.pow(10,num);
-        return Math.round(a*num)/num;
+        if(temp < 0){
+          a = -a;
+        }
+        a=a+0.000001;
+        var result =  Math.round(a*num)/num;
+        if(temp < 0){
+          result = -result;
+        }
+        return result
     },
     mul(num1,num2,num){//乘法
         var m = 0;
         try{m+=num1.toString().split(".")[1].length}catch(e){}
         try{m+=num2.toString().split(".")[1].length}catch(e){}
         var a = (Number(num1.toString().replace(".",""))*Number(num2.toString().replace(".","")))/Math.pow(10,m);
+        var temp = a;
         num = num?num:m;
         num = Math.pow(10,num);
-        return Math.round(a*num)/num;
+        if(temp < 0){
+          a = -a;
+        }
+        a=a+0.000001;
+        var result =  Math.round(a*num)/num;
+        if(temp < 0){
+          result = -result;
+        }
+        return result
     },
     div(arg1,arg2,num){//除法
         var t1=0,t2=0,r1,r2;
@@ -45,9 +70,18 @@ const mixin = {
         r1=Number(arg1.toString().replace(".",""));
         r2=Number(arg2.toString().replace(".",""));
         var a = (r1/r2)*Math.pow(10,t2-t1);
+        var temp = a;
         num = num?num:(t2-t1);
         num = Math.pow(10,num);
-        return Math.round(a*num)/num;
+        if(temp < 0){
+          a = -a;
+        }
+        a=a+0.000001;
+        var result =  Math.round(a*num)/num;
+        if(temp < 0){
+          result = -result;
+        }
+        return result
     },
     download(url, data, method){ // 获得url和data
       if( url && data ){
