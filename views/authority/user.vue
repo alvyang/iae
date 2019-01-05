@@ -15,9 +15,9 @@
 				</el-select>
 			</el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('19') > -1" @click="reSearch(false)" size="mini">查询</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('19') > -1" @click="reSearch(true)" size="mini">重置</el-button>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('16') > -1" @click="addShow" size="mini">新增</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('19,') > -1" @click="reSearch(false)" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('19,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('16,') > -1" @click="addShow" size="mini">新增</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="users" style="width: 100%" size="mini" :stripe="true">
@@ -29,9 +29,9 @@
 			<el-table-column prop="role_name" label="角色名"></el-table-column>
 			<el-table-column fixed="right" label="操作" width="200">
 	    <template slot-scope="scope">
-		    <el-button v-show="authCode.indexOf('18') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
-        <el-button v-show="authCode.indexOf('17') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
-				<el-button v-show="authCode.indexOf('24') > -1" v-dbClick @click.native.prevent="addRole(scope)" type="primary" size="mini">授权</el-button>
+		    <el-button v-show="authCode.indexOf('18,') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
+        <el-button v-show="authCode.indexOf('17,') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
+				<el-button v-show="authCode.indexOf('24,') > -1" v-dbClick @click.native.prevent="addRole(scope)" type="primary" size="mini">授权</el-button>
 	    </template>
 			</el-table-column>
 		</el-table>
@@ -161,6 +161,7 @@
 			this.params.groupId = JSON.parse(sessionStorage["user"]).group_id;
 			this.user.group_id = JSON.parse(sessionStorage["user"]).group_id;
 			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
+			console.log(this.authCode);
 		},
 		mounted(){
 			this.params.groupId = JSON.parse(sessionStorage["user"]).group_id;

@@ -87,9 +87,9 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-         <el-button type="primary" v-dbClick v-show="authCode.indexOf('44') > -1"  style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
-         <el-button type="primary" v-dbClick v-show="authCode.indexOf('44') > -1"  @click="reSearch(true)" size="mini">重置</el-button>
-         <el-button type="primary" v-dbClick v-show="authCode.indexOf('106') > -1"  @click="exportRefundPurchase" size="mini">导出</el-button>
+         <el-button type="primary" v-dbClick v-show="authCode.indexOf('44,') > -1"  style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
+         <el-button type="primary" v-dbClick v-show="authCode.indexOf('44,') > -1"  @click="reSearch(true)" size="mini">重置</el-button>
+         <el-button type="primary" v-dbClick v-show="authCode.indexOf('106,') > -1"  @click="exportRefundPurchase" size="mini">导出</el-button>
         </el-form-item>
       </div>
     </el-form>
@@ -124,8 +124,8 @@
       <el-table-column prop="refunds_remark" label="备注" width="150"></el-table-column>
       <el-table-column fixed="right" label="操作" width="100">
       <template slot-scope="scope">
-        <el-button v-show="authCode.indexOf('104') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
-        <el-button v-show="authCode.indexOf('45') > -1" size="mini" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary"></el-button>
+        <el-button v-show="authCode.indexOf('104,') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
+        <el-button v-show="authCode.indexOf('45,') > -1" size="mini" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary"></el-button>
       </template>
     </el-table-column>
     </el-table>

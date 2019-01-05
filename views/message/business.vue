@@ -9,9 +9,9 @@
 		    <el-input v-model="params.business_name" @keyup.13.native="reSearch(false)" style="width:210px;" size="mini" placeholder="商业名称"></el-input>
 		  </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('89') > -1" @click="reSearch(false)" size="mini">查询</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('89') > -1" @click="reSearch(true)" size="mini">重置</el-button>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('92') > -1" @click="addShow" size="mini">新增</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('89,') > -1" @click="reSearch(false)" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('89,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('92,') > -1" @click="addShow" size="mini">新增</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="businessList" style="width: 100%" size="mini" :stripe="true">
@@ -19,8 +19,8 @@
 			<el-table-column prop="business_mark" label="备注"></el-table-column>
 			<el-table-column fixed="right" label="操作" width="100">
 		    <template slot-scope="scope">
-			    <el-button v-dbClick v-show="authCode.indexOf('90') > -1" @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
-         	<el-button v-dbClick v-show="authCode.indexOf('91') > -1" @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
+			    <el-button v-dbClick v-show="authCode.indexOf('90,') > -1" @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
+         	<el-button v-dbClick v-show="authCode.indexOf('91,') > -1" @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
 		    </template>
 			</el-table-column>
 		</el-table>

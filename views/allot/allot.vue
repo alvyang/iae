@@ -44,12 +44,12 @@
 			 </el-select>
 		 </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('61') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('61') > -1" @click="reSearch(true)" size="mini">重置</el-button>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('58') > -1" @click="add" size="mini">新增</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('61f34560-d801-11e8-b0cc-65c20b1efa48') > -1" @click="exportAllot" size="mini">导出</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('101') > -1" @click="importShow" size="mini">导入</el-button>
- 			 	<el-button type="primary" v-dbClick v-show="authCode.indexOf('101') > -1" @click="downloadTemplate" size="mini">导入模板下载</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('61,') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('61,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('58,') > -1" @click="add" size="mini">新增</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('61f34560-d801-11e8-b0cc-65c20b1efa48,') > -1" @click="exportAllot" size="mini">导出</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('101,') > -1" @click="importShow" size="mini">导入</el-button>
+ 			 	<el-button type="primary" v-dbClick v-show="authCode.indexOf('101,') > -1" @click="downloadTemplate" size="mini">导入模板下载</el-button>
 		  </el-form-item>
 		</el-form>
 		<div class="sum_money_allot">
@@ -76,8 +76,8 @@
 				<el-table-column fixed="right" prop="allot_return_flag" label="是否返款" width="80"></el-table-column> -->
 				<el-table-column fixed="right" label="操作" width="100">
 			    <template slot-scope="scope">
-				    <el-button v-show="authCode.indexOf('60') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
-		        <el-button v-show="authCode.indexOf('59') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
+				    <el-button v-show="authCode.indexOf('60,') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
+		        <el-button v-show="authCode.indexOf('59,') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
 			    </template>
   			</el-table-column>
 		</el-table>

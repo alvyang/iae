@@ -83,7 +83,7 @@
 						</template>
 					</el-table-column>
 			</el-table>
-			<div class="page_div"">
+			<div class="page_div">
 				<el-pagination
 					background
 					@size-change="handleSizeChangeStock"
@@ -99,7 +99,7 @@
 	</div>
 </template>
 <script>
-  import echarts from "echarts";
+	import echarts from "echarts";
 	export default({
 		data(){
 			var validateNum = (rule, value, callback) => {

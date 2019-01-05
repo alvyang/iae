@@ -60,9 +60,9 @@
 			 </el-select>
 		 </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('130627a0-cb9b-11e8-81ff-23b7b224f706') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('130627a0-cb9b-11e8-81ff-23b7b224f706') > -1" @click="reSearch(true)" size="mini">重置</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('f8037330-d802-11e8-a19c-cf0f6be47d2e') > -1" @click="exportAllotReturn" size="mini">导出</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('130627a0-cb9b-11e8-81ff-23b7b224f706,') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('130627a0-cb9b-11e8-81ff-23b7b224f706,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('f8037330-d802-11e8-a19c-cf0f6be47d2e,') > -1" @click="exportAllotReturn" size="mini">导出</el-button>
 		  </el-form-item>
 		</el-form>
 		<div class="sum_money_allot">
@@ -93,7 +93,7 @@
 				<!-- <el-table-column fixed="right" prop="allot_return_flag" label="是否回款" width="80"></el-table-column> -->
 				<el-table-column fixed="right" label="操作" width="60">
 			    <template slot-scope="scope">
-		        <el-button v-show="authCode.indexOf('12303a00-cb9b-11e8-81ff-23b7b224f706') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
+		        <el-button v-show="authCode.indexOf('12303a00-cb9b-11e8-81ff-23b7b224f706,') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
 			    </template>
   			</el-table-column>
 		</el-table>

@@ -65,9 +65,9 @@
 			 </el-select>
 		 </el-form-item>
 	   <el-form-item>
-	     <el-button type="primary" v-dbClick v-show="authCode.indexOf('47979cc0-d40a-11e8-bfbc-6f9a2209108b') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
-			 <el-button type="primary" v-dbClick v-show="authCode.indexOf('47979cc0-d40a-11e8-bfbc-6f9a2209108b') > -1" @click="reSearch(true)" size="mini">重置</el-button>
-			 <el-button type="primary" v-dbClick v-show="authCode.indexOf('e430d5a0-d802-11e8-a19c-cf0f6be47d2e') > -1" @click="exportSaleReturn" size="mini">导出</el-button>
+	     <el-button type="primary" v-dbClick v-show="authCode.indexOf('47979cc0-d40a-11e8-bfbc-6f9a2209108b,') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
+			 <el-button type="primary" v-dbClick v-show="authCode.indexOf('47979cc0-d40a-11e8-bfbc-6f9a2209108b,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+			 <el-button type="primary" v-dbClick v-show="authCode.indexOf('e430d5a0-d802-11e8-a19c-cf0f6be47d2e,') > -1" @click="exportSaleReturn" size="mini">导出</el-button>
 	   </el-form-item>
 		</el-form>
 		<div class="sum_money">总积分：<a>{{saleReturnMoney}}</a> </div>
@@ -94,7 +94,7 @@
 				<el-table-column prop="sale_policy_remark" label="积分备注" width="70"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="60">
 		    <template slot-scope="scope">
-	        <el-button @click.native.prevent="editRow(scope)" v-dbClick v-show="authCode.indexOf('4a023420-d40a-11e8-bfbc-6f9a2209108b') > -1"  icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
+	        <el-button @click.native.prevent="editRow(scope)" v-dbClick v-show="authCode.indexOf('4a023420-d40a-11e8-bfbc-6f9a2209108b,') > -1"  icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
 		    </template>
   			</el-table-column>
 		</el-table>

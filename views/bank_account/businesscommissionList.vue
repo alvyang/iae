@@ -27,8 +27,8 @@
 			 <el-date-picker v-model="params.endTime" type="month" size="mini" style="width:210px;" placeholder="选择结束日期"></el-date-picker>
 		 </el-form-item>
       <el-form-item>
-        <el-button type="primary" v-dbClick v-show="authCode.indexOf('79') > -1" @click="reSearch(false)" size="mini">查询</el-button>
-        <el-button type="primary" v-dbClick v-show="authCode.indexOf('79') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+        <el-button type="primary" v-dbClick v-show="authCode.indexOf('79,') > -1" @click="reSearch(false)" size="mini">查询</el-button>
+        <el-button type="primary" v-dbClick v-show="authCode.indexOf('79,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
       </el-form-item>
     </el-form>
     <div class="sum_money">销售总额：<a>{{account.smAccount}}</a> 元；真实毛利：<a>{{account.rgpAccount}}</a> 元；真实毛利(不含税)：<a>{{account.rgptAccount}}</a> 元；商业提成：<a>{{account.profitAccount}}</a> 元；商业提成（按日均算）：<a>{{account.dayAvgprofitAccount}}</a> 元</div>

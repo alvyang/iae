@@ -11,8 +11,8 @@
             <span class="custom-tree-node" slot-scope="{ node, data }">
               <span>{{ node.label }}</span>
               <span>
-                <el-button type="text" v-dbClick v-show="data.authority_type != 3 && authCode.indexOf('7') > -1" icon='el-icon-circle-plus' size="mini" @click.stop="() => append(data)"></el-button>
-                <el-button type="text" v-dbClick v-show="authCode.indexOf('9') > -1" icon='el-icon-delete' size="mini" @click.stop="() => remove(node, data)"></el-button>
+                <el-button type="text" v-dbClick v-show="data.authority_type != 3 && authCode.indexOf('7,') > -1" icon='el-icon-circle-plus' size="mini" @click.stop="() => append(data)"></el-button>
+                <el-button type="text" v-dbClick v-show="authCode.indexOf('9,') > -1" icon='el-icon-delete' size="mini" @click.stop="() => remove(node, data)"></el-button>
               </span>
             </span>
           </el-tree>
@@ -50,7 +50,7 @@
             <el-input v-model="authorityData.authority_describe" maxlength='100'></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" v-dbClick size="small" :loading="loading" v-show="authCode.indexOf('8') > -1" @click="submitForm('authorityData')">保存</el-button>
+            <el-button type="primary" v-dbClick size="small" :loading="loading" v-show="authCode.indexOf('8,') > -1" @click="submitForm('authorityData')">保存</el-button>
           </el-form-item>
         </el-form>
       </div>

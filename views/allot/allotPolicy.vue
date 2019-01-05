@@ -28,10 +28,10 @@
  			 </el-select>
  		 </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('83ff2470-d43d-11e8-984b-5b9b376cac6a') > -1" @click="reSearch(false)" size="mini">查询</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('83ff2470-d43d-11e8-984b-5b9b376cac6a') > -1" @click="reSearch(true)" size="mini">重置</el-button>
-        <el-button type="primary" v-dbClick v-show="authCode.indexOf('c39f8f80-d81f-11e8-a52f-4f446572c8cf') > -1" @click="exportAllotPolicy" size="mini">导出</el-button>
-        <el-button type="primary" v-dbClick v-show="authCode.indexOf('860afa00-d43d-11e8-984b-5b9b376cac6a') > -1" @click="dialogFormVisiblePolicy = true" size="mini">政策复制</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('83ff2470-d43d-11e8-984b-5b9b376cac6a,') > -1" @click="reSearch(false)" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('83ff2470-d43d-11e8-984b-5b9b376cac6a,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+        <el-button type="primary" v-dbClick v-show="authCode.indexOf('c39f8f80-d81f-11e8-a52f-4f446572c8cf,') > -1" @click="exportAllotPolicy" size="mini">导出</el-button>
+        <el-button type="primary" v-dbClick v-show="authCode.indexOf('860afa00-d43d-11e8-984b-5b9b376cac6a,') > -1" @click="dialogFormVisiblePolicy = true" size="mini">政策复制</el-button>
 		  </el-form-item>
 		</el-form>
     <el-table :data="drugPolicy" style="width: 100%" size="mini" :stripe="true" :border="true">
@@ -48,7 +48,7 @@
         <el-table-column prop="contacts_name" label="调货联系人" ></el-table-column>
   			<el-table-column fixed="right" label="操作" width="100">
 		    <template slot-scope="scope">
-	        <el-button @click.native.prevent="editRow(scope)" v-dbClick v-show="authCode.indexOf('860afa00-d43d-11e8-984b-5b9b376cac6a') > -1"  icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
+	        <el-button @click.native.prevent="editRow(scope)" v-dbClick v-show="authCode.indexOf('860afa00-d43d-11e8-984b-5b9b376cac6a,') > -1"  icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
 		    </template>
   			</el-table-column>
 		</el-table>
