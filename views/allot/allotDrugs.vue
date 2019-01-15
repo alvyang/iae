@@ -78,6 +78,12 @@
 			  </el-collapse-item>
 			</el-collapse>
 			<el-form :model="allot" ref="allot" status-icon :rules="allotRule" style="margin-top:20px;" :inline="true" label-width="100px" class="demo-ruleForm">
+				<div>
+					<el-form-item label="调货类型" prop="sale_type">
+						<el-radio v-model="allot.allot_type" label="1">调货出库</el-radio>
+						<el-radio v-model="allot.allot_type" label="2">调货退回</el-radio>
+					</el-form-item>
+				</div>
 				<el-form-item label="调货时间" prop="allot_time">
 					<el-date-picker v-model="allot.allot_time" style="width:179px;" type="date" placeholder="请选择打款时间"></el-date-picker>
 				</el-form-item>
@@ -130,16 +136,16 @@
 		data(){
 			var reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
 			var validateNum = (rule, value, callback) => {
-				var regu = /^\+?[1-9][0-9]*$/;
-        if (value === '') {
-          callback(new Error('请输入调货数量'));
-        } else if(!regu.test(value)){
-					callback(new Error('请输入正整数'));
+				var regu = /^(0|[1-9][0-9]*|-[1-9][0-9]*)$/;
+				if (value === '') {
+					callback(new Error('请输入调货数量'));
+				} else if(!regu.test(value)){
+					callback(new Error('请输入整数'));
 				} else {
 					this.allot.allot_money = this.mul(this.allot.allot_number,this.allot.allot_price,2);
-          callback();
-        }
-      };
+					callback();
+				}
+			};
 			var validateNull = (rule, value, callback) =>{
 				if(this.allot.allot_return_flag && !value){
 					callback(new Error('请选择'+rule.labelname));
@@ -211,7 +217,8 @@
 					allot_policy_contact_id:"",
 					allot_account_id:"",//返款账号
 					allot_price:"",
-					batch_number:""
+					batch_number:"",
+					allot_type:"1"
 				},
 				allotRule:{
 					batch_number:[{validator:validateBatchNumber,trigger: 'blur' }],

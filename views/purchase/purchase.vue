@@ -78,6 +78,7 @@
 				<el-table-column prop="purchase_price" label="中标价" width="60"></el-table-column>
 				<el-table-column prop="puchase_gross_rate" label="毛利率" width="60" :formatter="formatPercent"></el-table-column>
 				<el-table-column prop="batch_number" label="批号" width="60"></el-table-column>
+				<el-table-column prop="ticket_number" label="税票号" width="60"></el-table-column>
 				<el-table-column prop="contacts_name" label="联系人" width="60"></el-table-column>
 				<el-table-column prop="business_name" label="商业" width="60"></el-table-column>
 				<el-table-column prop="make_money_time" label="打款时间" width="80" :formatter="formatterDate"></el-table-column>
@@ -142,6 +143,12 @@
 				<el-form-item label="入库时间" prop="storage_time">
 					<el-date-picker v-model="purchase.storage_time" style="width:179px;" type="date" :clearable="false" placeholder="请选择入库时间"></el-date-picker>
 				</el-form-item>
+				<el-form-item label="批号" prop="batch_number">
+ 				 <el-input v-model="purchase.batch_number" style="width:179px;"></el-input>
+ 			 	</el-form-item>
+				<el-form-item label="税票号" prop="ticket_number">
+ 					<el-input v-model="purchase.ticket_number" style="width:179px;"></el-input>
+ 				</el-form-item>
 				<el-form-item label="备注" prop="remark">
 				<el-autocomplete popper-class="my-autocomplete" style="width:179px;"
 					 v-model="purchase.remark"
@@ -152,9 +159,7 @@
 					 </template>
 				</el-autocomplete>
 			 </el-form-item>
-			 <el-form-item label="批号" prop="batch_number">
-				 <el-input v-model="purchase.batch_number" style="width:179px;"></el-input>
-			 </el-form-item>
+
 			</el-form>
       <div slot="footer" class="dialog-footer">
         <el-button size="small" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
@@ -187,6 +192,8 @@
 				}
 			};
 			const nowDate = new Date();
+			const beforeDate = new Date();
+			beforeDate.setFullYear(nowDate.getFullYear()-1);
 			return {
 				pickerOptions2: {
 					shortcuts: [{
@@ -201,6 +208,13 @@
 						onClick(picker) {
 							const end = new Date();
 							const start = new Date(end.getFullYear()+"-01"+"-01");
+							picker.$emit('pick', [start, end]);
+						}
+					},{
+						text: beforeDate.getFullYear()+'年',
+						onClick(picker) {
+							const start = new Date(beforeDate.getFullYear()+"-01"+"-01");
+							const end = new Date(beforeDate.getFullYear()+"-12"+"-31");
 							picker.$emit('pick', [start, end]);
 						}
 					}]

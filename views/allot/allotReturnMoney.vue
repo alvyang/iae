@@ -55,8 +55,8 @@
 		 <el-form-item label="积分状态" prop="allot_return_flag">
 			 <el-select v-model="params.allot_return_flag" style="width:210px;" size="mini" filterable placeholder="请选择供货单位">
 				 <el-option key="" label="全部" value=""></el-option>
-				 <el-option key="未回" label="未回" value="未回"></el-option>
-				 <el-option key="已回" label="已回" value="已回"></el-option>
+				 <el-option key="未付" label="未付" value="未付"></el-option>
+				 <el-option key="已付" label="已付" value="已付"></el-option>
 			 </el-select>
 		 </el-form-item>
 		  <el-form-item>
@@ -209,6 +209,8 @@
         }
       };
 			const nowDate = new Date();
+			const beforeDate = new Date();
+	    beforeDate.setFullYear(nowDate.getFullYear()-1);
 			return {
 				pickerOptions2: {
 					shortcuts: [{
@@ -225,7 +227,14 @@
 							const start = new Date(end.getFullYear()+"-01"+"-01");
 							picker.$emit('pick', [start, end]);
 						}
-					}]
+					},{
+	          text: beforeDate.getFullYear()+'年',
+	          onClick(picker) {
+	            const start = new Date(beforeDate.getFullYear()+"-01"+"-01");
+	            const end = new Date(beforeDate.getFullYear()+"-12"+"-31");
+	            picker.$emit('pick', [start, end]);
+	          }
+	        }]
 				},
 				allots:[],
 				allot:{},

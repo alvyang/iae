@@ -63,6 +63,7 @@
 				<el-table-column prop="product_specifications" label="产品规格" width="100"></el-table-column>
 				<el-table-column prop="product_makesmakers" label="生厂企业" width="150"></el-table-column>
 				<el-table-column prop="product_unit" label="单位" width="50"></el-table-column>
+				<el-table-column prop="allot_type" label="调货类型" width="80" :formatter="formatterType"></el-table-column>
 				<el-table-column prop="business_name" label="商业" width="60"></el-table-column>
 				<el-table-column prop="contacts_name" label="调货联系人" width="80"></el-table-column>
 				<el-table-column prop="allot_number" label="数量" width="50"></el-table-column>
@@ -107,6 +108,12 @@
 			  </el-collapse-item>
 			</el-collapse>
 			<el-form :model="allot" ref="allot" status-icon :rules="allotRule" style="margin-top:20px;" :inline="true" label-width="100px" class="demo-ruleForm">
+				<div>
+					<el-form-item label="调货类型" prop="sale_type">
+						<el-radio v-model="allot.allot_type" label="1">调货出库</el-radio>
+						<el-radio v-model="allot.allot_type" label="2">调货退回</el-radio>
+					</el-form-item>
+				</div>
 				<el-form-item label="调货时间" prop="allot_time">
 					<el-date-picker v-model="allot.allot_time" style="width:179px;" type="date" placeholder="请选择打款时间"></el-date-picker>
 				</el-form-item>
@@ -160,7 +167,7 @@
 		data(){
 			var reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
 			var validateNum = (rule, value, callback) => {
-				var regu = /^\+?[1-9][0-9]*$/;
+				var regu = /^(0|[1-9][0-9]*|-[1-9][0-9]*)$/;
         if (value === '') {
           callback(new Error('请输入调货数量'));
         } else if(!regu.test(value)){
@@ -201,6 +208,8 @@
         }
       };
 			const nowDate = new Date();
+			const beforeDate = new Date();
+			beforeDate.setFullYear(nowDate.getFullYear()-1);
 			return {
 				pickerOptions2: {
 					shortcuts: [{
@@ -215,6 +224,13 @@
 						onClick(picker) {
 							const end = new Date();
 							const start = new Date(end.getFullYear()+"-01"+"-01");
+							picker.$emit('pick', [start, end]);
+						}
+					},{
+						text: beforeDate.getFullYear()+'年',
+						onClick(picker) {
+							const start = new Date(beforeDate.getFullYear()+"-01"+"-01");
+							const end = new Date(beforeDate.getFullYear()+"-12"+"-31");
 							picker.$emit('pick', [start, end]);
 						}
 					}]
@@ -267,6 +283,9 @@
 				this.importAllotsUrl = this.$bus.data.host + "/iae/allot/importAllots";
 		},
 		methods:{
+			formatterType(row, column, cellValue){
+				return cellValue=='1'?"调货出库":"调货退回";
+			},
 			downloadTemplate(){
 				window.location.href=this.$bus.data.host+"/download/template_allots.xlsx";
 			},

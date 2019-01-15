@@ -64,6 +64,13 @@
 				 <el-option key="3" label="销售退补价" value="3"></el-option>
 			 </el-select>
 		 </el-form-item>
+		 <el-form-item label="积分状态" prop="sale_return_flag">
+			 <el-select v-model="params.sale_return_flag" style="width:210px;" size="mini" filterable placeholder="请选择供货单位">
+				 <el-option key="" label="全部" value=""></el-option>
+				 <el-option key="未付" label="未付" value="未付"></el-option>
+				 <el-option key="已付" label="已付" value="已付"></el-option>
+			 </el-select>
+		 </el-form-item>
 	   <el-form-item>
 	     <el-button type="primary" v-dbClick v-show="authCode.indexOf('47979cc0-d40a-11e8-bfbc-6f9a2209108b,') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
 			 <el-button type="primary" v-dbClick v-show="authCode.indexOf('47979cc0-d40a-11e8-bfbc-6f9a2209108b,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
@@ -171,6 +178,8 @@
 	export default({
 		data(){
 			const nowDate = new Date();
+			const beforeDate = new Date();
+	    beforeDate.setFullYear(nowDate.getFullYear()-1);
 			return {
 				pickerOptions2: {
 					shortcuts: [{
@@ -187,7 +196,14 @@
 							const start = new Date(end.getFullYear()+"-01"+"-01");
 							picker.$emit('pick', [start, end]);
 						}
-					}]
+					},{
+	          text: beforeDate.getFullYear()+'年',
+	          onClick(picker) {
+	            const start = new Date(beforeDate.getFullYear()+"-01"+"-01");
+	            const end = new Date(beforeDate.getFullYear()+"-12"+"-31");
+	            picker.$emit('pick', [start, end]);
+	          }
+	        }]
 				},
 				sales:[],
 				contacts:[],
@@ -208,6 +224,7 @@
 					sale_contact_id:"",
 					product_code:"",
 					salesReturnFlag:"flag",
+					sale_return_flag:"",
 					productType:['佣金','高打'],
 				},
 				sale:{},//修改的销售信息
