@@ -127,7 +127,7 @@
 					<el-input v-model="allot.allot_return_price" style="width:179px;" placeholder="政策积分"></el-input>
 				</el-form-item>
 				<el-form-item label="应付积分" prop="allot_return_money">
-					<el-input v-model="allot.allot_return_money" style="width:179px;" placeholder="应付积分" :readonly="true"></el-input>
+					<el-input v-model="allot.allot_return_money" style="width:179px;" placeholder="应付积分"></el-input>
 				</el-form-item>
 				<el-form-item label="付积分账号" prop="allot_account_id">
           <el-select v-model="allot.allot_account_id" style="width:179px;" filterable placeholder="请选择">
@@ -186,7 +186,7 @@
 				} else {
 					this.allot.allot_money = this.mul(this.allot.allot_number,this.allot.allot_price,2);
 					if(this.allot.allot_return_price && reg.test(this.allot.allot_return_price)){
-						this.allot.allot_return_money = this.mul(this.allot.allot_return_price,this.allot.allot_number,2);
+						this.allot.allot_return_money = this.allot.allot_return_money?this.allot.allot_return_money:this.mul(this.allot.allot_return_price,this.allot.allot_number,2);
 					}
           callback();
         }
@@ -204,7 +204,7 @@
 				}else if(this.allot.allot_return_flag && value && !reg.test(value)){
 					callback(new Error('请输入正确的政策积分'));
 				} else {
-					this.allot.allot_return_money = this.mul(value,this.allot.allot_number,2);
+					this.allot.allot_return_money = this.allot.allot_return_money?this.allot.allot_return_money:this.mul(value,this.allot.allot_number,2);
           callback();
         }
       };
@@ -383,7 +383,7 @@
 				this.allot.allot_policy_money = this.allot.allot_policy_money?this.allot.allot_policy_money:"";
 				this.allot.allot_return_price = this.allot.allot_return_price?this.allot.allot_return_price:this.allot.allot_policy_money;
 				if(this.allot.allot_return_price){
-					this.allot.allot_return_money = this.mul(this.allot.allot_return_price,this.allot.allot_number,2);
+					this.allot.allot_return_money = this.allot.allot_return_money?this.allot.allot_return_money:this.mul(this.allot.allot_return_price,this.allot.allot_number,2);
 				}
 				this.allot.allot_number_temp = scope.row.allot_number;
 				for(var i = 0 ; i < this.contacts.length;i++){

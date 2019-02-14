@@ -306,7 +306,7 @@
 				this.sale = scope.row;
 				this.sale.sale_contact_id = this.sale.sale_contact_id?this.sale.sale_contact_id:scope.row.sale_policy_contact_id;
 				this.sale.sale_return_price = this.sale.sale_return_price?this.sale.sale_return_price:scope.row.sale_policy_money;
-				this.sale.sale_return_money = this.mul(this.sale.sale_return_price,this.sale.sale_num,2);
+				this.sale.sale_return_money = this.sale.sale_return_money?this.sale.sale_return_money:this.mul(this.sale.sale_return_price,this.sale.sale_num,2);
 				this.sale.sale_num_temp = scope.row.sale_num;
 				for(var i = 0 ; i < this.contacts.length;i++){
 					if(this.contacts[i].contacts_id == this.sale.sale_contact_id){

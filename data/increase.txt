@@ -1,6 +1,19 @@
 //未发版sql
 
+//发版日期 20190213
+select * from authority where authority_name='积分管理-佣金'
+select * from authority where authority_name='积分管理-高打'
+select * from authority where authority_name='销售积分管理-1'
+select * from authority where authority_name='调货积分管理-2'
+select * from authority where authority_name='销售政策管理-1'
+select * from authority where authority_name='调货政策管理-2'
 
+update authority set authority_name = '佣金应收管理' where authority_id = '43';
+update authority set authority_name = '高打应收管理' where authority_id = '42';
+update authority set authority_name = '销售应付管理' where authority_id = '017a3db0-d40a-11e8-bfbc-6f9a2209108b';
+update authority set authority_name = '调货应付管理' where authority_id = 'dcdb4360-cb66-11e8-9167-b9e7cf3cd8a2';
+update authority set authority_name = '销售政策管理（下游）' where authority_id = '08cc7230-d43d-11e8-984b-5b9b376cac6a';
+update authority set authority_name = '调货政策管理（下游）' where authority_id = 'ea631b50-d43c-11e8-984b-5b9b376cac6a';
 //发版日期 20190115
 alter table allot add allot_type varchar(5) COMMENT '调货类型';
 alter table purchase add ticket_number varchar(50) COMMENT '税票号';

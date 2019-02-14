@@ -1,6 +1,6 @@
 {
   "name": "IAE",
-  "version": "1.7.6",
+  "version": "1.7.8",
   "description": "iae",
   "main": "main.js",
   "scripts": {
@@ -8,6 +8,7 @@
     "start": "electron --inspect=5858 .",
     "asar": "asar pack . dist/app.asar",
     "dist-win": "electron-builder --win --x64",
+    "dist-win-32": "electron-builder --win --ia32",
     "rb": "cd node_modules/electron-prebuilt && node install.js",
     "r2b": "./node_modules/.bin/electron-rebuild -w sqlite3 -p",
     "rebuild-sqlite3-win64": "cd node_modules/sqlite3 && npm install nan --save && node-gyp configure --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-win32-x64 && node-gyp rebuild --target=1.8.2 --arch=x64 --target_platform=win32 --dist-url=https://atom.io/download/electron/ --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-win32-x64",

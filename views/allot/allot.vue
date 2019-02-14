@@ -173,9 +173,9 @@
         } else if(!regu.test(value)){
 					callback(new Error('请输入正整数'));
 				} else {
-					this.allot.allot_money = this.mul(this.allot.allot_number,this.allot.allot_price,2);
+					this.allot.allot_money = this.allot.allot_money?this.allot.allot_money:this.mul(this.allot.allot_number,this.allot.allot_price,2);
 					if(this.allot.allot_return_price && reg.test(this.allot.allot_return_price)){
-						this.allot.allot_return_money = this.mul(this.allot.allot_return_price,this.allot.allot_number,2);
+						this.allot.allot_return_money = this.allot.allot_return_money?this.allot.allot_return_money:this.mul(this.allot.allot_return_price,this.allot.allot_number,2);
 					}
           callback();
         }
@@ -193,7 +193,7 @@
 				}else if(this.allot.allot_return_flag && value && !reg.test(value)){
 					callback(new Error('请输入正确的返款单价'));
 				} else {
-					this.allot.allot_return_money = this.mul(value,this.allot.allot_number);
+					this.allot.allot_return_money = this.allot.allot_return_money?this.allot.allot_return_money:this.mul(value,this.allot.allot_number);
           callback();
         }
       };
@@ -203,7 +203,7 @@
 				}else if(!reg.test(value)){
 					callback(new Error('请输入正确的调货价'));
 				} else {
-					this.allot.allot_money = this.mul(this.allot.allot_number,value,2);
+					this.allot.allot_money = this.allot.allot_money?this.allot.allot_money:this.mul(this.allot.allot_number,value,2);
           callback();
         }
       };

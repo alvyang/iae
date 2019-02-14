@@ -209,12 +209,12 @@
 				} else if(!regu.test(value)){
 					callback(new Error('请输入整数'));
 				} else {
-					this.sale.sale_money = this.mul(this.sale.sale_num,this.sale.sale_price,2);
+					this.sale.sale_money = this.sale.sale_money?this.sale.sale_money:this.mul(this.sale.sale_num,this.sale.sale_price,2);
 					if(this.sale.cost_univalent){
-						this.sale.gross_profit = this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.sale.cost_univalent),2);
+						this.sale.gross_profit = this.sale.gross_profit?this.sale.gross_profit:this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.sale.cost_univalent),2);
 					}
 					if(this.sale.accounting_cost){
-						this.sale.real_gross_profit = this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.sale.accounting_cost),2);
+						this.sale.real_gross_profit = this.sale.real_gross_profit?this.sale.real_gross_profit:this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.sale.accounting_cost),2);
 					}
          	callback();
 				}
@@ -226,10 +226,10 @@
         } else {
 					if(value){
 						if(this.sale.cost_univalent){
-							this.sale.gross_profit = this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.sale.cost_univalent),2);
+							this.sale.gross_profit = this.sale.gross_profit?this.sale.gross_profit:this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.sale.cost_univalent),2);
 						}
 						if(this.sale.accounting_cost){
-							this.sale.real_gross_profit = this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.sale.accounting_cost),2);
+							this.sale.real_gross_profit = this.sale.real_gross_profit?this.sale.real_gross_profit:this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.sale.accounting_cost),2);
 						}
 					}
          	callback();

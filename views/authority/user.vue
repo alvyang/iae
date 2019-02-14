@@ -22,7 +22,7 @@
 		</el-form>
 		<el-table :data="users" style="width: 100%" size="mini" :stripe="true">
 			<el-table-column prop="username" label="用户名"></el-table-column>
-			<el-table-column prop="role_name" label="组名称"></el-table-column>
+			<el-table-column prop="group_name" label="组名称"></el-table-column>
 			<el-table-column prop="group_code" label="组编码"></el-table-column>
 			<el-table-column prop="realname" label="真实姓名"></el-table-column>
 			<el-table-column prop="data_authority" label="数据权限" :formatter="formatterType"></el-table-column>
@@ -50,7 +50,7 @@
     <el-dialog :title="title == 1?'新增用户':'修改用户'" width="500px" :visible.sync="dialogFormVisible">
       <el-form :model="user" :rules="rules" ref="user" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="用户组" prop="group_id" :required="true">
-					<el-select v-model="user.group_id" style="width:300px;" filterable placeholder="请选择组">
+					<el-select v-model="user.group_id" style="width:300px;" placeholder="请选择组">
 						<el-option v-for="item in groups" :key="item.group_id" :label="item.group_name" :value="item.group_id"></el-option>
 					</el-select>
 				</el-form-item>
@@ -161,7 +161,6 @@
 			this.params.groupId = JSON.parse(sessionStorage["user"]).group_id;
 			this.user.group_id = JSON.parse(sessionStorage["user"]).group_id;
 			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
-			console.log(this.authCode);
 		},
 		mounted(){
 			this.params.groupId = JSON.parse(sessionStorage["user"]).group_id;
@@ -178,7 +177,7 @@
           realname:"",
 					data_authority:"1",
         };
-				this.user.group_id = JSON.parse(sessionStorage["user"]).group_id;
+				// this.user.group_id = JSON.parse(sessionStorage["user"]).group_id;
 				this.title=1;
 				var _self = this;
 				setTimeout(function(){

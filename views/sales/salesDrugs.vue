@@ -164,7 +164,7 @@ export default({
 			} else if(!regu.test(value)){
 				callback(new Error('请输入整数'));
 			} else {
-				this.sale.sale_money = this.mul(this.sale.sale_num,this.sale.sale_price,2);
+				this.sale.sale_money = this.sale.sale_money?this.sale.sale_money:this.mul(this.sale.sale_num,this.sale.sale_price,2);
 				callback();
 			}
 		};

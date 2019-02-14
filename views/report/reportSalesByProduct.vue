@@ -65,6 +65,8 @@
   export default({
     data(){
       const nowDate = new Date();
+      const beforeDate = new Date();
+			beforeDate.setFullYear(nowDate.getFullYear()-1);
         return{
           pickerOptions2: {
   					shortcuts: [{
@@ -79,6 +81,13 @@
   						onClick(picker) {
   							const end = new Date();
   							const start = new Date(end.getFullYear()+"-01"+"-01");
+  							picker.$emit('pick', [start, end]);
+  						}
+  					},{
+  						text: beforeDate.getFullYear()+'年',
+  						onClick(picker) {
+  							const start = new Date(beforeDate.getFullYear()+"-01"+"-01");
+  							const end = new Date(beforeDate.getFullYear()+"-12"+"-31");
   							picker.$emit('pick', [start, end]);
   						}
   					}]

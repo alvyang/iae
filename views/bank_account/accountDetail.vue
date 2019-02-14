@@ -5,6 +5,14 @@
 			<el-breadcrumb-item>积分流水账管理</el-breadcrumb-item>
 		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
+			<el-form-item label="日期" prop="account_detail_time">
+				<el-date-picker v-model="params.account_detail_time" type="daterange" size="mini" align="right" unlink-panels
+					range-separator="至"
+					start-placeholder="开始日期"
+					end-placeholder="结束日期"
+					:picker-options="pickerOptions2">
+				</el-date-picker>
+			</el-form-item>
 		  <el-form-item label="积分账户" prop="account_id">
 				<el-select v-model="params.account_id" style="width:210px;" filterable size="mini" placeholder="请选择">
 					<el-option key="" label="全部" value=""></el-option>
@@ -21,6 +29,9 @@
 					<el-option key="1" label="收入" value="1"></el-option>
 					<el-option key="2" label="支出" value="2"></el-option>
         </el-select>
+		  </el-form-item>
+			<el-form-item label="事项" prop="textarea">
+		    <el-input v-model="params.textarea" @keyup.13.native="reSearch(false)" style="width:210px;" size="mini" placeholder="持卡人"></el-input>
 		  </el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('73,') > -1" @click="reSearch(false)" size="mini">查询</el-button>
@@ -97,7 +108,34 @@
          	callback();
         }
     	};
+			const nowDate = new Date();
+			const beforeDate = new Date();
+			beforeDate.setFullYear(nowDate.getFullYear()-1);
 			return {
+				pickerOptions2: {
+					shortcuts: [{
+						text: '本月',
+						onClick(picker) {
+							const end = new Date();
+							const start = new Date(end.getFullYear()+"-"+(end.getMonth()+1)+"-01");
+							picker.$emit('pick', [start, end]);
+						}
+					},{
+						text: nowDate.getFullYear()+'年',
+						onClick(picker) {
+							const end = new Date();
+							const start = new Date(end.getFullYear()+"-01"+"-01");
+							picker.$emit('pick', [start, end]);
+						}
+					},{
+						text: beforeDate.getFullYear()+'年',
+						onClick(picker) {
+							const start = new Date(beforeDate.getFullYear()+"-01"+"-01");
+							const end = new Date(beforeDate.getFullYear()+"-12"+"-31");
+							picker.$emit('pick', [start, end]);
+						}
+					}]
+				},
 				title:1,
 				dialogFormVisible:false,
 				loading:false,
@@ -120,7 +158,10 @@
 				currentPage:1,
 				count:0,
 				params:{
-					account_id:""
+					account_id:"",
+					account_detail_time:[],
+					textarea:"",
+					account_type:"",
 				}
 			}
 		},
