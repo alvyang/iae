@@ -262,6 +262,11 @@
         },function(res){
             _self.commissionTemp = res.message.data;
             _self.account = res.message.account;
+            _self.account.smAccount = (_self.account.smAccount+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            _self.account.rgpAccount = (_self.account.rgpAccount+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            _self.account.rgptAccount = (_self.account.rgptAccount+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            _self.account.profitAccount = (_self.account.profitAccount+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            _self.account.dayAvgprofitAccount = (_self.account.dayAvgprofitAccount+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             _self.frontPage();
             _self.pageNum=parseInt(res.message.limit);
             _self.count=res.message.totalCount;

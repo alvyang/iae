@@ -2,7 +2,7 @@
 	<div>
 		<el-breadcrumb separator-class="el-icon-arrow-right">
 		  <el-breadcrumb-item>积分管理</el-breadcrumb-item>
-			<el-breadcrumb-item>调货积分管理</el-breadcrumb-item>
+			<el-breadcrumb-item>调货应付管理</el-breadcrumb-item>
 		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 			<el-form-item label="调货时间" prop="allot_time">
@@ -66,7 +66,7 @@
 		  </el-form-item>
 		</el-form>
 		<div class="sum_money_allot">
-			<a>回款总额：</a>{{money}} <span>元</span>
+			<a>总积分：</a>{{money}}  <a>已付积分：</a>{{money1}} <a>未付积分：</a>{{money2}}
 		</div>
 		<el-table :data="allots" style="width: 100%" size="mini" :stripe="true" :border="true">
 				<el-table-column fixed prop="allot_time" label="调货时间" width="80" :formatter="formatterDate"></el-table-column>
@@ -82,7 +82,7 @@
 				<el-table-column prop="allot_mack_price" label="打款价" width="60"></el-table-column>
 				<el-table-column prop="allot_price" label="中标价" width="60"></el-table-column>
 				<el-table-column prop="allot_money" label="金额" width="70"></el-table-column>
-				<el-table-column label="上游实付积分" width="70" :formatter="formatterReturnMoney"></el-table-column>
+				<el-table-column label="实收上游积分" width="70" :formatter="formatterReturnMoney"></el-table-column>
 				<el-table-column prop="allot_return_price" label="政策积分" width="70"></el-table-column>
 				<el-table-column prop="allot_return_money" label="应付积分" width="70"></el-table-column>
 				<el-table-column prop="allot_return_time" label="付积分时间" width="80" :formatter="formatterDate"></el-table-column>
@@ -167,6 +167,9 @@
 				</div>
 			</el-form>
       <div slot="footer" class="dialog-footer">
+				<div style='color:#f24040;font-size:12px;padding-bottom:5px;' v-show="remindFlag">
+					温馨提示：应付积分大于实收上游积分（{{remindMoney}}）
+				</div>
         <el-button size="small" @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="primary" v-dbClick :loading="loading" size="small" @click="editallots('allot')">确 定</el-button>
       </div>
@@ -243,6 +246,8 @@
 				business:[],
 				loading:false,
 				money:0,//总额统计
+				money1:0,//已付金额统计
+				money2:0,//未付金额统计
 				pageNum:10,
 				currentPage:1,
 				count:0,
@@ -263,7 +268,9 @@
 					allot_return_price:[{validator:validateRealReturnMoney,trigger: 'blur' }],
 				},
 				authCode:"",
-				selectContact:{}
+				selectContact:{},
+				remindFlag:false,//应付积分是否大于实收上游积分
+				remindMoney:0,//实收上游积分
 			}
 		},
 		activated(){
@@ -347,9 +354,9 @@
 				var _self = this;
 				this.allot.account_detail = this.formatterDate(null,null,this.allot.allot_time)+this.allot.hospital_name+"调货（"+this.allot.allot_number+"）"+this.allot.product_common_name+"回积分";
 				if(this.allot.allot_account_id && this.allot.allot_return_money){
-					this.allot.allot_account_name = this.selectContact.account_name?this.selectContact.account_name:"";
-					this.allot.allot_account_number = this.selectContact.account_number?this.selectContact.account_number:"";
-					this.allot.allot_account_address = this.selectContact.account_address?this.selectContact.account_address:"";
+					this.allot.allot_account_name =this.allot.allot_account_name?this.allot.allot_account_name:(this.selectContact.account_name?this.selectContact.account_name:"");
+					this.allot.allot_account_number = this.allot.allot_account_number?this.allot.allot_account_number:(this.selectContact.account_number?this.selectContact.account_number:"");
+					this.allot.allot_account_address = this.allot.allot_account_address?this.allot.allot_account_address:(this.selectContact.account_address?this.selectContact.account_address:"");
 				}
 				this.$refs[formName].validate((valid) => {
 						if (valid) {
@@ -390,6 +397,14 @@
 					if(this.contacts[i].contacts_id == this.allot.allot_policy_contact_id){
 						this.selectContact = this.contacts[i];
 					}
+				}
+				this.remindFlag = false;
+				if(this.allot.refunds_real_time && this.allot.refunds_real_money){
+					this.remindFlag = this.allot.allot_return_price > this.div(this.allot.refunds_real_money,this.allot.purchase_number,2);
+					this.remindMoney = this.div(this.allot.refunds_real_money,this.allot.purchase_number,2);
+				}else{
+					this.remindMoney = 0;
+					this.remindFlag = true;
 				}
 			},
 			deleteRow(scope){//删除
@@ -446,7 +461,10 @@
 						_self.allots = res.message.data;
 						_self.pageNum=parseInt(res.message.limit);
 						_self.count=res.message.totalCount;
-						_self.money = res.message.returnMoney.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+						_self.money = (res.message.returnMoney+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+						_self.money1 = (res.message.returnMoney1+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+						_self.money2 = _self.sub(res.message.returnMoney,res.message.returnMoney1,2);
+						_self.money2 = (_self.money2+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 				});
 			},
 			handleSizeChange(val) {

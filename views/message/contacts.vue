@@ -66,13 +66,16 @@
 				<el-form-item label="手机号码" prop="contacts_phone">
 					<el-input v-model="contact.contacts_phone" style="width:175px;" auto-complete="off" :maxlength="11" placeholder="请输入联系人手机号码"></el-input>
 				</el-form-item>
-				<el-form-item label="积分账号" prop="account_number">
+				<el-form-item label="积分账号" prop="account_number"
+					v-show="contact.contact_type.join(',').indexOf('调货') > -1 || contact.contact_type.join(',').indexOf('业务员') > -1">
 					<el-input v-model="contact.account_number" style="width:175px;" auto-complete="off"placeholder="请输入积分账号"></el-input>
 				</el-form-item>
-				<el-form-item label="账号姓名" prop="account_name">
+				<el-form-item label="账号姓名" prop="account_name"
+					v-show="contact.contact_type.join(',').indexOf('调货') > -1 || contact.contact_type.join(',').indexOf('业务员') > -1">
 					<el-input v-model="contact.account_name" style="width:175px;" auto-complete="off" :maxlength="20" placeholder="请输入积分账号姓名"></el-input>
 				</el-form-item>
-				<el-form-item label="账号地址" prop="account_address">
+				<el-form-item label="账号地址" prop="account_address"
+					v-show="contact.contact_type.join(',').indexOf('调货') > -1 || contact.contact_type.join(',').indexOf('业务员') > -1">
 					<el-input v-model="contact.account_address" style="width:453px;" auto-complete="off" placeholder="请输入账号地址"></el-input>
 				</el-form-item>
 				<el-form-item label="备注" prop="contact_remark">
@@ -89,6 +92,23 @@
 <script>
 	export default({
 		data(){
+			var validateName = (rule, value, callback) => {
+        if (!value) {
+          callback(new Error('请再输入销售医院'));
+        } else {
+					if(this.title == 1){
+						this.jquery("/iae/contacts/exitsContactsName",{contact:this.contact},function(res){
+							if(res.message.length > 0){
+								callback(new Error('该联系人已存在'));
+							}else{
+								callback();
+							}
+						});
+					}else{
+						callback();
+					}
+        }
+    	};
 			var validatePhone = (rule, value, callback) => {
         if (value && !/^1[3|4|5|7|8|9][0-9]{9}$/.test(value)) {
           	callback(new Error('请再输入正确的手机号码'));
@@ -111,7 +131,7 @@
 					contact_type:['佣金品种'],
 				},
 				contactsRule:{
-					contacts_name:[{ required: true, message: '请输入联系人姓名', trigger: 'blur' }],
+					contacts_name:[{ validator: validateName,labelname:'联系人', trigger: 'blur' }],
 					contacts_phone:[{ validator: validatePhone, trigger: 'blur' }],
 				},
 				contacts:[],
@@ -170,6 +190,10 @@
 					account_address:"",
 					contact_type:['佣金品种'],
 				};
+				var _self = this;
+				setTimeout(function(){
+					_self.$refs["contact"].clearValidate();
+				});
 				this.title=1;
 				this.dialogFormVisible = true;
 			},

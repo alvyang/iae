@@ -56,6 +56,11 @@ import reportSalesByProduct from "../views/report/reportSalesByProduct.vue";//�
 import reportSalesByHospital from "../views/report/reportSalesByHospital.vue";//销售按医院
 import reportSalesByProfitRate from "../views/report/reportSalesByProfitRate.vue";//销售按毛利率
 import reportComprehensive from "../views/report/reportComprehensive.vue";//利润/负债综合统计
+import reportSaleChainRatio from "../views/report/reportSaleChainRatio.vue";//销售环比
+import reportSaleChainRatioSn from "../views/report/reportSaleChainRatioSn.vue";//销售环比
+import reportSaleOnYear from "../views/report/reportSaleOnYear.vue";//销售同比
+import reportSaleOnYearSn from "../views/report/reportSaleOnYearSn.vue";//销售同比
+import reportSaleVariance from "../views/report/reportSaleVariance.vue";//稳定性分析
 
 //返款管理
 import Refundsale from "../views/refunds/refundsale.vue";
@@ -113,6 +118,11 @@ const router = new VueRouter({
 			{path:"reportsalesbyhospital",component:reportSalesByHospital},//报表销售按品种
 			{path:"reportsalesbyprofitrate",component:reportSalesByProfitRate},//报表销售按品种
 			{path:"reportcomprehensive",component:reportComprehensive},//利润/负债，综合统计
+			{path:"reportsalechainratio",component:reportSaleChainRatio},//销售环比
+			{path:"reportsalechainratiosn",component:reportSaleChainRatioSn},//销售环比
+			{path:"reportsaleonyear",component:reportSaleOnYear},//销售同比
+			{path:"reportsaleonyearsn",component:reportSaleOnYearSn},//销售同比
+			{path:"reportsalevariance",component:reportSaleVariance},//稳定性分析
 			{path:"refundsale",component:Refundsale},//佣金返款
 			{path:"refundpurchase",component:Refundpurchase},//高打返款
 			{path:"allotreturnmoney",component:AllotReturnMoney},//调货回款

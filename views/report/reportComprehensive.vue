@@ -221,13 +221,5 @@
   })
 </script>
 <style>
-  .el-table_1_column_12_column_18,.el-table_1_column_5_column_11,.el-table_2_column_28_column_34,.el-table_2_column_35_column_41   {
-    color:#67c23a;
-  }
-  .el-table_1_column_23_column_27,.el-table_1_column_28,.el-table_2_column_46_column_50,.el-table_2_column_51    {
-    color:#f56c6c;
-  }
-  .el-table_1_column_19_column_22,.el-table_2_column_42_column_45  {
-    color:#e6a23c;
-  }
+
 </style>

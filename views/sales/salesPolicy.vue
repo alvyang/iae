@@ -14,6 +14,9 @@
   				 </el-option>
   		 	</el-select>
   		</el-form-item>
+      <el-form-item label="产品编码" prop="productCode">
+		    <el-input v-model="params.productCode" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品编码"></el-input>
+		  </el-form-item>
       <el-form-item label="产品名称" prop="productCommonName">
 		    <el-input v-model="params.productCommonName" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品名称/助记码"></el-input>
 		  </el-form-item>
@@ -134,7 +137,8 @@
         params:{
           hospitalId:"",
           productCommonName:"",
-          sale_contact_id:""
+          sale_contact_id:"",
+          productCode:""
         },
         policy:{
           sale_policy_money:"",

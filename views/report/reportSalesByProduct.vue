@@ -5,15 +5,6 @@
 			<el-breadcrumb-item>销售量/额统计（按品种）</el-breadcrumb-item>
 		</el-breadcrumb>
     <el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
-      <el-form-item label="商业" prop="business">
-        <el-select v-model="params.business" style="width:210px;" size="mini" filterable>
-          <el-option key="" label="全部" value=""></el-option>
-          <el-option v-for="item in business"
-            :key="item.business_id"
-            :label="item.business_name"
-            :value="item.business_id"></el-option>
-        </el-select>
-      </el-form-item>
       <el-form-item label="销往单位" prop="hospitalsId">
 			 <el-select v-model="params.hospitalsId" style="width:210px;" filterable size="mini">
 				 <el-option key="" label="全部" value=""></el-option>
@@ -24,6 +15,15 @@
 				 </el-option>
 	 	   </el-select>
 		  </el-form-item>
+      <el-form-item label="商业" prop="business">
+        <el-select v-model="params.business" style="width:210px;" size="mini" filterable>
+          <el-option key="" label="全部" value=""></el-option>
+          <el-option v-for="item in business"
+            :key="item.business_id"
+            :label="item.business_name"
+            :value="item.business_id"></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item label="销售日期" prop="salesTime">
  			 <el-date-picker v-model="params.salesTime" type="daterange" size="mini" align="right" unlink-panels
  				 range-separator="至"
@@ -32,6 +32,13 @@
  				 :picker-options="pickerOptions2">
  			 </el-date-picker>
  		 </el-form-item>
+     <el-form-item label="是否配送" prop="product_distribution_flag">
+       <el-select v-model="params.product_distribution_flag" style="width:210px;" size="mini" placeholder="请选择">
+         <el-option key="" label="全部" value=""></el-option>
+         <el-option key="0" label="配送" value="0"></el-option>
+         <el-option key="1" label="不配送" value="1"></el-option>
+       </el-select>
+     </el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('99,') > -1" @click="reSearch(false)" size="mini">查询</el-button>
 				<el-button type="primary" v-dbClick v-show="authCode.indexOf('99,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
@@ -95,7 +102,8 @@
           params:{
             hospitalsId:'',
             business:'',
-            salesTime:[]
+            salesTime:[],
+            product_distribution_flag:"0"
           },
           listData:[],
           hospitals:[],

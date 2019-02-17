@@ -2,7 +2,7 @@
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
 		  <el-breadcrumb-item>积分管理</el-breadcrumb-item>
-			<el-breadcrumb-item>积分管理-佣金</el-breadcrumb-item>
+			<el-breadcrumb-item>佣金应收管理</el-breadcrumb-item>
 		</el-breadcrumb>
     <el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
       <div>

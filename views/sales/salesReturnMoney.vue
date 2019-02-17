@@ -2,7 +2,7 @@
 	<div style="box-sizing: border-box;padding: 0px 10px;">
 		<el-breadcrumb separator-class="el-icon-arrow-right">
 		  <el-breadcrumb-item>积分管理</el-breadcrumb-item>
-			<el-breadcrumb-item>销售积分管理</el-breadcrumb-item>
+			<el-breadcrumb-item>销售应付管理</el-breadcrumb-item>
 		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 			<el-form-item label="销售日期" prop="salesTime">
@@ -77,7 +77,7 @@
 			 <el-button type="primary" v-dbClick v-show="authCode.indexOf('e430d5a0-d802-11e8-a19c-cf0f6be47d2e,') > -1" @click="exportSaleReturn" size="mini">导出</el-button>
 	   </el-form-item>
 		</el-form>
-		<div class="sum_money">总积分：<a>{{saleReturnMoney}}</a> </div>
+		<div class="sum_money">总积分：<a>{{saleReturnMoney}}</a> 已付积分：<a>{{saleReturnMoney1}}</a> 未付积分：<a>{{saleReturnMoney2}}</a></div>
 		<el-table :data="sales" style="width: 100%" size="mini" :stripe="true" :border="true">
   			<el-table-column fixed prop="bill_date" label="日期" width="80" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="hospital_name" label="销往单位" width="140"></el-table-column>
@@ -91,7 +91,7 @@
 				<el-table-column prop="sale_price" label="中标价" width="60"></el-table-column>
 				<el-table-column prop="sale_num" label="销售数量" width="70"></el-table-column>
 				<el-table-column prop="sale_money" label="购入金额" width="70"></el-table-column>
-				<el-table-column label="上游实付积分" width="70" :formatter="formatterReturnMoney"></el-table-column>
+				<el-table-column label="实收上游积分" width="70" :formatter="formatterReturnMoney"></el-table-column>
 				<el-table-column prop="sale_return_price" label="政策积分" width="70" ></el-table-column>
 				<el-table-column prop="sale_return_money" label="应付积分" width="70"></el-table-column>
 				<el-table-column prop="sale_return_time" label="付积分时间" width="70" :formatter="formatterDate"></el-table-column>
@@ -168,6 +168,9 @@
 				</div>
 			</el-form>
       <div slot="footer" class="dialog-footer">
+				<div style='color:#f24040;font-size:12px;padding-bottom:5px;' v-show="remindFlag">
+					温馨提示：应付积分大于实收上游积分（{{remindMoney}}）
+				</div>
         <el-button size="small" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="primary" size="small" v-dbClick :loading="loading" @click="editSales('sale')">确 定</el-button>
       </div>
@@ -213,7 +216,9 @@
 				currentPage:1,
 				count:0,
 				hospitals:[],
-				saleReturnMoney:0,//回款总额
+				saleReturnMoney:0,//总总额
+				saleReturnMoney1:0,//已付金额
+				saleReturnMoney2:0,//未付金额
 				params:{//查询参数
 					productCommonName:"",
 					salesTime:[],
@@ -234,6 +239,8 @@
 				loading:false,
 				authCode:"",
 				selectContact:{},
+				remindFlag:false,//应付积分是否大于实收上游积分
+				remindMoney:0,//实收上游积分
 			}
 		},
 		activated(){
@@ -313,6 +320,17 @@
 						this.selectContact = this.contacts[i];
 					}
 				}
+				this.remindFlag = false;
+				if(this.sale.product_type == '佣金' && this.sale.refunds_real_time && this.sale.refunds_real_money){
+					this.remindFlag = this.sale.sale_return_price > this.div(this.sale.refunds_real_money,this.sale.sale_num,2);
+					this.remindMoney = this.div(this.sale.refunds_real_money,this.sale.sale_num,2);
+				}else if(this.sale.product_type == '高打' && this.sale.refunds_real_time && this.sale.refunds_real_money){
+					this.remindFlag = this.sale.sale_return_price > this.div(this.sale.refunds_real_money,this.sale.purchase_number,2);
+					this.remindMoney = this.div(this.sale.refunds_real_money,this.sale.sale_num,2);
+				}else{
+					this.remindMoney = 0;
+					this.remindFlag = true;
+				}
 			},
 			reSearch(arg){
 				if(arg){
@@ -348,6 +366,9 @@
           page:page
         },function(res){
 						_self.saleReturnMoney = (res.message.saleReturnMoney+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+						_self.saleReturnMoney1 = (res.message.saleReturnMoney1+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+						_self.saleReturnMoney2 = _self.sub(res.message.saleReturnMoney,res.message.saleReturnMoney1,2);
+						_self.saleReturnMoney2 = (_self.saleReturnMoney2+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             _self.sales = res.message.data;
             _self.pageNum=parseInt(res.message.limit);
     				_self.count=res.message.totalCount;
@@ -364,9 +385,9 @@
 					this.sale.real_gross_profit = this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.sale.accounting_cost),2);
 				}
 				if(this.sale.sale_account_id && this.sale.sale_return_money){
-					this.sale.sale_account_name = this.selectContact.account_name?this.selectContact.account_name:"";
-					this.sale.sale_account_number = this.selectContact.account_number?this.selectContact.account_number:"";
-					this.sale.sale_account_address = this.selectContact.account_address?this.selectContact.account_address:"";
+					this.sale.sale_account_name = this.sale.sale_account_name?this.sale.sale_account_name:(this.selectContact.account_name?this.selectContact.account_name:"");
+					this.sale.sale_account_number = this.sale.sale_account_number?this.sale.sale_account_number:(this.selectContact.account_number?this.selectContact.account_number:"");
+					this.sale.sale_account_address = this.sale.sale_account_address?this.sale.sale_account_address:(this.selectContact.account_address?this.selectContact.account_address:"");
 				}
 				this.$refs[formName].validate((valid) => {
 						if (valid) {
