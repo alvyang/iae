@@ -31,7 +31,7 @@
         </el-select>
 		  </el-form-item>
 			<el-form-item label="事项" prop="textarea">
-		    <el-input v-model="params.textarea" @keyup.13.native="reSearch(false)" style="width:210px;" size="mini" placeholder="持卡人"></el-input>
+		    <el-input v-model="params.textarea" @keyup.13.native="reSearch(false)" style="width:210px;" size="mini" placeholder="事项"></el-input>
 		  </el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('73,') > -1" @click="reSearch(false)" size="mini">查询</el-button>

@@ -47,7 +47,7 @@
           <el-table-column fixed prop="product_common_name" label="产品名称" width="150"></el-table-column>
           <el-table-column prop="product_specifications" label="产品规格" width="80"></el-table-column>
           <el-table-column prop="product_makesmakers" label="生产产家" width="100"></el-table-column>
-          <el-table-column v-for="m in month" :label="m+'月销售额/量（同比）'" >
+          <el-table-column v-for="m in month" :label="m+'月销售量（同比）'" >
             <el-table-column v-for="t in time" :prop="t.time+'sn'" :label="t.year" v-if="m == t.month " :formatter="formatNumber" >
               <!-- <el-table-column :prop="t.time" label="销售额" :formatter="formatNumber" width="80"></el-table-column> -->
               <!-- <el-table-column :prop="t.time+'sn'" label="销售量" :formatter="formatNumber" width="80"></el-table-column> -->

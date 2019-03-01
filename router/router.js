@@ -14,6 +14,12 @@ import Purchase from "../views/purchase/purchase.vue";
 import PurchaseDrugs from "../views/purchase/purchaseDrugs.vue";
 // import PurchaseEdit from "../views/purchase/purchaseEdit.vue";
 // import ReturnMoney from "../views/purchase/ReturnMoney.vue";
+//采退记录
+import PurchaseRecovery from "../views/purchase_recovery/purchaseRecovery.vue";
+import PurchaseRecoveryDrugs from "../views/purchase_recovery/purchaseRecoveryDrugs.vue";
+//报损记录
+import PurchaseLoss from "../views/purchase_loss/purchaseLoss.vue";
+import PurchaseLossDrugs from "../views/purchase_loss/purchaseLossDrugs.vue";
 //调货记录页面
 import Allot from "../views/allot/allot.vue";
 import AllotDrugs from "../views/allot/allotDrugs.vue";
@@ -69,7 +75,9 @@ import AllotReturnMoney from "../views/allot/allotReturnMoney.vue";
 import SalesReturnMoney from "../views/sales/salesReturnMoney.vue";
 //政策管理
 import AllotPolicy from "../views/allot/allotPolicy.vue";
+import AllotPolicyDrugs from "../views/allot/allotPolicyDrugs.vue";
 import SalesPolicy from "../views/sales/salesPolicy.vue";
+import SalesPolicyDrugs from "../views/sales/salesPolicyDrugs.vue";
 //库存
 import Stock from "../views/stock/stock.vue";
 
@@ -105,6 +113,10 @@ const router = new VueRouter({
 			{path:"labeledit",component:LabelEdit},
 			{path:"purchase",component:Purchase},
 			{path:"purchasedrugs",component:PurchaseDrugs},
+			{path:"purchaserecovery",component:PurchaseRecovery},
+			{path:"purchaserecoverydrugs",component:PurchaseRecoveryDrugs},
+			{path:"purchaseloss",component:PurchaseLoss},
+			{path:"purchaselossdrugs",component:PurchaseLossDrugs},
 			{path:"allot",component:Allot},
 			{path:"allotdrugs",component:AllotDrugs},
 			{path:"sales",component:Sales},
@@ -129,6 +141,8 @@ const router = new VueRouter({
 			{path:"salesreturnmoney",component:SalesReturnMoney},//销售回款
 			{path:"allotpolicy",component:AllotPolicy},//调货政策
 			{path:"salespolicy",component:SalesPolicy},//销售政策
+			{path:"allotpolicydrugs",component:AllotPolicyDrugs},//调货政策
+			{path:"salespolicydrugs",component:SalesPolicyDrugs},//销售政策
 			{path:"stock",component:Stock},
 			{path:"password",component:password},
 		]

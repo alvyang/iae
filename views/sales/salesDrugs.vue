@@ -118,7 +118,10 @@
 					<el-input v-model="sale.sale_num" style="width:194px;" placeholder="请输入计划数量"></el-input>
 				</el-form-item>
 				<el-form-item label="购入金额" prop="sale_money">
-					<el-input v-model="sale.sale_money" style="width:194px;"  auto-complete="off" :readonly="true"></el-input>
+					<el-input v-model="sale.sale_money" style="width:194px;"  auto-complete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="费用票" prop="sale_other_money" v-show="drug.product_type == '佣金'">
+					<el-input v-model="sale.sale_other_money" style="width:194px;" placeholder="补点/费用票"></el-input>
 				</el-form-item>
 				<el-form-item label="销往单位" prop="hospital_id">
 					<el-select v-model="sale.hospital_id" @change="hospitalChange" style="width:194px;" filterable placeholder="请选择销售机构">
@@ -193,6 +196,7 @@ export default({
 				product_code:"",
 				business:"",
 				product_distribution_flag:"0",
+				sale_other_money:""
 			},
 			sale:{
 				product_code:"",

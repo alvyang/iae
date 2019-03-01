@@ -68,7 +68,7 @@
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('65,') > -1" @click="reSearch(false)" size="mini">查询</el-button>
 			  <el-button type="primary" v-dbClick v-show="authCode.indexOf('65,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('62,') > -1" @click="add" size="mini">新增</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('0f32a940-d803-11e8-a19c-cf0f6be47d2e,') > -1" @click="exportDrugs" size="mini">导出</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('122,') > -1" @click="exportDrugs" size="mini">导出</el-button>
 				<el-button type="primary" v-dbClick v-show="authCode.indexOf('100,') > -1" @click="importShow" size="mini">导入</el-button>
 				<el-button type="primary" v-dbClick v-show="authCode.indexOf('100,') > -1" @click="downloadTemplate" size="mini">导入模板下载</el-button>
 		  </el-form-item>

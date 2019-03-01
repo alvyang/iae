@@ -2,7 +2,7 @@
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
 		  <el-breadcrumb-item>积分管理</el-breadcrumb-item>
-			<el-breadcrumb-item>销售政策管理<a style="color:#f24040;">（请选择销售单位）</a></el-breadcrumb-item>
+			<el-breadcrumb-item>销售政策管理</el-breadcrumb-item>
 		</el-breadcrumb>
     <el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
       <el-form-item label="销往单位" prop="hospitalId">
@@ -15,10 +15,10 @@
   		 	</el-select>
   		</el-form-item>
       <el-form-item label="产品编码" prop="productCode">
-		    <el-input v-model="params.productCode" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品编码"></el-input>
+		    <el-input v-model="params.productCode" style="width:210px;" @keyup.13.native="getSalesPolicy()" size="mini" placeholder="产品编码"></el-input>
 		  </el-form-item>
       <el-form-item label="产品名称" prop="productCommonName">
-		    <el-input v-model="params.productCommonName" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品名称/助记码"></el-input>
+		    <el-input v-model="params.productCommonName" style="width:210px;" @keyup.13.native="getSalesPolicy()" size="mini" placeholder="产品名称/助记码"></el-input>
 		  </el-form-item>
       <el-form-item label="　业务员" prop="sale_contact_id">
         <el-select v-model="params.sale_contact_id" style="width:210px;" filterable size="mini" placeholder="请选择">
@@ -31,13 +31,20 @@
         </el-select>
       </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('83ff2470-d43d-11e8-984b-5b9b376cac6a,') > -1" @click="reSearch(false)" size="mini">查询</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('83ff2470-d43d-11e8-984b-5b9b376cac6a,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
-        <el-button type="primary" v-dbClick v-show="authCode.indexOf('c250c860-d81f-11e8-a52f-4f446572c8cf,') > -1" @click="exportSalePolicy" size="mini">导出</el-button>
-        <el-button type="primary" v-dbClick v-show="authCode.indexOf('860afa00-d43d-11e8-984b-5b9b376cac6a,') > -1" @click="dialogFormVisiblePolicy = true" size="mini">政策复制</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('130,') > -1" @click="getSalesPolicy()" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('130,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+        <el-button type="primary" v-dbClick v-show="authCode.indexOf('118,') > -1" @click="$router.push('/main/salespolicydrugs');" size="mini">新增</el-button>
+        <el-button type="primary" v-dbClick v-show="authCode.indexOf('134,') > -1" @click="exportSalePolicy" size="mini">导出</el-button>
+        <el-button type="primary" v-dbClick v-show="authCode.indexOf('131,') > -1" @click="dialogFormVisiblePolicy = true" size="mini">政策复制</el-button>
 		  </el-form-item>
 		</el-form>
-    <el-table :data="drugPolicy" style="width: 100%" size="mini" :stripe="true" :border="true">
+    <div class="allot_policy">
+      <el-button @click.native.prevent="editBatchRow()" v-dbClick v-show="authCode.indexOf('131,') > -1" type="primary" size="mini">批量修改</el-button>
+    </div>
+    <el-table :data="drugPolicy" style="width: 100%" size="mini" :stripe="true" :border="true"
+        @selection-change="selectionChange">
+        <el-table-column type="selection" width="55"></el-table-column>
+        <el-table-column fixed prop="hospital_name" label="销往单位" width="120" ></el-table-column>
         <el-table-column fixed prop="product_common_name" label="产品名称" width="120" ></el-table-column>
 				<el-table-column prop="product_code" label="产品编码" width="100"></el-table-column>
 				<el-table-column prop="product_specifications" label="产品规格" width="100"></el-table-column>
@@ -51,7 +58,7 @@
         <el-table-column prop="contacts_name" label="业务员" ></el-table-column>
   			<el-table-column fixed="right" label="操作" width="100">
 		    <template slot-scope="scope">
-	        <el-button @click.native.prevent="editRow(scope)" v-dbClick v-show="authCode.indexOf('860afa00-d43d-11e8-984b-5b9b376cac6a,') > -1"  icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
+	        <el-button @click.native.prevent="editRow(scope)" v-dbClick v-show="authCode.indexOf('131,') > -1"  icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
 		    </template>
   			</el-table-column>
 		</el-table>
@@ -123,17 +130,55 @@
           <el-button type="primary" size="small" v-dbClick :loading="loading" @click="editSales('sale')">确 定</el-button>
         </div>
       </el-dialog>
+      <el-dialog title="批量修改销售政策" width="700px" :visible.sync="dialogFormVisibleBatch">
+        <el-form :model="policyBatch" status-icon :rules="policyBatchRule" style="margin-top:20px;" :inline="true" ref="policyBatch" label-width="100px" class="demo-ruleForm">
+          <el-form-item label="返点类型" prop="type">
+            <el-radio v-model="policyBatch.type" label="2">按中标价固定点数返</el-radio>
+            <el-radio v-model="policyBatch.type" label="3">按积分固定点数返</el-radio>
+          </el-form-item>
+          <el-form-item label="政策点数" prop="policy_percent" :maxlength="10" :required="true">
+            <el-input v-model="policyBatch.policy_percent" style="width:179px;" placeholder="政策点数（如：60）"></el-input>
+          </el-form-item>
+          <el-form-item label="调货联系人" prop="sale_policy_contact_id">
+           <el-select v-model="policyBatch.sale_policy_contact_id" style="width:179px;" filterable placeholder="请选择">
+             <el-option key="" label="全部" value=""></el-option>
+             <el-option v-for="item in contacts"
+               :key="item.contacts_id"
+               :label="item.contacts_name"
+               :value="item.contacts_id">
+             </el-option>
+           </el-select>
+          </el-form-item>
+          <el-form-item label="积分备注" prop="sale_policy_remark">
+            <el-input v-model="policyBatch.sale_policy_remark" style="width:179px;" placeholder="积分备注"></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button size="small" v-dbClick @click="dialogFormVisibleBatch = false">取 消</el-button>
+          <el-button type="primary" size="small" v-dbClick :loading="loading" @click="editSalesBatch('policyBatch')">确 定</el-button>
+        </div>
+      </el-dialog>
 		</div>
   </div>
 </template>
 <script>
   export default({
     data(){
+      var validateBatchPercent = (rule, value, callback) => {
+        if(!value){
+          callback(new Error('请再输入政策点数'));
+        }else if (value && !/^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/.test(value)) {
+          callback(new Error('请再输入正确的政策点数'));
+        } else {
+         	callback();
+        }
+    	};
       return {
         drugPolicy:[],
         hospitals:[],
         contacts:[],
         drug:{},
+        drugId:[],
         params:{
           hospitalId:"",
           productCommonName:"",
@@ -153,18 +198,30 @@
   				hospital_id:[{ required: true, message: '请选择被复制销往单位', trigger: 'change' }],
   				hospital_id_copy:[{ required: true, message: '请选择复制的销住单位', trigger: 'change' }],
         },
+        policyBatch:{
+          type:"2",
+          policy_percent:"",
+          sale_policy_contact_id:"",
+          sale_policy_remark:""
+        },
+        policyBatchRule:{
+          policy_percent:[{validator:validateBatchPercent,trigger: 'blur' }],
+					sale_policy_contact_id:[{required: true, message: '请选择联系人',trigger: 'change' }]
+        },
         authCode:"",
         pageNum:10,
 				currentPage:1,
 				count:0,
         dialogFormVisible:false,
         dialogFormVisiblePolicy:false,
+        dialogFormVisibleBatch:false,
         loading:false,
       }
     },
     activated(){
       this.getHospitals();
       this.getContacts();
+      this.getSalesPolicy();
       this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
     },
     methods:{
@@ -194,6 +251,18 @@
           return "";
         }
       },
+      selectionChange(val){
+        this.drugId = [];
+        console.log(val[0].hospital_id);
+        for(var i = 0 ; i < val.length ;i++){
+          this.drugId.push({
+            id:val[i].product_id,
+            price:val[i].product_price,
+            returnMoney:val[i].product_return_money,
+            hospitalId:val[i].sale_hospital_id
+          });
+        }
+      },
       editRow(scope){//编辑药品信息
 				this.dialogFormVisible = true;
 				this.drug = scope.row;
@@ -201,6 +270,11 @@
         this.policy.sale_policy_contact_id = scope.row.sale_policy_contact_id;
         this.policy.sale_policy_remark = scope.row.sale_policy_remark;
 			},
+      editBatchRow(){
+        if(this.drugId.length > 0){
+            this.dialogFormVisibleBatch = true;
+        }
+      },
       getContacts(){
 	      var _self = this;
 	      this.jquery('/iae/contacts/getAllContacts',{group_id:0,contact_type:['业务员']},function(res){
@@ -247,6 +321,25 @@
 						}
 				});
 			},
+      editSalesBatch(formName){
+        var _self = this;
+        _self.policyBatch.sale_hospital_id = this.params.hospitalId;
+        _self.policyBatch.saleDrugs = this.drugId;
+				this.$refs[formName].validate((valid) => {
+						if (valid) {
+							this.loading = true;
+							_self.jquery('/iae/salesPolicy/editSalesPolicyBatch',_self.policyBatch,function(res){
+                _self.$refs["policyBatch"].resetFields();
+                _self.dialogFormVisibleBatch = false;
+                _self.loading = false;
+                _self.getSalesPolicy();
+                _self.$message({showClose: true,message: '批量修改成功',type: 'success'});
+							});
+						} else {
+							return false;
+						}
+				});
+      },
       getHospitals(){
         var _self = this;
 				this.jquery('/iae/hospitals/getAllHospitals',{hospital_type:'销售医院'},function(res){
@@ -254,13 +347,9 @@
 				});
       },
       reSearch(arg){
-        if(arg || !this.params.hospitalId){
-					this.$refs["params"].resetFields();
-          this.drugPolicy = [];
-				}else{
-          this.currentPage = 1;
-  				this.getSalesPolicy();
-        }
+				this.$refs["params"].resetFields();
+        this.currentPage = 1;
+				this.getSalesPolicy();
 			},
       handleSizeChange(val) {
         this.pageNum = val;

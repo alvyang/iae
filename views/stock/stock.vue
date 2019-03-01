@@ -9,7 +9,7 @@
 		    <el-input v-model="params.productCommonName" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品名称/助记码"></el-input>
 		  </el-form-item>
 			<el-form-item label="产品编号" prop="product_code">
-		    <el-input v-model="params.product_code" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品通用名"></el-input>
+		    <el-input v-model="params.product_code" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品编号"></el-input>
 		  </el-form-item>
 			<el-form-item label="　　商业" prop="business">
 	 			 <el-select v-model="params.business" style="width:210px;" size="mini" filterable placeholder="请选择商业">

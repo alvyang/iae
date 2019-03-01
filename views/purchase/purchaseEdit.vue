@@ -22,7 +22,7 @@
 				    <el-input v-model="purchase.puchase_number" :maxlength="10" placeholder="请输入购入数量" @blur="purchaseNumBlur();"></el-input>
 				  </el-form-item>
 				  <el-form-item label="购入金额" prop="puchase_money">
-				    <el-input v-model="purchase.puchase_money" auto-complete="off" :readonly="true"></el-input>
+				    <el-input v-model="purchase.puchase_money" auto-complete="off"></el-input>
 				  </el-form-item>
 				  <el-form-item label="入库时间" prop="storage_time">
 						<el-date-picker v-model="purchase.storage_time" type="date" placeholder="请选择入库时间"></el-date-picker>

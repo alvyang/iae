@@ -1,5 +1,9 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;">
+		<el-breadcrumb separator-class="el-icon-arrow-right">
+		  <el-breadcrumb-item>采购管理</el-breadcrumb-item>
+			<el-breadcrumb-item>采进管理</el-breadcrumb-item>
+		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 			<el-form-item label="备货时间" prop="time">
 				<el-date-picker v-model="params.time" type="daterange" size="mini" align="right" unlink-panels
@@ -74,6 +78,7 @@
 				<el-table-column prop="product_unit" label="单位" width="50"></el-table-column>
 				<el-table-column prop="purchase_number" label="购入数量" width="70"></el-table-column>
 				<el-table-column prop="purchase_money" label="购入金额" width="70"></el-table-column>
+				<el-table-column prop="purchase_other_money" label="补点/费用票" width="80"></el-table-column>
 				<el-table-column prop="purchase_mack_price" label="打款价" width="60"></el-table-column>
 				<el-table-column prop="purchase_price" label="中标价" width="60"></el-table-column>
 				<el-table-column prop="puchase_gross_rate" label="毛利率" width="60" :formatter="formatPercent"></el-table-column>
@@ -85,7 +90,7 @@
 				<el-table-column prop="send_out_time" label="发货时间" width="80" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="storage_time" label="入库时间" width="80" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="remark" label="备注" width="200"></el-table-column>
-				<el-table-column fixed="right" prop="remark" label="备货状态" width="70">
+				<el-table-column fixed="right" prop="remark" label="备货状态" width="80">
 					<template slot-scope="scope">
 						<el-tag type="success" size="mini" v-show="scope.row.storage_time">已入库</el-tag>
 						<el-tag type="info" size="mini" v-show="scope.row.make_money_time && !scope.row.send_out_time">未发货</el-tag>
@@ -129,10 +134,13 @@
 					<el-input v-model="purchase.purchase_number" style="width:179px;" :maxlength="10" placeholder="请输入购入数量"></el-input>
 				</el-form-item>
 				<el-form-item label="购入金额" prop="purchase_money">
-					<el-input v-model="purchase.purchase_money" style="width:179px;" :readonly="true"></el-input>
+					<el-input v-model="purchase.purchase_money" style="width:179px;"></el-input>
 				</el-form-item>
 				<el-form-item label="备货时间" prop="time">
 					<el-date-picker v-model="purchase.time" style="width:179px;" type="date" placeholder="请选择打款时间"></el-date-picker>
+				</el-form-item>
+				<el-form-item label="补点/费用票" prop="purchase_other_money">
+					<el-input v-model="purchase.purchase_other_money" style="width:179px;" placeholder="补点/费用票"></el-input>
 				</el-form-item>
 				<el-form-item label="打款时间" prop="make_money_time">
 					<el-date-picker v-model="purchase.make_money_time" style="width:179px;" type="date" placeholder="请选择打款时间"></el-date-picker>

@@ -1,4 +1,104 @@
 //未发版sql
+alter table sale_policy add sale_policy_delete_flag varchar(5) DEFAULT '0' COMMENT '删除';
+alter table allot_policy add allot_policy_delete_flag varchar(5) DEFAULT '0' COMMENT '删除';
+delete from sale_policy where sale_policy_money = ''
+
+INSERT INTO `authority` VALUES
+('118', '新增', '查询', '600124', '/', '08cc7230-d43d-11e8-984b-5b9b376cac6a', '0', '1', '3', '7'),
+('119', '新增', '查询', '600124', '/', 'ea631b50-d43c-11e8-984b-5b9b376cac6a', '0', '1', '3', '7');
+
+update authority set authority_id='120' where authority_id = '017a3db0-d40a-11e8-bfbc-6f9a2209108b';
+update authority set authority_parent_id='120' where authority_parent_id = '017a3db0-d40a-11e8-bfbc-6f9a2209108b';
+update authority set authority_id='121' where authority_id = '08cc7230-d43d-11e8-984b-5b9b376cac6a';
+update authority set authority_parent_id='121' where authority_parent_id = '08cc7230-d43d-11e8-984b-5b9b376cac6a';
+update authority set authority_id='122' where authority_id = '0f32a940-d803-11e8-a19c-cf0f6be47d2e';
+update authority set authority_id='123' where authority_id = 'dcdb4360-cb66-11e8-9167-b9e7cf3cd8a2';
+update authority set authority_parent_id='123' where authority_parent_id = 'dcdb4360-cb66-11e8-9167-b9e7cf3cd8a2';
+update authority set authority_id='124' where authority_id = 'ea631b50-d43c-11e8-984b-5b9b376cac6a';
+update authority set authority_parent_id='124' where authority_parent_id = 'ea631b50-d43c-11e8-984b-5b9b376cac6a';
+update authority set authority_id='125' where authority_id = '12303a00-cb9b-11e8-81ff-23b7b224f706';
+update authority set authority_id='126' where authority_id = '130627a0-cb9b-11e8-81ff-23b7b224f706';
+update authority set authority_id='127' where authority_id = '47979cc0-d40a-11e8-bfbc-6f9a2209108b';
+update authority set authority_id='128' where authority_id = '4a023420-d40a-11e8-bfbc-6f9a2209108b';
+update authority set authority_id='129' where authority_id = '61f34560-d801-11e8-b0cc-65c20b1efa48';
+update authority set authority_id='130' where authority_id = '83ff2470-d43d-11e8-984b-5b9b376cac6a';
+update authority set authority_id='131' where authority_id = '860afa00-d43d-11e8-984b-5b9b376cac6a';
+update authority set authority_id='132' where authority_id = 'a16deeb0-d43d-11e8-984b-5b9b376cac6a';
+update authority set authority_id='133' where authority_id = 'a316bcb0-d43d-11e8-984b-5b9b376cac6a';
+update authority set authority_id='134' where authority_id = 'c250c860-d81f-11e8-a52f-4f446572c8cf';
+update authority set authority_id='135' where authority_id = 'c39f8f80-d81f-11e8-a52f-4f446572c8cf';
+update authority set authority_id='136' where authority_id = 'e430d5a0-d802-11e8-a19c-cf0f6be47d2e';
+update authority set authority_id='137' where authority_id = 'f8037330-d802-11e8-a19c-cf0f6be47d2e';
+
+
+
+
+
+
+
+
+
+
+//20190228发版sql
+INSERT INTO `authority` VALUES ('107', '采购管理', '采购管理', '6001', '/', '1', '0', '1', '3', '7');
+update authority set authority_parent_id = '107' where authority_id = '38';
+update authority set authority_name = '采进管理' where authority_id = '38';
+INSERT INTO `authority` VALUES
+('108', '采退管理', '采退管理', '60012', '/main/purchaserecovery', '107', '0', '1', '3', '7'),
+('109', '报损管理', '报损管理', '60011', '/main/purchaseloss', '107', '0', '1', '3', '7');
+
+INSERT INTO `authority` VALUES
+('110', '查询', '查询', '600124', '/', '108', '0', '1', '3', '7'),
+('111', '删除', '删除', '600123', '/', '108', '0', '1', '3', '7'),
+('112', '修改', '修改', '600122', '/', '108', '0', '1', '3', '7'),
+('113', '新增', '新增', '600121', '/', '108', '0', '1', '3', '7'),
+('114', '查询', '查询', '600114', '/', '109', '0', '1', '3', '7'),
+('115', '删除', '删除', '600113', '/', '109', '0', '1', '3', '7'),
+('116', '修改', '修改', '600112', '/', '109', '0', '1', '3', '7'),
+('117', '新增', '新增', '600111', '/', '109', '0', '1', '3', '7');
+
+alter table purchase add purchase_other_money varchar(50) DEFAULT '0' COMMENT '采购其它成本';
+alter table sales add sale_other_money varchar(50) DEFAULT '0' COMMENT '销售其它成本';
+
+alter table sales add sale_return_real_return_money varchar(50) DEFAULT '0' COMMENT '实付金额';
+alter table allot add allot_real_return_money varchar(50) DEFAULT '0' COMMENT '实付金额';
+
+CREATE TABLE `purchase_loss` (
+  `purchaseloss_id` varchar(50) NOT NULL COMMENT '报损id',
+  `purchaseloss_time` datetime DEFAULT NULL COMMENT '报损时间',
+  `purchaseloss_batch_stock_time` datetime DEFAULT NULL COMMENT '入库时间',
+  `purchaseloss_batch_number` varchar(20) DEFAULT NULL COMMENT '批号',
+  `purchaseloss_number` varchar(20) DEFAULT NULL COMMENT '报损数量',
+	`purchaseloss_money` varchar(20) DEFAULT NULL COMMENT '报损金额',
+	`purchaseloss_product_code` varchar(50) DEFAULT NULL COMMENT '报损药品编码',
+  `purchaseloss_group_id` varchar(5) DEFAULT NULL COMMENT '组id',
+  `purchaseloss_delete_flag` varchar(5) DEFAULT '0' COMMENT '删除',
+	`purchaseloss_user_id` varchar(50) NOT NULL COMMENT '报损用户id',
+  `purchaseloss_create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `purchaseloss_purchase_id` varchar(50) NOT NULL COMMENT '删除更新库存用',
+  `purchaseloss_drug_id` varchar(50) NOT NULL COMMENT '删除更新库存用',
+  PRIMARY KEY (`purchaseloss_id`)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+SET FOREIGN_KEY_CHECKS = 1;
+
+CREATE TABLE `purchase_recovery` (
+  `purchaserecovery_id` varchar(50) NOT NULL COMMENT '采退id',
+  `purchaserecovery_time` datetime DEFAULT NULL COMMENT '采退时间',
+  `purchaserecovery_return_money_time` datetime DEFAULT NULL COMMENT '退款时间',
+  `purchaserecovery_batch_stock_time` datetime DEFAULT NULL COMMENT '入库时间',
+  `purchaserecovery_batch_number` varchar(20) DEFAULT NULL COMMENT '批号',
+  `purchaserecovery_number` varchar(20) DEFAULT NULL COMMENT '采退数量',
+	`purchaserecovery_money` varchar(20) DEFAULT NULL COMMENT '采退金额',
+	`purchaserecovery_product_code` varchar(50) DEFAULT NULL COMMENT '采退药品编码',
+  `purchaserecovery_group_id` varchar(5) DEFAULT NULL COMMENT '组id',
+  `purchaserecovery_delete_flag` varchar(5) DEFAULT '0' COMMENT '删除',
+	`purchaserecovery_user_id` varchar(50) NOT NULL COMMENT '采退用户id',
+  `purchaserecovery_create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `purchaserecovery_purchase_id` varchar(50) NOT NULL COMMENT '删除更新库存用',
+  `purchaserecovery_drug_id` varchar(50) NOT NULL COMMENT '删除更新库存用',
+  PRIMARY KEY (`purchaserecovery_id`)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+SET FOREIGN_KEY_CHECKS = 1;
 
 //发版日期 20190213
 select * from authority where authority_name='积分管理-佣金'

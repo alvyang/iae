@@ -115,7 +115,7 @@
     },
     methods:{
       showImage(scope){
-        this.imageTitle = scope.row.product_common_name+"  销售额/量环比柱状图"
+        this.imageTitle = scope.row.product_common_name+"  销售额环比柱状图"
         this.dialogFormVisible = true;
         var data=[];
         var data1=[];

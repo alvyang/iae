@@ -47,7 +47,7 @@
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('61,') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
 				<el-button type="primary" v-dbClick v-show="authCode.indexOf('61,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('58,') > -1" @click="add" size="mini">新增</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('61f34560-d801-11e8-b0cc-65c20b1efa48,') > -1" @click="exportAllot" size="mini">导出</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('129,') > -1" @click="exportAllot" size="mini">导出</el-button>
 				<el-button type="primary" v-dbClick v-show="authCode.indexOf('101,') > -1" @click="importShow" size="mini">导入</el-button>
  			 	<el-button type="primary" v-dbClick v-show="authCode.indexOf('101,') > -1" @click="downloadTemplate" size="mini">导入模板下载</el-button>
 		  </el-form-item>
@@ -129,7 +129,7 @@
 					<el-input v-model="allot.allot_number" style="width:179px;" :maxlength="10" placeholder="请输入购入数量"></el-input>
 				</el-form-item>
 				<el-form-item label="调货金额" prop="allot_money">
-					<el-input v-model="allot.allot_money" style="width:179px;" :readonly="true"></el-input>
+					<el-input v-model="allot.allot_money" style="width:179px;"></el-input>
 				</el-form-item>
 				<el-form-item label="调货联系人" prop="allot_policy_contact_id">
 	 			 <el-select v-model="allot.allot_policy_contact_id" style="width:179px;" filterable placeholder="请选择">

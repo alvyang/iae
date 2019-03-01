@@ -25,7 +25,7 @@
 		    <el-input v-model="params.productCommonName" style="width:210px;" size="mini" @keyup.13.native="reSearch(false)" placeholder="产品名称/助记码"></el-input>
 		  </el-form-item>
 			<el-form-item label="产品编号" prop="product_code">
-		    <el-input v-model="params.product_code" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品通用名"></el-input>
+		    <el-input v-model="params.product_code" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品编号"></el-input>
 		  </el-form-item>
 			<el-form-item label="调货单位" prop="allot_hospital">
 				<el-select v-model="params.allot_hospital" style="width:210px;" size="mini" filterable placeholder="请选择供货单位">
@@ -60,9 +60,9 @@
 			 </el-select>
 		 </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('130627a0-cb9b-11e8-81ff-23b7b224f706,') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('130627a0-cb9b-11e8-81ff-23b7b224f706,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('f8037330-d802-11e8-a19c-cf0f6be47d2e,') > -1" @click="exportAllotReturn" size="mini">导出</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('126,') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('126,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('137,') > -1" @click="exportAllotReturn" size="mini">导出</el-button>
 		  </el-form-item>
 		</el-form>
 		<div class="sum_money_allot">
@@ -82,9 +82,12 @@
 				<el-table-column prop="allot_mack_price" label="打款价" width="60"></el-table-column>
 				<el-table-column prop="allot_price" label="中标价" width="60"></el-table-column>
 				<el-table-column prop="allot_money" label="金额" width="70"></el-table-column>
-				<el-table-column label="实收上游积分" width="70" :formatter="formatterReturnMoney"></el-table-column>
+				<el-table-column label="实收上游积分(单价)" width="70" :formatter="formatterReturnMoney"></el-table-column>
 				<el-table-column prop="allot_return_price" label="政策积分" width="70"></el-table-column>
 				<el-table-column prop="allot_return_money" label="应付积分" width="70"></el-table-column>
+				<el-table-column label="补点/费用票" width="80" :formatter="formatterOtherMoney"></el-table-column>
+				<!-- <el-table-column prop="allot_return_money" label="应付积分-补点/费用票" width="70" :formatter="formatterShouldMoney"></el-table-column> -->
+				<el-table-column prop="allot_real_return_money" label="实付积分" width="70"></el-table-column>
 				<el-table-column prop="allot_return_time" label="付积分时间" width="80" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="allot_account_name" label="收积分账户名" width="80" ></el-table-column>
 				<el-table-column prop="allot_account_number" label="收积分账户" width="80" ></el-table-column>
@@ -93,7 +96,7 @@
 				<!-- <el-table-column fixed="right" prop="allot_return_flag" label="是否回款" width="80"></el-table-column> -->
 				<el-table-column fixed="right" label="操作" width="60">
 			    <template slot-scope="scope">
-		        <el-button v-show="authCode.indexOf('12303a00-cb9b-11e8-81ff-23b7b224f706,') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
+		        <el-button v-show="authCode.indexOf('125,') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
 			    </template>
   			</el-table-column>
 		</el-table>
@@ -128,6 +131,12 @@
 				</el-form-item>
 				<el-form-item label="应付积分" prop="allot_return_money">
 					<el-input v-model="allot.allot_return_money" style="width:179px;" placeholder="应付积分"></el-input>
+				</el-form-item>
+				<el-form-item label="补点/费用票" prop="other_monety_temp">
+					<el-input v-model="allot.other_monety_temp" style="width:179px;" placeholder="应付积分"></el-input>
+				</el-form-item>
+				<el-form-item label="实付积分" prop="allot_real_return_money">
+					<el-input v-model="allot.allot_real_return_money" style="width:179px;" placeholder="应付积分"></el-input>
 				</el-form-item>
 				<el-form-item label="付积分账号" prop="allot_account_id">
           <el-select v-model="allot.allot_account_id" style="width:179px;" filterable placeholder="请选择">
@@ -285,6 +294,24 @@
 
 		},
 		methods:{
+			formatterShouldMoney(row, column, cellValue){
+				cellValue=cellValue?cellValue:0;
+				if(row.purchase_other_money){
+					var t = (row.purchase_other_money/row.purchase_number)*row.allot_number;
+					return cellValue - Math.round(t*100)/100;
+				}else{
+					return cellValue;
+				}
+			},
+			formatterOtherMoney(row, column, cellValue){
+				if(row.purchase_other_money){
+					var t = (row.purchase_other_money/row.purchase_number)*row.allot_number;
+					row.other_monety_temp = Math.round(t*100)/100;
+					return Math.round(t*100)/100;
+				}else{
+					return 0;
+				}
+			},
 			formatterReturnMoney(row, column, cellValue){
 				if(row.refunds_real_time && row.refunds_real_money){
 					return this.div(row.refunds_real_money,row.purchase_number,2);
@@ -352,7 +379,7 @@
       },
 			editallots(formName){
 				var _self = this;
-				this.allot.account_detail = this.formatterDate(null,null,this.allot.allot_time)+this.allot.hospital_name+"调货（"+this.allot.allot_number+"）"+this.allot.product_common_name+"回积分";
+				this.allot.account_detail = this.formatterDate(null,null,this.allot.allot_time)+this.allot.hospital_name+"调货（"+this.allot.allot_number+"）"+this.allot.product_common_name+"付积分";
 				if(this.allot.allot_account_id && this.allot.allot_return_money){
 					this.allot.allot_account_name =this.allot.allot_account_name?this.allot.allot_account_name:(this.selectContact.account_name?this.selectContact.account_name:"");
 					this.allot.allot_account_number = this.allot.allot_account_number?this.allot.allot_account_number:(this.selectContact.account_number?this.selectContact.account_number:"");

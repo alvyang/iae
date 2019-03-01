@@ -194,9 +194,9 @@
 	      var myChart = echarts.init(document.getElementById('sale_month_line'));
 	      // 指定图表的配置项和数据
 				var option = {
-					color: ["#8ad163","#b373f4"],
+					color: ["#b373f4"],
           legend:{
-              data:['销售额','销售量']
+              data:['销售量']
           },
 					tooltip: {
 		        trigger: 'axis'
@@ -210,13 +210,9 @@
             type: 'value'
 			    },
 			    series: [{
-            name:'销售额',
-            type:'bar',
-            data:arg.data
-	        },{
             name:'销售量',
             type:'bar',
-            data:arg.data1
+            data:arg.data
 	        }]
 				};
 	      // 使用刚指定的配置项和数据显示图表。

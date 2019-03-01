@@ -21,7 +21,7 @@
 				    <el-input v-model="sale.sales_number" placeholder="请输入计划数量" @blur="saleNumBlur();"></el-input>
 				  </el-form-item>
 				  <el-form-item label="购入金额" prop="sales_money">
-				    <el-input v-model="sale.sales_money" auto-complete="off" :readonly="true"></el-input>
+				    <el-input v-model="sale.sales_money" auto-complete="off"></el-input>
 				  </el-form-item>
           <el-form-item label="销售机构" prop="sales_hospital_id">
 						<el-select v-model="sale.sales_hospital_id" filterable placeholder="请选择销售机构">

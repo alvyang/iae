@@ -72,9 +72,9 @@
 			 </el-select>
 		 </el-form-item>
 	   <el-form-item>
-	     <el-button type="primary" v-dbClick v-show="authCode.indexOf('47979cc0-d40a-11e8-bfbc-6f9a2209108b,') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
-			 <el-button type="primary" v-dbClick v-show="authCode.indexOf('47979cc0-d40a-11e8-bfbc-6f9a2209108b,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
-			 <el-button type="primary" v-dbClick v-show="authCode.indexOf('e430d5a0-d802-11e8-a19c-cf0f6be47d2e,') > -1" @click="exportSaleReturn" size="mini">导出</el-button>
+	     <el-button type="primary" v-dbClick v-show="authCode.indexOf('127,') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
+			 <el-button type="primary" v-dbClick v-show="authCode.indexOf('127,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+			 <el-button type="primary" v-dbClick v-show="authCode.indexOf('136,') > -1" @click="exportSaleReturn" size="mini">导出</el-button>
 	   </el-form-item>
 		</el-form>
 		<div class="sum_money">总积分：<a>{{saleReturnMoney}}</a> 已付积分：<a>{{saleReturnMoney1}}</a> 未付积分：<a>{{saleReturnMoney2}}</a></div>
@@ -91,9 +91,12 @@
 				<el-table-column prop="sale_price" label="中标价" width="60"></el-table-column>
 				<el-table-column prop="sale_num" label="销售数量" width="70"></el-table-column>
 				<el-table-column prop="sale_money" label="购入金额" width="70"></el-table-column>
-				<el-table-column label="实收上游积分" width="70" :formatter="formatterReturnMoney"></el-table-column>
+				<el-table-column label="实收上游积分(单价)" width="70" :formatter="formatterReturnMoney"></el-table-column>
 				<el-table-column prop="sale_return_price" label="政策积分" width="70" ></el-table-column>
 				<el-table-column prop="sale_return_money" label="应付积分" width="70"></el-table-column>
+				<el-table-column prop="sale_return_money" label="补点/费用票" width="80" :formatter="formatterOtherMoney"></el-table-column>
+				<!-- <el-table-column prop="sale_return_money" label="应付积分-费用票" width="70" :formatter="formatterShouldMoney"></el-table-column> -->
+				<el-table-column prop="sale_return_real_return_money" label="实付积分" width="70"></el-table-column>
 				<el-table-column prop="sale_return_time" label="付积分时间" width="70" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="sale_account_name" label="收积分账户名" width="80" ></el-table-column>
 				<el-table-column prop="sale_account_number" label="收积分账户" width="80" ></el-table-column>
@@ -101,7 +104,7 @@
 				<el-table-column prop="sale_policy_remark" label="积分备注" width="70"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="60">
 		    <template slot-scope="scope">
-	        <el-button @click.native.prevent="editRow(scope)" v-dbClick v-show="authCode.indexOf('4a023420-d40a-11e8-bfbc-6f9a2209108b,') > -1"  icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
+	        <el-button @click.native.prevent="editRow(scope)" v-dbClick v-show="authCode.indexOf('128,') > -1"  icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
 		    </template>
   			</el-table-column>
 		</el-table>
@@ -135,6 +138,12 @@
 				</el-form-item>
 				<el-form-item label="应付积分" prop="sale_return_money">
 					<el-input v-model="sale.sale_return_money" placeholder="应付积分" style="width:179px;"></el-input>
+				</el-form-item>
+				<el-form-item label="补点/费用票" prop="other_money_temp">
+					<el-input v-model="sale.other_money_temp" placeholder="补点/费用票" style="width:179px;"></el-input>
+				</el-form-item>
+				<el-form-item label="实付积分" prop="sale_return_real_return_money">
+					<el-input v-model="sale.sale_return_real_return_money" placeholder="实付积分" style="width:179px;"></el-input>
 				</el-form-item>
 				<el-form-item label="付积分账号" prop="sale_account_id">
 					<el-select v-model="sale.sale_account_id" style="width:179px;" filterable placeholder="请选择">
@@ -283,6 +292,28 @@
 				this.jquery("/iae/business/getAllBusiness",null,function(res){//查询商业
 					_self.business=res.message;
 				});
+			},
+			formatterOtherMoney(row, column, cellValue){
+				if(row.product_type == '佣金' && row.sale_other_money){
+					row.other_money_temp = row.sale_other_money;
+					return	row.sale_other_money;
+				}else if(row.product_type == '高打' && row.purchase_other_money){
+					var temp = (row.purchase_other_money/row.purchase_number)*row.sale_num;
+					row.other_money_temp = Math.round(temp*100)/100;
+					return Math.round(temp*100)/100;
+				}else{
+					return 0;
+				}
+			},
+			formatterShouldMoney(row, column, cellValue){
+				if(row.product_type == '佣金' && row.sale_other_money){
+					return	row.sale_return_money - row.sale_other_money;
+				}else if(row.product_type == '高打' && row.purchase_other_money){
+					var temp = (row.purchase_other_money/row.purchase_number)*row.sale_num;
+					return row.sale_return_money - Math.round(temp*100)/100;
+				}else{
+					return cellValue;
+				}
 			},
 			formatterReturnMoney(row, column, cellValue){
 				if(row.product_type == '佣金' && row.refunds_real_time && row.refunds_real_money){

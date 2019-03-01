@@ -12,7 +12,7 @@
 							<el-input v-model="drugs.product_common_name" @blur="drugs.product_name_pinyin = getFirstLetter(drugs.product_common_name)" style="width:300px;" auto-complete="off" :maxlength="50" placeholder="产品名称"></el-input>
 						</el-form-item>
 						<el-form-item label="产品助记码" prop="product_name_pinyin">
-							<el-input v-model="drugs.product_name_pinyin" style="width:250px;" auto-complete="off" :maxlength="20" placeholder="产品编号"></el-input>
+							<el-input v-model="drugs.product_name_pinyin" style="width:250px;" auto-complete="off" :maxlength="20" placeholder="产品助记码"></el-input>
 						</el-form-item>
 					</div>
 					<div>

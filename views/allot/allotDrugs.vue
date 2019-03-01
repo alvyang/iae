@@ -99,7 +99,7 @@
 					<el-input v-model="allot.allot_number" style="width:179px;" :maxlength="10" placeholder="请输入购入数量"></el-input>
 				</el-form-item>
 				<el-form-item label="调货金额" prop="allot_money">
-					<el-input v-model="allot.allot_money" style="width:179px;" :readonly="true"></el-input>
+					<el-input v-model="allot.allot_money" style="width:179px;"></el-input>
 				</el-form-item>
 				<el-form-item label="调货联系人" prop="allot_policy_contact_id">
 	 			 <el-select v-model="allot.allot_policy_contact_id" style="width:179px;" filterable placeholder="请选择">

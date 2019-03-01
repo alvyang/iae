@@ -92,10 +92,13 @@
 					<el-input v-model="purchase.purchase_number" style="width:179px;" :maxlength="10" placeholder="请输入购入数量"></el-input>
 				</el-form-item>
 				<el-form-item label="购入金额" prop="purchase_money">
-					<el-input v-model="purchase.purchase_money" style="width:179px;" :readonly="true"></el-input>
+					<el-input v-model="purchase.purchase_money" style="width:179px;"></el-input>
 				</el-form-item>
 				<el-form-item label="备货时间" prop="time">
 					<el-date-picker v-model="purchase.time" style="width:179px;" type="date" placeholder="请选择打款时间"></el-date-picker>
+				</el-form-item>
+				<el-form-item label="补点/费用票" prop="purchase_other_money">
+					<el-input v-model="purchase.purchase_other_money" style="width:179px;" placeholder="补点/费用票"></el-input>
 				</el-form-item>
 				<el-form-item label="打款时间" prop="make_money_time">
 					<el-date-picker v-model="purchase.make_money_time" style="width:179px;" type="date" placeholder="请选择打款时间"></el-date-picker>
@@ -194,7 +197,8 @@
 					remark:"",
 					purchase_return_flag:"",
 					batch_number:"",
-					ticket_number:""
+					ticket_number:"",
+					purchase_other_money:""
 				},
 				purchaseRule:{
 					batch_number:[{validator:validateBatchNumber,trigger: 'blur' }],
