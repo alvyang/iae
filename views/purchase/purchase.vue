@@ -1,5 +1,5 @@
 <template>
-	<div style="box-sizing: border-box;padding: 0px 10px;">
+	<div style="box-sizing: border-box;padding: 0px 10px;" class="sale_list">
 		<el-breadcrumb separator-class="el-icon-arrow-right">
 		  <el-breadcrumb-item>采购管理</el-breadcrumb-item>
 			<el-breadcrumb-item>采进管理</el-breadcrumb-item>
@@ -63,6 +63,8 @@
 				<el-button type="primary" v-dbClick v-show="authCode.indexOf('56,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('53,') > -1"  @click="add" size="mini">新增</el-button>
 				<el-button type="primary" v-dbClick v-show="authCode.indexOf('57,') > -1"  @click="exportExcel" size="mini">导出</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('143,') > -1" @click="importShow" size="mini">导入</el-button>
+ 			 <el-button type="primary" v-dbClick v-show="authCode.indexOf('143,') > -1" @click="downloadTemplate" size="mini">导入模板下载</el-button>
 		  </el-form-item>
 		</el-form>
 		<div class="sum_money_purchase">
@@ -174,6 +176,19 @@
         <el-button type="primary" v-dbClick size="small" :loading="loading" @click="editPurchases('purchase')">确 定</el-button>
       </div>
     </el-dialog>
+		<el-dialog title="导入采进记录" width="600px" :visible.sync="dialogFormVisibleImport">
+			<el-upload
+			  class="upload-demo"
+				ref="upload"
+			  :action="importDrugsUrl"
+			  :before-upload="beforeUpload"
+				:on-success="importDrugsSuccess"
+			  :file-list="fileList">
+			  <el-button size="small" type="primary" v-dbClick :loading="loadingImport">{{uploadButtom}}</el-button>
+			  <div slot="tip" class="el-upload__tip" style="display:inline-block">　只能上传xls/xlsx文件</div>
+			</el-upload>
+			<div v-show="errorMessage" style="margin-top: 15px;" v-html="errorMessage"></div>
+		</el-dialog>
 	</div>
 </template>
 <script>
@@ -254,6 +269,11 @@
 				},
 				authCode:"",
 				business:[],
+				errorMessage:"",
+				importPurchasesUrl:"",
+				loadingImport:false,
+				uploadButtom:"导入采进记录",
+				dialogFormVisibleImport:false,
 			}
 		},
 		activated(){
@@ -264,9 +284,30 @@
 			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		mounted(){
-
+			this.importDrugsUrl = this.$bus.data.host + "/iae/purchase/importPurchases";
 		},
 		methods:{
+			beforeUpload(file){
+				this.errorMessage="";
+				this.uploadButtom="上传成功，正在导入...";
+				this.loadingImport = true;
+			},
+			importDrugsSuccess(response, file, fileList){
+				this.uploadButtom="导入采进记录";
+				this.loadingImport = false;
+				var downloadErrorMessage = "<a style='color:red;' href='"+this.$bus.data.host+"/iae/purchase/downloadErrorPurchases'>下载错误数据</a>";
+				this.errorMessage = response.message+downloadErrorMessage;
+			},
+			importShow(){
+				this.dialogFormVisibleImport = true;
+				this.errorMessage="";
+				if(this.$refs.upload){
+					this.$refs.upload.clearFiles();
+				}
+			},
+			downloadTemplate(){
+				window.location.href=this.$bus.data.host+"/download/template_purchases.xlsx";
+			},
 			formatPercent(row, column, cellValue, index){
 				if(cellValue){
 					return cellValue+" %";
@@ -422,6 +463,9 @@
 	});
 </script>
 <style>
+	.main_content .sale_list .el-dialog__wrapper .el-dialog .el-dialog__body{
+		padding-bottom:30px !important;
+	}
 	.sum_money_purchase > a{
 		padding-left: 20px;
 		color: #606266;

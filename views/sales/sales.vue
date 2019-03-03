@@ -146,14 +146,11 @@
 						<el-radio v-model="sale.sale_type" label="3">销售退补价</el-radio>
 					</el-form-item>
 				</div>
-				<el-form-item label="计划数量" prop="sale_num" :maxlength="10" :required="true" >
-					<el-input v-model="sale.sale_num" style="width:194px;" placeholder="请输入计划数量"></el-input>
+				<el-form-item label="销售日期" prop="bill_date">
+					<el-date-picker v-model="sale.bill_date" style="width:194px;" type="date" placeholder="请选择销售时间"></el-date-picker>
 				</el-form-item>
-				<el-form-item label="购入金额" prop="sale_money">
-					<el-input v-model="sale.sale_money" style="width:194px;"></el-input>
-				</el-form-item>
-				<el-form-item label="销售机构" prop="hospital_id">
-					<el-select v-model="sale.hospital_id" style="width:194px;" filterable placeholder="请选择销售机构">
+				<el-form-item label="销往单位" prop="hospital_id">
+					<el-select v-model="sale.hospital_id" @change="hospitalChange" style="width:194px;" filterable placeholder="请选择销售机构">
 						<el-option v-for="item in hospitals"
 							:key="item.hospital_id"
 							:label="item.hospital_name"
@@ -161,11 +158,17 @@
 						</el-option>
 					</el-select>
 				</el-form-item>
+				<el-form-item label="销售单价" prop="sale_price" :maxlength="10" :required="true" >
+					<el-input v-model="sale.sale_price" style="width:194px;" placeholder="请输入销售单价"></el-input>
+				</el-form-item>
+				<el-form-item label="计划数量" prop="sale_num" :maxlength="10" :required="true" >
+					<el-input v-model="sale.sale_num" style="width:194px;" placeholder="请输入计划数量"></el-input>
+				</el-form-item>
+				<el-form-item label="购入金额" prop="sale_money">
+					<el-input v-model="sale.sale_money" style="width:194px;"></el-input>
+				</el-form-item>
 				<el-form-item label="费用票" prop="sale_other_money" v-show="sale.product_type == '佣金'">
 					<el-input v-model="sale.sale_other_money" style="width:194px;" placeholder="补点/费用票"></el-input>
-				</el-form-item>
-				<el-form-item label="销售日期" prop="bill_date">
-					<el-date-picker v-model="sale.bill_date" style="width:194px;" type="date" placeholder="请选择销售时间"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="核算成本价" prop="accounting_cost" :maxlength="10">
 					<el-input v-model="sale.accounting_cost" style="width:194px;" placeholder="请输入核算成本价"></el-input>
@@ -323,6 +326,20 @@
 			this.importDrugsUrl = this.$bus.data.host + "/iae/sales/importSales";
 		},
 		methods:{
+			hospitalChange(val){
+				var _self = this;
+				_self.sale.hospital_policy_return_money = "";
+				this.jquery("/iae/hospitalpolicyrecorddrugs/getHospitalPolicyById",{
+					hospitalId:val,
+					drugId:_self.sale.product_id
+				},function(res){//查询商业
+					_self.sale.sale_price = res.message?res.message.hospital_policy_price:_self.sale.sale_price;
+					_self.sale.product_return_money = res.message?res.message.hospital_policy_return_money:"";
+					if(_self.sale.sale_price && _self.sale.sale_num){
+						_self.sale.sale_money = _self.mul(_self.sale.sale_price,_self.sale.sale_num,2);
+					}
+				});
+			},
 			downloadTemplate(){
 				window.location.href=this.$bus.data.host+"/download/template_sales.xlsx";
 			},
@@ -441,7 +458,7 @@
 			},
 			getHospitals(){
 				var _self = this;
-				this.jquery('/iae/hospitals/getAllHospitals',{hospital_type:'销售医院'},function(res){
+				this.jquery('/iae/hospitals/getAllHospitals',{hospital_type:'销售单位'},function(res){
 						_self.hospitals = res.message;
 				});
 			},

@@ -105,7 +105,7 @@
         <el-table-column prop="contacts_name" label="联系人" width="60"></el-table-column>
         <el-table-column prop="hospital_name" label="销往单位" width="140"></el-table-column>
         <el-table-column prop="bill_date" label="销售日期" width="80" :formatter="formatterDate"></el-table-column>
-        <el-table-column  prop="product_return_money" label="积分" width="80"></el-table-column>
+        <el-table-column prop="product_return_money" label="积分" width="80" :formatter="formatterReturnMoney"></el-table-column>
         <el-table-column prop="refunds_should_time" label="应收日期" width="80" :formatter="formatterDate"></el-table-column>
         <el-table-column prop="refunds_should_money" label="应收积分" width="80"></el-table-column>
         <el-table-column prop="refunds_real_time" label="实收日期" width="80" :formatter="formatterDate"></el-table-column>
@@ -356,6 +356,13 @@ export default({
       var temp = this.sub(temp1,row.service_charge,2);
       return temp;
     },
+    formatterReturnMoney(row, column, cellValue){
+      if(row.hospital_policy_return_money){
+        return row.hospital_policy_return_money;
+      }else{
+        return row.product_return_money;
+      }
+    },
     formatterDate(row, column, cellValue){
 
       if(cellValue && typeof cellValue == "string"){
@@ -375,17 +382,17 @@ export default({
       this.jquery('/iae/refunds/getContactSalesRefunder',{contact_name:scope.row.contacts_name},function(res){
         _self.contactRefunders = res.message;
       });
-
       this.dialogFormVisible = true;
-
       if(this.$refs["refund"]){
         this.$refs["refund"].resetFields();
       }
       this.refund = scope.row;
+      this.refund.product_return_money = this.refund.hospital_policy_return_money?this.refund.hospital_policy_return_money:this.refund.product_return_money;
       if(this.refund.product_return_money && !this.refund.refunds_should_money){
-        if(this.refund.product_floor_price && this.refund.product_high_discount){
+        if(this.refund.product_floor_price && this.refund.product_high_discount && !this.refund.hospital_policy_return_money){
           var rMoney = (this.refund.product_mack_price - this.refund.product_floor_price) * (1-this.refund.product_high_discount/100);
           this.refund.refunds_should_money = rMoney * this.refund.sale_num;
+          this.refund.refunds_should_money = Math.round(this.refund.refunds_should_money*100)/100;
         }else{
           this.refund.refunds_should_money = this.mul(this.refund.product_return_money,this.refund.sale_num,2);
         }

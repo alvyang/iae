@@ -9,6 +9,9 @@ import Home from "../views/home.vue";
 //药品页面
 import Drugs from "../views/drugs/drugs.vue";
 import DrugsEdit from "../views/drugs/drugsEdit.vue";
+import HospitalPolicyRecord from "../views/drugs/hospitalPolicyRecord.vue";
+import HospitalPolicyRecordDrugs from "../views/drugs/hospitalPolicyRecordDrugs.vue";
+
 //进货记录页面
 import Purchase from "../views/purchase/purchase.vue";
 import PurchaseDrugs from "../views/purchase/purchaseDrugs.vue";
@@ -96,6 +99,8 @@ const router = new VueRouter({
 		children:[{path:"",redirect: 'sales'},
 			{path:"home",component:Home},
 			{path:"drugs",component:Drugs},
+			{path:"hospitalpolicyrecord",component:HospitalPolicyRecord},
+			{path:"hospitalpolicyrecorddrugs",component:HospitalPolicyRecordDrugs},
 			{path:"drugsedit",component:DrugsEdit},
 			{path:"authority",component:Authority},
 			{path:"role",component:Role},

@@ -1,10 +1,19 @@
 //未发版sql
+
+
+//20190302发版sql
 alter table sale_policy add sale_policy_delete_flag varchar(5) DEFAULT '0' COMMENT '删除';
 alter table allot_policy add allot_policy_delete_flag varchar(5) DEFAULT '0' COMMENT '删除';
 delete from sale_policy where sale_policy_money = ''
 
 INSERT INTO `authority` VALUES
 ('118', '新增', '查询', '600124', '/', '08cc7230-d43d-11e8-984b-5b9b376cac6a', '0', '1', '3', '7'),
+('143', '导入', '导入', '600124', '/', '38', '0', '1', '3', '7'),
+('138', '特殊政策备案（上游）', '特殊政策备案（上游）', '600124', '/main/hospitalpolicyrecord', '77', '0', '1', '3', '7'),
+('139', '新增', '新增', '600124', '/', '138', '0', '1', '3', '7'),
+('140', '修改', '修改', '600124', '/', '138', '0', '1', '3', '7'),
+('141', '删除', '删除', '600124', '/', '138', '0', '1', '3', '7'),
+('142', '查询', '查询', '600124', '/', '138', '0', '1', '3', '7'),
 ('119', '新增', '查询', '600124', '/', 'ea631b50-d43c-11e8-984b-5b9b376cac6a', '0', '1', '3', '7');
 
 update authority set authority_id='120' where authority_id = '017a3db0-d40a-11e8-bfbc-6f9a2209108b';
@@ -30,14 +39,17 @@ update authority set authority_id='135' where authority_id = 'c39f8f80-d81f-11e8
 update authority set authority_id='136' where authority_id = 'e430d5a0-d802-11e8-a19c-cf0f6be47d2e';
 update authority set authority_id='137' where authority_id = 'f8037330-d802-11e8-a19c-cf0f6be47d2e';
 
-
-
-
-
-
-
-
-
+CREATE TABLE `hospital_policy_record` (
+  `hospital_policy_hospital_id` varchar(50) NOT NULL COMMENT '医院id',
+  `hospital_policy_drug_id` varchar(50) NOT NULL COMMENT '药品id',
+  `hospital_policy_group_id` varchar(5) DEFAULT NULL COMMENT '组id',
+  `hospital_policy_delete_flag` varchar(5) DEFAULT '0' COMMENT '删除',
+  `hospital_policy_price` varchar(20) DEFAULT NULL COMMENT '特殊销售价',
+  `hospital_policy_return_money` varchar(20) DEFAULT NULL COMMENT '特殊返款',
+  `hospital_policy_create_time` datetime DEFAULT NULL COMMENT '入库时间',
+  PRIMARY KEY (`hospital_policy_hospital_id`,`hospital_policy_drug_id`)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+SET FOREIGN_KEY_CHECKS = 1;
 
 //20190228发版sql
 INSERT INTO `authority` VALUES ('107', '采购管理', '采购管理', '6001', '/', '1', '0', '1', '3', '7');
@@ -154,7 +166,6 @@ SET FOREIGN_KEY_CHECKS = 1;
 
 alter table sales add sales_purchase_id varchar(50) COMMENT '采购id';
 alter table allot add allot_purchase_id varchar(50) COMMENT '采购id';
-
 
 //2018年12月09日  执行sql
 alter table contacts add account_name varchar(20) COMMENT '收款账号';

@@ -118,7 +118,7 @@
 					<el-date-picker v-model="allot.allot_time" style="width:179px;" type="date" placeholder="请选择打款时间"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="调货单位" prop="allot_hospital">
-					<el-select v-model="allot.allot_hospital" @change="hospitalChange" style="width:179px;" filterable placeholder="请选择供货单位">
+					<el-select v-model="allot.allot_hospital" @change="hospitalChange" style="width:179px;" filterable placeholder="请选择调货单位">
 						<el-option v-for="item in hospitals" :key="item.hospital_id" :label="item.hospital_name" :value="item.hospital_id"></el-option>
 					</el-select>
 			  </el-form-item>
@@ -349,7 +349,7 @@
 			},
 			getAllotHospitalList(){
 				var _self = this;
-				this.jquery('/iae/hospitals/getAllHospitals',{hospital_type:'调货医院'},function(res){
+				this.jquery('/iae/hospitals/getAllHospitals',{hospital_type:'调货单位'},function(res){
 						_self.hospitals = res.message;
 				});
 			},

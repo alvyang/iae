@@ -10,8 +10,8 @@
 		  </el-form-item>
 			<el-form-item label="单位类型" prop="hospital_type">
 				<el-select v-model="params.hospital_type" style="width:210px;" size="mini" placeholder="请选择">
-					<el-option key="销售单位" label="销售商位" value="销售商位"></el-option>
-					<el-option key="调货单位" label="调货商位" value="调货商位"></el-option>
+					<el-option key="销售单位" label="销售单位" value="销售单位"></el-option>
+					<el-option key="调货单位" label="调货单位" value="调货单位"></el-option>
 				</el-select>
 		  </el-form-item>
 		  <el-form-item>
@@ -46,8 +46,10 @@
 		<el-dialog :title="title == 1?'新增单位':'修改单位'" width="500px" :visible.sync="dialogFormVisible">
 			<el-form :model="hospital" status-icon :rules="hospitalRule" ref="hospital" label-width="80px" class="demo-ruleForm">
 				<el-form-item label="单位类型" prop="hospital_type">
-					<el-radio v-model="hospital.hospital_type" label="销售医院">销售单位</el-radio>
-  				<el-radio v-model="hospital.hospital_type" label="调货医院">调货单位</el-radio>
+					<el-checkbox-group v-model="hospital.hospital_type">
+						<el-checkbox label="销售单位">销售单位</el-checkbox>
+						<el-checkbox label="调货单位">调货单位</el-checkbox>
+					</el-checkbox-group>
 				</el-form-item>
 				<el-form-item label="单位名称" prop="hospital_name">
 					<el-input v-model="hospital.hospital_name" auto-complete="off" style="width:350px;" :maxlength="50" placeholder="请输入销售机构名称"></el-input>
@@ -88,7 +90,7 @@
 				hospital:{
 					hospital_name:"",
 					hospital_address:"",
-					hospital_type:"销售单位"
+					hospital_type:["销售单位"]
 				},
 				hospitalRule:{
 					hospital_name:[{ validator: validateName,labelname:'单位名称', trigger: 'blur' }],
@@ -118,6 +120,7 @@
 				this.dialogFormVisible = true;
 				this.title=2;
 				this.hospital = scope.row;
+				this.hospital.hospital_type = this.hospital.hospital_type?this.hospital.hospital_type.split(","):[];
 				var _self = this;
 				setTimeout(function(){
 					_self.$refs["hospital"].clearValidate();
@@ -147,7 +150,7 @@
 				this.hospital={
 					hospital_name:"",
 					hospital_address:"",
-					hospital_type:"销售医院"
+					hospital_type:["销售单位"]
 				};
 				this.title=1;
 				this.dialogFormVisible = true;

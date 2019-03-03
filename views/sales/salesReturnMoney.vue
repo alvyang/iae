@@ -317,9 +317,9 @@
 			},
 			formatterReturnMoney(row, column, cellValue){
 				if(row.product_type == '佣金' && row.refunds_real_time && row.refunds_real_money){
-					return	this.div(row.refunds_real_money,row.sale_num,2);
+					return	this.div(row.refunds_real_money+"",row.sale_num+"",2);
 				}else if(row.product_type == '高打' && row.refunds_real_time && row.refunds_real_money){
-					return this.div(row.refunds_real_money,row.purchase_number,2);
+					return this.div(row.refunds_real_money+"",row.purchase_number+"",2);
 				}else{
 					return 0;
 				}
@@ -372,7 +372,7 @@
 			},
 			getHospitals(){
 				var _self = this;
-				this.jquery('/iae/hospitals/getAllHospitals',{hospital_type:'销售医院'},function(res){
+				this.jquery('/iae/hospitals/getAllHospitals',{hospital_type:'销售单位'},function(res){
 						_self.hospitals = res.message;
 				});
 			},
@@ -398,7 +398,7 @@
         },function(res){
 						_self.saleReturnMoney = (res.message.saleReturnMoney+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 						_self.saleReturnMoney1 = (res.message.saleReturnMoney1+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-						_self.saleReturnMoney2 = _self.sub(res.message.saleReturnMoney,res.message.saleReturnMoney1,2);
+						_self.saleReturnMoney2 = _self.sub(res.message.saleReturnMoney+"",res.message.saleReturnMoney1+"",2);
 						_self.saleReturnMoney2 = (_self.saleReturnMoney2+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             _self.sales = res.message.data;
             _self.pageNum=parseInt(res.message.limit);

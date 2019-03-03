@@ -92,11 +92,15 @@
   			<el-form :model="policyBatch" status-icon :rules="policyBatchRule" style="margin-top:20px;" :inline="true" ref="policyBatch" label-width="100px" class="demo-ruleForm">
           <el-form-item label="返点类型" prop="type">
   					<el-radio v-model="policyBatch.type" label="2">按中标价固定点数返</el-radio>
+            <el-radio v-model="policyBatch.type" label="4">按中标价固定点数扣</el-radio>
     				<el-radio v-model="policyBatch.type" label="3">按积分固定点数返</el-radio>
   				</el-form-item>
-          <el-form-item label="政策点数" prop="policy_percent" :maxlength="10" :required="true">
-  					<el-input v-model="policyBatch.policy_percent" style="width:179px;" placeholder="政策点数（如：60）"></el-input>
-  				</el-form-item>
+          <el-form-item label="政策点数" prop="policy_percent" :maxlength="10" :required="true" v-show = "policyBatch.type != '4'">
+            <el-input v-model="policyBatch.policy_percent" style="width:179px;" placeholder="政策点数（如：60）"></el-input>
+          </el-form-item>
+          <el-form-item label="扣留点数" prop="policy_percent" :maxlength="10" :required="true" v-show = "policyBatch.type == '4'">
+            <el-input v-model="policyBatch.policy_percent" style="width:179px;" placeholder="扣留点数（如：60）"></el-input>
+          </el-form-item>
           <el-form-item label="调货联系人" prop="allot_policy_contact_id">
      			 <el-select v-model="policyBatch.allot_policy_contact_id" style="width:179px;" filterable placeholder="请选择">
      				 <el-option key="" label="全部" value=""></el-option>
@@ -123,10 +127,11 @@
   export default({
     data(){
       var validateBatchPercent = (rule, value, callback) => {
+        var mess = this.policyBatch.type == "4"?"扣留点数":"政策点数";
         if(!value){
-          callback(new Error('请再输入政策点数'));
+          callback(new Error('请再输入'+mess));
         }else if (value && !/^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/.test(value)) {
-          callback(new Error('请再输入正确的政策点数'));
+          callback(new Error('请再输入正确的'+mess));
         } else {
          	callback();
         }
@@ -288,7 +293,7 @@
 			},
       getHospitals(){
         var _self = this;
-				this.jquery('/iae/hospitals/getAllHospitals',{hospital_type:'调货医院'},function(res){
+				this.jquery('/iae/hospitals/getAllHospitals',{hospital_type:'调货单位'},function(res){
 						_self.hospitals = res.message;
 				});
       },

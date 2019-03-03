@@ -111,6 +111,18 @@
 						<el-radio v-model="sale.sale_type" label="3">销售退补价</el-radio>
 					</el-form-item>
 				</div>
+				<el-form-item label="销售日期" prop="bill_date">
+					<el-date-picker v-model="sale.bill_date" style="width:194px;" type="date" placeholder="请选择销售时间"></el-date-picker>
+				</el-form-item>
+				<el-form-item label="销往单位" prop="hospital_id">
+					<el-select v-model="sale.hospital_id" @change="hospitalChange" style="width:194px;" filterable placeholder="请选择销售机构">
+						<el-option v-for="item in hospitals"
+							:key="item.hospital_id"
+							:label="item.hospital_name"
+							:value="item.hospital_id">
+						</el-option>
+					</el-select>
+				</el-form-item>
 				<el-form-item label="销售单价" prop="sale_price" :maxlength="10" :required="true" >
 					<el-input v-model="sale.sale_price" style="width:194px;" placeholder="请输入销售单价"></el-input>
 				</el-form-item>
@@ -122,18 +134,6 @@
 				</el-form-item>
 				<el-form-item label="费用票" prop="sale_other_money" v-show="drug.product_type == '佣金'">
 					<el-input v-model="sale.sale_other_money" style="width:194px;" placeholder="补点/费用票"></el-input>
-				</el-form-item>
-				<el-form-item label="销往单位" prop="hospital_id">
-					<el-select v-model="sale.hospital_id" @change="hospitalChange" style="width:194px;" filterable placeholder="请选择销售机构">
-						<el-option v-for="item in hospitals"
-							:key="item.hospital_id"
-							:label="item.hospital_name"
-							:value="item.hospital_id">
-						</el-option>
-					</el-select>
-				</el-form-item>
-				<el-form-item label="销售日期" prop="bill_date">
-					<el-date-picker v-model="sale.bill_date" style="width:194px;" type="date" placeholder="请选择销售时间"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="批号" prop="batch_number">
 					<el-select v-model="sale.batch_number" placeholder="请选择" filterable style="width:194px;"  v-show="this.drug.product_type == '高打'">
@@ -237,8 +237,19 @@ export default({
 
 	},
 	methods:{
-		hospitalChange(){
+		hospitalChange(val){
 			var _self = this;
+			_self.sale.hospital_policy_return_money = "";
+			this.jquery("/iae/hospitalpolicyrecorddrugs/getHospitalPolicyById",{
+				hospitalId:val,
+				drugId:_self.drug.product_id
+			},function(res){//查询商业
+				_self.sale.sale_price = res.message?res.message.hospital_policy_price:_self.sale.sale_price;
+				_self.sale.product_return_money = res.message?res.message.hospital_policy_return_money:"";
+				if(_self.sale.sale_price && _self.sale.sale_num){
+					_self.sale.sale_money = _self.mul(_self.sale.sale_price,_self.sale.sale_num,2);
+				}
+			});
 			this.jquery('/iae/sales/selesPolicy',{product_id:this.drug.product_id,hospital_id:this.sale.hospital_id},function(res){
 				if(res.message.length > 0){
 					_self.sale.sale_return_price=res.message[0].sale_policy_money?res.message[0].sale_policy_money:"";
@@ -269,7 +280,7 @@ export default({
 			this.sale.sale_return_flag = this.drug.product_return_statistics;
 			this.sale.stock = this.drug.stock;
 			this.sale.sale_tax_rate = this.drug.product_tax_rate;
-			this.sale.product_return_money = this.drug.product_return_money;
+			this.sale.product_return_money = this.sale.product_return_money?this.sale.product_return_money:this.drug.product_return_money;
 			this.sale.product_return_time_type = this.drug.product_return_time_type;
 			this.sale.product_return_time_day = this.drug.product_return_time_day;
 		  this.sale.product_return_time_day_num = 	this.drug.product_return_time_day_num;

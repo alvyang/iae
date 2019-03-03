@@ -122,7 +122,6 @@
 					 </template>
 				 </el-autocomplete>
 			 </el-form-item>
-
 			</el-form>
       <div slot="footer" class="dialog-footer">
         <el-button size="small" v-dbClick @click="dialogFormVisible = false">取 消</el-button>

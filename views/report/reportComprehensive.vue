@@ -186,7 +186,7 @@
 			},
       getHospitals(){
 				var _self = this;
-				this.jquery('/iae/hospitals/getAllHospitals',{hospital_type:'销售医院'},function(res){
+				this.jquery('/iae/hospitals/getAllHospitals',{hospital_type:'销售单位'},function(res){
 						_self.hospitals = res.message;
 				});
 			},

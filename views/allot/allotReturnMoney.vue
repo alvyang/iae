@@ -348,7 +348,7 @@
 			},
 			getAllotHospitalList(){
 				var _self = this;
-				this.jquery('/iae/hospitals/getAllHospitals',{hospital_type:'调货医院'},function(res){
+				this.jquery('/iae/hospitals/getAllHospitals',{hospital_type:'调货单位'},function(res){
 						_self.hospitals = res.message;
 				});
 			},
