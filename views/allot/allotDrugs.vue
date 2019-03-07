@@ -115,11 +115,11 @@
 				 <el-select v-model="allot.batch_number" filterable placeholder="请选择" style="width:179px;">
 					<el-option
 						v-for="item in batchStockList"
-						:key="item.batch_number"
-						:label="item.batch_number"
-						:value="item.batch_number">
-						<span style="float: left">{{ item.batch_number }}</span>
-						<span style="float: right; color: #8492a6; font-size: 13px">库存：{{ item.batch_stock_number }}</span>
+						:key="item.batch_number+'('+item.batch_stock_time.substring(0,10)+')'"
+						:label="item.batch_number+'('+item.batch_stock_time.substring(0,10)+')'"
+						:value="item.batch_number+'('+item.batch_stock_time.substring(0,10)+')'">
+						<span style="float: left">{{ item.batch_number +'('+new Date(item.batch_stock_time).format('yyyy-MM-dd')+')'}}</span>
+						<span style="float: right; color: #8492a6; font-size: 13px;padding-left:10px;">库存：{{ item.batch_stock_number }}</span>
 					</el-option>
 				</el-select>
 			 </el-form-item>
@@ -336,16 +336,15 @@
 				this.allot.product_type = this.drug.product_type;
 				this.allot.stock = this.drug.stock;
 				for(var i = 0 ; i < this.batchStockList.length;i++){
-					if(this.allot.batch_number == this.batchStockList[i].batch_number){
+					if(this.allot.batch_number == this.batchStockList[i].batch_number+"("+this.batchStockList[i].batch_stock_time.substring(0,10)+")"){
 						this.allot.allot_purchase_id = this.batchStockList[i].batch_stock_purchase_id;
+						var temp = this.batchStockList[i].purchase_other_money;
+						this.allot.allot_other_money = temp?temp*this.allot.allot_number/this.batchStockList[i].purchase_number:0;
 						break;
 					}
 				}
 				this.allot.account_detail = this.formatterDate(null,null,this.allot.allot_time)+this.allot.allot_hospital+"调货（"+this.allot.allot_number+"）"+this.drug.product_common_name+"返款";
 				this.$refs[formName].validate((valid) => {
-						if(_self.allot.allot_return_price){
-							_self.allot.allot_return_money = _self.mul(_self.allot.allot_return_price,_self.allot.allot_number,2);
-						}
 						if (valid) {
 							_self.loading = true;
 							_self.jquery('/iae/allot/saveAllot',_self.allot,function(res){

@@ -39,7 +39,7 @@
          </el-date-picker>
         </el-form-item>
         <el-form-item label="产品名称" prop="productCommonName">
-          <el-input v-model="params.productCommonName" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品名称/助记码"></el-input>
+          <el-input v-model="params.productCommonName" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品名称"></el-input>
         </el-form-item>
         <el-form-item label="产品编码" prop="product_code">
           <el-input v-model="params.product_code" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品编码"></el-input>

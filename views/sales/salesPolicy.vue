@@ -309,7 +309,7 @@
       },
       editSales(formName){
 				var _self = this;
-        _self.policy.sale_hospital_id = this.params.hospitalId;
+        _self.policy.sale_hospital_id = this.drug.sale_hospital_id;
         _self.policy.sale_drug_id = this.drug.product_id;
         _self.policy.product_code = this.drug.product_code;
 				this.$refs[formName].validate((valid) => {

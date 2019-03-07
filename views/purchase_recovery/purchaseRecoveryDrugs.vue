@@ -234,6 +234,7 @@ export default({
 								_self.$refs["purchaserecovery"].resetFields();
 								_self.dialogFormVisible = false;
 								_self.loading = false;
+								_self.getpurchasesrecorveryDrugsList();
 							}).catch(() => {
 								_self.dialogFormVisible = false;
 								_self.loading = false;

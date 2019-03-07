@@ -70,6 +70,7 @@
 								<el-option key="支" label="支" value="支"></el-option>
 								<el-option key="瓶" label="瓶" value="瓶"></el-option>
 								<el-option key="袋" label="袋" value="袋"></el-option>
+								<el-option key="包" label="包" value="包"></el-option>
 						  </el-select>
 						</el-form-item>
 						<el-form-item label="医保类型" prop="product_medical_type">

@@ -27,9 +27,9 @@
 			<el-table-column prop="contacts_name" label="联系人"></el-table-column>
 			<el-table-column prop="contact_type" label="联系人类型"></el-table-column>
 			<el-table-column prop="contacts_phone" label="电话"></el-table-column>
-			<el-table-column prop="account_name" label="积分账号姓名"></el-table-column>
-			<el-table-column prop="account_number" label="积分账号"></el-table-column>
-			<el-table-column prop="account_address" label="账号地址"></el-table-column>
+			<el-table-column prop="account_name" label="积分账号姓名" :formatter="formatterAccount"></el-table-column>
+			<el-table-column prop="account_number" label="积分账号" :formatter="formatterAccount"></el-table-column>
+			<el-table-column prop="account_address" label="账号地址" :formatter="formatterAccount"></el-table-column>
 			<el-table-column prop="contact_remark" label="备注"></el-table-column>
 			<el-table-column fixed="right" label="操作" width="100">
 	    <template slot-scope="scope">
@@ -150,6 +150,13 @@
 			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		methods:{
+			formatterAccount(row, column, cellValue){
+				if(row.contact_type.indexOf("调货") > -1 || row.contact_type.indexOf("业务员") > -1 ){
+					return cellValue;
+				}else{
+					return "-";
+				}
+			},
 			editRow(scope){//编辑药品信息
 				this.dialogFormVisible = true;
         this.title=2;

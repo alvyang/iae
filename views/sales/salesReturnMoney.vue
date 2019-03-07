@@ -93,8 +93,8 @@
 				<el-table-column prop="sale_money" label="购入金额" width="70"></el-table-column>
 				<el-table-column label="实收上游积分(单价)" width="70" :formatter="formatterReturnMoney"></el-table-column>
 				<el-table-column prop="sale_return_price" label="政策积分" width="70" ></el-table-column>
-				<el-table-column prop="sale_return_money" label="应付积分" width="70"></el-table-column>
 				<el-table-column prop="sale_return_money" label="补点/费用票" width="80" :formatter="formatterOtherMoney"></el-table-column>
+				<el-table-column prop="sale_return_money" label="应付积分" width="70"></el-table-column>
 				<!-- <el-table-column prop="sale_return_money" label="应付积分-费用票" width="70" :formatter="formatterShouldMoney"></el-table-column> -->
 				<el-table-column prop="sale_return_real_return_money" label="实付积分" width="70"></el-table-column>
 				<el-table-column prop="sale_return_time" label="付积分时间" width="70" :formatter="formatterDate"></el-table-column>
@@ -273,7 +273,7 @@
 				}
 			},
 			saleReturnPrice(){
-				this.sale.sale_return_money = this.mul(this.sale.sale_return_price,this.sale.sale_num,2);
+				this.sale.sale_return_money = this.sale.sale_return_money?this.sale.sale_return_money:this.mul(this.sale.sale_return_price,this.sale.sale_num,2);
 			},
 			getBankAccount(){
 				var _self = this;

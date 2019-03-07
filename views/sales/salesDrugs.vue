@@ -139,11 +139,11 @@
 					<el-select v-model="sale.batch_number" placeholder="请选择" filterable style="width:194px;"  v-show="this.drug.product_type == '高打'">
 					 <el-option
 						 v-for="item in batchStockList"
-						 :key="item.batch_number"
-						 :label="item.batch_number"
-						 :value="item.batch_number">
-						 <span style="float: left">{{ item.batch_number }}</span>
-						 <span style="float: right; color: #8492a6; font-size: 13px">库存：{{ item.batch_stock_number }}</span>
+						 :key="item.batch_number+'('+item.batch_stock_time.substring(0,10)+')'"
+						 :label="item.batch_number+'('+item.batch_stock_time.substring(0,10)+')'"
+						 :value="item.batch_number+'('+item.batch_stock_time.substring(0,10)+')'">
+						 <span style="float: left;">{{ item.batch_number +'('+new Date(item.batch_stock_time).format('yyyy-MM-dd')+')'}}</span>
+						 <span style="float: right; color: #8492a6; font-size: 13px;padding-left:10px;">库存：{{ item.batch_stock_number }}</span>
 					 </el-option>
 				 </el-select>
 					<el-input v-show="this.drug.product_type != '高打'" v-model="sale.batch_number" style="width:194px;"  auto-complete="off" placeholder="请输入批号"></el-input>
@@ -286,17 +286,16 @@ export default({
 		  this.sale.product_return_time_day_num = 	this.drug.product_return_time_day_num;
 			if(this.drug.product_type == '高打'){
 				for(var i = 0 ; i < this.batchStockList.length;i++){
-					if(this.sale.batch_number == this.batchStockList[i].batch_number){
+					if(this.sale.batch_number == this.batchStockList[i].batch_number+"("+this.batchStockList[i].batch_stock_time.substring(0,10)+")"){
 						this.sale.sales_purchase_id = this.batchStockList[i].batch_stock_purchase_id;
+						var temp = this.batchStockList[i].purchase_other_money;
+						this.sale.sale_other_money = temp?temp*this.sale.sale_num/this.batchStockList[i].purchase_number:0;
 						break;
 					}
 				}
 			}
 			var _self = this;
 			this.$refs[formName].validate((valid) => {
-					if(_self.sale.sale_return_price){//销售回款金额
-						_self.sale.sale_return_money=_self.mul(_self.sale.sale_return_price,_self.sale.sale_num);
-					}
 					if (valid) {
 						this.loading = true;
 						_self.jquery('/iae/sales/saveSales',_self.sale,function(res){

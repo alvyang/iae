@@ -325,7 +325,7 @@
       },
       editSales(formName){
 				var _self = this;
-        _self.policy.allot_hospital_id = this.params.hospitalId;
+        _self.policy.allot_hospital_id = this.drug.allot_hospital_id;
         _self.policy.allot_drug_id = this.drug.product_id;
 				this.$refs[formName].validate((valid) => {
 						if (valid) {

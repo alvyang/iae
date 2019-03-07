@@ -1,7 +1,14 @@
 //未发版sql
 
 
+
 //20190302发版sql
+alter table drugs alter column product_return_explain set default "";
+alter table purchase_loss modify column purchaseloss_group_id varchar(50);
+alter table purchase_recovery modify column purchaserecovery_group_id varchar(50);
+alter table hospital_policy_record modify column hospital_policy_group_id varchar(50);
+alter table bank_account_detail modify column flag_id varchar(70);
+
 alter table sale_policy add sale_policy_delete_flag varchar(5) DEFAULT '0' COMMENT '删除';
 alter table allot_policy add allot_policy_delete_flag varchar(5) DEFAULT '0' COMMENT '删除';
 delete from sale_policy where sale_policy_money = ''
