@@ -1,5 +1,10 @@
 //未发版sql
+ALTER TABLE sales ADD INDEX sales_purchase_id( sales_purchase_id);
+ALTER TABLE refunds ADD INDEX sales_id( sales_id);
+ALTER TABLE refunds ADD INDEX purchases_id( purchases_id);
 
+INSERT INTO `authority` VALUES
+('144', '导出', '导出', '600124', '/', '36', '0', '1', '3', '7');
 
 
 //20190302发版sql

@@ -2,7 +2,7 @@
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
 			<el-breadcrumb-item :to="{ path: '/main/reportcomprehensive' }">报表管理</el-breadcrumb-item>
-			<el-breadcrumb-item>利润/负债综合统计（近12个月）表格</el-breadcrumb-item>
+			<el-breadcrumb-item>销售积分收付统计（近24个月）表格</el-breadcrumb-item>
 		</el-breadcrumb>
     <el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
       <el-form-item label="商业" prop="business">
@@ -29,55 +29,65 @@
 				<el-button type="primary" v-dbClick v-show="authCode.indexOf('99,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
 		  </el-form-item>
 		</el-form>
-    <div style="margin-top:10px;padding:10px;border:1px solid #ffffff;background-color:#ffffff;">
-      <el-table :data="listData" style="width: 100%" size="mini" :stripe="true" :border="true" :span-method="objectSpanMethod">
-          <el-table-column fixed prop="time" label="日期" width="80"></el-table-column>
-          <el-table-column prop="saleMoney0" label="高打销售额" width="100" :formatter="formatNumber"></el-table-column>
-          <el-table-column prop="saleMoney1" label="佣金销售额" width="100" :formatter="formatNumber"></el-table-column>
-          <el-table-column prop="saleMoney2" label="其它销售额" width="140" :formatter="formatNumber"></el-table-column>
-          <el-table-column label="按收(付)款时间算">
-            <el-table-column prop="apurchaseReturnMoney1" label="备货收款" width="120" :formatter="formatNumber"></el-table-column>
-            <el-table-column prop="crefundsMoney1" label="销售收款(佣金)" width="120" :formatter="formatNumber"></el-table-column>
-            <el-table-column prop="cReturnMoney0" label="销售付款(高打)" width="120" :formatter="formatNumber"></el-table-column>
-            <el-table-column prop="cReturnMoney1" label="销售付款(佣金)" width="120" :formatter="formatNumber"></el-table-column>
-            <el-table-column prop="callotReturnMoney0" label="调货付款" width="120" :formatter="formatNumber"></el-table-column>
-            <el-table-column label="利润" width="120" :formatter="formatRefundProfit"></el-table-column>
+    <div style="background:#ffffff;font-size:12px;color:#f24040;height:20px;line-height:30px;padding-left:20px;">
+      温馨提示：高打品种积分收付，已按照每月实际销售量，折算到每月记录中
+    </div>
+    <div style="padding:10px;border:1px solid #ffffff;background-color:#ffffff;">
+      <el-table :data="listData" style="width: 100%" size="mini" :border="true" :span-method="objectSpanMethod">
+        <el-table-column fixed prop="time" label="日期" width="80"></el-table-column>
+        <el-table-column prop="saleMoney" label="销售总额" width="80" :formatter="formatNull"></el-table-column>
+        <el-table-column label="上游" header-align="center" >
+          <el-table-column label="高打品种" header-align="center">
+            <el-table-column label="销售" header-align="center">
+              <el-table-column prop="saleMoney0" label="额" width="80" :formatter="formatNull"></el-table-column>
+              <el-table-column prop="saleMoney0" label="占比" width="60" :formatter="formatSaleMoney"></el-table-column>
+            </el-table-column>
+            <el-table-column prop="arefundsMoney2" label="应收积分" width="80" :formatter="formatNull"></el-table-column>
+            <el-table-column label="实收" header-align="center">
+              <el-table-column prop="refundsMoney2" label="积分" width="80" :formatter="formatNull"></el-table-column>
+              <el-table-column prop="refundsMoney2" label="占比" width="60" :formatter="formatSalePurchaseMoney"></el-table-column>
+            </el-table-column>
+            <el-table-column prop="srefundsMoney2" label="未收积分" width="80" :formatter="formatNull"></el-table-column>
           </el-table-column>
-          <el-table-column label="按销售(打款)时间">
-            <el-table-column prop="apurchaseReturnMoney0" label="备货收款" width="120" :formatter="formatNumber"></el-table-column>
-            <el-table-column prop="refundsMoney1" label="销售收款(佣金)" width="120" :formatter="formatNumber"></el-table-column>
-            <el-table-column prop="aReturnMoney0" label="销售付款(高打)" width="120" :formatter="formatNumber"></el-table-column>
-            <el-table-column prop="aReturnMoney1" label="销售付款(佣金)" width="120" :formatter="formatNumber"></el-table-column>
-            <el-table-column prop="allotReturnMoney0" label="调货付款" width="120" :formatter="formatNumber"></el-table-column>
-            <el-table-column label="利润" width="120" :formatter="formatSaleProfit"></el-table-column>
+          <el-table-column label="佣金品种" header-align="center">
+            <el-table-column label="销售" header-align="center">
+              <el-table-column prop="saleMoney1" label="额" width="80" :formatter="formatNull"></el-table-column>
+              <el-table-column prop="saleMoney1" label="占比" width="60" :formatter="formatSaleMoney"></el-table-column>
+            </el-table-column>
+            <el-table-column prop="arefundsMoney1" label="应收积分" width="80" :formatter="formatNull"></el-table-column>
+            <el-table-column label="实收" header-align="center">
+              <el-table-column prop="refundsMoney1" label="积分" width="80" :formatter="formatNull"></el-table-column>
+              <el-table-column prop="refundsMoney1" label="占比" width="60" :formatter="formatSaleRefund"></el-table-column>
+            </el-table-column>
+            <el-table-column prop="srefundsMoney1" label="未收积分" width="80" :formatter="formatNull"></el-table-column>
           </el-table-column>
-          <el-table-column label="按销售(打款)时间-未收款">
-            <el-table-column prop="npurchaseReturnMoney0" label="备货未收款" width="120" :formatter="formatNumber"></el-table-column>
-            <el-table-column prop="srefundsMoney1" label="销售未收款(佣金)" width="120" :formatter="formatNumber"></el-table-column>
-            <el-table-column label="未收款总额" width="120" :formatter="formatNofefund"></el-table-column>
+          <el-table-column  label="未收积分总额" width="100" :formatter="formatMoneyAll"></el-table-column>
+        </el-table-column>
+        <el-table-column label="下游" header-align="center">
+          <el-table-column label="销售" header-align="center">
+            <el-table-column prop="sReturnMoney0" label="应付积分" width="80" :formatter="formatNull"></el-table-column>
+            <el-table-column label="实付">
+              <el-table-column prop="aReturnMoney0" label="积分" width="80" :formatter="formatNull"></el-table-column>
+              <el-table-column prop="aReturnMoney0" label="占比" width="60" :formatter="formatSaleReturn"></el-table-column>
+            </el-table-column>
+            <el-table-column prop="nReturnMoney0" label="未付积分" width="80" :formatter="formatNull"></el-table-column>
           </el-table-column>
-          <el-table-column label="按销售(打款)时间-未付款">
-            <el-table-column prop="nReturnMoney0" label="销售未付款(高打)" width="120" :formatter="formatNumber"></el-table-column>
-            <el-table-column prop="nReturnMoney1" label="销售未付款(佣金)" width="120" :formatter="formatNumber"></el-table-column>
-            <el-table-column prop="allotReturnMoney1" label="调货未付款" width="120" :formatter="formatNumber"></el-table-column>
-            <el-table-column label="未付款总额" width="100" :formatter="formatNoRefund"></el-table-column>
+          <el-table-column label="调货" header-align="center">
+            <el-table-column prop="allotReturnMoney" label="应付积分" width="80" :formatter="formatNull"></el-table-column>
+            <el-table-column label="实付">
+              <el-table-column prop="allotReturnMoney0" label="积分" width="80" :formatter="formatNull"></el-table-column>
+              <el-table-column prop="allotReturnMoney0" label="占比" width="60" :formatter="formatAllotReturn"></el-table-column>
+            </el-table-column>
+            <el-table-column prop="allotReturnMoney1" label="未付积分" width="80" :formatter="formatNull"></el-table-column>
           </el-table-column>
-          <el-table-column prop="stockMoneyReturn" label="库存总负债" width="90" :formatter="formatNumber"></el-table-column>
-
+          <el-table-column label="未付积分总额" width="100" :formatter="formatMoneyAll"></el-table-column>
+        </el-table-column>
+        <el-table-column label="利润" width="90" :formatter="formatProfit"></el-table-column>
+        <el-table-column label="真实利润" width="90" :formatter="formatRealProfit"></el-table-column>
+        <el-table-column prop="stockMoneyReturn" label="库存负债" width="80" :formatter="formatNull"></el-table-column>
+      </el-table-column>
       </el-table>
     </div>
-    <!-- <div class="page_div">
-			<el-pagination
-				background
-	      @size-change="handleSizeChange"
-	      @current-change="handleCurrentChange"
-	      :current-page="currentPage"
-	      :page-sizes="[5, 10, 50, 100]"
-	      :page-size="pageNum"
-	      layout="total, sizes, prev, pager, next"
-	      :total="count">
-	    </el-pagination>
-		</div> -->
   </div>
 </template>
 <script>
@@ -112,49 +122,75 @@
         }
         this.getComprehensive();
       },
-      formatNofefund(row, column, cellValue, index){
-        var t = 0;
-        for(var i = 0 ; i < this.listData.length;i++){
-           t+=this.listData[i].npurchaseReturnMoney0 + this.listData[i].srefundsMoney1;
-        }
-        return Math.round(t*100)/100;
+      formatNull(row, column, cellValue, index){
+        return cellValue?(cellValue+"").replace(/\B(?=(\d{3})+(?!\d))/g, ','):0;
       },
-      formatNoRefund(row, column, cellValue, index){
-        var t = 0;
-        for(var i = 0 ; i < this.listData.length;i++){
-           t+=this.listData[i].nReturnMoney0 + this.listData[i].nReturnMoney1 + this.listData[i].allotReturnMoney1;
-        }
-        return Math.round(t*100)/100;
+      formatProfit(row, column, cellValue, index){
+        var m = row.arefundsMoney2 + row.arefundsMoney1 - row.sReturnMoney0 - row.allotReturnMoney;
+        m = Math.round(m*100)/100;
+        return (m+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
       },
-      formatSaleProfit(row, column, cellValue, index){
-        var t = row.apurchaseReturnMoney0+row.refundsMoney1-row.aReturnMoney0-row.aReturnMoney1-row.allotReturnMoney0;
-        return Math.round(t*100)/100;
+      formatRealProfit(row, column, cellValue, index){
+        var m = row.refundsMoney2 + row.refundsMoney1 - row.aReturnMoney0 - row.allotReturnMoney0;
+        m = Math.round(m*100)/100;
+        return (m+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      },
+      formatMoneyAll(row, column, cellValue, index){
+        var t1=0,t2=0;
+        for(var i = 0 ; i < this.listData.length ;i++){
+          t1 += this.listData[i].srefundsMoney2 + this.listData[i].srefundsMoney1;
+          t2 += this.listData[i].nReturnMoney0 + this.listData[i].allotReturnMoney1;
+        }
+        if(column.label == "未收积分总额"){
+          return t1;
+        }else{
+          return t2;
+        }
+      },
+      formatAllotReturn(row, column, cellValue, index){
+        var percent = 0
+        if(cellValue && row.allotReturnMoney){
+           percent = cellValue/row.allotReturnMoney;
+        }
+        return Math.round(percent*100)+"%";
+      },
+      formatSalePurchaseMoney(row, column, cellValue, index){
+        var percent = 0
+        if(cellValue && row.arefundsMoney2){
+           percent = cellValue/row.arefundsMoney2;
+        }
+        return Math.round(percent*100)+"%";
+      },
+      formatSaleReturn(row, column, cellValue, index){
+        var percent = 0
+        if(cellValue && row.sReturnMoney0){
+           percent = cellValue/row.sReturnMoney0;
+        }
+        return Math.round(percent*100)+"%";
+      },
+      formatSaleRefund(row, column, cellValue, index){
+        var percent = 0
+        if(cellValue && row.arefundsMoney1){
+           percent = cellValue/row.arefundsMoney1;
+        }
+        return Math.round(percent*100)+"%";
+      },
+      formatSaleMoney(row, column, cellValue, index){
+        var percent = 0
+        if(cellValue && row.saleMoney){
+           percent = cellValue/row.saleMoney;
+        }
+        return Math.round(percent*100)+"%";
       },
       formatRefundProfit(row, column, cellValue, index){
         var t = row.apurchaseReturnMoney1+row.crefundsMoney1-row.cReturnMoney0-row.cReturnMoney1-row.callotReturnMoney0;
         return Math.round(t*100)/100;
       },
-      formatNumber(row, column, cellValue, index){
-        return cellValue?cellValue:0;
-      },
       objectSpanMethod({ row, column, rowIndex, columnIndex }) {
-        if (columnIndex === 18) {
-          if (rowIndex % 12 === 0) {
+        if (columnIndex === 14) {
+          if (rowIndex % 24 === 0) {
             return {
-              rowspan: 12,
-              colspan: 1
-            };
-          } else {
-            return {
-              rowspan: 0,
-              colspan: 0
-            };
-          }
-        }
-        if (columnIndex === 22) {
-          if (rowIndex % 12 === 0) {
-            return {
-              rowspan: 12,
+              rowspan: 24,
               colspan: 1
             };
           } else {
@@ -165,9 +201,22 @@
           }
         }
         if (columnIndex === 23) {
-          if (rowIndex % 12 === 0) {
+          if (rowIndex % 24 === 0) {
             return {
-              rowspan: 12,
+              rowspan: 24,
+              colspan: 1
+            };
+          } else {
+            return {
+              rowspan: 0,
+              colspan: 0
+            };
+          }
+        }
+        if (columnIndex === 26) {
+          if (rowIndex % 24 === 0) {
+            return {
+              rowspan: 24,
               colspan: 1
             };
           } else {
@@ -192,20 +241,8 @@
 			},
       getComprehensive(){
         var _self = this;
-        // if(!_self.currentPage){
-        //   _self.currentPage = 1;
-        // }
-        // if(!_self.pageNum){
-        //   _self.pageNum = 10;
-        // }
-				// var page = {
-        //   start:(_self.currentPage-1)*_self.pageNum,
-        //   limit:_self.pageNum
-        // }
         this.jquery('/iae/report/getReportComprehensive',_self.params,function(res){
 						_self.listData= res.message;
-            // _self.pageNum=parseInt(res.message.limit);
-    				// _self.count=res.message.totalCount;
         });
       },
       handleSizeChange(val) {
@@ -220,6 +257,8 @@
     }
   })
 </script>
-<style>
-
+<style scope="scope">
+  .el-table thead.is-group th{
+    background:#fafcfe !important;
+  }
 </style>

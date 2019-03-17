@@ -303,6 +303,7 @@
 				this.getAccountsDetailsList();
 			},
 			handleSizeChange(val) {
+				this.pageNum = val;
     		this.currentPage = 1;
         this.getAccountsDetailsList();
     	},

@@ -30,6 +30,7 @@
 		 <el-form-item>
 		    <el-button type="primary" v-dbClick @click="reSearch(false)" size="mini">查询</el-button>
 			  <el-button type="primary" v-dbClick @click="reSearch(true)" size="mini">重置</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf('144,') > -1" @click="exportStock" size="mini">导出</el-button>
 		  </el-form-item>
 		</el-form>
 		<div class="sum_money">库存总额：<a>{{stockMoney}}</a> 元；库存量：<a>{{stockNum}}</a></div>
@@ -160,6 +161,10 @@
 
 		},
 		methods:{
+			exportStock(){
+				var url = this.$bus.data.host + "/iae/stock/exportStocks";
+				this.download(url,this.params);
+			},
 			deleteBatchStockRow(scope){//删除
 				this.$confirm('是否删除?', '提示', {
           	confirmButtonText: '确定',

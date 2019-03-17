@@ -2,7 +2,7 @@
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
 		  <el-breadcrumb-item>积分管理</el-breadcrumb-item>
-			<el-breadcrumb-item>高打应收管理</el-breadcrumb-item>
+			<el-breadcrumb-item>采进应收管理</el-breadcrumb-item>
 		</el-breadcrumb>
     <el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
       <div>
@@ -14,7 +14,7 @@
            :picker-options="pickerOptions2">
          </el-date-picker>
         </el-form-item>
-        <el-form-item label="打款日期" prop="returnTime">
+        <el-form-item label="打款日期" prop="makeMoneyTime">
          <el-date-picker v-model="params.makeMoneyTime" type="daterange" size="mini" align="right" unlink-panels
            range-separator="至"
            start-placeholder="开始日期"
@@ -39,7 +39,7 @@
          </el-date-picker>
         </el-form-item>
         <el-form-item label="产品名称" prop="productCommonName">
-          <el-input v-model="params.productCommonName" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品名称"></el-input>
+          <el-input v-model="params.productCommonName" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品名称/助记码"></el-input>
         </el-form-item>
         <el-form-item label="产品编码" prop="product_code">
           <el-input v-model="params.product_code" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品编码"></el-input>
@@ -63,6 +63,9 @@
    					 :value="item.business_id"></el-option>
    			 </el-select>
    		 </el-form-item>
+       <el-form-item label="　　标签" prop="tag_type">
+       <el-cascader v-model="params.tag_type" style="width:210px;" size="mini" placeholder="搜索标签" :options="tags" filterable></el-cascader>
+     </el-form-item>
         <el-form-item label="积分状态" prop="status">
           <el-select v-model="params.status" filterable size="mini" style="width:210px;" placeholder="请选择">
             <el-option key="" label="全部" value=""></el-option>
@@ -96,7 +99,7 @@
     <div class="sum_money">
       积分：<a>{{refundMoney.rsm}}</a>
       实收积分：<a>{{refundMoney.rrm}}</a>
-      未付积分：<a>{{refundMoney.own}}</a>
+      未收积分：<a>{{refundMoney.own}}</a>
       其它积分：<a>{{refundMoney.sc}}</a> </div>
     <el-table :data="purchases" style="width: 100%" size="mini" :stripe="true" :border="true">
       <el-table-column fixed prop="product_code" label="产品编码" width="100"></el-table-column>
@@ -297,8 +300,11 @@ export default({
         status:"",
         product_code:"",
         refundser:"",
-        business:""
+        business:"",
+        tag:"",
+        tag_type:[],
       },
+      tags:[],//标签
       dialogFormVisible:false,
       loading:false,
       authCode:"",
@@ -310,12 +316,19 @@ export default({
     this.getPurchasesRefunder();
     this.getBankAccount();
     this.getProductBusiness();
+    this.getTags();
     this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
   },
   mounted(){
 
   },
   methods:{
+    getTags(){
+      var _self = this;
+      this.jquery("/iae/tag/getAllTags",null,function(res){//查询商业
+        _self.tags=res.message.tagAll;
+      });
+    },
     deleteRow(scope){//删除
       this.$confirm('是否删除?', '提示', {
           confirmButtonText: '确定',
@@ -444,6 +457,7 @@ export default({
         start:(_self.currentPage-1)*_self.pageNum,
         limit:_self.pageNum
       }
+      this.params.tag = this.params.tag_type[1];
       this.jquery('/iae/refunds/getPurchaseRefunds',{
         data:_self.params,
         page:page

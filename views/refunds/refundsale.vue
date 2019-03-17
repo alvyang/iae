@@ -2,7 +2,7 @@
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
 		  <el-breadcrumb-item>积分管理</el-breadcrumb-item>
-			<el-breadcrumb-item>佣金应收管理</el-breadcrumb-item>
+			<el-breadcrumb-item>销售应收管理</el-breadcrumb-item>
 		</el-breadcrumb>
     <el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
       <div>
@@ -31,7 +31,7 @@
          </el-date-picker>
         </el-form-item>
         <el-form-item label="产品名称" prop="productCommonName">
-          <el-input v-model="params.productCommonName" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品名称"></el-input>
+          <el-input v-model="params.productCommonName" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品名称/助记码"></el-input>
         </el-form-item>
         <el-form-item label="产品编码" prop="product_code">
           <el-input v-model="params.product_code" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品编码"></el-input>
@@ -46,6 +46,16 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="销往单位" prop="hospitalsId">
+  			 <el-select v-model="params.hospitalsId" style="width:210px;" filterable size="mini" placeholder="请选择">
+  				 <el-option key="" label="全部" value=""></el-option>
+  				 <el-option v-for="item in hospitals"
+  					 :key="item.hospital_id"
+  					 :label="item.hospital_name"
+  					 :value="item.hospital_id">
+  				 </el-option>
+  		 	</el-select>
+  		 </el-form-item>
         <el-form-item label="　　商业" prop="business">
   				<el-select v-model="params.business" style="width:210px;" size="mini" filterable placeholder="请选择商业">
             <el-option key="" label="全部" value=""></el-option>
@@ -55,6 +65,9 @@
    					 :value="item.business_id"></el-option>
   				</el-select>
   			</el-form-item>
+        <el-form-item label="　　标签" prop="tag_type">
+        <el-cascader v-model="params.tag_type" style="width:210px;" size="mini" placeholder="搜索标签" :options="tags" filterable></el-cascader>
+      </el-form-item>
         <el-form-item label="积分状态" prop="status">
           <el-select v-model="params.status" filterable size="mini" style="width:210px;" placeholder="请选择">
             <el-option key="" label="全部" value=""></el-option>
@@ -88,7 +101,7 @@
     <div class="sum_money">
       积分：<a>{{refundMoney.rsm}}</a>
       已收积分：<a>{{refundMoney.rrm}}</a>
-      未付积分：<a>{{refundMoney.own}}</a>
+      未收积分：<a>{{refundMoney.own}}</a>
       其它积分：<a>{{refundMoney.sc}}</a>
     </div>
     <el-table :data="refunds" style="width: 100%" size="mini" :stripe="true" :border="true">
@@ -270,6 +283,7 @@ export default({
         own:0,
       },//返费总额
       contacts:[],
+      tags:[],//标签
       business:[],
       refundser:[],//返款人列表
       contactRefunders:[],//与当前联系人相关返款人列表
@@ -286,8 +300,12 @@ export default({
         status:"",
         business:"",
         product_code:"",
-        refundser:""
+        refundser:"",
+        tag:"",
+        tag_type:[],
+        hospitalsId:""
       },
+      hospitals:[],
       dialogFormVisible:false,
       loading:false,
       authCode:"",
@@ -299,12 +317,26 @@ export default({
     this.getProductBusiness();
     this.getSalesRefunder();
     this.getBankAccount();
+    this.getHospitals();
+    this.getTags();
     this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
   },
   mounted(){
 
   },
   methods:{
+    getHospitals(){
+      var _self = this;
+      this.jquery('/iae/hospitals/getAllHospitals',{hospital_type:'销售单位'},function(res){
+          _self.hospitals = res.message;
+      });
+    },
+    getTags(){
+      var _self = this;
+      this.jquery("/iae/tag/getAllTags",null,function(res){//查询商业
+        _self.tags=res.message.tagAll;
+      });
+    },
     deleteRow(scope){//删除
       this.$confirm('是否删除?', '提示', {
           confirmButtonText: '确定',
@@ -442,6 +474,7 @@ export default({
         start:(_self.currentPage-1)*_self.pageNum,
         limit:_self.pageNum
       }
+      this.params.tag = this.params.tag_type[1];
       this.jquery('/iae/refunds/getSaleRefunds',{
         data:_self.params,
         page:page

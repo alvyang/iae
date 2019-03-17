@@ -12,7 +12,7 @@
     <el-button  @click="toReport('/main/reportsalesbyhospital')" >销售额统计（按品销往单位） 表格</el-button>
     <el-button  @click="toReport('/main/reportsalesreturnmoney')" >佣金外欠金额（按联系人）表格</el-button>
     <el-button  @click="toReport('/main/reportpurchasereturnmoney')" >高打外欠金额（按联系人）表格</el-button>
-    <el-button  @click="toReport('/main/reportcomprehensive')" >利润/负债综合统计（近12个月）表格</el-button>
+    <el-button  @click="toReport('/main/reportcomprehensive')" >销售积分收付统计（近24个月）表格</el-button>
   </div>
 </template>
 <script>
