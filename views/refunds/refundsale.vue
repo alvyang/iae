@@ -92,9 +92,9 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-         <el-button type="primary" v-dbClick v-show="authCode.indexOf('46,') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
-         <el-button type="primary" v-dbClick v-show="authCode.indexOf('46,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
-         <el-button type="primary" v-dbClick v-show="authCode.indexOf('105,') > -1" @click="exportRefundSale" size="mini">导出</el-button>
+         <el-button type="primary" v-dbClick v-show="authCode.indexOf(',46,') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
+         <el-button type="primary" v-dbClick v-show="authCode.indexOf(',46,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+         <el-button type="primary" v-dbClick v-show="authCode.indexOf(',105,') > -1" @click="exportRefundSale" size="mini">导出</el-button>
         </el-form-item>
       </div>
     </el-form>
@@ -130,8 +130,8 @@
         <el-table-column prop="refunds_remark" label="备注" width="150"></el-table-column>
         <el-table-column fixed="right" label="操作" width="100">
         <template slot-scope="scope">
-          <el-button v-show="authCode.indexOf('103,') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
-          <el-button v-show="authCode.indexOf('47,') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
+          <el-button v-show="authCode.indexOf(',103,') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
+          <el-button v-show="authCode.indexOf(',47,') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
         </template>
         </el-table-column>
     </el-table>
@@ -319,7 +319,7 @@ export default({
     this.getBankAccount();
     this.getHospitals();
     this.getTags();
-    this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
+    this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
   },
   mounted(){
 
@@ -418,7 +418,8 @@ export default({
       if(this.$refs["refund"]){
         this.$refs["refund"].resetFields();
       }
-      this.refund = scope.row;
+      var temp = JSON.stringify(scope.row);
+      this.refund = JSON.parse(temp);
       this.refund.product_return_money = this.refund.hospital_policy_return_money?this.refund.hospital_policy_return_money:this.refund.product_return_money;
       if(this.refund.product_return_money && !this.refund.refunds_should_money){
         if(this.refund.product_floor_price && this.refund.product_high_discount && !this.refund.hospital_policy_return_money){

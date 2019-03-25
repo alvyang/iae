@@ -246,7 +246,8 @@
 			},
 			//选择要进货的药品
 			selectRow(scope){
-				this.drug = scope.row;
+				var temp = JSON.stringify(scope.row);
+				this.drug = JSON.parse(temp);
 				if(this.$refs["purchase"]){
 					this.$refs["purchase"].resetFields();
 				}

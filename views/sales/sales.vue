@@ -75,12 +75,12 @@
 		 	<el-input-number v-model="params.rate_gap" style="width:106px;" :precision="0" :step="1" :max="100"></el-input-number>
 	 	</el-form-item>
 	   <el-form-item>
-	     <el-button type="primary" v-dbClick v-show="authCode.indexOf('51,') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
-			 <el-button type="primary" v-dbClick v-show="authCode.indexOf('51,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
-	     <el-button type="primary" v-dbClick v-show="authCode.indexOf('48,') > -1" @click="add" size="mini">新增</el-button>
-			 <el-button type="primary" v-dbClick v-show="authCode.indexOf('52,') > -1" @click="exportExcel" size="mini">导出</el-button>
-			 <el-button type="primary" v-dbClick v-show="authCode.indexOf('102,') > -1" @click="importShow" size="mini">导入</el-button>
-			 <el-button type="primary" v-dbClick v-show="authCode.indexOf('102,') > -1" @click="downloadTemplate" size="mini">导入模板下载</el-button>
+	     <el-button type="primary" v-dbClick v-show="authCode.indexOf(',51,') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
+			 <el-button type="primary" v-dbClick v-show="authCode.indexOf(',51,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+	     <el-button type="primary" v-dbClick v-show="authCode.indexOf(',48,') > -1" @click="add" size="mini">新增</el-button>
+			 <el-button type="primary" v-dbClick v-show="authCode.indexOf(',52,') > -1" @click="exportExcel" size="mini">导出</el-button>
+			 <el-button type="primary" v-dbClick v-show="authCode.indexOf(',102,') > -1" @click="importShow" size="mini">导入</el-button>
+			 <el-button type="primary" v-dbClick v-show="authCode.indexOf(',102,') > -1" @click="downloadTemplate" size="mini">导入模板下载</el-button>
 	   </el-form-item>
 		</el-form>
 		<div class="sum_money">销售总额：<a>{{money}}</a> 元；真实毛利：<a>{{realGrossProfit}}</a> 元；毛利：<a>{{grossProfit}}</a> 元</div>
@@ -110,8 +110,8 @@
 				<el-table-column prop="cost_univalent" label="成本单价"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="100">
 		    <template slot-scope="scope">
-			    <el-button @click.native.prevent="deleteRow(scope)" v-dbClick v-show="authCode.indexOf('50,') > -1"  icon="el-icon-delete" type="primary" size="mini"></el-button>
-	        <el-button @click.native.prevent="editRow(scope)" v-dbClick v-show="authCode.indexOf('49,') > -1"  icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
+			    <el-button @click.native.prevent="deleteRow(scope)" v-dbClick v-show="authCode.indexOf(',50,') > -1"  icon="el-icon-delete" type="primary" size="mini"></el-button>
+	        <el-button @click.native.prevent="editRow(scope)" v-dbClick v-show="authCode.indexOf(',49,') > -1"  icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
 		    </template>
   			</el-table-column>
 		</el-table>
@@ -320,7 +320,7 @@
 			this.getContacts();
 			this.getProductBusiness();
 			this.getTags();
-			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
+			this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		mounted(){
 			this.importDrugsUrl = this.$bus.data.host + "/iae/sales/importSales";
@@ -411,11 +411,12 @@
 			},
 			editRow(scope){//编辑药品信息
 				this.dialogFormVisible = true;
-				this.sale = scope.row;
+				var temp = JSON.stringify(scope.row);
+				this.sale = JSON.parse(temp);
 				this.sale.sale_return_price=this.sale.sale_return_price?this.sale.sale_return_price:this.sale.sale_policy_money;
 			  this.sale.sale_contact_id=this.sale.sale_contact_id?this.sale.sale_contact_id:this.sale.sale_policy_contact_id;
 				// this.sale.sale_return_money = this.mul(this.sale.sale_return_price,scope.row.sale_num,2);
-				this.sale.sale_num_temp = scope.row.sale_num;
+				this.sale.sale_num_temp = this.sale.sale_num;
 			},
 			deleteRow(scope){//删除
 				this.$confirm('是否删除?', '提示', {

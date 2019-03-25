@@ -21,9 +21,9 @@
 		    <el-input v-model="params.productCommonName" style="width:210px;" @keyup.13.native="getHospitalPolicy()" size="mini" placeholder="产品名称/助记码"></el-input>
 		  </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('142,') > -1" @click="getHospitalPolicy()" size="mini">查询</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('142,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
-        <el-button type="primary" v-dbClick v-show="authCode.indexOf('139,') > -1" @click="$router.push('/main/hospitalpolicyrecorddrugs');" size="mini">新增</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf(',142,') > -1" @click="getHospitalPolicy()" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',142,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+        <el-button type="primary" v-dbClick v-show="authCode.indexOf(',139,') > -1" @click="$router.push('/main/hospitalpolicyrecorddrugs');" size="mini">新增</el-button>
 		  </el-form-item>
 		</el-form>
     <el-table :data="drugPolicy" style="width: 100%" size="mini" :stripe="true" :border="true">
@@ -38,8 +38,8 @@
         <el-table-column prop="hospital_policy_return_money" label="特殊政策积分"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="100">
 		    <template slot-scope="scope">
-          <el-button v-dbClick v-show="authCode.indexOf('141,') > -1" @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
-	        <el-button @click.native.prevent="editRow(scope)" v-dbClick v-show="authCode.indexOf('140,') > -1"  icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
+          <el-button v-dbClick v-show="authCode.indexOf(',141,') > -1" @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
+	        <el-button @click.native.prevent="editRow(scope)" v-dbClick v-show="authCode.indexOf(',140,') > -1"  icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
 		    </template>
   			</el-table-column>
 		</el-table>
@@ -107,7 +107,7 @@
     activated(){
       this.getHospitals();
       this.getHospitalPolicy();
-      this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
+      this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
     },
     methods:{
       formatterPercent(row, column, cellValue, index){
@@ -119,7 +119,8 @@
       },
       editRow(scope){//编辑药品信息
 				this.dialogFormVisible = true;
-				this.policy = scope.row;
+        var temp = JSON.stringify(scope.row);
+				this.policy = JSON.parse(temp);
 			},
       getHospitalPolicy(){
         var _self = this;

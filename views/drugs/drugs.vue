@@ -65,12 +65,12 @@
 				</el-select>
 			</el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('65,') > -1" @click="reSearch(false)" size="mini">查询</el-button>
-			  <el-button type="primary" v-dbClick v-show="authCode.indexOf('65,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('62,') > -1" @click="add" size="mini">新增</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('122,') > -1" @click="exportDrugs" size="mini">导出</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('100,') > -1" @click="importShow" size="mini">导入</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('100,') > -1" @click="downloadTemplate" size="mini">导入模板下载</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf(',65,') > -1" @click="reSearch(false)" size="mini">查询</el-button>
+			  <el-button type="primary" v-dbClick v-show="authCode.indexOf(',65,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf(',62,') > -1" @click="add" size="mini">新增</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',122,') > -1" @click="exportDrugs" size="mini">导出</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',100,') > -1" @click="importShow" size="mini">导入</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',100,') > -1" @click="downloadTemplate" size="mini">导入模板下载</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="drugs" style="width: 100%" size="mini" :stripe="true" :border="true">
@@ -99,10 +99,10 @@
 				<el-table-column prop="remark" label="备注" width="200"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="160">
 			    <template slot-scope="scope">
-				    <el-button v-dbClick v-show="authCode.indexOf('64,') > -1" @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
-		        <el-button v-dbClick v-show="authCode.indexOf('63,') > -1" @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
-						<el-button v-dbClick v-show="authCode.indexOf('63,') > -1 && scope.row.product_distribution_flag == '1'" @click.native.prevent="distributionFlagShow(scope,'0')" type="primary" size="mini">配送</el-button>
-						<el-button v-dbClick v-show="authCode.indexOf('63,') > -1 && scope.row.product_distribution_flag == '0'" @click.native.prevent="distributionFlagShow(scope,'1')" type="primary" size="mini">不配</el-button>
+				    <el-button v-dbClick v-show="authCode.indexOf(',64,') > -1" @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
+		        <el-button v-dbClick v-show="authCode.indexOf(',63,') > -1" @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
+						<el-button v-dbClick v-show="authCode.indexOf(',63,') > -1 && scope.row.product_distribution_flag == '1'" @click.native.prevent="distributionFlagShow(scope,'0')" type="primary" size="mini">配送</el-button>
+						<el-button v-dbClick v-show="authCode.indexOf(',63,') > -1 && scope.row.product_distribution_flag == '0'" @click.native.prevent="distributionFlagShow(scope,'1')" type="primary" size="mini">不配</el-button>
 			    </template>
   			</el-table-column>
 		</el-table>
@@ -172,7 +172,7 @@
 			this.getContacts();
 			this.getProductBusiness();
 			this.getTags();
-			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
+			this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		mounted(){
 			this.importDrugsUrl = this.$bus.data.host + "/iae/drugs/importDrugs";

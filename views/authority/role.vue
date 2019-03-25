@@ -9,9 +9,9 @@
 		    <el-input v-model="params.role_name" @keyup.13.native="reSearch" size="mini" style="width:210px;" placeholder="角色名"></el-input>
 		  </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('14,') > -1" @click="reSearch" size="mini">查询</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('14,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
-		    <el-button type="primary" v-dbClick @click="add" v-show="authCode.indexOf('11,') > -1" size="mini">新增</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf(',14,') > -1" @click="reSearch" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',14,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+		    <el-button type="primary" v-dbClick @click="add" v-show="authCode.indexOf(',11,') > -1" size="mini">新增</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="roles" style="width: 100%" size="mini" highlight-current-row :stripe="true">
@@ -19,9 +19,9 @@
     			<el-table-column prop="role_describe" label="角色描述"></el-table-column>
     			<el-table-column fixed="right" label="操作" width="200">
 			    <template slot-scope="scope">
-				    <el-button v-dbClick v-show="authCode.indexOf('13,') > -1" @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
-	          <el-button v-dbClick v-show="authCode.indexOf('12,') > -1" @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
-            <el-button v-dbClick v-show="authCode.indexOf('15,') > -1" @click.native.prevent="editAuthorityShow(scope)" type="primary" size="mini">授权</el-button>
+				    <el-button v-dbClick v-show="authCode.indexOf(',13,') > -1" @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
+	          <el-button v-dbClick v-show="authCode.indexOf(',12,') > -1" @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
+            <el-button v-dbClick v-show="authCode.indexOf(',15,') > -1" @click.native.prevent="editAuthorityShow(scope)" type="primary" size="mini">授权</el-button>
 			    </template>
     			</el-table-column>
   		</el-table>
@@ -101,7 +101,7 @@
 		activated(){
 			this.searchRolesList();
       this.getAuthority();
-			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
+			this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		mounted(){
 
@@ -134,7 +134,7 @@
 			},
       getAuthority(){
 				var _self = this;
-        this.jquery('/iae/authority/getOpenAuthoritys',null,function(res){
+        this.jquery('/iae/authority/getGroupAuthoritys',null,function(res){
 					_self.data = res.message[0].children;
         });
       },
@@ -153,7 +153,8 @@
       },
       editRow(scope){//编辑
         this.title = "2";
-        this.role = scope.row;
+				var temp = JSON.stringify(scope.row);
+        this.role = JSON.parse(temp);
         this.dialogFormVisible = true;
 				var _self = this;
 				setTimeout(function(){

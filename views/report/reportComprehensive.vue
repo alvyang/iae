@@ -25,8 +25,8 @@
 	 	   </el-select>
 		  </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('99,') > -1" @click="reSearch(false)" size="mini">查询</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('99,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf(',99,') > -1" @click="reSearch(false)" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',99,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
 		  </el-form-item>
 		</el-form>
     <div style="background:#ffffff;font-size:12px;color:#f24040;height:20px;line-height:30px;padding-left:20px;">
@@ -113,7 +113,7 @@
       this.getComprehensive();
       this.getProductBusiness();
       this.getHospitals();
-      this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
+      this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
     },
     methods:{
       reSearch(arg){
@@ -141,6 +141,8 @@
           t1 += this.listData[i].srefundsMoney2 + this.listData[i].srefundsMoney1;
           t2 += this.listData[i].nReturnMoney0 + this.listData[i].allotReturnMoney1;
         }
+        t1 = Math.round(t1*100)/100;
+        t2 = Math.round(t2*100)/100;
         if(column.label == "未收积分总额"){
           return t1;
         }else{

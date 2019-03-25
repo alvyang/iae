@@ -9,9 +9,9 @@
 		    <el-input v-model="params.account_person" @keyup.13.native="reSearch(false)" style="width:210px;" size="mini" placeholder="持卡人"></el-input>
 		  </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('67,') > -1" @click="reSearch(false)" size="mini">查询</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('67,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('68,') > -1" @click="addShow" size="mini">新增</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf(',67,') > -1" @click="reSearch(false)" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',67,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf(',68,') > -1" @click="addShow" size="mini">新增</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="accounts" style="width: 100%" size="mini" :stripe="true">
@@ -21,8 +21,8 @@
 			<el-table-column prop="money" label="积分"></el-table-column>
 			<el-table-column fixed="right" label="操作" width="100">
 	    <template slot-scope="scope">
-		    <el-button v-show="authCode.indexOf('69,') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
-        <el-button v-show="authCode.indexOf('70,') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
+		    <el-button v-show="authCode.indexOf(',69,') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
+        <el-button v-show="authCode.indexOf(',70,') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
 	    </template>
 			</el-table-column>
 		</el-table>
@@ -86,7 +86,7 @@
 			this.getAccountsList();
 		},
 		mounted(){
-			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
+			this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		methods:{
 			formatterType(row, column, cellValue){
@@ -95,7 +95,8 @@
 			editRow(scope){//编辑药品信息
 				this.dialogFormVisible = true;
         this.title=2;
-        this.account = scope.row;
+				var temp = JSON.stringify(scope.row);
+        this.account = JSON.parse(temp);
 				var _self = this;
 				setTimeout(function(){
 					_self.$refs["account"].clearValidate();
@@ -146,6 +147,7 @@
                 _self.$message({showClose: true,message: '修改成功',type: 'success'});
                 _self.dialogFormVisible = false;
 								_self.loading = false;
+								_self.getAccountsList();
               });
             }
           } else {

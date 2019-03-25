@@ -1,11 +1,26 @@
 //未发版sql
+
+//20190335发版
+INSERT INTO `authority` VALUES
+('145', '授权', '授权', '600124', '/', '3', '0', '1', '3', '7');
+
+CREATE TABLE `groups_authority` (
+	`groups_authority_group_id` varchar(50) NOT NULL COMMENT '组id',
+	`groups_authority_id` varchar(50) NOT NULL COMMENT '权限id',
+  `groups_authority_delete_flag` varchar(5) DEFAULT '0' COMMENT '删除',
+  PRIMARY KEY (`groups_authority_group_id`,`groups_authority_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET FOREIGN_KEY_CHECKS = 1;
+
+INSERT INTO `groups_authority` VALUES
+('0', '1', '0');
+//20190318发版sql
 ALTER TABLE sales ADD INDEX sales_purchase_id( sales_purchase_id);
 ALTER TABLE refunds ADD INDEX sales_id( sales_id);
 ALTER TABLE refunds ADD INDEX purchases_id( purchases_id);
 
 INSERT INTO `authority` VALUES
 ('144', '导出', '导出', '600124', '/', '36', '0', '1', '3', '7');
-
 
 //20190302发版sql
 alter table drugs alter column product_return_explain set default "";

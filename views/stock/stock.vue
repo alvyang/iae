@@ -30,7 +30,7 @@
 		 <el-form-item>
 		    <el-button type="primary" v-dbClick @click="reSearch(false)" size="mini">查询</el-button>
 			  <el-button type="primary" v-dbClick @click="reSearch(true)" size="mini">重置</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('144,') > -1" @click="exportStock" size="mini">导出</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',144,') > -1" @click="exportStock" size="mini">导出</el-button>
 		  </el-form-item>
 		</el-form>
 		<div class="sum_money">库存总额：<a>{{stockMoney}}</a> 元；库存量：<a>{{stockNum}}</a></div>
@@ -155,7 +155,7 @@
 		activated(){
 			this.getDrugsList();
 			this.getProductBusiness();
-			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
+			this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		mounted(){
 
@@ -197,7 +197,8 @@
 			},
 			editStockShow(scope){
 				this.dialogFormVisibleStock = true;
-				this.drug = scope.row;
+				var temp = JSON.stringify(scope.row);
+				this.drug = JSON.parse(temp);
 				this.getBatchStock();//获取批次库存列表
 			},
 			editStock(formName){

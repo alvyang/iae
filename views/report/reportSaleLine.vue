@@ -25,8 +25,8 @@
 	 	   </el-select>
 		  </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('99,') > -1" @click="reSearch(false)" size="mini">查询</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('99,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf(',99,') > -1" @click="reSearch(false)" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',99,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
 		  </el-form-item>
 		</el-form>
     <div id="sale_month_line" style="width:100%;height:300px;background-color:#ffffff;padding-top:20px;"></div>
@@ -59,7 +59,7 @@
       this.getSales();
       this.getProductBusiness();
       this.getHospitals();
-      this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
+      this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
     },
     methods:{
       formatterPercent(row, column, cellValue){

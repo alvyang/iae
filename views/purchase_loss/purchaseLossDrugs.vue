@@ -43,8 +43,8 @@
  			 </el-select>
  		 </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('114,') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('114,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf(',114,') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',114,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
 				<el-button type="primary" v-dbClick @click="returnPurchaseLoss" size="mini">返回列表</el-button>
 			</el-form-item>
 		</el-form>
@@ -64,7 +64,7 @@
 			<el-table-column prop="business_name" label="商业"></el-table-column>
 			<el-table-column fixed="right" label="操作" width="100">
 		    <template slot-scope="scope">
-			    <el-button v-show="authCode.indexOf('114,') > -1" v-dbClick @click.native.prevent="selectRow(scope)" type="primary" size="mini">选择</el-button>
+			    <el-button v-show="authCode.indexOf(',114,') > -1" v-dbClick @click.native.prevent="selectRow(scope)" type="primary" size="mini">选择</el-button>
 		    </template>
 			</el-table-column>
 		</el-table>
@@ -200,7 +200,7 @@ export default({
 		this.getContacts();
 		this.getPurchasesLossDrugsList();
 		this.getProductBusiness();
-		this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
+		this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
 	},
 	mounted(){
 
@@ -270,7 +270,8 @@ export default({
 				this.$refs["purchaseloss"].resetFields();
 			}
 			this.dialogFormVisible = true;
-			this.drug = scope.row;
+			var temp = JSON.stringify(scope.row);
+			this.drug = JSON.parse(temp);
 		},
 		reSearch(arg){
 			if(arg){

@@ -231,7 +231,7 @@ export default({
 		this.getContacts();
 		this.hospitals = JSON.parse(sessionStorage["hospitals"]);
 		this.business = JSON.parse(sessionStorage["business"]);
-		this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
+		this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
 	},
 	mounted(){
 
@@ -244,8 +244,8 @@ export default({
 				hospitalId:val,
 				drugId:_self.drug.product_id
 			},function(res){//查询商业
-				_self.sale.sale_price = res.message?res.message.hospital_policy_price:_self.sale.sale_price;
-				_self.sale.product_return_money = res.message?res.message.hospital_policy_return_money:"";
+				_self.sale.sale_price = res.message&&res.message.hospital_policy_price?res.message.hospital_policy_price:_self.sale.sale_price;
+				_self.sale.product_return_money = res.message&&res.message.hospital_policy_return_money?res.message.hospital_policy_return_money:"";
 				if(_self.sale.sale_price && _self.sale.sale_num){
 					_self.sale.sale_money = _self.mul(_self.sale.sale_price,_self.sale.sale_num,2);
 				}
@@ -323,7 +323,8 @@ export default({
 			this.$router.push({path:"/main/sales"});
 		},
 		selectRow(scope){
-			this.drug = scope.row;
+			var temp = JSON.stringify(scope.row);
+			this.drug = JSON.parse(temp);
 			this.sale.sales_purchase_id = null;
 			if(this.$refs["sale"]){
 				this.$refs["sale"].resetFields();

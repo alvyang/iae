@@ -21,8 +21,8 @@
  			 </el-select>
  		 </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('79,') > -1" @click="reSearch(false)" size="mini">查询</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('79,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf(',79,') > -1" @click="reSearch(false)" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',79,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="businessList" style="width: 100%" size="mini" :stripe="true" :border="true">
@@ -34,7 +34,7 @@
       <el-table-column prop="hb_floating_rate" label="成本率/月(%)"></el-table-column>
       <el-table-column fixed="right" label="操作" width="60">
         <template slot-scope="scope">
-          <el-button v-dbClick v-show="authCode.indexOf('80,') > -1" @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
+          <el-button v-dbClick v-show="authCode.indexOf(',80,') > -1" @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
         </template>
       </el-table-column>
 		</el-table>
@@ -129,7 +129,7 @@
 			this.getHospitals();
 		},
 		mounted(){
-			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
+			this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		methods:{
 			getHospitals(){
@@ -158,7 +158,8 @@
 			},
 			editRow(scope){//编辑药品信息
 				this.dialogFormVisible = true;
-				this.config = scope.row;
+				var temp = JSON.stringify(scope.row);
+				this.config = JSON.parse(temp);
         if(this.$refs["config"]){
           this.$refs["config"].clearValidate();
         }
@@ -180,6 +181,7 @@
               _self.$message({showClose: true,message: '保存成功',type: 'success'});
               _self.loading = false;
               _self.dialogFormVisible = false;
+							_self.getBusinessList();
             });
           } else {
             return false;

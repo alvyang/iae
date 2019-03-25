@@ -34,9 +34,9 @@
 		    <el-input v-model="params.textarea" @keyup.13.native="reSearch(false)" style="width:210px;" size="mini" placeholder="事项"></el-input>
 		  </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('73,') > -1" @click="reSearch(false)" size="mini">查询</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('73,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('76,') > -1" @click="addShow" size="mini">新增</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf(',73,') > -1" @click="reSearch(false)" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',73,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf(',76,') > -1" @click="addShow" size="mini">新增</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="accountsDetails" style="width: 100%" size="mini" :stripe="true" :border="true">
@@ -47,8 +47,8 @@
 			<el-table-column prop="account_detail_mark" label="事项"></el-table-column>
 			<el-table-column fixed="right" label="操作" width="100">
 	    <template slot-scope="scope">
-		    <el-button v-show="authCode.indexOf('75,') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
-        <el-button v-show="authCode.indexOf('74,') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
+		    <el-button v-show="authCode.indexOf(',75,') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
+        <el-button v-show="authCode.indexOf(',74,') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
 	    </template>
 			</el-table-column>
 		</el-table>
@@ -170,7 +170,7 @@
 			this.getAccounts();
 		},
 		mounted(){
-			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
+			this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		methods:{
 			getAccounts(){
@@ -182,7 +182,8 @@
 			editRow(scope){//编辑药品信息
 				this.dialogFormVisible = true;
         this.title=2;
-        this.accountDetail = scope.row;
+				var temp = JSON.stringify(scope.row);
+        this.accountDetail = JSON.parse(temp);
 				var _self = this;
 				setTimeout(function(){
 					_self.$refs["accountDetail"].clearValidate();

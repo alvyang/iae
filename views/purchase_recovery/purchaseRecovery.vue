@@ -42,9 +42,9 @@
  			 </el-select>
  		 </el-form-item>
 		  <el-form-item>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('110,') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('110,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('113,') > -1"  @click="add" size="mini">新增</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',110,') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',110,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf(',113,') > -1"  @click="add" size="mini">新增</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="purchasesrecovery" style="width: 100%" size="mini" :stripe="true" :border="true">
@@ -66,8 +66,8 @@
 				<el-table-column prop="business_name" label="商业"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="100">
 			    <template slot-scope="scope">
-						<el-button v-show="authCode.indexOf('111,') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
-		        <el-button v-show="authCode.indexOf('112,') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
+						<el-button v-show="authCode.indexOf(',111,') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
+		        <el-button v-show="authCode.indexOf(',112,') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
 			    </template>
   			</el-table-column>
 		</el-table>
@@ -192,7 +192,7 @@ export default({
 		this.getContacts();
 		this.getPurchasesLossList();
 		this.getProductBusiness();
-		this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
+		this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
 	},
 	mounted(){
 
@@ -241,7 +241,8 @@ export default({
 		},
 		editRow(scope){//编辑药品信息
 			this.dialogFormVisible = true;
-			this.purchaserecovery = scope.row;
+			var temp = JSON.stringify(scope.row);
+			this.purchaserecovery = JSON.parse(temp);
 		},
 		deleteRow(scope){//删除
 			this.$confirm('是否删除?', '提示', {

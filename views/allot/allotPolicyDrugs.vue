@@ -22,13 +22,13 @@
 		    <el-input v-model="params.productCommonName" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品名称/助记码"></el-input>
 		  </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('119,') > -1" @click="reSearch(false)" size="mini">查询</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('119,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf(',119,') > -1" @click="reSearch(false)" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',119,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
         <el-button type="primary" v-dbClick @click="$router.push('/main/allotpolicy');" size="mini">返回列表</el-button>
 		  </el-form-item>
 		</el-form>
     <div class="allot_policy">
-      <el-button @click.native.prevent="editBatchRow()" v-dbClick v-show="authCode.indexOf('119,') > -1" type="primary" size="mini">批量选择</el-button>
+      <el-button @click.native.prevent="editBatchRow()" v-dbClick v-show="authCode.indexOf(',119,') > -1" type="primary" size="mini">批量选择</el-button>
     </div>
     <el-table :data="drugPolicy" style="width: 100%" size="mini" :stripe="true" :border="true"
         @selection-change="selectionChange">
@@ -42,7 +42,7 @@
         <el-table-column prop="product_return_money" label="积分"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="100">
 		    <template slot-scope="scope">
-	        <el-button @click.native.prevent="editRow(scope)" v-dbClick v-show="authCode.indexOf('119,') > -1" type="primary" size="mini">选择</el-button>
+	        <el-button @click.native.prevent="editRow(scope)" v-dbClick v-show="authCode.indexOf(',119,') > -1" type="primary" size="mini">选择</el-button>
 		    </template>
   			</el-table-column>
 		</el-table>
@@ -181,15 +181,16 @@
         _self.$refs["params"].resetFields();
         _self.drugPolicy = [];
       });
-      this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
+      this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
     },
     methods:{
       editRow(scope){//编辑药品信息
 				this.dialogFormVisible = true;
-				this.drug = scope.row;
-        this.policy.allot_policy_money = scope.row.allot_policy_money;
-        this.policy.allot_policy_contact_id = scope.row.allot_policy_contact_id;
-        this.policy.allot_policy_remark = scope.row.allot_policy_remark;
+        var temp = JSON.stringify(scope.row);
+				this.drug = JSON.parse(temp);
+        this.policy.allot_policy_money = this.drug.allot_policy_money;
+        this.policy.allot_policy_contact_id = this.drug.allot_policy_contact_id;
+        this.policy.allot_policy_remark = this.drug.allot_policy_remark;
 			},
       editBatchRow(){
         if(this.drugId.length > 0){

@@ -15,9 +15,9 @@
 				</el-select>
 		  </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('31,') > -1" @click="reSearch(false)" size="mini">查询</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('31,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('28,') > -1" @click="addShow" size="mini">新增</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf(',31,') > -1" @click="reSearch(false)" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',31,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf(',28,') > -1" @click="addShow" size="mini">新增</el-button>
 		  </el-form-item>
 		</el-form>
 		<el-table :data="hospitals" style="width: 100%" size="mini" :stripe="true">
@@ -26,8 +26,8 @@
 			<el-table-column prop="hospital_address" label="单位地址"></el-table-column>
 			<el-table-column fixed="right" label="操作" width="100">
 		    <template slot-scope="scope">
-			    <el-button v-dbClick v-show="authCode.indexOf('29,') > -1" @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
-         	<el-button v-dbClick v-show="authCode.indexOf('30,') > -1" @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
+			    <el-button v-dbClick v-show="authCode.indexOf(',29,') > -1" @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
+         	<el-button v-dbClick v-show="authCode.indexOf(',30,') > -1" @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
 		    </template>
 			</el-table-column>
 		</el-table>
@@ -113,13 +113,14 @@
 			this.getHospitalsList();
 		},
 		mounted(){
-			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
+			this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		methods:{
 			editRow(scope){//编辑药品信息
 				this.dialogFormVisible = true;
 				this.title=2;
-				this.hospital = scope.row;
+				var temp = JSON.stringify(scope.row);
+				this.hospital = JSON.parse(temp);
 				this.hospital.hospital_type = this.hospital.hospital_type?this.hospital.hospital_type.split(","):[];
 				var _self = this;
 				setTimeout(function(){
@@ -176,6 +177,7 @@
                 _self.$message({showClose: true,message: '修改成功',type: 'success'});
 								_self.loading = false;
                 _self.dialogFormVisible = false;
+								_self.getHospitalsList();
               });
             }
           } else {

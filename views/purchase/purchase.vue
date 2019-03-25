@@ -59,12 +59,12 @@
 			  </el-select>
 		 	</el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('56,') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('56,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('53,') > -1"  @click="add" size="mini">新增</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('57,') > -1"  @click="exportExcel" size="mini">导出</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('143,') > -1" @click="importShow" size="mini">导入</el-button>
- 			 <el-button type="primary" v-dbClick v-show="authCode.indexOf('143,') > -1" @click="downloadTemplate" size="mini">导入模板下载</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf(',56,') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',56,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf(',53,') > -1"  @click="add" size="mini">新增</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',57,') > -1"  @click="exportExcel" size="mini">导出</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',143,') > -1" @click="importShow" size="mini">导入</el-button>
+ 			 <el-button type="primary" v-dbClick v-show="authCode.indexOf(',143,') > -1" @click="downloadTemplate" size="mini">导入模板下载</el-button>
 		  </el-form-item>
 		</el-form>
 		<div class="sum_money_purchase">
@@ -102,8 +102,8 @@
 				</el-table-column>
   			<el-table-column fixed="right" label="操作" width="100">
 			    <template slot-scope="scope">
-				    <el-button v-show="authCode.indexOf('55,') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
-		        <el-button v-show="authCode.indexOf('54,') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
+				    <el-button v-show="authCode.indexOf(',55,') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
+		        <el-button v-show="authCode.indexOf(',54,') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
 			    </template>
   			</el-table-column>
 		</el-table>
@@ -281,7 +281,7 @@
 			this.getPurchaseRemarks();
 			this.getPurchasesList();
 			this.getProductBusiness();
-			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
+			this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		mounted(){
 			this.importDrugsUrl = this.$bus.data.host + "/iae/purchase/importPurchases";
@@ -381,9 +381,10 @@
 			},
 			editRow(scope){//编辑药品信息
 				this.dialogFormVisible = true;
-				this.purchase = scope.row;
-				this.purchase.purchase_number_temp = scope.row.purchase_number;
-				this.purchase.storage_time_temp = scope.row.storage_time;
+				var temp = JSON.stringify(scope.row);
+				this.purchase = JSON.parse(temp);
+				this.purchase.purchase_number_temp = this.purchase.purchase_number;
+				this.purchase.storage_time_temp = this.purchase.storage_time;
 			},
 			deleteRow(scope){//删除
 				this.$confirm('是否删除?', '提示', {

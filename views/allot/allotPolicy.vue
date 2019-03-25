@@ -31,15 +31,15 @@
  			 </el-select>
  		 </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('132,') > -1" @click="getAllotPolicy()" size="mini">查询</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('132,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
-        <el-button type="primary" v-dbClick v-show="authCode.indexOf('119,') > -1" @click="$router.push('/main/allotpolicydrugs');" size="mini">新增</el-button>
-        <el-button type="primary" v-dbClick v-show="authCode.indexOf('135,') > -1" @click="exportAllotPolicy" size="mini">导出</el-button>
-        <el-button type="primary" v-dbClick v-show="authCode.indexOf('133,') > -1" @click="dialogFormVisiblePolicy = true" size="mini">政策复制</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf(',132,') > -1" @click="getAllotPolicy()" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',132,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+        <el-button type="primary" v-dbClick v-show="authCode.indexOf(',119,') > -1" @click="$router.push('/main/allotpolicydrugs');" size="mini">新增</el-button>
+        <el-button type="primary" v-dbClick v-show="authCode.indexOf(',135,') > -1" @click="exportAllotPolicy" size="mini">导出</el-button>
+        <el-button type="primary" v-dbClick v-show="authCode.indexOf(',133,') > -1" @click="dialogFormVisiblePolicy = true" size="mini">政策复制</el-button>
 		  </el-form-item>
 		</el-form>
     <div class="allot_policy">
-      <el-button @click.native.prevent="editBatchRow()" v-dbClick v-show="authCode.indexOf('119,') > -1" type="primary" size="mini">批量修改</el-button>
+      <el-button @click.native.prevent="editBatchRow()" v-dbClick v-show="authCode.indexOf(',119,') > -1" type="primary" size="mini">批量修改</el-button>
     </div>
     <el-table :data="drugPolicy" style="width: 100%" size="mini" :stripe="true" :border="true"
         @selection-change="selectionChange">
@@ -58,7 +58,7 @@
         <el-table-column prop="contacts_name" label="调货联系人" ></el-table-column>
   			<el-table-column fixed="right" label="操作" width="100">
 		    <template slot-scope="scope">
-	        <el-button @click.native.prevent="editRow(scope)" v-dbClick v-show="authCode.indexOf('133,') > -1"  icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
+	        <el-button @click.native.prevent="editRow(scope)" v-dbClick v-show="authCode.indexOf(',133,') > -1"  icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
 		    </template>
   			</el-table-column>
 		</el-table>
@@ -226,7 +226,7 @@
       this.getHospitals();
       this.getContacts();
       this.getAllotPolicy();
-      this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
+      this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
     },
     methods:{
       copyPolicy(formName){//政策复制
@@ -252,10 +252,11 @@
       },
       editRow(scope){//编辑药品信息
 				this.dialogFormVisible = true;
-				this.drug = scope.row;
-        this.policy.allot_policy_money = scope.row.allot_policy_money;
-        this.policy.allot_policy_contact_id = scope.row.allot_policy_contact_id;
-        this.policy.allot_policy_remark = scope.row.allot_policy_remark;
+        var temp = JSON.stringify(scope.row);
+				this.drug = JSON.parse(temp);
+        this.policy.allot_policy_money = this.drug.allot_policy_money;
+        this.policy.allot_policy_contact_id = this.drug.allot_policy_contact_id;
+        this.policy.allot_policy_remark = this.drug.allot_policy_remark;
 			},
       editBatchRow(){
         if(this.drugId.length > 0){

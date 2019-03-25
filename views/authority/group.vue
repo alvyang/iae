@@ -19,10 +19,11 @@
 			<el-table-column prop="group_code" label="组编码"></el-table-column>
 			<el-table-column prop="start_time" :formatter="formatValue" label="有效期开始时间"></el-table-column>
       <el-table-column prop="end_time" :formatter="formatValue" label="有效期结束时间"></el-table-column>
-			<el-table-column fixed="right" label="操作" width="100">
+			<el-table-column fixed="right" label="操作" width="180">
 	    <template slot-scope="scope">
 		    <el-button v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
         <el-button v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
+				<el-button v-dbClick @click.native.prevent="editRoleShow(scope)" type="primary" size="mini">授权</el-button>
 	    </template>
 			</el-table-column>
 		</el-table>
@@ -58,6 +59,22 @@
         <el-button type="primary" v-dbClick size="small" :loading="loading"  @click="add('group')">确 定</el-button>
       </div>
     </el-dialog>
+		<el-dialog title="角色授权" :visible.sync="dialogTreeVisible" width="315px">
+			<div class="custom-tree-container">
+				<div class="block">
+					<el-tree :data="data" node-key="id" ref="tree" show-checkbox
+						:expand-on-click-node="false">
+						<span class="custom-tree-node" slot-scope="{ node, data }">
+							<span>{{ node.label }}</span>
+						</span>
+					</el-tree>
+				</div>
+			</div>
+			<div slot="footer" class="dialog-footer">
+				<el-button size="small" v-dbClick @click="dialogTreeVisible = false">取 消</el-button>
+				<el-button type="primary" v-dbClick size="small" @click="editGroupAuthority">确 定</el-button>
+			</div>
+		</el-dialog>
 	</div>
 </template>
 <script>
@@ -82,6 +99,7 @@
 			return {
 				loading:false,
         dialogFormVisible:false,
+				dialogTreeVisible:false,
 				group:{
           group_name:"",
 					group_code:"",
@@ -96,7 +114,9 @@
         title:1,
 				pageNum:10,
 				currentPage:1,
+				groupId:"",
 				count:0,
+				data:[],
 				params:{
 					group_name:""
 				}
@@ -104,12 +124,44 @@
 		},
 		activated(){
 			this.searchGroupsList();
+			this.getAuthority();
 		},
 		mounted(){
 			var that = this;
 
 		},
 		methods:{
+			editGroupAuthority(){
+				var _self = this;
+				var keys = this.$refs.tree.getCheckedKeys();
+				var halfKeys = this.$refs.tree.getHalfCheckedKeys();
+				this.jquery('/iae/group/editGroupAuthority',{
+					authority_code:keys.concat(halfKeys),
+					group_id:_self.groupId
+				},function(res){
+					_self.$message({showClose: true,message: '授权成功',type: 'success'});
+					_self.searchGroupsList();
+					_self.dialogTreeVisible = false;
+				});
+			},
+			getAuthority(){
+				var _self = this;
+        this.jquery('/iae/authority/getOpenAuthoritys',null,function(res){
+					_self.data = res.message[0].children;
+        });
+      },
+			editRoleShow(scope){
+				var _self = this;
+				this.dialogTreeVisible = true;
+				this.groupId = scope.row.group_id;
+				setTimeout(function(){
+					_self.$refs.tree.setCheckedKeys([]);
+					var code = scope.row.authority_code.substring(0,scope.row.authority_code.length-1).split(",");
+					for(var i = 0 ; i < code.length;i++){
+							_self.$refs.tree.setChecked(code[i],true,false);
+					}
+				},10);
+			},
 			addShow(){
 				this.dialogFormVisible = true;
 				this.group={
@@ -127,7 +179,8 @@
 			editRow(scope){//编辑药品信息
         this.dialogFormVisible = true;
         this.title=2;
-        this.group = scope.row;
+				var temp = JSON.stringify(scope.row);
+        this.group = JSON.parse(temp);
 				var _self = this;
 				setTimeout(function(){
 					_self.$refs["group"].clearValidate();

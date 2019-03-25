@@ -60,9 +60,9 @@
 			 </el-select>
 		 </el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('126,') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('126,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('137,') > -1" @click="exportAllotReturn" size="mini">导出</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf(',126,') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',126,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',137,') > -1" @click="exportAllotReturn" size="mini">导出</el-button>
 		  </el-form-item>
 		</el-form>
 		<div class="sum_money_allot">
@@ -96,7 +96,7 @@
 				<!-- <el-table-column fixed="right" prop="allot_return_flag" label="是否回款" width="80"></el-table-column> -->
 				<el-table-column fixed="right" label="操作" width="60">
 			    <template slot-scope="scope">
-		        <el-button v-show="authCode.indexOf('125,') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
+		        <el-button v-show="authCode.indexOf(',125,') > -1" v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
 			    </template>
   			</el-table-column>
 		</el-table>
@@ -288,7 +288,7 @@
 			this.getBankAccount();
 			this.getProductBusiness();
 			this.getContacts();
-			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
+			this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		mounted(){
 
@@ -413,13 +413,14 @@
 			},
 			editRow(scope){//编辑药品信息
 				this.dialogFormVisible = true;
-				this.allot = scope.row;
+				var temp = JSON.stringify(scope.row);
+				this.allot = JSON.parse(temp);
 				this.allot.allot_policy_money = this.allot.allot_policy_money?this.allot.allot_policy_money:"";
 				this.allot.allot_return_price = this.allot.allot_return_price?this.allot.allot_return_price:this.allot.allot_policy_money;
 				if(this.allot.allot_return_price){
 					this.allot.allot_return_money = this.allot.allot_return_money?this.allot.allot_return_money:this.mul(this.allot.allot_return_price,this.allot.allot_number,2);
 				}
-				this.allot.allot_number_temp = scope.row.allot_number;
+				this.allot.allot_number_temp = this.allot.allot_number;
 				for(var i = 0 ; i < this.contacts.length;i++){
 					if(this.contacts[i].contacts_id == this.allot.allot_policy_contact_id){
 						this.selectContact = this.contacts[i];

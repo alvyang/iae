@@ -72,9 +72,9 @@
 			 </el-select>
 		 </el-form-item>
 	   <el-form-item>
-	     <el-button type="primary" v-dbClick v-show="authCode.indexOf('127,') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
-			 <el-button type="primary" v-dbClick v-show="authCode.indexOf('127,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
-			 <el-button type="primary" v-dbClick v-show="authCode.indexOf('136,') > -1" @click="exportSaleReturn" size="mini">导出</el-button>
+	     <el-button type="primary" v-dbClick v-show="authCode.indexOf(',127,') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
+			 <el-button type="primary" v-dbClick v-show="authCode.indexOf(',127,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+			 <el-button type="primary" v-dbClick v-show="authCode.indexOf(',136,') > -1" @click="exportSaleReturn" size="mini">导出</el-button>
 	   </el-form-item>
 		</el-form>
 		<div class="sum_money">总积分：<a>{{saleReturnMoney}}</a> 已付积分：<a>{{saleReturnMoney1}}</a> 未付积分：<a>{{saleReturnMoney2}}</a></div>
@@ -104,7 +104,7 @@
 				<el-table-column prop="sale_policy_remark" label="积分备注" width="70"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="60">
 		    <template slot-scope="scope">
-	        <el-button @click.native.prevent="editRow(scope)" v-dbClick v-show="authCode.indexOf('128,') > -1"  icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
+	        <el-button @click.native.prevent="editRow(scope)" v-dbClick v-show="authCode.indexOf(',128,') > -1"  icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
 		    </template>
   			</el-table-column>
 		</el-table>
@@ -258,7 +258,7 @@
 			this.getContacts();
 			this.getProductBusiness();
 			this.getBankAccount();
-			this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
+			this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
 		},
 		mounted(){
 
@@ -341,11 +341,12 @@
 			},
 			editRow(scope){//编辑药品信息
 				this.dialogFormVisible = true;
-				this.sale = scope.row;
-				this.sale.sale_contact_id = this.sale.sale_contact_id?this.sale.sale_contact_id:scope.row.sale_policy_contact_id;
-				this.sale.sale_return_price = this.sale.sale_return_price?this.sale.sale_return_price:scope.row.sale_policy_money;
+				var temp = JSON.stringify(scope.row);
+				this.sale = JSON.parse(temp);
+				this.sale.sale_contact_id = this.sale.sale_contact_id?this.sale.sale_contact_id:this.sale.sale_policy_contact_id;
+				this.sale.sale_return_price = this.sale.sale_return_price?this.sale.sale_return_price:this.sale.sale_policy_money;
 				this.sale.sale_return_money = this.sale.sale_return_money?this.sale.sale_return_money:this.mul(this.sale.sale_return_price,this.sale.sale_num,2);
-				this.sale.sale_num_temp = scope.row.sale_num;
+				this.sale.sale_num_temp = this.sale.sale_num;
 				for(var i = 0 ; i < this.contacts.length;i++){
 					if(this.contacts[i].contacts_id == this.sale.sale_contact_id){
 						this.selectContact = this.contacts[i];

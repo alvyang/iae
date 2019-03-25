@@ -38,8 +38,8 @@
 				</el-select>
 			</el-form-item>
 		  <el-form-item>
-		    <el-button type="primary" v-dbClick v-show="authCode.indexOf('99,') > -1" @click="reSearch(false)" size="mini">查询</el-button>
-				<el-button type="primary" v-dbClick v-show="authCode.indexOf('99,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+		    <el-button type="primary" v-dbClick v-show="authCode.indexOf(',99,') > -1" @click="reSearch(false)" size="mini">查询</el-button>
+				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',99,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
 		  </el-form-item>
 		</el-form>
     <div style="background:#ffffff;font-size:12px;color:#f24040;height:20px;line-height:30px;text-align:right;padding-right:20px;">温馨提示：连续性值越大越连续，稳定性值越小越稳定</div>
@@ -110,7 +110,7 @@
       this.getSaleVariance();
       this.getProductBusiness();
       this.getHospitals();
-      this.authCode = JSON.parse(sessionStorage["user"]).authority_code;
+      this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
     },
     methods:{
       showImage(scope){
