@@ -121,6 +121,7 @@
 				this.dialogFormVisible = true;
         var temp = JSON.stringify(scope.row);
 				this.policy = JSON.parse(temp);
+        this.policy.front_message = temp;
 			},
       getHospitalPolicy(){
         var _self = this;

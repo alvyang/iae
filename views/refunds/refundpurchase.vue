@@ -44,6 +44,9 @@
         <el-form-item label="产品编码" prop="product_code">
           <el-input v-model="params.product_code" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品编码"></el-input>
         </el-form-item>
+        <el-form-item label="　　批号" prop="batch_number">
+   			 <el-input v-model="params.batch_number" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="批号"></el-input>
+   		 </el-form-item>
         <el-form-item label="　联系人" prop="contactId">
           <el-select v-model="params.contactId" style="width:210px;" filterable size="mini" placeholder="请选择">
             <el-option key="" label="全部" value=""></el-option>
@@ -111,6 +114,7 @@
       <el-table-column prop="purchase_price" label="中标价" width="60"></el-table-column>
       <el-table-column prop="purchase_number" label="购入数量" width="70"></el-table-column>
       <el-table-column prop="purchase_money" label="购入金额" width="70"></el-table-column>
+      <el-table-column prop="batch_number" label="批号" width="70"></el-table-column>
       <el-table-column prop="business_name" label="商业" width="60"></el-table-column>
       <el-table-column prop="contacts_name" label="联系人" width="60"></el-table-column>
       <el-table-column  prop="time" label="备货日期" width="80" :formatter="formatterDate"></el-table-column>
@@ -303,6 +307,7 @@ export default({
         business:"",
         tag:"",
         tag_type:[],
+        batch_number:""
       },
       tags:[],//标签
       dialogFormVisible:false,
@@ -405,6 +410,7 @@ export default({
       }
       var temp = JSON.stringify(scope.row);
       this.refund = JSON.parse(temp);
+      this.refund.front_message = temp;
       if(this.refund.product_return_money && !this.refund.refunds_should_money){
         var num = this.refund.sale_num?this.refund.sale_num:this.refund.purchase_number;
         if(this.refund.product_floor_price && this.refund.product_high_discount){
@@ -494,6 +500,7 @@ export default({
               sales_id:this.refund.sale_id,
               service_charge:this.refund.service_charge,
               refunds_remark:this.refund.refunds_remark,
+              front_message:this.refund.front_message,
               account_detail:accountDetail,
             };
             _self.jquery(url,params,function(res){

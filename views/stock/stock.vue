@@ -33,7 +33,7 @@
 				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',144,') > -1" @click="exportStock" size="mini">导出</el-button>
 		  </el-form-item>
 		</el-form>
-		<div class="sum_money">库存总额：<a>{{stockMoney}}</a> 元；库存量：<a>{{stockNum}}</a></div>
+		<div class="sum_money">总库存：<a>{{stockNum}}</a></div>
 		<el-table :data="drugs" style="width: 100%" size="mini" :stripe="true" :border="true">
   			<el-table-column fixed prop="product_common_name" label="产品通用名" width="180"></el-table-column>
 				<el-table-column prop="product_code" label="产品编号" width="130"></el-table-column>
@@ -82,7 +82,7 @@
 					<el-table-column prop="batch_number" label="批号"></el-table-column>
 					<el-table-column label="当前库存">
 						<template slot-scope="scope">
-		          <el-input v-model="scope.row.batch_stock_number" @blur="editBatchStock(scope)" size="mini"></el-input>
+		          <el-input v-model="scope.row.batch_stock_number" :readonly="true" @blur="editBatchStock(scope)" size="mini"></el-input>
 		        </template>
 					</el-table-column>
 					<el-table-column fixed="right" label="操作" width="60">

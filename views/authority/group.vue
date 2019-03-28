@@ -119,7 +119,8 @@
 				data:[],
 				params:{
 					group_name:""
-				}
+				},
+				front_authority_code:"",
 			}
 		},
 		activated(){
@@ -137,6 +138,7 @@
 				var halfKeys = this.$refs.tree.getHalfCheckedKeys();
 				this.jquery('/iae/group/editGroupAuthority',{
 					authority_code:keys.concat(halfKeys),
+					front_authority_code:_self.front_authority_code,
 					group_id:_self.groupId
 				},function(res){
 					_self.$message({showClose: true,message: '授权成功',type: 'success'});
@@ -154,6 +156,7 @@
 				var _self = this;
 				this.dialogTreeVisible = true;
 				this.groupId = scope.row.group_id;
+				this.front_authority_code = scope.row.authority_code;
 				setTimeout(function(){
 					_self.$refs.tree.setCheckedKeys([]);
 					var code = scope.row.authority_code.substring(0,scope.row.authority_code.length-1).split(",");
@@ -181,6 +184,7 @@
         this.title=2;
 				var temp = JSON.stringify(scope.row);
         this.group = JSON.parse(temp);
+				this.group.front_message = temp;
 				var _self = this;
 				setTimeout(function(){
 					_self.$refs["group"].clearValidate();

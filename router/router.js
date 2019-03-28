@@ -83,6 +83,8 @@ import SalesPolicy from "../views/sales/salesPolicy.vue";
 import SalesPolicyDrugs from "../views/sales/salesPolicyDrugs.vue";
 //库存
 import Stock from "../views/stock/stock.vue";
+//日志管理
+import Log from "../views/log/log.vue";
 
 const router = new VueRouter({
 	routes:[{
@@ -150,6 +152,7 @@ const router = new VueRouter({
 			{path:"salespolicydrugs",component:SalesPolicyDrugs},//销售政策
 			{path:"stock",component:Stock},
 			{path:"password",component:password},
+			{path:"log",component:Log},//日志管理
 		]
 	}]
 });

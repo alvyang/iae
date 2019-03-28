@@ -347,6 +347,7 @@
 				delete sessionDrugs.contacts_name;
 				delete sessionDrugs.business_name;
 				this.drugs = sessionDrugs;
+				this.drugs.front_message = sessionStorage["drugs_edit"];
 				this.drugs.tag_ids_temp = this.drugs.tag_ids;
 				sessionStorage.removeItem('drugs_edit');
 				/*

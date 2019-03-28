@@ -415,6 +415,7 @@
 				this.dialogFormVisible = true;
 				var temp = JSON.stringify(scope.row);
 				this.allot = JSON.parse(temp);
+				this.allot.front_allot_message = temp;
 				this.allot.allot_policy_money = this.allot.allot_policy_money?this.allot.allot_policy_money:"";
 				this.allot.allot_return_price = this.allot.allot_return_price?this.allot.allot_return_price:this.allot.allot_policy_money;
 				if(this.allot.allot_return_price){

@@ -96,6 +96,7 @@
         dialogFormVisible: false,
         dialogTreeVisible: false,
 				loading:false,
+				front_message:"",
 			}
 		},
 		activated(){
@@ -111,6 +112,7 @@
 				var _self = this;
 				this.dialogTreeVisible = true;
 				this.roleId = scope.row.role_id;
+				this.front_message = scope.row.authority_code;
 				setTimeout(function(){
 					_self.$refs.tree.setCheckedKeys([]);
 					var code = scope.row.authority_code.substring(0,scope.row.authority_code.length-1).split(",");
@@ -125,7 +127,8 @@
 				var halfKeys = this.$refs.tree.getHalfCheckedKeys();
 				this.jquery('/iae/role/editAuthority',{
 					authority_code:keys.concat(halfKeys),
-					role_id:_self.roleId
+					role_id:_self.roleId,
+					front_message:_self.front_message
 				},function(res){
 					_self.$message({showClose: true,message: '授权成功',type: 'success'});
 					_self.searchRolesList();
@@ -155,6 +158,7 @@
         this.title = "2";
 				var temp = JSON.stringify(scope.row);
         this.role = JSON.parse(temp);
+				this.role.front_message = temp;
         this.dialogFormVisible = true;
 				var _self = this;
 				setTimeout(function(){

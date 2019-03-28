@@ -393,6 +393,7 @@
 				this.dialogFormVisible = true;
 				var temp = JSON.stringify(scope.row);
 				this.allot = JSON.parse(temp);
+				this.allot.front_allot_message = temp;
 				this.allot.allot_number_temp = this.allot.allot_number;
 			},
 			deleteRow(scope){//删除

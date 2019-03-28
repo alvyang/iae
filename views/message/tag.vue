@@ -131,6 +131,7 @@
         this.title=2;
 				var temp = JSON.stringify(scope.row);
         this.tag = JSON.parse(temp);
+				this.tag.front_message = temp;
 				var _self = this;
 				setTimeout(function(){
 					_self.$refs["tag"].clearValidate();

@@ -271,6 +271,11 @@
 				this.dialogFormVisible = true;
         var temp = JSON.stringify(scope.row);
 				this.drug = JSON.parse(temp);
+        this.policy.front_message = JSON.stringify({
+          sale_policy_money:this.drug.sale_policy_money,
+          sale_policy_contact_id:this.drug.sale_policy_contact_id,
+          sale_policy_remark:this.drug.sale_policy_remark
+        });
         this.policy.sale_policy_money = this.drug.sale_policy_money;
         this.policy.sale_policy_contact_id = this.drug.sale_policy_contact_id;
         this.policy.sale_policy_remark = this.drug.sale_policy_remark;

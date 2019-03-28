@@ -420,6 +420,7 @@ export default({
       }
       var temp = JSON.stringify(scope.row);
       this.refund = JSON.parse(temp);
+      this.refund.front_message = temp;
       this.refund.product_return_money = this.refund.hospital_policy_return_money?this.refund.hospital_policy_return_money:this.refund.product_return_money;
       if(this.refund.product_return_money && !this.refund.refunds_should_money){
         if(this.refund.product_floor_price && this.refund.product_high_discount && !this.refund.hospital_policy_return_money){
@@ -511,7 +512,9 @@ export default({
               sales_id:this.refund.sale_id,
               service_charge:this.refund.service_charge,
               refunds_remark:this.refund.refunds_remark,
+              front_message:this.refund.front_message,
               account_detail:accountDetail,
+
             };
             _self.jquery(url,params,function(res){
               _self.dialogFormVisible = false;

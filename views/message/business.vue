@@ -89,6 +89,7 @@
 				this.title=2;
 				var temp = JSON.stringify(scope.row);
 				this.business = JSON.parse(temp);
+				this.business.front_message = temp;
 				var _self = this;
 				setTimeout(function(){
 					_self.$refs["business"].clearValidate();

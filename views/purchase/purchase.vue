@@ -32,15 +32,6 @@
 			    </el-option>
 				</el-select>
 		  </el-form-item>
-			<el-form-item label="备货状态" prop="status">
-		    <el-select v-model="params.status" style="width:210px;" size="mini" placeholder="请选择">
-					<el-option key="" label="全部" value=""></el-option>
-					<el-option key="1" label="未打款" value="1"></el-option>
-					<el-option key="2" label="打款,未发货" value="2"></el-option>
-					<el-option key="3" label="发货,未入库" value="3"></el-option>
-					<el-option key="4" label="已入库" value="4"></el-option>
-				</el-select>
-		  </el-form-item>
 			<el-form-item label="　　商业" prop="business">
  			 <el-select v-model="params.business" style="width:210px;" size="mini" filterable placeholder="请选择商业">
  				 <el-option key="" label="全部" value=""></el-option>
@@ -50,7 +41,18 @@
  					 :value="item.business_id"></el-option>
  			 </el-select>
  		 </el-form-item>
-
+		 <el-form-item label="　　批号" prop="batch_number">
+			 <el-input v-model="params.batch_number" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="批号"></el-input>
+		 </el-form-item>
+		 <el-form-item label="备货状态" prop="status">
+		 	<el-select v-model="params.status" style="width:210px;" size="mini" placeholder="请选择">
+		 		<el-option key="" label="全部" value=""></el-option>
+		 		<el-option key="1" label="未打款" value="1"></el-option>
+		 		<el-option key="2" label="打款,未发货" value="2"></el-option>
+		 		<el-option key="3" label="发货,未入库" value="3"></el-option>
+		 		<el-option key="4" label="已入库" value="4"></el-option>
+		 	</el-select>
+		 </el-form-item>
 			<el-form-item label="　　备注" prop="remark">
 				<el-select v-model="params.remark" filterable size="mini" style="width:210px;" placeholder="请选择">
 				 <el-option v-for="item in remarks"
@@ -261,6 +263,7 @@
 					status:"",
 					remark:"",
 					business:"",
+					batch_number:""
 				},
 				purchaseRule:{
 					purchase_number:[{validator:validateNum,trigger: 'blur' }],
@@ -383,6 +386,7 @@
 				this.dialogFormVisible = true;
 				var temp = JSON.stringify(scope.row);
 				this.purchase = JSON.parse(temp);
+				this.purchase.front_purchase = temp;
 				this.purchase.purchase_number_temp = this.purchase.purchase_number;
 				this.purchase.storage_time_temp = this.purchase.storage_time;
 			},

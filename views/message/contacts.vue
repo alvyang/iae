@@ -162,6 +162,7 @@
         this.title=2;
 				var temp = JSON.stringify(scope.row);
         this.contact = JSON.parse(temp);
+				this.contact.front_message = temp;
 				this.contact.contact_type = this.contact.contact_type?this.contact.contact_type.split(","):[];
 				var _self = this;
 				setTimeout(function(){

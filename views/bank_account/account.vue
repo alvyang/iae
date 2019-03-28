@@ -97,6 +97,7 @@
         this.title=2;
 				var temp = JSON.stringify(scope.row);
         this.account = JSON.parse(temp);
+				this.account.front_account = temp;
 				var _self = this;
 				setTimeout(function(){
 					_self.$refs["account"].clearValidate();

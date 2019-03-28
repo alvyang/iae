@@ -121,6 +121,7 @@
 				this.title=2;
 				var temp = JSON.stringify(scope.row);
 				this.hospital = JSON.parse(temp);
+				this.hospital.front_message = temp;
 				this.hospital.hospital_type = this.hospital.hospital_type?this.hospital.hospital_type.split(","):[];
 				var _self = this;
 				setTimeout(function(){

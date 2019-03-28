@@ -208,7 +208,8 @@
 				var _self = this;
 				this.jquery('/iae/user/editUserRole',{
 					id:this.selectUser.id,
-					role_id:this.currentRow.role_id+""
+					role_id:this.currentRow.role_id+"",
+					front_role_id:this.selectUser.role_id,
 				},function(res){
 					_self.$message({showClose: true,message: '修改成功',type: 'success'});
 					_self.dialogTableVisible = false;
@@ -221,6 +222,7 @@
         this.title=2;
 				var temp = JSON.stringify(scope.row);
         this.user = JSON.parse(temp);
+				this.user.front_message = temp;
 				this.user.password = "";//密码不显示
 				var _self = this;
 				setTimeout(function(){

@@ -160,6 +160,7 @@
 				this.dialogFormVisible = true;
 				var temp = JSON.stringify(scope.row);
 				this.config = JSON.parse(temp);
+				this.config.front_message = temp;
         if(this.$refs["config"]){
           this.$refs["config"].clearValidate();
         }
@@ -176,7 +177,8 @@
 							hb_fixed_rate:_self.config.hb_fixed_rate,
 							hb_floating_rate:_self.config.hb_floating_rate,
 							hb_business_id:_self.config.business_id,
-							hb_hospital_id:_self.config.hospital_id
+							hb_hospital_id:_self.config.hospital_id,
+							front_message:_self.config.front_message
 						},function(res){
               _self.$message({showClose: true,message: '保存成功',type: 'success'});
               _self.loading = false;

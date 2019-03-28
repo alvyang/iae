@@ -15,7 +15,7 @@
 			<el-form-item label="产品编号" prop="product_code">
 		    <el-input v-model="params.product_code" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品编号"></el-input>
 		  </el-form-item>
-			<el-form-item label="生产产家" prop="product_makesmakers">
+			<el-form-item label="生产厂家" prop="product_makesmakers">
 		    <el-input v-model="params.product_makesmakers" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="生产企业"></el-input>
 		  </el-form-item>
 			<el-form-item label="　联系人" prop="contactId">
@@ -413,6 +413,7 @@
 				this.dialogFormVisible = true;
 				var temp = JSON.stringify(scope.row);
 				this.sale = JSON.parse(temp);
+				this.sale.front_sale = temp;
 				this.sale.sale_return_price=this.sale.sale_return_price?this.sale.sale_return_price:this.sale.sale_policy_money;
 			  this.sale.sale_contact_id=this.sale.sale_contact_id?this.sale.sale_contact_id:this.sale.sale_policy_contact_id;
 				// this.sale.sale_return_money = this.mul(this.sale.sale_return_price,scope.row.sale_num,2);

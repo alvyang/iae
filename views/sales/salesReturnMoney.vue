@@ -343,6 +343,7 @@
 				this.dialogFormVisible = true;
 				var temp = JSON.stringify(scope.row);
 				this.sale = JSON.parse(temp);
+				this.sale.front_sale_pay = temp;
 				this.sale.sale_contact_id = this.sale.sale_contact_id?this.sale.sale_contact_id:this.sale.sale_policy_contact_id;
 				this.sale.sale_return_price = this.sale.sale_return_price?this.sale.sale_return_price:this.sale.sale_policy_money;
 				this.sale.sale_return_money = this.sale.sale_return_money?this.sale.sale_return_money:this.mul(this.sale.sale_return_price,this.sale.sale_num,2);
@@ -424,7 +425,7 @@
 				this.$refs[formName].validate((valid) => {
 						if (valid) {
 							this.loading = true;
-							_self.jquery('/iae/sales/editSales',_self.sale,function(res){
+							_self.jquery('/iae/salesPolicy/editSalesPay',_self.sale,function(res){
 								_self.dialogFormVisible = false;
 								_self.loading = false;
 								_self.$message({showClose: true,message: '修改成功',type: 'success'});

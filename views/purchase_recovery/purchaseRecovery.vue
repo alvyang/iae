@@ -243,6 +243,7 @@ export default({
 			this.dialogFormVisible = true;
 			var temp = JSON.stringify(scope.row);
 			this.purchaserecovery = JSON.parse(temp);
+			this.purchaserecovery.front_purchaserecovery = temp;
 		},
 		deleteRow(scope){//删除
 			this.$confirm('是否删除?', '提示', {
