@@ -30,14 +30,14 @@
 		  </el-form-item>
 		</el-form>
     <div style="background:#ffffff;font-size:12px;color:#f24040;height:20px;line-height:30px;padding-left:20px;">
-      温馨提示：高打品种积分收付，已按照每月实际销售量，折算到每月记录中
+      温馨提示：高打品种积分收付，已按照每月实际销售（调货）量，折算到每月记录中
     </div>
     <div style="padding:10px;border:1px solid #ffffff;background-color:#ffffff;">
       <el-table :data="listData" style="width: 100%" size="mini" :border="true" :span-method="objectSpanMethod">
         <el-table-column fixed prop="time" label="日期" width="80"></el-table-column>
         <el-table-column prop="saleMoney" label="销售总额" width="80" :formatter="formatNull"></el-table-column>
         <el-table-column label="上游" header-align="center" >
-          <el-table-column label="高打品种" header-align="center">
+          <el-table-column label="高打品种（销售）" header-align="center">
             <el-table-column label="销售" header-align="center">
               <el-table-column prop="saleMoney0" label="额" width="80" :formatter="formatNull"></el-table-column>
               <el-table-column prop="saleMoney0" label="占比" width="60" :formatter="formatSaleMoney"></el-table-column>
@@ -60,6 +60,14 @@
               <el-table-column prop="refundsMoney1" label="占比" width="60" :formatter="formatSaleRefund"></el-table-column>
             </el-table-column>
             <el-table-column prop="srefundsMoney1" label="未收积分" width="80" :formatter="formatNull"></el-table-column>
+          </el-table-column>
+          <el-table-column label="高打品种（调货）" header-align="center">
+            <el-table-column prop="allotShouldReturn" label="应收积分" width="80" :formatter="formatNull"></el-table-column>
+            <el-table-column label="实收" header-align="center">
+              <el-table-column prop="allotRealReturn" label="积分" width="80" :formatter="formatNull"></el-table-column>
+              <el-table-column prop="allotRealReturn" label="占比" width="60" :formatter="formatSaleAllotMoney"></el-table-column>
+            </el-table-column>
+            <el-table-column prop="allotNoReturn" label="未收积分" width="80" :formatter="formatNull"></el-table-column>
           </el-table-column>
           <el-table-column  label="未收积分总额" width="100" :formatter="formatMoneyAll"></el-table-column>
         </el-table-column>
@@ -126,19 +134,19 @@
         return cellValue?(cellValue+"").replace(/\B(?=(\d{3})+(?!\d))/g, ','):0;
       },
       formatProfit(row, column, cellValue, index){
-        var m = row.arefundsMoney2 + row.arefundsMoney1 - row.sReturnMoney0 - row.allotReturnMoney;
+        var m = row.arefundsMoney2 + row.arefundsMoney1 + row.allotShouldReturn - row.sReturnMoney0 - row.allotReturnMoney;
         m = Math.round(m*100)/100;
         return (m+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
       },
       formatRealProfit(row, column, cellValue, index){
-        var m = row.refundsMoney2 + row.refundsMoney1 - row.aReturnMoney0 - row.allotReturnMoney0;
+        var m = row.refundsMoney2 + row.refundsMoney1 + row.allotRealReturn - row.aReturnMoney0 - row.allotReturnMoney0;
         m = Math.round(m*100)/100;
         return (m+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
       },
       formatMoneyAll(row, column, cellValue, index){
         var t1=0,t2=0;
         for(var i = 0 ; i < this.listData.length ;i++){
-          t1 += this.listData[i].srefundsMoney2 + this.listData[i].srefundsMoney1;
+          t1 += this.listData[i].srefundsMoney2 + this.listData[i].srefundsMoney1 + this.listData[i].allotNoReturn;
           t2 += this.listData[i].nReturnMoney0 + this.listData[i].allotReturnMoney1;
         }
         t1 = Math.round(t1*100)/100;
@@ -170,6 +178,13 @@
         }
         return Math.round(percent*100)+"%";
       },
+      formatSaleAllotMoney(row, column, cellValue, index){
+        var percent = 0
+        if(cellValue && row.allotShouldReturn){
+           percent = cellValue/row.allotShouldReturn;
+        }
+        return Math.round(percent*100)+"%";
+      },
       formatSaleRefund(row, column, cellValue, index){
         var percent = 0
         if(cellValue && row.arefundsMoney1){
@@ -189,7 +204,7 @@
         return Math.round(t*100)/100;
       },
       objectSpanMethod({ row, column, rowIndex, columnIndex }) {
-        if (columnIndex === 14) {
+        if (columnIndex === 18) {
           if (rowIndex % 24 === 0) {
             return {
               rowspan: 24,
@@ -202,7 +217,7 @@
             };
           }
         }
-        if (columnIndex === 23) {
+        if (columnIndex === 27) {
           if (rowIndex % 24 === 0) {
             return {
               rowspan: 24,
@@ -215,7 +230,7 @@
             };
           }
         }
-        if (columnIndex === 26) {
+        if (columnIndex === 30) {
           if (rowIndex % 24 === 0) {
             return {
               rowspan: 24,

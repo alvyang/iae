@@ -60,7 +60,9 @@ import Report from "../views/report/report.vue";
 import ReportSaleLine from "../views/report/reportSaleLine.vue";//销售折现图
 import ReportTagBar from "../views/report/reportTagBar.vue";//标签销售柱状图
 import reportPurchaseReturnMoney from "../views/report/reportPurchaseReturnMoney.vue";//高打返款金额统计按联系人
+import reportPurchaseReturnMoneyDetail from "../views/report/reportPurchaseReturnMoneyDetail.vue";//高打返款金额统计按联系人  查看明细
 import reportSalesReturnMoney from "../views/report/reportSalesReturnMoney.vue";//佣金返款金额统计按联系人
+import reportSalesReturnMoneyDetail from "../views/report/reportSalesReturnMoneyDetail.vue";//佣金返款金额统计按联系人 查看明细
 import reportSalesByProduct from "../views/report/reportSalesByProduct.vue";//销售按产品
 import reportSalesByHospital from "../views/report/reportSalesByHospital.vue";//销售按医院
 import reportSalesByProfitRate from "../views/report/reportSalesByProfitRate.vue";//销售按毛利率
@@ -132,7 +134,9 @@ const router = new VueRouter({
 			{path:"reportsaleline",component:ReportSaleLine},
 			{path:"reporttagbar",component:ReportTagBar},
 			{path:"reportpurchasereturnmoney",component:reportPurchaseReturnMoney},
+			{path:"reportpurchasereturnmoneydetail",component:reportPurchaseReturnMoneyDetail},
 			{path:"reportsalesreturnmoney",component:reportSalesReturnMoney},
+			{path:"reportsalesreturnmoneydetail",component:reportSalesReturnMoneyDetail},
 			{path:"reportsalesbyproduct",component:reportSalesByProduct},//报表销售按品种
 			{path:"reportsalesbyhospital",component:reportSalesByHospital},//报表销售按品种
 			{path:"reportsalesbyprofitrate",component:reportSalesByProfitRate},//报表销售按品种
