@@ -85,7 +85,7 @@
 				<el-table-column label="实收上游积分(单价)" width="70" :formatter="formatterReturnMoney"></el-table-column>
 				<el-table-column prop="allot_return_price" label="政策积分" width="70"></el-table-column>
 				<el-table-column label="补点/费用票" width="80" :formatter="formatterOtherMoney"></el-table-column>
-				<el-table-column prop="allot_return_money" label="应付积分" width="70"></el-table-column>
+				<el-table-column prop="allot_return_money" label="应付积分" width="70" :formatter="formatterShouldPay"></el-table-column>
 				<!-- <el-table-column prop="allot_return_money" label="应付积分-补点/费用票" width="70" :formatter="formatterShouldMoney"></el-table-column> -->
 				<el-table-column prop="allot_real_return_money" label="实付积分" width="70"></el-table-column>
 				<el-table-column prop="allot_return_time" label="付积分时间" width="80" :formatter="formatterDate"></el-table-column>
@@ -216,7 +216,8 @@
 				}else if(this.allot.allot_return_flag && value && !reg.test(value)){
 					callback(new Error('请输入正确的政策积分'));
 				} else {
-					this.allot.allot_return_money = this.allot.allot_return_money?this.allot.allot_return_money:this.mul(value,this.allot.allot_number,2);
+					this.allot.allot_return_money = this.mul(value,this.allot.allot_number,2);
+					this.allot.allot_return_money = this.allot.other_monety_temp?this.sub(this.allot.allot_return_money,this.allot.other_monety_temp,2):this.allot.allot_return_money;
           callback();
         }
       };
@@ -303,6 +304,22 @@
 					return cellValue;
 				}
 			},
+			formatterShouldPay(row, column, cellValue){
+				if(row.purchase_other_money){
+					var t = (row.purchase_other_money/row.purchase_number)*row.allot_number;
+					row.other_monety_temp = Math.round(t*100)/100;
+					var temp = row.allot_number*row.allot_return_price - t;
+					temp = Math.round(temp*100)/100;
+					if(row.allot_return_money != temp){
+						row.allot_return_money = temp;
+						return temp;
+					}else{
+						return cellValue;
+					}
+				}else{
+					return cellValue;
+				}
+			},
 			formatterOtherMoney(row, column, cellValue){
 				if(row.purchase_other_money){
 					var t = (row.purchase_other_money/row.purchase_number)*row.allot_number;
@@ -314,7 +331,8 @@
 			},
 			formatterReturnMoney(row, column, cellValue){
 				if(row.refunds_real_time && row.refunds_real_money){
-					return this.div(row.refunds_real_money,row.purchase_number,2);
+					var temp = row.refunds_real_money/row.purchase_number;
+					return Math.round(temp*100)/100;;
 				}else{
 					return 0;
 				}

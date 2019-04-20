@@ -1,5 +1,9 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;">
+		<el-breadcrumb separator-class="el-icon-arrow-right">
+		  <el-breadcrumb-item :to="{ path: '/main/allot' }">调货管理</el-breadcrumb-item>
+			<el-breadcrumb-item>选择药品<a style="color:#f24040;">（请先选择销售药品）</a></el-breadcrumb-item>
+		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 		  <el-form-item label="产品名称" prop="productCommonName">
 		    <el-input v-model="params.productCommonName" style="width:210px;" @keyup.13.native="searchDrugsList" size="mini" placeholder="产品名称"></el-input>
@@ -253,9 +257,9 @@
 					hospitalId:this.allot.allot_hospital
 				},function(res){
 					if(res.message.length > 0){
-						_self.allot.allot_policy_contact_id = res.message[0].allot_policy_contact_id;
-						_self.allot.allot_return_price = res.message[0].allot_policy_money;
-						_self.allot.allot_policy_remark = res.message[0].allot_policy_remark;
+						_self.allot.allot_policy_contact_id = res.message[0].allot_policy_contact_id?res.message[0].allot_policy_contact_id:"";
+						_self.allot.allot_return_price = res.message[0].allot_policy_money?res.message[0].allot_policy_money:"";
+						_self.allot.allot_policy_remark = res.message[0].allot_policy_remark?res.message[0].allot_policy_remark:"";
 					}else{
 						_self.allot.allot_policy_contact_id="";
 						_self.allot.allot_return_price="";

@@ -92,6 +92,12 @@
             <el-option key="" label="否" value=""></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="是否打款" prop="makeMoneyFlag">
+          <el-select v-model="params.makeMoneyFlag" filterable size="mini" style="width:210px;" placeholder="请选择">
+            <el-option key="2" label="是" value="2"></el-option>
+            <el-option key="" label="全部" value=""></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item>
          <el-button type="primary" v-dbClick v-show="authCode.indexOf(',44,') > -1"  style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
          <el-button type="primary" v-dbClick v-show="authCode.indexOf(',44,') > -1"  @click="reSearch(true)" size="mini">重置</el-button>
@@ -307,7 +313,8 @@ export default({
         business:"",
         tag:"",
         tag_type:[],
-        batch_number:""
+        batch_number:"",
+        makeMoneyFlag:"2"
       },
       tags:[],//标签
       dialogFormVisible:false,

@@ -94,6 +94,11 @@
         <el-table-column label="真实利润" width="90" :formatter="formatRealProfit"></el-table-column>
         <el-table-column prop="stockMoneyReturn" label="库存负债" width="80" :formatter="formatNull"></el-table-column>
       </el-table-column>
+      <el-table-column fixed="right" label="操作" width="90">
+        <template slot-scope="scope">
+          <el-button type="text" @click="viewDetail(scope.row)" style="padding:0;font-size:12px;">查看详情</el-button>
+        </template>
+      </el-table-column>
       </el-table>
     </div>
   </div>
@@ -124,6 +129,12 @@
       this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
     },
     methods:{
+      viewDetail(row){
+        this.$router.push({path:`/main/reportcomprehensivedetail`,query:{
+          time:row.time,business:this.params.business,hospitalsId:this.params.hospitalsId,
+          flag:"1"
+        }});
+      },
       reSearch(arg){
         if(arg){
           this.$refs["params"].resetFields();

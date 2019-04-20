@@ -13,6 +13,8 @@
     <el-button  @click="toReport('/main/reportsalesreturnmoney')" >销售外欠积分（按联系人）表格</el-button>
     <el-button  @click="toReport('/main/reportpurchasereturnmoney')" >采进外欠积分（按联系人）表格</el-button>
     <el-button  @click="toReport('/main/reportcomprehensive')" >销售积分收付统计（近24个月）表格</el-button>
+    <el-button  @click="toReport('/main/reportcomprehensive1')" >销售积分收付统计（按销往单位）表格</el-button>
+    <el-button  @click="toReport('/main/reportcomprehensive2')" >销售积分收付统计（按商业）表格</el-button>
   </div>
 </template>
 <script>

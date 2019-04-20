@@ -94,7 +94,7 @@
 				<el-table-column label="实收上游积分(单价)" width="70" :formatter="formatterReturnMoney"></el-table-column>
 				<el-table-column prop="sale_return_price" label="政策积分" width="70" ></el-table-column>
 				<el-table-column prop="sale_return_money" label="补点/费用票" width="80" :formatter="formatterOtherMoney"></el-table-column>
-				<el-table-column prop="sale_return_money" label="应付积分" width="70"></el-table-column>
+				<el-table-column prop="sale_return_money" label="应付积分" width="70" :formatter="formatterShouldPay"></el-table-column>
 				<!-- <el-table-column prop="sale_return_money" label="应付积分-费用票" width="70" :formatter="formatterShouldMoney"></el-table-column> -->
 				<el-table-column prop="sale_return_real_return_money" label="实付积分" width="70"></el-table-column>
 				<el-table-column prop="sale_return_time" label="付积分时间" width="70" :formatter="formatterDate"></el-table-column>
@@ -273,7 +273,10 @@
 				}
 			},
 			saleReturnPrice(){
-				this.sale.sale_return_money = this.sale.sale_return_money?this.sale.sale_return_money:this.mul(this.sale.sale_return_price,this.sale.sale_num,2);
+				this.sale.sale_return_money = this.mul(this.sale.sale_return_price,this.sale.sale_num,2);
+				if(this.sale.other_money_temp){
+					this.sale.sale_return_money = this.sub(this.sale.sale_return_money,this.sale.other_money_temp,2);
+				}
 			},
 			getBankAccount(){
 				var _self = this;
@@ -292,6 +295,24 @@
 				this.jquery("/iae/business/getAllBusiness",null,function(res){//查询商业
 					_self.business=res.message;
 				});
+			},
+			formatterShouldPay(row, column, cellValue){
+				if(row.product_type == '佣金' && row.sale_other_money){
+					row.other_money_temp = row.sale_other_money;
+				}else if(row.product_type == '高打' && row.purchase_other_money){
+					var temp = (row.purchase_other_money/row.purchase_number)*row.sale_num;
+					row.other_money_temp = Math.round(temp*100)/100;
+				}else{
+					row.other_money_temp = 0;
+				}
+				var t = row.sale_return_price*row.sale_num - row.other_money_temp;
+				t = Math.round(t*100)/100;
+				if(cellValue != t){
+					row.sale_return_money = t;
+					return t;
+				}else{
+					return cellValue;
+				}
 			},
 			formatterOtherMoney(row, column, cellValue){
 				if(row.product_type == '佣金' && row.sale_other_money){

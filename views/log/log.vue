@@ -2,7 +2,7 @@
 	<div style="box-sizing: border-box;padding: 0px 10px;" class="allot_list">
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 			<el-form-item label="日志" prop="log_message">
-		    <el-input v-model="params.log_message" style="width:210px;" size="mini" @keyup.13.native="reSearch(false)" placeholder="产品名称/助记码"></el-input>
+		    <el-input v-model="params.log_message" style="width:210px;" size="mini" @keyup.13.native="reSearch(false)" placeholder="日志"></el-input>
 		  </el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" v-dbClick style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
@@ -69,7 +69,6 @@
 				if(cellValue && typeof cellValue == "string"){
 	        var temp = cellValue.substring(0,19);
 	        var d = new Date(temp);
-	        d.setDate(d.getDate()+1);
 	        return d.format("yyyy-MM-dd hh:mm:ss");
 	      }else if(cellValue && typeof cellValue == "object"){
 	        return new Date(cellValue).format("yyyy-MM-dd hh:mm:ss");

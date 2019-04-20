@@ -23,6 +23,12 @@
             <el-option key="未返" label="未返" value="未返"></el-option>
           </el-select>
         </el-form-item> -->
+        <el-form-item label="是否打款" prop="makeMoneyFlag">
+          <el-select v-model="params.makeMoneyFlag" filterable size="mini" style="width:210px;" placeholder="请选择">
+            <el-option key="2" label="是" value="2"></el-option>
+            <el-option key="" label="全部" value=""></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item>
          <el-button type="primary" v-dbClick style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
          <el-button type="primary" v-dbClick style="margin-left: 14px;" @click="$router.push('/main/reportpurchasereturnmoney');" size="mini">返回</el-button>
@@ -86,7 +92,8 @@ export default({
         contactId:"",
         status:"未返",
         product_code:"",
-        batch_number:""
+        batch_number:"",
+        makeMoneyFlag:"2"
       },
     }
   },
