@@ -77,7 +77,7 @@
 			 <el-button type="primary" v-dbClick v-show="authCode.indexOf(',136,') > -1" @click="exportSaleReturn" size="mini">导出</el-button>
 	   </el-form-item>
 		</el-form>
-		<div class="sum_money">总积分：<a>{{saleReturnMoney}}</a> 已付积分：<a>{{saleReturnMoney1}}</a> 未付积分：<a>{{saleReturnMoney2}}</a></div>
+		<div class="sum_money">应付积分：<a>{{saleReturnMoney}}</a> 已付积分：<a>{{saleReturnMoney1}}</a> 未付积分：<a>{{saleReturnMoney2}}</a></div>
 		<el-table :data="sales" style="width: 100%" size="mini" :stripe="true" :border="true">
   			<el-table-column fixed prop="bill_date" label="日期" width="80" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="hospital_name" label="销往单位" width="140"></el-table-column>
@@ -91,17 +91,19 @@
 				<el-table-column prop="sale_price" label="中标价" width="60"></el-table-column>
 				<el-table-column prop="sale_num" label="销售数量" width="70"></el-table-column>
 				<el-table-column prop="sale_money" label="购入金额" width="70"></el-table-column>
+				<el-table-column prop="batch_number" label="批号" width="70"></el-table-column>
 				<el-table-column label="实收上游积分(单价)" width="70" :formatter="formatterReturnMoney"></el-table-column>
 				<el-table-column prop="sale_return_price" label="政策积分" width="70" ></el-table-column>
 				<el-table-column prop="sale_return_money" label="补点/费用票" width="80" :formatter="formatterOtherMoney"></el-table-column>
 				<el-table-column prop="sale_return_money" label="应付积分" width="70" :formatter="formatterShouldPay"></el-table-column>
 				<!-- <el-table-column prop="sale_return_money" label="应付积分-费用票" width="70" :formatter="formatterShouldMoney"></el-table-column> -->
 				<el-table-column prop="sale_return_real_return_money" label="实付积分" width="70"></el-table-column>
+				<el-table-column prop="sale_return_real_return_money" label="未付积分" width="70" :formatter="formatterNoPay"></el-table-column>
 				<el-table-column prop="sale_return_time" label="付积分时间" width="70" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="sale_account_name" label="收积分账户名" width="80" ></el-table-column>
 				<el-table-column prop="sale_account_number" label="收积分账户" width="80" ></el-table-column>
 				<el-table-column prop="sale_account_address" label="收积分账户地址" width="80"></el-table-column>
-				<el-table-column prop="sale_policy_remark" label="积分备注" width="70"></el-table-column>
+				<el-table-column prop="sale_remark" label="备注" width="70"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="60">
 		    <template slot-scope="scope">
 	        <el-button @click.native.prevent="editRow(scope)" v-dbClick v-show="authCode.indexOf(',128,') > -1"  icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
@@ -129,18 +131,18 @@
 					<div><span>包装:</span>{{sale.product_packing}}</div>
 					<div><span>单位:</span>{{sale.product_unit}}</div>
 					<div><span>积分:</span>{{sale.product_return_money}}</div>
-					<div style="display:block;width:100%;"><span>生产产家:</span>{{sale.product_makesmakers}}</div>
+					<div style="display:block;width:100%;"><span>生产厂家:</span>{{sale.product_makesmakers}}</div>
 			  </el-collapse-item>
 			</el-collapse>
 			<el-form :model="sale" status-icon :rules="saleRule" style="margin-top:20px;" :inline="true" ref="sale" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="政策积分" prop="sale_return_price">
 					<el-input v-model="sale.sale_return_price" style="width:179px;" placeholder="政策积分" @blur='saleReturnPrice'></el-input>
 				</el-form-item>
-				<el-form-item label="应付积分" prop="sale_return_money">
-					<el-input v-model="sale.sale_return_money" placeholder="应付积分" style="width:179px;"></el-input>
-				</el-form-item>
 				<el-form-item label="补点/费用票" prop="other_money_temp">
-					<el-input v-model="sale.other_money_temp" placeholder="补点/费用票" style="width:179px;"></el-input>
+					<el-input v-model="sale.other_money_temp" placeholder="补点/费用票" :readonly="true" style="width:179px;"></el-input>
+				</el-form-item>
+				<el-form-item label="应付积分" prop="sale_return_money">
+					<el-input v-model="sale.sale_return_money" placeholder="应付积分" :readonly="true"  style="width:179px;"></el-input>
 				</el-form-item>
 				<el-form-item label="实付积分" prop="sale_return_real_return_money">
 					<el-input v-model="sale.sale_return_real_return_money" placeholder="实付积分" style="width:179px;"></el-input>
@@ -167,8 +169,8 @@
 					 </el-option>
 				 </el-select>
 			 </el-form-item>
-				<el-form-item label="积分备注" prop="sale_policy_remark">
-					<el-input v-model="sale.sale_policy_remark" style="width:179px;" placeholder="积分备注"></el-input>
+				<el-form-item label="备注" prop="sale_remark">
+					<el-input v-model="sale.sale_remark" style="width:179px;" placeholder="备注"></el-input>
 				</el-form-item>
 				<div style="padding-left: 16px;" v-show="selectContact.account_name && selectContact.account_number">
 						<div>积分账号名：{{selectContact.account_name}}</div>
@@ -295,6 +297,14 @@
 				this.jquery("/iae/business/getAllBusiness",null,function(res){//查询商业
 					_self.business=res.message;
 				});
+			},
+			formatterNoPay(row, column, cellValue){
+				var t = row.sale_return_money - row.sale_return_real_return_money;
+				if(t){
+					return Math.round(t*100)/100;
+				}else{
+					return 0;
+				}
 			},
 			formatterShouldPay(row, column, cellValue){
 				if(row.product_type == '佣金' && row.sale_other_money){

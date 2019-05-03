@@ -1,6 +1,7 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;">
 		<el-breadcrumb separator-class="el-icon-arrow-right">
+			<el-breadcrumb-item>销售管理</el-breadcrumb-item>
 		  <el-breadcrumb-item :to="{ path: '/main/allot' }">调货管理</el-breadcrumb-item>
 			<el-breadcrumb-item>选择药品<a style="color:#f24040;">（请先选择销售药品）</a></el-breadcrumb-item>
 		</el-breadcrumb>
@@ -41,7 +42,7 @@
 				<el-table-column prop="product_code" label="产品编号" width="100"></el-table-column>
 				<!-- <el-table-column prop="product_supplier" label="供货单位" width="150"></el-table-column> -->
 				<el-table-column prop="product_specifications" label="产品规格" width="120"></el-table-column>
-				<el-table-column prop="product_makesmakers" label="生厂企业" width="150"></el-table-column>
+				<el-table-column prop="product_makesmakers" label="生产厂家" width="150"></el-table-column>
 				<el-table-column prop="product_packing" label="包装" width="60"></el-table-column>
 				<el-table-column prop="product_unit" label="单位" width="60"></el-table-column>
 				<el-table-column prop="business_name" label="商业" width="60"></el-table-column>
@@ -78,7 +79,7 @@
 					<div><span>单位:</span>{{drug.product_unit}}</div>
 					<div><span>打款价:</span>{{drug.product_mack_price}}</div>
 					<!-- <div><span>返款金额:</span>{{drug.product_return_money}}</div> -->
-					<div style="display:block;width:100%;"><span>生产产家:</span>{{drug.product_makesmakers}}</div>
+					<div style="display:block;width:100%;"><span>生产厂家:</span>{{drug.product_makesmakers}}</div>
 			  </el-collapse-item>
 			</el-collapse>
 			<el-form :model="allot" ref="allot" status-icon :rules="allotRule" style="margin-top:20px;" :inline="true" label-width="100px" class="demo-ruleForm">
@@ -105,7 +106,7 @@
 				<el-form-item label="调货金额" prop="allot_money">
 					<el-input v-model="allot.allot_money" style="width:179px;"></el-input>
 				</el-form-item>
-				<el-form-item label="调货联系人" prop="allot_policy_contact_id">
+				<!-- <el-form-item label="调货联系人" prop="allot_policy_contact_id">
 	 			 <el-select v-model="allot.allot_policy_contact_id" style="width:179px;" filterable placeholder="请选择">
 	 				 <el-option key="" label="" value=""></el-option>
 	 				 <el-option v-for="item in allotContacts"
@@ -114,14 +115,14 @@
 	 					 :value="item.contacts_id">
 	 				 </el-option>
 	 			 </el-select>
-	 		 </el-form-item>
+	 		 </el-form-item> -->
 			 <el-form-item label="批号" prop="batch_number" :required="true">
 				 <el-select v-model="allot.batch_number" filterable placeholder="请选择" style="width:179px;">
 					<el-option
 						v-for="item in batchStockList"
-						:key="item.batch_number+'('+item.batch_stock_time.substring(0,10)+')'"
-						:label="item.batch_number+'('+item.batch_stock_time.substring(0,10)+')'"
-						:value="item.batch_number+'('+item.batch_stock_time.substring(0,10)+')'">
+						:key="item.batch_number+'('+new Date(item.batch_stock_time).format('yyyy-MM-dd').substring(0,10)+')'"
+						:label="item.batch_number+'('+new Date(item.batch_stock_time).format('yyyy-MM-dd').substring(0,10)+')'"
+						:value="item.batch_number+'('+new Date(item.batch_stock_time).format('yyyy-MM-dd').substring(0,10)+')'">
 						<span style="float: left">{{ item.batch_number +'('+new Date(item.batch_stock_time).format('yyyy-MM-dd')+')'}}</span>
 						<span style="float: right; color: #8492a6; font-size: 13px;padding-left:10px;">库存：{{ item.batch_stock_number }}</span>
 					</el-option>
@@ -341,7 +342,8 @@
 				this.allot.product_type = this.drug.product_type;
 				this.allot.stock = this.drug.stock;
 				for(var i = 0 ; i < this.batchStockList.length;i++){
-					if(this.allot.batch_number == this.batchStockList[i].batch_number+"("+this.batchStockList[i].batch_stock_time.substring(0,10)+")"){
+					var t = new Date(this.batchStockList[i].batch_stock_time).format("yyyy-MM-dd");
+					if(this.allot.batch_number == this.batchStockList[i].batch_number+"("+t+")"){
 						this.allot.allot_purchase_id = this.batchStockList[i].batch_stock_purchase_id;
 						var temp = this.batchStockList[i].purchase_other_money;
 						this.allot.allot_other_money = temp?temp*this.allot.allot_number/this.batchStockList[i].purchase_number:0;

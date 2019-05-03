@@ -104,7 +104,7 @@
   			  <el-collapse-item :title="'药品信息（药品名：'+drug.product_common_name+ '）'" name="1">
             <div><span>规格:</span>{{drug.product_specifications}}</div>
   					<div><span>积分:</span>{{drug.product_return_money}}</div>
-            <div style="display:block;width:100%;"><span>生产产家:</span>{{drug.product_makesmakers}}</div>
+            <div style="display:block;width:100%;"><span>生产厂家:</span>{{drug.product_makesmakers}}</div>
   			  </el-collapse-item>
   			</el-collapse>
   			<el-form :model="policy" status-icon :rules="policyRule" style="margin-top:20px;" :inline="true" ref="sale" label-width="100px" class="demo-ruleForm">

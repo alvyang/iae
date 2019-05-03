@@ -37,7 +37,7 @@
 		<el-table :data="drugs" style="width: 100%" size="mini" :stripe="true" :border="true">
   			<el-table-column fixed prop="product_common_name" label="产品通用名" width="180"></el-table-column>
 				<el-table-column prop="product_code" label="产品编号" width="130"></el-table-column>
-  			<el-table-column prop="product_makesmakers" label="生产产家" width="200"></el-table-column>
+  			<el-table-column prop="product_makesmakers" label="生产厂家" width="200"></el-table-column>
   			<el-table-column prop="product_specifications" label="产品规格" width="130"></el-table-column>
   			<el-table-column prop="product_packing" label="包装" width="60"></el-table-column>
   			<el-table-column prop="product_unit" label="单位" width="60"></el-table-column>
@@ -71,7 +71,7 @@
 					<span style="padding-left:30px;">产品规格:</span>{{drug.product_specifications}}
 					<span style="padding-left:30px;">库存:</span>{{drug.stock}}
 				</div>
-				<div><span>生产产家:</span>{{drug.product_makesmakers}}</div>
+				<div><span>生产厂家:</span>{{drug.product_makesmakers}}</div>
 				<div>
 					<div id="stock_analysis_line" style="width:660px;height:200px;"></div>
 				</div>

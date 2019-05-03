@@ -12,7 +12,7 @@
 			    <div>产品规格:{{drug.product_specifications}}</div>
 					<div>单位:{{drug.product_unit}}</div>
 					<div>中标价:{{drug.product_price}}</div>
-					<div>生产产家:{{drug.product_makesmakers}}</div>
+					<div>生产厂家:{{drug.product_makesmakers}}</div>
 			  </el-collapse-item>
 			</el-collapse>
 			<div class="sale_add">

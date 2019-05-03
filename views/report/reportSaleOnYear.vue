@@ -27,8 +27,8 @@
       <el-form-item label="产品名称" prop="productCommonName">
 		    <el-input v-model="params.productCommonName" style="width:210px;" size="mini" @keyup.13.native="reSearch(false)" placeholder="产品名称/助记码"></el-input>
 		  </el-form-item>
-      <el-form-item label="生产产家" prop="product_makesmakers">
-		    <el-input v-model="params.product_makesmakers" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="生产企业"></el-input>
+      <el-form-item label="生产厂家" prop="product_makesmakers">
+		    <el-input v-model="params.product_makesmakers" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="生产厂家"></el-input>
 		  </el-form-item>
       <el-form-item label="是否配送" prop="product_distribution_flag">
 				<el-select v-model="params.product_distribution_flag" style="width:210px;" size="mini" placeholder="请选择">
@@ -46,7 +46,7 @@
       <el-table :data="listData" style="width: 100%" size="mini" :stripe="true" :border="true">
           <el-table-column fixed prop="product_common_name" label="产品名称" width="150"></el-table-column>
           <el-table-column prop="product_specifications" label="产品规格" width="80"></el-table-column>
-          <el-table-column prop="product_makesmakers" label="生产产家" width="100"></el-table-column>
+          <el-table-column prop="product_makesmakers" label="生产厂家" width="100"></el-table-column>
           <el-table-column v-for="m in month" :label="m+'月销售额（同比）'">
             <el-table-column v-for="t in time" :prop="t.time"  :label="t.year" v-if="m == t.month " :formatter="formatNumber">
               <!-- <el-table-column :prop="t.time" label="销售额" :formatter="formatNumber" width="80"></el-table-column> -->

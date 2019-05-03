@@ -9,8 +9,8 @@
 				<el-button type="primary" v-dbClick @click="reSearch(true)" size="mini">重置</el-button>
 		  </el-form-item>
 		</el-form>
-		<div class="sum_money_allot">
-			<a>调货总额：</a>{{money}} <span>元</span>
+		<div class="sum_money_allot" style="text-align:right;padding-right:5px;font-size:12px;">
+			温馨提示：字符串对比站（https://www.sojson.com/jsondiff.html）可查看日志
 		</div>
 		<el-table :data="logs" style="width: 100%" size="mini" :stripe="true" :border="true">
 				<el-table-column prop="log_create_time" label="日志时间" width="140" :formatter="formatterDate"></el-table-column>
@@ -19,7 +19,7 @@
 				<el-table-column prop="log_after_message" label="修改后日志/其它" ></el-table-column>
 				<!-- <el-table-column fixed="right" label="操作" width="100">
 			    <template slot-scope="scope">
-		        <el-button v-dbClick @click.native.prevent="editRow(scope)" icon="el-icon-edit-outline" type="primary" size="mini"></el-button>
+						<el-button type="text" @click="viewDetail(scope.row)" style="padding:0;font-size:12px;">查看详情</el-button>
 			    </template>
   			</el-table-column> -->
 		</el-table>

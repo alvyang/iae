@@ -48,7 +48,7 @@
       <el-table :data="listData" style="width: 100%" size="mini" :stripe="true" :border="true">
           <el-table-column fixed prop="product_common_name" label="产品名称" width="200"></el-table-column>
           <el-table-column prop="product_specifications" label="产品规格" width="200"></el-table-column>
-          <el-table-column prop="product_makesmakers" label="生产产家" width="200"></el-table-column>
+          <el-table-column prop="product_makesmakers" label="生产厂家" width="200"></el-table-column>
           <el-table-column prop="sale_num" label="销售量" width="140"></el-table-column>
           <el-table-column prop="sale_money" label="销售额" width="140" :formatter="formatNumber"></el-table-column>
       </el-table>

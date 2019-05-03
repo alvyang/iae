@@ -1,5 +1,9 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;" class="allot_list">
+		<el-breadcrumb separator-class="el-icon-arrow-right">
+		  <el-breadcrumb-item>销售管理</el-breadcrumb-item>
+			<el-breadcrumb-item>调货管理</el-breadcrumb-item>
+		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 			<el-form-item label="调货时间" prop="allot_time">
 				<el-date-picker v-model="params.allot_time" type="daterange" size="mini" align="right" unlink-panels
@@ -15,8 +19,8 @@
 			<el-form-item label="产品编号" prop="product_code">
 		    <el-input v-model="params.product_code" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品通用名"></el-input>
 		  </el-form-item>
-			<el-form-item label="生产产家" prop="product_makesmakers">
-		    <el-input v-model="params.product_makesmakers" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="生产企业"></el-input>
+			<el-form-item label="生产厂家" prop="product_makesmakers">
+		    <el-input v-model="params.product_makesmakers" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="生产厂家"></el-input>
 		  </el-form-item>
 			<el-form-item label="调货单位" prop="allot_hospital">
 				<el-select v-model="params.allot_hospital" style="width:210px;" size="mini" filterable placeholder="请选择供货单位">
@@ -61,7 +65,7 @@
 				<el-table-column prop="product_code" label="产品编码" width="100"></el-table-column>
   			<el-table-column prop="product_common_name" label="产品通用名" width="120"></el-table-column>
 				<el-table-column prop="product_specifications" label="产品规格" width="100"></el-table-column>
-				<el-table-column prop="product_makesmakers" label="生厂企业" width="150"></el-table-column>
+				<el-table-column prop="product_makesmakers" label="生产厂家" width="150"></el-table-column>
 				<el-table-column prop="product_unit" label="单位" width="50"></el-table-column>
 				<el-table-column prop="allot_type" label="调货类型" width="80" :formatter="formatterType"></el-table-column>
 				<el-table-column prop="business_name" label="商业" width="60"></el-table-column>
@@ -104,7 +108,7 @@
 					<div><span>单位:</span>{{allot.product_unit}}</div>
 					<div><span>打款价:</span>{{allot.product_mack_price}}</div>
 					<!-- <div><span>返款金额:</span>{{allot.product_return_money}}</div> -->
-					<div style="display:block;width:100%;"><span>生产产家:</span>{{allot.product_makesmakers}}</div>
+					<div style="display:block;width:100%;"><span>生产厂家:</span>{{allot.product_makesmakers}}</div>
 			  </el-collapse-item>
 			</el-collapse>
 			<el-form :model="allot" ref="allot" status-icon :rules="allotRule" style="margin-top:20px;" :inline="true" label-width="100px" class="demo-ruleForm">
@@ -131,7 +135,7 @@
 				<el-form-item label="调货金额" prop="allot_money">
 					<el-input v-model="allot.allot_money" style="width:179px;"></el-input>
 				</el-form-item>
-				<el-form-item label="调货联系人" prop="allot_policy_contact_id">
+				<!-- <el-form-item label="调货联系人" prop="allot_policy_contact_id">
 	 			 <el-select v-model="allot.allot_policy_contact_id" style="width:179px;" filterable placeholder="请选择">
 	 				 <el-option key="" label="" value=""></el-option>
 	 				 <el-option v-for="item in contacts"
@@ -140,7 +144,7 @@
 	 					 :value="item.contacts_id">
 	 				 </el-option>
 	 			 </el-select>
-	 		 </el-form-item>
+	 		 </el-form-item> -->
 			</el-form>
       <div slot="footer" class="dialog-footer">
         <el-button size="small" @click="dialogFormVisible = false">取 消</el-button>

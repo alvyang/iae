@@ -60,7 +60,7 @@
             <div><span>规格:</span>{{policy.product_specifications}}</div>
             <div><span>积分:</span>{{policy.product_return_money}}</div>
             <div><span>中标价:</span>{{policy.product_price}}</div>
-            <div style="display:block;width:100%;"><span>生产产家:</span>{{policy.product_makesmakers}}</div>
+            <div style="display:block;width:100%;"><span>生产厂家:</span>{{policy.product_makesmakers}}</div>
   			  </el-collapse-item>
   			</el-collapse>
   			<el-form :model="policy" status-icon :rules="policyRule" style="margin-top:20px;" :inline="true" ref="policy" label-width="100px" class="demo-ruleForm">

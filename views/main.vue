@@ -18,7 +18,15 @@
 			<div class="login_out" v-show="username">
 				<el-dropdown @command="handleCommand">
 		      <span class="el-dropdown-link">
-		       	{{username}}<i class="el-icon-arrow-down el-icon--right"></i>
+		       	<a style="position:relative;">
+							<div style="text-align:right;display:inline-block;">
+								{{username}}
+							</div>
+							<div class="time">
+								有效日期：{{startTime}} 到 {{endTime}}
+							</div>
+						</a>
+						<i class="el-icon-arrow-down el-icon--right"></i>
 		      </span>
 		      <el-dropdown-menu slot="dropdown">
 		        <el-dropdown-item command="login_out">退出登陆</el-dropdown-item>
@@ -42,6 +50,8 @@
 				activeIndex2:"/main/sales",
 				routerFlag:true,
 				username:"",
+				startTime:"",
+				endTime:"",
 				height:0,
 				authList:[]
 			}
@@ -49,7 +59,10 @@
 		activated(){
 			this.activeIndex2 = "/main/sales";
 			this.getAuthorityList();
-			this.username = JSON.parse(sessionStorage["user"]).realname;
+			var temp = JSON.parse(sessionStorage["user"]);
+			this.startTime = new Date(temp.start_time).format("yyyy-MM-dd");
+			this.endTime = new Date(temp.end_time).format("yyyy-MM-dd");
+			this.username = temp.realname;
 		},
 		mounted(){
 			this.height = $(window).height() - 60;
@@ -83,6 +96,16 @@
 	})
 </script>
 <style>
+	.time{
+		display: inline-block;
+    position: absolute;
+    right: 0px;
+    width: 200px;
+		text-align: right;
+    top: -9px;
+		right:4px;
+    font-size: 9px;
+	}
 	.el-table--mini td{
 		padding: 4px 0 !important;
 	}

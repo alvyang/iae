@@ -1,7 +1,8 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;">
 		<el-breadcrumb separator-class="el-icon-arrow-right">
-		  <el-breadcrumb-item :to="{ path: '/main/purchase' }">备货管理</el-breadcrumb-item>
+			<el-breadcrumb-item>采购管理</el-breadcrumb-item>
+		  <el-breadcrumb-item :to="{ path: '/main/purchase' }">采进管理</el-breadcrumb-item>
 			<el-breadcrumb-item>选择药品<a style="color:#f24040;">（请先选择备货药品）</a></el-breadcrumb-item>
 		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
@@ -48,7 +49,7 @@
 				<el-table-column prop="product_code" label="产品编号" width="150"></el-table-column>
 				<!-- <el-table-column prop="product_supplier" label="供货单位" width="150"></el-table-column> -->
 				<el-table-column prop="product_specifications" label="产品规格" width="150"></el-table-column>
-				<el-table-column prop="product_makesmakers" label="生厂企业" width="150"></el-table-column>
+				<el-table-column prop="product_makesmakers" label="生产厂家" width="150"></el-table-column>
 				<el-table-column prop="product_packing" label="包装" width="50"></el-table-column>
 				<el-table-column prop="product_unit" label="单位" width="50"></el-table-column>
   			<el-table-column prop="product_price" label="中标价" width="60"></el-table-column>
@@ -84,7 +85,7 @@
 					<div><span>包装:</span>{{drug.product_packing}}</div>
 					<div><span>单位:</span>{{drug.product_unit}}</div>
 					<div><span>打款价:</span>{{drug.product_mack_price}}</div>
-					<div style="display:block;width:100%;"><span>生产产家:</span>{{drug.product_makesmakers}}</div>
+					<div style="display:block;width:100%;"><span>生产厂家:</span>{{drug.product_makesmakers}}</div>
 			  </el-collapse-item>
 			</el-collapse>
 			<el-form :model="purchase" ref="purchase" status-icon :rules="purchaseRule" style="margin-top:20px;" :inline="true" label-width="100px" class="demo-ruleForm">
@@ -272,6 +273,7 @@
 				this.purchase.product_return_time_type = this.drug.product_return_time_type;
 				this.purchase.product_return_time_day = this.drug.product_return_time_day;
 			  this.purchase.product_return_time_day_num = 	this.drug.product_return_time_day_num;
+				this.purchase.refunds_policy_money = this.drug.product_return_money;
 				this.$refs[formName].validate((valid) => {
 						if (valid) {
 							this.loading = true;

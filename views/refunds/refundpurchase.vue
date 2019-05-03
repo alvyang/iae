@@ -72,8 +72,8 @@
         <el-form-item label="积分状态" prop="status">
           <el-select v-model="params.status" filterable size="mini" style="width:210px;" placeholder="请选择">
             <el-option key="" label="全部" value=""></el-option>
-            <el-option key="已返" label="已返" value="已返"></el-option>
-            <el-option key="未返" label="未返" value="未返"></el-option>
+            <el-option key="已收" label="已收" value="已收"></el-option>
+            <el-option key="未收" label="未收" value="未收"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="付积分人" prop="refundser">
@@ -114,7 +114,7 @@
       <el-table-column fixed prop="product_code" label="产品编码" width="100"></el-table-column>
       <el-table-column fixed prop="product_common_name" label="产品名称" width="120" ></el-table-column>
       <el-table-column prop="product_specifications" label="产品规格" width="100"></el-table-column>
-      <el-table-column prop="product_makesmakers" label="生产产家" width="150"></el-table-column>
+      <el-table-column prop="product_makesmakers" label="生产厂家" width="150"></el-table-column>
       <el-table-column prop="product_packing" label="包装" width="50"></el-table-column>
       <el-table-column prop="product_unit" label="单位" width="50"></el-table-column>
       <el-table-column prop="purchase_price" label="中标价" width="60"></el-table-column>
@@ -126,7 +126,7 @@
       <el-table-column  prop="time" label="备货日期" width="80" :formatter="formatterDate"></el-table-column>
       <el-table-column  prop="make_money_time" label="打款日期" width="80" :formatter="formatterDate"></el-table-column>
       <el-table-column  prop="send_out_time" label="发货日期" width="80" :formatter="formatterDate"></el-table-column>
-      <el-table-column  prop="product_return_money" label="积分" width="80"></el-table-column>
+      <el-table-column  prop="refunds_policy_money" label="积分" width="80"></el-table-column>
       <el-table-column  prop="refunds_should_time" label="应收日期" width="80" :formatter="formatterDate"></el-table-column>
       <el-table-column  prop="refunds_should_money" label="应收积分" width="80"></el-table-column>
       <el-table-column  prop="refunds_real_time" label="实收日期" width="80" :formatter="formatterDate"></el-table-column>
@@ -170,10 +170,13 @@
 			  </el-collapse-item>
 			</el-collapse>
 			<el-form :model="refund" status-icon style="margin-top:20px;" :inline="true" :rules="refundRule" ref="refund" label-width="100px" class="demo-ruleForm">
-				<el-form-item label="应付日期" prop="refunds_should_time">
+				<el-form-item label="应收日期" prop="refunds_should_time">
           <el-date-picker v-model="refund.refunds_should_time" style="width:194px;" type="date" placeholder="请选择应付日期"></el-date-picker>
 				</el-form-item>
-				<el-form-item label="应付积分" prop="refunds_should_money">
+        <el-form-item label="积　　分" prop="refunds_policy_money">
+					<el-input v-model="refund.refunds_policy_money" style="width:194px;" @blur="refundsPolicyMoney" placeholder="应付积分" auto-complete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="应收积分" prop="refunds_should_money">
 					<el-input v-model="refund.refunds_should_money" style="width:194px;" placeholder="应付积分" auto-complete="off"></el-input>
 				</el-form-item>
         <el-form-item label="实收日期" prop="refunds_real_time">
@@ -283,7 +286,8 @@ export default({
       refund:{
         refunds_real_time:null,
         refunds_should_money:"",
-        refunds_real_money:""
+        refunds_real_money:"",
+        refunds_policy_money:""
       },
       refundRule:{
         refunds_real_time:[{validator: validateNull,trigger: 'blur' }],
@@ -335,6 +339,11 @@ export default({
 
   },
   methods:{
+    refundsPolicyMoney(){
+      if(this.refund.refunds_policy_money){
+        this.refund.refunds_should_money = this.refund.refunds_policy_money * this.refund.purchase_number;
+      }
+    },
     getTags(){
       var _self = this;
       this.jquery("/iae/tag/getAllTags",null,function(res){//查询商业
@@ -508,6 +517,7 @@ export default({
               service_charge:this.refund.service_charge,
               refunds_remark:this.refund.refunds_remark,
               front_message:this.refund.front_message,
+              refunds_policy_money:this.refund.refunds_policy_money,
               account_detail:accountDetail,
             };
             _self.jquery(url,params,function(res){

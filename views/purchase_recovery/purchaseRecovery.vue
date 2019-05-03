@@ -19,8 +19,8 @@
 			<el-form-item label="产品编号" prop="product_code">
 		    <el-input v-model="params.product_code" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品编号"></el-input>
 		  </el-form-item>
-			<el-form-item label="生产产家" prop="product_makesmakers">
-		    <el-input v-model="params.product_makesmakers" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="生产企业"></el-input>
+			<el-form-item label="生产厂家" prop="product_makesmakers">
+		    <el-input v-model="params.product_makesmakers" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="生产厂家"></el-input>
 		  </el-form-item>
 		  <el-form-item label="　联系人" prop="contactId">
 		    <el-select v-model="params.contactId" style="width:210px;" filterable size="mini" placeholder="请选择">
@@ -52,7 +52,7 @@
   			<el-table-column fixed prop="product_common_name" label="产品通用名" width="120"></el-table-column>
 				<el-table-column prop="product_code" label="产品编码" width="100"></el-table-column>
 				<el-table-column prop="product_specifications" label="产品规格" width="100"></el-table-column>
-				<el-table-column prop="product_makesmakers" label="生厂企业" width="150"></el-table-column>
+				<el-table-column prop="product_makesmakers" label="生产厂家" width="150"></el-table-column>
 				<el-table-column prop="product_packing" label="包装" width="50"></el-table-column>
 				<el-table-column prop="product_unit" label="单位" width="50"></el-table-column>
 				<el-table-column prop="product_price" label="中标价" width="60"></el-table-column>
@@ -92,7 +92,7 @@
 					<div><span>包装:</span>{{purchaserecovery.product_packing}}</div>
 					<div><span>单位:</span>{{purchaserecovery.product_unit}}</div>
 					<div><span>打款价:</span>{{purchaserecovery.product_mack_price}}</div>
-					<div style="display:block;width:100%;"><span>生产产家:</span>{{purchaserecovery.product_makesmakers}}</div>
+					<div style="display:block;width:100%;"><span>生产厂家:</span>{{purchaserecovery.product_makesmakers}}</div>
 			  </el-collapse-item>
 			</el-collapse>
 			<el-form :model="purchaserecovery" ref="purchaserecovery" status-icon :rules="purchaserecoveryRule" style="margin-top:20px;" :inline="true" label-width="100px" class="demo-ruleForm">

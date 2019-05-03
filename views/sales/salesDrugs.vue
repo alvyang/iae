@@ -1,6 +1,7 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;">
 		<el-breadcrumb separator-class="el-icon-arrow-right">
+			<el-breadcrumb-item>销售管理</el-breadcrumb-item>
 		  <el-breadcrumb-item :to="{ path: '/main/sales' }">销售管理</el-breadcrumb-item>
 			<el-breadcrumb-item>选择药品<a style="color:#f24040;">（请先选择销售药品）</a></el-breadcrumb-item>
 		</el-breadcrumb>
@@ -58,7 +59,7 @@
 		<el-table :data="drugs" style="width: 100%" size="mini" :stripe="true" :border="true">
 			<el-table-column fixed prop="product_common_name" label="产品通用名" width="120"></el-table-column>
 			<el-table-column prop="product_code" label="产品编号" width="100"></el-table-column>
-			<el-table-column prop="product_makesmakers" label="生产产家" width="150"></el-table-column>
+			<el-table-column prop="product_makesmakers" label="生产厂家" width="150"></el-table-column>
 			<el-table-column prop="product_specifications" label="产品规格" width="100"></el-table-column>
 			<el-table-column prop="product_packing" label="包装" width="50"></el-table-column>
 			<el-table-column prop="product_unit" label="单位" width="50"></el-table-column>
@@ -100,7 +101,7 @@
 					<div><span>中标价:</span>{{drug.product_price}}</div>
 					<div><span>包装:</span>{{drug.product_packing}}</div>
 					<div><span>单位:</span>{{drug.product_unit}}</div>
-					<div style="display:block;width:100%;"><span>生产产家:</span>{{drug.product_makesmakers}}</div>
+					<div style="display:block;width:100%;"><span>生产厂家:</span>{{drug.product_makesmakers}}</div>
 			  </el-collapse-item>
 			</el-collapse>
 			<el-form :model="sale" status-icon :rules="saleRule" style="margin-top:20px;" :inline="true" ref="sale" label-width="100px" class="demo-ruleForm">
@@ -126,10 +127,10 @@
 				<el-form-item label="销售单价" prop="sale_price" :maxlength="10" :required="true" >
 					<el-input v-model="sale.sale_price" style="width:194px;" placeholder="请输入销售单价"></el-input>
 				</el-form-item>
-				<el-form-item label="计划数量" prop="sale_num" :maxlength="10" :required="true" >
+				<el-form-item label="销售数量" prop="sale_num" :maxlength="10" :required="true" >
 					<el-input v-model="sale.sale_num" style="width:194px;" placeholder="请输入计划数量"></el-input>
 				</el-form-item>
-				<el-form-item label="购入金额" prop="sale_money">
+				<el-form-item label="销售金额" prop="sale_money">
 					<el-input v-model="sale.sale_money" style="width:194px;"  auto-complete="off"></el-input>
 				</el-form-item>
 				<el-form-item label="费用票" prop="sale_other_money" v-show="drug.product_type == '佣金'">
@@ -139,9 +140,9 @@
 					<el-select v-model="sale.batch_number" placeholder="请选择" filterable style="width:194px;"  v-show="this.drug.product_type == '高打'">
 					 <el-option
 						 v-for="item in batchStockList"
-						 :key="item.batch_number+'('+item.batch_stock_time.substring(0,10)+')'"
-						 :label="item.batch_number+'('+item.batch_stock_time.substring(0,10)+')'"
-						 :value="item.batch_number+'('+item.batch_stock_time.substring(0,10)+')'">
+						 :key="item.batch_number+'('+new Date(item.batch_stock_time).format('yyyy-MM-dd').substring(0,10)+')'"
+						 :label="item.batch_number+'('+new Date(item.batch_stock_time).format('yyyy-MM-dd').substring(0,10)+')'"
+						 :value="item.batch_number+'('+new Date(item.batch_stock_time).format('yyyy-MM-dd').substring(0,10)+')'">
 						 <span style="float: left;">{{ item.batch_number +'('+new Date(item.batch_stock_time).format('yyyy-MM-dd')+')'}}</span>
 						 <span style="float: right; color: #8492a6; font-size: 13px;padding-left:10px;">库存：{{ item.batch_stock_number }}</span>
 					 </el-option>
@@ -286,7 +287,8 @@ export default({
 		  this.sale.product_return_time_day_num = 	this.drug.product_return_time_day_num;
 			if(this.drug.product_type == '高打'){
 				for(var i = 0 ; i < this.batchStockList.length;i++){
-					if(this.sale.batch_number == this.batchStockList[i].batch_number+"("+this.batchStockList[i].batch_stock_time.substring(0,10)+")"){
+					var t = new Date(this.batchStockList[i].batch_stock_time).format("yyyy-MM-dd");
+					if(this.sale.batch_number == this.batchStockList[i].batch_number+"("+t+")"){
 						this.sale.sales_purchase_id = this.batchStockList[i].batch_stock_purchase_id;
 						var temp = this.batchStockList[i].purchase_other_money;
 						this.sale.sale_other_money = temp?temp*this.sale.sale_num/this.batchStockList[i].purchase_number:0;

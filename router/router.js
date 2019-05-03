@@ -15,6 +15,14 @@ import HospitalPolicyRecordDrugs from "../views/drugs/hospitalPolicyRecordDrugs.
 //进货记录页面
 import Purchase from "../views/purchase/purchase.vue";
 import PurchaseDrugs from "../views/purchase/purchaseDrugs.vue";
+//预付招商记录页面
+import PurchasePay from "../views/purchase_pay/purchase.vue";
+import PurchasePayDrugs from "../views/purchase_pay/purchaseDrugs.vue";
+import PurchasePayPolicy from "../views/purchase_pay/purchasePayPolicy.vue";
+import PurchasePayPolicyDrugs from "../views/purchase_pay/purchasePayPolicyDrugs.vue";
+import PurchasePayReturnMoney from "../views/purchase_pay/purchasePayReturnMoney.vue";
+import PurchasePayRefund from "../views/purchase_pay/purchasePayRefund.vue";
+
 // import PurchaseEdit from "../views/purchase/purchaseEdit.vue";
 // import ReturnMoney from "../views/purchase/ReturnMoney.vue";
 //采退记录
@@ -90,6 +98,8 @@ import SalesPolicyDrugs from "../views/sales/salesPolicyDrugs.vue";
 import Stock from "../views/stock/stock.vue";
 //日志管理
 import Log from "../views/log/log.vue";
+//关于软件
+import About from "../views/authority/about.vue";
 
 const router = new VueRouter({
 	routes:[{
@@ -125,8 +135,14 @@ const router = new VueRouter({
 			{path:"labeledit",component:LabelEdit},
 			{path:"purchase",component:Purchase},
 			{path:"purchasedrugs",component:PurchaseDrugs},
+			{path:"purchasepay",component:PurchasePay},
+			{path:"purchasepaydrugs",component:PurchasePayDrugs},
+			{path:"purchasepaypolicy",component:PurchasePayPolicy},
+			{path:"purchasepaypolicydrugs",component:PurchasePayPolicyDrugs},
+			{path:"purchasepayreturnmoney",component:PurchasePayReturnMoney},
 			{path:"purchaserecovery",component:PurchaseRecovery},
 			{path:"purchaserecoverydrugs",component:PurchaseRecoveryDrugs},
+			{path:"purchasepayrefund",component:PurchasePayRefund},
 			{path:"purchaseloss",component:PurchaseLoss},
 			{path:"purchaselossdrugs",component:PurchaseLossDrugs},
 			{path:"allot",component:Allot},
@@ -163,6 +179,7 @@ const router = new VueRouter({
 			{path:"stock",component:Stock},
 			{path:"password",component:password},
 			{path:"log",component:Log},//日志管理
+			{path:"about",component:About},//关于软件
 		]
 	}]
 });

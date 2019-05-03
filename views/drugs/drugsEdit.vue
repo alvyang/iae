@@ -16,11 +16,11 @@
 						</el-form-item>
 					</div>
 					<div>
-						<el-form-item label="生产产家" prop="product_makesmakers">
+						<el-form-item label="生产厂家" prop="product_makesmakers">
 							<el-autocomplete popper-class="my-autocomplete" style="width:300px;"
 							  v-model="drugs.product_makesmakers"
 							  :fetch-suggestions="querySearch"
-							  placeholder="生产产家" @select="handleSelect"
+							  placeholder="生产厂家" @select="handleSelect"
 								@blur="drugs.product_supplier = drugs.product_makesmakers">
 							  <template slot-scope="{ item }">
 							    <div class="name">{{ item.product_makesmakers }}</div>
@@ -304,7 +304,7 @@
 				drugsRule:{
 					product_common_name:[{ required: true, message: '请输入产品名称', trigger: 'blur' }],
 					product_code:[{ validator: validateCode,trigger: 'blur' }],
-					product_makesmakers:[{ required: true, message: '请输入生产产家', trigger: 'blur,change' }],
+					product_makesmakers:[{ required: true, message: '请输入生产厂家', trigger: 'blur,change' }],
 					product_specifications:[{ required: true, message: '请输入产品规格', trigger: 'blur' }],
 					product_price:[{ validator: validateMoney,labelname:'中标价', trigger: 'blur' }],
 					product_mack_price:[{ validator: validateMoney,labelname:'成本价', trigger: 'blur' }],
@@ -323,7 +323,7 @@
 				contacts:[],
 				price:/\d{1,10}(\.\d{1,2})?$/,
 				percent : /^100$|^(\d|[1-9]\d)(\.\d+)*$/,
-				productMakesmakers: [],//生产企业
+				productMakesmakers: [],//生产厂家
 				business:[],//商业
 				product_code:"",//修改时，用于存放修改前的编码
 			}
@@ -378,7 +378,7 @@
 			},
 			getFirstLetter(){
 				var _self = this;
-				this.jquery("/iae/drugs/getFirstLetter",{name:this.drugs.product_common_name},function(res){//查询添加过的生产企业
+				this.jquery("/iae/drugs/getFirstLetter",{name:this.drugs.product_common_name},function(res){//查询添加过的生产厂家
 					_self.drugs.product_name_pinyin = res.message;
 				});
 			},
@@ -403,7 +403,7 @@
       },
 			getProductMakesmakers(){
 				var _self = this;
-				this.jquery("/iae/drugs/getProductMakesmakers",null,function(res){//查询添加过的生产企业
+				this.jquery("/iae/drugs/getProductMakesmakers",null,function(res){//查询添加过的生产厂家
 					_self.productMakesmakers=res.message;
 				});
 			},

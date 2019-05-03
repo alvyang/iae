@@ -1,5 +1,125 @@
 //未发版sql
 
+//20190503发版
+INSERT INTO `authority` VALUES
+('147', '关于软件', '关于软件', '1000', '/main/about', '2', '0', '1', '3', '7'),
+('149', '预付招商管理', '预付招商管理', '1000', '/main/about', '107', '0', '1', '3', '7'),
+('156', '预付招商政策管理', '预付招商政策管理', '1000', '/main/about', '40', '0', '1', '3', '7'),
+('162', '预付招商应付管理', '预付招商应付管理', '1000', '/main/about', '40', '0', '1', '3', '7'),
+('166', '预付招商应收管理', '预付招商应收管理', '1000', '/main/about', '40', '0', '1', '3', '7');
+INSERT INTO `authority` VALUES
+('150', '导出', '导出', '1000', '/main/about', '149', '0', '1', '3', '7'),
+('151', '查询', '查询', '1000', '/main/about', '149', '0', '1', '3', '7'),
+('152', '导入', '导入', '1000', '/main/about', '149', '0', '1', '3', '7'),
+('153', '删除', '删除', '1000', '/main/about', '149', '0', '1', '3', '7'),
+('154', '修改', '修改', '1000', '/main/about', '149', '0', '1', '3', '7'),
+('155', '新增', '新增', '1000', '/main/about', '149', '0', '1', '3', '7'),
+('148', '销售管理', '销售管理', '1000', '/main', '1', '0', '1', '3', '7'),
+('157', '新增', '新增', '1000', '/main/about', '156', '0', '1', '3', '7'),
+('159', '查询', '查询', '1000', '/main/about', '156', '0', '1', '3', '7'),
+('160', '修改', '修改', '1000', '/main/about', '156', '0', '1', '3', '7'),
+('161', '导出', '导出', '1000', '/main/about', '156', '0', '1', '3', '7'),
+('163', '查询', '查询', '1000', '/main/about', '162', '0', '1', '3', '7'),
+('164', '修改', '修改', '1000', '/main/about', '162', '0', '1', '3', '7'),
+('165', '导出', '导出', '1000', '/main/about', '162', '0', '1', '3', '7'),
+('168', '查询', '查询', '1000', '/main/about', '166', '0', '1', '3', '7'),
+('169', '修改', '修改', '1000', '/main/about', '166', '0', '1', '3', '7'),
+('170', '导出', '导出', '1000', '/main/about', '166', '0', '1', '3', '7');
+
+update authority set authority_parent_id = '148' where authority_id = '37';
+update authority set authority_parent_id = '148' where authority_id = '39';
+
+alter table refunds add refunds_policy_money varchar(20) DEFAULT '' COMMENT '政策';
+
+update refunds r set r.refunds_policy_money = (
+select d.product_return_money from sales s left join drugs d on s.product_code = d.product_code
+where r.sales_id = s.sale_id and s.group_id = '1' and d.group_id = '1' and d.delete_flag = '0' )
+where r.sales_id is not null and r.refunds_policy_money is null;
+
+update refunds r set r.refunds_policy_money = (
+select d.product_return_money from purchase p left join drugs d on p.drug_id = d.product_id
+where r.purchases_id = p.purchase_id and p.group_id = '1' and d.group_id = '1' and d.delete_flag = '0' )
+where r.purchases_id is not null and r.refunds_policy_money is null;
+
+
+update refunds r set r.refunds_policy_money = (
+select d.product_return_money from sales s left join drugs d on s.product_code = d.product_code
+where r.sales_id = s.sale_id and s.group_id = 'b2413640-2f53-11e9-872f-f30e2634bd18' and d.group_id = 'b2413640-2f53-11e9-872f-f30e2634bd18' and d.delete_flag = '0' )
+where r.sales_id is not null and r.refunds_policy_money is null;
+
+update refunds r set r.refunds_policy_money = (
+select d.product_return_money from purchase p left join drugs d on p.drug_id = d.product_id
+where r.purchases_id = p.purchase_id and p.group_id = 'b2413640-2f53-11e9-872f-f30e2634bd18' and d.group_id = 'b2413640-2f53-11e9-872f-f30e2634bd18' and d.delete_flag = '0' )
+where r.purchases_id is not null and r.refunds_policy_money is null;
+
+update refunds r set r.refunds_policy_money = (
+select d.product_return_money from sales s left join drugs d on s.product_code = d.product_code
+where r.sales_id = s.sale_id and s.group_id = 'bd3be180-2f53-11e9-872f-f30e2634bd18' and d.group_id = 'bd3be180-2f53-11e9-872f-f30e2634bd18' and d.delete_flag = '0' )
+where r.sales_id is not null and r.refunds_policy_money is null;
+
+update refunds r set r.refunds_policy_money = (
+select d.product_return_money from purchase p left join drugs d on p.drug_id = d.product_id
+where r.purchases_id = p.purchase_id and p.group_id = 'bd3be180-2f53-11e9-872f-f30e2634bd18' and d.group_id = 'bd3be180-2f53-11e9-872f-f30e2634bd18' and d.delete_flag = '0' )
+where r.purchases_id is not null and r.refunds_policy_money is null;
+
+CREATE TABLE `purchase_pay_policy` (
+	`purchase_pay_contact_id` varchar(50) NOT NULL COMMENT '联系人id',
+	`purchase_pay_policy_drug_id` varchar(50) NOT NULL COMMENT '药品id',
+	`purchase_pay_policy_floor_price` varchar(20) DEFAULT NULL COMMENT '底价',
+	`purchase_pay_policy_tax` varchar(20) DEFAULT NULL COMMENT '高开税点',
+  `purchase_pay_policy_price` varchar(20) DEFAULT NULL COMMENT '政策金额',
+  `purchase_pay_policy_remark` varchar(200) DEFAULT NULL COMMENT '政策周期',
+  PRIMARY KEY (`purchase_pay_contact_id`,`purchase_pay_policy_drug_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET FOREIGN_KEY_CHECKS = 1;
+
+CREATE TABLE `purchase_pay` (
+	`purchase_pay_id` varchar(50) NOT NULL COMMENT '预付招商id',
+	`purchase_pay_group_id` varchar(50) NOT NULL COMMENT '组id',
+  `purchase_pay_delete_flag` varchar(5) DEFAULT '0' COMMENT '删除',
+	`purchase_pay_create_time` datetime DEFAULT NULL COMMENT '创建时间',
+	`purchase_pay_drug_id` varchar(50) DEFAULT "" COMMENT '预付商品编码',
+	`purchase_pay_create_userid` varchar(50) DEFAULT "" COMMENT '添加人id',
+
+	`purchase_pay_contract_time` datetime DEFAULT NULL COMMENT '合同时间',
+	`purchase_pay_time` datetime DEFAULT NULL COMMENT '付款时间',
+	`purchase_pay_price` varchar(20) DEFAULT "" COMMENT '预付价',
+	`purchase_pay_number` varchar(20) DEFAULT "" COMMENT '预付数量',
+	`purchase_pay_money` varchar(20) DEFAULT "" COMMENT '预付金额',
+
+	`purchase_pay_should_time` datetime DEFAULT NULL COMMENT '应返时间',
+	`purchase_pay_should_price` varchar(20) DEFAULT "" COMMENT '应返价',
+	`purchase_pay_should_money` varchar(20) DEFAULT "" COMMENT '应返金额',
+	`purchase_pay_real_money` varchar(20) DEFAULT "" COMMENT '实返金额',
+	`purchase_pay_other_money` varchar(20) DEFAULT "" COMMENT '其它',
+	`purchase_pay_real_time` datetime DEFAULT NULL COMMENT '实返时间',
+	`purchase_pay_refundser` varchar(20) DEFAULT "" COMMENT '返款人',
+	`purchase_pay_receiver` varchar(50) DEFAULT "" COMMENT '收款账号',
+
+	`purchase_pay_contact_id` varchar(50) DEFAULT "" COMMENT '业务员id',
+	`purchase_pay_policy_price` varchar(20) DEFAULT "" COMMENT '预付应付政策',
+	`purchase_pay_should_pay_money` varchar(20) DEFAULT "" COMMENT '预付应付积分',
+	`purchase_pay_real_pay_time` datetime DEFAULT NULL COMMENT '预付应付时间',
+	`purchase_pay_real_pay_money` varchar(20) DEFAULT "" COMMENT '预付实付积分',
+	`purchase_pay_real_account` varchar(50) DEFAULT "" COMMENT '预付实付账号',
+	`purchase_pay_receive_account` varchar(50) DEFAULT "" COMMENT '预付实付收积分账号',
+	`purchase_pay_receive_name` varchar(20) DEFAULT "" COMMENT '预付实付收积分名',
+	`purchase_pay_receive_address` varchar(200) DEFAULT "" COMMENT '预付实收积分地址',
+
+	`purchase_pay_receive_remark` varchar(200) DEFAULT "" COMMENT '备注',
+
+  PRIMARY KEY (`purchase_pay_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET FOREIGN_KEY_CHECKS = 1;
+
+alter table purchase_pay add purchase_pay_remark varchar(200) COMMENT '收款备注';
+alter table purchase_pay add purchase_pay_return_remark varchar(200) COMMENT '付款备注';
+alter table purchase_pay add purchase_pay_service_charge varchar(20) COMMENT '其它积分';
+alter table purchase_pay add purchase_pay_delete_flag1 varchar(20) DEFAULT "0" COMMENT '应收删除';
+
+alter table allot add allot_remark varchar(200) DEFAULT "" COMMENT '备注';
+alter table sales add sale_remark varchar(200) DEFAULT "" COMMENT '备注';
+
 
 //20190331发版
 INSERT INTO `authority` VALUES

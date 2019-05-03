@@ -1,5 +1,9 @@
 <template>
 	<div style="box-sizing: border-box;padding: 0px 10px;" class="sale_list">
+		<el-breadcrumb separator-class="el-icon-arrow-right">
+		  <el-breadcrumb-item>销售管理</el-breadcrumb-item>
+			<el-breadcrumb-item>销售管理</el-breadcrumb-item>
+		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
 			<el-form-item label="销售日期" prop="salesTime">
  			 <el-date-picker v-model="params.salesTime" type="daterange" size="mini" align="right" unlink-panels
@@ -16,7 +20,7 @@
 		    <el-input v-model="params.product_code" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品编号"></el-input>
 		  </el-form-item>
 			<el-form-item label="生产厂家" prop="product_makesmakers">
-		    <el-input v-model="params.product_makesmakers" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="生产企业"></el-input>
+		    <el-input v-model="params.product_makesmakers" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="生产厂家"></el-input>
 		  </el-form-item>
 			<el-form-item label="　联系人" prop="contactId">
         <el-select v-model="params.contactId" style="width:210px;" filterable size="mini" placeholder="请选择">
@@ -99,9 +103,9 @@
 				<el-table-column prop="contacts_name" label="联系人" width="60"></el-table-column>
 				<el-table-column prop="product_type" label="品种类型" width="60"></el-table-column>
 				<el-table-column prop="sale_price" label="中标价" width="60"></el-table-column>
-				<el-table-column prop="sale_num" label="计划数量" width="70"></el-table-column>
+				<el-table-column prop="sale_num" label="销售数量" width="70"></el-table-column>
 				<el-table-column prop="batch_number" label="批号" width="70"></el-table-column>
-				<el-table-column prop="sale_money" label="购入金额" width="70"></el-table-column>
+				<el-table-column prop="sale_money" label="销售金额" width="70"></el-table-column>
 				<el-table-column prop="sale_other_money" label="费用票" width="70" :formatter="formatterOtherMoney"></el-table-column>
 				<el-table-column prop="real_gross_profit" label="真实毛利" width="80"></el-table-column>
 				<el-table-column label="真实毛利率" width="80" :formatter="formatterRealProfitRate"></el-table-column>
@@ -135,7 +139,7 @@
 					<div><span>中标价:</span>{{sale.sale_price}}</div>
 					<div><span>包装:</span>{{sale.product_packing}}</div>
 					<div><span>单位:</span>{{sale.product_unit}}</div>
-					<div style="display:block;width:100%;"><span>生产产家:</span>{{sale.product_makesmakers}}</div>
+					<div style="display:block;width:100%;"><span>生产厂家:</span>{{sale.product_makesmakers}}</div>
 			  </el-collapse-item>
 			</el-collapse>
 			<el-form :model="sale" status-icon :rules="saleRule" style="margin-top:20px;" :inline="true" ref="sale" label-width="100px" class="demo-ruleForm">

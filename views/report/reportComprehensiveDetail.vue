@@ -17,7 +17,7 @@
           <el-table-column prop="hospital_name" label="销往单位" width="140"></el-table-column>
           <el-table-column prop="product_common_name" label="产品名称" width="120" ></el-table-column>
           <el-table-column prop="product_specifications" label="产品规格" width="100"></el-table-column>
-          <el-table-column prop="product_makesmakers" label="生产产家" width="150"></el-table-column>
+          <el-table-column prop="product_makesmakers" label="生产厂家" width="150"></el-table-column>
           <el-table-column prop="product_packing" label="包装" width="50"></el-table-column>
           <el-table-column prop="product_unit" label="单位" width="50"></el-table-column>
           <el-table-column prop="sale_price" label="中标价" width="60"></el-table-column>
@@ -39,7 +39,7 @@
           <el-table-column prop="hospital_name" label="销往单位" width="140"></el-table-column>
           <el-table-column prop="product_common_name" label="产品名称" width="120" ></el-table-column>
           <el-table-column prop="product_specifications" label="产品规格" width="100"></el-table-column>
-          <el-table-column prop="product_makesmakers" label="生产产家" width="150"></el-table-column>
+          <el-table-column prop="product_makesmakers" label="生产厂家" width="150"></el-table-column>
           <el-table-column prop="product_packing" label="包装" width="50"></el-table-column>
           <el-table-column prop="product_unit" label="单位" width="50"></el-table-column>
           <el-table-column prop="sale_price" label="中标价" width="60"></el-table-column>
@@ -61,7 +61,7 @@
           <el-table-column prop="hospital_name" label="销往单位" width="140"></el-table-column>
           <el-table-column prop="product_common_name" label="产品名称" width="120" ></el-table-column>
           <el-table-column prop="product_specifications" label="产品规格" width="100"></el-table-column>
-          <el-table-column prop="product_makesmakers" label="生产产家" width="150"></el-table-column>
+          <el-table-column prop="product_makesmakers" label="生产厂家" width="150"></el-table-column>
           <el-table-column prop="product_packing" label="包装" width="50"></el-table-column>
           <el-table-column prop="product_unit" label="单位" width="50"></el-table-column>
           <el-table-column prop="allot_price" label="中标价" width="60"></el-table-column>
@@ -82,7 +82,7 @@
           <el-table-column prop="hospital_name" label="销往单位" width="140"></el-table-column>
           <el-table-column prop="product_common_name" label="产品名称" width="120" ></el-table-column>
           <el-table-column prop="product_specifications" label="产品规格" width="100"></el-table-column>
-          <el-table-column prop="product_makesmakers" label="生产产家" width="150"></el-table-column>
+          <el-table-column prop="product_makesmakers" label="生产厂家" width="150"></el-table-column>
           <el-table-column prop="product_packing" label="包装" width="50"></el-table-column>
           <el-table-column prop="product_unit" label="单位" width="50"></el-table-column>
           <el-table-column prop="sale_price" label="中标价" width="60"></el-table-column>
@@ -104,7 +104,7 @@
           <el-table-column prop="hospital_name" label="销往单位" width="140"></el-table-column>
           <el-table-column prop="product_common_name" label="产品名称" width="120" ></el-table-column>
           <el-table-column prop="product_specifications" label="产品规格" width="100"></el-table-column>
-          <el-table-column prop="product_makesmakers" label="生产产家" width="150"></el-table-column>
+          <el-table-column prop="product_makesmakers" label="生产厂家" width="150"></el-table-column>
           <el-table-column prop="product_packing" label="包装" width="50"></el-table-column>
           <el-table-column prop="product_unit" label="单位" width="50"></el-table-column>
           <el-table-column prop="allot_price" label="中标价" width="60"></el-table-column>
