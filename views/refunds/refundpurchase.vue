@@ -132,7 +132,7 @@
       <el-table-column  prop="refunds_real_time" label="实收日期" width="80" :formatter="formatterDate"></el-table-column>
       <el-table-column  prop="refunds_real_money" label="实收积分" width="70"></el-table-column>
       <el-table-column  prop="service_charge" label="其它积分" width="60"></el-table-column>
-      <el-table-column label="未返积分" width="80" :formatter="formatterMeondy"></el-table-column>
+      <el-table-column label="未收积分" width="80" :formatter="formatterMeondy"></el-table-column>
       <el-table-column  prop="refundser" label="付积分人" width="60"></el-table-column>
       <el-table-column  prop="account_number" label="收积分账号" width="80"></el-table-column>
       <el-table-column prop="refunds_remark" label="备注" width="150"></el-table-column>

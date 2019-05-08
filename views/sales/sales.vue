@@ -411,7 +411,13 @@
 	      }
 			},
 			formatterRealProfitRate(row, column, cellValue){
-				return this.mul(this.div(row.real_gross_profit,row.sale_money,4),100)+"%";
+				if(row.real_gross_profit && row.sale_money &&
+					 row.real_gross_profit > 0 && row.sale_money > 0){
+					return this.mul(this.div(row.real_gross_profit,row.sale_money,4),100)+"%";
+				}else{
+					return "";
+				}
+
 			},
 			editRow(scope){//编辑药品信息
 				this.dialogFormVisible = true;
