@@ -2,104 +2,95 @@ import Vue from "vue/dist/vue.js";
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
-import Login from "../views/login.vue";
-//一级页面
-import Main from "../views/main.vue";
-import Home from "../views/home.vue";
-//药品页面
-import Drugs from "../views/drugs/drugs.vue";
-import DrugsEdit from "../views/drugs/drugsEdit.vue";
-import HospitalPolicyRecord from "../views/drugs/hospitalPolicyRecord.vue";
-import HospitalPolicyRecordDrugs from "../views/drugs/hospitalPolicyRecordDrugs.vue";
+//一级页面，首次加载
+const Login = r => require.ensure([], () => r(require('../views/login.vue')), 'group1');
+const Main = r => require.ensure([], () => r(require('../views/main.vue')), 'group1');
+const Home = r => require.ensure([], () => r(require('../views/home.vue')), 'group1');
+const Sales = r => require.ensure([], () => r(require('../views/sales/sales.vue')), 'group1');//销售记录页面
+const SalesDrugs = r => require.ensure([], () => r(require('../views/sales/salesDrugs.vue')), 'group1');//销售记录页面
+const Allot = r => require.ensure([], () => r(require('../views/allot/allot.vue')), 'group1');//调货记录页面
+const AllotDrugs = r => require.ensure([], () => r(require('../views/allot/allotDrugs.vue')), 'group1');//调货记录页面
+const Allocation = r => require.ensure([], () => r(require('../views/allocation/allocation.vue')), 'group1');//商业调拨
 
-//进货记录页面
-import Purchase from "../views/purchase/purchase.vue";
-import PurchaseDrugs from "../views/purchase/purchaseDrugs.vue";
-//预付招商记录页面
-import PurchasePay from "../views/purchase_pay/purchase.vue";
-import PurchasePayDrugs from "../views/purchase_pay/purchaseDrugs.vue";
-import PurchasePayPolicy from "../views/purchase_pay/purchasePayPolicy.vue";
-import PurchasePayPolicyDrugs from "../views/purchase_pay/purchasePayPolicyDrugs.vue";
-import PurchasePayReturnMoney from "../views/purchase_pay/purchasePayReturnMoney.vue";
-import PurchasePayRefund from "../views/purchase_pay/purchasePayRefund.vue";
+//权限管理 分组
+const Authority = r => require.ensure([], () => r(require('../views/authority/authority.vue')), 'group2');
+const Role = r => require.ensure([], () => r(require('../views/authority/role.vue')), 'group2');
+const Group = r => require.ensure([], () => r(require('../views/authority/group.vue')), 'group2');
+const User = r => require.ensure([], () => r(require('../views/authority/user.vue')), 'group2');
+const Password = r => require.ensure([], () => r(require('../views/password.vue')), 'group2');//修改密码
+const About = r => require.ensure([], () => r(require('../views/authority/about.vue')), 'group2');//关于软件
+const Log = r => require.ensure([], () => r(require('../views/log/log.vue')), 'group2');//日志管理
+//采购管理 分组
+const PurchaseRecovery = r => require.ensure([], () => r(require('../views/purchase_recovery/purchaseRecovery.vue')), 'group3');//采退记录
+const PurchaseRecoveryDrugs = r => require.ensure([], () => r(require('../views/purchase_recovery/purchaseRecoveryDrugs.vue')), 'group3');//采退记录
+const PurchaseLoss = r => require.ensure([], () => r(require('../views/purchase_loss/purchaseLoss.vue')), 'group3');//报损记录
+const PurchaseLossDrugs = r => require.ensure([], () => r(require('../views/purchase_loss/purchaseLossDrugs.vue')), 'group3');//报损记录
+const Purchase = r => require.ensure([], () => r(require('../views/purchase/purchase.vue')), 'group3');//进货记录页面
+const PurchaseDrugs = r => require.ensure([], () => r(require('../views/purchase/purchaseDrugs.vue')), 'group3');//进货记录页面
 
-// import PurchaseEdit from "../views/purchase/purchaseEdit.vue";
-// import ReturnMoney from "../views/purchase/ReturnMoney.vue";
-//采退记录
-import PurchaseRecovery from "../views/purchase_recovery/purchaseRecovery.vue";
-import PurchaseRecoveryDrugs from "../views/purchase_recovery/purchaseRecoveryDrugs.vue";
-//报损记录
-import PurchaseLoss from "../views/purchase_loss/purchaseLoss.vue";
-import PurchaseLossDrugs from "../views/purchase_loss/purchaseLossDrugs.vue";
-//调货记录页面
-import Allot from "../views/allot/allot.vue";
-import AllotDrugs from "../views/allot/allotDrugs.vue";
-//销售记录页面
-import Sales from "../views/sales/sales.vue";
-import SalesDrugs from "../views/sales/salesDrugs.vue";
-// import SalesEdit from "../views/sales/salesEdit.vue";
-//销售渠道页面
-import Hospital from "../views/message/hospital.vue";
-//联系人页面
-import Contacts from "../views/message/contacts.vue";
-//商业
-import Business from "../views/message/business.vue";
-//标签管理
-import Tag from "../views/message/tag.vue";
-//银行账号管理
-import Account from "../views/bank_account/account.vue";
-import AccountDetail from "../views/bank_account/accountDetail.vue";
-import BusinessCommission from "../views/bank_account/businesscommission.vue";
-import ReturnMoney from "../views/bank_account/returnmoney.vue";
-//标签管理
-import Label from "../views/label/label.vue";
-import LabelEdit from "../views/label/labelEdit.vue";
-//权限管理
-import Authority from "../views/authority/authority.vue";
-import Role from "../views/authority/role.vue";
-import Group from "../views/authority/group.vue";
-import User from "../views/authority/user.vue";
+//药品页面 分组
+const Drugs = r => require.ensure([], () => r(require('../views/drugs/drugs.vue')), 'group5');
+const DrugsEdit = r => require.ensure([], () => r(require('../views/drugs/drugsEdit.vue')), 'group5');
+const HospitalPolicyRecord = r => require.ensure([], () => r(require('../views/drugs/hospitalPolicyRecord.vue')), 'group5');
+const HospitalPolicyRecordDrugs = r => require.ensure([], () => r(require('../views/drugs/hospitalPolicyRecordDrugs.vue')), 'group5');
 
-//修改密码
-import password from "../views/password.vue";
+//预付招商记录页面 分组
+const PurchasePay = r => require.ensure([], () => r(require('../views/purchase_pay/purchase.vue')), 'group6');
+const PurchasePayDrugs = r => require.ensure([], () => r(require('../views/purchase_pay/purchaseDrugs.vue')), 'group6');
+const PurchasePayPolicy = r => require.ensure([], () => r(require('../views/purchase_pay/purchasePayPolicy.vue')), 'group6');
+const PurchasePayPolicyDrugs = r => require.ensure([], () => r(require('../views/purchase_pay/purchasePayPolicyDrugs.vue')), 'group6');
+const PurchasePayReturnMoney = r => require.ensure([], () => r(require('../views/purchase_pay/purchasePayReturnMoney.vue')), 'group6');
+const PurchasePayRefund = r => require.ensure([], () => r(require('../views/purchase_pay/purchasePayRefund.vue')), 'group6');
 
-//报表管理
-import Report from "../views/report/report.vue";
-import ReportSaleLine from "../views/report/reportSaleLine.vue";//销售折现图
-import ReportTagBar from "../views/report/reportTagBar.vue";//标签销售柱状图
-import reportPurchaseReturnMoney from "../views/report/reportPurchaseReturnMoney.vue";//高打返款金额统计按联系人
-import reportPurchaseReturnMoneyDetail from "../views/report/reportPurchaseReturnMoneyDetail.vue";//高打返款金额统计按联系人  查看明细
-import reportSalesReturnMoney from "../views/report/reportSalesReturnMoney.vue";//佣金返款金额统计按联系人
-import reportSalesReturnMoneyDetail from "../views/report/reportSalesReturnMoneyDetail.vue";//佣金返款金额统计按联系人 查看明细
-import reportSalesByProduct from "../views/report/reportSalesByProduct.vue";//销售按产品
-import reportSalesByHospital from "../views/report/reportSalesByHospital.vue";//销售按医院
-import reportSalesByProfitRate from "../views/report/reportSalesByProfitRate.vue";//销售按毛利率
-import reportComprehensive from "../views/report/reportComprehensive.vue";//利润/负债综合统计
-import reportComprehensiveDetail from "../views/report/reportComprehensiveDetail.vue";//利润/负债综合统计  详情
-import reportComprehensive1 from "../views/report/reportComprehensive1.vue";//利润/负债综合统计
-import reportComprehensive2 from "../views/report/reportComprehensive2.vue";//利润/负债综合统计
-import reportSaleChainRatio from "../views/report/reportSaleChainRatio.vue";//销售环比
-import reportSaleChainRatioSn from "../views/report/reportSaleChainRatioSn.vue";//销售环比
-import reportSaleOnYear from "../views/report/reportSaleOnYear.vue";//销售同比
-import reportSaleOnYearSn from "../views/report/reportSaleOnYearSn.vue";//销售同比
-import reportSaleVariance from "../views/report/reportSaleVariance.vue";//稳定性分析
+//销售渠道页面 分组
+const Hospital = r => require.ensure([], () => r(require('../views/message/hospital.vue')), 'group7');//联系人页面
+const Contacts = r => require.ensure([], () => r(require('../views/message/contacts.vue')), 'group7');
+const Business = r => require.ensure([], () => r(require('../views/message/business.vue')), 'group7');//商业
+const Tag = r => require.ensure([], () => r(require('../views/message/tag.vue')), 'group7');//标签管理
+const Account = r => require.ensure([], () => r(require('../views/bank_account/account.vue')), 'group7');//银行账号管理
+const AccountDetail = r => require.ensure([], () => r(require('../views/bank_account/accountDetail.vue')), 'group7');
+const BusinessCommission = r => require.ensure([], () => r(require('../views/bank_account/businesscommission.vue')), 'group7');
+const ReturnMoney = r => require.ensure([], () => r(require('../views/bank_account/returnmoney.vue')), 'group7');
 
-//返款管理
-import Refundsale from "../views/refunds/refundsale.vue";
-import Refundpurchase from "../views/refunds/refundpurchase.vue";
-import AllotReturnMoney from "../views/allot/allotReturnMoney.vue";
-import SalesReturnMoney from "../views/sales/salesReturnMoney.vue";
-//政策管理
-import AllotPolicy from "../views/allot/allotPolicy.vue";
-import AllotPolicyDrugs from "../views/allot/allotPolicyDrugs.vue";
-import SalesPolicy from "../views/sales/salesPolicy.vue";
-import SalesPolicyDrugs from "../views/sales/salesPolicyDrugs.vue";
-//库存
-import Stock from "../views/stock/stock.vue";
-//日志管理
-import Log from "../views/log/log.vue";
-//关于软件
-import About from "../views/authority/about.vue";
+//报表管理 分组1
+const Report = r => require.ensure([], () => r(require('../views/report/report.vue')), 'group4');
+const ReportSaleLine = r => require.ensure([], () => r(require('../views/report/reportSaleLine.vue')), 'group4');//销售折现图
+const ReportTagBar = r => require.ensure([], () => r(require('../views/report/reportTagBar.vue')), 'group4');//标签销售柱状图
+const ReportPurchaseReturnMoney = r => require.ensure([], () => r(require('../views/report/reportPurchaseReturnMoney.vue')), 'group4');//高打返款金额统计按联系人
+const ReportPurchaseReturnMoneyDetail = r => require.ensure([], () => r(require('../views/report/reportPurchaseReturnMoneyDetail.vue')), 'group4');//高打返款金额统计按联系人  查看明细
+const ReportSalesReturnMoney = r => require.ensure([], () => r(require('../views/report/reportSalesReturnMoney.vue')), 'group4');//佣金返款金额统计按联系人
+const ReportSalesReturnMoneyDetail = r => require.ensure([], () => r(require('../views/report/reportSalesReturnMoneyDetail.vue')), 'group4');//佣金返款金额统计按联系人 查看明细
+const ReportSalesByProduct = r => require.ensure([], () => r(require('../views/report/reportSalesByProduct.vue')), 'group4');//销售按产品
+const ReportSalesByHospital = r => require.ensure([], () => r(require('../views/report/reportSalesByHospital.vue')), 'group4');//销售按医院
+const ReportSalesByProfitRate = r => require.ensure([], () => r(require('../views/report/reportSalesByProfitRate.vue')), 'group4');//销售按毛利率
+const ReportComprehensive = r => require.ensure([], () => r(require('../views/report/reportComprehensive.vue')), 'group4');//利润/负债综合统计  详情
+const ReportComprehensiveDetail = r => require.ensure([], () => r(require('../views/report/reportComprehensiveDetail.vue')), 'group4');//利润/负债综合统计  详情
+const ReportComprehensive1 = r => require.ensure([], () => r(require('../views/report/reportComprehensive1.vue')), 'group4');//利润/负债综合统计
+const ReportComprehensive2 = r => require.ensure([], () => r(require('../views/report/reportComprehensive2.vue')), 'group4');//利润/负债综合统计
+const ReportSaleChainRatio = r => require.ensure([], () => r(require('../views/report/reportSaleChainRatio.vue')), 'group4');//销售环比
+const ReportSaleChainRatioSn = r => require.ensure([], () => r(require('../views/report/reportSaleChainRatioSn.vue')), 'group4');//销售环比
+const ReportSaleOnYear = r => require.ensure([], () => r(require('../views/report/reportSaleOnYear.vue')), 'group4');//销售同比
+const ReportSaleOnYearSn = r => require.ensure([], () => r(require('../views/report/reportSaleOnYearSn.vue')), 'group4');//销售同比
+const ReportSaleVariance = r => require.ensure([], () => r(require('../views/report/reportSaleVariance.vue')), 'group4');//稳定性分析
+const Stock = r => require.ensure([], () => r(require('../views/stock/stock.vue')), 'group4');//库存
+
+//返款管理 分组
+const Refundsale = r => require.ensure([], () => r(require('../views/refunds/refundsale.vue')), 'group8');
+const Refundpurchase = r => require.ensure([], () => r(require('../views/refunds/refundpurchase.vue')), 'group8');
+const AllotReturnMoney = r => require.ensure([], () => r(require('../views/allot/allotReturnMoney.vue')), 'group8');
+const SalesReturnMoney = r => require.ensure([], () => r(require('../views/sales/salesReturnMoney.vue')), 'group8');
+//政策管理 分组
+const AllotPolicy = r => require.ensure([], () => r(require('../views/allot/allotPolicy.vue')), 'group9');
+const AllotPolicyDrugs = r => require.ensure([], () => r(require('../views/allot/allotPolicyDrugs.vue')), 'group9');
+const SalesPolicy = r => require.ensure([], () => r(require('../views/sales/salesPolicy.vue')), 'group9');
+const SalesPolicyDrugs = r => require.ensure([], () => r(require('../views/sales/salesPolicyDrugs.vue')), 'group9');
+
+
+
+
+
+
+
 
 const router = new VueRouter({
 	routes:[{
@@ -131,8 +122,6 @@ const router = new VueRouter({
 			{path:"accountdetail",component:AccountDetail},//流水账管理
 			{path:"returnmoney",component:ReturnMoney},//医院回款管理
 			{path:"businesscommission",component:BusinessCommission},//商务提成管理
-			{path:"label",component:Label},//标签管理
-			{path:"labeledit",component:LabelEdit},
 			{path:"purchase",component:Purchase},
 			{path:"purchasedrugs",component:PurchaseDrugs},
 			{path:"purchasepay",component:PurchasePay},
@@ -152,22 +141,22 @@ const router = new VueRouter({
 			{path:"report",component:Report},
 			{path:"reportsaleline",component:ReportSaleLine},
 			{path:"reporttagbar",component:ReportTagBar},
-			{path:"reportpurchasereturnmoney",component:reportPurchaseReturnMoney},
-			{path:"reportpurchasereturnmoneydetail",component:reportPurchaseReturnMoneyDetail},
-			{path:"reportsalesreturnmoney",component:reportSalesReturnMoney},
-			{path:"reportsalesreturnmoneydetail",component:reportSalesReturnMoneyDetail},
-			{path:"reportsalesbyproduct",component:reportSalesByProduct},//报表销售按品种
-			{path:"reportsalesbyhospital",component:reportSalesByHospital},//报表销售按品种
-			{path:"reportsalesbyprofitrate",component:reportSalesByProfitRate},//报表销售按品种
-			{path:"reportcomprehensive",component:reportComprehensive},//利润/负债，综合统计
-			{path:"reportcomprehensivedetail",component:reportComprehensiveDetail},//利润/负债，综合统计 详情
-			{path:"reportcomprehensive1",component:reportComprehensive1},//利润/负债，综合统计
-			{path:"reportcomprehensive2",component:reportComprehensive2},//利润/负债，综合统计
-			{path:"reportsalechainratio",component:reportSaleChainRatio},//销售环比
-			{path:"reportsalechainratiosn",component:reportSaleChainRatioSn},//销售环比
-			{path:"reportsaleonyear",component:reportSaleOnYear},//销售同比
-			{path:"reportsaleonyearsn",component:reportSaleOnYearSn},//销售同比
-			{path:"reportsalevariance",component:reportSaleVariance},//稳定性分析
+			{path:"reportpurchasereturnmoney",component:ReportPurchaseReturnMoney},
+			{path:"reportpurchasereturnmoneydetail",component:ReportPurchaseReturnMoneyDetail},
+			{path:"reportsalesreturnmoney",component:ReportSalesReturnMoney},
+			{path:"reportsalesreturnmoneydetail",component:ReportSalesReturnMoneyDetail},
+			{path:"reportsalesbyproduct",component:ReportSalesByProduct},//报表销售按品种
+			{path:"reportsalesbyhospital",component:ReportSalesByHospital},//报表销售按品种
+			{path:"reportsalesbyprofitrate",component:ReportSalesByProfitRate},//报表销售按品种
+			{path:"reportcomprehensive",component:ReportComprehensive},//利润/负债，综合统计
+			{path:"reportcomprehensivedetail",component:ReportComprehensiveDetail},//利润/负债，综合统计 详情
+			{path:"reportcomprehensive1",component:ReportComprehensive1},//利润/负债，综合统计
+			{path:"reportcomprehensive2",component:ReportComprehensive2},//利润/负债，综合统计
+			{path:"reportsalechainratio",component:ReportSaleChainRatio},//销售环比
+			{path:"reportsalechainratiosn",component:ReportSaleChainRatioSn},//销售环比
+			{path:"reportsaleonyear",component:ReportSaleOnYear},//销售同比
+			{path:"reportsaleonyearsn",component:ReportSaleOnYearSn},//销售同比
+			{path:"reportsalevariance",component:ReportSaleVariance},//稳定性分析
 			{path:"refundsale",component:Refundsale},//佣金返款
 			{path:"refundpurchase",component:Refundpurchase},//高打返款
 			{path:"allotreturnmoney",component:AllotReturnMoney},//调货回款
@@ -177,8 +166,9 @@ const router = new VueRouter({
 			{path:"allotpolicydrugs",component:AllotPolicyDrugs},//调货政策
 			{path:"salespolicydrugs",component:SalesPolicyDrugs},//销售政策
 			{path:"stock",component:Stock},
-			{path:"password",component:password},
+			{path:"password",component:Password},
 			{path:"log",component:Log},//日志管理
+			{path:"allocation",component:Allocation},
 			{path:"about",component:About},//关于软件
 		]
 	}]

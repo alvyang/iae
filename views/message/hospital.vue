@@ -22,7 +22,9 @@
 		</el-form>
 		<el-table :data="hospitals" style="width: 100%" size="mini" :stripe="true">
 			<el-table-column prop="hospital_name" label="单位名称"></el-table-column>
-			<el-table-column prop="hospital_type" label="单位类型"></el-table-column>
+			<el-table-column prop="hospital_type" label="单位类型" width="120px"></el-table-column>
+			<el-table-column prop="hospital_area" label="单位区域"></el-table-column>
+			<!-- <el-table-column prop="hospital_level" label="单位级别"></el-table-column> -->
 			<el-table-column prop="hospital_address" label="单位地址"></el-table-column>
 			<el-table-column fixed="right" label="操作" width="100">
 		    <template slot-scope="scope">
@@ -53,6 +55,9 @@
 				</el-form-item>
 				<el-form-item label="单位名称" prop="hospital_name">
 					<el-input v-model="hospital.hospital_name" auto-complete="off" style="width:350px;" :maxlength="50" placeholder="请输入销售机构名称"></el-input>
+				</el-form-item>
+				<el-form-item label="单位区域" prop="hospital_area">
+					<el-cascader :options="options"  v-model="hospital.hospital_area" :props="props" :change-on-select="true" style="width:350px;" ></el-cascader>
 				</el-form-item>
 				<el-form-item label="单位地址" prop="hospital_address">
 					<el-input v-model="hospital.hospital_address" auto-complete="off" style="width:350px;" :maxlength="100" placeholder="请输入机构地址"></el-input>
@@ -90,6 +95,8 @@
 				hospital:{
 					hospital_name:"",
 					hospital_address:"",
+					hospital_level:"",
+					hospital_area:[],
 					hospital_type:["销售单位"]
 				},
 				hospitalRule:{
@@ -106,14 +113,24 @@
 				params:{
 					hospital_name:"",
 					hospital_type:""
-				}
+				},
+				options:[],
+				props: {
+					label: 'name',
+          value: 'name',
+          children: 'child_code'
+        }
 			}
 		},
 		activated(){
 			this.getHospitalsList();
 		},
 		mounted(){
+			var _self = this;
 			this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
+			$.getJSON("../iae/data/address.json",function(data){
+				_self.options = data;
+			});
 		},
 		methods:{
 			editRow(scope){//编辑药品信息
@@ -121,6 +138,7 @@
 				this.title=2;
 				var temp = JSON.stringify(scope.row);
 				this.hospital = JSON.parse(temp);
+				this.hospital.hospital_area = this.hospital.hospital_area.split("/");
 				this.hospital.front_message = temp;
 				this.hospital.hospital_type = this.hospital.hospital_type?this.hospital.hospital_type.split(","):[];
 				var _self = this;
@@ -152,6 +170,8 @@
 				this.hospital={
 					hospital_name:"",
 					hospital_address:"",
+					hospital_level:"",
+					hospital_area:[],
 					hospital_type:["销售单位"]
 				};
 				this.title=1;

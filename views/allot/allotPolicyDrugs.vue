@@ -320,15 +320,7 @@
   })
 </script>
 <style>
-  .allot_policy{
-    background-color: #fff;
-    border-bottom: 1px solid #ebeef5;
-    height: 30px;
-    line-height: 30px;
-    padding:10px 10px;
-    font-size: 14px;
-    color:#606266;
-  }
+  
   .el-collapse-item__content > div{
     display: inline-block;
     width: 30%;

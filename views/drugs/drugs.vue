@@ -354,7 +354,4 @@
 	.main_content .drug_list .el-dialog__wrapper .el-dialog .el-dialog__body{
 		padding-bottom:30px !important;
 	}
-	.el-table .cell{
-		white-space: nowrap;
-	}
 </style>

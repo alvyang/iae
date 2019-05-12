@@ -513,9 +513,6 @@
 	});
 </script>
 <style>
-	.main_content .sale_list .el-dialog__wrapper .el-dialog .el-dialog__body{
-		padding-bottom:30px !important;
-	}
 	.sum_money_purchase > a{
 		padding-left: 20px;
 		color: #606266;

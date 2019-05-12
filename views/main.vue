@@ -140,9 +140,9 @@
 		padding: 10px;
 		box-sizing: border-box;
 	}
-	.el-dialog__header{
+	/* .el-dialog__header{
 		margin-bottom: 20px;
-	}
+	} */
 	.main_content .el-date-editor--daterange{
 		width: 210px !important;
 	}
@@ -154,5 +154,46 @@
 	}
 	.main_content .el-range-editor.el-input__inner{
 		padding: 3px 5px !important;
+	}
+	.el-table .cell{
+		white-space: nowrap;
+	}
+	.allot_policy{
+    background-color: #fff;
+    border-bottom: 1px solid #ebeef5;
+    height: 30px;
+    line-height: 30px;
+    padding:10px 10px;
+    font-size: 14px;
+    color:#606266;
+  }
+	.el-dialog__body{
+		padding-top: 0 !important;
+		padding-bottom: 0 !important;
+	}
+	.main_content .import_record .el-dialog__body{
+		padding-bottom:30px !important;
+	}
+	.el-collapse-item__content > div{
+		display: inline-block;
+		width: 30%;
+	}
+	.el-collapse-item__content > div > span{
+		display: inline-block;
+		width: 56px;
+		text-align: right;
+		padding-right: 10px;
+	}
+	.sum_money{
+		background-color: #fff;
+		border-bottom: 1px solid #ebeef5;
+		height: 30px;
+		line-height: 30px;
+		padding-left: 10px;
+		font-size: 14px;
+		color:#606266;
+	}
+	.sum_money a{
+		color: #f24040;
 	}
 </style>

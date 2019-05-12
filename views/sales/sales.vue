@@ -91,6 +91,7 @@
 		<el-table :data="sales" style="width: 100%" size="mini" :stripe="true" :border="true">
   			<el-table-column fixed="left" prop="bill_date" label="日期" width="80" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="hospital_name" label="销往单位" width="140"></el-table-column>
+				<el-table-column prop="hospital_area" label="单位区域" width="120"></el-table-column>
 				<el-table-column prop="product_code" label="产品编码" width="100"></el-table-column>
 				<el-table-column prop="product_common_name" label="产品名称" width="120" ></el-table-column>
 				<el-table-column prop="product_specifications" label="产品规格" width="100"></el-table-column>
@@ -195,7 +196,7 @@
         <el-button type="primary" size="small" v-dbClick :loading="loading" @click="editSales('sale')">确 定</el-button>
       </div>
     </el-dialog>
-		<el-dialog title="导入销售记录" width="600px" :visible.sync="dialogFormVisibleImport">
+		<el-dialog title="导入销售记录" width="600px" class="import_record" :visible.sync="dialogFormVisibleImport">
 			<el-upload
 			  class="upload-demo"
 				ref="upload"
@@ -536,21 +537,6 @@
 	});
 </script>
 <style>
-	.main_content .sale_list .el-dialog__wrapper .el-dialog .el-dialog__body{
-		padding-bottom:30px !important;
-	}
-	.sum_money{
-		background-color: #fff;
-		border-bottom: 1px solid #ebeef5;
-		height: 30px;
-		line-height: 30px;
-		padding-left: 10px;
-		font-size: 14px;
-		color:#606266;
-	}
-	.sum_money a{
-		color: #f24040;
-	}
 	.el-collapse-item__content > div{
 		display: inline-block;
 		width: 30%;

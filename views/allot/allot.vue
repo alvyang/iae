@@ -62,6 +62,7 @@
 		<el-table :data="allots" style="width: 100%" size="mini" :stripe="true" :border="true">
 				<el-table-column fixed prop="allot_time" label="调货时间" width="80" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="hospital_name" label="调货单位" width="120"></el-table-column>
+				<el-table-column prop="hospital_area" label="单位区域" width="120"></el-table-column>
 				<el-table-column prop="product_code" label="产品编码" width="100"></el-table-column>
   			<el-table-column prop="product_common_name" label="产品通用名" width="120"></el-table-column>
 				<el-table-column prop="product_specifications" label="产品规格" width="100"></el-table-column>
@@ -151,7 +152,7 @@
         <el-button type="primary" v-dbClick :loading="loading" size="small" @click="editallots('allot')">确 定</el-button>
       </div>
     </el-dialog>
-		<el-dialog title="导入调货记录" width="600px" :visible.sync="dialogFormVisibleImport">
+		<el-dialog title="导入调货记录" width="600px" class="import_record" :visible.sync="dialogFormVisibleImport">
 			<el-upload
 			  class="upload-demo"
 				ref="upload"
@@ -472,9 +473,7 @@
 	});
 </script>
 <style>
-	.main_content .allot_list .el-dialog__wrapper .el-dialog .el-dialog__body{
-		padding-bottom:30px !important;
-	}
+
 	.sum_money_allot > a{
 		padding-left: 20px;
 		color: #606266;

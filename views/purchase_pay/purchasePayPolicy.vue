@@ -57,46 +57,46 @@
 	      layout="total, sizes, prev, pager, next"
 	      :total="count">
 	    </el-pagination>
-      <el-dialog title="修改销售政策" width="700px" :visible.sync="dialogFormVisible">
-  			<el-collapse v-model="activeNames" style="text-align:left;" >
-  			  <el-collapse-item :title="'药品信息（药品名：'+drug.product_common_name+ '）'" name="1">
-            <div><span>规格:</span>{{drug.product_specifications}}</div>
-            <div><span>底价:</span>{{drug.product_floor_price}}</div>
-            <div><span>高开税率:</span>{{drug.product_high_discount}}%</div>
-            <div><span>打款价:</span>{{drug.product_mack_price}}</div>
-  					<div><span>积分:</span>{{drug.product_return_money}}</div>
-            <div style="display:block;width:100%;"><span>生产厂家:</span>{{drug.product_makesmakers}}</div>
-  			  </el-collapse-item>
-  			</el-collapse>
-  			<el-form :model="policyPay" status-icon :rules="policyPayRule" style="margin-top:20px;" :inline="true" ref="policyPay" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="联系人" prop="purchase_pay_contact_id">
-            <el-select v-model="policyPay.purchase_pay_contact_id" style="width:179px;" filterable placeholder="请选择">
-    					<el-option v-for="item in contacts"
-                :key="item.contacts_id"
-                :label="item.contacts_name"
-                :value="item.contacts_id">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="招商底价" prop="purchase_pay_policy_floor_price" :maxlength="10">
-  					<el-input v-model="policyPay.purchase_pay_policy_floor_price" style="width:179px;" placeholder="招商底价"></el-input>
-  				</el-form-item>
-          <el-form-item label="高开税率" prop="purchase_pay_policy_tax">
-            <el-input v-model="policyPay.purchase_pay_policy_tax" style="width:179px;" placeholder="高开税率"></el-input>
-          </el-form-item>
-          <el-form-item label="招商积分" prop="purchase_pay_policy_price" :maxlength="10">
-  					<el-input v-model="policyPay.purchase_pay_policy_price" style="width:179px;" placeholder="招商积分"></el-input>
-  				</el-form-item>
-          <el-form-item label="积分备注" prop="purchase_pay_policy_remark">
-            <el-input v-model="policyPay.purchase_pay_policy_remark" style="width:179px;" placeholder="积分备注"></el-input>
-          </el-form-item>
-  			</el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button size="small" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" size="small" v-dbClick :loading="loading" @click="editPurchasePayPolicy('policyPay')">确 定</el-button>
-        </div>
-      </el-dialog>
-		</div>
+    </div>
+    <el-dialog title="修改销售政策" width="700px" :visible.sync="dialogFormVisible">
+			<el-collapse v-model="activeNames" style="text-align:left;" >
+			  <el-collapse-item :title="'药品信息（药品名：'+drug.product_common_name+ '）'" name="1">
+          <div><span>规格:</span>{{drug.product_specifications}}</div>
+          <div><span>底价:</span>{{drug.product_floor_price}}</div>
+          <div><span>高开税率:</span>{{drug.product_high_discount}}%</div>
+          <div><span>打款价:</span>{{drug.product_mack_price}}</div>
+					<div><span>积分:</span>{{drug.product_return_money}}</div>
+          <div style="display:block;width:100%;"><span>生产厂家:</span>{{drug.product_makesmakers}}</div>
+			  </el-collapse-item>
+			</el-collapse>
+			<el-form :model="policyPay" status-icon :rules="policyPayRule" style="margin-top:20px;" :inline="true" ref="policyPay" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="联系人" prop="purchase_pay_contact_id">
+          <el-select v-model="policyPay.purchase_pay_contact_id" style="width:179px;" filterable placeholder="请选择">
+  					<el-option v-for="item in contacts"
+              :key="item.contacts_id"
+              :label="item.contacts_name"
+              :value="item.contacts_id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="招商底价" prop="purchase_pay_policy_floor_price" :maxlength="10">
+					<el-input v-model="policyPay.purchase_pay_policy_floor_price" style="width:179px;" placeholder="招商底价"></el-input>
+				</el-form-item>
+        <el-form-item label="高开税率" prop="purchase_pay_policy_tax">
+          <el-input v-model="policyPay.purchase_pay_policy_tax" style="width:179px;" placeholder="高开税率"></el-input>
+        </el-form-item>
+        <el-form-item label="招商积分" prop="purchase_pay_policy_price" :maxlength="10">
+					<el-input v-model="policyPay.purchase_pay_policy_price" style="width:179px;" placeholder="招商积分"></el-input>
+				</el-form-item>
+        <el-form-item label="积分备注" prop="purchase_pay_policy_remark">
+          <el-input v-model="policyPay.purchase_pay_policy_remark" style="width:179px;" placeholder="积分备注"></el-input>
+        </el-form-item>
+			</el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button size="small" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" size="small" v-dbClick :loading="loading" @click="editPurchasePayPolicy('policyPay')">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>

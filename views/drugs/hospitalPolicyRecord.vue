@@ -213,14 +213,4 @@
   .copy_form  .el-form-item.is-required:not(.is-no-asterisk)>.el-form-item__label:before{
     display: none;
   }
-  .el-collapse-item__content > div{
-    display: inline-block;
-    width: 30%;
-  }
-  .el-collapse-item__content > div > span{
-    display: inline-block;
-    width: 56px;
-    text-align: right;
-    padding-right: 10px;
-  }
 </style>

@@ -178,7 +178,7 @@
         <el-button type="primary" v-dbClick size="small" :loading="loading" @click="editPurchases('purchase')">确 定</el-button>
       </div>
     </el-dialog>
-		<el-dialog title="导入采进记录" width="600px" :visible.sync="dialogFormVisibleImport">
+		<el-dialog title="导入采进记录" width="600px" class="import_record" :visible.sync="dialogFormVisibleImport">
 			<el-upload
 			  class="upload-demo"
 				ref="upload"
@@ -468,9 +468,6 @@
 	});
 </script>
 <style>
-	.main_content .sale_list .el-dialog__wrapper .el-dialog .el-dialog__body{
-		padding-bottom:30px !important;
-	}
 	.sum_money_purchase > a{
 		padding-left: 20px;
 		color: #606266;

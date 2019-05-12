@@ -73,96 +73,96 @@
 	      layout="total, sizes, prev, pager, next"
 	      :total="count">
 	    </el-pagination>
-      <el-dialog title="政策复制" width="700px" class="copy_form" :visible.sync="dialogFormVisiblePolicy">
-        <el-form :inline="true" :model="copyPolicyParams" :rules="copyPolicyParamsRule" ref="copyPolicyParams" size="mini" class="demo-form-inline search">
-          <el-form-item label="将" prop="hospital_id">
-      			 <el-select v-model="copyPolicyParams.hospital_id" style="width:210px;" filterable size="mini" placeholder="请选择">
-      				 <el-option v-for="item in hospitals"
-      					 :key="item.hospital_id"
-      					 :label="item.hospital_name"
-      					 :value="item.hospital_id">
-      				 </el-option>
-      		 	</el-select>
-      		</el-form-item>
-          <el-form-item label="的政策复制到" prop="hospital_id_copy">
-      			 <el-select v-model="copyPolicyParams.hospital_id_copy" style="width:210px;" filterable size="mini" placeholder="请选择">
-      				 <el-option v-for="item in hospitals"
-      					 :key="item.hospital_id"
-      					 :label="item.hospital_name"
-      					 :value="item.hospital_id">
-      				 </el-option>
-      		 	</el-select>
-      		</el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button size="small" v-dbClick @click="dialogFormVisiblePolicy = false">取 消</el-button>
-          <el-button type="primary" size="small" v-dbClick :loading="loading" @click="copyPolicy('copyPolicyParams')">确 定</el-button>
-        </div>
-      </el-dialog>
-      <el-dialog title="修改销售政策" width="700px" :visible.sync="dialogFormVisible">
-  			<el-collapse v-model="activeNames" style="text-align:left;" >
-  			  <el-collapse-item :title="'药品信息（药品名：'+drug.product_common_name+ '）'" name="1">
-            <div><span>规格:</span>{{drug.product_specifications}}</div>
-  					<div><span>积分:</span>{{drug.product_return_money}}</div>
-            <div style="display:block;width:100%;"><span>生产厂家:</span>{{drug.product_makesmakers}}</div>
-  			  </el-collapse-item>
-  			</el-collapse>
-  			<el-form :model="policy" status-icon :rules="policyRule" style="margin-top:20px;" :inline="true" ref="sale" label-width="100px" class="demo-ruleForm">
-  				<el-form-item label="销售积分" prop="sale_policy_money" :maxlength="10">
-  					<el-input v-model="policy.sale_policy_money" style="width:179px;" placeholder="销售积分"></el-input>
-  				</el-form-item>
-          <el-form-item label="业务员" prop="sale_policy_contact_id">
-           <el-select v-model="policy.sale_policy_contact_id" style="width:179px;" filterable placeholder="请选择">
-             <el-option key="" label="" value=""></el-option>
-             <el-option v-for="item in contacts"
-               :key="item.contacts_id"
-               :label="item.contacts_name"
-               :value="item.contacts_id">
-             </el-option>
-           </el-select>
-         </el-form-item>
-          <el-form-item label="积分备注" prop="sale_policy_remark">
-            <el-input v-model="policy.sale_policy_remark" style="width:179px;" placeholder="积分备注"></el-input>
-          </el-form-item>
-  			</el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button size="small" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" size="small" v-dbClick :loading="loading" @click="editSales('sale')">确 定</el-button>
-        </div>
-      </el-dialog>
-      <el-dialog title="批量修改销售政策" width="700px" :visible.sync="dialogFormVisibleBatch">
-        <el-form :model="policyBatch" status-icon :rules="policyBatchRule" style="margin-top:20px;" :inline="true" ref="policyBatch" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="返点类型" prop="type">
-            <el-radio v-model="policyBatch.type" label="2">按中标价固定点数返</el-radio>
-            <el-radio v-model="policyBatch.type" label="4">按中标价固定点数扣</el-radio>
-            <el-radio v-model="policyBatch.type" label="3">按积分固定点数返</el-radio>
-          </el-form-item>
-          <el-form-item label="政策点数" prop="policy_percent" :maxlength="10" :required="true" v-show = "policyBatch.type != '4'">
-            <el-input v-model="policyBatch.policy_percent" style="width:179px;" placeholder="政策点数（如：60）"></el-input>
-          </el-form-item>
-          <el-form-item label="扣留点数" prop="policy_percent" :maxlength="10" :required="true" v-show = "policyBatch.type == '4'">
-            <el-input v-model="policyBatch.policy_percent" style="width:179px;" placeholder="扣留点数（如：60）"></el-input>
-          </el-form-item>
-          <el-form-item label="调货联系人" prop="sale_policy_contact_id">
-           <el-select v-model="policyBatch.sale_policy_contact_id" style="width:179px;" filterable placeholder="请选择">
-             <el-option key="" label="全部" value=""></el-option>
-             <el-option v-for="item in contacts"
-               :key="item.contacts_id"
-               :label="item.contacts_name"
-               :value="item.contacts_id">
-             </el-option>
-           </el-select>
-          </el-form-item>
-          <el-form-item label="积分备注" prop="sale_policy_remark">
-            <el-input v-model="policyBatch.sale_policy_remark" style="width:179px;" placeholder="积分备注"></el-input>
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button size="small" v-dbClick @click="dialogFormVisibleBatch = false">取 消</el-button>
-          <el-button type="primary" size="small" v-dbClick :loading="loading" @click="editSalesBatch('policyBatch')">确 定</el-button>
-        </div>
-      </el-dialog>
 		</div>
+    <el-dialog title="政策复制" width="700px" class="copy_form" :visible.sync="dialogFormVisiblePolicy">
+      <el-form :inline="true" :model="copyPolicyParams" :rules="copyPolicyParamsRule" ref="copyPolicyParams" size="mini" class="demo-form-inline search">
+        <el-form-item label="将" prop="hospital_id">
+           <el-select v-model="copyPolicyParams.hospital_id" style="width:210px;" filterable size="mini" placeholder="请选择">
+             <el-option v-for="item in hospitals"
+               :key="item.hospital_id"
+               :label="item.hospital_name"
+               :value="item.hospital_id">
+             </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="的政策复制到" prop="hospital_id_copy">
+           <el-select v-model="copyPolicyParams.hospital_id_copy" style="width:210px;" filterable size="mini" placeholder="请选择">
+             <el-option v-for="item in hospitals"
+               :key="item.hospital_id"
+               :label="item.hospital_name"
+               :value="item.hospital_id">
+             </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button size="small" v-dbClick @click="dialogFormVisiblePolicy = false">取 消</el-button>
+        <el-button type="primary" size="small" v-dbClick :loading="loading" @click="copyPolicy('copyPolicyParams')">确 定</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog title="修改销售政策" width="700px" :visible.sync="dialogFormVisible">
+      <el-collapse v-model="activeNames" style="text-align:left;" >
+        <el-collapse-item :title="'药品信息（药品名：'+drug.product_common_name+ '）'" name="1">
+          <div><span>规格:</span>{{drug.product_specifications}}</div>
+          <div><span>积分:</span>{{drug.product_return_money}}</div>
+          <div style="display:block;width:100%;"><span>生产厂家:</span>{{drug.product_makesmakers}}</div>
+        </el-collapse-item>
+      </el-collapse>
+      <el-form :model="policy" status-icon :rules="policyRule" style="margin-top:20px;" :inline="true" ref="sale" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="销售积分" prop="sale_policy_money" :maxlength="10">
+          <el-input v-model="policy.sale_policy_money" style="width:179px;" placeholder="销售积分"></el-input>
+        </el-form-item>
+        <el-form-item label="业务员" prop="sale_policy_contact_id">
+         <el-select v-model="policy.sale_policy_contact_id" style="width:179px;" filterable placeholder="请选择">
+           <el-option key="" label="" value=""></el-option>
+           <el-option v-for="item in contacts"
+             :key="item.contacts_id"
+             :label="item.contacts_name"
+             :value="item.contacts_id">
+           </el-option>
+         </el-select>
+       </el-form-item>
+        <el-form-item label="积分备注" prop="sale_policy_remark">
+          <el-input v-model="policy.sale_policy_remark" style="width:179px;" placeholder="积分备注"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button size="small" v-dbClick @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" size="small" v-dbClick :loading="loading" @click="editSales('sale')">确 定</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog title="批量修改销售政策" width="700px" :visible.sync="dialogFormVisibleBatch">
+      <el-form :model="policyBatch" status-icon :rules="policyBatchRule" style="margin-top:20px;" :inline="true" ref="policyBatch" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="返点类型" prop="type">
+          <el-radio v-model="policyBatch.type" label="2">按中标价固定点数返</el-radio>
+          <el-radio v-model="policyBatch.type" label="4">按中标价固定点数扣</el-radio>
+          <el-radio v-model="policyBatch.type" label="3">按积分固定点数返</el-radio>
+        </el-form-item>
+        <el-form-item label="政策点数" prop="policy_percent" :maxlength="10" :required="true" v-show = "policyBatch.type != '4'">
+          <el-input v-model="policyBatch.policy_percent" style="width:179px;" placeholder="政策点数（如：60）"></el-input>
+        </el-form-item>
+        <el-form-item label="扣留点数" prop="policy_percent" :maxlength="10" :required="true" v-show = "policyBatch.type == '4'">
+          <el-input v-model="policyBatch.policy_percent" style="width:179px;" placeholder="扣留点数（如：60）"></el-input>
+        </el-form-item>
+        <el-form-item label="调货联系人" prop="sale_policy_contact_id">
+         <el-select v-model="policyBatch.sale_policy_contact_id" style="width:179px;" filterable placeholder="请选择">
+           <el-option key="" label="全部" value=""></el-option>
+           <el-option v-for="item in contacts"
+             :key="item.contacts_id"
+             :label="item.contacts_name"
+             :value="item.contacts_id">
+           </el-option>
+         </el-select>
+        </el-form-item>
+        <el-form-item label="积分备注" prop="sale_policy_remark">
+          <el-input v-model="policyBatch.sale_policy_remark" style="width:179px;" placeholder="积分备注"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button size="small" v-dbClick @click="dialogFormVisibleBatch = false">取 消</el-button>
+        <el-button type="primary" size="small" v-dbClick :loading="loading" @click="editSalesBatch('policyBatch')">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
