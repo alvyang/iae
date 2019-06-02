@@ -258,7 +258,8 @@
 		},
 		methods:{
 			shouldPrice(){
-				var t = this.purchasePay.purchase_pay_policy_price * this.purchasePay.purchase_pay_number;
+				this.purchasePay.purchase_pay_other_money=this.purchasePay.purchase_pay_other_money?this.purchasePay.purchase_pay_other_money:0;
+				var t = this.purchasePay.purchase_pay_policy_price * this.purchasePay.purchase_pay_number-this.purchasePay.purchase_pay_other_money;
 				this.purchasePay.purchase_pay_should_pay_money = Math.round(t*100)/100;
 			},
 			formatterShouldPay(row, column, cellValue){

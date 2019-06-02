@@ -60,6 +60,14 @@ const ReportPurchaseReturnMoney = r => require.ensure([], () => r(require('../vi
 const ReportPurchaseReturnMoneyDetail = r => require.ensure([], () => r(require('../views/report/reportPurchaseReturnMoneyDetail.vue')), 'group4');//高打返款金额统计按联系人  查看明细
 const ReportSalesReturnMoney = r => require.ensure([], () => r(require('../views/report/reportSalesReturnMoney.vue')), 'group4');//佣金返款金额统计按联系人
 const ReportSalesReturnMoneyDetail = r => require.ensure([], () => r(require('../views/report/reportSalesReturnMoneyDetail.vue')), 'group4');//佣金返款金额统计按联系人 查看明细
+const ReportPurchasePaysReturnMoney = r => require.ensure([], () => r(require('../views/report/reportPurchasePaysReturnMoney.vue')), 'group4');//招商预付应收联系人
+const ReportPurchasePaysReturnMoneyDetail = r => require.ensure([], () => r(require('../views/report/reportPurchasePaysReturnMoneyDetail.vue')), 'group4');//招商预付应收按联系人 查看明细
+const ReportSalesReturnMoneyPay = r => require.ensure([], () => r(require('../views/report/reportSalesReturnMoneyPay.vue')), 'group4');//销售应付
+const ReportSalesReturnMoneyPayDetail = r => require.ensure([], () => r(require('../views/report/reportSalesReturnMoneyPayDetail.vue')), 'group4');//销售应付 查看明细
+const ReportAllotsReturnMoneyPay = r => require.ensure([], () => r(require('../views/report/reportAllotsReturnMoneyPay.vue')), 'group4');//调货应付
+const ReportAllotsReturnMoneyPayDetail = r => require.ensure([], () => r(require('../views/report/reportAllotsReturnMoneyPayDetail.vue')), 'group4');//调货应付 查看明细
+const ReportPurchasePaysReturnMoneyPay = r => require.ensure([], () => r(require('../views/report/reportPurchasePaysReturnMoneyPay.vue')), 'group4');//招商预付应付
+const ReportPurchasePaysReturnMoneyPayDetail = r => require.ensure([], () => r(require('../views/report/reportPurchasePaysReturnMoneyPayDetail.vue')), 'group4');//招商预付应付 查看明细
 const ReportSalesByProduct = r => require.ensure([], () => r(require('../views/report/reportSalesByProduct.vue')), 'group4');//销售按产品
 const ReportSalesByHospital = r => require.ensure([], () => r(require('../views/report/reportSalesByHospital.vue')), 'group4');//销售按医院
 const ReportSalesByProfitRate = r => require.ensure([], () => r(require('../views/report/reportSalesByProfitRate.vue')), 'group4');//销售按毛利率
@@ -73,6 +81,7 @@ const ReportSaleOnYear = r => require.ensure([], () => r(require('../views/repor
 const ReportSaleOnYearSn = r => require.ensure([], () => r(require('../views/report/reportSaleOnYearSn.vue')), 'group4');//销售同比
 const ReportSaleVariance = r => require.ensure([], () => r(require('../views/report/reportSaleVariance.vue')), 'group4');//稳定性分析
 const Stock = r => require.ensure([], () => r(require('../views/stock/stock.vue')), 'group4');//库存
+const StockMoney = r => require.ensure([], () => r(require('../views/report/stockMoney.vue')), 'group4');//库存
 
 //返款管理 分组
 const Refundsale = r => require.ensure([], () => r(require('../views/refunds/refundsale.vue')), 'group8');
@@ -170,6 +179,15 @@ const router = new VueRouter({
 			{path:"log",component:Log},//日志管理
 			{path:"allocation",component:Allocation},
 			{path:"about",component:About},//关于软件
+			{path:"reportPurchasePaysReturnMoney",component:ReportPurchasePaysReturnMoney},
+			{path:"reportPurchasePaysReturnMoneyDetail",component:ReportPurchasePaysReturnMoneyDetail},
+			{path:"reportSalesReturnMoneyPay",component:ReportSalesReturnMoneyPay},
+			{path:"reportSalesReturnMoneyPayDetail",component:ReportSalesReturnMoneyPayDetail},
+			{path:"reportAllotsReturnMoneyPay",component:ReportAllotsReturnMoneyPay},
+			{path:"reportAllotsReturnMoneyPayDetail",component:ReportAllotsReturnMoneyPayDetail},
+			{path:"reportPurchasePaysReturnMoneyPay",component:ReportPurchasePaysReturnMoneyPay},
+			{path:"reportPurchasePaysReturnMoneyPayDetail",component:ReportPurchasePaysReturnMoneyPayDetail},
+			{path:"stockMoney",component:StockMoney},
 		]
 	}]
 });

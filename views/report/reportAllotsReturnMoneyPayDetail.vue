@@ -2,8 +2,8 @@
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
 		  <el-breadcrumb-item :to="{ path: '/main/report' }">报表管理</el-breadcrumb-item>
-			<el-breadcrumb-item :to="{ path: '/main/reportsalesreturnmoney' }">销售应收积分（按联系人）</el-breadcrumb-item>
-      <el-breadcrumb-item>销售应收积分（按联系人）明细</el-breadcrumb-item>
+			<el-breadcrumb-item :to="{ path: '/main/reportAllotsReturnMoneyPay' }">调货应收积分（按调货联系人）</el-breadcrumb-item>
+      <el-breadcrumb-item>调货应收积分（按调货联系人）明细</el-breadcrumb-item>
 		</el-breadcrumb>
     <el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
       <div>
@@ -13,46 +13,35 @@
         <el-form-item label="产品编码" prop="product_code">
           <el-input v-model="params.product_code" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="产品编码"></el-input>
         </el-form-item>
-        <!-- <el-form-item label="积分状态" prop="status">
-          <el-select v-model="params.status" filterable size="mini" style="width:210px;" placeholder="请选择">
-            <el-option key="" label="全部" value=""></el-option>
-            <el-option key="已返" label="已返" value="已返"></el-option>
-            <el-option key="未返" label="未返" value="未返"></el-option>
-          </el-select>
-        </el-form-item> -->
         <el-form-item>
          <el-button type="primary" v-dbClick style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
-         <el-button type="primary" v-dbClick style="margin-left: 14px;" @click="$router.push('/main/reportSalesReturnMoney');" size="mini">返回</el-button>
+         <el-button type="primary" v-dbClick style="margin-left: 14px;" @click="$router.push('/main/reportAllotsReturnMoneyPay');" size="mini">返回</el-button>
         </el-form-item>
       </div>
     </el-form>
     <div class="sum_money">
-      未收积分：<a>{{refundMoney.own}}</a>
+      未付积分：<a>{{refundMoney.own}}</a>
     </div>
     <el-table :data="refunds" style="width: 100%" size="mini" :stripe="true" :border="true">
-        <el-table-column fixed prop="product_code" label="产品编码" width="100"></el-table-column>
-        <el-table-column fixed prop="product_common_name" label="产品名称" width="120" ></el-table-column>
-        <el-table-column prop="product_specifications" label="产品规格" width="100"></el-table-column>
-        <el-table-column prop="product_makesmakers" label="生产厂家" width="150"></el-table-column>
-        <el-table-column prop="product_packing" label="包装" width="50"></el-table-column>
-        <el-table-column prop="product_unit" label="单位" width="50"></el-table-column>
-        <el-table-column prop="sale_price" label="中标价" width="60"></el-table-column>
-        <el-table-column prop="sale_num" label="计划数量" width="70"></el-table-column>
-        <el-table-column prop="sale_money" label="购入金额" width="70"></el-table-column>
-        <el-table-column prop="business_name" label="商业" width="60"></el-table-column>
-        <el-table-column prop="contacts_name" label="联系人" width="60"></el-table-column>
-        <el-table-column prop="hospital_name" label="销往单位" width="140"></el-table-column>
-        <el-table-column prop="bill_date" label="销售日期" width="80" :formatter="formatterDate"></el-table-column>
-        <el-table-column prop="product_return_money" label="积分" width="80" :formatter="formatterReturnMoney"></el-table-column>
-        <el-table-column prop="refunds_should_time" label="应收日期" width="80" :formatter="formatterDate"></el-table-column>
-        <el-table-column prop="refunds_should_money" label="应收积分" width="80"></el-table-column>
-        <el-table-column prop="refunds_remark" label="备注" width="150"></el-table-column>
-        <!-- <el-table-column fixed="right" prop="remark" label="积分状态" width="80">
-					<template slot-scope="scope">
-						<el-tag type="success" size="mini" v-show="scope.row.refunds_real_money">已返</el-tag>
-						<el-tag type="warning" size="mini" v-show="!scope.row.refunds_real_money">未返</el-tag>
-					</template>
-				</el-table-column> -->
+      <el-table-column fixed prop="allot_time" label="调货时间" width="80" :formatter="formatterDate"></el-table-column>
+      <el-table-column prop="hospital_name" label="调货单位" width="120"></el-table-column>
+      <el-table-column prop="product_code" label="产品编码" width="100"></el-table-column>
+      <el-table-column prop="product_common_name" label="产品通用名" width="120"></el-table-column>
+      <el-table-column prop="product_specifications" label="产品规格" width="100"></el-table-column>
+      <el-table-column prop="product_makesmakers" label="生产厂家" width="150"></el-table-column>
+      <el-table-column prop="product_unit" label="单位" width="50"></el-table-column>
+      <el-table-column prop="business_name" label="商业" width="60"></el-table-column>
+      <el-table-column prop="contacts_name" label="调货联系人" width="80"></el-table-column>
+      <el-table-column prop="allot_number" label="数量" width="50"></el-table-column>
+      <el-table-column prop="allot_mack_price" label="打款价" width="60"></el-table-column>
+      <el-table-column prop="allot_price" label="中标价" width="60"></el-table-column>
+      <el-table-column prop="allot_money" label="金额" width="70"></el-table-column>
+      <el-table-column prop="batch_number" label="批号" ></el-table-column>
+      <el-table-column label="实收上游积分(单价)" width="70" :formatter="formatterReturnMoney"></el-table-column>
+      <el-table-column prop="allot_return_price" label="政策积分" width="70"></el-table-column>
+      <el-table-column label="补点/费用票" width="80" :formatter="formatterOtherMoney"></el-table-column>
+      <el-table-column prop="allot_return_money" label="应付积分" width="70" :formatter="formatterShouldPay"></el-table-column>
+      <el-table-column prop="allot_remark" label="备注" width="80"></el-table-column>
     </el-table>
     <div class="page_div">
       <el-pagination
@@ -84,7 +73,7 @@ export default({
       count:0,
       params:{//查询参数
         productCommonName:"",
-        status:"未返",
+        allot_return_flag:"未付",
         product_code:"",
         contactId:""
       },
@@ -98,6 +87,31 @@ export default({
 
   },
   methods:{
+    formatterOtherMoney(row, column, cellValue){
+      if(row.purchase_other_money){
+        var t = (row.purchase_other_money/row.purchase_number)*row.allot_number;
+        row.other_monety_temp = Math.round(t*100)/100;
+        return Math.round(t*100)/100;
+      }else{
+        return 0;
+      }
+    },
+    formatterShouldPay(row, column, cellValue){
+      if(row.purchase_other_money){
+        var t = (row.purchase_other_money/row.purchase_number)*row.allot_number;
+        row.other_monety_temp = Math.round(t*100)/100;
+        var temp = row.allot_number*row.allot_return_price - t;
+        temp = Math.round(temp*100)/100;
+        if(row.allot_return_money != temp){
+          row.allot_return_money = temp;
+          return temp;
+        }else{
+          return cellValue;
+        }
+      }else{
+        return cellValue;
+      }
+    },
     formatterReturnMoney(row, column, cellValue){
       if(row.hospital_policy_return_money){
         return row.hospital_policy_return_money;
@@ -133,21 +147,20 @@ export default({
         start:(_self.currentPage-1)*_self.pageNum,
         limit:_self.pageNum
       }
-      this.jquery('/iae/refunds/getSaleRefunds',{
+      this.jquery('/iae/allotPolicy/getAllotReturnMoney',{
         data:_self.params,
         page:page
       },function(res){
           _self.refunds = res.message.data;
-          var own = res.message.rsm - res.message.rrm - res.message.sc;
-          own = Math.round(own*100)/100;
-          _self.refundMoney = {
-            rrm:(res.message.rrm+"").replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-            rsm:(res.message.rsm+"").replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-            sc:(res.message.sc+"").replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-            own:(own+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-          };
           _self.pageNum=parseInt(res.message.limit);
           _self.count=res.message.totalCount;
+
+          var own = res.message.returnMoney - res.message.returnMoney1;
+          own = Math.round(own*100)/100;
+          _self.refundMoney = {
+            own:(own+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+          };
+
       });
     },
     handleSizeChange(val) {

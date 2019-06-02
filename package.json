@@ -1,6 +1,6 @@
 {
   "name": "IAE",
-  "version": "1.10.12",
+  "version": "1.10.14",
   "description": "iae",
   "main": "main.js",
   "scripts": {
@@ -79,7 +79,7 @@
     "electron-builder": "^20.28.4",
     "electron-prebuilt": "^1.4.13",
     "electron-rebuild": "^1.8.2",
-    "element-ui": "^2.4.6",
+
     "excel-export": "^0.5.1",
     "exports-loader": "^0.6.3",
     "expose-loader": "^0.7.1",

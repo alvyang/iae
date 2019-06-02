@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
-			<el-breadcrumb-item :to="{ path: '/main/reportcomprehensive' }">报表管理</el-breadcrumb-item>
+			<el-breadcrumb-item :to="{ path: '/main/report' }">报表管理</el-breadcrumb-item>
 			<el-breadcrumb-item>销售积分收付统计（按销往单位）表格</el-breadcrumb-item>
 		</el-breadcrumb>
     <el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">

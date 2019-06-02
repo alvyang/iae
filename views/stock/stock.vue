@@ -82,7 +82,7 @@
 					<el-table-column prop="batch_number" label="批号"></el-table-column>
 					<el-table-column label="当前库存">
 						<template slot-scope="scope">
-		          <el-input v-model="scope.row.batch_stock_number" :readonly="true" @blur="editBatchStock(scope)" size="mini"></el-input>
+		          <el-input v-model="scope.row.batch_stock_number" @blur="editBatchStock(scope)" size="mini"></el-input>
 		        </template>
 					</el-table-column>
 					<el-table-column fixed="right" label="操作" width="60">

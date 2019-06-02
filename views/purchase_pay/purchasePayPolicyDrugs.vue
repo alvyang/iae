@@ -61,10 +61,10 @@
             <div><span>高开税率:</span>{{drug.product_high_discount}}%</div>
             <div><span>打款价:</span>{{drug.product_mack_price}}</div>
   					<div><span>积分:</span>{{drug.product_return_money}}</div>
-            <div><span>生产厂家:</span>{{drug.product_makesmakers}}</div>
+            <div style="display:block"><span>生产厂家:</span>{{drug.product_makesmakers}}</div>
   			  </el-collapse-item>
   			</el-collapse>
-  			<el-form :model="policyPay" status-icon :rules="policyPayRule" style="margin-top:20px;" :inline="true" ref="policyPay" label-width="100px" class="demo-ruleForm">
+  			<el-form :model="policyPay" status-icon :rules="policyPayRule" style="margin-top:20px;;text-align:left;" :inline="true" ref="policyPay" label-width="100px" class="demo-ruleForm">
           <el-form-item label="招商底价" prop="purchase_pay_policy_floor_price" :maxlength="10">
   					<el-input v-model="policyPay.purchase_pay_policy_floor_price" style="width:179px;" placeholder="招商底价"></el-input>
   				</el-form-item>

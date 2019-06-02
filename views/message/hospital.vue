@@ -71,6 +71,7 @@
 	</div>
 </template>
 <script>
+	import address from "../../data/address.json";
 	export default({
 		data(){
 			var validateName = (rule, value, callback) => {
@@ -126,11 +127,12 @@
 			this.getHospitalsList();
 		},
 		mounted(){
-			var _self = this;
+			this.options = address;
+			// var _self = this;
 			this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
-			$.getJSON("../iae/data/address.json",function(data){
-				_self.options = data;
-			});
+			// $.getJSON("../iae/data/address.json",function(data){
+			// 	_self.options = data;
+			// });
 		},
 		methods:{
 			editRow(scope){//编辑药品信息

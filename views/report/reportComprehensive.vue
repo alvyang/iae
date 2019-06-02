@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
-			<el-breadcrumb-item :to="{ path: '/main/reportcomprehensive' }">报表管理</el-breadcrumb-item>
+			<el-breadcrumb-item  :to="{ path: '/main/report' }">报表管理</el-breadcrumb-item>
 			<el-breadcrumb-item>销售积分收付统计（近24个月）表格</el-breadcrumb-item>
 		</el-breadcrumb>
     <el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
@@ -32,7 +32,7 @@
     <div style="background:#ffffff;font-size:12px;color:#f24040;height:20px;line-height:30px;padding-left:20px;">
       温馨提示：高打品种积分收付，已按照每月实际销售（调货）量，折算到每月记录中
     </div>
-    <div style="padding:10px;border:1px solid #ffffff;background-color:#ffffff;">
+    <div :style="'height:'+tableHeight+'px;padding:10px;border:1px solid #ffffff;background-color:#ffffff;overflow: scroll;'">
       <el-table :data="listData" style="width: 100%" size="mini" :border="true" :span-method="objectSpanMethod">
         <el-table-column fixed prop="time" label="日期" width="80"></el-table-column>
         <el-table-column prop="saleMoney" label="销售总额" width="80" :formatter="formatNull"></el-table-column>
@@ -92,7 +92,7 @@
         </el-table-column>
         <el-table-column label="利润" width="90" :formatter="formatProfit"></el-table-column>
         <el-table-column label="真实利润" width="90" :formatter="formatRealProfit"></el-table-column>
-        <el-table-column prop="stockMoneyReturn" label="库存负债" width="80" :formatter="formatNull"></el-table-column>
+        <!-- <el-table-column prop="stockMoneyReturn" label="库存负债" width="80" :formatter="formatNull"></el-table-column> -->
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="90">
         <template slot-scope="scope">
@@ -120,6 +120,7 @@
           pageNum:10,
   				currentPage:1,
   				count:0,
+          tableHeight:0,
         }
     },
     activated(){
@@ -128,6 +129,13 @@
       this.getHospitals();
       this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
     },
+    mounted(){
+			this.tableHeight = $(window).height() - 196;
+			var that = this;
+			$(window).resize(function(){
+					that.tableHeight = $(window).height() - 196;
+			});
+		},
     methods:{
       viewDetail(row){
         this.$router.push({path:`/main/reportcomprehensivedetail`,query:{
@@ -241,19 +249,19 @@
             };
           }
         }
-        if (columnIndex === 30) {
-          if (rowIndex % 24 === 0) {
-            return {
-              rowspan: 24,
-              colspan: 1
-            };
-          } else {
-            return {
-              rowspan: 0,
-              colspan: 0
-            };
-          }
-        }
+        // if (columnIndex === 30) {
+        //   if (rowIndex % 24 === 0) {
+        //     return {
+        //       rowspan: 24,
+        //       colspan: 1
+        //     };
+        //   } else {
+        //     return {
+        //       rowspan: 0,
+        //       colspan: 0
+        //     };
+        //   }
+        // }
       },
       getProductBusiness(){
 				var _self = this;

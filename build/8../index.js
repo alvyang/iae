@@ -1,15 +1,15 @@
 webpackJsonp([8],{
 
-/***/ 848:
+/***/ 882:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(849);
+var content = __webpack_require__(883);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(91)(content, {});
+var update = __webpack_require__(98)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -27,7 +27,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 849:
+/***/ 883:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -42,55 +42,7 @@ exports.push([module.i, "\n.el-collapse-item__content > div{\n  display: inline-
 
 /***/ }),
 
-/***/ 85:
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* styles */
-__webpack_require__(848)
-
-/* script */
-__vue_exports__ = __webpack_require__(850)
-
-/* template */
-var __vue_template__ = __webpack_require__(851)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/Users/lvyang/workspace/iae/views/allot/allotPolicy.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-20d21ef4", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-20d21ef4", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] allotPolicy.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ }),
-
-/***/ 850:
+/***/ 884:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -482,7 +434,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 851:
+/***/ 885:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1347,16 +1299,16 @@ if (false) {
 
 /***/ }),
 
-/***/ 852:
+/***/ 886:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(853);
+var content = __webpack_require__(887);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(91)(content, {});
+var update = __webpack_require__(98)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -1374,7 +1326,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 853:
+/***/ 887:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -1389,7 +1341,7 @@ exports.push([module.i, "\n.el-collapse-item__content > div{\n  display: inline-
 
 /***/ }),
 
-/***/ 854:
+/***/ 888:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1729,7 +1681,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 855:
+/***/ 889:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2047,7 +1999,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     ref: "policy",
     staticClass: "demo-ruleForm",
     staticStyle: {
-      "margin-top": "20px"
+      "margin-top": "20px",
+      "text-align": "left"
     },
     attrs: {
       "model": _vm.policy,
@@ -2178,7 +2131,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     ref: "policyBatch",
     staticClass: "demo-ruleForm",
     staticStyle: {
-      "margin-top": "20px"
+      "margin-top": "20px",
+      "text-align": "left"
     },
     attrs: {
       "model": _vm.policyBatch,
@@ -2377,16 +2331,16 @@ if (false) {
 
 /***/ }),
 
-/***/ 856:
+/***/ 890:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(857);
+var content = __webpack_require__(891);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(91)(content, {});
+var update = __webpack_require__(98)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -2404,7 +2358,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 857:
+/***/ 891:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -2419,7 +2373,7 @@ exports.push([module.i, "\n.copy_form .search .el-form-item__label {\n  padding-
 
 /***/ }),
 
-/***/ 858:
+/***/ 892:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2814,7 +2768,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 859:
+/***/ 893:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -3680,64 +3634,16 @@ if (false) {
 
 /***/ }),
 
-/***/ 86:
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* styles */
-__webpack_require__(852)
-
-/* script */
-__vue_exports__ = __webpack_require__(854)
-
-/* template */
-var __vue_template__ = __webpack_require__(855)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/Users/lvyang/workspace/iae/views/allot/allotPolicyDrugs.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-13cb86c6", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-13cb86c6", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] allotPolicyDrugs.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ }),
-
-/***/ 860:
+/***/ 894:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(861);
+var content = __webpack_require__(895);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(91)(content, {});
+var update = __webpack_require__(98)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -3755,7 +3661,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 861:
+/***/ 895:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -3770,7 +3676,7 @@ exports.push([module.i, "\n.copy_form .search .el-form-item__label {\n  padding-
 
 /***/ }),
 
-/***/ 862:
+/***/ 896:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4111,7 +4017,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 863:
+/***/ 897:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -4429,7 +4335,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     ref: "policy",
     staticClass: "demo-ruleForm",
     staticStyle: {
-      "margin-top": "20px"
+      "margin-top": "20px",
+      "text-align": "left"
     },
     attrs: {
       "model": _vm.policy,
@@ -4560,7 +4467,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     ref: "policyBatch",
     staticClass: "demo-ruleForm",
     staticStyle: {
-      "margin-top": "20px"
+      "margin-top": "20px",
+      "text-align": "left"
     },
     attrs: {
       "model": _vm.policyBatch,
@@ -4759,20 +4667,116 @@ if (false) {
 
 /***/ }),
 
-/***/ 87:
+/***/ 92:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(856)
+__webpack_require__(882)
 
 /* script */
-__vue_exports__ = __webpack_require__(858)
+__vue_exports__ = __webpack_require__(884)
 
 /* template */
-var __vue_template__ = __webpack_require__(859)
+var __vue_template__ = __webpack_require__(885)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/lvyang/workspace/iae/views/allot/allotPolicy.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-20d21ef4", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-20d21ef4", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] allotPolicy.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+
+/***/ 93:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(886)
+
+/* script */
+__vue_exports__ = __webpack_require__(888)
+
+/* template */
+var __vue_template__ = __webpack_require__(889)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/lvyang/workspace/iae/views/allot/allotPolicyDrugs.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-13cb86c6", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-13cb86c6", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] allotPolicyDrugs.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+
+/***/ 94:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(890)
+
+/* script */
+__vue_exports__ = __webpack_require__(892)
+
+/* template */
+var __vue_template__ = __webpack_require__(893)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -4807,20 +4811,20 @@ module.exports = __vue_exports__
 
 /***/ }),
 
-/***/ 88:
+/***/ 95:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(860)
+__webpack_require__(894)
 
 /* script */
-__vue_exports__ = __webpack_require__(862)
+__vue_exports__ = __webpack_require__(896)
 
 /* template */
-var __vue_template__ = __webpack_require__(863)
+var __vue_template__ = __webpack_require__(897)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -4855,7 +4859,7 @@ module.exports = __vue_exports__
 
 /***/ }),
 
-/***/ 91:
+/***/ 98:
 /***/ (function(module, exports) {
 
 /*

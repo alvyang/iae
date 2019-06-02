@@ -140,6 +140,7 @@
 					<el-select v-model="sale.batch_number" placeholder="请选择" filterable style="width:194px;"  v-show="this.drug.product_type == '高打'">
 					 <el-option
 						 v-for="item in batchStockList"
+						 v-if="item.batch_stock_number > 0 || sale.sale_type == '2' || sale.sale_type == '3' "
 						 :key="item.batch_number+'('+new Date(item.batch_stock_time).format('yyyy-MM-dd').substring(0,10)+')'"
 						 :label="item.batch_number+'('+new Date(item.batch_stock_time).format('yyyy-MM-dd').substring(0,10)+')'"
 						 :value="item.batch_number+'('+new Date(item.batch_stock_time).format('yyyy-MM-dd').substring(0,10)+')'">

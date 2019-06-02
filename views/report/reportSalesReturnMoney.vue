@@ -2,7 +2,7 @@
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
 			<el-breadcrumb-item :to="{ path: '/main/report' }">报表管理</el-breadcrumb-item>
-			<el-breadcrumb-item>销售外欠积分（按联系人）</el-breadcrumb-item>
+			<el-breadcrumb-item>销售应收积分（按联系人）</el-breadcrumb-item>
 		</el-breadcrumb>
     <div style="margin-top:10px;padding:10px;border:1px solid #ffffff;background-color:#ffffff;">
       <el-table v-for="d in listData" :data="d" style="width: 372px;display: inline-block;vertical-align: top;" size="mini" :stripe="true" :border="true">

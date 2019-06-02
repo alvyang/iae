@@ -5,7 +5,7 @@
 			<el-breadcrumb-item>商业管理</el-breadcrumb-item>
 		</el-breadcrumb>
 		<el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
-		  <el-form-item label="机构名称" prop="business_name">
+		  <el-form-item label="商业名称" prop="business_name">
 		    <el-input v-model="params.business_name" @keyup.13.native="reSearch(false)" style="width:210px;" size="mini" placeholder="商业名称"></el-input>
 		  </el-form-item>
 		  <el-form-item>
@@ -38,7 +38,7 @@
 		</div>
 		<el-dialog :title="title == 1?'新增商业':'修改商业'" width="500px" :visible.sync="dialogFormVisible">
 			<el-form :model="business" status-icon :rules="businessRule" ref="business" label-width="80px" class="demo-ruleForm">
-				<el-form-item label="销售机构" prop="business_name">
+				<el-form-item label="商业名称" prop="business_name">
 					<el-input v-model="business.business_name" auto-complete="off" style="width:350px;" :maxlength="50" placeholder="请输入商业名称"></el-input>
 				</el-form-item>
 				<el-form-item label="机构地址" prop="business_mark">

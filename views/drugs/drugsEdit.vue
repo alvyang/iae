@@ -95,7 +95,7 @@
 						</el-form-item>
 					</div>
 					<div>
-						<el-form-item label="产品税率" prop="product_tax_rate" :required="true">
+						<el-form-item label="产品税率" prop="product_tax_rate">
 							<el-input v-model="drugs.product_tax_rate" style="width: 179px;" auto-complete="off" :maxlength="10" placeholder="产品税率（如：0.16）"></el-input>
 						</el-form-item>
 						<el-form-item label="核算成本" prop="accounting_cost">
@@ -315,7 +315,6 @@
 					gross_interest_rate:[{ validator: validateMoney,labelname:'毛利率', trigger: 'blur' }],
 					product_return_discount:[{ validator: validatePercent,labelname:'返费率', trigger: 'blur' }],
 					product_high_discount:[{ validator: validatePercent,labelname:'底价', trigger: 'blur' }],
-					product_tax_rate:[{ validator: validateDecimal,trigger: 'blur' }],
 					product_return_time_day:[{ validator: validateDay,trigger: 'blur' }],
 					product_return_time_day_num:[{ validator: validateDayNumber,trigger: 'blur' }]
 				},

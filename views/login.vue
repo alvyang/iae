@@ -161,11 +161,13 @@
                     _self.refreshCode();
                     _self.$message.error("该电脑没有授权登陆");
                   }  else if(res.code == "000000"){
-                    if(_self.login.remember){
-                      _self.setCookie("login_message",JSON.stringify(_self.login),1000 * 60 * 60);
-                    }
                     sessionStorage["user"] = JSON.stringify(res.message[0]);
        							_self.$router.push("/main");
+                    if(!_self.login.remember){
+                      _self.login.password = "";
+                    }
+                    _self.setCookie("login_message",JSON.stringify(_self.login),1000 * 60 * 60);
+
        						}
        					}
        				});

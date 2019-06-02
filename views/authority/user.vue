@@ -107,9 +107,10 @@
 				var _self = this;
         if (value === '') {
           callback(new Error('请输入用户名'));
-        } else {
+        } else if(this.user.group_id){
 					this.jquery('/iae/user/exitsUsers',{
-						username:_self.user.username
+						username:_self.user.username,
+						group_id:_self.user.group_id
 					},function(res){
 						if (_self.title == 1 && res.message.length > 0) {
 		          callback(new Error('该用户名已存在'));
@@ -117,6 +118,8 @@
 		          callback();
 		        }
 					});
+				}else{
+					callback();
 				}
       };
 			return {
@@ -347,5 +350,5 @@
 	})
 </script>
 <style>
-	
+
 </style>

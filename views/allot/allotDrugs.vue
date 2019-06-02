@@ -120,6 +120,7 @@
 				 <el-select v-model="allot.batch_number" filterable placeholder="请选择" style="width:179px;">
 					<el-option
 						v-for="item in batchStockList"
+						v-if="item.batch_stock_number > 0 || allot.allot_type == '2' "
 						:key="item.batch_number+'('+new Date(item.batch_stock_time).format('yyyy-MM-dd').substring(0,10)+')'"
 						:label="item.batch_number+'('+new Date(item.batch_stock_time).format('yyyy-MM-dd').substring(0,10)+')'"
 						:value="item.batch_number+'('+new Date(item.batch_stock_time).format('yyyy-MM-dd').substring(0,10)+')'">

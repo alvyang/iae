@@ -1,15 +1,15 @@
 webpackJsonp([6],{
 
-/***/ 363:
+/***/ 370:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(364);
+var content = __webpack_require__(371);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(91)(content, {});
+var update = __webpack_require__(98)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -27,7 +27,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 364:
+/***/ 371:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -42,7 +42,7 @@ exports.push([module.i, "\n.main_content .drug_list .el-dialog__wrapper .el-dial
 
 /***/ }),
 
-/***/ 365:
+/***/ 372:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -416,7 +416,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 366:
+/***/ 373:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1223,16 +1223,16 @@ if (false) {
 
 /***/ }),
 
-/***/ 367:
+/***/ 374:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(368);
+var content = __webpack_require__(375);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(91)(content, {});
+var update = __webpack_require__(98)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -1250,7 +1250,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 368:
+/***/ 375:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -1265,7 +1265,7 @@ exports.push([module.i, "\n.add_div > div{\n\t\ttext-align: center;\n\t\tpadding
 
 /***/ }),
 
-/***/ 369:
+/***/ 376:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1275,7 +1275,7 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _tagInput = __webpack_require__(370);
+var _tagInput = __webpack_require__(377);
 
 var _tagInput2 = _interopRequireDefault(_tagInput);
 
@@ -1402,7 +1402,6 @@ exports.default = {
 				gross_interest_rate: [{ validator: validateMoney, labelname: '毛利率', trigger: 'blur' }],
 				product_return_discount: [{ validator: validatePercent, labelname: '返费率', trigger: 'blur' }],
 				product_high_discount: [{ validator: validatePercent, labelname: '底价', trigger: 'blur' }],
-				product_tax_rate: [{ validator: validateDecimal, trigger: 'blur' }],
 				product_return_time_day: [{ validator: validateDay, trigger: 'blur' }],
 				product_return_time_day_num: [{ validator: validateDayNumber, trigger: 'blur' }]
 			},
@@ -1761,20 +1760,20 @@ exports.default = {
 
 /***/ }),
 
-/***/ 370:
+/***/ 377:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(371)
+__webpack_require__(378)
 
 /* script */
-__vue_exports__ = __webpack_require__(373)
+__vue_exports__ = __webpack_require__(380)
 
 /* template */
-var __vue_template__ = __webpack_require__(374)
+var __vue_template__ = __webpack_require__(381)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -1810,16 +1809,16 @@ module.exports = __vue_exports__
 
 /***/ }),
 
-/***/ 371:
+/***/ 378:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(372);
+var content = __webpack_require__(379);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(91)(content, {});
+var update = __webpack_require__(98)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -1837,7 +1836,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 372:
+/***/ 379:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -1852,7 +1851,7 @@ exports.push([module.i, "\n.el-tag + .el-tag[data-v-14776736] {\n  margin-left: 
 
 /***/ }),
 
-/***/ 373:
+/***/ 380:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1954,7 +1953,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 374:
+/***/ 381:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2007,7 +2006,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 375:
+/***/ 382:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2470,8 +2469,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" %\n\t\t\t\t\t")], 1)], 1), _vm._v(" "), _c('div', [_c('el-form-item', {
     attrs: {
       "label": "产品税率",
-      "prop": "product_tax_rate",
-      "required": true
+      "prop": "product_tax_rate"
     }
   }, [_c('el-input', {
     staticStyle: {
@@ -2969,16 +2967,16 @@ if (false) {
 
 /***/ }),
 
-/***/ 376:
+/***/ 383:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(377);
+var content = __webpack_require__(384);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(91)(content, {});
+var update = __webpack_require__(98)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -2996,7 +2994,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 377:
+/***/ 384:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -3011,7 +3009,7 @@ exports.push([module.i, "\n.copy_form .search .el-form-item__label {\n  padding-
 
 /***/ }),
 
-/***/ 378:
+/***/ 385:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3234,7 +3232,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 379:
+/***/ 386:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -3651,16 +3649,16 @@ if (false) {
 
 /***/ }),
 
-/***/ 380:
+/***/ 387:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(381);
+var content = __webpack_require__(388);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(91)(content, {});
+var update = __webpack_require__(98)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -3678,7 +3676,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 381:
+/***/ 388:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -3693,7 +3691,7 @@ exports.push([module.i, "\n.copy_form .search .el-form-item__label {\n  padding-
 
 /***/ }),
 
-/***/ 382:
+/***/ 389:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3904,7 +3902,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 383:
+/***/ 390:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -4285,20 +4283,20 @@ if (false) {
 
 /***/ }),
 
-/***/ 43:
+/***/ 45:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(363)
+__webpack_require__(370)
 
 /* script */
-__vue_exports__ = __webpack_require__(365)
+__vue_exports__ = __webpack_require__(372)
 
 /* template */
-var __vue_template__ = __webpack_require__(366)
+var __vue_template__ = __webpack_require__(373)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -4333,20 +4331,20 @@ module.exports = __vue_exports__
 
 /***/ }),
 
-/***/ 44:
+/***/ 46:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(367)
+__webpack_require__(374)
 
 /* script */
-__vue_exports__ = __webpack_require__(369)
+__vue_exports__ = __webpack_require__(376)
 
 /* template */
-var __vue_template__ = __webpack_require__(375)
+var __vue_template__ = __webpack_require__(382)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -4381,20 +4379,20 @@ module.exports = __vue_exports__
 
 /***/ }),
 
-/***/ 45:
+/***/ 47:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(376)
+__webpack_require__(383)
 
 /* script */
-__vue_exports__ = __webpack_require__(378)
+__vue_exports__ = __webpack_require__(385)
 
 /* template */
-var __vue_template__ = __webpack_require__(379)
+var __vue_template__ = __webpack_require__(386)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -4429,20 +4427,20 @@ module.exports = __vue_exports__
 
 /***/ }),
 
-/***/ 46:
+/***/ 48:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(380)
+__webpack_require__(387)
 
 /* script */
-__vue_exports__ = __webpack_require__(382)
+__vue_exports__ = __webpack_require__(389)
 
 /* template */
-var __vue_template__ = __webpack_require__(383)
+var __vue_template__ = __webpack_require__(390)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -4477,7 +4475,7 @@ module.exports = __vue_exports__
 
 /***/ }),
 
-/***/ 91:
+/***/ 98:
 /***/ (function(module, exports) {
 
 /*

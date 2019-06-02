@@ -1,6 +1,49 @@
 //未发版sql
+alter table purchase_loss add purchase_loss_remark varchar(1000) DEFAULT '' COMMENT '备注';
+alter table purchase_recovery add purchase_recovery_remark varchar(1000) DEFAULT '' COMMENT '备注';
 
+//20190518 发版
+update allot su set su.allot_return_money = (
+select sn.otherMoney from (
 
+select a.allot_id,-round(p.purchase_other_money*a.allot_number/p.purchase_number,2) otherMoney
+from allot a
+left join purchase p on a.allot_purchase_id = p.purchase_id
+left join allot_policy sp on a.allot_hospital = sp.allot_hospital_id and a.allot_drug_id = sp.allot_drug_id
+where a.allot_delete_flag = '0' and a.allot_group_id='b2413640-2f53-11e9-872f-f30e2634bd18'
+
+) sn where su.allot_id = sn.allot_id)
+where su.allot_delete_flag = '0' and su.allot_group_id='b2413640-2f53-11e9-872f-f30e2634bd18'
+
+update sales su set su.sale_return_money = (
+select round(sn.sale_num*sn.returnPrice-sn.otherMoney,2) from (
+select s.sale_id,s.sale_num,sp.sale_policy_money,
+if(s.sale_return_price,s.sale_return_price,sp.sale_policy_money) returnPrice,
+if(d.product_type='佣金',s.sale_other_money,p.purchase_other_money*s.sale_num/p.purchase_number) otherMoney
+from sales s
+left join drugs d on s.product_code = d.product_code
+left join purchase p on s.sales_purchase_id = p.purchase_id
+left join sale_policy sp on s.hospital_id = sp.sale_hospital_id and d.product_id = sp.sale_drug_id
+where s.delete_flag = '0' and s.group_id='b2413640-2f53-11e9-872f-f30e2634bd18'
+and sp.sale_policy_money is not null and sp.sale_policy_money != ''
+and d.delete_flag = '0' and d.group_id='b2413640-2f53-11e9-872f-f30e2634bd18'
+) sn where su.sale_id = sn.sale_id)
+where su.delete_flag = '0' and su.group_id='b2413640-2f53-11e9-872f-f30e2634bd18'
+
+update sales su set su.sale_return_money = (
+select round(sn.sale_num*sn.returnPrice-sn.otherMoney,2) from (
+select s.sale_id,s.sale_num,sp.sale_policy_money,
+if(s.sale_return_price,s.sale_return_price,sp.sale_policy_money) returnPrice,
+if(d.product_type='佣金',s.sale_other_money,p.purchase_other_money*s.sale_num/p.purchase_number) otherMoney
+from sales s
+left join drugs d on s.product_code = d.product_code
+left join purchase p on s.sales_purchase_id = p.purchase_id
+left join sale_policy sp on s.hospital_id = sp.sale_hospital_id and d.product_id = sp.sale_drug_id
+where s.delete_flag = '0' and s.group_id='bd3be180-2f53-11e9-872f-f30e2634bd18'
+and sp.sale_policy_money is not null and sp.sale_policy_money != ''
+and d.delete_flag = '0' and d.group_id='bd3be180-2f53-11e9-872f-f30e2634bd18'
+) sn where su.sale_id = sn.sale_id)
+where su.delete_flag = '0' and su.group_id='bd3be180-2f53-11e9-872f-f30e2634bd18'
 //20190512 发版
 INSERT INTO `authority` VALUES
 ('171', '商业调拨', '商业调拨', '1000', '/main/about', '148', '0', '1', '3', '7');

@@ -17,8 +17,8 @@
 		<el-table :data="groups" style="width: 100%" size="mini" :stripe="true" :border="true">
 			<el-table-column prop="group_name" label="组名称"></el-table-column>
 			<el-table-column prop="group_code" label="组编码"></el-table-column>
-			<el-table-column prop="start_time" :formatter="formatValue" label="有效期开始时间"></el-table-column>
-      <el-table-column prop="end_time" :formatter="formatValue" label="有效期结束时间"></el-table-column>
+			<el-table-column prop="start_time" :formatter="formatterDate" label="有效期开始时间" ></el-table-column>
+      <el-table-column prop="end_time" :formatter="formatterDate" label="有效期结束时间" ></el-table-column>
 			<el-table-column fixed="right" label="操作" width="180">
 	    <template slot-scope="scope">
 		    <el-button v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
@@ -132,6 +132,18 @@
 
 		},
 		methods:{
+			formatterDate(row, column, cellValue){
+				if(cellValue && typeof cellValue == "string"){
+	        var temp = cellValue.substring(0,10);
+	        var d = new Date(temp);
+	        d.setDate(d.getDate()+1);
+	        return d.format("yyyy-MM-dd");
+	      }else if(cellValue && typeof cellValue == "object"){
+	        return new Date(cellValue).format("yyyy-MM-dd");
+	      }else{
+	        return "";
+	      }
+			},
 			editGroupAuthority(){
 				var _self = this;
 				var keys = this.$refs.tree.getCheckedKeys();

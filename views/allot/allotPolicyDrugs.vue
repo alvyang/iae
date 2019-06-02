@@ -65,7 +65,7 @@
             <div style="display:block;width:100%;"><span>生产厂家:</span>{{drug.product_makesmakers}}</div>
   			  </el-collapse-item>
   			</el-collapse>
-  			<el-form :model="policy" status-icon :rules="policyRule" style="margin-top:20px;" :inline="true" ref="policy" label-width="100px" class="demo-ruleForm">
+  			<el-form :model="policy" status-icon :rules="policyRule" style="margin-top:20px;;text-align:left;" :inline="true" ref="policy" label-width="100px" class="demo-ruleForm">
           <el-form-item label="调货积分" prop="allot_policy_money" :maxlength="10">
   					<el-input v-model="policy.allot_policy_money" style="width:179px;" placeholder="调货积分"></el-input>
   				</el-form-item>
@@ -89,7 +89,7 @@
         </div>
       </el-dialog>
       <el-dialog title="批量新增调货政策" width="700px" :visible.sync="dialogFormVisibleBatch">
-  			<el-form :model="policyBatch" status-icon :rules="policyBatchRule" style="margin-top:20px;" :inline="true" ref="policyBatch" label-width="100px" class="demo-ruleForm">
+  			<el-form :model="policyBatch" status-icon :rules="policyBatchRule" style="margin-top:20px;;text-align:left;" :inline="true" ref="policyBatch" label-width="100px" class="demo-ruleForm">
           <el-form-item label="返点类型" prop="type">
   					<el-radio v-model="policyBatch.type" label="2">按中标价固定点数返</el-radio>
             <el-radio v-model="policyBatch.type" label="4">按中标价固定点数扣</el-radio>
@@ -320,7 +320,7 @@
   })
 </script>
 <style>
-  
+
   .el-collapse-item__content > div{
     display: inline-block;
     width: 30%;
