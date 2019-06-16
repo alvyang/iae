@@ -94,8 +94,8 @@
 				<el-table-column prop="batch_number" label="批号" width="70"></el-table-column>
 				<el-table-column label="实收上游积分(单价)" width="70" :formatter="formatterReturnMoney"></el-table-column>
 				<el-table-column prop="sale_return_price" label="政策积分" width="70" ></el-table-column>
-				<el-table-column prop="sale_return_money" label="补点/费用票" width="80" :formatter="formatterOtherMoney"></el-table-column>
-				<el-table-column prop="sale_return_money" label="应付积分" width="70" :formatter="formatterShouldPay"></el-table-column>
+				<el-table-column prop="sale_other_money" label="补点/费用票" width="80"></el-table-column>
+				<el-table-column prop="sale_return_money" label="应付积分" width="70"></el-table-column>
 				<!-- <el-table-column prop="sale_return_money" label="应付积分-费用票" width="70" :formatter="formatterShouldMoney"></el-table-column> -->
 				<el-table-column prop="sale_return_real_return_money" label="实付积分" width="70"></el-table-column>
 				<el-table-column prop="sale_return_real_return_money" label="未付积分" width="70" :formatter="formatterNoPay"></el-table-column>
@@ -135,11 +135,26 @@
 			  </el-collapse-item>
 			</el-collapse>
 			<el-form :model="sale" status-icon :rules="saleRule" style="margin-top:20px;" :inline="true" ref="sale" label-width="100px" class="demo-ruleForm">
-				<el-form-item label="政策积分" prop="sale_return_price">
-					<el-input v-model="sale.sale_return_price" style="width:179px;" placeholder="政策积分" @blur='saleReturnPrice'></el-input>
+				<el-form-item label="政策公式" prop="sale_should_pay_formula">
+					<el-select v-model="sale.sale_should_pay_formula" style="width:472px;" @change="formulaChange"  placeholder="请选择">
+						<el-option key="1" label="中标价*政策点数" value="1"></el-option>
+						<el-option key="2" label="中标价*政策点数-补点/费用票" value="2"></el-option>
+						<el-option key="3" label="实收上游积分或上游政策积分*政策点数" value="3"></el-option>
+						<el-option key="4" label="实收上游积分或上游政策积分*政策点数-补点/费用票" value="4"></el-option>
+						<el-option key="5" label="实收上游积分或上游政策积分-中标价*政策点数" value="5"></el-option>
+						<el-option key="6" label="实收上游积分或上游政策积分-中标价*政策点数-补点/费用票" value="6"></el-option>
+						<el-option key="7" label="实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分" value="7"></el-option>
+						<el-option key="8" label="固定政策（上游政策修改后，需手动调整下游政策）" value="8"></el-option>
+					</el-select>
 				</el-form-item>
-				<el-form-item label="补点/费用票" prop="other_money_temp">
-					<el-input v-model="sale.other_money_temp" placeholder="补点/费用票" :readonly="true" style="width:179px;"></el-input>
+				<el-form-item label="政策点数" prop="sale_should_pay_percent" :maxlength="10" v-show="sale.sale_should_pay_formula != '8'">
+					<el-input v-model="sale.sale_should_pay_percent" style="width:179px;" @blur='formulaChange'  placeholder="政策点数（如：60）"></el-input>
+				</el-form-item>
+				<el-form-item label="政策积分" prop="sale_return_price">
+					<el-input v-model="sale.sale_return_price" style="width:179px;" placeholder="政策积分" @blur='formulaChange'></el-input>
+				</el-form-item>
+				<el-form-item label="补点/费用票" prop="sale_other_money">
+					<el-input v-model="sale.sale_other_money" placeholder="补点/费用票" :readonly="true" style="width:179px;"></el-input>
 				</el-form-item>
 				<el-form-item label="应付积分" prop="sale_return_money">
 					<el-input v-model="sale.sale_return_money" placeholder="应付积分" :readonly="true"  style="width:179px;"></el-input>
@@ -245,6 +260,7 @@
 				},
 				sale:{},//修改的销售信息
 				saleRule:{
+
 				},
 				dialogFormVisible:false,
 				loading:false,
@@ -266,18 +282,32 @@
 
 		},
 		methods:{
+			formulaChange(){
+				var shouldPay = 0;
+				var formula = this.sale.sale_should_pay_formula;
+        if(this.sale.sale_should_pay_percent){
+					var realReturnMoney = "";
+					if(this.sale.product_type == '佣金'){
+						realReturnMoney = this.sale.refunds_real_money/this.sale.sale_num;
+					}else if(this.sale.product_type == '高打'){
+						realReturnMoney = this.sale.refunds_real_money1/this.sale.purchase_number;
+					}
+					realReturnMoney = realReturnMoney?realReturnMoney:this.sale.product_return_money;
+
+					var t = this.sale.purchase_other_money/this.sale.purchase_number;
+					this.sale.sale_other_money = Math.round(t*this.sale.sale_num*100)/100;
+					this.sale.sale_return_price = this.getShouldPayMoney(formula,this.sale.sale_price,realReturnMoney,this.sale.sale_should_pay_percent,0,this.sale.sale_return_price);
+					this.sale.sale_return_price = Math.round(this.sale.sale_return_price*100)/100;
+					shouldPay = this.getShouldPayMoney(formula,this.sale.sale_price,realReturnMoney,this.sale.sale_should_pay_percent,t,this.sale.sale_return_price);
+				}
+				this.sale.sale_return_money = this.mul(shouldPay,this.sale.sale_num,2);
+      },
 			selectSalesContact(val){
 				this.selectContact={};
 				for(var i = 0 ; i < this.contacts.length;i++){
 					if(this.contacts[i].contacts_id == val){
 						this.selectContact = this.contacts[i];
 					}
-				}
-			},
-			saleReturnPrice(){
-				this.sale.sale_return_money = this.mul(this.sale.sale_return_price,this.sale.sale_num,2);
-				if(this.sale.other_money_temp){
-					this.sale.sale_return_money = this.sub(this.sale.sale_return_money,this.sale.other_money_temp,2);
 				}
 			},
 			getBankAccount(){

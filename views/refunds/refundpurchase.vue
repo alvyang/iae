@@ -427,6 +427,7 @@ export default({
       var temp = JSON.stringify(scope.row);
       this.refund = JSON.parse(temp);
       this.refund.front_message = temp;
+      this.refund.refunds_policy_money =  this.refund.product_return_money;
       if(this.refund.product_return_money && !this.refund.refunds_should_money){
         var num = this.refund.sale_num?this.refund.sale_num:this.refund.purchase_number;
         if(this.refund.product_floor_price && this.refund.product_high_discount){
@@ -513,6 +514,7 @@ export default({
           		receiver:this.refund.receiver,
               refunds_id:this.refund.refunds_id,
               purchases_id:this.refund.purchase_id,
+              purchase_number:this.refund.purchase_number,
               sales_id:this.refund.sale_id,
               service_charge:this.refund.service_charge,
               refunds_remark:this.refund.refunds_remark,

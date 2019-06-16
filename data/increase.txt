@@ -2,6 +2,21 @@
 alter table purchase_loss add purchase_loss_remark varchar(1000) DEFAULT '' COMMENT '备注';
 alter table purchase_recovery add purchase_recovery_remark varchar(1000) DEFAULT '' COMMENT '备注';
 
+
+//20190616 发版
+alter table sale_policy add sale_policy_formula varchar(5) DEFAULT '' COMMENT '政策公式';
+alter table sale_policy add sale_policy_percent varchar(10) DEFAULT '' COMMENT '政策点数';
+
+alter table sales add sale_should_pay_formula varchar(5) DEFAULT '' COMMENT '政策公式';
+alter table sales add sale_should_pay_percent varchar(10) DEFAULT '' COMMENT '政策点数';
+
+alter table allot_policy add allot_policy_formula varchar(5) DEFAULT '' COMMENT '政策公式';
+alter table allot_policy add allot_policy_percent varchar(10) DEFAULT '' COMMENT '政策点数';
+
+alter table allot add allot_should_pay_formula varchar(5) DEFAULT '' COMMENT '政策公式';
+alter table allot add allot_should_pay_percent varchar(10) DEFAULT '' COMMENT '政策点数';
+alter table allot add allot_other_money varchar(20) DEFAULT '' COMMENT '其它费用';
+
 //20190518 发版
 update allot su set su.allot_return_money = (
 select sn.otherMoney from (

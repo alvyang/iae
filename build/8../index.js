@@ -218,18 +218,40 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
   data: function data() {
     var _this = this;
 
     var validateBatchPercent = function validateBatchPercent(rule, value, callback) {
-      var mess = _this.policyBatch.type == "4" ? "扣留点数" : "政策点数";
-      if (!value) {
-        callback(new Error('请再输入' + mess));
+      if (!value && _this.policy.allot_policy_formula != '8') {
+        callback(new Error('请再输入政策点数'));
       } else if (value && !/^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/.test(value)) {
-        callback(new Error('请再输入正确的' + mess));
+        callback(new Error('请再输入正确的政策点数'));
       } else {
+        _this.policy.allot_policy_money = _this.getShouldPayMoney(_this.policy.allot_policy_formula, _this.drug.product_price, _this.drug.product_return_money, _this.policy.allot_policy_percent, 0, _this.policy.allot_policy_money);
+        _this.policy.allot_policy_money = Math.round(_this.policy.allot_policy_money * 100) / 100;
         callback();
       }
     };
@@ -245,6 +267,8 @@ exports.default = {
         productCode: ""
       },
       policy: {
+        allot_policy_formula: "",
+        allot_policy_percent: "",
         allot_policy_money: "",
         allot_policy_contact_id: "",
         allot_policy_remark: ""
@@ -258,8 +282,8 @@ exports.default = {
         hospital_id_copy: [{ required: true, message: '请选择复制的销住单位', trigger: 'change' }]
       },
       policyBatch: {
-        type: "2",
-        policy_percent: "",
+        allot_policy_formula: "1",
+        allot_policy_percent: "",
         allot_policy_contact_id: "",
         allot_policy_remark: ""
       },
@@ -285,6 +309,12 @@ exports.default = {
   },
 
   methods: {
+    formulaChange: function formulaChange() {
+      if (this.policy.allot_policy_percent) {
+        this.policy.allot_policy_money = this.getShouldPayMoney(this.policy.allot_policy_formula, this.drug.product_price, this.drug.product_return_money, this.policy.allot_policy_percent, 0, this.policy.allot_policy_money);
+        this.policy.allot_policy_money = Math.round(this.policy.allot_policy_money * 100) / 100;
+      }
+    },
     copyPolicy: function copyPolicy(formName) {
       //政策复制
       var _self = this;
@@ -307,6 +337,38 @@ exports.default = {
         return "";
       }
     },
+    formatterFormula: function formatterFormula(row, column, cellValue, index) {
+      var message = "";
+      switch (cellValue) {
+        case "1":
+          message = "中标价*政策点数";
+          break;
+        case "2":
+          message = "中标价*政策点数-补点/费用票";
+          break;
+        case "3":
+          message = "实收上游积分或上游政策积分*政策点数";
+          break;
+        case "4":
+          message = "实收上游积分或上游政策积分*政策点数-补点/费用票";
+          break;
+        case "5":
+          message = "实收上游积分或上游政策积分-中标价*政策点数";
+          break;
+        case "6":
+          message = "实收上游积分或上游政策积分-中标价*政策点数-补点/费用票";
+          break;
+        case "7":
+          message = "实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分";
+          break;
+        case "8":
+          message = "固定政策（上游政策修改后，需几时调整下游政策）";
+          break;
+        default:
+
+      }
+      return message;
+    },
     editRow: function editRow(scope) {
       //编辑药品信息
       this.dialogFormVisible = true;
@@ -315,11 +377,17 @@ exports.default = {
       this.policy.front_message = JSON.stringify({
         allot_policy_money: this.drug.allot_policy_money,
         allot_policy_contact_id: this.drug.allot_policy_contact_id,
-        allot_policy_remark: this.drug.allot_policy_remark
+        allot_policy_remark: this.drug.allot_policy_remark,
+        allot_policy_percent: this.drug.allot_policy_percent,
+        allot_policy_formula: this.drug.allot_policy_formula
       });
+      this.policy.allot_policy_formula = this.drug.allot_policy_formula;
+      this.policy.allot_policy_percent = this.drug.allot_policy_percent;
       this.policy.allot_policy_money = this.drug.allot_policy_money;
       this.policy.allot_policy_contact_id = this.drug.allot_policy_contact_id;
       this.policy.allot_policy_remark = this.drug.allot_policy_remark;
+      this.policy.product_price = this.drug.product_price;
+      this.policy.product_return_money = this.drug.product_return_money;
     },
     editBatchRow: function editBatchRow() {
       if (this.drugId.length > 0) {
@@ -332,6 +400,7 @@ exports.default = {
         this.drugId.push({
           id: val[i].product_id,
           price: val[i].product_price,
+          product_code: val[i].product_code,
           returnMoney: val[i].product_return_money,
           hospitalId: val[i].allot_hospital_id
         });
@@ -395,6 +464,7 @@ exports.default = {
       var _self = this;
       _self.policy.allot_hospital_id = this.drug.allot_hospital_id;
       _self.policy.allot_drug_id = this.drug.product_id;
+      _self.policy.product_code = this.drug.product_code;
       this.$refs[formName].validate(function (valid) {
         if (valid) {
           _this3.loading = true;
@@ -757,6 +827,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
+      "prop": "allot_policy_percent",
+      "label": "政策点数",
+      "width": "80"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "allot_policy_formula",
+      "label": "政策公式",
+      "width": "80",
+      "formatter": _vm.formatterFormula
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
       "prop": "business_name",
       "label": "积分比例",
       "formatter": _vm.formatterPercent
@@ -960,7 +1043,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "title": '药品信息（药品名：' + _vm.drug.product_common_name + '）',
       "name": "1"
     }
-  }, [_c('div', [_c('span', [_vm._v("规格:")]), _vm._v(_vm._s(_vm.drug.product_specifications))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("积分:")]), _vm._v(_vm._s(_vm.drug.product_return_money))]), _vm._v(" "), _c('div', {
+  }, [_c('div', [_c('span', [_vm._v("规格:")]), _vm._v(_vm._s(_vm.drug.product_specifications))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("中标价:")]), _vm._v(_vm._s(_vm.drug.product_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("积分:")]), _vm._v(_vm._s(_vm.drug.product_return_money))]), _vm._v(" "), _c('div', {
     staticStyle: {
       "display": "block",
       "width": "100%"
@@ -979,6 +1062,105 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "label-width": "100px"
     }
   }, [_c('el-form-item', {
+    attrs: {
+      "label": "政策公式",
+      "prop": "allot_policy_formula"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "472px"
+    },
+    attrs: {
+      "placeholder": "请选择"
+    },
+    on: {
+      "change": _vm.formulaChange
+    },
+    model: {
+      value: (_vm.policy.allot_policy_formula),
+      callback: function($$v) {
+        _vm.$set(_vm.policy, "allot_policy_formula", $$v)
+      },
+      expression: "policy.allot_policy_formula"
+    }
+  }, [_c('el-option', {
+    key: "1",
+    attrs: {
+      "label": "中标价*政策点数",
+      "value": "1"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "2",
+    attrs: {
+      "label": "中标价*政策点数-补点/费用票",
+      "value": "2"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "3",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数",
+      "value": "3"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "4",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数-补点/费用票",
+      "value": "4"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "5",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数",
+      "value": "5"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "6",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数-补点/费用票",
+      "value": "6"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "7",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分",
+      "value": "7"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "8",
+    attrs: {
+      "label": "固定政策（上游政策修改后，需手动调整下游政策）",
+      "value": "8"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.policy.allot_policy_formula != '8'),
+      expression: "policy.allot_policy_formula != '8'"
+    }],
+    attrs: {
+      "label": "政策点数",
+      "prop": "allot_policy_percent",
+      "maxlength": 10
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "政策点数（如：60）"
+    },
+    on: {
+      "change": _vm.formulaChange
+    },
+    model: {
+      value: (_vm.policy.allot_policy_percent),
+      callback: function($$v) {
+        _vm.$set(_vm.policy, "allot_policy_percent", $$v)
+      },
+      expression: "policy.allot_policy_percent"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
       "label": "调货积分",
       "prop": "allot_policy_money",
@@ -1111,54 +1293,70 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('el-form-item', {
     attrs: {
-      "label": "返点类型",
-      "prop": "type"
+      "label": "政策公式",
+      "prop": "allot_policy_formula"
     }
-  }, [_c('el-radio', {
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "472px"
+    },
     attrs: {
-      "label": "2"
+      "placeholder": "请选择"
     },
     model: {
-      value: (_vm.policyBatch.type),
+      value: (_vm.policyBatch.allot_policy_formula),
       callback: function($$v) {
-        _vm.$set(_vm.policyBatch, "type", $$v)
+        _vm.$set(_vm.policyBatch, "allot_policy_formula", $$v)
       },
-      expression: "policyBatch.type"
+      expression: "policyBatch.allot_policy_formula"
     }
-  }, [_vm._v("按中标价固定点数返")]), _vm._v(" "), _c('el-radio', {
+  }, [_c('el-option', {
+    key: "1",
     attrs: {
-      "label": "4"
-    },
-    model: {
-      value: (_vm.policyBatch.type),
-      callback: function($$v) {
-        _vm.$set(_vm.policyBatch, "type", $$v)
-      },
-      expression: "policyBatch.type"
+      "label": "中标价*政策点数",
+      "value": "1"
     }
-  }, [_vm._v("按中标价固定点数扣")]), _vm._v(" "), _c('el-radio', {
+  }), _vm._v(" "), _c('el-option', {
+    key: "2",
     attrs: {
-      "label": "3"
-    },
-    model: {
-      value: (_vm.policyBatch.type),
-      callback: function($$v) {
-        _vm.$set(_vm.policyBatch, "type", $$v)
-      },
-      expression: "policyBatch.type"
+      "label": "中标价*政策点数-补点/费用票",
+      "value": "2"
     }
-  }, [_vm._v("按积分固定点数返")])], 1), _vm._v(" "), _c('el-form-item', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.policyBatch.type != '4'),
-      expression: "policyBatch.type != '4'"
-    }],
+  }), _vm._v(" "), _c('el-option', {
+    key: "3",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数",
+      "value": "3"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "4",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数-补点/费用票",
+      "value": "4"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "5",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数",
+      "value": "5"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "6",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数-补点/费用票",
+      "value": "6"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "7",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分",
+      "value": "7"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
       "label": "政策点数",
-      "prop": "policy_percent",
-      "maxlength": 10,
-      "required": true
+      "prop": "allot_policy_percent",
+      "maxlength": 10
     }
   }, [_c('el-input', {
     staticStyle: {
@@ -1168,38 +1366,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "placeholder": "政策点数（如：60）"
     },
     model: {
-      value: (_vm.policyBatch.policy_percent),
+      value: (_vm.policyBatch.allot_policy_percent),
       callback: function($$v) {
-        _vm.$set(_vm.policyBatch, "policy_percent", $$v)
+        _vm.$set(_vm.policyBatch, "allot_policy_percent", $$v)
       },
-      expression: "policyBatch.policy_percent"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.policyBatch.type == '4'),
-      expression: "policyBatch.type == '4'"
-    }],
-    attrs: {
-      "label": "扣留点数",
-      "prop": "policy_percent",
-      "maxlength": 10,
-      "required": true
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "placeholder": "扣留点数（如：60）"
-    },
-    model: {
-      value: (_vm.policyBatch.policy_percent),
-      callback: function($$v) {
-        _vm.$set(_vm.policyBatch, "policy_percent", $$v)
-      },
-      expression: "policyBatch.policy_percent"
+      expression: "policyBatch.allot_policy_percent"
     }
   })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
@@ -1475,18 +1646,38 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
   data: function data() {
     var _this = this;
 
     var validateBatchPercent = function validateBatchPercent(rule, value, callback) {
-      var mess = _this.policyBatch.type == "4" ? "扣留点数" : "政策点数";
-      if (!value) {
-        callback(new Error('请再输入' + mess));
+      if (!value && _this.policy.allot_policy_formula != '8') {
+        callback(new Error('请再输入政策点数'));
       } else if (value && !/^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/.test(value)) {
-        callback(new Error('请再输入正确的' + mess));
+        callback(new Error('请再输入正确的政策点数'));
       } else {
+        _this.policy.allot_policy_money = _this.getShouldPayMoney(_this.policy.allot_policy_formula, _this.drug.product_price, _this.drug.product_return_money, _this.policy.allot_policy_percent, 0, _this.policy.allot_policy_money);
+        _this.policy.allot_policy_money = Math.round(_this.policy.allot_policy_money * 100) / 100;
         callback();
       }
     };
@@ -1504,18 +1695,20 @@ exports.default = {
       policy: {
         contactId: "",
         hospitalId: "",
+        allot_policy_formula: "1",
+        allot_policy_percent: "",
         allot_policy_money: "",
         allot_policy_contact_id: "",
         allot_policy_remark: ""
       },
       policyBatch: {
-        type: "2",
-        policy_percent: "",
+        allot_policy_formula: "1",
+        allot_policy_percent: "",
         allot_policy_contact_id: "",
         allot_policy_remark: ""
       },
       policyBatchRule: {
-        policy_percent: [{ validator: validateBatchPercent, trigger: 'blur' }],
+        allot_policy_percent: [{ validator: validateBatchPercent, trigger: 'blur' }],
         allot_policy_contact_id: [{ required: true, message: '请选择联系人', trigger: 'change' }]
       },
       authCode: "",
@@ -1539,14 +1732,26 @@ exports.default = {
   },
 
   methods: {
+    formulaChange: function formulaChange() {
+      if (this.policy.allot_policy_percent) {
+        this.policy.allot_policy_money = this.getShouldPayMoney(this.policy.allot_policy_formula, this.drug.product_price, this.drug.product_return_money, this.policy.allot_policy_percent, 0, this.policy.allot_policy_money);
+        this.policy.allot_policy_money = Math.round(this.policy.allot_policy_money * 100) / 100;
+      }
+    },
     editRow: function editRow(scope) {
       //编辑药品信息
       this.dialogFormVisible = true;
       var temp = JSON.stringify(scope.row);
       this.drug = JSON.parse(temp);
-      this.policy.allot_policy_money = this.drug.allot_policy_money;
-      this.policy.allot_policy_contact_id = this.drug.allot_policy_contact_id;
-      this.policy.allot_policy_remark = this.drug.allot_policy_remark;
+      this.policy.allot_policy_money = "";
+      this.policy.allot_policy_contact_id = "";
+      this.policy.allot_policy_remark = "";
+      this.policy.allot_policy_formula = "1";
+      this.policy.allot_policy_percent = "";
+      var _self = this;
+      setTimeout(function () {
+        _self.$refs["policy"].clearValidate();
+      }, 10);
     },
     editBatchRow: function editBatchRow() {
       if (this.drugId.length > 0) {
@@ -1586,6 +1791,7 @@ exports.default = {
         this.drugId.push({
           id: val[i].product_id,
           price: val[i].product_price,
+          product_code: val[i].product_code,
           returnMoney: val[i].product_return_money
         });
       }
@@ -1613,7 +1819,7 @@ exports.default = {
               _self.$refs["policyBatch"].resetFields();
               _self.dialogFormVisibleBatch = false;
               _self.loading = false;
-              _self.$router.push({ path: "/main/allotPolicy" });
+              _self.$router.push({ path: '/main/allotPolicy' });
             });
           });
         } else {
@@ -1627,6 +1833,9 @@ exports.default = {
       var _self = this;
       _self.policy.allot_hospital_id = this.params.hospitalId;
       _self.policy.allot_drug_id = this.drug.product_id;
+      _self.policy.product_code = this.drug.product_code;
+      _self.policy.product_price = this.drug.product_price;
+      _self.policy.product_return_money = this.drug.product_return_money;
       this.$refs[formName].validate(function (valid) {
         if (valid) {
           _this3.loading = true;
@@ -1644,7 +1853,7 @@ exports.default = {
               _self.$refs["policy"].resetFields();
               _self.dialogFormVisible = false;
               _self.loading = false;
-              _self.$router.push({ path: "/main/allotPolicy" });
+              _self.$router.push({ path: '/main/allotPolicy' });
             });
           });
         } else {
@@ -1990,7 +2199,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "title": '药品信息（药品名：' + _vm.drug.product_common_name + '）',
       "name": "1"
     }
-  }, [_c('div', [_c('span', [_vm._v("规格:")]), _vm._v(_vm._s(_vm.drug.product_specifications))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("积分:")]), _vm._v(_vm._s(_vm.drug.product_return_money))]), _vm._v(" "), _c('div', {
+  }, [_c('div', [_c('span', [_vm._v("规格:")]), _vm._v(_vm._s(_vm.drug.product_specifications))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("中标价:")]), _vm._v(_vm._s(_vm.drug.product_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("积分:")]), _vm._v(_vm._s(_vm.drug.product_return_money))]), _vm._v(" "), _c('div', {
     staticStyle: {
       "display": "block",
       "width": "100%"
@@ -2005,11 +2214,107 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "model": _vm.policy,
       "status-icon": "",
-      "rules": _vm.policyRule,
+      "rules": _vm.policyBatchRule,
       "inline": true,
       "label-width": "100px"
     }
   }, [_c('el-form-item', {
+    attrs: {
+      "label": "政策公式",
+      "prop": "allot_policy_formula"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "472px"
+    },
+    attrs: {
+      "placeholder": "请选择"
+    },
+    on: {
+      "change": _vm.formulaChange
+    },
+    model: {
+      value: (_vm.policy.allot_policy_formula),
+      callback: function($$v) {
+        _vm.$set(_vm.policy, "allot_policy_formula", $$v)
+      },
+      expression: "policy.allot_policy_formula"
+    }
+  }, [_c('el-option', {
+    key: "1",
+    attrs: {
+      "label": "中标价*政策点数",
+      "value": "1"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "2",
+    attrs: {
+      "label": "中标价*政策点数-补点/费用票",
+      "value": "2"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "3",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数",
+      "value": "3"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "4",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数-补点/费用票",
+      "value": "4"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "5",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数",
+      "value": "5"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "6",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数-补点/费用票",
+      "value": "6"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "7",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分",
+      "value": "7"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "8",
+    attrs: {
+      "label": "固定政策（上游政策修改后，需手动调整下游政策）",
+      "value": "8"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.policy.allot_policy_formula != '8'),
+      expression: "policy.allot_policy_formula != '8'"
+    }],
+    attrs: {
+      "label": "政策点数",
+      "prop": "allot_policy_percent",
+      "maxlength": 10
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "政策点数（如：60）"
+    },
+    model: {
+      value: (_vm.policy.allot_policy_percent),
+      callback: function($$v) {
+        _vm.$set(_vm.policy, "allot_policy_percent", $$v)
+      },
+      expression: "policy.allot_policy_percent"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
       "label": "调货积分",
       "prop": "allot_policy_money",
@@ -2143,54 +2448,70 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('el-form-item', {
     attrs: {
-      "label": "返点类型",
-      "prop": "type"
+      "label": "政策公式",
+      "prop": "allot_policy_formula"
     }
-  }, [_c('el-radio', {
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "472px"
+    },
     attrs: {
-      "label": "2"
+      "placeholder": "请选择"
     },
     model: {
-      value: (_vm.policyBatch.type),
+      value: (_vm.policyBatch.allot_policy_formula),
       callback: function($$v) {
-        _vm.$set(_vm.policyBatch, "type", $$v)
+        _vm.$set(_vm.policyBatch, "allot_policy_formula", $$v)
       },
-      expression: "policyBatch.type"
+      expression: "policyBatch.allot_policy_formula"
     }
-  }, [_vm._v("按中标价固定点数返")]), _vm._v(" "), _c('el-radio', {
+  }, [_c('el-option', {
+    key: "1",
     attrs: {
-      "label": "4"
-    },
-    model: {
-      value: (_vm.policyBatch.type),
-      callback: function($$v) {
-        _vm.$set(_vm.policyBatch, "type", $$v)
-      },
-      expression: "policyBatch.type"
+      "label": "中标价*政策点数",
+      "value": "1"
     }
-  }, [_vm._v("按中标价固定点数扣")]), _vm._v(" "), _c('el-radio', {
+  }), _vm._v(" "), _c('el-option', {
+    key: "2",
     attrs: {
-      "label": "3"
-    },
-    model: {
-      value: (_vm.policyBatch.type),
-      callback: function($$v) {
-        _vm.$set(_vm.policyBatch, "type", $$v)
-      },
-      expression: "policyBatch.type"
+      "label": "中标价*政策点数-补点/费用票",
+      "value": "2"
     }
-  }, [_vm._v("按积分固定点数返")])], 1), _vm._v(" "), _c('el-form-item', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.policyBatch.type != '4'),
-      expression: "policyBatch.type != '4'"
-    }],
+  }), _vm._v(" "), _c('el-option', {
+    key: "3",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数",
+      "value": "3"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "4",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数-补点/费用票",
+      "value": "4"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "5",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数",
+      "value": "5"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "6",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数-补点/费用票",
+      "value": "6"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "7",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分",
+      "value": "7"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
       "label": "政策点数",
-      "prop": "policy_percent",
-      "maxlength": 10,
-      "required": true
+      "prop": "allot_policy_percent",
+      "maxlength": 10
     }
   }, [_c('el-input', {
     staticStyle: {
@@ -2200,38 +2521,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "placeholder": "政策点数（如：60）"
     },
     model: {
-      value: (_vm.policyBatch.policy_percent),
+      value: (_vm.policyBatch.allot_policy_percent),
       callback: function($$v) {
-        _vm.$set(_vm.policyBatch, "policy_percent", $$v)
+        _vm.$set(_vm.policyBatch, "allot_policy_percent", $$v)
       },
-      expression: "policyBatch.policy_percent"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.policyBatch.type == '4'),
-      expression: "policyBatch.type == '4'"
-    }],
-    attrs: {
-      "label": "扣留点数",
-      "prop": "policy_percent",
-      "maxlength": 10,
-      "required": true
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "placeholder": "扣留点数（如：60）"
-    },
-    model: {
-      value: (_vm.policyBatch.policy_percent),
-      callback: function($$v) {
-        _vm.$set(_vm.policyBatch, "policy_percent", $$v)
-      },
-      expression: "policyBatch.policy_percent"
+      expression: "policyBatch.allot_policy_percent"
     }
   })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
@@ -2549,18 +2843,40 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
   data: function data() {
     var _this = this;
 
     var validateBatchPercent = function validateBatchPercent(rule, value, callback) {
-      var mess = _this.policyBatch.type == "4" ? "扣留点数" : "政策点数";
-      if (!value) {
-        callback(new Error('请再输入' + mess));
+      if (!value && _this.policy.sale_policy_formula != '8') {
+        callback(new Error('请再输入政策点数'));
       } else if (value && !/^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/.test(value)) {
-        callback(new Error('请再输入正确的' + mess));
+        callback(new Error('请输入正确的政策点数'));
       } else {
+        _this.policy.sale_policy_money = _this.getShouldPayMoney(_this.policy.sale_policy_formula, _this.drug.product_price, _this.drug.product_return_money, _this.policy.sale_policy_percent, 0, _this.policy.sale_policy_money);
+        _this.policy.sale_policy_money = Math.round(_this.policy.sale_policy_money * 100) / 100;
         callback();
       }
     };
@@ -2577,6 +2893,8 @@ exports.default = {
         productCode: ""
       },
       policy: {
+        sale_policy_formula: "",
+        sale_policy_percent: "",
         sale_policy_money: "",
         sale_policy_contact_id: "",
         sale_policy_remark: ""
@@ -2590,13 +2908,13 @@ exports.default = {
         hospital_id_copy: [{ required: true, message: '请选择复制的销住单位', trigger: 'change' }]
       },
       policyBatch: {
-        type: "2",
-        policy_percent: "",
+        sale_policy_formula: "1",
+        sale_policy_percent: "",
         sale_policy_contact_id: "",
         sale_policy_remark: ""
       },
       policyBatchRule: {
-        policy_percent: [{ validator: validateBatchPercent, trigger: 'blur' }],
+        sale_policy_percent: [{ validator: validateBatchPercent, trigger: 'blur' }],
         sale_policy_contact_id: [{ required: true, message: '请选择联系人', trigger: 'change' }]
       },
       authCode: "",
@@ -2617,6 +2935,12 @@ exports.default = {
   },
 
   methods: {
+    formulaChange: function formulaChange() {
+      if (this.policy.sale_policy_percent) {
+        this.policy.sale_policy_money = this.getShouldPayMoney(this.policy.sale_policy_formula, this.drug.product_price, this.drug.product_return_money, this.policy.sale_policy_percent, 0, this.policy.sale_policy_money);
+        this.policy.sale_policy_money = Math.round(this.policy.sale_policy_money * 100) / 100;
+      }
+    },
     copyPolicy: function copyPolicy(formName) {
       //政策复制
       var _self = this;
@@ -2637,6 +2961,38 @@ exports.default = {
       var url = this.$bus.data.host + "/iae/salesPolicy/exportSalesPolicy";
       this.download(url, this.params);
     },
+    formatterFormula: function formatterFormula(row, column, cellValue, index) {
+      var message = "";
+      switch (cellValue) {
+        case "1":
+          message = "中标价*政策点数";
+          break;
+        case "2":
+          message = "中标价*政策点数-补点/费用票";
+          break;
+        case "3":
+          message = "实收上游积分或上游政策积分*政策点数";
+          break;
+        case "4":
+          message = "实收上游积分或上游政策积分*政策点数-补点/费用票";
+          break;
+        case "5":
+          message = "实收上游积分或上游政策积分-中标价*政策点数";
+          break;
+        case "6":
+          message = "实收上游积分或上游政策积分-中标价*政策点数-补点/费用票";
+          break;
+        case "7":
+          message = "实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分";
+          break;
+        case "8":
+          message = "固定政策（上游政策修改后，需几时调整下游政策）";
+          break;
+        default:
+
+      }
+      return message;
+    },
     formatterPercent: function formatterPercent(row, column, cellValue, index) {
       if (row.sale_policy_money && row.product_return_money) {
         return Math.round(row.sale_policy_money * 100 / row.product_return_money) + "%";
@@ -2650,6 +3006,7 @@ exports.default = {
         this.drugId.push({
           id: val[i].product_id,
           price: val[i].product_price,
+          product_code: val[i].product_code,
           returnMoney: val[i].product_return_money,
           hospitalId: val[i].sale_hospital_id
         });
@@ -2663,11 +3020,17 @@ exports.default = {
       this.policy.front_message = JSON.stringify({
         sale_policy_money: this.drug.sale_policy_money,
         sale_policy_contact_id: this.drug.sale_policy_contact_id,
-        sale_policy_remark: this.drug.sale_policy_remark
+        sale_policy_remark: this.drug.sale_policy_remark,
+        sale_policy_percent: this.drug.sale_policy_percent,
+        sale_policy_formula: this.drug.sale_policy_formula
       });
+      this.policy.sale_policy_formula = this.drug.sale_policy_formula;
+      this.policy.sale_policy_percent = this.drug.sale_policy_percent;
       this.policy.sale_policy_money = this.drug.sale_policy_money;
       this.policy.sale_policy_contact_id = this.drug.sale_policy_contact_id;
       this.policy.sale_policy_remark = this.drug.sale_policy_remark;
+      this.policy.product_price = this.drug.product_price;
+      this.policy.product_return_money = this.drug.product_return_money;
     },
     editBatchRow: function editBatchRow() {
       if (this.drugId.length > 0) {
@@ -3091,6 +3454,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
+      "prop": "sale_policy_percent",
+      "label": "政策点数",
+      "width": "80"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "sale_policy_formula",
+      "label": "政策公式",
+      "width": "80",
+      "formatter": _vm.formatterFormula
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
       "prop": "business_name",
       "label": "积分比例",
       "width": "80",
@@ -3295,7 +3671,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "title": '药品信息（药品名：' + _vm.drug.product_common_name + '）',
       "name": "1"
     }
-  }, [_c('div', [_c('span', [_vm._v("规格:")]), _vm._v(_vm._s(_vm.drug.product_specifications))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("积分:")]), _vm._v(_vm._s(_vm.drug.product_return_money))]), _vm._v(" "), _c('div', {
+  }, [_c('div', [_c('span', [_vm._v("规格:")]), _vm._v(_vm._s(_vm.drug.product_specifications))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("中标价:")]), _vm._v(_vm._s(_vm.drug.product_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("积分:")]), _vm._v(_vm._s(_vm.drug.product_return_money))]), _vm._v(" "), _c('div', {
     staticStyle: {
       "display": "block",
       "width": "100%"
@@ -3309,11 +3685,107 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "model": _vm.policy,
       "status-icon": "",
-      "rules": _vm.policyRule,
+      "rules": _vm.policyBatchRule,
       "inline": true,
       "label-width": "100px"
     }
   }, [_c('el-form-item', {
+    attrs: {
+      "label": "政策公式",
+      "prop": "sale_policy_formula"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "472px"
+    },
+    attrs: {
+      "placeholder": "请选择"
+    },
+    on: {
+      "change": _vm.formulaChange
+    },
+    model: {
+      value: (_vm.policy.sale_policy_formula),
+      callback: function($$v) {
+        _vm.$set(_vm.policy, "sale_policy_formula", $$v)
+      },
+      expression: "policy.sale_policy_formula"
+    }
+  }, [_c('el-option', {
+    key: "1",
+    attrs: {
+      "label": "中标价*政策点数",
+      "value": "1"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "2",
+    attrs: {
+      "label": "中标价*政策点数-补点/费用票",
+      "value": "2"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "3",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数",
+      "value": "3"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "4",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数-补点/费用票",
+      "value": "4"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "5",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数",
+      "value": "5"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "6",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数-补点/费用票",
+      "value": "6"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "7",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分",
+      "value": "7"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "8",
+    attrs: {
+      "label": "固定政策（上游政策修改后，需手动调整下游政策）",
+      "value": "8"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.policy.sale_policy_formula != '8'),
+      expression: "policy.sale_policy_formula != '8'"
+    }],
+    attrs: {
+      "label": "政策点数",
+      "prop": "sale_policy_percent",
+      "maxlength": 10
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "政策点数（如：60）"
+    },
+    model: {
+      value: (_vm.policy.sale_policy_percent),
+      callback: function($$v) {
+        _vm.$set(_vm.policy, "sale_policy_percent", $$v)
+      },
+      expression: "policy.sale_policy_percent"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
       "label": "销售积分",
       "prop": "sale_policy_money",
@@ -3446,54 +3918,70 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('el-form-item', {
     attrs: {
-      "label": "返点类型",
-      "prop": "type"
+      "label": "政策公式",
+      "prop": "sale_policy_formula"
     }
-  }, [_c('el-radio', {
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "472px"
+    },
     attrs: {
-      "label": "2"
+      "placeholder": "请选择"
     },
     model: {
-      value: (_vm.policyBatch.type),
+      value: (_vm.policyBatch.sale_policy_formula),
       callback: function($$v) {
-        _vm.$set(_vm.policyBatch, "type", $$v)
+        _vm.$set(_vm.policyBatch, "sale_policy_formula", $$v)
       },
-      expression: "policyBatch.type"
+      expression: "policyBatch.sale_policy_formula"
     }
-  }, [_vm._v("按中标价固定点数返")]), _vm._v(" "), _c('el-radio', {
+  }, [_c('el-option', {
+    key: "1",
     attrs: {
-      "label": "4"
-    },
-    model: {
-      value: (_vm.policyBatch.type),
-      callback: function($$v) {
-        _vm.$set(_vm.policyBatch, "type", $$v)
-      },
-      expression: "policyBatch.type"
+      "label": "中标价*政策点数",
+      "value": "1"
     }
-  }, [_vm._v("按中标价固定点数扣")]), _vm._v(" "), _c('el-radio', {
+  }), _vm._v(" "), _c('el-option', {
+    key: "2",
     attrs: {
-      "label": "3"
-    },
-    model: {
-      value: (_vm.policyBatch.type),
-      callback: function($$v) {
-        _vm.$set(_vm.policyBatch, "type", $$v)
-      },
-      expression: "policyBatch.type"
+      "label": "中标价*政策点数-补点/费用票",
+      "value": "2"
     }
-  }, [_vm._v("按积分固定点数返")])], 1), _vm._v(" "), _c('el-form-item', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.policyBatch.type != '4'),
-      expression: "policyBatch.type != '4'"
-    }],
+  }), _vm._v(" "), _c('el-option', {
+    key: "3",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数",
+      "value": "3"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "4",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数-补点/费用票",
+      "value": "4"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "5",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数",
+      "value": "5"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "6",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数-补点/费用票",
+      "value": "6"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "7",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分",
+      "value": "7"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
       "label": "政策点数",
-      "prop": "policy_percent",
-      "maxlength": 10,
-      "required": true
+      "prop": "sale_policy_percent",
+      "maxlength": 10
     }
   }, [_c('el-input', {
     staticStyle: {
@@ -3503,38 +3991,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "placeholder": "政策点数（如：60）"
     },
     model: {
-      value: (_vm.policyBatch.policy_percent),
+      value: (_vm.policyBatch.sale_policy_percent),
       callback: function($$v) {
-        _vm.$set(_vm.policyBatch, "policy_percent", $$v)
+        _vm.$set(_vm.policyBatch, "sale_policy_percent", $$v)
       },
-      expression: "policyBatch.policy_percent"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.policyBatch.type == '4'),
-      expression: "policyBatch.type == '4'"
-    }],
-    attrs: {
-      "label": "扣留点数",
-      "prop": "policy_percent",
-      "maxlength": 10,
-      "required": true
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "placeholder": "扣留点数（如：60）"
-    },
-    model: {
-      value: (_vm.policyBatch.policy_percent),
-      callback: function($$v) {
-        _vm.$set(_vm.policyBatch, "policy_percent", $$v)
-      },
-      expression: "policyBatch.policy_percent"
+      expression: "policyBatch.sale_policy_percent"
     }
   })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
@@ -3810,18 +4271,38 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
   data: function data() {
     var _this = this;
 
     var validateBatchPercent = function validateBatchPercent(rule, value, callback) {
-      var mess = _this.policyBatch.type == "4" ? "扣留点数" : "政策点数";
-      if (!value) {
-        callback(new Error('请再输入' + mess));
+      if (!value && _this.policy.sale_policy_formula != '8') {
+        callback(new Error('请再输入政策点数'));
       } else if (value && !/^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/.test(value)) {
-        callback(new Error('请再输入正确的' + mess));
+        callback(new Error('请输入正确的政策点数'));
       } else {
+        _this.policy.sale_policy_money = _this.getShouldPayMoney(_this.policy.sale_policy_formula, _this.drug.product_price, _this.drug.product_return_money, _this.policy.sale_policy_percent, 0, _this.policy.sale_policy_money);
+        _this.policy.sale_policy_money = Math.round(_this.policy.sale_policy_money * 100) / 100;
         callback();
       }
     };
@@ -3837,18 +4318,20 @@ exports.default = {
         productCode: ""
       },
       policy: {
+        sale_policy_formula: "1",
+        sale_policy_percent: "",
         sale_policy_money: "",
         sale_policy_contact_id: "",
         sale_policy_remark: ""
       },
       policyBatch: {
-        type: "2",
-        policy_percent: "",
+        sale_policy_formula: "1",
+        sale_policy_percent: "",
         sale_policy_contact_id: "",
         sale_policy_remark: ""
       },
       policyBatchRule: {
-        policy_percent: [{ validator: validateBatchPercent, trigger: 'blur' }],
+        sale_policy_percent: [{ validator: validateBatchPercent, trigger: 'blur' }],
         sale_policy_contact_id: [{ required: true, message: '请选择联系人', trigger: 'change' }]
       },
       authCode: "",
@@ -3873,14 +4356,26 @@ exports.default = {
   },
 
   methods: {
+    formulaChange: function formulaChange() {
+      if (this.policy.sale_policy_percent) {
+        this.policy.sale_policy_money = this.getShouldPayMoney(this.policy.sale_policy_formula, this.drug.product_price, this.drug.product_return_money, this.policy.sale_policy_percent, 0, this.policy.sale_policy_money);
+        this.policy.sale_policy_money = Math.round(this.policy.sale_policy_money * 100) / 100;
+      }
+    },
     editRow: function editRow(scope) {
       //编辑药品信息
       this.dialogFormVisible = true;
       var temp = JSON.stringify(scope.row);
       this.drug = JSON.parse(temp);
-      this.policy.sale_policy_money = this.drug.sale_policy_money;
-      this.policy.sale_policy_contact_id = this.drug.sale_policy_contact_id;
-      this.policy.sale_policy_remark = this.drug.sale_policy_remark;
+      this.policy.sale_policy_money = "";
+      this.policy.sale_policy_contact_id = "";
+      this.policy.sale_policy_remark = "";
+      this.policy.sale_policy_formula = "1";
+      this.policy.sale_policy_percent = "";
+      var _self = this;
+      setTimeout(function () {
+        _self.$refs["policy"].clearValidate();
+      }, 10);
     },
     editBatchRow: function editBatchRow() {
       if (this.drugId.length > 0) {
@@ -3948,7 +4443,7 @@ exports.default = {
               _self.$refs["policyBatch"].resetFields();
               _self.dialogFormVisibleBatch = false;
               _self.loading = false;
-              _self.$router.push({ path: "/main/salesPolicy" });
+              _self.$router.push({ path: '/main/salesPolicy' });
             });
           });
         } else {
@@ -3963,6 +4458,8 @@ exports.default = {
       _self.policy.sale_hospital_id = this.params.hospitalId;
       _self.policy.sale_drug_id = this.drug.product_id;
       _self.policy.product_code = this.drug.product_code;
+      _self.policy.product_price = this.drug.product_price;
+      _self.policy.product_return_money = this.drug.product_return_money;
       this.$refs[formName].validate(function (valid) {
         if (valid) {
           _this3.loading = true;
@@ -3980,7 +4477,7 @@ exports.default = {
               _self.$refs["policy"].resetFields();
               _self.dialogFormVisible = false;
               _self.loading = false;
-              _self.$router.push({ path: "/main/salesPolicy" });
+              _self.$router.push({ path: '/main/salesPolicy' });
             });
           });
         } else {
@@ -4326,7 +4823,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "title": '药品信息（药品名：' + _vm.drug.product_common_name + '）',
       "name": "1"
     }
-  }, [_c('div', [_c('span', [_vm._v("规格:")]), _vm._v(_vm._s(_vm.drug.product_specifications))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("积分:")]), _vm._v(_vm._s(_vm.drug.product_return_money))]), _vm._v(" "), _c('div', {
+  }, [_c('div', [_c('span', [_vm._v("规格:")]), _vm._v(_vm._s(_vm.drug.product_specifications))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("中标价:")]), _vm._v(_vm._s(_vm.drug.product_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("积分:")]), _vm._v(_vm._s(_vm.drug.product_return_money))]), _vm._v(" "), _c('div', {
     staticStyle: {
       "display": "block",
       "width": "100%"
@@ -4341,11 +4838,107 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "model": _vm.policy,
       "status-icon": "",
-      "rules": _vm.policyRule,
+      "rules": _vm.policyBatchRule,
       "inline": true,
       "label-width": "100px"
     }
   }, [_c('el-form-item', {
+    attrs: {
+      "label": "政策公式",
+      "prop": "sale_policy_formula"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "472px"
+    },
+    attrs: {
+      "placeholder": "请选择"
+    },
+    on: {
+      "change": _vm.formulaChange
+    },
+    model: {
+      value: (_vm.policy.sale_policy_formula),
+      callback: function($$v) {
+        _vm.$set(_vm.policy, "sale_policy_formula", $$v)
+      },
+      expression: "policy.sale_policy_formula"
+    }
+  }, [_c('el-option', {
+    key: "1",
+    attrs: {
+      "label": "中标价*政策点数",
+      "value": "1"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "2",
+    attrs: {
+      "label": "中标价*政策点数-补点/费用票",
+      "value": "2"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "3",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数",
+      "value": "3"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "4",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数-补点/费用票",
+      "value": "4"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "5",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数",
+      "value": "5"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "6",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数-补点/费用票",
+      "value": "6"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "7",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分",
+      "value": "7"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "8",
+    attrs: {
+      "label": "固定政策（上游政策修改后，需手动调整下游政策）",
+      "value": "8"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.policy.sale_policy_formula != '8'),
+      expression: "policy.sale_policy_formula != '8'"
+    }],
+    attrs: {
+      "label": "政策点数",
+      "prop": "sale_policy_percent",
+      "maxlength": 10
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "政策点数（如：60）"
+    },
+    model: {
+      value: (_vm.policy.sale_policy_percent),
+      callback: function($$v) {
+        _vm.$set(_vm.policy, "sale_policy_percent", $$v)
+      },
+      expression: "policy.sale_policy_percent"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
       "label": "销售积分",
       "prop": "sale_policy_money",
@@ -4479,54 +5072,70 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('el-form-item', {
     attrs: {
-      "label": "返点类型",
-      "prop": "type"
+      "label": "政策公式",
+      "prop": "sale_policy_formula"
     }
-  }, [_c('el-radio', {
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "472px"
+    },
     attrs: {
-      "label": "2"
+      "placeholder": "请选择"
     },
     model: {
-      value: (_vm.policyBatch.type),
+      value: (_vm.policyBatch.sale_policy_formula),
       callback: function($$v) {
-        _vm.$set(_vm.policyBatch, "type", $$v)
+        _vm.$set(_vm.policyBatch, "sale_policy_formula", $$v)
       },
-      expression: "policyBatch.type"
+      expression: "policyBatch.sale_policy_formula"
     }
-  }, [_vm._v("按中标价固定点数返")]), _vm._v(" "), _c('el-radio', {
+  }, [_c('el-option', {
+    key: "1",
     attrs: {
-      "label": "4"
-    },
-    model: {
-      value: (_vm.policyBatch.type),
-      callback: function($$v) {
-        _vm.$set(_vm.policyBatch, "type", $$v)
-      },
-      expression: "policyBatch.type"
+      "label": "中标价*政策点数",
+      "value": "1"
     }
-  }, [_vm._v("按中标价固定点数扣")]), _vm._v(" "), _c('el-radio', {
+  }), _vm._v(" "), _c('el-option', {
+    key: "2",
     attrs: {
-      "label": "3"
-    },
-    model: {
-      value: (_vm.policyBatch.type),
-      callback: function($$v) {
-        _vm.$set(_vm.policyBatch, "type", $$v)
-      },
-      expression: "policyBatch.type"
+      "label": "中标价*政策点数-补点/费用票",
+      "value": "2"
     }
-  }, [_vm._v("按积分固定点数返")])], 1), _vm._v(" "), _c('el-form-item', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.policyBatch.type != '4'),
-      expression: "policyBatch.type != '4'"
-    }],
+  }), _vm._v(" "), _c('el-option', {
+    key: "3",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数",
+      "value": "3"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "4",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数-补点/费用票",
+      "value": "4"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "5",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数",
+      "value": "5"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "6",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数-补点/费用票",
+      "value": "6"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "7",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分",
+      "value": "7"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
       "label": "政策点数",
-      "prop": "policy_percent",
-      "maxlength": 10,
-      "required": true
+      "prop": "sale_policy_percent",
+      "maxlength": 10
     }
   }, [_c('el-input', {
     staticStyle: {
@@ -4536,38 +5145,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "placeholder": "政策点数（如：60）"
     },
     model: {
-      value: (_vm.policyBatch.policy_percent),
+      value: (_vm.policyBatch.sale_policy_percent),
       callback: function($$v) {
-        _vm.$set(_vm.policyBatch, "policy_percent", $$v)
+        _vm.$set(_vm.policyBatch, "sale_policy_percent", $$v)
       },
-      expression: "policyBatch.policy_percent"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.policyBatch.type == '4'),
-      expression: "policyBatch.type == '4'"
-    }],
-    attrs: {
-      "label": "扣留点数",
-      "prop": "policy_percent",
-      "maxlength": 10,
-      "required": true
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "placeholder": "扣留点数（如：60）"
-    },
-    model: {
-      value: (_vm.policyBatch.policy_percent),
-      callback: function($$v) {
-        _vm.$set(_vm.policyBatch, "policy_percent", $$v)
-      },
-      expression: "policyBatch.policy_percent"
+      expression: "policyBatch.sale_policy_percent"
     }
   })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {

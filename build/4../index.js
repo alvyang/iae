@@ -4713,8 +4713,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "prop": "purchase_pay_should_pay_money",
       "label": "应付积分",
-      "width": "80",
-      "formatter": _vm.formatterShouldPay
+      "width": "80"
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {

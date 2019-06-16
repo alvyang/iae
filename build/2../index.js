@@ -517,7 +517,7 @@ exports.default = {
 /***/ 288:
 /***/ (function(module, exports) {
 
-module.exports = {"name":"IAE","version":"1.10.14","description":"iae","main":"main.js","scripts":{"build":"node start-electron.js","start":"electron --inspect=5858 .","asar":"asar pack . dist/app.asar","dist-win":"electron-builder --win --x64","dist-win-32":"electron-builder --win --ia32","rb":"cd node_modules/electron-prebuilt && node install.js","r2b":"./node_modules/.bin/electron-rebuild -w sqlite3 -p","rebuild-sqlite3-win64":"cd node_modules/sqlite3 && npm install nan --save && node-gyp configure --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-win32-x64 && node-gyp rebuild --target=1.8.2 --arch=x64 --target_platform=win32 --dist-url=https://atom.io/download/electron/ --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-win32-x64","rebuild-sqlite3-darwin":"cd node_modules/sqlite3 && npm install nan --save && node-gyp configure --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-darwin-x64 && node-gyp rebuild --target=1.8.4 --arch=x64 --target_platform=darwin --dist-url=https://atom.io/download//atom-shell --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-darwin-x64","rebuild-sqlite3-win32":"cd node_modules/sqlite3 && npm install nan --save && node-gyp configure --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-win32-ia32 && node-gyp rebuild --target=1.8.2 --arch=ia32 --target_platform=win32 --dist-url=https://atom.io/download/electron/ --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-win32-ia32","packager":"electron-packager . 'IAE' --platform=darwin --arch=x64 --icon=favicon.icns --out=./dist --asar --app-version=0.0.2 --ignore='(dist|.gitignore|README.md|webpack.config.js|iae.db)'","packageWin32":"electron-packager . IAE --platform=win32 --arch=ia32 --icon=favicon.ico --out=./dist --asar --app-version=0.0.1","packageWin64":"electron-packager . IAE --platform=win32 --arch=x64 --icon=favicon.ico --out=./dist --asar --app-version=0.0.1"},"repository":"https://github.com/alvyang/iae.git","keywords":["Electron","quick","start","tutorial","demo"],"build":{"appId":"com.lvyang","copyright":"iae","productName":"IAE","files":["build/**/*","img/*","package.json","main.js","index.html","favicon.ico"],"publish":[{"provider":"generic","url":"http://139.129.238.114/download/"}],"win":{"icon":"favicon.ico","target":["nsis","zip"]},"nsis":{"oneClick":false,"perMachine":true,"allowElevation":true,"allowToChangeInstallationDirectory":true,"createDesktopShortcut":true,"runAfterFinish":true,"artifactName":"${productName}-setup-${version}.${ext}"}},"author":"GitHub","license":"CC0-1.0","devDependencies":{"asar":"^0.14.3","babel-core":"^6.18.2","babel-loader":"^6.2.7","babel-plugin-component":"^1.1.0","babel-plugin-transform-runtime":"^6.15.0","babel-preset-es2015":"^6.18.0","babel-preset-stage-2":"^6.18.0","babel-runtime":"^6.18.0","child_process":"^1.0.2","css-loader":"^0.25.0","echarts":"^4.0.4","electron":"^1.8.7","electron-builder":"^20.28.4","electron-prebuilt":"^1.4.13","electron-rebuild":"^1.8.2","excel-export":"^0.5.1","exports-loader":"^0.6.3","expose-loader":"^0.7.1","express-session":"^1.15.0","file-loader":"^0.9.0","fs":"0.0.1-security","getmac":"^1.4.0","imports-loader":"^0.6.5","jquery":"^3.3.1","json-loader":"^0.5.7","node-pinyin":"^0.2.3","node-sass":"^4.8.3","node-uuid":"^1.4.8","node-webkit":"0.0.0","os":"^0.1.1","sqlite":"^2.9.1","sqlite3":"^3.1.13","style-loader":"^0.13.1","swiper":"^3.4.2","url-loader":"^0.5.9","vue":"^2.5.17","vue-html-loader":"^1.2.4","vue-loader":"^9.9.5","vue-resource":"^1.2.1","vue-router":"^2.3.0","vue-template-compiler":"^2.5.17","vuex":"^2.2.1","webpack":"^3.11.0","webpack-dev-server":"^1.16.2","xlsx":"^0.12.5"},"dependencies":{"buffer-from":"^1.1.1","builder-util-runtime":"^4.4.1","electron-updater":"^3.1.2"}}
+module.exports = {"name":"IAE","version":"1.11.1","description":"iae","main":"main.js","scripts":{"build":"node start-electron.js","start":"electron --inspect=5858 .","asar":"asar pack . dist/app.asar","dist-win":"electron-builder --win --x64","dist-win-32":"electron-builder --win --ia32","rb":"cd node_modules/electron-prebuilt && node install.js","r2b":"./node_modules/.bin/electron-rebuild -w sqlite3 -p","rebuild-sqlite3-win64":"cd node_modules/sqlite3 && npm install nan --save && node-gyp configure --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-win32-x64 && node-gyp rebuild --target=1.8.2 --arch=x64 --target_platform=win32 --dist-url=https://atom.io/download/electron/ --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-win32-x64","rebuild-sqlite3-darwin":"cd node_modules/sqlite3 && npm install nan --save && node-gyp configure --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-darwin-x64 && node-gyp rebuild --target=1.8.4 --arch=x64 --target_platform=darwin --dist-url=https://atom.io/download//atom-shell --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-darwin-x64","rebuild-sqlite3-win32":"cd node_modules/sqlite3 && npm install nan --save && node-gyp configure --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-win32-ia32 && node-gyp rebuild --target=1.8.2 --arch=ia32 --target_platform=win32 --dist-url=https://atom.io/download/electron/ --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-win32-ia32","packager":"electron-packager . 'IAE' --platform=darwin --arch=x64 --icon=favicon.icns --out=./dist --asar --app-version=0.0.2 --ignore='(dist|.gitignore|README.md|webpack.config.js|iae.db)'","packageWin32":"electron-packager . IAE --platform=win32 --arch=ia32 --icon=favicon.ico --out=./dist --asar --app-version=0.0.1","packageWin64":"electron-packager . IAE --platform=win32 --arch=x64 --icon=favicon.ico --out=./dist --asar --app-version=0.0.1"},"repository":"https://github.com/alvyang/iae.git","keywords":["Electron","quick","start","tutorial","demo"],"build":{"appId":"com.lvyang","copyright":"iae","productName":"IAE","files":["build/**/*","img/*","package.json","main.js","index.html","favicon.ico"],"publish":[{"provider":"generic","url":"http://139.129.238.114/download/"}],"win":{"icon":"favicon.ico","target":["nsis","zip"]},"nsis":{"oneClick":false,"perMachine":true,"allowElevation":true,"allowToChangeInstallationDirectory":true,"createDesktopShortcut":true,"runAfterFinish":true,"artifactName":"${productName}-setup-${version}.${ext}"}},"author":"GitHub","license":"CC0-1.0","devDependencies":{"asar":"^0.14.3","babel-core":"^6.18.2","babel-loader":"^6.2.7","babel-plugin-component":"^1.1.0","babel-plugin-transform-runtime":"^6.15.0","babel-preset-es2015":"^6.18.0","babel-preset-stage-2":"^6.18.0","babel-runtime":"^6.18.0","child_process":"^1.0.2","css-loader":"^0.25.0","echarts":"^4.0.4","electron":"^1.8.7","electron-builder":"^20.28.4","electron-prebuilt":"^1.4.13","electron-rebuild":"^1.8.2","excel-export":"^0.5.1","exports-loader":"^0.6.3","expose-loader":"^0.7.1","express-session":"^1.15.0","file-loader":"^0.9.0","fs":"0.0.1-security","getmac":"^1.4.0","imports-loader":"^0.6.5","jquery":"^3.3.1","json-loader":"^0.5.7","node-pinyin":"^0.2.3","node-sass":"^4.8.3","node-uuid":"^1.4.8","node-webkit":"0.0.0","os":"^0.1.1","sqlite":"^2.9.1","sqlite3":"^3.1.13","style-loader":"^0.13.1","swiper":"^3.4.2","url-loader":"^0.5.9","vue":"^2.5.17","vue-html-loader":"^1.2.4","vue-loader":"^9.9.5","vue-resource":"^1.2.1","vue-router":"^2.3.0","vue-template-compiler":"^2.5.17","vuex":"^2.2.1","webpack":"^3.11.0","webpack-dev-server":"^1.16.2","xlsx":"^0.12.5"},"dependencies":{"buffer-from":"^1.1.1","builder-util-runtime":"^4.4.1","electron-updater":"^3.1.2"}}
 
 /***/ }),
 
@@ -1620,7 +1620,7 @@ exports.default = {
 			return cellValue == '1' ? "销售出库" : cellValue == '2' ? "销售退回" : "销售退补价";
 		},
 		formatterOtherMoney: function formatterOtherMoney(row, column, cellValue) {
-			if (row.product_type == '佣金') {
+			if (row.product_type != '其它') {
 				return cellValue;
 			} else {
 				return "-";
@@ -2397,7 +2397,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
       "prop": "sale_other_money",
-      "label": "费用票",
+      "label": "补点/费用票",
       "width": "70",
       "formatter": _vm.formatterOtherMoney
     }
@@ -3218,11 +3218,15 @@ exports.default = {
 			});
 			this.jquery('/iae/sales/selesPolicy', { product_id: this.drug.product_id, hospital_id: this.sale.hospital_id }, function (res) {
 				if (res.message.length > 0) {
+					_self.sale.sale_policy_formula = res.message[0].sale_policy_formula ? res.message[0].sale_policy_formula : "";
+					_self.sale.sale_policy_percent = res.message[0].sale_policy_percent ? res.message[0].sale_policy_percent : "";
 					_self.sale.sale_return_price = res.message[0].sale_policy_money ? res.message[0].sale_policy_money : "";
 					_self.sale.sale_contact_id = res.message[0].sale_policy_contact_id ? res.message[0].sale_policy_contact_id : "";
 				} else {
 					_self.sale.sale_return_price = "";
 					_self.sale.sale_contact_id = "";
+					_self.sale.sale_policy_formula = "";
+					_self.sale.sale_policy_percent = "";
 				}
 			});
 		},
@@ -3241,6 +3245,7 @@ exports.default = {
 				this.sale.real_gross_profit = this.mul(this.sale.sale_num, this.sub(this.sale.sale_price, this.drug.accounting_cost), 2);
 			}
 			this.sale.accounting_cost = this.drug.accounting_cost;
+			this.sale.product_price = this.drug.product_price;
 			this.sale.cost_univalent = this.drug.product_mack_price;
 			this.sale.product_code = this.drug.product_code;
 			this.sale.product_type = this.drug.product_type;
@@ -3259,6 +3264,7 @@ exports.default = {
 						this.sale.sales_purchase_id = this.batchStockList[i].batch_stock_purchase_id;
 						var temp = this.batchStockList[i].purchase_other_money;
 						this.sale.sale_other_money = temp ? temp * this.sale.sale_num / this.batchStockList[i].purchase_number : 0;
+						this.sale.realReturnMoney = this.batchStockList[i].refunds_real_money / this.batchStockList[i].purchase_number;
 						break;
 					}
 				}
@@ -5881,10 +5887,14 @@ exports.default = {
 					_self.allot.allot_policy_contact_id = res.message[0].allot_policy_contact_id ? res.message[0].allot_policy_contact_id : "";
 					_self.allot.allot_return_price = res.message[0].allot_policy_money ? res.message[0].allot_policy_money : "";
 					_self.allot.allot_policy_remark = res.message[0].allot_policy_remark ? res.message[0].allot_policy_remark : "";
+					_self.allot.allot_policy_formula = res.message[0].allot_policy_formula ? res.message[0].allot_policy_formula : "";
+					_self.allot.allot_policy_percent = res.message[0].allot_policy_percent ? res.message[0].allot_policy_percent : "";
 				} else {
 					_self.allot.allot_policy_contact_id = "";
 					_self.allot.allot_return_price = "";
 					_self.allot.allot_policy_remark = "";
+					_self.allot.allot_policy_formula = "";
+					_self.allot.allot_policy_percent = "";
 				}
 			});
 		},
@@ -5963,6 +5973,8 @@ exports.default = {
 			this.allot.allot_mack_price = this.drug.product_mack_price;
 			this.allot.allot_drug_id = this.drug.product_id;
 			this.allot.product_type = this.drug.product_type;
+			this.allot.product_price = this.drug.product_price;
+			this.allot.product_return_money = this.allot.product_return_money ? this.allot.product_return_money : this.drug.product_return_money;
 			this.allot.stock = this.drug.stock;
 			for (var i = 0; i < this.batchStockList.length; i++) {
 				var t = new Date(this.batchStockList[i].batch_stock_time).format("yyyy-MM-dd");
@@ -5970,6 +5982,7 @@ exports.default = {
 					this.allot.allot_purchase_id = this.batchStockList[i].batch_stock_purchase_id;
 					var temp = this.batchStockList[i].purchase_other_money;
 					this.allot.allot_other_money = temp ? temp * this.allot.allot_number / this.batchStockList[i].purchase_number : 0;
+					this.allot.realReturnMoney = this.batchStockList[i].refunds_real_money / this.batchStockList[i].purchase_number;
 					break;
 				}
 			}

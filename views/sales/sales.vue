@@ -107,7 +107,7 @@
 				<el-table-column prop="sale_num" label="销售数量" width="70"></el-table-column>
 				<el-table-column prop="batch_number" label="批号" width="70"></el-table-column>
 				<el-table-column prop="sale_money" label="销售金额" width="70"></el-table-column>
-				<el-table-column prop="sale_other_money" label="费用票" width="70" :formatter="formatterOtherMoney"></el-table-column>
+				<el-table-column prop="sale_other_money" label="补点/费用票" width="70" :formatter="formatterOtherMoney"></el-table-column>
 				<el-table-column prop="real_gross_profit" label="真实毛利" width="80"></el-table-column>
 				<el-table-column label="真实毛利率" width="80" :formatter="formatterRealProfitRate"></el-table-column>
 				<el-table-column prop="accounting_cost" label="核算成本" width="80"></el-table-column>
@@ -393,7 +393,7 @@
 				return cellValue=='1'?"销售出库":(cellValue=='2'?"销售退回":"销售退补价");
 			},
 			formatterOtherMoney(row, column, cellValue){
-				if(row.product_type == '佣金'){
+				if(row.product_type != '其它'){
 					return cellValue;
 				}else{
 					return "-";

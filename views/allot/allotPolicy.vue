@@ -53,6 +53,8 @@
         <el-table-column prop="product_price" label="中标价" width="80"></el-table-column>
         <el-table-column prop="product_return_money" label="积分" width="80"></el-table-column>
         <el-table-column prop="allot_policy_money" label="调货积分" width="80"></el-table-column>
+        <el-table-column prop="allot_policy_percent" label="政策点数" width="80"></el-table-column>
+        <el-table-column prop="allot_policy_formula" label="政策公式" width="80" :formatter="formatterFormula"></el-table-column>
         <el-table-column prop="business_name" label="积分比例" :formatter="formatterPercent"></el-table-column>
         <el-table-column prop="allot_policy_remark" label="积分备注" width="80"></el-table-column>
         <el-table-column prop="contacts_name" label="调货联系人" ></el-table-column>
@@ -104,12 +106,28 @@
 			<el-collapse v-model="activeNames" style="text-align:left;" >
 			  <el-collapse-item :title="'药品信息（药品名：'+drug.product_common_name+ '）'" name="1">
           <div><span>规格:</span>{{drug.product_specifications}}</div>
+          <div><span>中标价:</span>{{drug.product_price}}</div>
 					<div><span>积分:</span>{{drug.product_return_money}}</div>
           <div style="display:block;width:100%;"><span>生产厂家:</span>{{drug.product_makesmakers}}</div>
 			  </el-collapse-item>
 			</el-collapse>
 			<el-form :model="policy" status-icon :rules="policyRule" style="margin-top:20px;" :inline="true" ref="sale" label-width="100px" class="demo-ruleForm">
-				<el-form-item label="调货积分" prop="allot_policy_money" :maxlength="10">
+        <el-form-item label="政策公式" prop="allot_policy_formula">
+          <el-select v-model="policy.allot_policy_formula" style="width:472px;" @change="formulaChange"  placeholder="请选择">
+            <el-option key="1" label="中标价*政策点数" value="1"></el-option>
+            <el-option key="2" label="中标价*政策点数-补点/费用票" value="2"></el-option>
+            <el-option key="3" label="实收上游积分或上游政策积分*政策点数" value="3"></el-option>
+            <el-option key="4" label="实收上游积分或上游政策积分*政策点数-补点/费用票" value="4"></el-option>
+            <el-option key="5" label="实收上游积分或上游政策积分-中标价*政策点数" value="5"></el-option>
+            <el-option key="6" label="实收上游积分或上游政策积分-中标价*政策点数-补点/费用票" value="6"></el-option>
+            <el-option key="7" label="实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分" value="7"></el-option>
+            <el-option key="8" label="固定政策（上游政策修改后，需手动调整下游政策）" value="8"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="政策点数" prop="allot_policy_percent" :maxlength="10" v-show="policy.allot_policy_formula != '8'">
+          <el-input v-model="policy.allot_policy_percent" style="width:179px;"  @change="formulaChange"  placeholder="政策点数（如：60）"></el-input>
+        </el-form-item>
+        <el-form-item label="调货积分" prop="allot_policy_money" :maxlength="10">
 					<el-input v-model="policy.allot_policy_money" style="width:179px;" placeholder="调货积分"></el-input>
 				</el-form-item>
         <el-form-item label="调货联系人" prop="allot_policy_contact_id">
@@ -133,16 +151,19 @@
     </el-dialog>
     <el-dialog title="批量修改调货政策" width="700px" :visible.sync="dialogFormVisibleBatch">
 			<el-form :model="policyBatch" status-icon :rules="policyBatchRule" style="margin-top:20px;" :inline="true" ref="policyBatch" label-width="100px" class="demo-ruleForm">
-        <el-form-item label="返点类型" prop="type">
-					<el-radio v-model="policyBatch.type" label="2">按中标价固定点数返</el-radio>
-          <el-radio v-model="policyBatch.type" label="4">按中标价固定点数扣</el-radio>
-  				<el-radio v-model="policyBatch.type" label="3">按积分固定点数返</el-radio>
-				</el-form-item>
-        <el-form-item label="政策点数" prop="policy_percent" :maxlength="10" :required="true" v-show = "policyBatch.type != '4'">
-          <el-input v-model="policyBatch.policy_percent" style="width:179px;" placeholder="政策点数（如：60）"></el-input>
+        <el-form-item label="政策公式" prop="allot_policy_formula">
+          <el-select v-model="policyBatch.allot_policy_formula" style="width:472px;"  placeholder="请选择">
+            <el-option key="1" label="中标价*政策点数" value="1"></el-option>
+            <el-option key="2" label="中标价*政策点数-补点/费用票" value="2"></el-option>
+            <el-option key="3" label="实收上游积分或上游政策积分*政策点数" value="3"></el-option>
+            <el-option key="4" label="实收上游积分或上游政策积分*政策点数-补点/费用票" value="4"></el-option>
+            <el-option key="5" label="实收上游积分或上游政策积分-中标价*政策点数" value="5"></el-option>
+            <el-option key="6" label="实收上游积分或上游政策积分-中标价*政策点数-补点/费用票" value="6"></el-option>
+            <el-option key="7" label="实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分" value="7"></el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="扣留点数" prop="policy_percent" :maxlength="10" :required="true" v-show = "policyBatch.type == '4'">
-          <el-input v-model="policyBatch.policy_percent" style="width:179px;" placeholder="扣留点数（如：60）"></el-input>
+        <el-form-item label="政策点数" prop="allot_policy_percent" :maxlength="10" >
+          <el-input v-model="policyBatch.allot_policy_percent" style="width:179px;" placeholder="政策点数（如：60）"></el-input>
         </el-form-item>
         <el-form-item label="调货联系人" prop="allot_policy_contact_id">
    			 <el-select v-model="policyBatch.allot_policy_contact_id" style="width:179px;" filterable placeholder="请选择">
@@ -169,13 +190,14 @@
   export default({
     data(){
       var validateBatchPercent = (rule, value, callback) => {
-        var mess = this.policyBatch.type == "4"?"扣留点数":"政策点数";
-        if(!value){
-          callback(new Error('请再输入'+mess));
+        if(!value && this.policy.allot_policy_formula != '8'){
+          callback(new Error('请再输入政策点数'));
         }else if (value && !/^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/.test(value)) {
-          callback(new Error('请再输入正确的'+mess));
+          callback(new Error('请再输入正确的政策点数'));
         } else {
-         	callback();
+          this.policy.allot_policy_money = this.getShouldPayMoney(this.policy.allot_policy_formula,this.drug.product_price,this.drug.product_return_money,this.policy.allot_policy_percent,0,this.policy.allot_policy_money);
+          this.policy.allot_policy_money = Math.round(this.policy.allot_policy_money*100)/100;
+          callback();
         }
     	};
       return {
@@ -190,6 +212,8 @@
           productCode:""
         },
         policy:{
+          allot_policy_formula:"",
+          allot_policy_percent:"",
           allot_policy_money:"",
           allot_policy_contact_id:"",
           allot_policy_remark:""
@@ -203,8 +227,8 @@
   				hospital_id_copy:[{ required: true, message: '请选择复制的销住单位', trigger: 'change' }],
         },
         policyBatch:{
-          type:"2",
-          policy_percent:"",
+          allot_policy_formula:"1",
+          allot_policy_percent:"",
           allot_policy_contact_id:"",
           allot_policy_remark:""
         },
@@ -229,6 +253,12 @@
       this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
     },
     methods:{
+      formulaChange(){
+        if(this.policy.allot_policy_percent){
+          this.policy.allot_policy_money = this.getShouldPayMoney(this.policy.allot_policy_formula,this.drug.product_price,this.drug.product_return_money,this.policy.allot_policy_percent,0,this.policy.allot_policy_money);
+          this.policy.allot_policy_money = Math.round(this.policy.allot_policy_money*100)/100;
+        }
+      },
       copyPolicy(formName){//政策复制
         var _self = this;
         this.$refs[formName].validate((valid) => {
@@ -250,6 +280,38 @@
           return "";
         }
       },
+      formatterFormula(row, column, cellValue, index){
+        var message = "";
+        switch (cellValue) {
+          case "1":
+            message = "中标价*政策点数";
+            break;
+          case "2":
+            message = "中标价*政策点数-补点/费用票";
+            break;
+          case "3":
+            message = "实收上游积分或上游政策积分*政策点数";
+            break;
+          case "4":
+            message = "实收上游积分或上游政策积分*政策点数-补点/费用票";
+            break;
+          case "5":
+            message = "实收上游积分或上游政策积分-中标价*政策点数";
+            break;
+          case "6":
+            message = "实收上游积分或上游政策积分-中标价*政策点数-补点/费用票";
+            break;
+          case "7":
+            message = "实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分";
+            break;
+          case "8":
+            message = "固定政策（上游政策修改后，需几时调整下游政策）";
+            break;
+          default:
+
+        }
+        return message;
+      },
       editRow(scope){//编辑药品信息
 				this.dialogFormVisible = true;
         var temp = JSON.stringify(scope.row);
@@ -257,11 +319,17 @@
         this.policy.front_message = JSON.stringify({
           allot_policy_money:this.drug.allot_policy_money,
           allot_policy_contact_id:this.drug.allot_policy_contact_id,
-          allot_policy_remark:this.drug.allot_policy_remark
+          allot_policy_remark:this.drug.allot_policy_remark,
+          allot_policy_percent:this.drug.allot_policy_percent,
+          allot_policy_formula:this.drug.allot_policy_formula
         });
+        this.policy.allot_policy_formula = this.drug.allot_policy_formula;
+        this.policy.allot_policy_percent = this.drug.allot_policy_percent;
         this.policy.allot_policy_money = this.drug.allot_policy_money;
         this.policy.allot_policy_contact_id = this.drug.allot_policy_contact_id;
         this.policy.allot_policy_remark = this.drug.allot_policy_remark;
+        this.policy.product_price = this.drug.product_price;
+        this.policy.product_return_money = this.drug.product_return_money;
 			},
       editBatchRow(){
         if(this.drugId.length > 0){
@@ -274,6 +342,7 @@
           this.drugId.push({
             id:val[i].product_id,
             price:val[i].product_price,
+            product_code:val[i].product_code,
             returnMoney:val[i].product_return_money,
             hospitalId:val[i].allot_hospital_id
           });
@@ -333,6 +402,7 @@
 				var _self = this;
         _self.policy.allot_hospital_id = this.drug.allot_hospital_id;
         _self.policy.allot_drug_id = this.drug.product_id;
+        _self.policy.product_code = this.drug.product_code;
 				this.$refs[formName].validate((valid) => {
 						if (valid) {
 							this.loading = true;

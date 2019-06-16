@@ -262,10 +262,14 @@
 						_self.allot.allot_policy_contact_id = res.message[0].allot_policy_contact_id?res.message[0].allot_policy_contact_id:"";
 						_self.allot.allot_return_price = res.message[0].allot_policy_money?res.message[0].allot_policy_money:"";
 						_self.allot.allot_policy_remark = res.message[0].allot_policy_remark?res.message[0].allot_policy_remark:"";
+						_self.allot.allot_policy_formula=res.message[0].allot_policy_formula?res.message[0].allot_policy_formula:"";
+						_self.allot.allot_policy_percent=res.message[0].allot_policy_percent?res.message[0].allot_policy_percent:"";
 					}else{
 						_self.allot.allot_policy_contact_id="";
 						_self.allot.allot_return_price="";
 						_self.allot.allot_policy_remark="";
+						_self.allot.allot_policy_formula="";
+						_self.allot.allot_policy_percent="";
 					}
 				});
 			},
@@ -341,6 +345,8 @@
 				this.allot.allot_mack_price = this.drug.product_mack_price;
 				this.allot.allot_drug_id = this.drug.product_id;
 				this.allot.product_type = this.drug.product_type;
+				this.allot.product_price = this.drug.product_price;
+				this.allot.product_return_money = this.allot.product_return_money?this.allot.product_return_money:this.drug.product_return_money;
 				this.allot.stock = this.drug.stock;
 				for(var i = 0 ; i < this.batchStockList.length;i++){
 					var t = new Date(this.batchStockList[i].batch_stock_time).format("yyyy-MM-dd");
@@ -348,6 +354,7 @@
 						this.allot.allot_purchase_id = this.batchStockList[i].batch_stock_purchase_id;
 						var temp = this.batchStockList[i].purchase_other_money;
 						this.allot.allot_other_money = temp?temp*this.allot.allot_number/this.batchStockList[i].purchase_number:0;
+						this.allot.realReturnMoney = this.batchStockList[i].refunds_real_money/this.batchStockList[i].purchase_number;
 						break;
 					}
 				}

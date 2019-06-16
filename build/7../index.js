@@ -1600,7 +1600,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -2056,6 +2056,7 @@ exports.default = {
       var temp = JSON.stringify(scope.row);
       this.refund = JSON.parse(temp);
       this.refund.front_message = temp;
+      this.refund.refunds_policy_money = this.refund.product_return_money;
       if (this.refund.product_return_money && !this.refund.refunds_should_money) {
         var num = this.refund.sale_num ? this.refund.sale_num : this.refund.purchase_number;
         if (this.refund.product_floor_price && this.refund.product_high_discount) {
@@ -2144,6 +2145,7 @@ exports.default = {
             receiver: _this3.refund.receiver,
             refunds_id: _this3.refund.refunds_id,
             purchases_id: _this3.refund.purchase_id,
+            purchase_number: _this3.refund.purchase_number,
             sales_id: _this3.refund.sale_id,
             service_charge: _this3.refund.service_charge,
             refunds_remark: _this3.refund.refunds_remark,
@@ -3431,6 +3433,21 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
 	data: function data() {
@@ -3444,10 +3461,7 @@ exports.default = {
 			} else if (!regu.test(value)) {
 				callback(new Error('请输入正整数'));
 			} else {
-				_this.allot.allot_money = _this.mul(_this.allot.allot_number, _this.allot.allot_price, 2);
-				if (_this.allot.allot_return_price && reg.test(_this.allot.allot_return_price)) {
-					_this.allot.allot_return_money = _this.allot.allot_return_money ? _this.allot.allot_return_money : _this.mul(_this.allot.allot_return_price, _this.allot.allot_number, 2);
-				}
+				_this.formulaChange();
 				callback();
 			}
 		};
@@ -3464,8 +3478,7 @@ exports.default = {
 			} else if (_this.allot.allot_return_flag && value && !reg.test(value)) {
 				callback(new Error('请输入正确的政策积分'));
 			} else {
-				_this.allot.allot_return_money = _this.mul(value, _this.allot.allot_number, 2);
-				_this.allot.allot_return_money = _this.allot.other_monety_temp ? _this.sub(_this.allot.allot_return_money, _this.allot.other_monety_temp, 2) : _this.allot.allot_return_money;
+				_this.formulaChange();
 				callback();
 			}
 		};
@@ -3542,6 +3555,23 @@ exports.default = {
 	mounted: function mounted() {},
 
 	methods: {
+		formulaChange: function formulaChange() {
+			var shouldPay = 0;
+			var formula = this.allot.allot_should_pay_formula;
+			if (this.allot.allot_should_pay_percent) {
+				var realReturnMoney = this.allot.refunds_real_money / this.allot.purchase_number;;
+				realReturnMoney = realReturnMoney ? realReturnMoney : this.allot.product_return_money;
+
+				var otherMoney = this.allot.purchase_other_money / this.allot.purchase_number;
+
+				this.allot.allot_other_money = otherMoney * this.allot.allot_number;
+				this.allot.allot_other_money = Math.round(this.allot.allot_other_money * 100) / 100;
+				this.allot.allot_return_price = this.getShouldPayMoney(formula, this.allot.allot_price, realReturnMoney, this.allot.allot_should_pay_percent, 0, this.allot.allot_return_price);
+				this.allot.allot_return_price = Math.round(this.allot.allot_return_price * 100) / 100;
+				shouldPay = this.getShouldPayMoney(formula, this.allot.allot_price, realReturnMoney, this.allot.allot_should_pay_percent, otherMoney, this.allot.allot_return_price);
+			}
+			this.allot.allot_return_money = this.mul(shouldPay, this.allot.allot_number, 2);
+		},
 		formatterNoPay: function formatterNoPay(row, column, cellValue) {
 			var t = row.allot_return_money - row.allot_real_return_money;
 			if (t) {
@@ -3573,15 +3603,6 @@ exports.default = {
 				}
 			} else {
 				return cellValue;
-			}
-		},
-		formatterOtherMoney: function formatterOtherMoney(row, column, cellValue) {
-			if (row.purchase_other_money) {
-				var t = row.purchase_other_money / row.purchase_number * row.allot_number;
-				row.other_monety_temp = Math.round(t * 100) / 100;
-				return Math.round(t * 100) / 100;
-			} else {
-				return 0;
 			}
 		},
 		formatterReturnMoney: function formatterReturnMoney(row, column, cellValue) {
@@ -4218,16 +4239,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
+      "prop": "allot_other_money",
       "label": "补点/费用票",
-      "width": "80",
-      "formatter": _vm.formatterOtherMoney
+      "width": "80"
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
       "prop": "allot_return_money",
       "label": "应付积分",
-      "width": "70",
-      "formatter": _vm.formatterShouldPay
+      "width": "70"
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
@@ -4345,7 +4365,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "title": '药品信息（药品名：' + _vm.allot.product_common_name + '）',
       "name": "2"
     }
-  }, [_c('div', [_c('span', [_vm._v("产品编号:")]), _vm._v(_vm._s(_vm.allot.product_code))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("产品规格:")]), _vm._v(_vm._s(_vm.allot.product_specifications))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("中标价:")]), _vm._v(_vm._s(_vm.allot.product_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("包装:")]), _vm._v(_vm._s(_vm.allot.product_packing))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("单位:")]), _vm._v(_vm._s(_vm.allot.product_unit))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("打款价:")]), _vm._v(_vm._s(_vm.allot.product_mack_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("积分:")]), _vm._v(_vm._s(_vm.allot.product_return_money))]), _vm._v(" "), _c('div', {
+  }, [_c('div', [_c('span', [_vm._v("产品编号:")]), _vm._v(_vm._s(_vm.allot.product_code))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("产品规格:")]), _vm._v(_vm._s(_vm.allot.product_specifications))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("中标价:")]), _vm._v(_vm._s(_vm.allot.allot_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("包装:")]), _vm._v(_vm._s(_vm.allot.product_packing))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("单位:")]), _vm._v(_vm._s(_vm.allot.product_unit))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("打款价:")]), _vm._v(_vm._s(_vm.allot.product_mack_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("积分:")]), _vm._v(_vm._s(_vm.allot.product_return_money))]), _vm._v(" "), _c('div', {
     staticStyle: {
       "display": "block",
       "width": "100%"
@@ -4365,6 +4385,105 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('el-form-item', {
     attrs: {
+      "label": "政策公式",
+      "prop": "allot_should_pay_formula"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "472px"
+    },
+    attrs: {
+      "placeholder": "请选择"
+    },
+    on: {
+      "change": _vm.formulaChange
+    },
+    model: {
+      value: (_vm.allot.allot_should_pay_formula),
+      callback: function($$v) {
+        _vm.$set(_vm.allot, "allot_should_pay_formula", $$v)
+      },
+      expression: "allot.allot_should_pay_formula"
+    }
+  }, [_c('el-option', {
+    key: "1",
+    attrs: {
+      "label": "中标价*政策点数",
+      "value": "1"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "2",
+    attrs: {
+      "label": "中标价*政策点数-补点/费用票",
+      "value": "2"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "3",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数",
+      "value": "3"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "4",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数-补点/费用票",
+      "value": "4"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "5",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数",
+      "value": "5"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "6",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数-补点/费用票",
+      "value": "6"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "7",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分",
+      "value": "7"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "8",
+    attrs: {
+      "label": "固定政策（上游政策修改后，需手动调整下游政策）",
+      "value": "8"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.allot.allot_should_pay_formula != '8'),
+      expression: "allot.allot_should_pay_formula != '8'"
+    }],
+    attrs: {
+      "label": "政策点数",
+      "prop": "allot_should_pay_percent",
+      "maxlength": 10
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "政策点数（如：60）"
+    },
+    on: {
+      "blur": _vm.formulaChange
+    },
+    model: {
+      value: (_vm.allot.allot_should_pay_percent),
+      callback: function($$v) {
+        _vm.$set(_vm.allot, "allot_should_pay_percent", $$v)
+      },
+      expression: "allot.allot_should_pay_percent"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
       "label": "政策积分",
       "prop": "allot_return_price"
     }
@@ -4374,6 +4493,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     attrs: {
       "placeholder": "政策积分"
+    },
+    on: {
+      "blur": _vm.formulaChange
     },
     model: {
       value: (_vm.allot.allot_return_price),
@@ -4385,7 +4507,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
       "label": "补点/费用票",
-      "prop": "other_monety_temp"
+      "prop": "allot_other_money"
     }
   }, [_c('el-input', {
     staticStyle: {
@@ -4396,11 +4518,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "placeholder": "应付积分"
     },
     model: {
-      value: (_vm.allot.other_monety_temp),
+      value: (_vm.allot.allot_other_money),
       callback: function($$v) {
-        _vm.$set(_vm.allot, "other_monety_temp", $$v)
+        _vm.$set(_vm.allot, "allot_other_money", $$v)
       },
-      expression: "allot.other_monety_temp"
+      expression: "allot.allot_other_money"
     }
   })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
@@ -4900,6 +5022,21 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
 	data: function data() {
@@ -4976,18 +5113,32 @@ exports.default = {
 	mounted: function mounted() {},
 
 	methods: {
+		formulaChange: function formulaChange() {
+			var shouldPay = 0;
+			var formula = this.sale.sale_should_pay_formula;
+			if (this.sale.sale_should_pay_percent) {
+				var realReturnMoney = "";
+				if (this.sale.product_type == '佣金') {
+					realReturnMoney = this.sale.refunds_real_money / this.sale.sale_num;
+				} else if (this.sale.product_type == '高打') {
+					realReturnMoney = this.sale.refunds_real_money1 / this.sale.purchase_number;
+				}
+				realReturnMoney = realReturnMoney ? realReturnMoney : this.sale.product_return_money;
+
+				var t = this.sale.purchase_other_money / this.sale.purchase_number;
+				this.sale.sale_other_money = Math.round(t * this.sale.sale_num * 100) / 100;
+				this.sale.sale_return_price = this.getShouldPayMoney(formula, this.sale.sale_price, realReturnMoney, this.sale.sale_should_pay_percent, 0, this.sale.sale_return_price);
+				this.sale.sale_return_price = Math.round(this.sale.sale_return_price * 100) / 100;
+				shouldPay = this.getShouldPayMoney(formula, this.sale.sale_price, realReturnMoney, this.sale.sale_should_pay_percent, t, this.sale.sale_return_price);
+			}
+			this.sale.sale_return_money = this.mul(shouldPay, this.sale.sale_num, 2);
+		},
 		selectSalesContact: function selectSalesContact(val) {
 			this.selectContact = {};
 			for (var i = 0; i < this.contacts.length; i++) {
 				if (this.contacts[i].contacts_id == val) {
 					this.selectContact = this.contacts[i];
 				}
-			}
-		},
-		saleReturnPrice: function saleReturnPrice() {
-			this.sale.sale_return_money = this.mul(this.sale.sale_return_price, this.sale.sale_num, 2);
-			if (this.sale.other_money_temp) {
-				this.sale.sale_return_money = this.sub(this.sale.sale_return_money, this.sale.other_money_temp, 2);
 			}
 		},
 		getBankAccount: function getBankAccount() {
@@ -5671,17 +5822,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
-      "prop": "sale_return_money",
+      "prop": "sale_other_money",
       "label": "补点/费用票",
-      "width": "80",
-      "formatter": _vm.formatterOtherMoney
+      "width": "80"
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
       "prop": "sale_return_money",
       "label": "应付积分",
-      "width": "70",
-      "formatter": _vm.formatterShouldPay
+      "width": "70"
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
@@ -5819,6 +5968,105 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('el-form-item', {
     attrs: {
+      "label": "政策公式",
+      "prop": "sale_should_pay_formula"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "472px"
+    },
+    attrs: {
+      "placeholder": "请选择"
+    },
+    on: {
+      "change": _vm.formulaChange
+    },
+    model: {
+      value: (_vm.sale.sale_should_pay_formula),
+      callback: function($$v) {
+        _vm.$set(_vm.sale, "sale_should_pay_formula", $$v)
+      },
+      expression: "sale.sale_should_pay_formula"
+    }
+  }, [_c('el-option', {
+    key: "1",
+    attrs: {
+      "label": "中标价*政策点数",
+      "value": "1"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "2",
+    attrs: {
+      "label": "中标价*政策点数-补点/费用票",
+      "value": "2"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "3",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数",
+      "value": "3"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "4",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数-补点/费用票",
+      "value": "4"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "5",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数",
+      "value": "5"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "6",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数-补点/费用票",
+      "value": "6"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "7",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分",
+      "value": "7"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "8",
+    attrs: {
+      "label": "固定政策（上游政策修改后，需手动调整下游政策）",
+      "value": "8"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.sale.sale_should_pay_formula != '8'),
+      expression: "sale.sale_should_pay_formula != '8'"
+    }],
+    attrs: {
+      "label": "政策点数",
+      "prop": "sale_should_pay_percent",
+      "maxlength": 10
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "政策点数（如：60）"
+    },
+    on: {
+      "blur": _vm.formulaChange
+    },
+    model: {
+      value: (_vm.sale.sale_should_pay_percent),
+      callback: function($$v) {
+        _vm.$set(_vm.sale, "sale_should_pay_percent", $$v)
+      },
+      expression: "sale.sale_should_pay_percent"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
       "label": "政策积分",
       "prop": "sale_return_price"
     }
@@ -5830,7 +6078,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "placeholder": "政策积分"
     },
     on: {
-      "blur": _vm.saleReturnPrice
+      "blur": _vm.formulaChange
     },
     model: {
       value: (_vm.sale.sale_return_price),
@@ -5842,7 +6090,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
       "label": "补点/费用票",
-      "prop": "other_money_temp"
+      "prop": "sale_other_money"
     }
   }, [_c('el-input', {
     staticStyle: {
@@ -5853,11 +6101,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "readonly": true
     },
     model: {
-      value: (_vm.sale.other_money_temp),
+      value: (_vm.sale.sale_other_money),
       callback: function($$v) {
-        _vm.$set(_vm.sale, "other_money_temp", $$v)
+        _vm.$set(_vm.sale, "sale_other_money", $$v)
       },
-      expression: "sale.other_money_temp"
+      expression: "sale.sale_other_money"
     }
   })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {

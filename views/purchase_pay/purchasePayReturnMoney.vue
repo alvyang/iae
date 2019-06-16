@@ -91,7 +91,7 @@
 				<el-table-column prop="purchase_pay_should_price" label="实收上游积分" width="80" :formatter="formatterRealReceive"></el-table-column>
 				<el-table-column prop="purchase_pay_policy_price" label="政策积分" width="80"></el-table-column>
 				<el-table-column prop="purchase_pay_other_money" label="补点/费用票" width="80"></el-table-column>
-				<el-table-column prop="purchase_pay_should_pay_money" label="应付积分" width="80" :formatter="formatterShouldPay"></el-table-column>
+				<el-table-column prop="purchase_pay_should_pay_money" label="应付积分" width="80"></el-table-column>
 				<el-table-column prop="purchase_pay_real_pay_money" label="实付积分" width="80"></el-table-column>
 				<el-table-column prop="purchase_pay_real_pay_time" label="实付时间" width="80" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="purchase_pay_real_money" label="未付积分" width="80" :formatter="onRefund"></el-table-column>

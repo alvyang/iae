@@ -85,8 +85,8 @@
 				<el-table-column prop="batch_number" label="批号" ></el-table-column>
 				<el-table-column label="实收上游积分(单价)" width="70" :formatter="formatterReturnMoney"></el-table-column>
 				<el-table-column prop="allot_return_price" label="政策积分" width="70"></el-table-column>
-				<el-table-column label="补点/费用票" width="80" :formatter="formatterOtherMoney"></el-table-column>
-				<el-table-column prop="allot_return_money" label="应付积分" width="70" :formatter="formatterShouldPay"></el-table-column>
+				<el-table-column prop="allot_other_money" label="补点/费用票" width="80"></el-table-column>
+				<el-table-column prop="allot_return_money" label="应付积分" width="70"></el-table-column>
 				<!-- <el-table-column prop="allot_return_money" label="应付积分-补点/费用票" width="70" :formatter="formatterShouldMoney"></el-table-column> -->
 				<el-table-column prop="allot_real_return_money" label="实付积分" width="70"></el-table-column>
 				<el-table-column prop="allot_real_return_money" label="未付积分" width="70" :formatter="formatterNoPay"></el-table-column>
@@ -119,7 +119,7 @@
 			  <el-collapse-item :title="'药品信息（药品名：'+allot.product_common_name+ '）'" name="2">
 			    <div><span>产品编号:</span>{{allot.product_code}}</div>
 			    <div><span>产品规格:</span>{{allot.product_specifications}}</div>
-					<div><span>中标价:</span>{{allot.product_price}}</div>
+					<div><span>中标价:</span>{{allot.allot_price}}</div>
 					<div><span>包装:</span>{{allot.product_packing}}</div>
 					<div><span>单位:</span>{{allot.product_unit}}</div>
 					<div><span>打款价:</span>{{allot.product_mack_price}}</div>
@@ -128,11 +128,26 @@
 			  </el-collapse-item>
 			</el-collapse>
 			<el-form :model="allot" ref="allot" status-icon :rules="allotRule" style="margin-top:20px;" :inline="true" label-width="100px" class="demo-ruleForm">
-				<el-form-item label="政策积分" prop="allot_return_price">
-					<el-input v-model="allot.allot_return_price" style="width:179px;" placeholder="政策积分"></el-input>
+				<el-form-item label="政策公式" prop="allot_should_pay_formula">
+					<el-select v-model="allot.allot_should_pay_formula" style="width:472px;"  @change="formulaChange"  placeholder="请选择">
+						<el-option key="1" label="中标价*政策点数" value="1"></el-option>
+						<el-option key="2" label="中标价*政策点数-补点/费用票" value="2"></el-option>
+						<el-option key="3" label="实收上游积分或上游政策积分*政策点数" value="3"></el-option>
+						<el-option key="4" label="实收上游积分或上游政策积分*政策点数-补点/费用票" value="4"></el-option>
+						<el-option key="5" label="实收上游积分或上游政策积分-中标价*政策点数" value="5"></el-option>
+						<el-option key="6" label="实收上游积分或上游政策积分-中标价*政策点数-补点/费用票" value="6"></el-option>
+						<el-option key="7" label="实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分" value="7"></el-option>
+						<el-option key="8" label="固定政策（上游政策修改后，需手动调整下游政策）" value="8"></el-option>
+					</el-select>
 				</el-form-item>
-				<el-form-item label="补点/费用票" prop="other_monety_temp">
-					<el-input v-model="allot.other_monety_temp" style="width:179px;" :readonly="true" placeholder="应付积分"></el-input>
+				<el-form-item label="政策点数" prop="allot_should_pay_percent" :maxlength="10" v-show="allot.allot_should_pay_formula != '8'">
+					<el-input v-model="allot.allot_should_pay_percent" style="width:179px;" @blur='formulaChange' placeholder="政策点数（如：60）"></el-input>
+				</el-form-item>
+				<el-form-item label="政策积分" prop="allot_return_price">
+					<el-input v-model="allot.allot_return_price" style="width:179px;" @blur='formulaChange' placeholder="政策积分"></el-input>
+				</el-form-item>
+				<el-form-item label="补点/费用票" prop="allot_other_money">
+					<el-input v-model="allot.allot_other_money" style="width:179px;" :readonly="true" placeholder="应付积分"></el-input>
 				</el-form-item>
 				<el-form-item label="应付积分" prop="allot_return_money">
 					<el-input v-model="allot.allot_return_money" style="width:179px;" :readonly="true"  placeholder="应付积分"></el-input>
@@ -198,10 +213,7 @@
         } else if(!regu.test(value)){
 					callback(new Error('请输入正整数'));
 				} else {
-					this.allot.allot_money = this.mul(this.allot.allot_number,this.allot.allot_price,2);
-					if(this.allot.allot_return_price && reg.test(this.allot.allot_return_price)){
-						this.allot.allot_return_money = this.allot.allot_return_money?this.allot.allot_return_money:this.mul(this.allot.allot_return_price,this.allot.allot_number,2);
-					}
+					this.formulaChange();
           callback();
         }
       };
@@ -218,9 +230,8 @@
 				}else if(this.allot.allot_return_flag && value && !reg.test(value)){
 					callback(new Error('请输入正确的政策积分'));
 				} else {
-					this.allot.allot_return_money = this.mul(value,this.allot.allot_number,2);
-					this.allot.allot_return_money = this.allot.other_monety_temp?this.sub(this.allot.allot_return_money,this.allot.other_monety_temp,2):this.allot.allot_return_money;
-          callback();
+					this.formulaChange();
+					callback();
         }
       };
 			const nowDate = new Date();
@@ -297,6 +308,23 @@
 
 		},
 		methods:{
+			formulaChange(){
+				var shouldPay = 0;
+				var formula = this.allot.allot_should_pay_formula;
+        if(this.allot.allot_should_pay_percent){
+					var realReturnMoney = this.allot.refunds_real_money/this.allot.purchase_number;;
+					realReturnMoney=realReturnMoney?realReturnMoney:this.allot.product_return_money;
+
+					var otherMoney = this.allot.purchase_other_money/this.allot.purchase_number;
+
+					this.allot.allot_other_money = otherMoney*this.allot.allot_number;
+					this.allot.allot_other_money = Math.round(this.allot.allot_other_money*100)/100;
+					this.allot.allot_return_price = this.getShouldPayMoney(formula,this.allot.allot_price,realReturnMoney,this.allot.allot_should_pay_percent,0,this.allot.allot_return_price);
+					this.allot.allot_return_price = Math.round(this.allot.allot_return_price*100)/100;
+					shouldPay = this.getShouldPayMoney(formula,this.allot.allot_price,realReturnMoney,this.allot.allot_should_pay_percent,otherMoney,this.allot.allot_return_price);
+				}
+				this.allot.allot_return_money = this.mul(shouldPay,this.allot.allot_number,2);
+      },
 			formatterNoPay(row, column, cellValue){
 				var t = row.allot_return_money - row.allot_real_return_money;
 				if(t){
@@ -328,15 +356,6 @@
 					}
 				}else{
 					return cellValue;
-				}
-			},
-			formatterOtherMoney(row, column, cellValue){
-				if(row.purchase_other_money){
-					var t = (row.purchase_other_money/row.purchase_number)*row.allot_number;
-					row.other_monety_temp = Math.round(t*100)/100;
-					return Math.round(t*100)/100;
-				}else{
-					return 0;
 				}
 			},
 			formatterReturnMoney(row, column, cellValue){

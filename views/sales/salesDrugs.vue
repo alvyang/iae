@@ -254,11 +254,15 @@ export default({
 			});
 			this.jquery('/iae/sales/selesPolicy',{product_id:this.drug.product_id,hospital_id:this.sale.hospital_id},function(res){
 				if(res.message.length > 0){
+					_self.sale.sale_policy_formula=res.message[0].sale_policy_formula?res.message[0].sale_policy_formula:"";
+					_self.sale.sale_policy_percent=res.message[0].sale_policy_percent?res.message[0].sale_policy_percent:"";
 					_self.sale.sale_return_price=res.message[0].sale_policy_money?res.message[0].sale_policy_money:"";
 					_self.sale.sale_contact_id = res.message[0].sale_policy_contact_id?res.message[0].sale_policy_contact_id:"";
 				}else{
 					_self.sale.sale_return_price="";
 					_self.sale.sale_contact_id = "";
+					_self.sale.sale_policy_formula = "";
+					_self.sale.sale_policy_percent = "";
 				}
 			});
 		},
@@ -275,6 +279,7 @@ export default({
 				this.sale.real_gross_profit = this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.drug.accounting_cost),2);
 			}
 			this.sale.accounting_cost = this.drug.accounting_cost;
+			this.sale.product_price = this.drug.product_price;
 			this.sale.cost_univalent = this.drug.product_mack_price;
 			this.sale.product_code = this.drug.product_code;
 			this.sale.product_type = this.drug.product_type;
@@ -293,6 +298,7 @@ export default({
 						this.sale.sales_purchase_id = this.batchStockList[i].batch_stock_purchase_id;
 						var temp = this.batchStockList[i].purchase_other_money;
 						this.sale.sale_other_money = temp?temp*this.sale.sale_num/this.batchStockList[i].purchase_number:0;
+						this.sale.realReturnMoney = this.batchStockList[i].refunds_real_money/this.batchStockList[i].purchase_number;
 						break;
 					}
 				}
