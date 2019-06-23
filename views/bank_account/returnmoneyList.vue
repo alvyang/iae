@@ -95,7 +95,7 @@
     data(){
       var validateReturnMoney = (rule, value, callback) => {
 				var reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
-        if(!value){
+        if(this.isEmpty(value)){
           callback(new Error('请输入回款金额'));
         }else if(!reg.test(value)){
 					callback(new Error('请输入正确的回款金额'));

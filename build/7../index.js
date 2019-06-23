@@ -1,15 +1,238 @@
 webpackJsonp([7],{
 
-/***/ 866:
+/***/ 100:
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+var stylesInDom = {},
+	memoize = function(fn) {
+		var memo;
+		return function () {
+			if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+			return memo;
+		};
+	},
+	isOldIE = memoize(function() {
+		return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
+	}),
+	getHeadElement = memoize(function () {
+		return document.head || document.getElementsByTagName("head")[0];
+	}),
+	singletonElement = null,
+	singletonCounter = 0,
+	styleElementsInsertedAtTop = [];
+
+module.exports = function(list, options) {
+	if(typeof DEBUG !== "undefined" && DEBUG) {
+		if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+	}
+
+	options = options || {};
+	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+	// tags it will allow on a page
+	if (typeof options.singleton === "undefined") options.singleton = isOldIE();
+
+	// By default, add <style> tags to the bottom of <head>.
+	if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
+
+	var styles = listToStyles(list);
+	addStylesToDom(styles, options);
+
+	return function update(newList) {
+		var mayRemove = [];
+		for(var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+			domStyle.refs--;
+			mayRemove.push(domStyle);
+		}
+		if(newList) {
+			var newStyles = listToStyles(newList);
+			addStylesToDom(newStyles, options);
+		}
+		for(var i = 0; i < mayRemove.length; i++) {
+			var domStyle = mayRemove[i];
+			if(domStyle.refs === 0) {
+				for(var j = 0; j < domStyle.parts.length; j++)
+					domStyle.parts[j]();
+				delete stylesInDom[domStyle.id];
+			}
+		}
+	};
+}
+
+function addStylesToDom(styles, options) {
+	for(var i = 0; i < styles.length; i++) {
+		var item = styles[i];
+		var domStyle = stylesInDom[item.id];
+		if(domStyle) {
+			domStyle.refs++;
+			for(var j = 0; j < domStyle.parts.length; j++) {
+				domStyle.parts[j](item.parts[j]);
+			}
+			for(; j < item.parts.length; j++) {
+				domStyle.parts.push(addStyle(item.parts[j], options));
+			}
+		} else {
+			var parts = [];
+			for(var j = 0; j < item.parts.length; j++) {
+				parts.push(addStyle(item.parts[j], options));
+			}
+			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+		}
+	}
+}
+
+function listToStyles(list) {
+	var styles = [];
+	var newStyles = {};
+	for(var i = 0; i < list.length; i++) {
+		var item = list[i];
+		var id = item[0];
+		var css = item[1];
+		var media = item[2];
+		var sourceMap = item[3];
+		var part = {css: css, media: media, sourceMap: sourceMap};
+		if(!newStyles[id])
+			styles.push(newStyles[id] = {id: id, parts: [part]});
+		else
+			newStyles[id].parts.push(part);
+	}
+	return styles;
+}
+
+function insertStyleElement(options, styleElement) {
+	var head = getHeadElement();
+	var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
+	if (options.insertAt === "top") {
+		if(!lastStyleElementInsertedAtTop) {
+			head.insertBefore(styleElement, head.firstChild);
+		} else if(lastStyleElementInsertedAtTop.nextSibling) {
+			head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
+		} else {
+			head.appendChild(styleElement);
+		}
+		styleElementsInsertedAtTop.push(styleElement);
+	} else if (options.insertAt === "bottom") {
+		head.appendChild(styleElement);
+	} else {
+		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+	}
+}
+
+function removeStyleElement(styleElement) {
+	styleElement.parentNode.removeChild(styleElement);
+	var idx = styleElementsInsertedAtTop.indexOf(styleElement);
+	if(idx >= 0) {
+		styleElementsInsertedAtTop.splice(idx, 1);
+	}
+}
+
+function createStyleElement(options) {
+	var styleElement = document.createElement("style");
+	styleElement.type = "text/css";
+	insertStyleElement(options, styleElement);
+	return styleElement;
+}
+
+function addStyle(obj, options) {
+	var styleElement, update, remove;
+
+	if (options.singleton) {
+		var styleIndex = singletonCounter++;
+		styleElement = singletonElement || (singletonElement = createStyleElement(options));
+		update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
+		remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
+	} else {
+		styleElement = createStyleElement(options);
+		update = applyToTag.bind(null, styleElement);
+		remove = function() {
+			removeStyleElement(styleElement);
+		};
+	}
+
+	update(obj);
+
+	return function updateStyle(newObj) {
+		if(newObj) {
+			if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
+				return;
+			update(obj = newObj);
+		} else {
+			remove();
+		}
+	};
+}
+
+var replaceText = (function () {
+	var textStore = [];
+
+	return function (index, replacement) {
+		textStore[index] = replacement;
+		return textStore.filter(Boolean).join('\n');
+	};
+})();
+
+function applyToSingletonTag(styleElement, index, remove, obj) {
+	var css = remove ? "" : obj.css;
+
+	if (styleElement.styleSheet) {
+		styleElement.styleSheet.cssText = replaceText(index, css);
+	} else {
+		var cssNode = document.createTextNode(css);
+		var childNodes = styleElement.childNodes;
+		if (childNodes[index]) styleElement.removeChild(childNodes[index]);
+		if (childNodes.length) {
+			styleElement.insertBefore(cssNode, childNodes[index]);
+		} else {
+			styleElement.appendChild(cssNode);
+		}
+	}
+}
+
+function applyToTag(styleElement, obj) {
+	var css = obj.css;
+	var media = obj.media;
+	var sourceMap = obj.sourceMap;
+
+	if (media) {
+		styleElement.setAttribute("media", media);
+	}
+
+	if (sourceMap) {
+		// https://developer.chrome.com/devtools/docs/javascript-debugging
+		// this makes source maps inside style tags work properly in Chrome
+		css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */';
+		// http://stackoverflow.com/a/26603875
+		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+	}
+
+	if (styleElement.styleSheet) {
+		styleElement.styleSheet.cssText = css;
+	} else {
+		while(styleElement.firstChild) {
+			styleElement.removeChild(styleElement.firstChild);
+		}
+		styleElement.appendChild(document.createTextNode(css));
+	}
+}
+
+
+/***/ }),
+
+/***/ 878:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(867);
+var content = __webpack_require__(879);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(98)(content, {});
+var update = __webpack_require__(100)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -27,7 +250,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 867:
+/***/ 879:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -35,14 +258,14 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
 
 /***/ }),
 
-/***/ 868:
+/***/ 880:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -387,7 +610,7 @@ exports.default = {
 
   methods: {
     refundsPolicyMoney: function refundsPolicyMoney() {
-      if (this.refund.refunds_policy_money) {
+      if (!this.isEmpty(this.refund.refunds_policy_money)) {
         this.refund.refunds_should_money = this.refund.refunds_policy_money * this.refund.sale_num;
       }
     },
@@ -488,8 +711,8 @@ exports.default = {
       this.refund = JSON.parse(temp);
       this.refund.front_message = temp;
       this.refund.product_return_money = this.refund.hospital_policy_return_money ? this.refund.hospital_policy_return_money : this.refund.product_return_money;
-      if (this.refund.product_return_money && !this.refund.refunds_should_money) {
-        if (this.refund.product_floor_price && this.refund.product_high_discount && !this.refund.hospital_policy_return_money) {
+      if (!this.isEmpty(this.refund.product_return_money) && this.isEmpty(this.refund.refunds_should_money)) {
+        if (!this.isEmpty(this.refund.product_floor_price) && !this.isEmpty(this.refund.product_high_discount) && this.isEmpty(this.refund.hospital_policy_return_money)) {
           var rMoney = (this.refund.product_mack_price - this.refund.product_floor_price) * (1 - this.refund.product_high_discount / 100);
           this.refund.refunds_should_money = rMoney * this.refund.sale_num;
           this.refund.refunds_should_money = Math.round(this.refund.refunds_should_money * 100) / 100;
@@ -508,8 +731,9 @@ exports.default = {
       cb(results);
     },
     createFilter: function createFilter(queryString) {
+      var _self = this;
       return function (refundser) {
-        if (refundser.refundser) {
+        if (!_self.isEmpty(refundser.refundser)) {
           return refundser.refundser.toLowerCase().indexOf(queryString.toLowerCase()) > -1;
         } else {
           return;
@@ -609,7 +833,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 869:
+/***/ 881:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1565,16 +1789,16 @@ if (false) {
 
 /***/ }),
 
-/***/ 870:
+/***/ 882:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(871);
+var content = __webpack_require__(883);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(98)(content, {});
+var update = __webpack_require__(100)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -1592,7 +1816,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 871:
+/***/ 883:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -1600,14 +1824,14 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
 
 /***/ }),
 
-/***/ 872:
+/***/ 884:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1962,7 +2186,7 @@ exports.default = {
 
   methods: {
     refundsPolicyMoney: function refundsPolicyMoney() {
-      if (this.refund.refunds_policy_money) {
+      if (!this.isEmpty(this.refund.refunds_policy_money)) {
         this.refund.refunds_should_money = this.refund.refunds_policy_money * this.refund.purchase_number;
       }
     },
@@ -2057,9 +2281,9 @@ exports.default = {
       this.refund = JSON.parse(temp);
       this.refund.front_message = temp;
       this.refund.refunds_policy_money = this.refund.product_return_money;
-      if (this.refund.product_return_money && !this.refund.refunds_should_money) {
+      if (!this.isEmpty(this.refund.product_return_money) && this.isEmpty(this.refund.refunds_should_money)) {
         var num = this.refund.sale_num ? this.refund.sale_num : this.refund.purchase_number;
-        if (this.refund.product_floor_price && this.refund.product_high_discount) {
+        if (!this.isEmpty(this.refund.product_floor_price) && !this.isEmpty(this.refund.product_high_discount)) {
           var rMoney = (this.refund.purchase_mack_price - this.refund.product_floor_price) * (1 - this.refund.product_high_discount / 100);
           this.refund.refunds_should_money = rMoney * num;
         } else {
@@ -2078,8 +2302,9 @@ exports.default = {
       cb(results);
     },
     createFilter: function createFilter(queryString) {
+      var _self = this;
       return function (refundser) {
-        if (refundser.refundser) {
+        if (!_self.isEmpty(refundser.refundser)) {
           return refundser.refundser.toLowerCase().indexOf(queryString.toLowerCase()) > -1;
         } else {
           return;
@@ -2178,7 +2403,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 873:
+/***/ 885:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -3190,16 +3415,16 @@ if (false) {
 
 /***/ }),
 
-/***/ 874:
+/***/ 886:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(875);
+var content = __webpack_require__(887);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(98)(content, {});
+var update = __webpack_require__(100)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -3217,7 +3442,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 875:
+/***/ 887:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -3232,7 +3457,7 @@ exports.push([module.i, "\n.sum_money_allot > a{\n\tpadding-left: 20px;\n\tcolor
 
 /***/ }),
 
-/***/ 876:
+/***/ 888:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3466,16 +3691,16 @@ exports.default = {
 			}
 		};
 		var validateNull = function validateNull(rule, value, callback) {
-			if (_this.allot.allot_return_flag && !value) {
+			if (!_this.isEmpty(_this.allot.allot_return_flag) && _this.isEmpty(value)) {
 				callback(new Error('请选择' + rule.labelname));
 			} else {
 				callback();
 			}
 		};
 		var validateRealReturnMoney = function validateRealReturnMoney(rule, value, callback) {
-			if (_this.allot.allot_return_flag && !value) {
+			if (!_this.isEmpty(_this.allot.allot_return_flag) && _this.isEmpty(value)) {
 				callback(new Error('请输入政策积分'));
-			} else if (_this.allot.allot_return_flag && value && !reg.test(value)) {
+			} else if (!_this.isEmpty(_this.allot.allot_return_flag) && !_this.isEmpty(value) && !reg.test(value)) {
 				callback(new Error('请输入正确的政策积分'));
 			} else {
 				_this.formulaChange();
@@ -3558,23 +3783,24 @@ exports.default = {
 		formulaChange: function formulaChange() {
 			var shouldPay = 0;
 			var formula = this.allot.allot_should_pay_formula;
-			if (this.allot.allot_should_pay_percent) {
-				var realReturnMoney = this.allot.refunds_real_money / this.allot.purchase_number;;
-				realReturnMoney = realReturnMoney ? realReturnMoney : this.allot.product_return_money;
+			// if(this.allot.allot_should_pay_percent){
+			var realReturnMoney = this.allot.refunds_real_money / this.allot.purchase_number;;
+			realReturnMoney = realReturnMoney ? realReturnMoney : this.allot.product_return_money;
 
-				var otherMoney = this.allot.purchase_other_money / this.allot.purchase_number;
+			var otherMoney = this.allot.purchase_other_money / this.allot.purchase_number;
 
-				this.allot.allot_other_money = otherMoney * this.allot.allot_number;
-				this.allot.allot_other_money = Math.round(this.allot.allot_other_money * 100) / 100;
-				this.allot.allot_return_price = this.getShouldPayMoney(formula, this.allot.allot_price, realReturnMoney, this.allot.allot_should_pay_percent, 0, this.allot.allot_return_price);
-				this.allot.allot_return_price = Math.round(this.allot.allot_return_price * 100) / 100;
-				shouldPay = this.getShouldPayMoney(formula, this.allot.allot_price, realReturnMoney, this.allot.allot_should_pay_percent, otherMoney, this.allot.allot_return_price);
-			}
+			this.allot.allot_other_money = otherMoney ? otherMoney * this.allot.allot_number : 0;
+			this.allot.allot_other_money = Math.round(this.allot.allot_other_money * 100) / 100;
+			this.allot.allot_return_price = this.getShouldPayMoney(formula, this.allot.allot_price, realReturnMoney, this.allot.allot_should_pay_percent, 0, this.allot.allot_return_price);
+			console.log(formula, this.allot.allot_price, realReturnMoney, this.allot.allot_should_pay_percent, 0, this.allot.allot_return_price);
+			this.allot.allot_return_price = Math.round(this.allot.allot_return_price * 100) / 100;
+			shouldPay = this.getShouldPayMoney(formula, this.allot.allot_price, realReturnMoney, this.allot.allot_should_pay_percent, otherMoney, this.allot.allot_return_price);
+			// }
 			this.allot.allot_return_money = this.mul(shouldPay, this.allot.allot_number, 2);
 		},
 		formatterNoPay: function formatterNoPay(row, column, cellValue) {
 			var t = row.allot_return_money - row.allot_real_return_money;
-			if (t) {
+			if (!this.isEmpty(t)) {
 				return Math.round(t * 100) / 100;
 			} else {
 				return 0;
@@ -3582,7 +3808,7 @@ exports.default = {
 		},
 		formatterShouldMoney: function formatterShouldMoney(row, column, cellValue) {
 			cellValue = cellValue ? cellValue : 0;
-			if (row.purchase_other_money) {
+			if (!this.isEmpty(row.purchase_other_money)) {
 				var t = row.purchase_other_money / row.purchase_number * row.allot_number;
 				return cellValue - Math.round(t * 100) / 100;
 			} else {
@@ -3590,7 +3816,7 @@ exports.default = {
 			}
 		},
 		formatterShouldPay: function formatterShouldPay(row, column, cellValue) {
-			if (row.purchase_other_money) {
+			if (!this.isEmpty(row.purchase_other_money)) {
 				var t = row.purchase_other_money / row.purchase_number * row.allot_number;
 				row.other_monety_temp = Math.round(t * 100) / 100;
 				var temp = row.allot_number * row.allot_return_price - t;
@@ -3606,7 +3832,7 @@ exports.default = {
 			}
 		},
 		formatterReturnMoney: function formatterReturnMoney(row, column, cellValue) {
-			if (row.refunds_real_time && row.refunds_real_money) {
+			if (row.refunds_real_time && !this.isEmpty(row.refunds_real_money)) {
 				var temp = row.refunds_real_money / row.purchase_number;
 				return Math.round(temp * 100) / 100;;
 			} else {
@@ -3649,7 +3875,7 @@ exports.default = {
 			});
 		},
 		formatPercent: function formatPercent(row, column, cellValue, index) {
-			if (cellValue) {
+			if (!this.isEmpty(cellValue)) {
 				return cellValue + " %";
 			} else {
 				return "-";
@@ -3676,7 +3902,7 @@ exports.default = {
 		editallots: function editallots(formName) {
 			var _self = this;
 			this.allot.account_detail = this.formatterDate(null, null, this.allot.allot_time) + this.allot.hospital_name + "调货（" + this.allot.allot_number + "）" + this.allot.product_common_name + "付积分";
-			if (this.allot.allot_account_id && this.allot.allot_return_money) {
+			if (this.allot.allot_account_id && !this.isEmpty(this.allot.allot_return_money)) {
 				this.allot.allot_account_name = this.allot.allot_account_name ? this.allot.allot_account_name : this.selectContact.account_name ? this.selectContact.account_name : "";
 				this.allot.allot_account_number = this.allot.allot_account_number ? this.allot.allot_account_number : this.selectContact.account_number ? this.selectContact.account_number : "";
 				this.allot.allot_account_address = this.allot.allot_account_address ? this.allot.allot_account_address : this.selectContact.account_address ? this.selectContact.account_address : "";
@@ -3715,7 +3941,7 @@ exports.default = {
 			this.allot.front_allot_message = temp;
 			this.allot.allot_policy_money = this.allot.allot_policy_money ? this.allot.allot_policy_money : "";
 			this.allot.allot_return_price = this.allot.allot_return_price ? this.allot.allot_return_price : this.allot.allot_policy_money;
-			if (this.allot.allot_return_price) {
+			if (!this.isEmpty(this.allot.allot_return_price)) {
 				this.allot.allot_return_money = this.allot.allot_return_money ? this.allot.allot_return_money : this.mul(this.allot.allot_return_price, this.allot.allot_number, 2);
 			}
 			this.allot.allot_number_temp = this.allot.allot_number;
@@ -3725,7 +3951,7 @@ exports.default = {
 				}
 			}
 			this.remindFlag = false;
-			if (this.allot.refunds_real_time && this.allot.refunds_real_money) {
+			if (this.allot.refunds_real_time && !this.isEmpty(this.allot.refunds_real_money)) {
 				this.remindFlag = this.allot.allot_return_price > this.div(this.allot.refunds_real_money, this.allot.purchase_number, 2);
 				this.remindMoney = this.div(this.allot.refunds_real_money, this.allot.purchase_number, 2);
 			} else {
@@ -3809,7 +4035,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 877:
+/***/ 889:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -4730,16 +4956,16 @@ if (false) {
 
 /***/ }),
 
-/***/ 878:
+/***/ 890:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(879);
+var content = __webpack_require__(891);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(98)(content, {});
+var update = __webpack_require__(100)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -4757,7 +4983,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 879:
+/***/ 891:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -4772,55 +4998,7 @@ exports.push([module.i, "\n.sum_money{\n\tbackground-color: #fff;\n\tborder-bott
 
 /***/ }),
 
-/***/ 88:
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* styles */
-__webpack_require__(866)
-
-/* script */
-__vue_exports__ = __webpack_require__(868)
-
-/* template */
-var __vue_template__ = __webpack_require__(869)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/Users/lvyang/workspace/iae/views/refunds/refundsale.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-d0c9fea8", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-d0c9fea8", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] refundsale.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ }),
-
-/***/ 880:
+/***/ 892:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5116,21 +5294,21 @@ exports.default = {
 		formulaChange: function formulaChange() {
 			var shouldPay = 0;
 			var formula = this.sale.sale_should_pay_formula;
-			if (this.sale.sale_should_pay_percent) {
-				var realReturnMoney = "";
-				if (this.sale.product_type == '佣金') {
-					realReturnMoney = this.sale.refunds_real_money / this.sale.sale_num;
-				} else if (this.sale.product_type == '高打') {
-					realReturnMoney = this.sale.refunds_real_money1 / this.sale.purchase_number;
-				}
-				realReturnMoney = realReturnMoney ? realReturnMoney : this.sale.product_return_money;
-
-				var t = this.sale.purchase_other_money / this.sale.purchase_number;
-				this.sale.sale_other_money = Math.round(t * this.sale.sale_num * 100) / 100;
-				this.sale.sale_return_price = this.getShouldPayMoney(formula, this.sale.sale_price, realReturnMoney, this.sale.sale_should_pay_percent, 0, this.sale.sale_return_price);
-				this.sale.sale_return_price = Math.round(this.sale.sale_return_price * 100) / 100;
-				shouldPay = this.getShouldPayMoney(formula, this.sale.sale_price, realReturnMoney, this.sale.sale_should_pay_percent, t, this.sale.sale_return_price);
+			// if(this.sale.sale_should_pay_percent){
+			var realReturnMoney = "";
+			if (this.sale.product_type == '佣金') {
+				realReturnMoney = this.sale.refunds_real_money / this.sale.sale_num;
+			} else if (this.sale.product_type == '高打') {
+				realReturnMoney = this.sale.refunds_real_money1 / this.sale.purchase_number;
 			}
+			realReturnMoney = realReturnMoney ? realReturnMoney : this.sale.product_return_money;
+
+			var t = this.sale.purchase_other_money / this.sale.purchase_number;
+			this.sale.sale_other_money = Math.round(t * this.sale.sale_num * 100) / 100;
+			this.sale.sale_return_price = this.getShouldPayMoney(formula, this.sale.sale_price, realReturnMoney, this.sale.sale_should_pay_percent, 0, this.sale.sale_return_price);
+			this.sale.sale_return_price = Math.round(this.sale.sale_return_price * 100) / 100;
+			shouldPay = this.getShouldPayMoney(formula, this.sale.sale_price, realReturnMoney, this.sale.sale_should_pay_percent, t, this.sale.sale_return_price);
+			// }
 			this.sale.sale_return_money = this.mul(shouldPay, this.sale.sale_num, 2);
 		},
 		selectSalesContact: function selectSalesContact(val) {
@@ -5163,16 +5341,16 @@ exports.default = {
 		},
 		formatterNoPay: function formatterNoPay(row, column, cellValue) {
 			var t = row.sale_return_money - row.sale_return_real_return_money;
-			if (t) {
+			if (!this.isEmpty(t)) {
 				return Math.round(t * 100) / 100;
 			} else {
 				return 0;
 			}
 		},
 		formatterShouldPay: function formatterShouldPay(row, column, cellValue) {
-			if (row.product_type == '佣金' && row.sale_other_money) {
+			if (row.product_type == '佣金' && !this.isEmpty(row.sale_other_money)) {
 				row.other_money_temp = row.sale_other_money;
-			} else if (row.product_type == '高打' && row.purchase_other_money) {
+			} else if (row.product_type == '高打' && !this.isEmpty(row.purchase_other_money)) {
 				var temp = row.purchase_other_money / row.purchase_number * row.sale_num;
 				row.other_money_temp = Math.round(temp * 100) / 100;
 			} else {
@@ -5188,10 +5366,10 @@ exports.default = {
 			}
 		},
 		formatterOtherMoney: function formatterOtherMoney(row, column, cellValue) {
-			if (row.product_type == '佣金' && row.sale_other_money) {
+			if (row.product_type == '佣金' && !this.isEmpty(row.sale_other_money)) {
 				row.other_money_temp = row.sale_other_money;
 				return row.sale_other_money;
-			} else if (row.product_type == '高打' && row.purchase_other_money) {
+			} else if (row.product_type == '高打' && !this.isEmpty(row.purchase_other_money)) {
 				var temp = row.purchase_other_money / row.purchase_number * row.sale_num;
 				row.other_money_temp = Math.round(temp * 100) / 100;
 				return Math.round(temp * 100) / 100;
@@ -5200,9 +5378,9 @@ exports.default = {
 			}
 		},
 		formatterShouldMoney: function formatterShouldMoney(row, column, cellValue) {
-			if (row.product_type == '佣金' && row.sale_other_money) {
+			if (row.product_type == '佣金' && !this.isEmpty(row.sale_other_money)) {
 				return row.sale_return_money - row.sale_other_money;
-			} else if (row.product_type == '高打' && row.purchase_other_money) {
+			} else if (row.product_type == '高打' && !this.isEmpty(row.purchase_other_money)) {
 				var temp = row.purchase_other_money / row.purchase_number * row.sale_num;
 				return row.sale_return_money - Math.round(temp * 100) / 100;
 			} else {
@@ -5210,9 +5388,9 @@ exports.default = {
 			}
 		},
 		formatterReturnMoney: function formatterReturnMoney(row, column, cellValue) {
-			if (row.product_type == '佣金' && row.refunds_real_time && row.refunds_real_money) {
+			if (row.product_type == '佣金' && row.refunds_real_time && !this.isEmpty(row.refunds_real_money)) {
 				return this.div(row.refunds_real_money + "", row.sale_num + "", 2);
-			} else if (row.product_type == '高打' && row.refunds_real_time && row.refunds_real_money) {
+			} else if (row.product_type == '高打' && row.refunds_real_time && !this.isEmpty(row.refunds_real_money)) {
 				return this.div(row.refunds_real_money + "", row.purchase_number + "", 2);
 			} else {
 				return 0;
@@ -5249,10 +5427,10 @@ exports.default = {
 				}
 			}
 			this.remindFlag = false;
-			if (this.sale.product_type == '佣金' && this.sale.refunds_real_time && this.sale.refunds_real_money) {
+			if (this.sale.product_type == '佣金' && this.sale.refunds_real_time && !this.isEmpty(this.sale.refunds_real_money)) {
 				this.remindFlag = this.sale.sale_return_price > this.div(this.sale.refunds_real_money, this.sale.sale_num, 2);
 				this.remindMoney = this.div(this.sale.refunds_real_money, this.sale.sale_num, 2);
-			} else if (this.sale.product_type == '高打' && this.sale.refunds_real_time && this.sale.refunds_real_money) {
+			} else if (this.sale.product_type == '高打' && this.sale.refunds_real_time && !this.isEmpty(this.sale.refunds_real_money)) {
 				this.remindFlag = this.sale.sale_return_price > this.div(this.sale.refunds_real_money, this.sale.purchase_number, 2);
 				this.remindMoney = this.div(this.sale.refunds_real_money, this.sale.sale_num, 2);
 			} else {
@@ -5308,13 +5486,13 @@ exports.default = {
 			var _self = this;
 			this.sale.gross_profit = 0;
 			this.sale.real_gross_profit = 0;
-			if (this.sale.cost_univalent) {
+			if (!this.isEmpty(this.sale.cost_univalent)) {
 				this.sale.gross_profit = this.mul(this.sale.sale_num, this.sub(this.sale.sale_price, this.sale.cost_univalent), 2);
 			}
-			if (this.sale.accounting_cost) {
+			if (!this.isEmpty(this.sale.accounting_cost)) {
 				this.sale.real_gross_profit = this.mul(this.sale.sale_num, this.sub(this.sale.sale_price, this.sale.accounting_cost), 2);
 			}
-			if (this.sale.sale_account_id && this.sale.sale_return_money) {
+			if (this.sale.sale_account_id && !this.isEmpty(this.sale.sale_return_money)) {
 				this.sale.sale_account_name = this.sale.sale_account_name ? this.sale.sale_account_name : this.selectContact.account_name ? this.selectContact.account_name : "";
 				this.sale.sale_account_number = this.sale.sale_account_number ? this.sale.sale_account_number : this.selectContact.account_number ? this.selectContact.account_number : "";
 				this.sale.sale_account_address = this.sale.sale_account_address ? this.sale.sale_account_address : this.selectContact.account_address ? this.selectContact.account_address : "";
@@ -5347,7 +5525,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 881:
+/***/ 893:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -6317,20 +6495,68 @@ if (false) {
 
 /***/ }),
 
-/***/ 89:
+/***/ 90:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(870)
+__webpack_require__(878)
 
 /* script */
-__vue_exports__ = __webpack_require__(872)
+__vue_exports__ = __webpack_require__(880)
 
 /* template */
-var __vue_template__ = __webpack_require__(873)
+var __vue_template__ = __webpack_require__(881)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/lvyang/workspace/iae/views/refunds/refundsale.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-d0c9fea8", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-d0c9fea8", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] refundsale.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+
+/***/ 91:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(882)
+
+/* script */
+__vue_exports__ = __webpack_require__(884)
+
+/* template */
+var __vue_template__ = __webpack_require__(885)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -6365,20 +6591,20 @@ module.exports = __vue_exports__
 
 /***/ }),
 
-/***/ 90:
+/***/ 92:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(874)
+__webpack_require__(886)
 
 /* script */
-__vue_exports__ = __webpack_require__(876)
+__vue_exports__ = __webpack_require__(888)
 
 /* template */
-var __vue_template__ = __webpack_require__(877)
+var __vue_template__ = __webpack_require__(889)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -6413,20 +6639,20 @@ module.exports = __vue_exports__
 
 /***/ }),
 
-/***/ 91:
+/***/ 93:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(878)
+__webpack_require__(890)
 
 /* script */
-__vue_exports__ = __webpack_require__(880)
+__vue_exports__ = __webpack_require__(892)
 
 /* template */
-var __vue_template__ = __webpack_require__(881)
+var __vue_template__ = __webpack_require__(893)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -6457,229 +6683,6 @@ if (false) {(function () {
 if (__vue_options__.functional) {console.error("[vue-loader] salesReturnMoney.vue: functional components are not supported and should be defined in plain js files using render functions.")}
 
 module.exports = __vue_exports__
-
-
-/***/ }),
-
-/***/ 98:
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-var stylesInDom = {},
-	memoize = function(fn) {
-		var memo;
-		return function () {
-			if (typeof memo === "undefined") memo = fn.apply(this, arguments);
-			return memo;
-		};
-	},
-	isOldIE = memoize(function() {
-		return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
-	}),
-	getHeadElement = memoize(function () {
-		return document.head || document.getElementsByTagName("head")[0];
-	}),
-	singletonElement = null,
-	singletonCounter = 0,
-	styleElementsInsertedAtTop = [];
-
-module.exports = function(list, options) {
-	if(typeof DEBUG !== "undefined" && DEBUG) {
-		if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
-	}
-
-	options = options || {};
-	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-	// tags it will allow on a page
-	if (typeof options.singleton === "undefined") options.singleton = isOldIE();
-
-	// By default, add <style> tags to the bottom of <head>.
-	if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
-
-	var styles = listToStyles(list);
-	addStylesToDom(styles, options);
-
-	return function update(newList) {
-		var mayRemove = [];
-		for(var i = 0; i < styles.length; i++) {
-			var item = styles[i];
-			var domStyle = stylesInDom[item.id];
-			domStyle.refs--;
-			mayRemove.push(domStyle);
-		}
-		if(newList) {
-			var newStyles = listToStyles(newList);
-			addStylesToDom(newStyles, options);
-		}
-		for(var i = 0; i < mayRemove.length; i++) {
-			var domStyle = mayRemove[i];
-			if(domStyle.refs === 0) {
-				for(var j = 0; j < domStyle.parts.length; j++)
-					domStyle.parts[j]();
-				delete stylesInDom[domStyle.id];
-			}
-		}
-	};
-}
-
-function addStylesToDom(styles, options) {
-	for(var i = 0; i < styles.length; i++) {
-		var item = styles[i];
-		var domStyle = stylesInDom[item.id];
-		if(domStyle) {
-			domStyle.refs++;
-			for(var j = 0; j < domStyle.parts.length; j++) {
-				domStyle.parts[j](item.parts[j]);
-			}
-			for(; j < item.parts.length; j++) {
-				domStyle.parts.push(addStyle(item.parts[j], options));
-			}
-		} else {
-			var parts = [];
-			for(var j = 0; j < item.parts.length; j++) {
-				parts.push(addStyle(item.parts[j], options));
-			}
-			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
-		}
-	}
-}
-
-function listToStyles(list) {
-	var styles = [];
-	var newStyles = {};
-	for(var i = 0; i < list.length; i++) {
-		var item = list[i];
-		var id = item[0];
-		var css = item[1];
-		var media = item[2];
-		var sourceMap = item[3];
-		var part = {css: css, media: media, sourceMap: sourceMap};
-		if(!newStyles[id])
-			styles.push(newStyles[id] = {id: id, parts: [part]});
-		else
-			newStyles[id].parts.push(part);
-	}
-	return styles;
-}
-
-function insertStyleElement(options, styleElement) {
-	var head = getHeadElement();
-	var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
-	if (options.insertAt === "top") {
-		if(!lastStyleElementInsertedAtTop) {
-			head.insertBefore(styleElement, head.firstChild);
-		} else if(lastStyleElementInsertedAtTop.nextSibling) {
-			head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
-		} else {
-			head.appendChild(styleElement);
-		}
-		styleElementsInsertedAtTop.push(styleElement);
-	} else if (options.insertAt === "bottom") {
-		head.appendChild(styleElement);
-	} else {
-		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
-	}
-}
-
-function removeStyleElement(styleElement) {
-	styleElement.parentNode.removeChild(styleElement);
-	var idx = styleElementsInsertedAtTop.indexOf(styleElement);
-	if(idx >= 0) {
-		styleElementsInsertedAtTop.splice(idx, 1);
-	}
-}
-
-function createStyleElement(options) {
-	var styleElement = document.createElement("style");
-	styleElement.type = "text/css";
-	insertStyleElement(options, styleElement);
-	return styleElement;
-}
-
-function addStyle(obj, options) {
-	var styleElement, update, remove;
-
-	if (options.singleton) {
-		var styleIndex = singletonCounter++;
-		styleElement = singletonElement || (singletonElement = createStyleElement(options));
-		update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
-		remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
-	} else {
-		styleElement = createStyleElement(options);
-		update = applyToTag.bind(null, styleElement);
-		remove = function() {
-			removeStyleElement(styleElement);
-		};
-	}
-
-	update(obj);
-
-	return function updateStyle(newObj) {
-		if(newObj) {
-			if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
-				return;
-			update(obj = newObj);
-		} else {
-			remove();
-		}
-	};
-}
-
-var replaceText = (function () {
-	var textStore = [];
-
-	return function (index, replacement) {
-		textStore[index] = replacement;
-		return textStore.filter(Boolean).join('\n');
-	};
-})();
-
-function applyToSingletonTag(styleElement, index, remove, obj) {
-	var css = remove ? "" : obj.css;
-
-	if (styleElement.styleSheet) {
-		styleElement.styleSheet.cssText = replaceText(index, css);
-	} else {
-		var cssNode = document.createTextNode(css);
-		var childNodes = styleElement.childNodes;
-		if (childNodes[index]) styleElement.removeChild(childNodes[index]);
-		if (childNodes.length) {
-			styleElement.insertBefore(cssNode, childNodes[index]);
-		} else {
-			styleElement.appendChild(cssNode);
-		}
-	}
-}
-
-function applyToTag(styleElement, obj) {
-	var css = obj.css;
-	var media = obj.media;
-	var sourceMap = obj.sourceMap;
-
-	if (media) {
-		styleElement.setAttribute("media", media);
-	}
-
-	if (sourceMap) {
-		// https://developer.chrome.com/devtools/docs/javascript-debugging
-		// this makes source maps inside style tags work properly in Chrome
-		css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */';
-		// http://stackoverflow.com/a/26603875
-		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
-	}
-
-	if (styleElement.styleSheet) {
-		styleElement.styleSheet.cssText = css;
-	} else {
-		while(styleElement.firstChild) {
-			styleElement.removeChild(styleElement.firstChild);
-		}
-		styleElement.appendChild(document.createTextNode(css));
-	}
-}
 
 
 /***/ })

@@ -217,16 +217,16 @@
         }
     	};
 			var validatePercent = (rule, value, callback) => {
-        if (value && !/^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/.test(value)) {
+        if (!this.isEmpty(value) && !/^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/.test(value)) {
           	callback(new Error('请再输入正确的'+rule.labelname));
         } else {
          	callback();
         }
     	};
 			var validateCode = (rule, value, callback) => {
-        if (!value) {
+        if (this.isEmpty(value)) {
         	callback(new Error('请输入产品编号'));
-        } else if((this.editmessage == "修改" && this.product_code == this.drugs.product_code) || !value){
+        } else if((this.editmessage == "修改" && this.product_code == this.drugs.product_code) || this.isEmpty(value)){
 					callback();
         }else{
 					this.jquery("/iae/drugs/exitsCode",{product_code:this.drugs.product_code},function(res){
@@ -392,8 +392,9 @@
         cb(results);
       },
       createFilter(queryString) {
+				var _self = this;
         return (productMakesmakers) => {
-					if(productMakesmakers.product_makesmakers){
+					if(!_self.isEmpty(productMakesmakers.product_makesmakers)){
 						return (productMakesmakers.product_makesmakers.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
 					}else{
 						return ;
@@ -444,38 +445,38 @@
     	},
 			priceBlur(){
 				//计算返费金额
-				if(this.drugs.product_mack_price &&
-					this.drugs.product_floor_price &&
-					this.drugs.product_high_discount &&
+				if(!this.isEmpty(this.drugs.product_mack_price) &&
+					!this.isEmpty(this.drugs.product_floor_price) &&
+					!this.isEmpty(this.drugs.product_high_discount) &&
 					this.price.test(this.drugs.product_floor_price) &&
 					this.percent.test(this.drugs.product_high_discount)){
 					this.drugs.product_return_money = (this.drugs.product_mack_price - this.drugs.product_floor_price) * (1-this.drugs.product_high_discount/100);
 					this.drugs.product_return_money = Math.round(this.drugs.product_return_money*100)/100;
 				}
 				//计算扣率
-				if(this.drugs.product_mack_price &&
-					this.drugs.product_price &&
+				if(!this.isEmpty(this.drugs.product_mack_price) &&
+					!this.isEmpty(this.drugs.product_price) &&
 					this.price.test(this.drugs.product_mack_price)){
 						this.drugs.product_discount = (this.drugs.product_mack_price*100/this.drugs.product_price);
 						this.drugs.product_discount = Math.round(this.drugs.product_discount*100)/100;
 				}
 				//计算打款价
-				if(this.drugs.product_mack_price &&
-					!this.drugs.accounting_cost &&
+				if(!this.isEmpty(this.drugs.product_mack_price) &&
+					this.isEmpty(this.drugs.accounting_cost) &&
 					this.percent.test(this.drugs.product_mack_price)){
 					this.drugs.accounting_cost = this.drugs.product_mack_price;
 				}
 				//计算毛利率
-				if(this.drugs.accounting_cost &&
-					this.drugs.product_price &&
+				if(!this.isEmpty(this.drugs.accounting_cost) &&
+					!this.isEmpty(this.drugs.product_price) &&
 					this.price.test(this.drugs.accounting_cost)){
 						var temp = this.drugs.product_price - this.drugs.accounting_cost;
 						this.drugs.gross_interest_rate = (temp*100/this.drugs.product_price);
 						this.drugs.gross_interest_rate = Math.round(this.drugs.gross_interest_rate*100)/100;
 				}
 				//计算返费率
-				if(this.drugs.product_price &&
-					this.drugs.product_return_money &&
+				if(!this.isEmpty(this.drugs.product_price) &&
+					!this.isEmpty(this.drugs.product_return_money) &&
 					this.price.test(this.drugs.product_price) &&
 					this.price.test(this.drugs.product_return_money)){
 					this.drugs.product_return_discount = (this.drugs.product_return_money/this.drugs.product_price)*100;

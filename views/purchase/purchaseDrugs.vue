@@ -233,8 +233,9 @@
         cb(results);
       },
 			createFilter(queryString) {
+				var _self = this;
         return (remarks) => {
-					if(remarks.remark){
+					if(!_self.isEmpty(remarks.remark)){
 						return (remarks.remark.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
 					}else{
 						return ;

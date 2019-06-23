@@ -90,7 +90,7 @@ export default({
       return cellValue=='1'?"销售出库":(cellValue=='2'?"销售退回":"销售退补价");
     },
     formatterReturnMoney(row, column, cellValue){
-      if(row.hospital_policy_return_money){
+      if(!this.isEmpty(row.hospital_policy_return_money)){
         return row.hospital_policy_return_money;
       }else{
         return row.product_return_money;

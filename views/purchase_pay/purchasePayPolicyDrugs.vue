@@ -65,6 +65,9 @@
   			  </el-collapse-item>
   			</el-collapse>
   			<el-form :model="policyPay" status-icon :rules="policyPayRule" style="margin-top:20px;;text-align:left;" :inline="true" ref="policyPay" label-width="100px" class="demo-ruleForm">
+          <el-form-item label="打款价" prop="purchase_pay_policy_make_price" :maxlength="10">
+  					<el-input v-model="policyPay.purchase_pay_policy_make_price" style="width:179px;" placeholder="打款价"></el-input>
+  				</el-form-item>
           <el-form-item label="招商底价" prop="purchase_pay_policy_floor_price" :maxlength="10">
   					<el-input v-model="policyPay.purchase_pay_policy_floor_price" style="width:179px;" placeholder="招商底价"></el-input>
   				</el-form-item>
@@ -94,8 +97,8 @@
           	callback(new Error('请再输入正确的'+rule.labelname));
         } else {
           var temp = "";
-          if(this.policyPay.purchase_pay_policy_floor_price && this.policyPay.purchase_pay_policy_tax){
-            temp = (this.drug.product_mack_price - this.policyPay.purchase_pay_policy_floor_price)*(1-this.policyPay.purchase_pay_policy_tax/100);
+          if(!this.isEmpty(this.policyPay.purchase_pay_policy_floor_price) && !this.isEmpty(this.policyPay.purchase_pay_policy_tax) && !this.isEmpty(this.policyPay.purchase_pay_policy_make_price)){
+            temp = (this.policyPay.purchase_pay_policy_make_price - this.policyPay.purchase_pay_policy_floor_price)*(1-this.policyPay.purchase_pay_policy_tax/100);
           }
           this.policyPay.purchase_pay_policy_price = this.policyPay.purchase_pay_policy_price?this.policyPay.purchase_pay_policy_price:temp;
           this.policyPay.purchase_pay_policy_price = this.policyPay.purchase_pay_policy_price?Math.round(this.policyPay.purchase_pay_policy_price*100)/100:"";
@@ -108,8 +111,8 @@
         	callback(new Error('请输入正确的'+rule.labelname));
         } else {
           var temp = "";
-          if(this.policyPay.purchase_pay_policy_floor_price && this.policyPay.purchase_pay_policy_tax){
-            temp = (this.drug.product_mack_price - this.policyPay.purchase_pay_policy_floor_price)*(1-this.policyPay.purchase_pay_policy_tax/100);
+          if(!this.isEmpty(this.policyPay.purchase_pay_policy_floor_price) && !this.isEmpty(this.policyPay.purchase_pay_policy_tax) && !this.isEmpty(this.policyPay.purchase_pay_policy_make_price)){
+            temp = (this.policyPay.purchase_pay_policy_make_price - this.policyPay.purchase_pay_policy_floor_price)*(1-this.policyPay.purchase_pay_policy_tax/100);
           }
           this.policyPay.purchase_pay_policy_price = this.policyPay.purchase_pay_policy_price?this.policyPay.purchase_pay_policy_price:temp;
           this.policyPay.purchase_pay_policy_price = this.policyPay.purchase_pay_policy_price?Math.round(this.policyPay.purchase_pay_policy_price*100)/100:"";
@@ -131,12 +134,14 @@
           purchase_pay_policy_floor_price:"",
           purchase_pay_policy_tax:"",
           purchase_pay_policy_price:"",
-          purchase_pay_policy_remark:""
+          purchase_pay_policy_remark:"",
+          purchase_pay_policy_make_price:""
         },
         policyPayRule:{
           purchase_pay_policy_tax:[{ validator: validatePercent,labelname:'高开税率', trigger: 'blur' }],
           purchase_pay_policy_floor_price:[{ validator: validateMoney,labelname:'招商底价', trigger: 'blur' }],
           purchase_pay_policy_price:[{ validator: validateMoney,labelname:'招商积分', trigger: 'blur' }],
+          purchase_pay_policy_make_price:[{ validator: validateMoney,labelname:'打款价', trigger: 'blur' }],
         },
         authCode:"",
         pageNum:10,
@@ -160,6 +165,7 @@
 				this.dialogFormVisible = true;
         var temp = JSON.stringify(scope.row);
 				this.drug = JSON.parse(temp);
+        this.policyPay.purchase_pay_policy_make_price = this.drug.product_mack_price;
 			},
       getContacts(){
 	      var _self = this;

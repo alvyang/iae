@@ -218,16 +218,16 @@
         }
       };
 			var validateNull = (rule, value, callback) =>{
-				if(this.allot.allot_return_flag && !value){
+				if(!this.isEmpty(this.allot.allot_return_flag) && this.isEmpty(value)){
 					callback(new Error('请选择'+rule.labelname));
 				}else{
 					callback();
 				}
 			}
 			var validateRealReturnMoney = (rule, value, callback) => {
-				if(this.allot.allot_return_flag && !value){
+				if(!this.isEmpty(this.allot.allot_return_flag) && this.isEmpty(value)){
 					callback(new Error('请输入政策积分'));
-				}else if(this.allot.allot_return_flag && value && !reg.test(value)){
+				}else if(!this.isEmpty(this.allot.allot_return_flag) && !this.isEmpty(value) && !reg.test(value)){
 					callback(new Error('请输入正确的政策积分'));
 				} else {
 					this.formulaChange();
@@ -311,23 +311,24 @@
 			formulaChange(){
 				var shouldPay = 0;
 				var formula = this.allot.allot_should_pay_formula;
-        if(this.allot.allot_should_pay_percent){
+        // if(this.allot.allot_should_pay_percent){
 					var realReturnMoney = this.allot.refunds_real_money/this.allot.purchase_number;;
 					realReturnMoney=realReturnMoney?realReturnMoney:this.allot.product_return_money;
 
 					var otherMoney = this.allot.purchase_other_money/this.allot.purchase_number;
 
-					this.allot.allot_other_money = otherMoney*this.allot.allot_number;
+					this.allot.allot_other_money = otherMoney?otherMoney*this.allot.allot_number:0;
 					this.allot.allot_other_money = Math.round(this.allot.allot_other_money*100)/100;
 					this.allot.allot_return_price = this.getShouldPayMoney(formula,this.allot.allot_price,realReturnMoney,this.allot.allot_should_pay_percent,0,this.allot.allot_return_price);
+					console.log(formula,this.allot.allot_price,realReturnMoney,this.allot.allot_should_pay_percent,0,this.allot.allot_return_price);
 					this.allot.allot_return_price = Math.round(this.allot.allot_return_price*100)/100;
 					shouldPay = this.getShouldPayMoney(formula,this.allot.allot_price,realReturnMoney,this.allot.allot_should_pay_percent,otherMoney,this.allot.allot_return_price);
-				}
+				// }
 				this.allot.allot_return_money = this.mul(shouldPay,this.allot.allot_number,2);
       },
 			formatterNoPay(row, column, cellValue){
 				var t = row.allot_return_money - row.allot_real_return_money;
-				if(t){
+				if(!this.isEmpty(t)){
 					return Math.round(t*100)/100;
 				}else{
 					return 0;
@@ -335,7 +336,7 @@
 			},
 			formatterShouldMoney(row, column, cellValue){
 				cellValue=cellValue?cellValue:0;
-				if(row.purchase_other_money){
+				if(!this.isEmpty(row.purchase_other_money)){
 					var t = (row.purchase_other_money/row.purchase_number)*row.allot_number;
 					return cellValue - Math.round(t*100)/100;
 				}else{
@@ -343,7 +344,7 @@
 				}
 			},
 			formatterShouldPay(row, column, cellValue){
-				if(row.purchase_other_money){
+				if(!this.isEmpty(row.purchase_other_money)){
 					var t = (row.purchase_other_money/row.purchase_number)*row.allot_number;
 					row.other_monety_temp = Math.round(t*100)/100;
 					var temp = row.allot_number*row.allot_return_price - t;
@@ -359,7 +360,7 @@
 				}
 			},
 			formatterReturnMoney(row, column, cellValue){
-				if(row.refunds_real_time && row.refunds_real_money){
+				if(row.refunds_real_time && !this.isEmpty(row.refunds_real_money)){
 					var temp = row.refunds_real_money/row.purchase_number;
 					return Math.round(temp*100)/100;;
 				}else{
@@ -400,7 +401,7 @@
 				});
 			},
 			formatPercent(row, column, cellValue, index){
-				if(cellValue){
+				if(!this.isEmpty(cellValue)){
 					return cellValue+" %";
 				}else{
 					return "-";
@@ -427,7 +428,7 @@
 			editallots(formName){
 				var _self = this;
 				this.allot.account_detail = this.formatterDate(null,null,this.allot.allot_time)+this.allot.hospital_name+"调货（"+this.allot.allot_number+"）"+this.allot.product_common_name+"付积分";
-				if(this.allot.allot_account_id && this.allot.allot_return_money){
+				if(this.allot.allot_account_id && !this.isEmpty(this.allot.allot_return_money)){
 					this.allot.allot_account_name =this.allot.allot_account_name?this.allot.allot_account_name:(this.selectContact.account_name?this.selectContact.account_name:"");
 					this.allot.allot_account_number = this.allot.allot_account_number?this.allot.allot_account_number:(this.selectContact.account_number?this.selectContact.account_number:"");
 					this.allot.allot_account_address = this.allot.allot_account_address?this.allot.allot_account_address:(this.selectContact.account_address?this.selectContact.account_address:"");
@@ -465,7 +466,7 @@
 				this.allot.front_allot_message = temp;
 				this.allot.allot_policy_money = this.allot.allot_policy_money?this.allot.allot_policy_money:"";
 				this.allot.allot_return_price = this.allot.allot_return_price?this.allot.allot_return_price:this.allot.allot_policy_money;
-				if(this.allot.allot_return_price){
+				if(!this.isEmpty(this.allot.allot_return_price)){
 					this.allot.allot_return_money = this.allot.allot_return_money?this.allot.allot_return_money:this.mul(this.allot.allot_return_price,this.allot.allot_number,2);
 				}
 				this.allot.allot_number_temp = this.allot.allot_number;
@@ -475,7 +476,7 @@
 					}
 				}
 				this.remindFlag = false;
-				if(this.allot.refunds_real_time && this.allot.refunds_real_money){
+				if(this.allot.refunds_real_time && !this.isEmpty(this.allot.refunds_real_money)){
 					this.remindFlag = this.allot.allot_return_price > this.div(this.allot.refunds_real_money,this.allot.purchase_number,2);
 					this.remindMoney = this.div(this.allot.refunds_real_money,this.allot.purchase_number,2);
 				}else{

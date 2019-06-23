@@ -1,15 +1,238 @@
 webpackJsonp([8],{
 
-/***/ 882:
+/***/ 100:
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+var stylesInDom = {},
+	memoize = function(fn) {
+		var memo;
+		return function () {
+			if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+			return memo;
+		};
+	},
+	isOldIE = memoize(function() {
+		return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
+	}),
+	getHeadElement = memoize(function () {
+		return document.head || document.getElementsByTagName("head")[0];
+	}),
+	singletonElement = null,
+	singletonCounter = 0,
+	styleElementsInsertedAtTop = [];
+
+module.exports = function(list, options) {
+	if(typeof DEBUG !== "undefined" && DEBUG) {
+		if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+	}
+
+	options = options || {};
+	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+	// tags it will allow on a page
+	if (typeof options.singleton === "undefined") options.singleton = isOldIE();
+
+	// By default, add <style> tags to the bottom of <head>.
+	if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
+
+	var styles = listToStyles(list);
+	addStylesToDom(styles, options);
+
+	return function update(newList) {
+		var mayRemove = [];
+		for(var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+			domStyle.refs--;
+			mayRemove.push(domStyle);
+		}
+		if(newList) {
+			var newStyles = listToStyles(newList);
+			addStylesToDom(newStyles, options);
+		}
+		for(var i = 0; i < mayRemove.length; i++) {
+			var domStyle = mayRemove[i];
+			if(domStyle.refs === 0) {
+				for(var j = 0; j < domStyle.parts.length; j++)
+					domStyle.parts[j]();
+				delete stylesInDom[domStyle.id];
+			}
+		}
+	};
+}
+
+function addStylesToDom(styles, options) {
+	for(var i = 0; i < styles.length; i++) {
+		var item = styles[i];
+		var domStyle = stylesInDom[item.id];
+		if(domStyle) {
+			domStyle.refs++;
+			for(var j = 0; j < domStyle.parts.length; j++) {
+				domStyle.parts[j](item.parts[j]);
+			}
+			for(; j < item.parts.length; j++) {
+				domStyle.parts.push(addStyle(item.parts[j], options));
+			}
+		} else {
+			var parts = [];
+			for(var j = 0; j < item.parts.length; j++) {
+				parts.push(addStyle(item.parts[j], options));
+			}
+			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+		}
+	}
+}
+
+function listToStyles(list) {
+	var styles = [];
+	var newStyles = {};
+	for(var i = 0; i < list.length; i++) {
+		var item = list[i];
+		var id = item[0];
+		var css = item[1];
+		var media = item[2];
+		var sourceMap = item[3];
+		var part = {css: css, media: media, sourceMap: sourceMap};
+		if(!newStyles[id])
+			styles.push(newStyles[id] = {id: id, parts: [part]});
+		else
+			newStyles[id].parts.push(part);
+	}
+	return styles;
+}
+
+function insertStyleElement(options, styleElement) {
+	var head = getHeadElement();
+	var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
+	if (options.insertAt === "top") {
+		if(!lastStyleElementInsertedAtTop) {
+			head.insertBefore(styleElement, head.firstChild);
+		} else if(lastStyleElementInsertedAtTop.nextSibling) {
+			head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
+		} else {
+			head.appendChild(styleElement);
+		}
+		styleElementsInsertedAtTop.push(styleElement);
+	} else if (options.insertAt === "bottom") {
+		head.appendChild(styleElement);
+	} else {
+		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+	}
+}
+
+function removeStyleElement(styleElement) {
+	styleElement.parentNode.removeChild(styleElement);
+	var idx = styleElementsInsertedAtTop.indexOf(styleElement);
+	if(idx >= 0) {
+		styleElementsInsertedAtTop.splice(idx, 1);
+	}
+}
+
+function createStyleElement(options) {
+	var styleElement = document.createElement("style");
+	styleElement.type = "text/css";
+	insertStyleElement(options, styleElement);
+	return styleElement;
+}
+
+function addStyle(obj, options) {
+	var styleElement, update, remove;
+
+	if (options.singleton) {
+		var styleIndex = singletonCounter++;
+		styleElement = singletonElement || (singletonElement = createStyleElement(options));
+		update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
+		remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
+	} else {
+		styleElement = createStyleElement(options);
+		update = applyToTag.bind(null, styleElement);
+		remove = function() {
+			removeStyleElement(styleElement);
+		};
+	}
+
+	update(obj);
+
+	return function updateStyle(newObj) {
+		if(newObj) {
+			if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
+				return;
+			update(obj = newObj);
+		} else {
+			remove();
+		}
+	};
+}
+
+var replaceText = (function () {
+	var textStore = [];
+
+	return function (index, replacement) {
+		textStore[index] = replacement;
+		return textStore.filter(Boolean).join('\n');
+	};
+})();
+
+function applyToSingletonTag(styleElement, index, remove, obj) {
+	var css = remove ? "" : obj.css;
+
+	if (styleElement.styleSheet) {
+		styleElement.styleSheet.cssText = replaceText(index, css);
+	} else {
+		var cssNode = document.createTextNode(css);
+		var childNodes = styleElement.childNodes;
+		if (childNodes[index]) styleElement.removeChild(childNodes[index]);
+		if (childNodes.length) {
+			styleElement.insertBefore(cssNode, childNodes[index]);
+		} else {
+			styleElement.appendChild(cssNode);
+		}
+	}
+}
+
+function applyToTag(styleElement, obj) {
+	var css = obj.css;
+	var media = obj.media;
+	var sourceMap = obj.sourceMap;
+
+	if (media) {
+		styleElement.setAttribute("media", media);
+	}
+
+	if (sourceMap) {
+		// https://developer.chrome.com/devtools/docs/javascript-debugging
+		// this makes source maps inside style tags work properly in Chrome
+		css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */';
+		// http://stackoverflow.com/a/26603875
+		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+	}
+
+	if (styleElement.styleSheet) {
+		styleElement.styleSheet.cssText = css;
+	} else {
+		while(styleElement.firstChild) {
+			styleElement.removeChild(styleElement.firstChild);
+		}
+		styleElement.appendChild(document.createTextNode(css));
+	}
+}
+
+
+/***/ }),
+
+/***/ 894:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(883);
+var content = __webpack_require__(895);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(98)(content, {});
+var update = __webpack_require__(100)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -27,7 +250,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 883:
+/***/ 895:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -42,7 +265,7 @@ exports.push([module.i, "\n.el-collapse-item__content > div{\n  display: inline-
 
 /***/ }),
 
-/***/ 884:
+/***/ 896:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -245,9 +468,9 @@ exports.default = {
     var _this = this;
 
     var validateBatchPercent = function validateBatchPercent(rule, value, callback) {
-      if (!value && _this.policy.allot_policy_formula != '8') {
+      if (_this.isEmpty(value) && _this.policy.allot_policy_formula != '8') {
         callback(new Error('请再输入政策点数'));
-      } else if (value && !/^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/.test(value)) {
+      } else if (!_this.isEmpty(value) && !/^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/.test(value)) {
         callback(new Error('请再输入正确的政策点数'));
       } else {
         _this.policy.allot_policy_money = _this.getShouldPayMoney(_this.policy.allot_policy_formula, _this.drug.product_price, _this.drug.product_return_money, _this.policy.allot_policy_percent, 0, _this.policy.allot_policy_money);
@@ -310,10 +533,10 @@ exports.default = {
 
   methods: {
     formulaChange: function formulaChange() {
-      if (this.policy.allot_policy_percent) {
-        this.policy.allot_policy_money = this.getShouldPayMoney(this.policy.allot_policy_formula, this.drug.product_price, this.drug.product_return_money, this.policy.allot_policy_percent, 0, this.policy.allot_policy_money);
-        this.policy.allot_policy_money = Math.round(this.policy.allot_policy_money * 100) / 100;
-      }
+      // if(this.policy.allot_policy_percent){
+      this.policy.allot_policy_money = this.getShouldPayMoney(this.policy.allot_policy_formula, this.drug.product_price, this.drug.product_return_money, this.policy.allot_policy_percent, 0, this.policy.allot_policy_money);
+      this.policy.allot_policy_money = Math.round(this.policy.allot_policy_money * 100) / 100;
+      // }
     },
     copyPolicy: function copyPolicy(formName) {
       //政策复制
@@ -331,7 +554,7 @@ exports.default = {
       });
     },
     formatterPercent: function formatterPercent(row, column, cellValue, index) {
-      if (row.allot_policy_money && row.product_return_money) {
+      if (!this.isEmpty(row.allot_policy_money) && !this.isEmpty(row.product_return_money)) {
         return Math.round(row.allot_policy_money * 100 / row.product_return_money) + "%";
       } else {
         return "";
@@ -504,7 +727,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 885:
+/***/ 897:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1470,16 +1693,16 @@ if (false) {
 
 /***/ }),
 
-/***/ 886:
+/***/ 898:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(887);
+var content = __webpack_require__(899);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(98)(content, {});
+var update = __webpack_require__(100)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -1497,7 +1720,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 887:
+/***/ 899:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -1512,7 +1735,7 @@ exports.push([module.i, "\n.el-collapse-item__content > div{\n  display: inline-
 
 /***/ }),
 
-/***/ 888:
+/***/ 900:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1671,9 +1894,9 @@ exports.default = {
     var _this = this;
 
     var validateBatchPercent = function validateBatchPercent(rule, value, callback) {
-      if (!value && _this.policy.allot_policy_formula != '8') {
+      if (_this.isEmpty(value) && _this.policy.allot_policy_formula != '8') {
         callback(new Error('请再输入政策点数'));
-      } else if (value && !/^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/.test(value)) {
+      } else if (!_this.isEmpty(value) && !/^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/.test(value)) {
         callback(new Error('请再输入正确的政策点数'));
       } else {
         _this.policy.allot_policy_money = _this.getShouldPayMoney(_this.policy.allot_policy_formula, _this.drug.product_price, _this.drug.product_return_money, _this.policy.allot_policy_percent, 0, _this.policy.allot_policy_money);
@@ -1733,10 +1956,10 @@ exports.default = {
 
   methods: {
     formulaChange: function formulaChange() {
-      if (this.policy.allot_policy_percent) {
-        this.policy.allot_policy_money = this.getShouldPayMoney(this.policy.allot_policy_formula, this.drug.product_price, this.drug.product_return_money, this.policy.allot_policy_percent, 0, this.policy.allot_policy_money);
-        this.policy.allot_policy_money = Math.round(this.policy.allot_policy_money * 100) / 100;
-      }
+      // if(this.policy.allot_policy_percent){
+      this.policy.allot_policy_money = this.getShouldPayMoney(this.policy.allot_policy_formula, this.drug.product_price, this.drug.product_return_money, this.policy.allot_policy_percent, 0, this.policy.allot_policy_money);
+      this.policy.allot_policy_money = Math.round(this.policy.allot_policy_money * 100) / 100;
+      // }
     },
     editRow: function editRow(scope) {
       //编辑药品信息
@@ -1890,7 +2113,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 889:
+/***/ 901:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2625,16 +2848,16 @@ if (false) {
 
 /***/ }),
 
-/***/ 890:
+/***/ 902:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(891);
+var content = __webpack_require__(903);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(98)(content, {});
+var update = __webpack_require__(100)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -2652,7 +2875,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 891:
+/***/ 903:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -2667,7 +2890,7 @@ exports.push([module.i, "\n.copy_form .search .el-form-item__label {\n  padding-
 
 /***/ }),
 
-/***/ 892:
+/***/ 904:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2936,10 +3159,10 @@ exports.default = {
 
   methods: {
     formulaChange: function formulaChange() {
-      if (this.policy.sale_policy_percent) {
-        this.policy.sale_policy_money = this.getShouldPayMoney(this.policy.sale_policy_formula, this.drug.product_price, this.drug.product_return_money, this.policy.sale_policy_percent, 0, this.policy.sale_policy_money);
-        this.policy.sale_policy_money = Math.round(this.policy.sale_policy_money * 100) / 100;
-      }
+      // if(this.policy.sale_policy_percent){
+      this.policy.sale_policy_money = this.getShouldPayMoney(this.policy.sale_policy_formula, this.drug.product_price, this.drug.product_return_money, this.policy.sale_policy_percent, 0, this.policy.sale_policy_money);
+      this.policy.sale_policy_money = Math.round(this.policy.sale_policy_money * 100) / 100;
+      // }
     },
     copyPolicy: function copyPolicy(formName) {
       //政策复制
@@ -2994,7 +3217,7 @@ exports.default = {
       return message;
     },
     formatterPercent: function formatterPercent(row, column, cellValue, index) {
-      if (row.sale_policy_money && row.product_return_money) {
+      if (!this.isEmpty(row.sale_policy_money) && !this.isEmpty(row.product_return_money)) {
         return Math.round(row.sale_policy_money * 100 / row.product_return_money) + "%";
       } else {
         return "";
@@ -3131,7 +3354,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 893:
+/***/ 905:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -4095,16 +4318,16 @@ if (false) {
 
 /***/ }),
 
-/***/ 894:
+/***/ 906:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(895);
+var content = __webpack_require__(907);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(98)(content, {});
+var update = __webpack_require__(100)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -4122,7 +4345,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 895:
+/***/ 907:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -4137,7 +4360,7 @@ exports.push([module.i, "\n.copy_form .search .el-form-item__label {\n  padding-
 
 /***/ }),
 
-/***/ 896:
+/***/ 908:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4357,10 +4580,10 @@ exports.default = {
 
   methods: {
     formulaChange: function formulaChange() {
-      if (this.policy.sale_policy_percent) {
-        this.policy.sale_policy_money = this.getShouldPayMoney(this.policy.sale_policy_formula, this.drug.product_price, this.drug.product_return_money, this.policy.sale_policy_percent, 0, this.policy.sale_policy_money);
-        this.policy.sale_policy_money = Math.round(this.policy.sale_policy_money * 100) / 100;
-      }
+      // if(this.policy.sale_policy_percent){
+      this.policy.sale_policy_money = this.getShouldPayMoney(this.policy.sale_policy_formula, this.drug.product_price, this.drug.product_return_money, this.policy.sale_policy_percent, 0, this.policy.sale_policy_money);
+      this.policy.sale_policy_money = Math.round(this.policy.sale_policy_money * 100) / 100;
+      // }
     },
     editRow: function editRow(scope) {
       //编辑药品信息
@@ -4514,7 +4737,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 897:
+/***/ 909:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -5249,20 +5472,20 @@ if (false) {
 
 /***/ }),
 
-/***/ 92:
+/***/ 94:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(882)
+__webpack_require__(894)
 
 /* script */
-__vue_exports__ = __webpack_require__(884)
+__vue_exports__ = __webpack_require__(896)
 
 /* template */
-var __vue_template__ = __webpack_require__(885)
+var __vue_template__ = __webpack_require__(897)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -5297,20 +5520,20 @@ module.exports = __vue_exports__
 
 /***/ }),
 
-/***/ 93:
+/***/ 95:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(886)
+__webpack_require__(898)
 
 /* script */
-__vue_exports__ = __webpack_require__(888)
+__vue_exports__ = __webpack_require__(900)
 
 /* template */
-var __vue_template__ = __webpack_require__(889)
+var __vue_template__ = __webpack_require__(901)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -5345,20 +5568,20 @@ module.exports = __vue_exports__
 
 /***/ }),
 
-/***/ 94:
+/***/ 96:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(890)
+__webpack_require__(902)
 
 /* script */
-__vue_exports__ = __webpack_require__(892)
+__vue_exports__ = __webpack_require__(904)
 
 /* template */
-var __vue_template__ = __webpack_require__(893)
+var __vue_template__ = __webpack_require__(905)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -5393,20 +5616,20 @@ module.exports = __vue_exports__
 
 /***/ }),
 
-/***/ 95:
+/***/ 97:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(894)
+__webpack_require__(906)
 
 /* script */
-__vue_exports__ = __webpack_require__(896)
+__vue_exports__ = __webpack_require__(908)
 
 /* template */
-var __vue_template__ = __webpack_require__(897)
+var __vue_template__ = __webpack_require__(909)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -5437,229 +5660,6 @@ if (false) {(function () {
 if (__vue_options__.functional) {console.error("[vue-loader] salesPolicyDrugs.vue: functional components are not supported and should be defined in plain js files using render functions.")}
 
 module.exports = __vue_exports__
-
-
-/***/ }),
-
-/***/ 98:
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-var stylesInDom = {},
-	memoize = function(fn) {
-		var memo;
-		return function () {
-			if (typeof memo === "undefined") memo = fn.apply(this, arguments);
-			return memo;
-		};
-	},
-	isOldIE = memoize(function() {
-		return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
-	}),
-	getHeadElement = memoize(function () {
-		return document.head || document.getElementsByTagName("head")[0];
-	}),
-	singletonElement = null,
-	singletonCounter = 0,
-	styleElementsInsertedAtTop = [];
-
-module.exports = function(list, options) {
-	if(typeof DEBUG !== "undefined" && DEBUG) {
-		if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
-	}
-
-	options = options || {};
-	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-	// tags it will allow on a page
-	if (typeof options.singleton === "undefined") options.singleton = isOldIE();
-
-	// By default, add <style> tags to the bottom of <head>.
-	if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
-
-	var styles = listToStyles(list);
-	addStylesToDom(styles, options);
-
-	return function update(newList) {
-		var mayRemove = [];
-		for(var i = 0; i < styles.length; i++) {
-			var item = styles[i];
-			var domStyle = stylesInDom[item.id];
-			domStyle.refs--;
-			mayRemove.push(domStyle);
-		}
-		if(newList) {
-			var newStyles = listToStyles(newList);
-			addStylesToDom(newStyles, options);
-		}
-		for(var i = 0; i < mayRemove.length; i++) {
-			var domStyle = mayRemove[i];
-			if(domStyle.refs === 0) {
-				for(var j = 0; j < domStyle.parts.length; j++)
-					domStyle.parts[j]();
-				delete stylesInDom[domStyle.id];
-			}
-		}
-	};
-}
-
-function addStylesToDom(styles, options) {
-	for(var i = 0; i < styles.length; i++) {
-		var item = styles[i];
-		var domStyle = stylesInDom[item.id];
-		if(domStyle) {
-			domStyle.refs++;
-			for(var j = 0; j < domStyle.parts.length; j++) {
-				domStyle.parts[j](item.parts[j]);
-			}
-			for(; j < item.parts.length; j++) {
-				domStyle.parts.push(addStyle(item.parts[j], options));
-			}
-		} else {
-			var parts = [];
-			for(var j = 0; j < item.parts.length; j++) {
-				parts.push(addStyle(item.parts[j], options));
-			}
-			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
-		}
-	}
-}
-
-function listToStyles(list) {
-	var styles = [];
-	var newStyles = {};
-	for(var i = 0; i < list.length; i++) {
-		var item = list[i];
-		var id = item[0];
-		var css = item[1];
-		var media = item[2];
-		var sourceMap = item[3];
-		var part = {css: css, media: media, sourceMap: sourceMap};
-		if(!newStyles[id])
-			styles.push(newStyles[id] = {id: id, parts: [part]});
-		else
-			newStyles[id].parts.push(part);
-	}
-	return styles;
-}
-
-function insertStyleElement(options, styleElement) {
-	var head = getHeadElement();
-	var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
-	if (options.insertAt === "top") {
-		if(!lastStyleElementInsertedAtTop) {
-			head.insertBefore(styleElement, head.firstChild);
-		} else if(lastStyleElementInsertedAtTop.nextSibling) {
-			head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
-		} else {
-			head.appendChild(styleElement);
-		}
-		styleElementsInsertedAtTop.push(styleElement);
-	} else if (options.insertAt === "bottom") {
-		head.appendChild(styleElement);
-	} else {
-		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
-	}
-}
-
-function removeStyleElement(styleElement) {
-	styleElement.parentNode.removeChild(styleElement);
-	var idx = styleElementsInsertedAtTop.indexOf(styleElement);
-	if(idx >= 0) {
-		styleElementsInsertedAtTop.splice(idx, 1);
-	}
-}
-
-function createStyleElement(options) {
-	var styleElement = document.createElement("style");
-	styleElement.type = "text/css";
-	insertStyleElement(options, styleElement);
-	return styleElement;
-}
-
-function addStyle(obj, options) {
-	var styleElement, update, remove;
-
-	if (options.singleton) {
-		var styleIndex = singletonCounter++;
-		styleElement = singletonElement || (singletonElement = createStyleElement(options));
-		update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
-		remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
-	} else {
-		styleElement = createStyleElement(options);
-		update = applyToTag.bind(null, styleElement);
-		remove = function() {
-			removeStyleElement(styleElement);
-		};
-	}
-
-	update(obj);
-
-	return function updateStyle(newObj) {
-		if(newObj) {
-			if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
-				return;
-			update(obj = newObj);
-		} else {
-			remove();
-		}
-	};
-}
-
-var replaceText = (function () {
-	var textStore = [];
-
-	return function (index, replacement) {
-		textStore[index] = replacement;
-		return textStore.filter(Boolean).join('\n');
-	};
-})();
-
-function applyToSingletonTag(styleElement, index, remove, obj) {
-	var css = remove ? "" : obj.css;
-
-	if (styleElement.styleSheet) {
-		styleElement.styleSheet.cssText = replaceText(index, css);
-	} else {
-		var cssNode = document.createTextNode(css);
-		var childNodes = styleElement.childNodes;
-		if (childNodes[index]) styleElement.removeChild(childNodes[index]);
-		if (childNodes.length) {
-			styleElement.insertBefore(cssNode, childNodes[index]);
-		} else {
-			styleElement.appendChild(cssNode);
-		}
-	}
-}
-
-function applyToTag(styleElement, obj) {
-	var css = obj.css;
-	var media = obj.media;
-	var sourceMap = obj.sourceMap;
-
-	if (media) {
-		styleElement.setAttribute("media", media);
-	}
-
-	if (sourceMap) {
-		// https://developer.chrome.com/devtools/docs/javascript-debugging
-		// this makes source maps inside style tags work properly in Chrome
-		css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */';
-		// http://stackoverflow.com/a/26603875
-		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
-	}
-
-	if (styleElement.styleSheet) {
-		styleElement.styleSheet.cssText = css;
-	} else {
-		while(styleElement.firstChild) {
-			styleElement.removeChild(styleElement.firstChild);
-		}
-		styleElement.appendChild(document.createTextNode(css));
-	}
-}
 
 
 /***/ })

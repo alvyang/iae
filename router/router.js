@@ -30,6 +30,10 @@ const PurchaseDrugs = r => require.ensure([], () => r(require('../views/purchase
 
 //药品页面 分组
 const Drugs = r => require.ensure([], () => r(require('../views/drugs/drugs.vue')), 'group5');
+const DrugsPolicy = r => require.ensure([], () => r(require('../views/drugs_policy/drugsPolicy.vue')), 'group5');
+const DrugsAllotPolicy = r => require.ensure([], () => r(require('../views/drugs_policy/drugsAllotPolicy.vue')), 'group5');
+const DrugsSalesPolicy = r => require.ensure([], () => r(require('../views/drugs_policy/drugsSalesPolicy.vue')), 'group5');
+const DrugsPurchasePayPolicy = r => require.ensure([], () => r(require('../views/drugs_policy/drugsPurchasePayPolicy.vue')), 'group5');
 const DrugsEdit = r => require.ensure([], () => r(require('../views/drugs/drugsEdit.vue')), 'group5');
 const HospitalPolicyRecord = r => require.ensure([], () => r(require('../views/drugs/hospitalPolicyRecord.vue')), 'group5');
 const HospitalPolicyRecordDrugs = r => require.ensure([], () => r(require('../views/drugs/hospitalPolicyRecordDrugs.vue')), 'group5');
@@ -93,13 +97,6 @@ const AllotPolicy = r => require.ensure([], () => r(require('../views/allot/allo
 const AllotPolicyDrugs = r => require.ensure([], () => r(require('../views/allot/allotPolicyDrugs.vue')), 'group9');
 const SalesPolicy = r => require.ensure([], () => r(require('../views/sales/salesPolicy.vue')), 'group9');
 const SalesPolicyDrugs = r => require.ensure([], () => r(require('../views/sales/salesPolicyDrugs.vue')), 'group9');
-
-
-
-
-
-
-
 
 const router = new VueRouter({
 	routes:[{
@@ -188,8 +185,11 @@ const router = new VueRouter({
 			{path:"reportPurchasePaysReturnMoneyPay",component:ReportPurchasePaysReturnMoneyPay},
 			{path:"reportPurchasePaysReturnMoneyPayDetail",component:ReportPurchasePaysReturnMoneyPayDetail},
 			{path:"stockMoney",component:StockMoney},
+			{path:"drugspolicy",component:DrugsPolicy},
+			{path:"drugsAllotPolicy",component:DrugsAllotPolicy},
+			{path:"drugsSalesPolicy",component:DrugsSalesPolicy},
+			{path:"drugsPurchasePayPolicy",component:DrugsPurchasePayPolicy}
 		]
 	}]
 });
-
 export default router

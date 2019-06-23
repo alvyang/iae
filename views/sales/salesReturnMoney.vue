@@ -285,7 +285,7 @@
 			formulaChange(){
 				var shouldPay = 0;
 				var formula = this.sale.sale_should_pay_formula;
-        if(this.sale.sale_should_pay_percent){
+        // if(this.sale.sale_should_pay_percent){
 					var realReturnMoney = "";
 					if(this.sale.product_type == '佣金'){
 						realReturnMoney = this.sale.refunds_real_money/this.sale.sale_num;
@@ -299,7 +299,7 @@
 					this.sale.sale_return_price = this.getShouldPayMoney(formula,this.sale.sale_price,realReturnMoney,this.sale.sale_should_pay_percent,0,this.sale.sale_return_price);
 					this.sale.sale_return_price = Math.round(this.sale.sale_return_price*100)/100;
 					shouldPay = this.getShouldPayMoney(formula,this.sale.sale_price,realReturnMoney,this.sale.sale_should_pay_percent,t,this.sale.sale_return_price);
-				}
+				// }
 				this.sale.sale_return_money = this.mul(shouldPay,this.sale.sale_num,2);
       },
 			selectSalesContact(val){
@@ -330,16 +330,16 @@
 			},
 			formatterNoPay(row, column, cellValue){
 				var t = row.sale_return_money - row.sale_return_real_return_money;
-				if(t){
+				if(!this.isEmpty(t)){
 					return Math.round(t*100)/100;
 				}else{
 					return 0;
 				}
 			},
 			formatterShouldPay(row, column, cellValue){
-				if(row.product_type == '佣金' && row.sale_other_money){
+				if(row.product_type == '佣金' && !this.isEmpty(row.sale_other_money)){
 					row.other_money_temp = row.sale_other_money;
-				}else if(row.product_type == '高打' && row.purchase_other_money){
+				}else if(row.product_type == '高打' && !this.isEmpty(row.purchase_other_money)){
 					var temp = (row.purchase_other_money/row.purchase_number)*row.sale_num;
 					row.other_money_temp = Math.round(temp*100)/100;
 				}else{
@@ -355,10 +355,10 @@
 				}
 			},
 			formatterOtherMoney(row, column, cellValue){
-				if(row.product_type == '佣金' && row.sale_other_money){
+				if(row.product_type == '佣金' && !this.isEmpty(row.sale_other_money)){
 					row.other_money_temp = row.sale_other_money;
 					return	row.sale_other_money;
-				}else if(row.product_type == '高打' && row.purchase_other_money){
+				}else if(row.product_type == '高打' && !this.isEmpty(row.purchase_other_money)){
 					var temp = (row.purchase_other_money/row.purchase_number)*row.sale_num;
 					row.other_money_temp = Math.round(temp*100)/100;
 					return Math.round(temp*100)/100;
@@ -367,9 +367,9 @@
 				}
 			},
 			formatterShouldMoney(row, column, cellValue){
-				if(row.product_type == '佣金' && row.sale_other_money){
+				if(row.product_type == '佣金' && !this.isEmpty(row.sale_other_money)){
 					return	row.sale_return_money - row.sale_other_money;
-				}else if(row.product_type == '高打' && row.purchase_other_money){
+				}else if(row.product_type == '高打' && !this.isEmpty(row.purchase_other_money)){
 					var temp = (row.purchase_other_money/row.purchase_number)*row.sale_num;
 					return row.sale_return_money - Math.round(temp*100)/100;
 				}else{
@@ -377,9 +377,9 @@
 				}
 			},
 			formatterReturnMoney(row, column, cellValue){
-				if(row.product_type == '佣金' && row.refunds_real_time && row.refunds_real_money){
+				if(row.product_type == '佣金' && row.refunds_real_time && !this.isEmpty(row.refunds_real_money)){
 					return	this.div(row.refunds_real_money+"",row.sale_num+"",2);
-				}else if(row.product_type == '高打' && row.refunds_real_time && row.refunds_real_money){
+				}else if(row.product_type == '高打' && row.refunds_real_time && !this.isEmpty(row.refunds_real_money)){
 					return this.div(row.refunds_real_money+"",row.purchase_number+"",2);
 				}else{
 					return 0;
@@ -415,10 +415,10 @@
 					}
 				}
 				this.remindFlag = false;
-				if(this.sale.product_type == '佣金' && this.sale.refunds_real_time && this.sale.refunds_real_money){
+				if(this.sale.product_type == '佣金' && this.sale.refunds_real_time && !this.isEmpty(this.sale.refunds_real_money)){
 					this.remindFlag = this.sale.sale_return_price > this.div(this.sale.refunds_real_money,this.sale.sale_num,2);
 					this.remindMoney = this.div(this.sale.refunds_real_money,this.sale.sale_num,2);
-				}else if(this.sale.product_type == '高打' && this.sale.refunds_real_time && this.sale.refunds_real_money){
+				}else if(this.sale.product_type == '高打' && this.sale.refunds_real_time && !this.isEmpty(this.sale.refunds_real_money)){
 					this.remindFlag = this.sale.sale_return_price > this.div(this.sale.refunds_real_money,this.sale.purchase_number,2);
 					this.remindMoney = this.div(this.sale.refunds_real_money,this.sale.sale_num,2);
 				}else{
@@ -472,13 +472,13 @@
 				var _self = this;
 				this.sale.gross_profit = 0;
 				this.sale.real_gross_profit= 0;
-				if(this.sale.cost_univalent){
+				if(!this.isEmpty(this.sale.cost_univalent)){
 					this.sale.gross_profit = this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.sale.cost_univalent),2);
 				}
-				if(this.sale.accounting_cost){
+				if(!this.isEmpty(this.sale.accounting_cost)){
 					this.sale.real_gross_profit = this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.sale.accounting_cost),2);
 				}
-				if(this.sale.sale_account_id && this.sale.sale_return_money){
+				if(this.sale.sale_account_id && !this.isEmpty(this.sale.sale_return_money)){
 					this.sale.sale_account_name = this.sale.sale_account_name?this.sale.sale_account_name:(this.selectContact.account_name?this.selectContact.account_name:"");
 					this.sale.sale_account_number = this.sale.sale_account_number?this.sale.sale_account_number:(this.selectContact.account_number?this.selectContact.account_number:"");
 					this.sale.sale_account_address = this.sale.sale_account_address?this.sale.sale_account_address:(this.selectContact.account_address?this.selectContact.account_address:"");

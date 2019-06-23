@@ -130,7 +130,7 @@
 			//输入购买数量后，计算购买金额、应返金额、外欠佣金的值
 			saleNumBlur(){
 				var regu = /^\+?[1-9][0-9]*$/;
-				if(this.sale.sales_number && regu.test(this.sale.sales_number)){
+				if(!this.isEmpty(this.sale.sales_number) && regu.test(this.sale.sales_number)){
 					this.sale.sales_money = this.mul(this.sale.sales_number,this.drug.product_price,2);
 				}
 			},

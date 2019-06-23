@@ -217,7 +217,7 @@
 				}
 			},
 			formatPercent(row, column, cellValue, index){
-				if(cellValue){
+				if(!this.isEmpty(cellValue)){
 					return cellValue+" %";
 				}else{
 					return "-";

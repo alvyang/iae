@@ -330,7 +330,7 @@ export default({
   },
   methods:{
     refundsPolicyMoney(){
-      if(this.refund.refunds_policy_money){
+      if(!this.isEmpty(this.refund.refunds_policy_money)){
         this.refund.refunds_should_money = this.refund.refunds_policy_money * this.refund.sale_num;
       }
     },
@@ -424,8 +424,8 @@ export default({
       this.refund = JSON.parse(temp);
       this.refund.front_message = temp;
       this.refund.product_return_money = this.refund.hospital_policy_return_money?this.refund.hospital_policy_return_money:this.refund.product_return_money;
-      if(this.refund.product_return_money && !this.refund.refunds_should_money){
-        if(this.refund.product_floor_price && this.refund.product_high_discount && !this.refund.hospital_policy_return_money){
+      if(!this.isEmpty(this.refund.product_return_money) && this.isEmpty(this.refund.refunds_should_money)){
+        if(!this.isEmpty(this.refund.product_floor_price) && !this.isEmpty(this.refund.product_high_discount) && this.isEmpty(this.refund.hospital_policy_return_money)){
           var rMoney = (this.refund.product_mack_price - this.refund.product_floor_price) * (1-this.refund.product_high_discount/100);
           this.refund.refunds_should_money = rMoney * this.refund.sale_num;
           this.refund.refunds_should_money = Math.round(this.refund.refunds_should_money*100)/100;
@@ -444,8 +444,9 @@ export default({
       cb(results);
     },
     createFilter(queryString) {
+      var _self = this;
       return (refundser) => {
-        if(refundser.refundser){
+        if(!_self.isEmpty(refundser.refundser)){
           return (refundser.refundser.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
         }else{
           return ;

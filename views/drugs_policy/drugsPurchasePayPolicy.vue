@@ -1,8 +1,9 @@
 <template>
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
-		  <el-breadcrumb-item>积分管理</el-breadcrumb-item>
-			<el-breadcrumb-item>预付招商政策管理（下游）</el-breadcrumb-item>
+		  <el-breadcrumb-item>药品管理</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/main/drugspolicy' }">药品政策管理（下游）</el-breadcrumb-item>
+			<el-breadcrumb-item>预付招商政策管理</el-breadcrumb-item>
 		</el-breadcrumb>
     <el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
       <el-form-item label="联系人" prop="contactId">
@@ -15,20 +16,25 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="产品编码" prop="productCode">
-		    <el-input v-model="params.productCode" style="width:210px;" @keyup.13.native="getPurchasePayPolicy()" size="mini" placeholder="产品编码"></el-input>
-		  </el-form-item>
-      <el-form-item label="产品名称" prop="productCommonName">
-		    <el-input v-model="params.productCommonName" style="width:210px;" @keyup.13.native="getPurchasePayPolicy()" size="mini" placeholder="产品名称/助记码"></el-input>
-		  </el-form-item>
-		  <el-form-item>
+      <el-form-item label="是否设置" prop="purchase_pay_query_type">
+        <el-select v-model="params.purchase_pay_query_type" style="width:210px;" filterable size="mini" placeholder="请选择">
+          <el-option key="" label="全部" value=""></el-option>
+          <el-option key="已设置" label="已设置" value="已设置"></el-option>
+          <el-option key="未设置" label="未设置" value="未设置"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item>
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf(',159,') > -1" @click="getPurchasePayPolicy()" size="mini">查询</el-button>
 				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',159,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
-        <el-button type="primary" v-dbClick v-show="authCode.indexOf(',157,') > -1" @click="$router.push('/main/purchasepaypolicydrugs');" size="mini">新增</el-button>
-        <el-button type="primary" v-dbClick v-show="authCode.indexOf(',161,') > -1" @click="exportPurchasePayPolicy" size="mini">导出</el-button>
+        <el-button type="primary" v-dbClick @click="$router.push('/main/drugspolicy');" size="mini">返回</el-button>
 		  </el-form-item>
 		</el-form>
-    <el-table :data="purchasePayPolicy" style="width: 100%" size="mini" :stripe="true" :border="true">
+    <div class="allot_policy">
+      <el-button @click.native.prevent="editBatchRow()" v-dbClick v-show="authCode.indexOf(',160,') > -1" type="primary" size="mini">批量修改</el-button>
+    </div>
+    <el-table :data="purchasePayPolicy" style="width: 100%" size="mini" :stripe="true" :border="true"
+        @selection-change="selectionChange">
+        <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column fixed prop="contacts_name" label="业务员" width="80" ></el-table-column>
         <el-table-column fixed prop="product_common_name" label="产品名称" width="120" ></el-table-column>
 				<el-table-column prop="product_code" label="产品编码" width="100"></el-table-column>
@@ -100,6 +106,29 @@
         <el-button type="primary" size="small" v-dbClick :loading="loading" @click="editPurchasePayPolicy('policyPay')">确 定</el-button>
       </div>
     </el-dialog>
+    <el-dialog title="批量修改调货政策" width="700px" :visible.sync="dialogFormVisibleBatch">
+			<el-form :model="policyPay" status-icon :rules="policyPayRule" style="margin-top:20px;" :inline="true" ref="policyBatch" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="打款价" prop="purchase_pay_policy_make_price" :maxlength="10">
+					<el-input v-model="policyPay.purchase_pay_policy_make_price" style="width:179px;" placeholder="打款价"></el-input>
+				</el-form-item>
+        <el-form-item label="招商底价" prop="purchase_pay_policy_floor_price" :maxlength="10">
+					<el-input v-model="policyPay.purchase_pay_policy_floor_price" style="width:179px;" placeholder="招商底价"></el-input>
+				</el-form-item>
+        <el-form-item label="高开税率" prop="purchase_pay_policy_tax">
+          <el-input v-model="policyPay.purchase_pay_policy_tax" style="width:179px;" placeholder="高开税率"></el-input>
+        </el-form-item>
+        <el-form-item label="招商积分" prop="purchase_pay_policy_price" :maxlength="10">
+					<el-input v-model="policyPay.purchase_pay_policy_price" style="width:179px;" placeholder="招商积分"></el-input>
+				</el-form-item>
+        <el-form-item label="积分备注" prop="purchase_pay_policy_remark">
+          <el-input v-model="policyPay.purchase_pay_policy_remark" style="width:179px;" placeholder="积分备注"></el-input>
+        </el-form-item>
+			</el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button size="small" v-dbClick @click="dialogFormVisibleBatch = false">取 消</el-button>
+        <el-button type="primary" size="small" v-dbClick :loading="loading" @click="editPurchasePayBatchPolicy('policyBatch')">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -141,7 +170,9 @@
         params:{
           contactId:"",
           productCommonName:"",
-          productCode:""
+          productCode:"",
+          purchase_pay_query_type:"",
+          requestFrom:"drugsPurchasePayPolicy",
         },
         policyPay:{
           purchase_pay_policy_floor_price:"",
@@ -169,11 +200,34 @@
       }
     },
     activated(){
+      this.params.productCode = this.$route.query.productCode;
       this.getContacts();
       this.getPurchasePayPolicy();
       this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
     },
     methods:{
+      editBatchRow(){
+        if(this.drugId.length > 0){
+          this.policyPay={
+            purchase_pay_policy_floor_price:"",
+            purchase_pay_policy_tax:"",
+            purchase_pay_policy_price:"",
+            purchase_pay_policy_remark:"",
+            purchase_pay_contact_id:"",
+            purchase_pay_policy_make_price:""
+          }
+          this.dialogFormVisibleBatch = true;
+        }
+      },
+      selectionChange(val){
+        this.drugId = [];
+        for(var i = 0 ; i < val.length ;i++){
+          this.drugId.push({
+            id:val[i].product_id,
+            contacts_id:val[i].contacts_id1
+          });
+        }
+      },
       exportPurchasePayPolicy(){
         var url = this.$bus.data.host + "/iae/purchasePayPolicy/exportPurchasePayPolicy";
         this.download(url,this.params);
@@ -187,14 +241,14 @@
           purchase_pay_policy_tax:this.drug.purchase_pay_policy_tax,
           purchase_pay_policy_remark:this.drug.purchase_pay_policy_remark,
           purchase_pay_policy_price:this.drug.purchase_pay_policy_price,
-          purchase_pay_contact_id:this.drug.purchase_pay_contact_id
+          purchase_pay_contact_id:this.drug.contacts_id1
         });
         this.policyPay.purchase_pay_policy_floor_price = this.drug.purchase_pay_policy_floor_price;
         this.policyPay.purchase_pay_policy_tax = this.drug.purchase_pay_policy_tax;
         this.policyPay.purchase_pay_policy_remark = this.drug.purchase_pay_policy_remark;
         this.policyPay.purchase_pay_policy_price = this.drug.purchase_pay_policy_price;
-        this.policyPay.purchase_pay_contact_id = this.drug.purchase_pay_contact_id;
-        this.policyPay.purchase_pay_policy_drug_id = this.drug.purchase_pay_policy_drug_id;
+        this.policyPay.purchase_pay_contact_id = this.drug.contacts_id1;
+        this.policyPay.purchase_pay_policy_drug_id = this.drug.product_id;
         this.policyPay.purchase_pay_policy_make_price = this.drug.product_mack_price;
 			},
       getContacts(){
@@ -223,6 +277,23 @@
           _self.pageNum=parseInt(res.message.limit);
           _self.count=res.message.totalCount;
         });
+      },
+      editPurchasePayBatchPolicy(formName){
+        var _self = this;
+        _self.policyPay.purchasePayDrugs = this.drugId;
+				this.$refs[formName].validate((valid) => {
+						if (valid) {
+							this.loading = true;
+							_self.jquery('/iae/purchasePayPolicy/editPurchasePayBatchPolicy',_self.policyPay,function(res){
+								_self.dialogFormVisibleBatch = false;
+								_self.loading = false;
+								_self.$message({showClose: true,message: '修改成功',type: 'success'});
+								_self.getPurchasePayPolicy();
+							});
+						} else {
+							return false;
+						}
+				});
       },
       editPurchasePayPolicy(formName){
 				var _self = this;

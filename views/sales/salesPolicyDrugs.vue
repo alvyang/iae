@@ -206,10 +206,10 @@
     },
     methods:{
       formulaChange(){
-        if(this.policy.sale_policy_percent){
+        // if(this.policy.sale_policy_percent){
           this.policy.sale_policy_money = this.getShouldPayMoney(this.policy.sale_policy_formula,this.drug.product_price,this.drug.product_return_money,this.policy.sale_policy_percent,0,this.policy.sale_policy_money);
           this.policy.sale_policy_money = Math.round(this.policy.sale_policy_money*100)/100;
-        }
+        // }
       },
       editRow(scope){//编辑药品信息
 				this.dialogFormVisible = true;

@@ -229,42 +229,42 @@
       },
       formatAllotReturn(row, column, cellValue, index){
         var percent = 0
-        if(cellValue && row.allotReturnMoney){
+        if(!this.isEmpty(cellValue) && !this.isEmpty(row.allotReturnMoney)){
            percent = cellValue/row.allotReturnMoney;
         }
         return Math.round(percent*100)+"%";
       },
       formatSalePurchaseMoney(row, column, cellValue, index){
         var percent = 0
-        if(cellValue && row.arefundsMoney2){
+        if(!this.isEmpty(cellValue) && !this.isEmpty(row.arefundsMoney2)){
            percent = cellValue/row.arefundsMoney2;
         }
         return Math.round(percent*100)+"%";
       },
       formatSaleReturn(row, column, cellValue, index){
         var percent = 0
-        if(cellValue && row.sReturnMoney0){
+        if(!this.isEmpty(cellValue) && !this.isEmpty(row.sReturnMoney0)){
            percent = cellValue/row.sReturnMoney0;
         }
         return Math.round(percent*100)+"%";
       },
       formatSaleAllotMoney(row, column, cellValue, index){
         var percent = 0
-        if(cellValue && row.allotShouldReturn){
+        if(!this.isEmpty(cellValue) && !this.isEmpty(row.allotShouldReturn)){
            percent = cellValue/row.allotShouldReturn;
         }
         return Math.round(percent*100)+"%";
       },
       formatSaleRefund(row, column, cellValue, index){
         var percent = 0
-        if(cellValue && row.arefundsMoney1){
+        if(!this.isEmpty(cellValue) && !this.isEmpty(row.arefundsMoney1)){
            percent = cellValue/row.arefundsMoney1;
         }
         return Math.round(percent*100)+"%";
       },
       formatSaleMoney(row, column, cellValue, index){
         var percent = 0
-        if(cellValue && row.saleMoney){
+        if(!this.isEmpty(cellValue) && !this.isEmpty(row.saleMoney)){
            percent = cellValue/row.saleMoney;
         }
         return Math.round(percent*100)+"%";

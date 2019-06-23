@@ -340,7 +340,7 @@ export default({
   },
   methods:{
     refundsPolicyMoney(){
-      if(this.refund.refunds_policy_money){
+      if(!this.isEmpty(this.refund.refunds_policy_money)){
         this.refund.refunds_should_money = this.refund.refunds_policy_money * this.refund.purchase_number;
       }
     },
@@ -428,9 +428,9 @@ export default({
       this.refund = JSON.parse(temp);
       this.refund.front_message = temp;
       this.refund.refunds_policy_money =  this.refund.product_return_money;
-      if(this.refund.product_return_money && !this.refund.refunds_should_money){
+      if(!this.isEmpty(this.refund.product_return_money) && this.isEmpty(this.refund.refunds_should_money)){
         var num = this.refund.sale_num?this.refund.sale_num:this.refund.purchase_number;
-        if(this.refund.product_floor_price && this.refund.product_high_discount){
+        if(!this.isEmpty(this.refund.product_floor_price) && !this.isEmpty(this.refund.product_high_discount)){
           var rMoney = (this.refund.purchase_mack_price - this.refund.product_floor_price) * (1-this.refund.product_high_discount/100);
           this.refund.refunds_should_money = rMoney * num;
         }else{
@@ -449,8 +449,9 @@ export default({
       cb(results);
     },
     createFilter(queryString) {
+      var _self = this;
       return (refundser) => {
-        if(refundser.refundser){
+        if(!_self.isEmpty(refundser.refundser)){
           return (refundser.refundser.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
         }else{
           return ;

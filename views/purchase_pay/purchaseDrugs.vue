@@ -99,10 +99,13 @@
 				    </el-option>
 					</el-select>
 			  </el-form-item>
-				<el-form-item label="预付数量" prop="purchase_pay_number" :required="true">
+				<el-form-item label="预付价" prop="purchase_pay_price" >
+					<el-input v-model="purchasePay.purchase_pay_price" style="width:179px;"></el-input>
+				</el-form-item>
+				<el-form-item label="预付数量" prop="purchase_pay_number" >
 					<el-input v-model="purchasePay.purchase_pay_number" style="width:179px;" :maxlength="10" placeholder="请输入购入数量"></el-input>
 				</el-form-item>
-				<el-form-item label="预付金额" prop="purchase_pay_money" :required="true">
+				<el-form-item label="预付金额" prop="purchase_pay_money" >
 					<el-input v-model="purchasePay.purchase_pay_money" style="width:179px;"></el-input>
 				</el-form-item>
 				<el-form-item label="补点/费用票" prop="purchase_pay_other_money">
@@ -113,6 +116,12 @@
 				</el-form-item>
 				<el-form-item label="付款时间" prop="purchase_pay_time">
 					<el-date-picker v-model="purchasePay.purchase_pay_time" style="width:179px;" type="date" placeholder="请选择打款时间"></el-date-picker>
+				</el-form-item>
+				<el-form-item label="发货时间" prop="purchase_pay_send_time">
+					<el-date-picker v-model="purchasePay.purchase_pay_send_time" style="width:179px;" type="date" placeholder="请选择打款时间"></el-date-picker>
+				</el-form-item>
+				<el-form-item label="到货时间" prop="purchase_pay_arrived_time">
+					<el-date-picker v-model="purchasePay.purchase_pay_arrived_time" style="width:179px;" type="date" placeholder="请选择打款时间"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="备注" prop="remark">
 					<el-input v-model="purchasePay.purchase_pay_receive_remark" style="width:179px;"></el-input>
@@ -135,7 +144,7 @@
         } else if(!regu.test(value)){
 					callback(new Error('预付数量为正整数'));
 				} else {
-					this.purchasePay.purchase_pay_money = this.purchasePay.purchase_pay_money?this.purchasePay.purchase_pay_money:this.purchasePay.purchase_pay_number * this.drug.product_mack_price;
+					this.purchasePay.purchase_pay_money = this.purchasePay.purchase_pay_money?this.purchasePay.purchase_pay_money:this.purchasePay.purchase_pay_number * this.purchasePay.purchase_pay_price;
 					this.purchasePay.purchase_pay_money = Math.round(this.purchasePay.purchase_pay_money*100)/100;
           callback();
         }
@@ -143,11 +152,11 @@
 			var validateMoney = (rule, value, callback) => {
 				var reg = /^(([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)|([-]([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)))$/;
         if(value === ''){
-					callback(new Error('请输入预付金额'));
+					callback(new Error('请输入'+rule.message));
 				}else if (!reg.test(value)) {
-        	callback(new Error('请输入正确的预付金额'));
+        	callback(new Error('请输入正确的'+rule.message));
         } else {
-					this.purchasePay.purchase_pay_money = this.purchasePay.purchase_pay_money?this.purchasePay.purchase_pay_money:this.purchasePay.purchase_pay_number * this.drug.product_mack_price;
+					this.purchasePay.purchase_pay_money = this.purchasePay.purchase_pay_money?this.purchasePay.purchase_pay_money:this.purchasePay.purchase_pay_number * this.purchasePay.purchase_pay_price;
 					this.purchasePay.purchase_pay_money = Math.round(this.purchasePay.purchase_pay_money*100)/100;
           callback();
         }
@@ -177,13 +186,15 @@
 					purchase_pay_money:"",
 					purchase_pay_time:null,
 					purchase_pay_receive_remark:"",
-					purchase_pay_other_money:""
+					purchase_pay_other_money:"",
+					purchase_pay_price:""
 				},
 				purchasePayRule:{
 					purchase_pay_contact_id:[{required: true, message: '请选择业务员', trigger: 'change' }],
 					purchase_pay_contract_time:[{required: true, message: '请选择合同时间', trigger: 'blur' }],
 					purchase_pay_number:[{validator:validateNum,trigger: 'blur' }],
-					purchase_pay_money:[{validator:validateMoney,trigger: 'blur' }],
+					purchase_pay_money:[{validator:validateMoney,message:"预付金额",trigger: 'blur' }],
+					purchase_pay_price:[{validator:validateMoney,message:"预付价",trigger: 'blur' }],
 				},
 			}
 		},
@@ -202,11 +213,13 @@
 				_self.purchasePay.purchase_pay_policy_price = "";
 				_self.purchasePay.purchase_pay_policy_remark = "";
 				_self.purchasePay.purchase_pay_policy_tax = "";
+				_self.purchasePay.purchase_pay_price = _self.drug.product_mack_price;
 				this.jquery('/iae/purchasepay/getPurchasePolicy',{
 					contactId:_self.purchasePay.purchase_pay_contact_id,
 					drugId:_self.drug.product_id
 				},function(res){
 					if(res.message && res.message.length > 0){
+						_self.purchasePay.purchase_pay_price = res.message[0].purchase_pay_policy_make_price;
 						_self.purchasePay.purchase_pay_policy_floor_price = res.message[0].purchase_pay_policy_floor_price;
 						_self.purchasePay.purchase_pay_policy_price = res.message[0].purchase_pay_policy_price;
 						_self.purchasePay.purchase_pay_policy_remark = res.message[0].purchase_pay_policy_remark;
@@ -231,6 +244,7 @@
 					this.$refs["purchasePay"].resetFields();
 				}
 				this.dialogFormVisible = true;
+				this.purchasePay.purchase_pay_price = this.drug.product_mack_price;
 			},
 			//搜索所有药品信息
 			searchDrugsList(){
@@ -242,11 +256,12 @@
 			addPurchasePay(formName){
 				var _self = this;
 				this.purchasePay.purchase_pay_drug_id = this.drug.product_id;
-				this.purchasePay.purchase_pay_price = this.drug.product_mack_price;
 				this.purchasePay.product_return_money = this.drug.product_return_money;
 				this.purchasePay.product_return_time_type = this.drug.product_return_time_type;
 				this.purchasePay.product_return_time_day = this.drug.product_return_time_day;
 			  this.purchasePay.product_return_time_day_num = 	this.drug.product_return_time_day_num;
+				this.purchasePay.product_floor_price = this.drug.product_floor_price;
+				this.purchasePay.product_high_discount = this.drug.product_high_discount;
 				this.$refs[formName].validate((valid) => {
 						if (valid) {
 							this.loading = true;

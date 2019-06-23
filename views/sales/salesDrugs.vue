@@ -248,7 +248,7 @@ export default({
 			},function(res){//查询商业
 				_self.sale.sale_price = res.message&&res.message.hospital_policy_price?res.message.hospital_policy_price:_self.sale.sale_price;
 				_self.sale.product_return_money = res.message&&res.message.hospital_policy_return_money?res.message.hospital_policy_return_money:"";
-				if(_self.sale.sale_price && _self.sale.sale_num){
+				if(!_self.isEmpty(_self.sale.sale_price) && !_self.isEmpty(_self.sale.sale_num)){
 					_self.sale.sale_money = _self.mul(_self.sale.sale_price,_self.sale.sale_num,2);
 				}
 			});
@@ -272,10 +272,10 @@ export default({
 			}
 			this.sale.gross_profit = 0;
 			this.sale.real_gross_profit= 0;
-			if(this.drug.product_mack_price){
+			if(!this.isEmpty(this.drug.product_mack_price)){
 				this.sale.gross_profit = this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.drug.product_mack_price),2);
 			}
-			if(this.drug.accounting_cost){
+			if(!this.isEmpty(this.drug.accounting_cost)){
 				this.sale.real_gross_profit = this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.drug.accounting_cost),2);
 			}
 			this.sale.accounting_cost = this.drug.accounting_cost;

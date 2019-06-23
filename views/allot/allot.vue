@@ -179,23 +179,23 @@
 					callback(new Error('请输入正整数'));
 				} else {
 					this.allot.allot_money = this.allot.allot_money?this.allot.allot_money:this.mul(this.allot.allot_number,this.allot.allot_price,2);
-					if(this.allot.allot_return_price && reg.test(this.allot.allot_return_price)){
+					if(!this.isEmpty(this.allot.allot_return_price)&& reg.test(this.allot.allot_return_price)){
 						this.allot.allot_return_money = this.allot.allot_return_money?this.allot.allot_return_money:this.mul(this.allot.allot_return_price,this.allot.allot_number,2);
 					}
           callback();
         }
       };
 			var validateNull = (rule, value, callback) =>{
-				if(this.allot.allot_return_flag && !value){
+				if(!this.isEmpty(this.allot.allot_return_fla) && this.isEmpty(value)){
 					callback(new Error('请选择'+rule.labelname));
 				}else{
 					callback();
 				}
 			}
 			var validateRealReturnMoney = (rule, value, callback) => {
-				if(this.allot.allot_return_flag && !value){
+				if(!this.isEmpty(this.allot.allot_return_flag) && this.isEmpty(value)){
 					callback(new Error('请输入返款单价'));
-				}else if(this.allot.allot_return_flag && value && !reg.test(value)){
+				}else if(!this.isEmpty(this.allot.allot_return_flag) && !this.isEmpty(value) && !reg.test(value)){
 					callback(new Error('请输入正确的返款单价'));
 				} else {
 					this.allot.allot_return_money = this.allot.allot_return_money?this.allot.allot_return_money:this.mul(value,this.allot.allot_number);
@@ -203,7 +203,7 @@
         }
       };
 			var validateAllotPrice = (rule, value, callback) => {
-				if(!value){
+				if(this.isEmpty(value)){
 					callback(new Error('请输入调货价'));
 				}else if(!reg.test(value)){
 					callback(new Error('请输入正确的调货价'));

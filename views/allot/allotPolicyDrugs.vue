@@ -146,9 +146,9 @@
   export default({
     data(){
       var validateBatchPercent = (rule, value, callback) => {
-        if(!value && this.policy.allot_policy_formula != '8'){
+        if(this.isEmpty(value) && this.policy.allot_policy_formula != '8'){
           callback(new Error('请再输入政策点数'));
-        }else if (value && !/^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/.test(value)) {
+        }else if (!this.isEmpty(value) && !/^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/.test(value)) {
           callback(new Error('请再输入正确的政策点数'));
         } else {
           this.policy.allot_policy_money = this.getShouldPayMoney(this.policy.allot_policy_formula,this.drug.product_price,this.drug.product_return_money,this.policy.allot_policy_percent,0,this.policy.allot_policy_money);
@@ -207,10 +207,10 @@
     },
     methods:{
       formulaChange(){
-        if(this.policy.allot_policy_percent){
+        // if(this.policy.allot_policy_percent){
           this.policy.allot_policy_money = this.getShouldPayMoney(this.policy.allot_policy_formula,this.drug.product_price,this.drug.product_return_money,this.policy.allot_policy_percent,0,this.policy.allot_policy_money);
           this.policy.allot_policy_money = Math.round(this.policy.allot_policy_money*100)/100;
-        }
+        // }
       },
       editRow(scope){//编辑药品信息
 				this.dialogFormVisible = true;

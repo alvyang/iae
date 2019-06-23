@@ -210,7 +210,7 @@
 			};
 			var validateBatchNumber = (rule, value, callback) => {
 				var regu = /^\+?[1-9][0-9]*$/;
-				if (this.purchase.storage_time && !value) {
+				if (this.purchase.storage_time && this.isEmpty(value)) {
 					callback(new Error('请输入批号'));
 				} else {
 					callback();
@@ -312,7 +312,7 @@
 				window.location.href=this.$bus.data.host+"/download/template_purchases.xlsx";
 			},
 			formatPercent(row, column, cellValue, index){
-				if(cellValue){
+				if(!this.isEmpty(cellValue)){
 					return cellValue+" %";
 				}else{
 					return "-";
@@ -339,8 +339,9 @@
         cb(results);
       },
 			createFilter(queryString) {
+				var _self = this;
         return (remarks) => {
-					if(remarks.remark){
+					if(!_self.isEmpty(remarks.remark)){
 						return (remarks.remark.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
 					}else{
 						return ;

@@ -68,15 +68,17 @@
 				<el-table-column prop="product_makesmakers" label="生产厂家" width="150"></el-table-column>
 				<el-table-column prop="product_packing" label="包装" width="50"></el-table-column>
 				<el-table-column prop="product_unit" label="单位" width="50"></el-table-column>
+				<el-table-column prop="product_price" label="中标价" width="60"></el-table-column>
+				<el-table-column prop="contacts_name1" label="业务员" width="60"></el-table-column>
+				<el-table-column prop="business_name" label="商业" width="60"></el-table-column>
+				<el-table-column prop="purchase_pay_price" label="打款价" width="60"></el-table-column>
 				<el-table-column prop="purchase_pay_number" label="预付数量" width="70"></el-table-column>
 				<el-table-column prop="purchase_pay_money" label="预付金额" width="70"></el-table-column>
 				<el-table-column prop="purchase_pay_time" label="打款时间" width="80" :formatter="formatterDate"></el-table-column>
+				<el-table-column prop="purchase_pay_send_time" label="发货时间" width="80" :formatter="formatterDate"></el-table-column>
+				<el-table-column prop="purchase_pay_arrived_time" label="到货时间" width="80" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="purchase_pay_other_money" label="补点/费用票" width="80"></el-table-column>
-				<el-table-column prop="purchase_pay_price" label="打款价" width="60"></el-table-column>
-				<el-table-column prop="product_price" label="中标价" width="60"></el-table-column>
 				<el-table-column prop="contacts_name" label="联系人" width="60"></el-table-column>
-				<el-table-column prop="contacts_name1" label="业务员" width="60"></el-table-column>
-				<el-table-column prop="business_name" label="商业" width="60"></el-table-column>
 				<el-table-column prop="purchase_pay_receive_remark" label="备注"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="100">
 			    <template slot-scope="scope">
@@ -105,7 +107,7 @@
 					<div><span>中标价:</span>{{purchasePay.product_price}}</div>
 					<div><span>包装:</span>{{purchasePay.product_packing}}</div>
 					<div><span>单位:</span>{{purchasePay.product_unit}}</div>
-					<div><span>打款价:</span>{{purchasePay.product_mack_price}}</div>
+					<div><span>打款价:</span>{{purchasePay.product_pay_price}}</div>
 					<div style="display:block;width:100%;"><span>生产厂家:</span>{{purchasePay.product_makesmakers}}</div>
 			  </el-collapse-item>
 			</el-collapse>
@@ -120,6 +122,9 @@
 				    </el-option>
 					</el-select>
 			  </el-form-item>
+				<el-form-item label="预付价" prop="purchase_pay_price" :required="true">
+					<el-input v-model="purchasePay.purchase_pay_price" style="width:179px;"></el-input>
+				</el-form-item>
 				<el-form-item label="预付数量" prop="purchase_pay_number" >
 					<el-input v-model="purchasePay.purchase_pay_number" style="width:179px;" :maxlength="10" placeholder="请输入购入数量"></el-input>
 				</el-form-item>
@@ -134,6 +139,12 @@
 				</el-form-item>
 				<el-form-item label="付款时间" prop="purchase_pay_time">
 					<el-date-picker v-model="purchasePay.purchase_pay_time" style="width:179px;" type="date" placeholder="请选择打款时间"></el-date-picker>
+				</el-form-item>
+				<el-form-item label="发货时间" prop="purchase_pay_send_time">
+					<el-date-picker v-model="purchasePay.purchase_pay_send_time" style="width:179px;" type="date" placeholder="请选择打款时间"></el-date-picker>
+				</el-form-item>
+				<el-form-item label="到货时间" prop="purchase_pay_arrived_time">
+					<el-date-picker v-model="purchasePay.purchase_pay_arrived_time" style="width:179px;" type="date" placeholder="请选择打款时间"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="备注" prop="purchase_pay_receive_remark">
 					<el-input v-model="purchasePay.purchase_pay_receive_remark" style="width:179px;"></el-input>
@@ -169,7 +180,7 @@
         } else if(!regu.test(value)){
 					callback(new Error('预付数量为正整数'));
 				} else {
-					this.purchasePay.purchase_pay_money = this.purchasePay.purchase_pay_money?this.purchasePay.purchase_pay_money:this.purchasePay.purchase_pay_number * this.purchasePay.product_mack_price;
+					this.purchasePay.purchase_pay_money = this.purchasePay.purchase_pay_money?this.purchasePay.purchase_pay_money:this.purchasePay.purchase_pay_number * this.purchasePay.purchase_pay_price;
 					this.purchasePay.purchase_pay_money = Math.round(this.purchasePay.purchase_pay_money*100)/100;
           callback();
         }
@@ -177,11 +188,11 @@
 			var validateMoney = (rule, value, callback) => {
 				var reg = /^(([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)|([-]([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)))$/;
         if(value === ''){
-					callback(new Error('请输入预付金额'));
+					callback(new Error('请输入'+rule.message));
 				}else if (!reg.test(value)) {
-        	callback(new Error('请输入正确的预付金额'));
+        	callback(new Error('请输入正确的'+rule.message));
         } else {
-					this.purchasePay.purchase_pay_money = this.purchasePay.purchase_pay_money?this.purchasePay.purchase_pay_money:this.purchasePay.purchase_pay_number * this.purchasePay.product_mack_price;
+					this.purchasePay.purchase_pay_money = this.purchasePay.purchase_pay_money?this.purchasePay.purchase_pay_money:this.purchasePay.purchase_pay_number * this.purchasePay.purchase_pay_price;
 					this.purchasePay.purchase_pay_money = Math.round(this.purchasePay.purchase_pay_money*100)/100;
           callback();
         }
@@ -237,8 +248,9 @@
 				purchasePayRule:{
 					purchase_pay_contact_id:[{required: true, message: '请选择业务员', trigger: 'change' }],
 					purchase_pay_contract_time:[{required: true, message: '请选择合同时间', trigger: 'blur' }],
-					purchase_pay_number:[{validator:validateNum,trigger: 'blur' }],
-					purchase_pay_money:[{validator:validateMoney,trigger: 'blur' }],
+					purchase_pay_number:[{validator:validateNum,message:"预付数量",trigger: 'blur' }],
+					purchase_pay_money:[{validator:validateMoney,message:"预付金额",trigger: 'blur' }],
+					purchase_pay_price:[{validator:validateMoney,message:"预付价",trigger: 'blur' }],
 				},
 				authCode:"",
 				business:[],
@@ -281,7 +293,7 @@
 				window.location.href=this.$bus.data.host+"/download/template_purchases_pay.xlsx";
 			},
 			formatPercent(row, column, cellValue, index){
-				if(cellValue){
+				if(!this.isEmpty(cellValue)){
 					return cellValue+" %";
 				}else{
 					return "-";
@@ -308,8 +320,9 @@
         cb(results);
       },
 			createFilter(queryString) {
+				var _self = this;
         return (remarks) => {
-					if(remarks.remark){
+					if(!_self.isEmpty(remarks.remark)){
 						return (remarks.remark.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
 					}else{
 						return ;
@@ -389,6 +402,7 @@
 					contactId:_self.purchasePay.purchase_pay_contact_id,
 					drugId:_self.purchasePay.product_id
 				},function(res){
+					_self.purchasePay.purchase_pay_price = res.message[0].purchase_pay_policy_make_price;
 					_self.purchasePay.purchase_pay_policy_floor_price = res.message[0].purchase_pay_policy_floor_price;
 					_self.purchasePay.purchase_pay_policy_price = res.message[0].purchase_pay_policy_price;
 					_self.purchasePay.purchase_pay_policy_remark = res.message[0].purchase_pay_policy_remark;

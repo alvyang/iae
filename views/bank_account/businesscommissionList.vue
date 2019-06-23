@@ -141,7 +141,7 @@
     methods:{
       saveRate(scope){
         var reg = /^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/;
-				if(!scope.row.hb_fixed_rate || !scope.row.hb_floating_rate){
+				if(this.isEmpty(scope.row.hb_fixed_rate) || this.isEmpty(scope.row.hb_floating_rate)){
 					return;
 				}else if (!reg.test(scope.row.hb_fixed_rate) || !reg.test(scope.row.hb_floating_rate)) {
           return;
@@ -159,14 +159,14 @@
 				});
       },
       formatPercent(row, column, cellValue){
-        if(cellValue){
+        if(!this.isEmpty(cellValue)){
           return cellValue+"%";
         }else{
           return "";
         }
       },
       formatMoney(row, column, cellValue){
-        if(cellValue){
+        if(!this.isEmpty(cellValue)){
           return (cellValue+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         }else{
           return 0;

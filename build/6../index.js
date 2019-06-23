@@ -1,15 +1,238 @@
 webpackJsonp([6],{
 
-/***/ 370:
+/***/ 100:
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+var stylesInDom = {},
+	memoize = function(fn) {
+		var memo;
+		return function () {
+			if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+			return memo;
+		};
+	},
+	isOldIE = memoize(function() {
+		return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
+	}),
+	getHeadElement = memoize(function () {
+		return document.head || document.getElementsByTagName("head")[0];
+	}),
+	singletonElement = null,
+	singletonCounter = 0,
+	styleElementsInsertedAtTop = [];
+
+module.exports = function(list, options) {
+	if(typeof DEBUG !== "undefined" && DEBUG) {
+		if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+	}
+
+	options = options || {};
+	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+	// tags it will allow on a page
+	if (typeof options.singleton === "undefined") options.singleton = isOldIE();
+
+	// By default, add <style> tags to the bottom of <head>.
+	if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
+
+	var styles = listToStyles(list);
+	addStylesToDom(styles, options);
+
+	return function update(newList) {
+		var mayRemove = [];
+		for(var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+			domStyle.refs--;
+			mayRemove.push(domStyle);
+		}
+		if(newList) {
+			var newStyles = listToStyles(newList);
+			addStylesToDom(newStyles, options);
+		}
+		for(var i = 0; i < mayRemove.length; i++) {
+			var domStyle = mayRemove[i];
+			if(domStyle.refs === 0) {
+				for(var j = 0; j < domStyle.parts.length; j++)
+					domStyle.parts[j]();
+				delete stylesInDom[domStyle.id];
+			}
+		}
+	};
+}
+
+function addStylesToDom(styles, options) {
+	for(var i = 0; i < styles.length; i++) {
+		var item = styles[i];
+		var domStyle = stylesInDom[item.id];
+		if(domStyle) {
+			domStyle.refs++;
+			for(var j = 0; j < domStyle.parts.length; j++) {
+				domStyle.parts[j](item.parts[j]);
+			}
+			for(; j < item.parts.length; j++) {
+				domStyle.parts.push(addStyle(item.parts[j], options));
+			}
+		} else {
+			var parts = [];
+			for(var j = 0; j < item.parts.length; j++) {
+				parts.push(addStyle(item.parts[j], options));
+			}
+			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+		}
+	}
+}
+
+function listToStyles(list) {
+	var styles = [];
+	var newStyles = {};
+	for(var i = 0; i < list.length; i++) {
+		var item = list[i];
+		var id = item[0];
+		var css = item[1];
+		var media = item[2];
+		var sourceMap = item[3];
+		var part = {css: css, media: media, sourceMap: sourceMap};
+		if(!newStyles[id])
+			styles.push(newStyles[id] = {id: id, parts: [part]});
+		else
+			newStyles[id].parts.push(part);
+	}
+	return styles;
+}
+
+function insertStyleElement(options, styleElement) {
+	var head = getHeadElement();
+	var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
+	if (options.insertAt === "top") {
+		if(!lastStyleElementInsertedAtTop) {
+			head.insertBefore(styleElement, head.firstChild);
+		} else if(lastStyleElementInsertedAtTop.nextSibling) {
+			head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
+		} else {
+			head.appendChild(styleElement);
+		}
+		styleElementsInsertedAtTop.push(styleElement);
+	} else if (options.insertAt === "bottom") {
+		head.appendChild(styleElement);
+	} else {
+		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+	}
+}
+
+function removeStyleElement(styleElement) {
+	styleElement.parentNode.removeChild(styleElement);
+	var idx = styleElementsInsertedAtTop.indexOf(styleElement);
+	if(idx >= 0) {
+		styleElementsInsertedAtTop.splice(idx, 1);
+	}
+}
+
+function createStyleElement(options) {
+	var styleElement = document.createElement("style");
+	styleElement.type = "text/css";
+	insertStyleElement(options, styleElement);
+	return styleElement;
+}
+
+function addStyle(obj, options) {
+	var styleElement, update, remove;
+
+	if (options.singleton) {
+		var styleIndex = singletonCounter++;
+		styleElement = singletonElement || (singletonElement = createStyleElement(options));
+		update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
+		remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
+	} else {
+		styleElement = createStyleElement(options);
+		update = applyToTag.bind(null, styleElement);
+		remove = function() {
+			removeStyleElement(styleElement);
+		};
+	}
+
+	update(obj);
+
+	return function updateStyle(newObj) {
+		if(newObj) {
+			if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
+				return;
+			update(obj = newObj);
+		} else {
+			remove();
+		}
+	};
+}
+
+var replaceText = (function () {
+	var textStore = [];
+
+	return function (index, replacement) {
+		textStore[index] = replacement;
+		return textStore.filter(Boolean).join('\n');
+	};
+})();
+
+function applyToSingletonTag(styleElement, index, remove, obj) {
+	var css = remove ? "" : obj.css;
+
+	if (styleElement.styleSheet) {
+		styleElement.styleSheet.cssText = replaceText(index, css);
+	} else {
+		var cssNode = document.createTextNode(css);
+		var childNodes = styleElement.childNodes;
+		if (childNodes[index]) styleElement.removeChild(childNodes[index]);
+		if (childNodes.length) {
+			styleElement.insertBefore(cssNode, childNodes[index]);
+		} else {
+			styleElement.appendChild(cssNode);
+		}
+	}
+}
+
+function applyToTag(styleElement, obj) {
+	var css = obj.css;
+	var media = obj.media;
+	var sourceMap = obj.sourceMap;
+
+	if (media) {
+		styleElement.setAttribute("media", media);
+	}
+
+	if (sourceMap) {
+		// https://developer.chrome.com/devtools/docs/javascript-debugging
+		// this makes source maps inside style tags work properly in Chrome
+		css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */';
+		// http://stackoverflow.com/a/26603875
+		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+	}
+
+	if (styleElement.styleSheet) {
+		styleElement.styleSheet.cssText = css;
+	} else {
+		while(styleElement.firstChild) {
+			styleElement.removeChild(styleElement.firstChild);
+		}
+		styleElement.appendChild(document.createTextNode(css));
+	}
+}
+
+
+/***/ }),
+
+/***/ 372:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(371);
+var content = __webpack_require__(373);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(98)(content, {});
+var update = __webpack_require__(100)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -27,7 +250,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 371:
+/***/ 373:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -42,7 +265,7 @@ exports.push([module.i, "\n.main_content .drug_list .el-dialog__wrapper .el-dial
 
 /***/ }),
 
-/***/ 372:
+/***/ 374:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -272,7 +495,7 @@ exports.default = {
 			}
 		},
 		formatPercent: function formatPercent(row, column, cellValue, index) {
-			if (cellValue) {
+			if (!this.isEmpty(cellValue)) {
 				return cellValue + " %";
 			} else {
 				return "-";
@@ -416,7 +639,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 373:
+/***/ 375:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1223,16 +1446,16 @@ if (false) {
 
 /***/ }),
 
-/***/ 374:
+/***/ 376:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(375);
+var content = __webpack_require__(377);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(98)(content, {});
+var update = __webpack_require__(100)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -1250,7 +1473,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 375:
+/***/ 377:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -1265,7 +1488,7 @@ exports.push([module.i, "\n.add_div > div{\n\t\ttext-align: center;\n\t\tpadding
 
 /***/ }),
 
-/***/ 376:
+/***/ 378:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1275,7 +1498,7 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _tagInput = __webpack_require__(377);
+var _tagInput = __webpack_require__(379);
 
 var _tagInput2 = _interopRequireDefault(_tagInput);
 
@@ -1304,16 +1527,16 @@ exports.default = {
 			}
 		};
 		var validatePercent = function validatePercent(rule, value, callback) {
-			if (value && !/^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/.test(value)) {
+			if (!_this.isEmpty(value) && !/^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/.test(value)) {
 				callback(new Error('请再输入正确的' + rule.labelname));
 			} else {
 				callback();
 			}
 		};
 		var validateCode = function validateCode(rule, value, callback) {
-			if (!value) {
+			if (_this.isEmpty(value)) {
 				callback(new Error('请输入产品编号'));
-			} else if (_this.editmessage == "修改" && _this.product_code == _this.drugs.product_code || !value) {
+			} else if (_this.editmessage == "修改" && _this.product_code == _this.drugs.product_code || _this.isEmpty(value)) {
 				callback();
 			} else {
 				_this.jquery("/iae/drugs/exitsCode", { product_code: _this.drugs.product_code }, function (res) {
@@ -1480,8 +1703,9 @@ exports.default = {
 			cb(results);
 		},
 		createFilter: function createFilter(queryString) {
+			var _self = this;
 			return function (productMakesmakers) {
-				if (productMakesmakers.product_makesmakers) {
+				if (!_self.isEmpty(productMakesmakers.product_makesmakers)) {
 					return productMakesmakers.product_makesmakers.toLowerCase().indexOf(queryString.toLowerCase()) > -1;
 				} else {
 					return;
@@ -1535,27 +1759,27 @@ exports.default = {
 		},
 		priceBlur: function priceBlur() {
 			//计算返费金额
-			if (this.drugs.product_mack_price && this.drugs.product_floor_price && this.drugs.product_high_discount && this.price.test(this.drugs.product_floor_price) && this.percent.test(this.drugs.product_high_discount)) {
+			if (!this.isEmpty(this.drugs.product_mack_price) && !this.isEmpty(this.drugs.product_floor_price) && !this.isEmpty(this.drugs.product_high_discount) && this.price.test(this.drugs.product_floor_price) && this.percent.test(this.drugs.product_high_discount)) {
 				this.drugs.product_return_money = (this.drugs.product_mack_price - this.drugs.product_floor_price) * (1 - this.drugs.product_high_discount / 100);
 				this.drugs.product_return_money = Math.round(this.drugs.product_return_money * 100) / 100;
 			}
 			//计算扣率
-			if (this.drugs.product_mack_price && this.drugs.product_price && this.price.test(this.drugs.product_mack_price)) {
+			if (!this.isEmpty(this.drugs.product_mack_price) && !this.isEmpty(this.drugs.product_price) && this.price.test(this.drugs.product_mack_price)) {
 				this.drugs.product_discount = this.drugs.product_mack_price * 100 / this.drugs.product_price;
 				this.drugs.product_discount = Math.round(this.drugs.product_discount * 100) / 100;
 			}
 			//计算打款价
-			if (this.drugs.product_mack_price && !this.drugs.accounting_cost && this.percent.test(this.drugs.product_mack_price)) {
+			if (!this.isEmpty(this.drugs.product_mack_price) && this.isEmpty(this.drugs.accounting_cost) && this.percent.test(this.drugs.product_mack_price)) {
 				this.drugs.accounting_cost = this.drugs.product_mack_price;
 			}
 			//计算毛利率
-			if (this.drugs.accounting_cost && this.drugs.product_price && this.price.test(this.drugs.accounting_cost)) {
+			if (!this.isEmpty(this.drugs.accounting_cost) && !this.isEmpty(this.drugs.product_price) && this.price.test(this.drugs.accounting_cost)) {
 				var temp = this.drugs.product_price - this.drugs.accounting_cost;
 				this.drugs.gross_interest_rate = temp * 100 / this.drugs.product_price;
 				this.drugs.gross_interest_rate = Math.round(this.drugs.gross_interest_rate * 100) / 100;
 			}
 			//计算返费率
-			if (this.drugs.product_price && this.drugs.product_return_money && this.price.test(this.drugs.product_price) && this.price.test(this.drugs.product_return_money)) {
+			if (!this.isEmpty(this.drugs.product_price) && !this.isEmpty(this.drugs.product_return_money) && this.price.test(this.drugs.product_price) && this.price.test(this.drugs.product_return_money)) {
 				this.drugs.product_return_discount = this.drugs.product_return_money / this.drugs.product_price * 100;
 				this.drugs.product_return_discount = Math.round(this.drugs.product_return_discount * 100) / 100;
 			}
@@ -1760,20 +1984,20 @@ exports.default = {
 
 /***/ }),
 
-/***/ 377:
+/***/ 379:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(378)
+__webpack_require__(380)
 
 /* script */
-__vue_exports__ = __webpack_require__(380)
+__vue_exports__ = __webpack_require__(382)
 
 /* template */
-var __vue_template__ = __webpack_require__(381)
+var __vue_template__ = __webpack_require__(383)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -1809,16 +2033,16 @@ module.exports = __vue_exports__
 
 /***/ }),
 
-/***/ 378:
+/***/ 380:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(379);
+var content = __webpack_require__(381);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(98)(content, {});
+var update = __webpack_require__(100)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -1836,7 +2060,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 379:
+/***/ 381:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -1851,7 +2075,7 @@ exports.push([module.i, "\n.el-tag + .el-tag[data-v-14776736] {\n  margin-left: 
 
 /***/ }),
 
-/***/ 380:
+/***/ 382:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1953,7 +2177,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 381:
+/***/ 383:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2006,7 +2230,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 382:
+/***/ 384:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2967,16 +3191,16 @@ if (false) {
 
 /***/ }),
 
-/***/ 383:
+/***/ 385:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(384);
+var content = __webpack_require__(386);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(98)(content, {});
+var update = __webpack_require__(100)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -2994,7 +3218,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 384:
+/***/ 386:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -3009,7 +3233,7 @@ exports.push([module.i, "\n.copy_form .search .el-form-item__label {\n  padding-
 
 /***/ }),
 
-/***/ 385:
+/***/ 387:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3132,7 +3356,7 @@ exports.default = {
 
   methods: {
     formatterPercent: function formatterPercent(row, column, cellValue, index) {
-      if (row.sale_policy_money && row.product_return_money) {
+      if (!this.isEmpty(row.sale_policy_money) && !this.isEmpty(row.product_return_money)) {
         return Math.round(row.sale_policy_money * 100 / row.product_return_money) + "%";
       } else {
         return "";
@@ -3232,7 +3456,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 386:
+/***/ 388:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -3649,16 +3873,16 @@ if (false) {
 
 /***/ }),
 
-/***/ 387:
+/***/ 389:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(388);
+var content = __webpack_require__(390);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(98)(content, {});
+var update = __webpack_require__(100)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -3676,7 +3900,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 388:
+/***/ 390:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -3691,7 +3915,7 @@ exports.push([module.i, "\n.copy_form .search .el-form-item__label {\n  padding-
 
 /***/ }),
 
-/***/ 389:
+/***/ 391:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3902,7 +4126,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 390:
+/***/ 392:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -4283,20 +4507,20 @@ if (false) {
 
 /***/ }),
 
-/***/ 45:
+/***/ 43:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(370)
+__webpack_require__(372)
 
 /* script */
-__vue_exports__ = __webpack_require__(372)
+__vue_exports__ = __webpack_require__(374)
 
 /* template */
-var __vue_template__ = __webpack_require__(373)
+var __vue_template__ = __webpack_require__(375)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -4331,20 +4555,20 @@ module.exports = __vue_exports__
 
 /***/ }),
 
-/***/ 46:
+/***/ 44:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(374)
+__webpack_require__(376)
 
 /* script */
-__vue_exports__ = __webpack_require__(376)
+__vue_exports__ = __webpack_require__(378)
 
 /* template */
-var __vue_template__ = __webpack_require__(382)
+var __vue_template__ = __webpack_require__(384)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -4379,20 +4603,20 @@ module.exports = __vue_exports__
 
 /***/ }),
 
-/***/ 47:
+/***/ 45:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(383)
+__webpack_require__(385)
 
 /* script */
-__vue_exports__ = __webpack_require__(385)
+__vue_exports__ = __webpack_require__(387)
 
 /* template */
-var __vue_template__ = __webpack_require__(386)
+var __vue_template__ = __webpack_require__(388)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -4427,20 +4651,20 @@ module.exports = __vue_exports__
 
 /***/ }),
 
-/***/ 48:
+/***/ 46:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(387)
+__webpack_require__(389)
 
 /* script */
-__vue_exports__ = __webpack_require__(389)
+__vue_exports__ = __webpack_require__(391)
 
 /* template */
-var __vue_template__ = __webpack_require__(390)
+var __vue_template__ = __webpack_require__(392)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -4475,226 +4699,4608 @@ module.exports = __vue_exports__
 
 /***/ }),
 
-/***/ 98:
-/***/ (function(module, exports) {
+/***/ 910:
+/***/ (function(module, exports, __webpack_require__) {
 
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-var stylesInDom = {},
-	memoize = function(fn) {
-		var memo;
-		return function () {
-			if (typeof memo === "undefined") memo = fn.apply(this, arguments);
-			return memo;
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(911)
+
+/* script */
+__vue_exports__ = __webpack_require__(913)
+
+/* template */
+var __vue_template__ = __webpack_require__(914)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/lvyang/workspace/iae/views/drugs_policy/drugsPolicy.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-b3be62e6", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-b3be62e6", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] drugsPolicy.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+
+/***/ 911:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(912);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(100)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-b3be62e6!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./drugsPolicy.vue", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-b3be62e6!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./drugsPolicy.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 912:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.main_content .drug_list .el-dialog__wrapper .el-dialog .el-dialog__body{\n\tpadding-bottom:30px !important;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 913:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+	data: function data() {
+		return {
+			drugs: [],
+			contacts: [],
+			business: [],
+			tags: [], //标签
+			pageNum: 10,
+			currentPage: 1,
+			count: 0,
+			authCode: "",
+			dialogFormVisible: false,
+			params: {
+				productCommonName: "",
+				product_makesmakers: "",
+				contactId: "",
+				product_type: ['高打', '佣金'],
+				product_medical_type: "",
+				product_code: "",
+				business: "",
+				tag: "",
+				rate_gap: 0,
+				rate_formula: "<=",
+				product_distribution_flag: "0",
+				tag_type: []
+			},
+			fileList: [], //上传文件列表
+			importDrugsUrl: "",
+			loading: false,
+			uploadButtom: "导入药品",
+			errorMessage: ""
 		};
 	},
-	isOldIE = memoize(function() {
-		return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
-	}),
-	getHeadElement = memoize(function () {
-		return document.head || document.getElementsByTagName("head")[0];
-	}),
-	singletonElement = null,
-	singletonCounter = 0,
-	styleElementsInsertedAtTop = [];
+	activated: function activated() {
+		this.getDrugsList();
+		this.getContacts();
+		this.getProductBusiness();
+		this.getTags();
+		this.authCode = "," + JSON.parse(sessionStorage["user"]).authority_code;
+	},
+	mounted: function mounted() {
+		this.importDrugsUrl = this.$bus.data.host + "/iae/drugs/importDrugs";
+	},
 
-module.exports = function(list, options) {
-	if(typeof DEBUG !== "undefined" && DEBUG) {
-		if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
-	}
-
-	options = options || {};
-	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-	// tags it will allow on a page
-	if (typeof options.singleton === "undefined") options.singleton = isOldIE();
-
-	// By default, add <style> tags to the bottom of <head>.
-	if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
-
-	var styles = listToStyles(list);
-	addStylesToDom(styles, options);
-
-	return function update(newList) {
-		var mayRemove = [];
-		for(var i = 0; i < styles.length; i++) {
-			var item = styles[i];
-			var domStyle = stylesInDom[item.id];
-			domStyle.refs--;
-			mayRemove.push(domStyle);
-		}
-		if(newList) {
-			var newStyles = listToStyles(newList);
-			addStylesToDom(newStyles, options);
-		}
-		for(var i = 0; i < mayRemove.length; i++) {
-			var domStyle = mayRemove[i];
-			if(domStyle.refs === 0) {
-				for(var j = 0; j < domStyle.parts.length; j++)
-					domStyle.parts[j]();
-				delete stylesInDom[domStyle.id];
+	methods: {
+		toPolicy: function toPolicy(scope, arg) {
+			var path = "";
+			switch (arg) {
+				case "1":
+					path = "/main/drugsAllotPolicy";
+					break;
+				case "2":
+					path = "/main/drugsSalesPolicy";
+					break;
+				case "3":
+					path = "/main/drugsPurchasePayPolicy";
+					break;
 			}
-		}
-	};
-}
-
-function addStylesToDom(styles, options) {
-	for(var i = 0; i < styles.length; i++) {
-		var item = styles[i];
-		var domStyle = stylesInDom[item.id];
-		if(domStyle) {
-			domStyle.refs++;
-			for(var j = 0; j < domStyle.parts.length; j++) {
-				domStyle.parts[j](item.parts[j]);
+			this.$router.push({ path: path, query: { productCode: scope.row.product_code } });
+		},
+		getTags: function getTags() {
+			var _self = this;
+			this.jquery("/iae/tag/getAllTags", null, function (res) {
+				//查询商业
+				_self.tags = res.message.tagAll;
+			});
+		},
+		getContacts: function getContacts() {
+			var _self = this;
+			this.jquery('/iae/contacts/getAllContacts', { group_id: 0, contact_type: ['佣金品种', '高打品种'] }, function (res) {
+				_self.contacts = res.message;
+			});
+		},
+		getProductBusiness: function getProductBusiness() {
+			var _self = this;
+			this.jquery("/iae/business/getAllBusiness", null, function (res) {
+				//查询商业
+				_self.business = res.message;
+			});
+		},
+		getDrugsList: function getDrugsList() {
+			var _self = this;
+			if (!_self.currentPage) {
+				_self.currentPage = 1;
 			}
-			for(; j < item.parts.length; j++) {
-				domStyle.parts.push(addStyle(item.parts[j], options));
+			if (!_self.pageNum) {
+				_self.pageNum = 10;
 			}
-		} else {
-			var parts = [];
-			for(var j = 0; j < item.parts.length; j++) {
-				parts.push(addStyle(item.parts[j], options));
+			var page = {
+				start: (_self.currentPage - 1) * _self.pageNum,
+				limit: _self.pageNum
+			};
+			this.params.tag = this.params.tag_type[1];
+			this.jquery('/iae/drugs/getDrugs', {
+				data: _self.params,
+				page: page
+			}, function (res) {
+				_self.drugs = res.message.data;
+				_self.pageNum = parseInt(res.message.limit);
+				_self.count = res.message.totalCount;
+			});
+		},
+		reSearch: function reSearch(arg) {
+			if (arg) {
+				this.$refs["params"].resetFields();
 			}
-			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+			this.currentPage = 1;
+			this.getDrugsList();
+		},
+		handleSizeChange: function handleSizeChange(val) {
+			this.pageNum = val;
+			this.currentPage = 1;
+			this.params.limit = this.pageNum;
+			this.getDrugsList();
+		},
+		handleCurrentChange: function handleCurrentChange(val) {
+			this.currentPage = val;
+			this.params.start = (val - 1) * this.pageNum;
+			this.params.limit = this.pageNum;
+			this.getDrugsList();
 		}
 	}
+};
+
+/***/ }),
+
+/***/ 914:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "drug_list"
+  }, [_c('el-breadcrumb', {
+    attrs: {
+      "separator-class": "el-icon-arrow-right"
+    }
+  }, [_c('el-breadcrumb-item', [_vm._v("药品管理")]), _vm._v(" "), _c('el-breadcrumb-item', [_vm._v("药品政策管理（下游）")])], 1), _vm._v(" "), _c('el-form', {
+    ref: "params",
+    staticClass: "demo-form-inline search",
+    attrs: {
+      "inline": true,
+      "model": _vm.params,
+      "size": "mini"
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "产品名称",
+      "prop": "productCommonName"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "size": "mini",
+      "placeholder": "产品名称/助记码"
+    },
+    nativeOn: {
+      "keyup": function($event) {
+        if (!('button' in $event) && $event.keyCode !== 13) { return null; }
+        _vm.reSearch(false)
+      }
+    },
+    model: {
+      value: (_vm.params.productCommonName),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "productCommonName", $$v)
+      },
+      expression: "params.productCommonName"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "产品编号",
+      "prop": "product_code"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "size": "mini",
+      "placeholder": "产品编号"
+    },
+    nativeOn: {
+      "keyup": function($event) {
+        if (!('button' in $event) && $event.keyCode !== 13) { return null; }
+        _vm.reSearch(false)
+      }
+    },
+    model: {
+      value: (_vm.params.product_code),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "product_code", $$v)
+      },
+      expression: "params.product_code"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "生产厂家",
+      "prop": "product_makesmakers"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "size": "mini",
+      "placeholder": "生产厂家"
+    },
+    nativeOn: {
+      "keyup": function($event) {
+        if (!('button' in $event) && $event.keyCode !== 13) { return null; }
+        _vm.reSearch(false)
+      }
+    },
+    model: {
+      value: (_vm.params.product_makesmakers),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "product_makesmakers", $$v)
+      },
+      expression: "params.product_makesmakers"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "　联系人",
+      "prop": "contactId"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "size": "mini",
+      "filterable": "",
+      "placeholder": "请选择联系人"
+    },
+    model: {
+      value: (_vm.params.contactId),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "contactId", $$v)
+      },
+      expression: "params.contactId"
+    }
+  }, [_c('el-option', {
+    key: "",
+    attrs: {
+      "label": "全部",
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.contacts), function(item) {
+    return _c('el-option', {
+      key: item.contacts_id,
+      attrs: {
+        "label": item.contacts_name,
+        "value": item.contacts_id
+      }
+    })
+  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "　　商业",
+      "prop": "business"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "size": "mini",
+      "filterable": "",
+      "placeholder": "请选择商业"
+    },
+    model: {
+      value: (_vm.params.business),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "business", $$v)
+      },
+      expression: "params.business"
+    }
+  }, [_c('el-option', {
+    key: "",
+    attrs: {
+      "label": "全部",
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.business), function(item) {
+    return _c('el-option', {
+      key: item.business_id,
+      attrs: {
+        "label": item.business_name,
+        "value": item.business_id
+      }
+    })
+  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "　　标签",
+      "prop": "tag_type"
+    }
+  }, [_c('el-cascader', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "size": "mini",
+      "placeholder": "搜索标签",
+      "options": _vm.tags,
+      "filterable": ""
+    },
+    model: {
+      value: (_vm.params.tag_type),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "tag_type", $$v)
+      },
+      expression: "params.tag_type"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "医保类型",
+      "prop": "product_medical_type"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "size": "mini",
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.params.product_medical_type),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "product_medical_type", $$v)
+      },
+      expression: "params.product_medical_type"
+    }
+  }, [_c('el-option', {
+    key: "",
+    attrs: {
+      "label": "全部",
+      "value": ""
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "甲类",
+    attrs: {
+      "label": "甲类",
+      "value": "甲类"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "乙类",
+    attrs: {
+      "label": "乙类",
+      "value": "乙类"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "丙类",
+    attrs: {
+      "label": "丙类",
+      "value": "丙类"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "省医保",
+    attrs: {
+      "label": "省医保",
+      "value": "省医保"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "是否配送",
+      "prop": "product_distribution_flag"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "size": "mini",
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.params.product_distribution_flag),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "product_distribution_flag", $$v)
+      },
+      expression: "params.product_distribution_flag"
+    }
+  }, [_c('el-option', {
+    key: "",
+    attrs: {
+      "label": "全部",
+      "value": ""
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "0",
+    attrs: {
+      "label": "配送",
+      "value": "0"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "1",
+    attrs: {
+      "label": "不配送",
+      "value": "1"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }, {
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.authCode.indexOf(',65,') > -1),
+      expression: "authCode.indexOf(',65,') > -1"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "mini"
+    },
+    on: {
+      "click": function($event) {
+        _vm.reSearch(false)
+      }
+    }
+  }, [_vm._v("查询")]), _vm._v(" "), _c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }, {
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.authCode.indexOf(',65,') > -1),
+      expression: "authCode.indexOf(',65,') > -1"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "mini"
+    },
+    on: {
+      "click": function($event) {
+        _vm.reSearch(true)
+      }
+    }
+  }, [_vm._v("重置")])], 1)], 1), _vm._v(" "), _c('el-table', {
+    staticStyle: {
+      "width": "100%"
+    },
+    attrs: {
+      "data": _vm.drugs,
+      "size": "mini",
+      "stripe": true,
+      "border": true
+    }
+  }, [_c('el-table-column', {
+    attrs: {
+      "fixed": "",
+      "prop": "product_common_name",
+      "label": "产品通用名",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_code",
+      "label": "产品编号",
+      "width": "100"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_makesmakers",
+      "label": "生产厂家",
+      "width": "180"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_specifications",
+      "label": "产品规格",
+      "width": "100"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_price",
+      "label": "中标价",
+      "width": "60"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_packing",
+      "label": "包装",
+      "width": "50"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_unit",
+      "label": "单位",
+      "width": "50"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "business_name",
+      "label": "商业",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "buyer",
+      "label": "采购员",
+      "width": "60"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_type",
+      "label": "品种类型",
+      "width": "70"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "contacts_name",
+      "label": "联系人"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "fixed": "right",
+      "label": "操作",
+      "width": "260"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(scope) {
+        return [_c('el-button', {
+          directives: [{
+            name: "dbClick",
+            rawName: "v-dbClick"
+          }],
+          attrs: {
+            "type": "primary",
+            "size": "mini"
+          },
+          nativeOn: {
+            "click": function($event) {
+              $event.preventDefault();
+              _vm.toPolicy(scope, '2')
+            }
+          }
+        }, [_vm._v("销售政策")]), _vm._v(" "), _c('el-button', {
+          directives: [{
+            name: "show",
+            rawName: "v-show",
+            value: (scope.row.product_type == '高打'),
+            expression: "scope.row.product_type == '高打'"
+          }, {
+            name: "dbClick",
+            rawName: "v-dbClick"
+          }],
+          attrs: {
+            "type": "primary",
+            "size": "mini"
+          },
+          nativeOn: {
+            "click": function($event) {
+              $event.preventDefault();
+              _vm.toPolicy(scope, '1')
+            }
+          }
+        }, [_vm._v("调货政策")]), _vm._v(" "), _c('el-button', {
+          directives: [{
+            name: "show",
+            rawName: "v-show",
+            value: (scope.row.product_type == '高打'),
+            expression: "scope.row.product_type == '高打'"
+          }, {
+            name: "dbClick",
+            rawName: "v-dbClick"
+          }],
+          attrs: {
+            "type": "primary",
+            "size": "mini"
+          },
+          nativeOn: {
+            "click": function($event) {
+              $event.preventDefault();
+              _vm.toPolicy(scope, '3')
+            }
+          }
+        }, [_vm._v("招商政策")])]
+      }
+    }])
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "page_div"
+  }, [_c('el-pagination', {
+    attrs: {
+      "background": "",
+      "current-page": _vm.currentPage,
+      "page-sizes": [5, 10, 50, 100],
+      "page-size": _vm.pageNum,
+      "layout": "total, sizes, prev, pager, next, jumper",
+      "total": _vm.count
+    },
+    on: {
+      "size-change": _vm.handleSizeChange,
+      "current-change": _vm.handleCurrentChange
+    }
+  })], 1), _vm._v(" "), _c('el-dialog', {
+    attrs: {
+      "title": "导入药品",
+      "width": "600px",
+      "visible": _vm.dialogFormVisible
+    },
+    on: {
+      "update:visible": function($event) {
+        _vm.dialogFormVisible = $event
+      }
+    }
+  }, [_c('el-upload', {
+    ref: "upload",
+    staticClass: "upload-demo",
+    attrs: {
+      "action": _vm.importDrugsUrl,
+      "before-upload": _vm.beforeUpload,
+      "on-success": _vm.importDrugsSuccess,
+      "file-list": _vm.fileList
+    }
+  }, [_c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    attrs: {
+      "size": "small",
+      "type": "primary",
+      "loading": _vm.loading
+    }
+  }, [_vm._v(_vm._s(_vm.uploadButtom))]), _vm._v(" "), _c('div', {
+    staticClass: "el-upload__tip",
+    staticStyle: {
+      "display": "inline-block"
+    },
+    attrs: {
+      "slot": "tip"
+    },
+    slot: "tip"
+  }, [_vm._v("　只能上传xls/xlsx文件")])], 1), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.errorMessage),
+      expression: "errorMessage"
+    }],
+    staticStyle: {
+      "margin-top": "15px"
+    },
+    domProps: {
+      "innerHTML": _vm._s(_vm.errorMessage)
+    }
+  })], 1)], 1)
+},staticRenderFns: []}
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-b3be62e6", module.exports)
+  }
 }
 
-function listToStyles(list) {
-	var styles = [];
-	var newStyles = {};
-	for(var i = 0; i < list.length; i++) {
-		var item = list[i];
-		var id = item[0];
-		var css = item[1];
-		var media = item[2];
-		var sourceMap = item[3];
-		var part = {css: css, media: media, sourceMap: sourceMap};
-		if(!newStyles[id])
-			styles.push(newStyles[id] = {id: id, parts: [part]});
-		else
-			newStyles[id].parts.push(part);
+/***/ }),
+
+/***/ 915:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(918)
+
+/* script */
+__vue_exports__ = __webpack_require__(920)
+
+/* template */
+var __vue_template__ = __webpack_require__(921)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/lvyang/workspace/iae/views/drugs_policy/drugsAllotPolicy.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-67e5de66", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-67e5de66", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] drugsAllotPolicy.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+
+/***/ 916:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(922)
+
+/* script */
+__vue_exports__ = __webpack_require__(924)
+
+/* template */
+var __vue_template__ = __webpack_require__(925)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/lvyang/workspace/iae/views/drugs_policy/drugsSalesPolicy.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-f1c491da", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-f1c491da", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] drugsSalesPolicy.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+
+/***/ 917:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(926)
+
+/* script */
+__vue_exports__ = __webpack_require__(928)
+
+/* template */
+var __vue_template__ = __webpack_require__(929)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/lvyang/workspace/iae/views/drugs_policy/drugsPurchasePayPolicy.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5e54966e", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-5e54966e", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] drugsPurchasePayPolicy.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+
+/***/ 918:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(919);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(100)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-67e5de66!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./drugsAllotPolicy.vue", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-67e5de66!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./drugsAllotPolicy.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
 	}
-	return styles;
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
 }
 
-function insertStyleElement(options, styleElement) {
-	var head = getHeadElement();
-	var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
-	if (options.insertAt === "top") {
-		if(!lastStyleElementInsertedAtTop) {
-			head.insertBefore(styleElement, head.firstChild);
-		} else if(lastStyleElementInsertedAtTop.nextSibling) {
-			head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
-		} else {
-			head.appendChild(styleElement);
-		}
-		styleElementsInsertedAtTop.push(styleElement);
-	} else if (options.insertAt === "bottom") {
-		head.appendChild(styleElement);
-	} else {
-		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
-	}
+/***/ }),
+
+/***/ 919:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.el-collapse-item__content > div{\n  display: inline-block;\n  width: 30%;\n}\n.el-collapse-item__content > div > span{\n  display: inline-block;\n  width: 56px;\n  text-align: right;\n  padding-right: 10px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 920:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+  data: function data() {
+    var _this = this;
+
+    var validateBatchPercent = function validateBatchPercent(rule, value, callback) {
+      if (_this.isEmpty(value) && _this.policy.allot_policy_formula != '8') {
+        callback(new Error('请再输入政策点数'));
+      } else if (!_this.isEmpty(value) && !/^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/.test(value)) {
+        callback(new Error('请再输入正确的政策点数'));
+      } else {
+        _this.policy.allot_policy_money = _this.getShouldPayMoney(_this.policy.allot_policy_formula, _this.drug.product_price, _this.drug.product_return_money, _this.policy.allot_policy_percent, 0, _this.policy.allot_policy_money);
+        _this.policy.allot_policy_money = Math.round(_this.policy.allot_policy_money * 100) / 100;
+        callback();
+      }
+    };
+    return {
+      drugPolicy: [],
+      hospitals: [],
+      contacts: [],
+      drug: {},
+      params: {
+        hospitalId: "",
+        productCommonName: "",
+        contactId: "",
+        productCode: "",
+        requestFrom: "drugsAllotPolicy",
+        allot_policy_query_type: ""
+      },
+      policy: {
+        allot_policy_formula: "",
+        allot_policy_percent: "",
+        allot_policy_money: "",
+        allot_policy_contact_id: "",
+        allot_policy_remark: ""
+      },
+      copyPolicyParams: {
+        hospital_id: "",
+        hospital_id_copy: ""
+      },
+      copyPolicyParamsRule: {
+        hospital_id: [{ required: true, message: '请选择被复制销往单位', trigger: 'change' }],
+        hospital_id_copy: [{ required: true, message: '请选择复制的销住单位', trigger: 'change' }]
+      },
+      policyBatch: {
+        allot_policy_formula: "1",
+        allot_policy_percent: "",
+        allot_policy_contact_id: "",
+        allot_policy_remark: ""
+      },
+      policyBatchRule: {
+        policy_percent: [{ validator: validateBatchPercent, trigger: 'blur' }],
+        allot_policy_contact_id: [{ required: true, message: '请选择联系人', trigger: 'change' }]
+      },
+      authCode: "",
+      pageNum: 10,
+      currentPage: 1,
+      count: 0,
+      dialogFormVisible: false,
+      dialogFormVisibleBatch: false,
+      loading: false
+    };
+  },
+  activated: function activated() {
+    this.params.productCode = this.$route.query.productCode;
+    this.getHospitals();
+    this.getContacts();
+    this.getAllotPolicy();
+    this.authCode = "," + JSON.parse(sessionStorage["user"]).authority_code;
+  },
+
+  methods: {
+    formulaChange: function formulaChange() {
+      // if(this.policy.allot_policy_percent){
+      this.policy.allot_policy_money = this.getShouldPayMoney(this.policy.allot_policy_formula, this.drug.product_price, this.drug.product_return_money, this.policy.allot_policy_percent, 0, this.policy.allot_policy_money);
+      this.policy.allot_policy_money = Math.round(this.policy.allot_policy_money * 100) / 100;
+      // }
+    },
+    formatterPercent: function formatterPercent(row, column, cellValue, index) {
+      if (!this.isEmpty(row.allot_policy_money) && !this.isEmpty(row.product_return_money)) {
+        return Math.round(row.allot_policy_money * 100 / row.product_return_money) + "%";
+      } else {
+        return "";
+      }
+    },
+    formatterFormula: function formatterFormula(row, column, cellValue, index) {
+      var message = "";
+      switch (cellValue) {
+        case "1":
+          message = "中标价*政策点数";
+          break;
+        case "2":
+          message = "中标价*政策点数-补点/费用票";
+          break;
+        case "3":
+          message = "实收上游积分或上游政策积分*政策点数";
+          break;
+        case "4":
+          message = "实收上游积分或上游政策积分*政策点数-补点/费用票";
+          break;
+        case "5":
+          message = "实收上游积分或上游政策积分-中标价*政策点数";
+          break;
+        case "6":
+          message = "实收上游积分或上游政策积分-中标价*政策点数-补点/费用票";
+          break;
+        case "7":
+          message = "实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分";
+          break;
+        case "8":
+          message = "固定政策（上游政策修改后，需几时调整下游政策）";
+          break;
+        default:
+
+      }
+      return message;
+    },
+    editRow: function editRow(scope) {
+      //编辑药品信息
+      this.dialogFormVisible = true;
+      var temp = JSON.stringify(scope.row);
+      this.drug = JSON.parse(temp);
+      this.policy.front_message = JSON.stringify({
+        allot_policy_money: this.drug.allot_policy_money,
+        allot_policy_contact_id: this.drug.allot_policy_contact_id,
+        allot_policy_remark: this.drug.allot_policy_remark,
+        allot_policy_percent: this.drug.allot_policy_percent,
+        allot_policy_formula: this.drug.allot_policy_formula
+      });
+      this.policy.allot_policy_formula = this.drug.allot_policy_formula;
+      this.policy.allot_policy_percent = this.drug.allot_policy_percent;
+      this.policy.allot_policy_money = this.drug.allot_policy_money;
+      this.policy.allot_policy_contact_id = this.drug.allot_policy_contact_id;
+      this.policy.allot_policy_remark = this.drug.allot_policy_remark;
+      this.policy.product_price = this.drug.product_price;
+      this.policy.product_return_money = this.drug.product_return_money;
+    },
+    editBatchRow: function editBatchRow() {
+      if (this.drugId.length > 0) {
+        this.dialogFormVisibleBatch = true;
+      }
+    },
+    selectionChange: function selectionChange(val) {
+      this.drugId = [];
+      for (var i = 0; i < val.length; i++) {
+        this.drugId.push({
+          id: val[i].product_id,
+          price: val[i].product_price,
+          product_code: val[i].product_code,
+          returnMoney: val[i].product_return_money,
+          product_mack_price: val[i].product_mack_price,
+          hospitalId: val[i].hospital_id
+        });
+      }
+    },
+    editSalesBatch: function editSalesBatch(formName) {
+      var _this2 = this;
+
+      var _self = this;
+      _self.policyBatch.allot_hospital_id = this.params.hospitalId;
+      _self.policyBatch.allotDrugs = this.drugId;
+      this.$refs[formName].validate(function (valid) {
+        if (valid) {
+          _this2.loading = true;
+          _self.jquery('/iae/allotPolicy/editAllotPolicyBatch', _self.policyBatch, function (res) {
+            _self.$refs["policyBatch"].resetFields();
+            _self.dialogFormVisibleBatch = false;
+            _self.loading = false;
+            _self.getAllotPolicy();
+            _self.$message({ showClose: true, message: '批量修改成功', type: 'success' });
+          });
+        } else {
+          return false;
+        }
+      });
+    },
+    getContacts: function getContacts() {
+      var _self = this;
+      this.jquery('/iae/contacts/getAllContacts', { group_id: 0, contact_type: ['调货'] }, function (res) {
+        _self.contacts = res.message;
+      });
+    },
+    exportAllotPolicy: function exportAllotPolicy() {
+      var url = this.$bus.data.host + "/iae/allotPolicy/exportAllotPolicy";
+      this.download(url, this.params);
+    },
+    getAllotPolicy: function getAllotPolicy() {
+      var _self = this;
+      if (!_self.currentPage) {
+        _self.currentPage = 1;
+      }
+      if (!_self.pageNum) {
+        _self.pageNum = 10;
+      }
+      var page = {
+        start: (_self.currentPage - 1) * _self.pageNum,
+        limit: _self.pageNum
+      };
+      this.jquery('/iae/allotPolicy/getAllotPolicy', {
+        data: _self.params,
+        page: page
+      }, function (res) {
+        _self.drugPolicy = res.message.data;
+        _self.pageNum = parseInt(res.message.limit);
+        _self.count = res.message.totalCount;
+      });
+    },
+    editSales: function editSales(formName) {
+      var _this3 = this;
+
+      var _self = this;
+      _self.policy.allot_hospital_id = this.drug.allot_hospital_id;
+      _self.policy.allot_drug_id = this.drug.product_id;
+      _self.policy.product_code = this.drug.product_code;
+      this.$refs[formName].validate(function (valid) {
+        if (valid) {
+          _this3.loading = true;
+          _self.jquery('/iae/allotPolicy/editAllotPolicy', _self.policy, function (res) {
+            _self.dialogFormVisible = false;
+            _self.loading = false;
+            _self.$message({ showClose: true, message: '修改成功', type: 'success' });
+            _self.getAllotPolicy();
+          });
+        } else {
+          return false;
+        }
+      });
+    },
+    getHospitals: function getHospitals() {
+      var _self = this;
+      this.jquery('/iae/hospitals/getAllHospitals', { hospital_type: '调货单位' }, function (res) {
+        _self.hospitals = res.message;
+      });
+    },
+    reSearch: function reSearch(arg) {
+      this.$refs["params"].resetFields();
+      this.currentPage = 1;
+      this.getAllotPolicy();
+    },
+    handleSizeChange: function handleSizeChange(val) {
+      this.pageNum = val;
+      this.currentPage = 1;
+      this.getAllotPolicy();
+    },
+    handleCurrentChange: function handleCurrentChange(val) {
+      this.currentPage = val;
+      this.getAllotPolicy();
+    }
+  }
+};
+
+/***/ }),
+
+/***/ 921:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('el-breadcrumb', {
+    attrs: {
+      "separator-class": "el-icon-arrow-right"
+    }
+  }, [_c('el-breadcrumb-item', [_vm._v("药品管理")]), _vm._v(" "), _c('el-breadcrumb-item', {
+    attrs: {
+      "to": {
+        path: '/main/drugspolicy'
+      }
+    }
+  }, [_vm._v("药品政策管理（下游）")]), _vm._v(" "), _c('el-breadcrumb-item', [_vm._v("调货政策管理")])], 1), _vm._v(" "), _c('el-form', {
+    ref: "params",
+    staticClass: "demo-form-inline search",
+    attrs: {
+      "inline": true,
+      "model": _vm.params,
+      "size": "mini"
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "调货单位",
+      "prop": "hospitalId"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "filterable": "",
+      "size": "mini",
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.params.hospitalId),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "hospitalId", $$v)
+      },
+      expression: "params.hospitalId"
+    }
+  }, _vm._l((_vm.hospitals), function(item) {
+    return _c('el-option', {
+      key: item.hospital_id,
+      attrs: {
+        "label": item.hospital_name,
+        "value": item.hospital_id
+      }
+    })
+  }))], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "调货联系人",
+      "prop": "contactId"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "196px"
+    },
+    attrs: {
+      "filterable": "",
+      "size": "mini",
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.params.contactId),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "contactId", $$v)
+      },
+      expression: "params.contactId"
+    }
+  }, [_c('el-option', {
+    key: "",
+    attrs: {
+      "label": "全部",
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.contacts), function(item) {
+    return _c('el-option', {
+      key: item.contacts_id,
+      attrs: {
+        "label": item.contacts_name,
+        "value": item.contacts_id
+      }
+    })
+  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "是否设置",
+      "prop": "allot_policy_query_type"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "filterable": "",
+      "size": "mini",
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.params.allot_policy_query_type),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "allot_policy_query_type", $$v)
+      },
+      expression: "params.allot_policy_query_type"
+    }
+  }, [_c('el-option', {
+    key: "",
+    attrs: {
+      "label": "全部",
+      "value": ""
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "已设置",
+    attrs: {
+      "label": "已设置",
+      "value": "已设置"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "未设置",
+    attrs: {
+      "label": "未设置",
+      "value": "未设置"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }, {
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.authCode.indexOf(',132,') > -1),
+      expression: "authCode.indexOf(',132,') > -1"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "mini"
+    },
+    on: {
+      "click": function($event) {
+        _vm.getAllotPolicy()
+      }
+    }
+  }, [_vm._v("查询")]), _vm._v(" "), _c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }, {
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.authCode.indexOf(',132,') > -1),
+      expression: "authCode.indexOf(',132,') > -1"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "mini"
+    },
+    on: {
+      "click": function($event) {
+        _vm.reSearch(true)
+      }
+    }
+  }, [_vm._v("重置")]), _vm._v(" "), _c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "mini"
+    },
+    on: {
+      "click": function($event) {
+        _vm.$router.push('/main/drugspolicy');
+      }
+    }
+  }, [_vm._v("返回")])], 1)], 1), _vm._v(" "), _c('div', {
+    staticClass: "allot_policy"
+  }, [_c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }, {
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.authCode.indexOf(',119,') > -1),
+      expression: "authCode.indexOf(',119,') > -1"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "mini"
+    },
+    nativeOn: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.editBatchRow()
+      }
+    }
+  }, [_vm._v("批量修改")])], 1), _vm._v(" "), _c('el-table', {
+    staticStyle: {
+      "width": "100%"
+    },
+    attrs: {
+      "data": _vm.drugPolicy,
+      "size": "mini",
+      "stripe": true,
+      "border": true
+    },
+    on: {
+      "selection-change": _vm.selectionChange
+    }
+  }, [_c('el-table-column', {
+    attrs: {
+      "type": "selection",
+      "width": "55"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "fixed": "",
+      "prop": "hospital_name",
+      "label": "销往单位",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "fixed": "",
+      "prop": "product_common_name",
+      "label": "产品名称",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_code",
+      "label": "产品编码",
+      "width": "100"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_specifications",
+      "label": "产品规格",
+      "width": "100"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_makesmakers",
+      "label": "生产厂家",
+      "width": "150"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "business_name",
+      "label": "商业",
+      "width": "60"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_price",
+      "label": "中标价",
+      "width": "80"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_return_money",
+      "label": "积分",
+      "width": "80"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "allot_policy_money",
+      "label": "调货积分",
+      "width": "80"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "allot_policy_percent",
+      "label": "政策点数",
+      "width": "80"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "allot_policy_formula",
+      "label": "政策公式",
+      "width": "80",
+      "formatter": _vm.formatterFormula
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "business_name",
+      "label": "积分比例",
+      "formatter": _vm.formatterPercent
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "allot_policy_remark",
+      "label": "积分备注",
+      "width": "80"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "contacts_name",
+      "label": "调货联系人"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "fixed": "right",
+      "label": "操作",
+      "width": "100"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(scope) {
+        return [_c('el-button', {
+          directives: [{
+            name: "dbClick",
+            rawName: "v-dbClick"
+          }, {
+            name: "show",
+            rawName: "v-show",
+            value: (_vm.authCode.indexOf(',133,') > -1),
+            expression: "authCode.indexOf(',133,') > -1"
+          }],
+          attrs: {
+            "icon": "el-icon-edit-outline",
+            "type": "primary",
+            "size": "mini"
+          },
+          nativeOn: {
+            "click": function($event) {
+              $event.preventDefault();
+              _vm.editRow(scope)
+            }
+          }
+        })]
+      }
+    }])
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "page_div"
+  }, [_c('el-pagination', {
+    attrs: {
+      "background": "",
+      "current-page": _vm.currentPage,
+      "page-sizes": [5, 10, 50, 100],
+      "page-size": _vm.pageNum,
+      "layout": "total, sizes, prev, pager, next",
+      "total": _vm.count
+    },
+    on: {
+      "size-change": _vm.handleSizeChange,
+      "current-change": _vm.handleCurrentChange
+    }
+  })], 1), _vm._v(" "), _c('el-dialog', {
+    attrs: {
+      "title": "修改调货政策",
+      "width": "700px",
+      "visible": _vm.dialogFormVisible
+    },
+    on: {
+      "update:visible": function($event) {
+        _vm.dialogFormVisible = $event
+      }
+    }
+  }, [_c('el-collapse', {
+    staticStyle: {
+      "text-align": "left"
+    },
+    model: {
+      value: (_vm.activeNames),
+      callback: function($$v) {
+        _vm.activeNames = $$v
+      },
+      expression: "activeNames"
+    }
+  }, [_c('el-collapse-item', {
+    attrs: {
+      "title": '药品信息（药品名：' + _vm.drug.product_common_name + '）',
+      "name": "1"
+    }
+  }, [_c('div', [_c('span', [_vm._v("规格:")]), _vm._v(_vm._s(_vm.drug.product_specifications))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("中标价:")]), _vm._v(_vm._s(_vm.drug.product_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("积分:")]), _vm._v(_vm._s(_vm.drug.product_return_money))]), _vm._v(" "), _c('div', {
+    staticStyle: {
+      "display": "block",
+      "width": "100%"
+    }
+  }, [_c('span', [_vm._v("生产厂家:")]), _vm._v(_vm._s(_vm.drug.product_makesmakers))])])], 1), _vm._v(" "), _c('el-form', {
+    ref: "sale",
+    staticClass: "demo-ruleForm",
+    staticStyle: {
+      "margin-top": "20px"
+    },
+    attrs: {
+      "model": _vm.policy,
+      "status-icon": "",
+      "rules": _vm.policyRule,
+      "inline": true,
+      "label-width": "100px"
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "政策公式",
+      "prop": "allot_policy_formula"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "472px"
+    },
+    attrs: {
+      "placeholder": "请选择"
+    },
+    on: {
+      "change": _vm.formulaChange
+    },
+    model: {
+      value: (_vm.policy.allot_policy_formula),
+      callback: function($$v) {
+        _vm.$set(_vm.policy, "allot_policy_formula", $$v)
+      },
+      expression: "policy.allot_policy_formula"
+    }
+  }, [_c('el-option', {
+    key: "1",
+    attrs: {
+      "label": "中标价*政策点数",
+      "value": "1"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "2",
+    attrs: {
+      "label": "中标价*政策点数-补点/费用票",
+      "value": "2"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "3",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数",
+      "value": "3"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "4",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数-补点/费用票",
+      "value": "4"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "5",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数",
+      "value": "5"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "6",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数-补点/费用票",
+      "value": "6"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "7",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分",
+      "value": "7"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "8",
+    attrs: {
+      "label": "固定政策（上游政策修改后，需手动调整下游政策）",
+      "value": "8"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.policy.allot_policy_formula != '8'),
+      expression: "policy.allot_policy_formula != '8'"
+    }],
+    attrs: {
+      "label": "政策点数",
+      "prop": "allot_policy_percent",
+      "maxlength": 10
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "政策点数（如：60）"
+    },
+    on: {
+      "change": _vm.formulaChange
+    },
+    model: {
+      value: (_vm.policy.allot_policy_percent),
+      callback: function($$v) {
+        _vm.$set(_vm.policy, "allot_policy_percent", $$v)
+      },
+      expression: "policy.allot_policy_percent"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "调货积分",
+      "prop": "allot_policy_money",
+      "maxlength": 10
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "调货积分"
+    },
+    model: {
+      value: (_vm.policy.allot_policy_money),
+      callback: function($$v) {
+        _vm.$set(_vm.policy, "allot_policy_money", $$v)
+      },
+      expression: "policy.allot_policy_money"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "调货联系人",
+      "prop": "allot_policy_contact_id"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "filterable": "",
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.policy.allot_policy_contact_id),
+      callback: function($$v) {
+        _vm.$set(_vm.policy, "allot_policy_contact_id", $$v)
+      },
+      expression: "policy.allot_policy_contact_id"
+    }
+  }, [_c('el-option', {
+    key: "",
+    attrs: {
+      "label": "",
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.contacts), function(item) {
+    return _c('el-option', {
+      key: item.contacts_id,
+      attrs: {
+        "label": item.contacts_name,
+        "value": item.contacts_id
+      }
+    })
+  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "积分备注",
+      "prop": "allot_policy_remark"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "积分备注"
+    },
+    model: {
+      value: (_vm.policy.allot_policy_remark),
+      callback: function($$v) {
+        _vm.$set(_vm.policy, "allot_policy_remark", $$v)
+      },
+      expression: "policy.allot_policy_remark"
+    }
+  })], 1)], 1), _vm._v(" "), _c('div', {
+    staticClass: "dialog-footer",
+    attrs: {
+      "slot": "footer"
+    },
+    slot: "footer"
+  }, [_c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    attrs: {
+      "size": "small"
+    },
+    on: {
+      "click": function($event) {
+        _vm.dialogFormVisible = false
+      }
+    }
+  }, [_vm._v("取 消")]), _vm._v(" "), _c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "small",
+      "loading": _vm.loading
+    },
+    on: {
+      "click": function($event) {
+        _vm.editSales('sale')
+      }
+    }
+  }, [_vm._v("确 定")])], 1)], 1), _vm._v(" "), _c('el-dialog', {
+    attrs: {
+      "title": "批量修改调货政策",
+      "width": "700px",
+      "visible": _vm.dialogFormVisibleBatch
+    },
+    on: {
+      "update:visible": function($event) {
+        _vm.dialogFormVisibleBatch = $event
+      }
+    }
+  }, [_c('el-form', {
+    ref: "policyBatch",
+    staticClass: "demo-ruleForm",
+    staticStyle: {
+      "margin-top": "20px"
+    },
+    attrs: {
+      "model": _vm.policyBatch,
+      "status-icon": "",
+      "rules": _vm.policyBatchRule,
+      "inline": true,
+      "label-width": "100px"
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "政策公式",
+      "prop": "allot_policy_formula"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "472px"
+    },
+    attrs: {
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.policyBatch.allot_policy_formula),
+      callback: function($$v) {
+        _vm.$set(_vm.policyBatch, "allot_policy_formula", $$v)
+      },
+      expression: "policyBatch.allot_policy_formula"
+    }
+  }, [_c('el-option', {
+    key: "1",
+    attrs: {
+      "label": "中标价*政策点数",
+      "value": "1"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "2",
+    attrs: {
+      "label": "中标价*政策点数-补点/费用票",
+      "value": "2"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "3",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数",
+      "value": "3"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "4",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数-补点/费用票",
+      "value": "4"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "5",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数",
+      "value": "5"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "6",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数-补点/费用票",
+      "value": "6"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "7",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分",
+      "value": "7"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "政策点数",
+      "prop": "allot_policy_percent",
+      "maxlength": 10
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "政策点数（如：60）"
+    },
+    model: {
+      value: (_vm.policyBatch.allot_policy_percent),
+      callback: function($$v) {
+        _vm.$set(_vm.policyBatch, "allot_policy_percent", $$v)
+      },
+      expression: "policyBatch.allot_policy_percent"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "调货联系人",
+      "prop": "allot_policy_contact_id"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "filterable": "",
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.policyBatch.allot_policy_contact_id),
+      callback: function($$v) {
+        _vm.$set(_vm.policyBatch, "allot_policy_contact_id", $$v)
+      },
+      expression: "policyBatch.allot_policy_contact_id"
+    }
+  }, [_c('el-option', {
+    key: "",
+    attrs: {
+      "label": "全部",
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.contacts), function(item) {
+    return _c('el-option', {
+      key: item.contacts_id,
+      attrs: {
+        "label": item.contacts_name,
+        "value": item.contacts_id
+      }
+    })
+  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "积分备注",
+      "prop": "allot_policy_remark"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "积分备注"
+    },
+    model: {
+      value: (_vm.policyBatch.allot_policy_remark),
+      callback: function($$v) {
+        _vm.$set(_vm.policyBatch, "allot_policy_remark", $$v)
+      },
+      expression: "policyBatch.allot_policy_remark"
+    }
+  })], 1)], 1), _vm._v(" "), _c('div', {
+    staticClass: "dialog-footer",
+    attrs: {
+      "slot": "footer"
+    },
+    slot: "footer"
+  }, [_c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    attrs: {
+      "size": "small"
+    },
+    on: {
+      "click": function($event) {
+        _vm.dialogFormVisibleBatch = false
+      }
+    }
+  }, [_vm._v("取 消")]), _vm._v(" "), _c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "small",
+      "loading": _vm.loading
+    },
+    on: {
+      "click": function($event) {
+        _vm.editSalesBatch('policyBatch')
+      }
+    }
+  }, [_vm._v("确 定")])], 1)], 1)], 1)
+},staticRenderFns: []}
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-67e5de66", module.exports)
+  }
 }
 
-function removeStyleElement(styleElement) {
-	styleElement.parentNode.removeChild(styleElement);
-	var idx = styleElementsInsertedAtTop.indexOf(styleElement);
-	if(idx >= 0) {
-		styleElementsInsertedAtTop.splice(idx, 1);
+/***/ }),
+
+/***/ 922:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(923);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(100)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-f1c491da!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./drugsSalesPolicy.vue", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-f1c491da!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./drugsSalesPolicy.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
 	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
 }
 
-function createStyleElement(options) {
-	var styleElement = document.createElement("style");
-	styleElement.type = "text/css";
-	insertStyleElement(options, styleElement);
-	return styleElement;
+/***/ }),
+
+/***/ 923:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.copy_form .search .el-form-item__label {\n  padding-left: 0px !important;\n}\n.copy_form .el-form--inline .el-form-item{\n  margin-right: 4px !important;\n}\n.copy_form  .el-form-item.is-required:not(.is-no-asterisk)>.el-form-item__label:before{\n  display: none;\n}\n.el-collapse-item__content > div{\n  display: inline-block;\n  width: 30%;\n}\n.el-collapse-item__content > div > span{\n  display: inline-block;\n  width: 56px;\n  text-align: right;\n  padding-right: 10px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 924:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+  data: function data() {
+    var _this = this;
+
+    var validateBatchPercent = function validateBatchPercent(rule, value, callback) {
+      if (!value && _this.policy.sale_policy_formula != '8') {
+        callback(new Error('请再输入政策点数'));
+      } else if (value && !/^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/.test(value)) {
+        callback(new Error('请输入正确的政策点数'));
+      } else {
+        _this.policy.sale_policy_money = _this.getShouldPayMoney(_this.policy.sale_policy_formula, _this.drug.product_price, _this.drug.product_return_money, _this.policy.sale_policy_percent, 0, _this.policy.sale_policy_money);
+        _this.policy.sale_policy_money = Math.round(_this.policy.sale_policy_money * 100) / 100;
+        callback();
+      }
+    };
+    return {
+      drugPolicy: [],
+      hospitals: [],
+      contacts: [],
+      drug: {},
+      drugId: [],
+      params: {
+        hospitalId: "",
+        productCommonName: "",
+        sale_contact_id: "",
+        productCode: "",
+        requestFrom: "drugsSalesPolicy",
+        sale_policy_query_type: ""
+      },
+      policy: {
+        sale_policy_formula: "",
+        sale_policy_percent: "",
+        sale_policy_money: "",
+        sale_policy_contact_id: "",
+        sale_policy_remark: ""
+      },
+      policyBatch: {
+        sale_policy_formula: "1",
+        sale_policy_percent: "",
+        sale_policy_contact_id: "",
+        sale_policy_remark: ""
+      },
+      policyBatchRule: {
+        sale_policy_percent: [{ validator: validateBatchPercent, trigger: 'blur' }],
+        sale_policy_contact_id: [{ required: true, message: '请选择联系人', trigger: 'change' }]
+      },
+      authCode: "",
+      pageNum: 10,
+      currentPage: 1,
+      count: 0,
+      dialogFormVisible: false,
+      dialogFormVisibleBatch: false,
+      loading: false
+    };
+  },
+  activated: function activated() {
+    this.params.productCode = this.$route.query.productCode;
+    this.getHospitals();
+    this.getContacts();
+    this.getSalesPolicy();
+    this.authCode = "," + JSON.parse(sessionStorage["user"]).authority_code;
+  },
+
+  methods: {
+    formulaChange: function formulaChange() {
+      // if(this.policy.sale_policy_percent){
+      this.policy.sale_policy_money = this.getShouldPayMoney(this.policy.sale_policy_formula, this.drug.product_price, this.drug.product_return_money, this.policy.sale_policy_percent, 0, this.policy.sale_policy_money);
+      this.policy.sale_policy_money = Math.round(this.policy.sale_policy_money * 100) / 100;
+      // }
+    },
+    exportSalePolicy: function exportSalePolicy() {
+      var url = this.$bus.data.host + "/iae/salesPolicy/exportSalesPolicy";
+      this.download(url, this.params);
+    },
+    formatterFormula: function formatterFormula(row, column, cellValue, index) {
+      var message = "";
+      switch (cellValue) {
+        case "1":
+          message = "中标价*政策点数";
+          break;
+        case "2":
+          message = "中标价*政策点数-补点/费用票";
+          break;
+        case "3":
+          message = "实收上游积分或上游政策积分*政策点数";
+          break;
+        case "4":
+          message = "实收上游积分或上游政策积分*政策点数-补点/费用票";
+          break;
+        case "5":
+          message = "实收上游积分或上游政策积分-中标价*政策点数";
+          break;
+        case "6":
+          message = "实收上游积分或上游政策积分-中标价*政策点数-补点/费用票";
+          break;
+        case "7":
+          message = "实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分";
+          break;
+        case "8":
+          message = "固定政策（上游政策修改后，需几时调整下游政策）";
+          break;
+        default:
+
+      }
+      return message;
+    },
+    formatterPercent: function formatterPercent(row, column, cellValue, index) {
+      if (!this.isEmpty(row.sale_policy_money) && !this.isEmpty(row.product_return_money)) {
+        return Math.round(row.sale_policy_money * 100 / row.product_return_money) + "%";
+      } else {
+        return "";
+      }
+    },
+    selectionChange: function selectionChange(val) {
+      this.drugId = [];
+      for (var i = 0; i < val.length; i++) {
+        this.drugId.push({
+          id: val[i].product_id,
+          price: val[i].product_price,
+          product_code: val[i].product_code,
+          returnMoney: val[i].product_return_money,
+          hospitalId: val[i].hospital_id
+        });
+      }
+    },
+    editRow: function editRow(scope) {
+      //编辑药品信息
+      this.dialogFormVisible = true;
+      var temp = JSON.stringify(scope.row);
+      this.drug = JSON.parse(temp);
+      this.policy.front_message = JSON.stringify({
+        sale_policy_money: this.drug.sale_policy_money,
+        sale_policy_contact_id: this.drug.sale_policy_contact_id,
+        sale_policy_remark: this.drug.sale_policy_remark,
+        sale_policy_percent: this.drug.sale_policy_percent,
+        sale_policy_formula: this.drug.sale_policy_formula
+      });
+      this.policy.sale_policy_formula = this.drug.sale_policy_formula;
+      this.policy.sale_policy_percent = this.drug.sale_policy_percent;
+      this.policy.sale_policy_money = this.drug.sale_policy_money;
+      this.policy.sale_policy_contact_id = this.drug.sale_policy_contact_id;
+      this.policy.sale_policy_remark = this.drug.sale_policy_remark;
+      this.policy.product_price = this.drug.product_price;
+      this.policy.product_return_money = this.drug.product_return_money;
+    },
+    editBatchRow: function editBatchRow() {
+      if (this.drugId.length > 0) {
+        this.dialogFormVisibleBatch = true;
+      }
+    },
+    getContacts: function getContacts() {
+      var _self = this;
+      this.jquery('/iae/contacts/getAllContacts', { group_id: 0, contact_type: ['业务员'] }, function (res) {
+        _self.contacts = res.message;
+      });
+    },
+    getSalesPolicy: function getSalesPolicy() {
+      var _self = this;
+      if (!_self.currentPage) {
+        _self.currentPage = 1;
+      }
+      if (!_self.pageNum) {
+        _self.pageNum = 10;
+      }
+      var page = {
+        start: (_self.currentPage - 1) * _self.pageNum,
+        limit: _self.pageNum
+      };
+      this.jquery('/iae/salesPolicy/getSalesPolicy', {
+        data: _self.params,
+        page: page
+      }, function (res) {
+        _self.drugPolicy = res.message.data;
+        _self.pageNum = parseInt(res.message.limit);
+        _self.count = res.message.totalCount;
+      });
+    },
+    editSales: function editSales(formName) {
+      var _this2 = this;
+
+      var _self = this;
+      _self.policy.sale_hospital_id = this.drug.sale_hospital_id;
+      _self.policy.sale_drug_id = this.drug.product_id;
+      _self.policy.product_code = this.drug.product_code;
+      this.$refs[formName].validate(function (valid) {
+        if (valid) {
+          _this2.loading = true;
+          _self.jquery('/iae/salesPolicy/editSalesPolicy', _self.policy, function (res) {
+            _self.dialogFormVisible = false;
+            _self.loading = false;
+            _self.$message({ showClose: true, message: '修改成功', type: 'success' });
+            _self.getSalesPolicy();
+          });
+        } else {
+          return false;
+        }
+      });
+    },
+    editSalesBatch: function editSalesBatch(formName) {
+      var _this3 = this;
+
+      var _self = this;
+      _self.policyBatch.sale_hospital_id = this.params.hospitalId;
+      _self.policyBatch.saleDrugs = this.drugId;
+      this.$refs[formName].validate(function (valid) {
+        if (valid) {
+          _this3.loading = true;
+          _self.jquery('/iae/salesPolicy/editSalesPolicyBatch', _self.policyBatch, function (res) {
+            _self.$refs["policyBatch"].resetFields();
+            _self.dialogFormVisibleBatch = false;
+            _self.loading = false;
+            _self.getSalesPolicy();
+            _self.$message({ showClose: true, message: '批量修改成功', type: 'success' });
+          });
+        } else {
+          return false;
+        }
+      });
+    },
+    getHospitals: function getHospitals() {
+      var _self = this;
+      this.jquery('/iae/hospitals/getAllHospitals', { hospital_type: '销售单位' }, function (res) {
+        _self.hospitals = res.message;
+      });
+    },
+    reSearch: function reSearch(arg) {
+      this.$refs["params"].resetFields();
+      this.currentPage = 1;
+      this.getSalesPolicy();
+    },
+    handleSizeChange: function handleSizeChange(val) {
+      this.pageNum = val;
+      this.currentPage = 1;
+      this.getSalesPolicy();
+    },
+    handleCurrentChange: function handleCurrentChange(val) {
+      this.currentPage = val;
+      this.getSalesPolicy();
+    }
+  }
+};
+
+/***/ }),
+
+/***/ 925:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('el-breadcrumb', {
+    attrs: {
+      "separator-class": "el-icon-arrow-right"
+    }
+  }, [_c('el-breadcrumb-item', [_vm._v("药品管理")]), _vm._v(" "), _c('el-breadcrumb-item', {
+    attrs: {
+      "to": {
+        path: '/main/drugspolicy'
+      }
+    }
+  }, [_vm._v("药品政策管理（下游）")]), _vm._v(" "), _c('el-breadcrumb-item', [_vm._v("销售政策管理")])], 1), _vm._v(" "), _c('el-form', {
+    ref: "params",
+    staticClass: "demo-form-inline search",
+    attrs: {
+      "inline": true,
+      "model": _vm.params,
+      "size": "mini"
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "销往单位",
+      "prop": "hospitalId"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "filterable": "",
+      "size": "mini",
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.params.hospitalId),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "hospitalId", $$v)
+      },
+      expression: "params.hospitalId"
+    }
+  }, _vm._l((_vm.hospitals), function(item) {
+    return _c('el-option', {
+      key: item.hospital_id,
+      attrs: {
+        "label": item.hospital_name,
+        "value": item.hospital_id
+      }
+    })
+  }))], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "　业务员",
+      "prop": "sale_contact_id"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "filterable": "",
+      "size": "mini",
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.params.sale_contact_id),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "sale_contact_id", $$v)
+      },
+      expression: "params.sale_contact_id"
+    }
+  }, [_c('el-option', {
+    key: "",
+    attrs: {
+      "label": "全部",
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.contacts), function(item) {
+    return _c('el-option', {
+      key: item.contacts_id,
+      attrs: {
+        "label": item.contacts_name,
+        "value": item.contacts_id
+      }
+    })
+  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "是否设置",
+      "prop": "sale_policy_query_type"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "filterable": "",
+      "size": "mini",
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.params.sale_policy_query_type),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "sale_policy_query_type", $$v)
+      },
+      expression: "params.sale_policy_query_type"
+    }
+  }, [_c('el-option', {
+    key: "",
+    attrs: {
+      "label": "全部",
+      "value": ""
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "已设置",
+    attrs: {
+      "label": "已设置",
+      "value": "已设置"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "未设置",
+    attrs: {
+      "label": "未设置",
+      "value": "未设置"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }, {
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.authCode.indexOf(',130,') > -1),
+      expression: "authCode.indexOf(',130,') > -1"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "mini"
+    },
+    on: {
+      "click": function($event) {
+        _vm.getSalesPolicy()
+      }
+    }
+  }, [_vm._v("查询")]), _vm._v(" "), _c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }, {
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.authCode.indexOf(',130,') > -1),
+      expression: "authCode.indexOf(',130,') > -1"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "mini"
+    },
+    on: {
+      "click": function($event) {
+        _vm.reSearch(true)
+      }
+    }
+  }, [_vm._v("重置")]), _vm._v(" "), _c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "mini"
+    },
+    on: {
+      "click": function($event) {
+        _vm.$router.push('/main/drugspolicy');
+      }
+    }
+  }, [_vm._v("返回")])], 1)], 1), _vm._v(" "), _c('div', {
+    staticClass: "allot_policy"
+  }, [_c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }, {
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.authCode.indexOf(',131,') > -1),
+      expression: "authCode.indexOf(',131,') > -1"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "mini"
+    },
+    nativeOn: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.editBatchRow()
+      }
+    }
+  }, [_vm._v("批量修改")])], 1), _vm._v(" "), _c('el-table', {
+    staticStyle: {
+      "width": "100%"
+    },
+    attrs: {
+      "data": _vm.drugPolicy,
+      "size": "mini",
+      "stripe": true,
+      "border": true
+    },
+    on: {
+      "selection-change": _vm.selectionChange
+    }
+  }, [_c('el-table-column', {
+    attrs: {
+      "type": "selection",
+      "width": "55"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "fixed": "",
+      "prop": "hospital_name",
+      "label": "销往单位",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "fixed": "",
+      "prop": "product_common_name",
+      "label": "产品名称",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_code",
+      "label": "产品编码",
+      "width": "100"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_specifications",
+      "label": "产品规格",
+      "width": "100"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_makesmakers",
+      "label": "生产厂家",
+      "width": "150"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "business_name",
+      "label": "商业",
+      "width": "60"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_price",
+      "label": "中标价",
+      "width": "80"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_return_money",
+      "label": "积分",
+      "width": "80"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "sale_policy_money",
+      "label": "销售积分",
+      "width": "80"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "sale_policy_percent",
+      "label": "政策点数",
+      "width": "80"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "sale_policy_formula",
+      "label": "政策公式",
+      "width": "80",
+      "formatter": _vm.formatterFormula
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "business_name",
+      "label": "积分比例",
+      "width": "80",
+      "formatter": _vm.formatterPercent
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "sale_policy_remark",
+      "label": "积分备注",
+      "width": "80"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "contacts_name",
+      "label": "业务员"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "fixed": "right",
+      "label": "操作",
+      "width": "100"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(scope) {
+        return [_c('el-button', {
+          directives: [{
+            name: "dbClick",
+            rawName: "v-dbClick"
+          }, {
+            name: "show",
+            rawName: "v-show",
+            value: (_vm.authCode.indexOf(',131,') > -1),
+            expression: "authCode.indexOf(',131,') > -1"
+          }],
+          attrs: {
+            "icon": "el-icon-edit-outline",
+            "type": "primary",
+            "size": "mini"
+          },
+          nativeOn: {
+            "click": function($event) {
+              $event.preventDefault();
+              _vm.editRow(scope)
+            }
+          }
+        })]
+      }
+    }])
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "page_div"
+  }, [_c('el-pagination', {
+    attrs: {
+      "background": "",
+      "current-page": _vm.currentPage,
+      "page-sizes": [5, 10, 50, 100],
+      "page-size": _vm.pageNum,
+      "layout": "total, sizes, prev, pager, next",
+      "total": _vm.count
+    },
+    on: {
+      "size-change": _vm.handleSizeChange,
+      "current-change": _vm.handleCurrentChange
+    }
+  })], 1), _vm._v(" "), _c('el-dialog', {
+    attrs: {
+      "title": "修改销售政策",
+      "width": "700px",
+      "visible": _vm.dialogFormVisible
+    },
+    on: {
+      "update:visible": function($event) {
+        _vm.dialogFormVisible = $event
+      }
+    }
+  }, [_c('el-collapse', {
+    staticStyle: {
+      "text-align": "left"
+    },
+    model: {
+      value: (_vm.activeNames),
+      callback: function($$v) {
+        _vm.activeNames = $$v
+      },
+      expression: "activeNames"
+    }
+  }, [_c('el-collapse-item', {
+    attrs: {
+      "title": '药品信息（药品名：' + _vm.drug.product_common_name + '）',
+      "name": "1"
+    }
+  }, [_c('div', [_c('span', [_vm._v("规格:")]), _vm._v(_vm._s(_vm.drug.product_specifications))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("中标价:")]), _vm._v(_vm._s(_vm.drug.product_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("积分:")]), _vm._v(_vm._s(_vm.drug.product_return_money))]), _vm._v(" "), _c('div', {
+    staticStyle: {
+      "display": "block",
+      "width": "100%"
+    }
+  }, [_c('span', [_vm._v("生产厂家:")]), _vm._v(_vm._s(_vm.drug.product_makesmakers))])])], 1), _vm._v(" "), _c('el-form', {
+    ref: "sale",
+    staticClass: "demo-ruleForm",
+    staticStyle: {
+      "margin-top": "20px"
+    },
+    attrs: {
+      "model": _vm.policy,
+      "status-icon": "",
+      "rules": _vm.policyBatchRule,
+      "inline": true,
+      "label-width": "100px"
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "政策公式",
+      "prop": "sale_policy_formula"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "472px"
+    },
+    attrs: {
+      "placeholder": "请选择"
+    },
+    on: {
+      "change": _vm.formulaChange
+    },
+    model: {
+      value: (_vm.policy.sale_policy_formula),
+      callback: function($$v) {
+        _vm.$set(_vm.policy, "sale_policy_formula", $$v)
+      },
+      expression: "policy.sale_policy_formula"
+    }
+  }, [_c('el-option', {
+    key: "1",
+    attrs: {
+      "label": "中标价*政策点数",
+      "value": "1"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "2",
+    attrs: {
+      "label": "中标价*政策点数-补点/费用票",
+      "value": "2"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "3",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数",
+      "value": "3"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "4",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数-补点/费用票",
+      "value": "4"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "5",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数",
+      "value": "5"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "6",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数-补点/费用票",
+      "value": "6"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "7",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分",
+      "value": "7"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "8",
+    attrs: {
+      "label": "固定政策（上游政策修改后，需手动调整下游政策）",
+      "value": "8"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.policy.sale_policy_formula != '8'),
+      expression: "policy.sale_policy_formula != '8'"
+    }],
+    attrs: {
+      "label": "政策点数",
+      "prop": "sale_policy_percent",
+      "maxlength": 10
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "政策点数（如：60）"
+    },
+    model: {
+      value: (_vm.policy.sale_policy_percent),
+      callback: function($$v) {
+        _vm.$set(_vm.policy, "sale_policy_percent", $$v)
+      },
+      expression: "policy.sale_policy_percent"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "销售积分",
+      "prop": "sale_policy_money",
+      "maxlength": 10
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "销售积分"
+    },
+    model: {
+      value: (_vm.policy.sale_policy_money),
+      callback: function($$v) {
+        _vm.$set(_vm.policy, "sale_policy_money", $$v)
+      },
+      expression: "policy.sale_policy_money"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "业务员",
+      "prop": "sale_policy_contact_id"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "filterable": "",
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.policy.sale_policy_contact_id),
+      callback: function($$v) {
+        _vm.$set(_vm.policy, "sale_policy_contact_id", $$v)
+      },
+      expression: "policy.sale_policy_contact_id"
+    }
+  }, [_c('el-option', {
+    key: "",
+    attrs: {
+      "label": "",
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.contacts), function(item) {
+    return _c('el-option', {
+      key: item.contacts_id,
+      attrs: {
+        "label": item.contacts_name,
+        "value": item.contacts_id
+      }
+    })
+  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "积分备注",
+      "prop": "sale_policy_remark"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "积分备注"
+    },
+    model: {
+      value: (_vm.policy.sale_policy_remark),
+      callback: function($$v) {
+        _vm.$set(_vm.policy, "sale_policy_remark", $$v)
+      },
+      expression: "policy.sale_policy_remark"
+    }
+  })], 1)], 1), _vm._v(" "), _c('div', {
+    staticClass: "dialog-footer",
+    attrs: {
+      "slot": "footer"
+    },
+    slot: "footer"
+  }, [_c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    attrs: {
+      "size": "small"
+    },
+    on: {
+      "click": function($event) {
+        _vm.dialogFormVisible = false
+      }
+    }
+  }, [_vm._v("取 消")]), _vm._v(" "), _c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "small",
+      "loading": _vm.loading
+    },
+    on: {
+      "click": function($event) {
+        _vm.editSales('sale')
+      }
+    }
+  }, [_vm._v("确 定")])], 1)], 1), _vm._v(" "), _c('el-dialog', {
+    attrs: {
+      "title": "批量修改销售政策",
+      "width": "700px",
+      "visible": _vm.dialogFormVisibleBatch
+    },
+    on: {
+      "update:visible": function($event) {
+        _vm.dialogFormVisibleBatch = $event
+      }
+    }
+  }, [_c('el-form', {
+    ref: "policyBatch",
+    staticClass: "demo-ruleForm",
+    staticStyle: {
+      "margin-top": "20px"
+    },
+    attrs: {
+      "model": _vm.policyBatch,
+      "status-icon": "",
+      "rules": _vm.policyBatchRule,
+      "inline": true,
+      "label-width": "100px"
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "政策公式",
+      "prop": "sale_policy_formula"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "472px"
+    },
+    attrs: {
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.policyBatch.sale_policy_formula),
+      callback: function($$v) {
+        _vm.$set(_vm.policyBatch, "sale_policy_formula", $$v)
+      },
+      expression: "policyBatch.sale_policy_formula"
+    }
+  }, [_c('el-option', {
+    key: "1",
+    attrs: {
+      "label": "中标价*政策点数",
+      "value": "1"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "2",
+    attrs: {
+      "label": "中标价*政策点数-补点/费用票",
+      "value": "2"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "3",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数",
+      "value": "3"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "4",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数-补点/费用票",
+      "value": "4"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "5",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数",
+      "value": "5"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "6",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数-补点/费用票",
+      "value": "6"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "7",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分",
+      "value": "7"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "政策点数",
+      "prop": "sale_policy_percent",
+      "maxlength": 10
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "政策点数（如：60）"
+    },
+    model: {
+      value: (_vm.policyBatch.sale_policy_percent),
+      callback: function($$v) {
+        _vm.$set(_vm.policyBatch, "sale_policy_percent", $$v)
+      },
+      expression: "policyBatch.sale_policy_percent"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "调货联系人",
+      "prop": "sale_policy_contact_id"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "filterable": "",
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.policyBatch.sale_policy_contact_id),
+      callback: function($$v) {
+        _vm.$set(_vm.policyBatch, "sale_policy_contact_id", $$v)
+      },
+      expression: "policyBatch.sale_policy_contact_id"
+    }
+  }, [_c('el-option', {
+    key: "",
+    attrs: {
+      "label": "全部",
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.contacts), function(item) {
+    return _c('el-option', {
+      key: item.contacts_id,
+      attrs: {
+        "label": item.contacts_name,
+        "value": item.contacts_id
+      }
+    })
+  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "积分备注",
+      "prop": "sale_policy_remark"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "积分备注"
+    },
+    model: {
+      value: (_vm.policyBatch.sale_policy_remark),
+      callback: function($$v) {
+        _vm.$set(_vm.policyBatch, "sale_policy_remark", $$v)
+      },
+      expression: "policyBatch.sale_policy_remark"
+    }
+  })], 1)], 1), _vm._v(" "), _c('div', {
+    staticClass: "dialog-footer",
+    attrs: {
+      "slot": "footer"
+    },
+    slot: "footer"
+  }, [_c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    attrs: {
+      "size": "small"
+    },
+    on: {
+      "click": function($event) {
+        _vm.dialogFormVisibleBatch = false
+      }
+    }
+  }, [_vm._v("取 消")]), _vm._v(" "), _c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "small",
+      "loading": _vm.loading
+    },
+    on: {
+      "click": function($event) {
+        _vm.editSalesBatch('policyBatch')
+      }
+    }
+  }, [_vm._v("确 定")])], 1)], 1)], 1)
+},staticRenderFns: []}
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-f1c491da", module.exports)
+  }
 }
 
-function addStyle(obj, options) {
-	var styleElement, update, remove;
+/***/ }),
 
-	if (options.singleton) {
-		var styleIndex = singletonCounter++;
-		styleElement = singletonElement || (singletonElement = createStyleElement(options));
-		update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
-		remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
-	} else {
-		styleElement = createStyleElement(options);
-		update = applyToTag.bind(null, styleElement);
-		remove = function() {
-			removeStyleElement(styleElement);
-		};
+/***/ 926:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(927);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(100)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-5e54966e!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./drugsPurchasePayPolicy.vue", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-5e54966e!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./drugsPurchasePayPolicy.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
 	}
-
-	update(obj);
-
-	return function updateStyle(newObj) {
-		if(newObj) {
-			if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
-				return;
-			update(obj = newObj);
-		} else {
-			remove();
-		}
-	};
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
 }
 
-var replaceText = (function () {
-	var textStore = [];
+/***/ }),
 
-	return function (index, replacement) {
-		textStore[index] = replacement;
-		return textStore.filter(Boolean).join('\n');
-	};
-})();
+/***/ 927:
+/***/ (function(module, exports, __webpack_require__) {
 
-function applyToSingletonTag(styleElement, index, remove, obj) {
-	var css = remove ? "" : obj.css;
+exports = module.exports = __webpack_require__(2)();
+// imports
 
-	if (styleElement.styleSheet) {
-		styleElement.styleSheet.cssText = replaceText(index, css);
-	} else {
-		var cssNode = document.createTextNode(css);
-		var childNodes = styleElement.childNodes;
-		if (childNodes[index]) styleElement.removeChild(childNodes[index]);
-		if (childNodes.length) {
-			styleElement.insertBefore(cssNode, childNodes[index]);
-		} else {
-			styleElement.appendChild(cssNode);
-		}
-	}
+
+// module
+exports.push([module.i, "\n.copy_form .search .el-form-item__label {\n  padding-left: 0px !important;\n}\n.copy_form .el-form--inline .el-form-item{\n  margin-right: 4px !important;\n}\n.copy_form  .el-form-item.is-required:not(.is-no-asterisk)>.el-form-item__label:before{\n  display: none;\n}\n.el-collapse-item__content > div{\n  display: inline-block;\n  width: 30%;\n}\n.el-collapse-item__content > div > span{\n  display: inline-block;\n  width: 56px;\n  text-align: right;\n  padding-right: 10px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 928:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+  data: function data() {
+    var _this = this;
+
+    var validatePercent = function validatePercent(rule, value, callback) {
+      if (value && !/^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/.test(value)) {
+        callback(new Error('请再输入正确的' + rule.labelname));
+      } else {
+        var temp = "";
+        if (!_this.isEmpty(_this.policyPay.purchase_pay_policy_floor_price) && !_this.isEmpty(_this.policyPay.purchase_pay_policy_tax) && !_this.isEmpty(_this.policyPay.purchase_pay_policy_make_price)) {
+          temp = (_this.policyPay.purchase_pay_policy_make_price - _this.policyPay.purchase_pay_policy_floor_price) * (1 - _this.policyPay.purchase_pay_policy_tax / 100);
+        }
+        _this.policyPay.purchase_pay_policy_price = _this.policyPay.purchase_pay_policy_price ? _this.policyPay.purchase_pay_policy_price : temp;
+        _this.policyPay.purchase_pay_policy_price = _this.policyPay.purchase_pay_policy_price ? Math.round(_this.policyPay.purchase_pay_policy_price * 100) / 100 : "";
+        callback();
+      }
+    };
+    var validateMoney = function validateMoney(rule, value, callback) {
+      var reg = /^(([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)|([-]([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)))$/;
+      if (value && !reg.test(value)) {
+        callback(new Error('请输入正确的' + rule.labelname));
+      } else {
+        var temp = "";
+        if (!_this.isEmpty(_this.policyPay.purchase_pay_policy_floor_price) && !_this.isEmpty(_this.policyPay.purchase_pay_policy_tax) && !_this.isEmpty(_this.policyPay.purchase_pay_policy_make_price)) {
+          temp = (_this.policyPay.purchase_pay_policy_make_price - _this.policyPay.purchase_pay_policy_floor_price) * (1 - _this.policyPay.purchase_pay_policy_tax / 100);
+        }
+        _this.policyPay.purchase_pay_policy_price = _this.policyPay.purchase_pay_policy_price ? _this.policyPay.purchase_pay_policy_price : temp;
+        _this.policyPay.purchase_pay_policy_price = _this.policyPay.purchase_pay_policy_price ? Math.round(_this.policyPay.purchase_pay_policy_price * 100) / 100 : "";
+        callback();
+      }
+    };
+    return {
+      purchasePayPolicy: [],
+      hospitals: [],
+      contacts: [],
+      drug: {},
+      drugId: [],
+      params: {
+        contactId: "",
+        productCommonName: "",
+        productCode: "",
+        purchase_pay_query_type: "",
+        requestFrom: "drugsPurchasePayPolicy"
+      },
+      policyPay: {
+        purchase_pay_policy_floor_price: "",
+        purchase_pay_policy_tax: "",
+        purchase_pay_policy_price: "",
+        purchase_pay_policy_remark: "",
+        purchase_pay_contact_id: "",
+        purchase_pay_policy_make_price: ""
+      },
+      policyPayRule: {
+        purchase_pay_policy_tax: [{ validator: validatePercent, labelname: '高开税率', trigger: 'blur' }],
+        purchase_pay_policy_floor_price: [{ validator: validateMoney, labelname: '招商底价', trigger: 'blur' }],
+        purchase_pay_policy_make_price: [{ validator: validateMoney, labelname: '打款价', trigger: 'blur' }],
+        purchase_pay_policy_price: [{ validator: validateMoney, labelname: '招商积分', trigger: 'blur' }],
+        purchase_pay_contact_id: [{ required: true, message: '请选择联系人', trigger: 'change' }]
+      },
+      authCode: "",
+      pageNum: 10,
+      currentPage: 1,
+      count: 0,
+      dialogFormVisible: false,
+      dialogFormVisiblePolicy: false,
+      dialogFormVisibleBatch: false,
+      loading: false
+    };
+  },
+  activated: function activated() {
+    this.params.productCode = this.$route.query.productCode;
+    this.getContacts();
+    this.getPurchasePayPolicy();
+    this.authCode = "," + JSON.parse(sessionStorage["user"]).authority_code;
+  },
+
+  methods: {
+    editBatchRow: function editBatchRow() {
+      if (this.drugId.length > 0) {
+        this.policyPay = {
+          purchase_pay_policy_floor_price: "",
+          purchase_pay_policy_tax: "",
+          purchase_pay_policy_price: "",
+          purchase_pay_policy_remark: "",
+          purchase_pay_contact_id: "",
+          purchase_pay_policy_make_price: ""
+        };
+        this.dialogFormVisibleBatch = true;
+      }
+    },
+    selectionChange: function selectionChange(val) {
+      this.drugId = [];
+      for (var i = 0; i < val.length; i++) {
+        this.drugId.push({
+          id: val[i].product_id,
+          contacts_id: val[i].contacts_id1
+        });
+      }
+    },
+    exportPurchasePayPolicy: function exportPurchasePayPolicy() {
+      var url = this.$bus.data.host + "/iae/purchasePayPolicy/exportPurchasePayPolicy";
+      this.download(url, this.params);
+    },
+    editRow: function editRow(scope) {
+      //编辑药品信息
+      this.dialogFormVisible = true;
+      var temp = JSON.stringify(scope.row);
+      this.drug = JSON.parse(temp);
+      this.policyPay.front_message = JSON.stringify({
+        purchase_pay_policy_floor_price: this.drug.purchase_pay_policy_floor_price,
+        purchase_pay_policy_tax: this.drug.purchase_pay_policy_tax,
+        purchase_pay_policy_remark: this.drug.purchase_pay_policy_remark,
+        purchase_pay_policy_price: this.drug.purchase_pay_policy_price,
+        purchase_pay_contact_id: this.drug.contacts_id1
+      });
+      this.policyPay.purchase_pay_policy_floor_price = this.drug.purchase_pay_policy_floor_price;
+      this.policyPay.purchase_pay_policy_tax = this.drug.purchase_pay_policy_tax;
+      this.policyPay.purchase_pay_policy_remark = this.drug.purchase_pay_policy_remark;
+      this.policyPay.purchase_pay_policy_price = this.drug.purchase_pay_policy_price;
+      this.policyPay.purchase_pay_contact_id = this.drug.contacts_id1;
+      this.policyPay.purchase_pay_policy_drug_id = this.drug.product_id;
+      this.policyPay.purchase_pay_policy_make_price = this.drug.product_mack_price;
+    },
+    getContacts: function getContacts() {
+      var _self = this;
+      this.jquery('/iae/contacts/getAllContacts', { group_id: 0, contact_type: ['业务员'] }, function (res) {
+        _self.contacts = res.message;
+      });
+    },
+    getPurchasePayPolicy: function getPurchasePayPolicy() {
+      var _self = this;
+      if (!_self.currentPage) {
+        _self.currentPage = 1;
+      }
+      if (!_self.pageNum) {
+        _self.pageNum = 10;
+      }
+      var page = {
+        start: (_self.currentPage - 1) * _self.pageNum,
+        limit: _self.pageNum
+      };
+      this.jquery('/iae/purchasePayPolicy/getPurchasePayPolicy', {
+        data: _self.params,
+        page: page
+      }, function (res) {
+        _self.purchasePayPolicy = res.message.data;
+        _self.pageNum = parseInt(res.message.limit);
+        _self.count = res.message.totalCount;
+      });
+    },
+    editPurchasePayBatchPolicy: function editPurchasePayBatchPolicy(formName) {
+      var _this2 = this;
+
+      var _self = this;
+      _self.policyPay.purchasePayDrugs = this.drugId;
+      this.$refs[formName].validate(function (valid) {
+        if (valid) {
+          _this2.loading = true;
+          _self.jquery('/iae/purchasePayPolicy/editPurchasePayBatchPolicy', _self.policyPay, function (res) {
+            _self.dialogFormVisibleBatch = false;
+            _self.loading = false;
+            _self.$message({ showClose: true, message: '修改成功', type: 'success' });
+            _self.getPurchasePayPolicy();
+          });
+        } else {
+          return false;
+        }
+      });
+    },
+    editPurchasePayPolicy: function editPurchasePayPolicy(formName) {
+      var _this3 = this;
+
+      var _self = this;
+      this.$refs[formName].validate(function (valid) {
+        if (valid) {
+          _this3.loading = true;
+          _self.jquery('/iae/purchasePayPolicy/editPurchasePayPolicy', _self.policyPay, function (res) {
+            _self.dialogFormVisible = false;
+            _self.loading = false;
+            _self.$message({ showClose: true, message: '修改成功', type: 'success' });
+            _self.getPurchasePayPolicy();
+          });
+        } else {
+          return false;
+        }
+      });
+    },
+    reSearch: function reSearch(arg) {
+      this.$refs["params"].resetFields();
+      this.currentPage = 1;
+      this.getPurchasePayPolicy();
+    },
+    handleSizeChange: function handleSizeChange(val) {
+      this.pageNum = val;
+      this.currentPage = 1;
+      this.getPurchasePayPolicy();
+    },
+    handleCurrentChange: function handleCurrentChange(val) {
+      this.currentPage = val;
+      this.getPurchasePayPolicy();
+    }
+  }
+};
+
+/***/ }),
+
+/***/ 929:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('el-breadcrumb', {
+    attrs: {
+      "separator-class": "el-icon-arrow-right"
+    }
+  }, [_c('el-breadcrumb-item', [_vm._v("药品管理")]), _vm._v(" "), _c('el-breadcrumb-item', {
+    attrs: {
+      "to": {
+        path: '/main/drugspolicy'
+      }
+    }
+  }, [_vm._v("药品政策管理（下游）")]), _vm._v(" "), _c('el-breadcrumb-item', [_vm._v("预付招商政策管理")])], 1), _vm._v(" "), _c('el-form', {
+    ref: "params",
+    staticClass: "demo-form-inline search",
+    attrs: {
+      "inline": true,
+      "model": _vm.params,
+      "size": "mini"
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "联系人",
+      "prop": "contactId"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "filterable": "",
+      "size": "mini",
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.params.contactId),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "contactId", $$v)
+      },
+      expression: "params.contactId"
+    }
+  }, [_c('el-option', {
+    key: "",
+    attrs: {
+      "label": "全部",
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.contacts), function(item) {
+    return _c('el-option', {
+      key: item.contacts_id,
+      attrs: {
+        "label": item.contacts_name,
+        "value": item.contacts_id
+      }
+    })
+  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "是否设置",
+      "prop": "purchase_pay_query_type"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "filterable": "",
+      "size": "mini",
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.params.purchase_pay_query_type),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "purchase_pay_query_type", $$v)
+      },
+      expression: "params.purchase_pay_query_type"
+    }
+  }, [_c('el-option', {
+    key: "",
+    attrs: {
+      "label": "全部",
+      "value": ""
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "已设置",
+    attrs: {
+      "label": "已设置",
+      "value": "已设置"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "未设置",
+    attrs: {
+      "label": "未设置",
+      "value": "未设置"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }, {
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.authCode.indexOf(',159,') > -1),
+      expression: "authCode.indexOf(',159,') > -1"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "mini"
+    },
+    on: {
+      "click": function($event) {
+        _vm.getPurchasePayPolicy()
+      }
+    }
+  }, [_vm._v("查询")]), _vm._v(" "), _c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }, {
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.authCode.indexOf(',159,') > -1),
+      expression: "authCode.indexOf(',159,') > -1"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "mini"
+    },
+    on: {
+      "click": function($event) {
+        _vm.reSearch(true)
+      }
+    }
+  }, [_vm._v("重置")]), _vm._v(" "), _c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "mini"
+    },
+    on: {
+      "click": function($event) {
+        _vm.$router.push('/main/drugspolicy');
+      }
+    }
+  }, [_vm._v("返回")])], 1)], 1), _vm._v(" "), _c('div', {
+    staticClass: "allot_policy"
+  }, [_c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }, {
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.authCode.indexOf(',160,') > -1),
+      expression: "authCode.indexOf(',160,') > -1"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "mini"
+    },
+    nativeOn: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.editBatchRow()
+      }
+    }
+  }, [_vm._v("批量修改")])], 1), _vm._v(" "), _c('el-table', {
+    staticStyle: {
+      "width": "100%"
+    },
+    attrs: {
+      "data": _vm.purchasePayPolicy,
+      "size": "mini",
+      "stripe": true,
+      "border": true
+    },
+    on: {
+      "selection-change": _vm.selectionChange
+    }
+  }, [_c('el-table-column', {
+    attrs: {
+      "type": "selection",
+      "width": "55"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "fixed": "",
+      "prop": "contacts_name",
+      "label": "业务员",
+      "width": "80"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "fixed": "",
+      "prop": "product_common_name",
+      "label": "产品名称",
+      "width": "120"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_code",
+      "label": "产品编码",
+      "width": "100"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_specifications",
+      "label": "产品规格",
+      "width": "100"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_makesmakers",
+      "label": "生产厂家",
+      "width": "150"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "business_name",
+      "label": "商业",
+      "width": "60"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_price",
+      "label": "中标价",
+      "width": "80"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "purchase_pay_policy_make_price",
+      "label": "打款价",
+      "width": "80"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_return_money",
+      "label": "积分",
+      "width": "80"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "purchase_pay_policy_price",
+      "label": "预付政策积分",
+      "width": "100"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "purchase_pay_policy_remark",
+      "label": "积分备注"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "fixed": "right",
+      "label": "操作",
+      "width": "100"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(scope) {
+        return [_c('el-button', {
+          directives: [{
+            name: "dbClick",
+            rawName: "v-dbClick"
+          }, {
+            name: "show",
+            rawName: "v-show",
+            value: (_vm.authCode.indexOf(',160,') > -1),
+            expression: "authCode.indexOf(',160,') > -1"
+          }],
+          attrs: {
+            "icon": "el-icon-edit-outline",
+            "type": "primary",
+            "size": "mini"
+          },
+          nativeOn: {
+            "click": function($event) {
+              $event.preventDefault();
+              _vm.editRow(scope)
+            }
+          }
+        })]
+      }
+    }])
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "page_div"
+  }, [_c('el-pagination', {
+    attrs: {
+      "background": "",
+      "current-page": _vm.currentPage,
+      "page-sizes": [5, 10, 50, 100],
+      "page-size": _vm.pageNum,
+      "layout": "total, sizes, prev, pager, next",
+      "total": _vm.count
+    },
+    on: {
+      "size-change": _vm.handleSizeChange,
+      "current-change": _vm.handleCurrentChange
+    }
+  })], 1), _vm._v(" "), _c('el-dialog', {
+    attrs: {
+      "title": "修改销售政策",
+      "width": "700px",
+      "visible": _vm.dialogFormVisible
+    },
+    on: {
+      "update:visible": function($event) {
+        _vm.dialogFormVisible = $event
+      }
+    }
+  }, [_c('el-collapse', {
+    staticStyle: {
+      "text-align": "left"
+    },
+    model: {
+      value: (_vm.activeNames),
+      callback: function($$v) {
+        _vm.activeNames = $$v
+      },
+      expression: "activeNames"
+    }
+  }, [_c('el-collapse-item', {
+    attrs: {
+      "title": '药品信息（药品名：' + _vm.drug.product_common_name + '）',
+      "name": "1"
+    }
+  }, [_c('div', [_c('span', [_vm._v("规格:")]), _vm._v(_vm._s(_vm.drug.product_specifications))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("底价:")]), _vm._v(_vm._s(_vm.drug.product_floor_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("高开税率:")]), _vm._v(_vm._s(_vm.drug.product_high_discount) + "%")]), _vm._v(" "), _c('div', [_c('span', [_vm._v("打款价:")]), _vm._v(_vm._s(_vm.drug.product_mack_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("积分:")]), _vm._v(_vm._s(_vm.drug.product_return_money))]), _vm._v(" "), _c('div', {
+    staticStyle: {
+      "display": "block",
+      "width": "100%"
+    }
+  }, [_c('span', [_vm._v("生产厂家:")]), _vm._v(_vm._s(_vm.drug.product_makesmakers))])])], 1), _vm._v(" "), _c('el-form', {
+    ref: "policyPay",
+    staticClass: "demo-ruleForm",
+    staticStyle: {
+      "margin-top": "20px"
+    },
+    attrs: {
+      "model": _vm.policyPay,
+      "status-icon": "",
+      "rules": _vm.policyPayRule,
+      "inline": true,
+      "label-width": "100px"
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "联系人",
+      "prop": "purchase_pay_contact_id"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "filterable": "",
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.policyPay.purchase_pay_contact_id),
+      callback: function($$v) {
+        _vm.$set(_vm.policyPay, "purchase_pay_contact_id", $$v)
+      },
+      expression: "policyPay.purchase_pay_contact_id"
+    }
+  }, _vm._l((_vm.contacts), function(item) {
+    return _c('el-option', {
+      key: item.contacts_id,
+      attrs: {
+        "label": item.contacts_name,
+        "value": item.contacts_id
+      }
+    })
+  }))], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "打款价",
+      "prop": "purchase_pay_policy_make_price",
+      "maxlength": 10
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "打款价"
+    },
+    model: {
+      value: (_vm.policyPay.purchase_pay_policy_make_price),
+      callback: function($$v) {
+        _vm.$set(_vm.policyPay, "purchase_pay_policy_make_price", $$v)
+      },
+      expression: "policyPay.purchase_pay_policy_make_price"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "招商底价",
+      "prop": "purchase_pay_policy_floor_price",
+      "maxlength": 10
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "招商底价"
+    },
+    model: {
+      value: (_vm.policyPay.purchase_pay_policy_floor_price),
+      callback: function($$v) {
+        _vm.$set(_vm.policyPay, "purchase_pay_policy_floor_price", $$v)
+      },
+      expression: "policyPay.purchase_pay_policy_floor_price"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "高开税率",
+      "prop": "purchase_pay_policy_tax"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "高开税率"
+    },
+    model: {
+      value: (_vm.policyPay.purchase_pay_policy_tax),
+      callback: function($$v) {
+        _vm.$set(_vm.policyPay, "purchase_pay_policy_tax", $$v)
+      },
+      expression: "policyPay.purchase_pay_policy_tax"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "招商积分",
+      "prop": "purchase_pay_policy_price",
+      "maxlength": 10
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "招商积分"
+    },
+    model: {
+      value: (_vm.policyPay.purchase_pay_policy_price),
+      callback: function($$v) {
+        _vm.$set(_vm.policyPay, "purchase_pay_policy_price", $$v)
+      },
+      expression: "policyPay.purchase_pay_policy_price"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "积分备注",
+      "prop": "purchase_pay_policy_remark"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "积分备注"
+    },
+    model: {
+      value: (_vm.policyPay.purchase_pay_policy_remark),
+      callback: function($$v) {
+        _vm.$set(_vm.policyPay, "purchase_pay_policy_remark", $$v)
+      },
+      expression: "policyPay.purchase_pay_policy_remark"
+    }
+  })], 1)], 1), _vm._v(" "), _c('div', {
+    staticClass: "dialog-footer",
+    attrs: {
+      "slot": "footer"
+    },
+    slot: "footer"
+  }, [_c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    attrs: {
+      "size": "small"
+    },
+    on: {
+      "click": function($event) {
+        _vm.dialogFormVisible = false
+      }
+    }
+  }, [_vm._v("取 消")]), _vm._v(" "), _c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "small",
+      "loading": _vm.loading
+    },
+    on: {
+      "click": function($event) {
+        _vm.editPurchasePayPolicy('policyPay')
+      }
+    }
+  }, [_vm._v("确 定")])], 1)], 1), _vm._v(" "), _c('el-dialog', {
+    attrs: {
+      "title": "批量修改调货政策",
+      "width": "700px",
+      "visible": _vm.dialogFormVisibleBatch
+    },
+    on: {
+      "update:visible": function($event) {
+        _vm.dialogFormVisibleBatch = $event
+      }
+    }
+  }, [_c('el-form', {
+    ref: "policyBatch",
+    staticClass: "demo-ruleForm",
+    staticStyle: {
+      "margin-top": "20px"
+    },
+    attrs: {
+      "model": _vm.policyPay,
+      "status-icon": "",
+      "rules": _vm.policyPayRule,
+      "inline": true,
+      "label-width": "100px"
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "打款价",
+      "prop": "purchase_pay_policy_make_price",
+      "maxlength": 10
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "打款价"
+    },
+    model: {
+      value: (_vm.policyPay.purchase_pay_policy_make_price),
+      callback: function($$v) {
+        _vm.$set(_vm.policyPay, "purchase_pay_policy_make_price", $$v)
+      },
+      expression: "policyPay.purchase_pay_policy_make_price"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "招商底价",
+      "prop": "purchase_pay_policy_floor_price",
+      "maxlength": 10
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "招商底价"
+    },
+    model: {
+      value: (_vm.policyPay.purchase_pay_policy_floor_price),
+      callback: function($$v) {
+        _vm.$set(_vm.policyPay, "purchase_pay_policy_floor_price", $$v)
+      },
+      expression: "policyPay.purchase_pay_policy_floor_price"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "高开税率",
+      "prop": "purchase_pay_policy_tax"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "高开税率"
+    },
+    model: {
+      value: (_vm.policyPay.purchase_pay_policy_tax),
+      callback: function($$v) {
+        _vm.$set(_vm.policyPay, "purchase_pay_policy_tax", $$v)
+      },
+      expression: "policyPay.purchase_pay_policy_tax"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "招商积分",
+      "prop": "purchase_pay_policy_price",
+      "maxlength": 10
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "招商积分"
+    },
+    model: {
+      value: (_vm.policyPay.purchase_pay_policy_price),
+      callback: function($$v) {
+        _vm.$set(_vm.policyPay, "purchase_pay_policy_price", $$v)
+      },
+      expression: "policyPay.purchase_pay_policy_price"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "积分备注",
+      "prop": "purchase_pay_policy_remark"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "积分备注"
+    },
+    model: {
+      value: (_vm.policyPay.purchase_pay_policy_remark),
+      callback: function($$v) {
+        _vm.$set(_vm.policyPay, "purchase_pay_policy_remark", $$v)
+      },
+      expression: "policyPay.purchase_pay_policy_remark"
+    }
+  })], 1)], 1), _vm._v(" "), _c('div', {
+    staticClass: "dialog-footer",
+    attrs: {
+      "slot": "footer"
+    },
+    slot: "footer"
+  }, [_c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    attrs: {
+      "size": "small"
+    },
+    on: {
+      "click": function($event) {
+        _vm.dialogFormVisibleBatch = false
+      }
+    }
+  }, [_vm._v("取 消")]), _vm._v(" "), _c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "small",
+      "loading": _vm.loading
+    },
+    on: {
+      "click": function($event) {
+        _vm.editPurchasePayBatchPolicy('policyBatch')
+      }
+    }
+  }, [_vm._v("确 定")])], 1)], 1)], 1)
+},staticRenderFns: []}
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-5e54966e", module.exports)
+  }
 }
-
-function applyToTag(styleElement, obj) {
-	var css = obj.css;
-	var media = obj.media;
-	var sourceMap = obj.sourceMap;
-
-	if (media) {
-		styleElement.setAttribute("media", media);
-	}
-
-	if (sourceMap) {
-		// https://developer.chrome.com/devtools/docs/javascript-debugging
-		// this makes source maps inside style tags work properly in Chrome
-		css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */';
-		// http://stackoverflow.com/a/26603875
-		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
-	}
-
-	if (styleElement.styleSheet) {
-		styleElement.styleSheet.cssText = css;
-	} else {
-		while(styleElement.firstChild) {
-			styleElement.removeChild(styleElement.firstChild);
-		}
-		styleElement.appendChild(document.createTextNode(css));
-	}
-}
-
 
 /***/ })
 

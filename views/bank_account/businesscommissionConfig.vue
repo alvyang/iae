@@ -77,7 +77,7 @@
 		data(){
       var validateMoney = (rule, value, callback) => {
 				var reg = /^(([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)|([-]([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)))$/;
-				if(!value){
+				if(this.isEmpty(value)){
 					callback(new Error('请再输入'+rule.labelname));
 				}else if (!reg.test(value)) {
         	callback(new Error('请再输入正确的'+rule.labelname));
@@ -86,7 +86,7 @@
         }
     	};
       var validatePercent = (rule, value, callback) => {
-				if(!value){
+				if(this.isEmpty(value)){
 					callback(new Error('请再输入'+rule.labelname));
 				}else if (!/^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/.test(value)) {
           	callback(new Error('请再输入正确的'+rule.labelname));

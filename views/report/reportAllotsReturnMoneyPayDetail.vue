@@ -88,7 +88,7 @@ export default({
   },
   methods:{
     formatterOtherMoney(row, column, cellValue){
-      if(row.purchase_other_money){
+      if(!this.isEmpty(row.purchase_other_money)){
         var t = (row.purchase_other_money/row.purchase_number)*row.allot_number;
         row.other_monety_temp = Math.round(t*100)/100;
         return Math.round(t*100)/100;
@@ -97,7 +97,7 @@ export default({
       }
     },
     formatterShouldPay(row, column, cellValue){
-      if(row.purchase_other_money){
+      if(!this.isEmpty(row.purchase_other_money)){
         var t = (row.purchase_other_money/row.purchase_number)*row.allot_number;
         row.other_monety_temp = Math.round(t*100)/100;
         var temp = row.allot_number*row.allot_return_price - t;
@@ -113,7 +113,7 @@ export default({
       }
     },
     formatterReturnMoney(row, column, cellValue){
-      if(row.hospital_policy_return_money){
+      if(!this.isEmpty(row.hospital_policy_return_money)){
         return row.hospital_policy_return_money;
       }else{
         return row.product_return_money;

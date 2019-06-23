@@ -88,7 +88,7 @@ export default({
   },
   methods:{
     formatterRealReceive(row, column, cellValue){
-      if(row.purchase_pay_real_money){
+      if(!this.isEmpty(row.purchase_pay_real_money)){
         var t = row.purchase_pay_real_money/row.purchase_pay_number;
         return Math.round(t*100)/100;
       }else{

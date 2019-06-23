@@ -161,7 +161,7 @@
 					<div><span>中标价:</span>{{purchasePay.product_price}}</div>
 					<div><span>包装:</span>{{purchasePay.product_packing}}</div>
 					<div><span>单位:</span>{{purchasePay.product_unit}}</div>
-					<div><span>打款价:</span>{{purchasePay.product_mack_price}}</div>
+					<div><span>打款价:</span>{{purchasePay.purchase_pay_price}}</div>
 					<div><span>预付数量:</span>{{purchasePay.purchase_pay_number}}</div>
 					<div><span>生产厂家:</span>{{purchasePay.product_makesmakers}}</div>
 			  </el-collapse-item>
@@ -339,7 +339,7 @@
 	      });
 	    },
 			formatPercent(row, column, cellValue, index){
-				if(cellValue){
+				if(!this.isEmpty(cellValue)){
 					return cellValue+" %";
 				}else{
 					return "-";
@@ -367,7 +367,7 @@
 	    },
 	    createFilter1(queryString) {
 	      return (refundser) => {
-	        if(refundser.purchase_pay_refundser){
+	        if(!this.isEmpty(refundser.purchase_pay_refundser)){
 	          return (refundser.purchase_pay_refundser.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
 	        }else{
 	          return ;
@@ -386,7 +386,7 @@
 	    },
 	    createFilter(queryString) {
 	      return (refundser) => {
-	        if(refundser.purchase_pay_refundser){
+	        if(!this.isEmpty(refundser.purchase_pay_refundser)){
 	          return (refundser.purchase_pay_refundser.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
 	        }else{
 	          return ;

@@ -111,7 +111,7 @@
     },
     methods:{
       formatterPercent(row, column, cellValue, index){
-        if(row.sale_policy_money && row.product_return_money){
+        if(!this.isEmpty(row.sale_policy_money) && !this.isEmpty(row.product_return_money)){
           return  Math.round(row.sale_policy_money*100/row.product_return_money) +"%";
         }else{
           return "";

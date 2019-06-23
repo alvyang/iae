@@ -76,7 +76,7 @@
 				var reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
         if(!reg.test(value)){
 					callback(new Error('请输入正确的实返金额'));
-				} else if(this.purchase.shoule_return_money && parseFloat(value) > parseFloat(this.purchase.shoule_return_money)){
+				} else if(!this.isEmpty(this.purchase.shoule_return_money) && parseFloat(value) > parseFloat(this.purchase.shoule_return_money)){
 					callback(new Error('实返金额不能大于应返金额'));
 				} else {
           callback();
@@ -172,7 +172,7 @@
 			//输入购买数量后，计算购买金额、应返金额、外欠佣金的值
 			purchaseNumBlur(){
 				var regu = /^\+?[1-9][0-9]*$/;
-				if(this.purchase.puchase_number && regu.test(this.purchase.puchase_number)){
+				if(!this.isEmpty(this.purchase.puchase_number) && regu.test(this.purchase.puchase_number)){
 
 					this.purchase.puchase_money =this.mul(this.purchase.puchase_number,this.drug.product_price,2);
 					this.purchase.shoule_return_money = this.mul(this.purchase.puchase_number,this.drug.product_commission,2);

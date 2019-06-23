@@ -1,15 +1,238 @@
 webpackJsonp([4],{
 
-/***/ 391:
+/***/ 100:
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+var stylesInDom = {},
+	memoize = function(fn) {
+		var memo;
+		return function () {
+			if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+			return memo;
+		};
+	},
+	isOldIE = memoize(function() {
+		return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
+	}),
+	getHeadElement = memoize(function () {
+		return document.head || document.getElementsByTagName("head")[0];
+	}),
+	singletonElement = null,
+	singletonCounter = 0,
+	styleElementsInsertedAtTop = [];
+
+module.exports = function(list, options) {
+	if(typeof DEBUG !== "undefined" && DEBUG) {
+		if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+	}
+
+	options = options || {};
+	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+	// tags it will allow on a page
+	if (typeof options.singleton === "undefined") options.singleton = isOldIE();
+
+	// By default, add <style> tags to the bottom of <head>.
+	if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
+
+	var styles = listToStyles(list);
+	addStylesToDom(styles, options);
+
+	return function update(newList) {
+		var mayRemove = [];
+		for(var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+			domStyle.refs--;
+			mayRemove.push(domStyle);
+		}
+		if(newList) {
+			var newStyles = listToStyles(newList);
+			addStylesToDom(newStyles, options);
+		}
+		for(var i = 0; i < mayRemove.length; i++) {
+			var domStyle = mayRemove[i];
+			if(domStyle.refs === 0) {
+				for(var j = 0; j < domStyle.parts.length; j++)
+					domStyle.parts[j]();
+				delete stylesInDom[domStyle.id];
+			}
+		}
+	};
+}
+
+function addStylesToDom(styles, options) {
+	for(var i = 0; i < styles.length; i++) {
+		var item = styles[i];
+		var domStyle = stylesInDom[item.id];
+		if(domStyle) {
+			domStyle.refs++;
+			for(var j = 0; j < domStyle.parts.length; j++) {
+				domStyle.parts[j](item.parts[j]);
+			}
+			for(; j < item.parts.length; j++) {
+				domStyle.parts.push(addStyle(item.parts[j], options));
+			}
+		} else {
+			var parts = [];
+			for(var j = 0; j < item.parts.length; j++) {
+				parts.push(addStyle(item.parts[j], options));
+			}
+			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+		}
+	}
+}
+
+function listToStyles(list) {
+	var styles = [];
+	var newStyles = {};
+	for(var i = 0; i < list.length; i++) {
+		var item = list[i];
+		var id = item[0];
+		var css = item[1];
+		var media = item[2];
+		var sourceMap = item[3];
+		var part = {css: css, media: media, sourceMap: sourceMap};
+		if(!newStyles[id])
+			styles.push(newStyles[id] = {id: id, parts: [part]});
+		else
+			newStyles[id].parts.push(part);
+	}
+	return styles;
+}
+
+function insertStyleElement(options, styleElement) {
+	var head = getHeadElement();
+	var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
+	if (options.insertAt === "top") {
+		if(!lastStyleElementInsertedAtTop) {
+			head.insertBefore(styleElement, head.firstChild);
+		} else if(lastStyleElementInsertedAtTop.nextSibling) {
+			head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
+		} else {
+			head.appendChild(styleElement);
+		}
+		styleElementsInsertedAtTop.push(styleElement);
+	} else if (options.insertAt === "bottom") {
+		head.appendChild(styleElement);
+	} else {
+		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+	}
+}
+
+function removeStyleElement(styleElement) {
+	styleElement.parentNode.removeChild(styleElement);
+	var idx = styleElementsInsertedAtTop.indexOf(styleElement);
+	if(idx >= 0) {
+		styleElementsInsertedAtTop.splice(idx, 1);
+	}
+}
+
+function createStyleElement(options) {
+	var styleElement = document.createElement("style");
+	styleElement.type = "text/css";
+	insertStyleElement(options, styleElement);
+	return styleElement;
+}
+
+function addStyle(obj, options) {
+	var styleElement, update, remove;
+
+	if (options.singleton) {
+		var styleIndex = singletonCounter++;
+		styleElement = singletonElement || (singletonElement = createStyleElement(options));
+		update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
+		remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
+	} else {
+		styleElement = createStyleElement(options);
+		update = applyToTag.bind(null, styleElement);
+		remove = function() {
+			removeStyleElement(styleElement);
+		};
+	}
+
+	update(obj);
+
+	return function updateStyle(newObj) {
+		if(newObj) {
+			if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
+				return;
+			update(obj = newObj);
+		} else {
+			remove();
+		}
+	};
+}
+
+var replaceText = (function () {
+	var textStore = [];
+
+	return function (index, replacement) {
+		textStore[index] = replacement;
+		return textStore.filter(Boolean).join('\n');
+	};
+})();
+
+function applyToSingletonTag(styleElement, index, remove, obj) {
+	var css = remove ? "" : obj.css;
+
+	if (styleElement.styleSheet) {
+		styleElement.styleSheet.cssText = replaceText(index, css);
+	} else {
+		var cssNode = document.createTextNode(css);
+		var childNodes = styleElement.childNodes;
+		if (childNodes[index]) styleElement.removeChild(childNodes[index]);
+		if (childNodes.length) {
+			styleElement.insertBefore(cssNode, childNodes[index]);
+		} else {
+			styleElement.appendChild(cssNode);
+		}
+	}
+}
+
+function applyToTag(styleElement, obj) {
+	var css = obj.css;
+	var media = obj.media;
+	var sourceMap = obj.sourceMap;
+
+	if (media) {
+		styleElement.setAttribute("media", media);
+	}
+
+	if (sourceMap) {
+		// https://developer.chrome.com/devtools/docs/javascript-debugging
+		// this makes source maps inside style tags work properly in Chrome
+		css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */';
+		// http://stackoverflow.com/a/26603875
+		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+	}
+
+	if (styleElement.styleSheet) {
+		styleElement.styleSheet.cssText = css;
+	} else {
+		while(styleElement.firstChild) {
+			styleElement.removeChild(styleElement.firstChild);
+		}
+		styleElement.appendChild(document.createTextNode(css));
+	}
+}
+
+
+/***/ }),
+
+/***/ 393:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(392);
+var content = __webpack_require__(394);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(98)(content, {});
+var update = __webpack_require__(100)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -27,7 +250,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 392:
+/***/ 394:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -42,7 +265,7 @@ exports.push([module.i, "\n.sum_money_purchase > a{\n\tpadding-left: 20px;\n\tco
 
 /***/ }),
 
-/***/ 393:
+/***/ 395:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54,6 +277,17 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -227,7 +461,7 @@ exports.default = {
 			} else if (!regu.test(value)) {
 				callback(new Error('预付数量为正整数'));
 			} else {
-				_this.purchasePay.purchase_pay_money = _this.purchasePay.purchase_pay_money ? _this.purchasePay.purchase_pay_money : _this.purchasePay.purchase_pay_number * _this.purchasePay.product_mack_price;
+				_this.purchasePay.purchase_pay_money = _this.purchasePay.purchase_pay_money ? _this.purchasePay.purchase_pay_money : _this.purchasePay.purchase_pay_number * _this.purchasePay.purchase_pay_price;
 				_this.purchasePay.purchase_pay_money = Math.round(_this.purchasePay.purchase_pay_money * 100) / 100;
 				callback();
 			}
@@ -235,11 +469,11 @@ exports.default = {
 		var validateMoney = function validateMoney(rule, value, callback) {
 			var reg = /^(([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)|([-]([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)))$/;
 			if (value === '') {
-				callback(new Error('请输入预付金额'));
+				callback(new Error('请输入' + rule.message));
 			} else if (!reg.test(value)) {
-				callback(new Error('请输入正确的预付金额'));
+				callback(new Error('请输入正确的' + rule.message));
 			} else {
-				_this.purchasePay.purchase_pay_money = _this.purchasePay.purchase_pay_money ? _this.purchasePay.purchase_pay_money : _this.purchasePay.purchase_pay_number * _this.purchasePay.product_mack_price;
+				_this.purchasePay.purchase_pay_money = _this.purchasePay.purchase_pay_money ? _this.purchasePay.purchase_pay_money : _this.purchasePay.purchase_pay_number * _this.purchasePay.purchase_pay_price;
 				_this.purchasePay.purchase_pay_money = Math.round(_this.purchasePay.purchase_pay_money * 100) / 100;
 				callback();
 			}
@@ -295,8 +529,9 @@ exports.default = {
 			purchasePayRule: {
 				purchase_pay_contact_id: [{ required: true, message: '请选择业务员', trigger: 'change' }],
 				purchase_pay_contract_time: [{ required: true, message: '请选择合同时间', trigger: 'blur' }],
-				purchase_pay_number: [{ validator: validateNum, trigger: 'blur' }],
-				purchase_pay_money: [{ validator: validateMoney, trigger: 'blur' }]
+				purchase_pay_number: [{ validator: validateNum, message: "预付数量", trigger: 'blur' }],
+				purchase_pay_money: [{ validator: validateMoney, message: "预付金额", trigger: 'blur' }],
+				purchase_pay_price: [{ validator: validateMoney, message: "预付价", trigger: 'blur' }]
 			},
 			authCode: "",
 			business: [],
@@ -340,7 +575,7 @@ exports.default = {
 			window.location.href = this.$bus.data.host + "/download/template_purchases_pay.xlsx";
 		},
 		formatPercent: function formatPercent(row, column, cellValue, index) {
-			if (cellValue) {
+			if (!this.isEmpty(cellValue)) {
 				return cellValue + " %";
 			} else {
 				return "-";
@@ -368,8 +603,9 @@ exports.default = {
 			cb(results);
 		},
 		createFilter: function createFilter(queryString) {
+			var _self = this;
 			return function (remarks) {
-				if (remarks.remark) {
+				if (!_self.isEmpty(remarks.remark)) {
 					return remarks.remark.toLowerCase().indexOf(queryString.toLowerCase()) > -1;
 				} else {
 					return;
@@ -454,6 +690,7 @@ exports.default = {
 				contactId: _self.purchasePay.purchase_pay_contact_id,
 				drugId: _self.purchasePay.product_id
 			}, function (res) {
+				_self.purchasePay.purchase_pay_price = res.message[0].purchase_pay_policy_make_price;
 				_self.purchasePay.purchase_pay_policy_floor_price = res.message[0].purchase_pay_policy_floor_price;
 				_self.purchasePay.purchase_pay_policy_price = res.message[0].purchase_pay_policy_price;
 				_self.purchasePay.purchase_pay_policy_remark = res.message[0].purchase_pay_policy_remark;
@@ -502,7 +739,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 394:
+/***/ 396:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -896,6 +1133,30 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
+      "prop": "product_price",
+      "label": "中标价",
+      "width": "60"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "contacts_name1",
+      "label": "业务员",
+      "width": "60"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "business_name",
+      "label": "商业",
+      "width": "60"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "purchase_pay_price",
+      "label": "打款价",
+      "width": "60"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
       "prop": "purchase_pay_number",
       "label": "预付数量",
       "width": "70"
@@ -915,38 +1176,28 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
+      "prop": "purchase_pay_send_time",
+      "label": "发货时间",
+      "width": "80",
+      "formatter": _vm.formatterDate
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "purchase_pay_arrived_time",
+      "label": "到货时间",
+      "width": "80",
+      "formatter": _vm.formatterDate
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
       "prop": "purchase_pay_other_money",
       "label": "补点/费用票",
       "width": "80"
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
-      "prop": "purchase_pay_price",
-      "label": "打款价",
-      "width": "60"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_price",
-      "label": "中标价",
-      "width": "60"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
       "prop": "contacts_name",
       "label": "联系人",
-      "width": "60"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "contacts_name1",
-      "label": "业务员",
-      "width": "60"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "business_name",
-      "label": "商业",
       "width": "60"
     }
   }), _vm._v(" "), _c('el-table-column', {
@@ -1047,7 +1298,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "title": '药品信息（药品名：' + _vm.purchasePay.product_common_name + '）',
       "name": "2"
     }
-  }, [_c('div', [_c('span', [_vm._v("产品编号:")]), _vm._v(_vm._s(_vm.purchasePay.product_code))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("产品规格:")]), _vm._v(_vm._s(_vm.purchasePay.product_specifications))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("中标价:")]), _vm._v(_vm._s(_vm.purchasePay.product_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("包装:")]), _vm._v(_vm._s(_vm.purchasePay.product_packing))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("单位:")]), _vm._v(_vm._s(_vm.purchasePay.product_unit))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("打款价:")]), _vm._v(_vm._s(_vm.purchasePay.product_mack_price))]), _vm._v(" "), _c('div', {
+  }, [_c('div', [_c('span', [_vm._v("产品编号:")]), _vm._v(_vm._s(_vm.purchasePay.product_code))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("产品规格:")]), _vm._v(_vm._s(_vm.purchasePay.product_specifications))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("中标价:")]), _vm._v(_vm._s(_vm.purchasePay.product_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("包装:")]), _vm._v(_vm._s(_vm.purchasePay.product_packing))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("单位:")]), _vm._v(_vm._s(_vm.purchasePay.product_unit))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("打款价:")]), _vm._v(_vm._s(_vm.purchasePay.product_pay_price))]), _vm._v(" "), _c('div', {
     staticStyle: {
       "display": "block",
       "width": "100%"
@@ -1103,6 +1354,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }) : _vm._e()
   })], 2)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "预付价",
+      "prop": "purchase_pay_price",
+      "required": true
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    model: {
+      value: (_vm.purchasePay.purchase_pay_price),
+      callback: function($$v) {
+        _vm.$set(_vm.purchasePay, "purchase_pay_price", $$v)
+      },
+      expression: "purchasePay.purchase_pay_price"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
       "label": "预付数量",
       "prop": "purchase_pay_number"
@@ -1196,6 +1464,46 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.$set(_vm.purchasePay, "purchase_pay_time", $$v)
       },
       expression: "purchasePay.purchase_pay_time"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "发货时间",
+      "prop": "purchase_pay_send_time"
+    }
+  }, [_c('el-date-picker', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "type": "date",
+      "placeholder": "请选择打款时间"
+    },
+    model: {
+      value: (_vm.purchasePay.purchase_pay_send_time),
+      callback: function($$v) {
+        _vm.$set(_vm.purchasePay, "purchase_pay_send_time", $$v)
+      },
+      expression: "purchasePay.purchase_pay_send_time"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "到货时间",
+      "prop": "purchase_pay_arrived_time"
+    }
+  }, [_c('el-date-picker', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "type": "date",
+      "placeholder": "请选择打款时间"
+    },
+    model: {
+      value: (_vm.purchasePay.purchase_pay_arrived_time),
+      callback: function($$v) {
+        _vm.$set(_vm.purchasePay, "purchase_pay_arrived_time", $$v)
+      },
+      expression: "purchasePay.purchase_pay_arrived_time"
     }
   })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
@@ -1311,16 +1619,16 @@ if (false) {
 
 /***/ }),
 
-/***/ 395:
+/***/ 397:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(396);
+var content = __webpack_require__(398);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(98)(content, {});
+var update = __webpack_require__(100)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -1338,7 +1646,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 396:
+/***/ 398:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -1353,7 +1661,7 @@ exports.push([module.i, "\n.el-table .cell[data-v-19c3afc6]{\n\twhite-space: now
 
 /***/ }),
 
-/***/ 397:
+/***/ 399:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1362,6 +1670,15 @@ exports.push([module.i, "\n.el-table .cell[data-v-19c3afc6]{\n\twhite-space: now
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1501,7 +1818,7 @@ exports.default = {
 			} else if (!regu.test(value)) {
 				callback(new Error('预付数量为正整数'));
 			} else {
-				_this.purchasePay.purchase_pay_money = _this.purchasePay.purchase_pay_money ? _this.purchasePay.purchase_pay_money : _this.purchasePay.purchase_pay_number * _this.drug.product_mack_price;
+				_this.purchasePay.purchase_pay_money = _this.purchasePay.purchase_pay_money ? _this.purchasePay.purchase_pay_money : _this.purchasePay.purchase_pay_number * _this.purchasePay.purchase_pay_price;
 				_this.purchasePay.purchase_pay_money = Math.round(_this.purchasePay.purchase_pay_money * 100) / 100;
 				callback();
 			}
@@ -1509,11 +1826,11 @@ exports.default = {
 		var validateMoney = function validateMoney(rule, value, callback) {
 			var reg = /^(([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)|([-]([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)))$/;
 			if (value === '') {
-				callback(new Error('请输入预付金额'));
+				callback(new Error('请输入' + rule.message));
 			} else if (!reg.test(value)) {
-				callback(new Error('请输入正确的预付金额'));
+				callback(new Error('请输入正确的' + rule.message));
 			} else {
-				_this.purchasePay.purchase_pay_money = _this.purchasePay.purchase_pay_money ? _this.purchasePay.purchase_pay_money : _this.purchasePay.purchase_pay_number * _this.drug.product_mack_price;
+				_this.purchasePay.purchase_pay_money = _this.purchasePay.purchase_pay_money ? _this.purchasePay.purchase_pay_money : _this.purchasePay.purchase_pay_number * _this.purchasePay.purchase_pay_price;
 				_this.purchasePay.purchase_pay_money = Math.round(_this.purchasePay.purchase_pay_money * 100) / 100;
 				callback();
 			}
@@ -1543,13 +1860,15 @@ exports.default = {
 				purchase_pay_money: "",
 				purchase_pay_time: null,
 				purchase_pay_receive_remark: "",
-				purchase_pay_other_money: ""
+				purchase_pay_other_money: "",
+				purchase_pay_price: ""
 			},
 			purchasePayRule: {
 				purchase_pay_contact_id: [{ required: true, message: '请选择业务员', trigger: 'change' }],
 				purchase_pay_contract_time: [{ required: true, message: '请选择合同时间', trigger: 'blur' }],
 				purchase_pay_number: [{ validator: validateNum, trigger: 'blur' }],
-				purchase_pay_money: [{ validator: validateMoney, trigger: 'blur' }]
+				purchase_pay_money: [{ validator: validateMoney, message: "预付金额", trigger: 'blur' }],
+				purchase_pay_price: [{ validator: validateMoney, message: "预付价", trigger: 'blur' }]
 			}
 		};
 	},
@@ -1567,11 +1886,13 @@ exports.default = {
 			_self.purchasePay.purchase_pay_policy_price = "";
 			_self.purchasePay.purchase_pay_policy_remark = "";
 			_self.purchasePay.purchase_pay_policy_tax = "";
+			_self.purchasePay.purchase_pay_price = _self.drug.product_mack_price;
 			this.jquery('/iae/purchasepay/getPurchasePolicy', {
 				contactId: _self.purchasePay.purchase_pay_contact_id,
 				drugId: _self.drug.product_id
 			}, function (res) {
 				if (res.message && res.message.length > 0) {
+					_self.purchasePay.purchase_pay_price = res.message[0].purchase_pay_policy_make_price;
 					_self.purchasePay.purchase_pay_policy_floor_price = res.message[0].purchase_pay_policy_floor_price;
 					_self.purchasePay.purchase_pay_policy_price = res.message[0].purchase_pay_policy_price;
 					_self.purchasePay.purchase_pay_policy_remark = res.message[0].purchase_pay_policy_remark;
@@ -1597,6 +1918,7 @@ exports.default = {
 				this.$refs["purchasePay"].resetFields();
 			}
 			this.dialogFormVisible = true;
+			this.purchasePay.purchase_pay_price = this.drug.product_mack_price;
 		},
 
 		//搜索所有药品信息
@@ -1611,11 +1933,12 @@ exports.default = {
 
 			var _self = this;
 			this.purchasePay.purchase_pay_drug_id = this.drug.product_id;
-			this.purchasePay.purchase_pay_price = this.drug.product_mack_price;
 			this.purchasePay.product_return_money = this.drug.product_return_money;
 			this.purchasePay.product_return_time_type = this.drug.product_return_time_type;
 			this.purchasePay.product_return_time_day = this.drug.product_return_time_day;
 			this.purchasePay.product_return_time_day_num = this.drug.product_return_time_day_num;
+			this.purchasePay.product_floor_price = this.drug.product_floor_price;
+			this.purchasePay.product_high_discount = this.drug.product_high_discount;
 			this.$refs[formName].validate(function (valid) {
 				if (valid) {
 					_this2.loading = true;
@@ -1678,7 +2001,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 398:
+/***/ 400:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2105,9 +2428,24 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }) : _vm._e()
   })], 2)], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
+      "label": "预付价",
+      "prop": "purchase_pay_price"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    model: {
+      value: (_vm.purchasePay.purchase_pay_price),
+      callback: function($$v) {
+        _vm.$set(_vm.purchasePay, "purchase_pay_price", $$v)
+      },
+      expression: "purchasePay.purchase_pay_price"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
       "label": "预付数量",
-      "prop": "purchase_pay_number",
-      "required": true
+      "prop": "purchase_pay_number"
     }
   }, [_c('el-input', {
     staticStyle: {
@@ -2127,8 +2465,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
       "label": "预付金额",
-      "prop": "purchase_pay_money",
-      "required": true
+      "prop": "purchase_pay_money"
     }
   }, [_c('el-input', {
     staticStyle: {
@@ -2202,6 +2539,46 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
+      "label": "发货时间",
+      "prop": "purchase_pay_send_time"
+    }
+  }, [_c('el-date-picker', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "type": "date",
+      "placeholder": "请选择打款时间"
+    },
+    model: {
+      value: (_vm.purchasePay.purchase_pay_send_time),
+      callback: function($$v) {
+        _vm.$set(_vm.purchasePay, "purchase_pay_send_time", $$v)
+      },
+      expression: "purchasePay.purchase_pay_send_time"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "到货时间",
+      "prop": "purchase_pay_arrived_time"
+    }
+  }, [_c('el-date-picker', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "type": "date",
+      "placeholder": "请选择打款时间"
+    },
+    model: {
+      value: (_vm.purchasePay.purchase_pay_arrived_time),
+      callback: function($$v) {
+        _vm.$set(_vm.purchasePay, "purchase_pay_arrived_time", $$v)
+      },
+      expression: "purchasePay.purchase_pay_arrived_time"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
       "label": "备注",
       "prop": "remark"
     }
@@ -2261,16 +2638,16 @@ if (false) {
 
 /***/ }),
 
-/***/ 399:
+/***/ 401:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(400);
+var content = __webpack_require__(402);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(98)(content, {});
+var update = __webpack_require__(100)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -2288,7 +2665,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 400:
+/***/ 402:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -2303,7 +2680,7 @@ exports.push([module.i, "\n.copy_form .search .el-form-item__label {\n  padding-
 
 /***/ }),
 
-/***/ 401:
+/***/ 403:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2312,6 +2689,9 @@ exports.push([module.i, "\n.copy_form .search .el-form-item__label {\n  padding-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+//
+//
+//
 //
 //
 //
@@ -2423,8 +2803,8 @@ exports.default = {
         callback(new Error('请再输入正确的' + rule.labelname));
       } else {
         var temp = "";
-        if (_this.policyPay.purchase_pay_policy_floor_price && _this.policyPay.purchase_pay_policy_tax) {
-          temp = (_this.drug.product_mack_price - _this.policyPay.purchase_pay_policy_floor_price) * (1 - _this.policyPay.purchase_pay_policy_tax / 100);
+        if (!_this.isEmpty(_this.policyPay.purchase_pay_policy_floor_price) && !_this.isEmpty(_this.policyPay.purchase_pay_policy_tax) && !_this.isEmpty(_this.policyPay.purchase_pay_policy_make_price)) {
+          temp = (_this.policyPay.purchase_pay_policy_make_price - _this.policyPay.purchase_pay_policy_floor_price) * (1 - _this.policyPay.purchase_pay_policy_tax / 100);
         }
         _this.policyPay.purchase_pay_policy_price = _this.policyPay.purchase_pay_policy_price ? _this.policyPay.purchase_pay_policy_price : temp;
         _this.policyPay.purchase_pay_policy_price = _this.policyPay.purchase_pay_policy_price ? Math.round(_this.policyPay.purchase_pay_policy_price * 100) / 100 : "";
@@ -2437,8 +2817,8 @@ exports.default = {
         callback(new Error('请输入正确的' + rule.labelname));
       } else {
         var temp = "";
-        if (_this.policyPay.purchase_pay_policy_floor_price && _this.policyPay.purchase_pay_policy_tax) {
-          temp = (_this.drug.product_mack_price - _this.policyPay.purchase_pay_policy_floor_price) * (1 - _this.policyPay.purchase_pay_policy_tax / 100);
+        if (!_this.isEmpty(_this.policyPay.purchase_pay_policy_floor_price) && !_this.isEmpty(_this.policyPay.purchase_pay_policy_tax) && !_this.isEmpty(_this.policyPay.purchase_pay_policy_make_price)) {
+          temp = (_this.policyPay.purchase_pay_policy_make_price - _this.policyPay.purchase_pay_policy_floor_price) * (1 - _this.policyPay.purchase_pay_policy_tax / 100);
         }
         _this.policyPay.purchase_pay_policy_price = _this.policyPay.purchase_pay_policy_price ? _this.policyPay.purchase_pay_policy_price : temp;
         _this.policyPay.purchase_pay_policy_price = _this.policyPay.purchase_pay_policy_price ? Math.round(_this.policyPay.purchase_pay_policy_price * 100) / 100 : "";
@@ -2461,11 +2841,13 @@ exports.default = {
         purchase_pay_policy_tax: "",
         purchase_pay_policy_price: "",
         purchase_pay_policy_remark: "",
-        purchase_pay_contact_id: ""
+        purchase_pay_contact_id: "",
+        purchase_pay_policy_make_price: ""
       },
       policyPayRule: {
         purchase_pay_policy_tax: [{ validator: validatePercent, labelname: '高开税率', trigger: 'blur' }],
         purchase_pay_policy_floor_price: [{ validator: validateMoney, labelname: '招商底价', trigger: 'blur' }],
+        purchase_pay_policy_make_price: [{ validator: validateMoney, labelname: '打款价', trigger: 'blur' }],
         purchase_pay_policy_price: [{ validator: validateMoney, labelname: '招商积分', trigger: 'blur' }],
         purchase_pay_contact_id: [{ required: true, message: '请选择联系人', trigger: 'change' }]
       },
@@ -2508,6 +2890,7 @@ exports.default = {
       this.policyPay.purchase_pay_policy_price = this.drug.purchase_pay_policy_price;
       this.policyPay.purchase_pay_contact_id = this.drug.purchase_pay_contact_id;
       this.policyPay.purchase_pay_policy_drug_id = this.drug.purchase_pay_policy_drug_id;
+      this.policyPay.purchase_pay_policy_make_price = this.drug.product_mack_price;
     },
     getContacts: function getContacts() {
       var _self = this;
@@ -2573,7 +2956,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 402:
+/***/ 404:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2806,6 +3189,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
+      "prop": "purchase_pay_policy_make_price",
+      "label": "打款价",
+      "width": "80"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
       "prop": "product_return_money",
       "label": "积分",
       "width": "80"
@@ -2944,6 +3333,26 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     })
   }))], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
+      "label": "打款价",
+      "prop": "purchase_pay_policy_make_price",
+      "maxlength": 10
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "打款价"
+    },
+    model: {
+      value: (_vm.policyPay.purchase_pay_policy_make_price),
+      callback: function($$v) {
+        _vm.$set(_vm.policyPay, "purchase_pay_policy_make_price", $$v)
+      },
+      expression: "policyPay.purchase_pay_policy_make_price"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
       "label": "招商底价",
       "prop": "purchase_pay_policy_floor_price",
       "maxlength": 10
@@ -3065,16 +3474,16 @@ if (false) {
 
 /***/ }),
 
-/***/ 403:
+/***/ 405:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(404);
+var content = __webpack_require__(406);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(98)(content, {});
+var update = __webpack_require__(100)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -3092,7 +3501,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 404:
+/***/ 406:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -3107,7 +3516,7 @@ exports.push([module.i, "\n.copy_form .search .el-form-item__label {\n  padding-
 
 /***/ }),
 
-/***/ 405:
+/***/ 407:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3116,6 +3525,9 @@ exports.push([module.i, "\n.copy_form .search .el-form-item__label {\n  padding-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+//
+//
+//
 //
 //
 //
@@ -3214,8 +3626,8 @@ exports.default = {
         callback(new Error('请再输入正确的' + rule.labelname));
       } else {
         var temp = "";
-        if (_this.policyPay.purchase_pay_policy_floor_price && _this.policyPay.purchase_pay_policy_tax) {
-          temp = (_this.drug.product_mack_price - _this.policyPay.purchase_pay_policy_floor_price) * (1 - _this.policyPay.purchase_pay_policy_tax / 100);
+        if (!_this.isEmpty(_this.policyPay.purchase_pay_policy_floor_price) && !_this.isEmpty(_this.policyPay.purchase_pay_policy_tax) && !_this.isEmpty(_this.policyPay.purchase_pay_policy_make_price)) {
+          temp = (_this.policyPay.purchase_pay_policy_make_price - _this.policyPay.purchase_pay_policy_floor_price) * (1 - _this.policyPay.purchase_pay_policy_tax / 100);
         }
         _this.policyPay.purchase_pay_policy_price = _this.policyPay.purchase_pay_policy_price ? _this.policyPay.purchase_pay_policy_price : temp;
         _this.policyPay.purchase_pay_policy_price = _this.policyPay.purchase_pay_policy_price ? Math.round(_this.policyPay.purchase_pay_policy_price * 100) / 100 : "";
@@ -3228,8 +3640,8 @@ exports.default = {
         callback(new Error('请输入正确的' + rule.labelname));
       } else {
         var temp = "";
-        if (_this.policyPay.purchase_pay_policy_floor_price && _this.policyPay.purchase_pay_policy_tax) {
-          temp = (_this.drug.product_mack_price - _this.policyPay.purchase_pay_policy_floor_price) * (1 - _this.policyPay.purchase_pay_policy_tax / 100);
+        if (!_this.isEmpty(_this.policyPay.purchase_pay_policy_floor_price) && !_this.isEmpty(_this.policyPay.purchase_pay_policy_tax) && !_this.isEmpty(_this.policyPay.purchase_pay_policy_make_price)) {
+          temp = (_this.policyPay.purchase_pay_policy_make_price - _this.policyPay.purchase_pay_policy_floor_price) * (1 - _this.policyPay.purchase_pay_policy_tax / 100);
         }
         _this.policyPay.purchase_pay_policy_price = _this.policyPay.purchase_pay_policy_price ? _this.policyPay.purchase_pay_policy_price : temp;
         _this.policyPay.purchase_pay_policy_price = _this.policyPay.purchase_pay_policy_price ? Math.round(_this.policyPay.purchase_pay_policy_price * 100) / 100 : "";
@@ -3251,12 +3663,14 @@ exports.default = {
         purchase_pay_policy_floor_price: "",
         purchase_pay_policy_tax: "",
         purchase_pay_policy_price: "",
-        purchase_pay_policy_remark: ""
+        purchase_pay_policy_remark: "",
+        purchase_pay_policy_make_price: ""
       },
       policyPayRule: {
         purchase_pay_policy_tax: [{ validator: validatePercent, labelname: '高开税率', trigger: 'blur' }],
         purchase_pay_policy_floor_price: [{ validator: validateMoney, labelname: '招商底价', trigger: 'blur' }],
-        purchase_pay_policy_price: [{ validator: validateMoney, labelname: '招商积分', trigger: 'blur' }]
+        purchase_pay_policy_price: [{ validator: validateMoney, labelname: '招商积分', trigger: 'blur' }],
+        purchase_pay_policy_make_price: [{ validator: validateMoney, labelname: '打款价', trigger: 'blur' }]
       },
       authCode: "",
       pageNum: 10,
@@ -3282,6 +3696,7 @@ exports.default = {
       this.dialogFormVisible = true;
       var temp = JSON.stringify(scope.row);
       this.drug = JSON.parse(temp);
+      this.policyPay.purchase_pay_policy_make_price = this.drug.product_mack_price;
     },
     getContacts: function getContacts() {
       var _self = this;
@@ -3364,7 +3779,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 406:
+/***/ 408:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -3668,6 +4083,26 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('el-form-item', {
     attrs: {
+      "label": "打款价",
+      "prop": "purchase_pay_policy_make_price",
+      "maxlength": 10
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "打款价"
+    },
+    model: {
+      value: (_vm.policyPay.purchase_pay_policy_make_price),
+      callback: function($$v) {
+        _vm.$set(_vm.policyPay, "purchase_pay_policy_make_price", $$v)
+      },
+      expression: "policyPay.purchase_pay_policy_make_price"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
       "label": "招商底价",
       "prop": "purchase_pay_policy_floor_price",
       "maxlength": 10
@@ -3789,16 +4224,16 @@ if (false) {
 
 /***/ }),
 
-/***/ 407:
+/***/ 409:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(408);
+var content = __webpack_require__(410);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(98)(content, {});
+var update = __webpack_require__(100)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -3816,7 +4251,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 408:
+/***/ 410:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -3831,7 +4266,7 @@ exports.push([module.i, "\n.sum_money_purchase > a{\n\tpadding-left: 20px;\n\tco
 
 /***/ }),
 
-/***/ 409:
+/***/ 411:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4118,7 +4553,7 @@ exports.default = {
 			}
 		},
 		formatterRealReceive: function formatterRealReceive(row, column, cellValue) {
-			if (row.purchase_pay_real_money) {
+			if (!this.isEmpty(row.purchase_pay_real_money)) {
 				var t = row.purchase_pay_real_money / row.purchase_pay_number;
 				return Math.round(t * 100) / 100;
 			} else {
@@ -4238,7 +4673,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 410:
+/***/ 412:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -4836,7 +5271,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "title": '药品信息（药品名：' + _vm.purchasePay.product_common_name + '）',
       "name": "2"
     }
-  }, [_c('div', [_c('span', [_vm._v("产品编号:")]), _vm._v(_vm._s(_vm.purchasePay.product_code))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("产品规格:")]), _vm._v(_vm._s(_vm.purchasePay.product_specifications))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("中标价:")]), _vm._v(_vm._s(_vm.purchasePay.product_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("包装:")]), _vm._v(_vm._s(_vm.purchasePay.product_packing))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("单位:")]), _vm._v(_vm._s(_vm.purchasePay.product_unit))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("打款价:")]), _vm._v(_vm._s(_vm.purchasePay.product_mack_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("预付数量:")]), _vm._v(_vm._s(_vm.purchasePay.purchase_pay_number))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("生产厂家:")]), _vm._v(_vm._s(_vm.purchasePay.product_makesmakers))])])], 1), _vm._v(" "), _c('el-form', {
+  }, [_c('div', [_c('span', [_vm._v("产品编号:")]), _vm._v(_vm._s(_vm.purchasePay.product_code))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("产品规格:")]), _vm._v(_vm._s(_vm.purchasePay.product_specifications))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("中标价:")]), _vm._v(_vm._s(_vm.purchasePay.product_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("包装:")]), _vm._v(_vm._s(_vm.purchasePay.product_packing))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("单位:")]), _vm._v(_vm._s(_vm.purchasePay.product_unit))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("打款价:")]), _vm._v(_vm._s(_vm.purchasePay.purchase_pay_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("预付数量:")]), _vm._v(_vm._s(_vm.purchasePay.purchase_pay_number))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("生产厂家:")]), _vm._v(_vm._s(_vm.purchasePay.product_makesmakers))])])], 1), _vm._v(" "), _c('el-form', {
     ref: "purchasePay",
     staticClass: "demo-ruleForm",
     staticStyle: {
@@ -5064,16 +5499,16 @@ if (false) {
 
 /***/ }),
 
-/***/ 411:
+/***/ 413:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(412);
+var content = __webpack_require__(414);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(98)(content, {});
+var update = __webpack_require__(100)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -5091,7 +5526,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 412:
+/***/ 414:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -5106,7 +5541,7 @@ exports.push([module.i, "\n.sum_money_purchase > a{\n\tpadding-left: 20px;\n\tco
 
 /***/ }),
 
-/***/ 413:
+/***/ 415:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5462,7 +5897,7 @@ exports.default = {
 			});
 		},
 		formatPercent: function formatPercent(row, column, cellValue, index) {
-			if (cellValue) {
+			if (!this.isEmpty(cellValue)) {
 				return cellValue + " %";
 			} else {
 				return "-";
@@ -5490,8 +5925,10 @@ exports.default = {
 			cb(results);
 		},
 		createFilter1: function createFilter1(queryString) {
+			var _this = this;
+
 			return function (refundser) {
-				if (refundser.purchase_pay_refundser) {
+				if (!_this.isEmpty(refundser.purchase_pay_refundser)) {
 					return refundser.purchase_pay_refundser.toLowerCase().indexOf(queryString.toLowerCase()) > -1;
 				} else {
 					return;
@@ -5508,8 +5945,10 @@ exports.default = {
 			cb(results);
 		},
 		createFilter: function createFilter(queryString) {
+			var _this2 = this;
+
 			return function (refundser) {
-				if (refundser.purchase_pay_refundser) {
+				if (!_this2.isEmpty(refundser.purchase_pay_refundser)) {
 					return refundser.purchase_pay_refundser.toLowerCase().indexOf(queryString.toLowerCase()) > -1;
 				} else {
 					return;
@@ -5517,12 +5956,12 @@ exports.default = {
 			};
 		},
 		editPurchasePayRefund: function editPurchasePayRefund(formName) {
-			var _this = this;
+			var _this3 = this;
 
 			var _self = this;
 			this.$refs[formName].validate(function (valid) {
 				if (valid) {
-					_this.loading = true;
+					_this3.loading = true;
 					_self.jquery('/iae/purchasepay/editPurchasePayRefund', _self.purchasePay, function (res) {
 						_self.dialogFormVisible = false;
 						_self.loading = false;
@@ -5568,7 +6007,7 @@ exports.default = {
 			this.purchasePay.front_purchase = temp;
 		},
 		deleteRow: function deleteRow(scope) {
-			var _this2 = this;
+			var _this4 = this;
 
 			//删除
 			this.$confirm('是否删除?', '提示', {
@@ -5576,7 +6015,7 @@ exports.default = {
 				cancelButtonText: '取消',
 				type: 'warning'
 			}).then(function () {
-				_this2.deleteItem(scope);
+				_this4.deleteItem(scope);
 			}).catch(function () {});
 		},
 		deleteItem: function deleteItem(scope) {
@@ -5643,7 +6082,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 414:
+/***/ 416:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -6355,7 +6794,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "title": '药品信息（药品名：' + _vm.purchasePay.product_common_name + '）',
       "name": "2"
     }
-  }, [_c('div', [_c('span', [_vm._v("产品编号:")]), _vm._v(_vm._s(_vm.purchasePay.product_code))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("产品规格:")]), _vm._v(_vm._s(_vm.purchasePay.product_specifications))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("中标价:")]), _vm._v(_vm._s(_vm.purchasePay.product_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("包装:")]), _vm._v(_vm._s(_vm.purchasePay.product_packing))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("单位:")]), _vm._v(_vm._s(_vm.purchasePay.product_unit))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("打款价:")]), _vm._v(_vm._s(_vm.purchasePay.product_mack_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("预付数量:")]), _vm._v(_vm._s(_vm.purchasePay.purchase_pay_number))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("生产厂家:")]), _vm._v(_vm._s(_vm.purchasePay.product_makesmakers))])])], 1), _vm._v(" "), _c('el-form', {
+  }, [_c('div', [_c('span', [_vm._v("产品编号:")]), _vm._v(_vm._s(_vm.purchasePay.product_code))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("产品规格:")]), _vm._v(_vm._s(_vm.purchasePay.product_specifications))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("中标价:")]), _vm._v(_vm._s(_vm.purchasePay.product_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("包装:")]), _vm._v(_vm._s(_vm.purchasePay.product_packing))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("单位:")]), _vm._v(_vm._s(_vm.purchasePay.product_unit))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("打款价:")]), _vm._v(_vm._s(_vm.purchasePay.purchase_pay_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("预付数量:")]), _vm._v(_vm._s(_vm.purchasePay.purchase_pay_number))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("生产厂家:")]), _vm._v(_vm._s(_vm.purchasePay.product_makesmakers))])])], 1), _vm._v(" "), _c('el-form', {
     ref: "purchasePay",
     staticClass: "demo-ruleForm",
     staticStyle: {
@@ -6624,20 +7063,20 @@ if (false) {
 
 /***/ }),
 
-/***/ 49:
+/***/ 47:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(391)
+__webpack_require__(393)
 
 /* script */
-__vue_exports__ = __webpack_require__(393)
+__vue_exports__ = __webpack_require__(395)
 
 /* template */
-var __vue_template__ = __webpack_require__(394)
+var __vue_template__ = __webpack_require__(396)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -6672,20 +7111,20 @@ module.exports = __vue_exports__
 
 /***/ }),
 
-/***/ 50:
+/***/ 48:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(395)
+__webpack_require__(397)
 
 /* script */
-__vue_exports__ = __webpack_require__(397)
+__vue_exports__ = __webpack_require__(399)
 
 /* template */
-var __vue_template__ = __webpack_require__(398)
+var __vue_template__ = __webpack_require__(400)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -6721,20 +7160,20 @@ module.exports = __vue_exports__
 
 /***/ }),
 
-/***/ 51:
+/***/ 49:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(399)
+__webpack_require__(401)
 
 /* script */
-__vue_exports__ = __webpack_require__(401)
+__vue_exports__ = __webpack_require__(403)
 
 /* template */
-var __vue_template__ = __webpack_require__(402)
+var __vue_template__ = __webpack_require__(404)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -6769,20 +7208,20 @@ module.exports = __vue_exports__
 
 /***/ }),
 
-/***/ 52:
+/***/ 50:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(403)
+__webpack_require__(405)
 
 /* script */
-__vue_exports__ = __webpack_require__(405)
+__vue_exports__ = __webpack_require__(407)
 
 /* template */
-var __vue_template__ = __webpack_require__(406)
+var __vue_template__ = __webpack_require__(408)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -6817,20 +7256,20 @@ module.exports = __vue_exports__
 
 /***/ }),
 
-/***/ 53:
+/***/ 51:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(407)
+__webpack_require__(409)
 
 /* script */
-__vue_exports__ = __webpack_require__(409)
+__vue_exports__ = __webpack_require__(411)
 
 /* template */
-var __vue_template__ = __webpack_require__(410)
+var __vue_template__ = __webpack_require__(412)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -6865,20 +7304,20 @@ module.exports = __vue_exports__
 
 /***/ }),
 
-/***/ 54:
+/***/ 52:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(411)
+__webpack_require__(413)
 
 /* script */
-__vue_exports__ = __webpack_require__(413)
+__vue_exports__ = __webpack_require__(415)
 
 /* template */
-var __vue_template__ = __webpack_require__(414)
+var __vue_template__ = __webpack_require__(416)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -6909,229 +7348,6 @@ if (false) {(function () {
 if (__vue_options__.functional) {console.error("[vue-loader] purchasePayRefund.vue: functional components are not supported and should be defined in plain js files using render functions.")}
 
 module.exports = __vue_exports__
-
-
-/***/ }),
-
-/***/ 98:
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-var stylesInDom = {},
-	memoize = function(fn) {
-		var memo;
-		return function () {
-			if (typeof memo === "undefined") memo = fn.apply(this, arguments);
-			return memo;
-		};
-	},
-	isOldIE = memoize(function() {
-		return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
-	}),
-	getHeadElement = memoize(function () {
-		return document.head || document.getElementsByTagName("head")[0];
-	}),
-	singletonElement = null,
-	singletonCounter = 0,
-	styleElementsInsertedAtTop = [];
-
-module.exports = function(list, options) {
-	if(typeof DEBUG !== "undefined" && DEBUG) {
-		if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
-	}
-
-	options = options || {};
-	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-	// tags it will allow on a page
-	if (typeof options.singleton === "undefined") options.singleton = isOldIE();
-
-	// By default, add <style> tags to the bottom of <head>.
-	if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
-
-	var styles = listToStyles(list);
-	addStylesToDom(styles, options);
-
-	return function update(newList) {
-		var mayRemove = [];
-		for(var i = 0; i < styles.length; i++) {
-			var item = styles[i];
-			var domStyle = stylesInDom[item.id];
-			domStyle.refs--;
-			mayRemove.push(domStyle);
-		}
-		if(newList) {
-			var newStyles = listToStyles(newList);
-			addStylesToDom(newStyles, options);
-		}
-		for(var i = 0; i < mayRemove.length; i++) {
-			var domStyle = mayRemove[i];
-			if(domStyle.refs === 0) {
-				for(var j = 0; j < domStyle.parts.length; j++)
-					domStyle.parts[j]();
-				delete stylesInDom[domStyle.id];
-			}
-		}
-	};
-}
-
-function addStylesToDom(styles, options) {
-	for(var i = 0; i < styles.length; i++) {
-		var item = styles[i];
-		var domStyle = stylesInDom[item.id];
-		if(domStyle) {
-			domStyle.refs++;
-			for(var j = 0; j < domStyle.parts.length; j++) {
-				domStyle.parts[j](item.parts[j]);
-			}
-			for(; j < item.parts.length; j++) {
-				domStyle.parts.push(addStyle(item.parts[j], options));
-			}
-		} else {
-			var parts = [];
-			for(var j = 0; j < item.parts.length; j++) {
-				parts.push(addStyle(item.parts[j], options));
-			}
-			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
-		}
-	}
-}
-
-function listToStyles(list) {
-	var styles = [];
-	var newStyles = {};
-	for(var i = 0; i < list.length; i++) {
-		var item = list[i];
-		var id = item[0];
-		var css = item[1];
-		var media = item[2];
-		var sourceMap = item[3];
-		var part = {css: css, media: media, sourceMap: sourceMap};
-		if(!newStyles[id])
-			styles.push(newStyles[id] = {id: id, parts: [part]});
-		else
-			newStyles[id].parts.push(part);
-	}
-	return styles;
-}
-
-function insertStyleElement(options, styleElement) {
-	var head = getHeadElement();
-	var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
-	if (options.insertAt === "top") {
-		if(!lastStyleElementInsertedAtTop) {
-			head.insertBefore(styleElement, head.firstChild);
-		} else if(lastStyleElementInsertedAtTop.nextSibling) {
-			head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
-		} else {
-			head.appendChild(styleElement);
-		}
-		styleElementsInsertedAtTop.push(styleElement);
-	} else if (options.insertAt === "bottom") {
-		head.appendChild(styleElement);
-	} else {
-		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
-	}
-}
-
-function removeStyleElement(styleElement) {
-	styleElement.parentNode.removeChild(styleElement);
-	var idx = styleElementsInsertedAtTop.indexOf(styleElement);
-	if(idx >= 0) {
-		styleElementsInsertedAtTop.splice(idx, 1);
-	}
-}
-
-function createStyleElement(options) {
-	var styleElement = document.createElement("style");
-	styleElement.type = "text/css";
-	insertStyleElement(options, styleElement);
-	return styleElement;
-}
-
-function addStyle(obj, options) {
-	var styleElement, update, remove;
-
-	if (options.singleton) {
-		var styleIndex = singletonCounter++;
-		styleElement = singletonElement || (singletonElement = createStyleElement(options));
-		update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
-		remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
-	} else {
-		styleElement = createStyleElement(options);
-		update = applyToTag.bind(null, styleElement);
-		remove = function() {
-			removeStyleElement(styleElement);
-		};
-	}
-
-	update(obj);
-
-	return function updateStyle(newObj) {
-		if(newObj) {
-			if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
-				return;
-			update(obj = newObj);
-		} else {
-			remove();
-		}
-	};
-}
-
-var replaceText = (function () {
-	var textStore = [];
-
-	return function (index, replacement) {
-		textStore[index] = replacement;
-		return textStore.filter(Boolean).join('\n');
-	};
-})();
-
-function applyToSingletonTag(styleElement, index, remove, obj) {
-	var css = remove ? "" : obj.css;
-
-	if (styleElement.styleSheet) {
-		styleElement.styleSheet.cssText = replaceText(index, css);
-	} else {
-		var cssNode = document.createTextNode(css);
-		var childNodes = styleElement.childNodes;
-		if (childNodes[index]) styleElement.removeChild(childNodes[index]);
-		if (childNodes.length) {
-			styleElement.insertBefore(cssNode, childNodes[index]);
-		} else {
-			styleElement.appendChild(cssNode);
-		}
-	}
-}
-
-function applyToTag(styleElement, obj) {
-	var css = obj.css;
-	var media = obj.media;
-	var sourceMap = obj.sourceMap;
-
-	if (media) {
-		styleElement.setAttribute("media", media);
-	}
-
-	if (sourceMap) {
-		// https://developer.chrome.com/devtools/docs/javascript-debugging
-		// this makes source maps inside style tags work properly in Chrome
-		css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */';
-		// http://stackoverflow.com/a/26603875
-		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
-	}
-
-	if (styleElement.styleSheet) {
-		styleElement.styleSheet.cssText = css;
-	} else {
-		while(styleElement.firstChild) {
-			styleElement.removeChild(styleElement.firstChild);
-		}
-		styleElement.appendChild(document.createTextNode(css));
-	}
-}
 
 
 /***/ })

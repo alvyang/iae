@@ -1,5 +1,15 @@
 const mixin = {
   methods: {
+    isEmpty(value){
+      if(typeof value == "string"){
+        value = value.replace(/\s/g,"");
+      }
+    	if(value == null || value == "" || value == "undefined" || value == undefined || value == "null"){
+    		return true;
+    	}else{
+    		return false;
+    	}
+    },
     getShouldPayMoney(formula,price,money,percent,otherMoney,sp){
       otherMoney=otherMoney?otherMoney:0;
       price = price?price:0;

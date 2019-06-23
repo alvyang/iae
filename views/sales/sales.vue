@@ -222,10 +222,10 @@
 					callback(new Error('请输入整数'));
 				} else {
 					this.sale.sale_money = this.sale.sale_money?this.sale.sale_money:this.mul(this.sale.sale_num,this.sale.sale_price,2);
-					if(this.sale.cost_univalent){
+					if(!this.isEmpty(this.sale.cost_univalent)){
 						this.sale.gross_profit = this.sale.gross_profit?this.sale.gross_profit:this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.sale.cost_univalent),2);
 					}
-					if(this.sale.accounting_cost){
+					if(!this.isEmpty(this.sale.accounting_cost)){
 						this.sale.real_gross_profit = this.sale.real_gross_profit?this.sale.real_gross_profit:this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.sale.accounting_cost),2);
 					}
          	callback();
@@ -236,11 +236,11 @@
         if (value && !reg.test(value)) {
           	callback(new Error('请再输入正确的'+rule.labelname));
         } else {
-					if(value){
-						if(this.sale.cost_univalent){
+					if(!this.isEmpty(value)){
+						if(!this.isEmpty(this.sale.cost_univalent)){
 							this.sale.gross_profit = this.sale.gross_profit?this.sale.gross_profit:this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.sale.cost_univalent),2);
 						}
-						if(this.sale.accounting_cost){
+						if(!this.isEmpty(this.sale.accounting_cost)){
 							this.sale.real_gross_profit = this.sale.real_gross_profit?this.sale.real_gross_profit:this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.sale.accounting_cost),2);
 						}
 					}
@@ -340,7 +340,7 @@
 				},function(res){//查询商业
 					_self.sale.sale_price = res.message?res.message.hospital_policy_price:_self.sale.sale_price;
 					_self.sale.product_return_money = res.message?res.message.hospital_policy_return_money:"";
-					if(_self.sale.sale_price && _self.sale.sale_num){
+					if(!_self.isEmpty(_self.sale.sale_price) && !_self.isEmpty(_self.sale.sale_num)){
 						_self.sale.sale_money = _self.mul(_self.sale.sale_price,_self.sale.sale_num,2);
 					}
 				});
@@ -412,7 +412,7 @@
 	      }
 			},
 			formatterRealProfitRate(row, column, cellValue){
-				if(row.real_gross_profit && row.sale_money &&
+				if(!this.isEmpty(row.real_gross_profit) && !this.isEmpty(row.sale_money) &&
 					 row.real_gross_profit > 0 && row.sale_money > 0){
 					return this.mul(this.div(row.real_gross_profit,row.sale_money,4),100)+"%";
 				}else{
@@ -504,10 +504,10 @@
 				var _self = this;
 				this.sale.gross_profit = 0;
 				this.sale.real_gross_profit= 0;
-				if(this.sale.cost_univalent){
+				if(!this.isEmpty(this.sale.cost_univalent)){
 					this.sale.gross_profit = this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.sale.cost_univalent),2);
 				}
-				if(this.sale.accounting_cost){
+				if(!this.isEmpty(this.sale.accounting_cost)){
 					this.sale.real_gross_profit = this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.sale.accounting_cost),2);
 				}
 				this.$refs[formName].validate((valid) => {

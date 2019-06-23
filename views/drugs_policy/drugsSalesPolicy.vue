@@ -1,7 +1,8 @@
 <template>
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
-		  <el-breadcrumb-item>积分管理</el-breadcrumb-item>
+		  <el-breadcrumb-item>药品管理</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/main/drugspolicy' }">药品政策管理（下游）</el-breadcrumb-item>
 			<el-breadcrumb-item>销售政策管理</el-breadcrumb-item>
 		</el-breadcrumb>
     <el-form :inline="true" :model="params" ref="params" size="mini" class="demo-form-inline search">
@@ -14,12 +15,6 @@
   				 </el-option>
   		 	</el-select>
   		</el-form-item>
-      <el-form-item label="产品编码" prop="productCode">
-		    <el-input v-model="params.productCode" style="width:210px;" @keyup.13.native="getSalesPolicy()" size="mini" placeholder="产品编码"></el-input>
-		  </el-form-item>
-      <el-form-item label="产品名称" prop="productCommonName">
-		    <el-input v-model="params.productCommonName" style="width:210px;" @keyup.13.native="getSalesPolicy()" size="mini" placeholder="产品名称/助记码"></el-input>
-		  </el-form-item>
       <el-form-item label="　业务员" prop="sale_contact_id">
         <el-select v-model="params.sale_contact_id" style="width:210px;" filterable size="mini" placeholder="请选择">
 					<el-option key="" label="全部" value=""></el-option>
@@ -30,12 +25,17 @@
           </el-option>
         </el-select>
       </el-form-item>
+      <el-form-item label="是否设置" prop="sale_policy_query_type">
+        <el-select v-model="params.sale_policy_query_type" style="width:210px;" filterable size="mini" placeholder="请选择">
+					<el-option key="" label="全部" value=""></el-option>
+					<el-option key="已设置" label="已设置" value="已设置"></el-option>
+          <el-option key="未设置" label="未设置" value="未设置"></el-option>
+        </el-select>
+      </el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf(',130,') > -1" @click="getSalesPolicy()" size="mini">查询</el-button>
 				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',130,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
-        <el-button type="primary" v-dbClick v-show="authCode.indexOf(',118,') > -1" @click="$router.push('/main/salespolicydrugs');" size="mini">新增</el-button>
-        <el-button type="primary" v-dbClick v-show="authCode.indexOf(',134,') > -1" @click="exportSalePolicy" size="mini">导出</el-button>
-        <el-button type="primary" v-dbClick v-show="authCode.indexOf(',131,') > -1" @click="dialogFormVisiblePolicy = true" size="mini">政策复制</el-button>
+        <el-button type="primary" v-dbClick @click="$router.push('/main/drugspolicy');" size="mini">返回</el-button>
 		  </el-form-item>
 		</el-form>
     <div class="allot_policy">
@@ -76,32 +76,6 @@
 	      :total="count">
 	    </el-pagination>
 		</div>
-    <el-dialog title="政策复制" width="700px" class="copy_form" :visible.sync="dialogFormVisiblePolicy">
-      <el-form :inline="true" :model="copyPolicyParams" :rules="copyPolicyParamsRule" ref="copyPolicyParams" size="mini" class="demo-form-inline search">
-        <el-form-item label="将" prop="hospital_id">
-           <el-select v-model="copyPolicyParams.hospital_id" style="width:210px;" filterable size="mini" placeholder="请选择">
-             <el-option v-for="item in hospitals"
-               :key="item.hospital_id"
-               :label="item.hospital_name"
-               :value="item.hospital_id">
-             </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="的政策复制到" prop="hospital_id_copy">
-           <el-select v-model="copyPolicyParams.hospital_id_copy" style="width:210px;" filterable size="mini" placeholder="请选择">
-             <el-option v-for="item in hospitals"
-               :key="item.hospital_id"
-               :label="item.hospital_name"
-               :value="item.hospital_id">
-             </el-option>
-          </el-select>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button size="small" v-dbClick @click="dialogFormVisiblePolicy = false">取 消</el-button>
-        <el-button type="primary" size="small" v-dbClick :loading="loading" @click="copyPolicy('copyPolicyParams')">确 定</el-button>
-      </div>
-    </el-dialog>
     <el-dialog title="修改销售政策" width="700px" :visible.sync="dialogFormVisible">
       <el-collapse v-model="activeNames" style="text-align:left;" >
         <el-collapse-item :title="'药品信息（药品名：'+drug.product_common_name+ '）'" name="1">
@@ -210,7 +184,9 @@
           hospitalId:"",
           productCommonName:"",
           sale_contact_id:"",
-          productCode:""
+          productCode:"",
+          requestFrom:"drugsSalesPolicy",
+          sale_policy_query_type:""
         },
         policy:{
           sale_policy_formula:"",
@@ -218,14 +194,6 @@
           sale_policy_money:"",
           sale_policy_contact_id:"",
           sale_policy_remark:""
-        },
-        copyPolicyParams:{
-          hospital_id:"",
-          hospital_id_copy:"",
-        },
-        copyPolicyParamsRule:{
-  				hospital_id:[{ required: true, message: '请选择被复制销往单位', trigger: 'change' }],
-  				hospital_id_copy:[{ required: true, message: '请选择复制的销住单位', trigger: 'change' }],
         },
         policyBatch:{
           sale_policy_formula:"1",
@@ -242,12 +210,12 @@
 				currentPage:1,
 				count:0,
         dialogFormVisible:false,
-        dialogFormVisiblePolicy:false,
         dialogFormVisibleBatch:false,
         loading:false,
       }
     },
     activated(){
+      this.params.productCode = this.$route.query.productCode;
       this.getHospitals();
       this.getContacts();
       this.getSalesPolicy();
@@ -259,21 +227,6 @@
           this.policy.sale_policy_money = this.getShouldPayMoney(this.policy.sale_policy_formula,this.drug.product_price,this.drug.product_return_money,this.policy.sale_policy_percent,0,this.policy.sale_policy_money);
           this.policy.sale_policy_money = Math.round(this.policy.sale_policy_money*100)/100;
         // }
-      },
-      copyPolicy(formName){//政策复制
-        var _self = this;
-        this.$refs[formName].validate((valid) => {
-            if (valid) {
-              _self.loading = true;
-              _self.jquery('/iae/salesPolicy/copySalesPolicy',_self.copyPolicyParams,function(res){
-                // _self.dialogFormVisiblePolicy = false;
-                _self.loading = false;
-                _self.$message({showClose: true,message: '复制成功',type: 'success'});
-              });
-            } else {
-              return false;
-            }
-        });
       },
       exportSalePolicy(){
         var url = this.$bus.data.host + "/iae/salesPolicy/exportSalesPolicy";
@@ -326,7 +279,7 @@
             price:val[i].product_price,
             product_code:val[i].product_code,
             returnMoney:val[i].product_return_money,
-            hospitalId:val[i].sale_hospital_id
+            hospitalId:val[i].hospital_id
           });
         }
       },

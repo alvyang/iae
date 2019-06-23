@@ -100,7 +100,7 @@
 		data(){
 			var validateMoney = (rule, value, callback) => {
 				var reg = /^(([1-9]\d+(.[0-9]{1,4})?|\d(.[0-9]{1,4})?)|([-]([1-9]\d+(.[0-9]{1,4})?|\d(.[0-9]{1,4})?)))$/;
-				if(!value){
+				if(this.isEmpty(value)){
 					callback(new Error('请再输入金额'));
 				}else if (!reg.test(value)) {
         	callback(new Error('请再输入正确的金额'));
