@@ -478,6 +478,18 @@ exports.default = {
         callback();
       }
     };
+    var validateBatchMoney = function validateBatchMoney(rule, value, callback) {
+      var reg = /^(([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)|([-]([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)))$/;
+      if (_this.isEmpty(value)) {
+        callback(new Error('请再输入' + rule.labelname));
+      } else if (!reg.test(value)) {
+        callback(new Error('请再输入正确的' + rule.labelname));
+      } else {
+        _this.policy.allot_policy_money = _this.getShouldPayMoney(_this.policy.allot_policy_formula, _this.drug.product_price, _this.drug.product_return_money, _this.policy.allot_policy_percent, 0, _this.policy.allot_policy_money);
+        _this.policy.allot_policy_money = Math.round(_this.policy.allot_policy_money * 100) / 100;
+        callback();
+      }
+    };
     return {
       drugPolicy: [],
       hospitals: [],
@@ -511,7 +523,8 @@ exports.default = {
         allot_policy_remark: ""
       },
       policyBatchRule: {
-        policy_percent: [{ validator: validateBatchPercent, trigger: 'blur' }],
+        allot_policy_percent: [{ validator: validateBatchPercent, trigger: 'blur' }],
+        allot_policy_money: [{ validator: validateBatchMoney, labelname: "调货积分", trigger: 'blur' }],
         allot_policy_contact_id: [{ required: true, message: '请选择联系人', trigger: 'change' }]
       },
       authCode: "",
@@ -554,7 +567,7 @@ exports.default = {
       });
     },
     formatterPercent: function formatterPercent(row, column, cellValue, index) {
-      if (!this.isEmpty(row.allot_policy_money) && !this.isEmpty(row.product_return_money)) {
+      if (!this.isEmpty(row.allot_policy_money) && !this.isEmpty(row.product_return_money) && row.product_return_money != '0') {
         return Math.round(row.allot_policy_money * 100 / row.product_return_money) + "%";
       } else {
         return "";
@@ -1280,7 +1293,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "model": _vm.policy,
       "status-icon": "",
-      "rules": _vm.policyRule,
+      "rules": _vm.policyBatchRule,
       "inline": true,
       "label-width": "100px"
     }
@@ -1904,6 +1917,18 @@ exports.default = {
         callback();
       }
     };
+    var validateBatchMoney = function validateBatchMoney(rule, value, callback) {
+      var reg = /^(([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)|([-]([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)))$/;
+      if (_this.isEmpty(value)) {
+        callback(new Error('请再输入' + rule.labelname));
+      } else if (!reg.test(value)) {
+        callback(new Error('请再输入正确的' + rule.labelname));
+      } else {
+        _this.policy.allot_policy_money = _this.getShouldPayMoney(_this.policy.allot_policy_formula, _this.drug.product_price, _this.drug.product_return_money, _this.policy.allot_policy_percent, 0, _this.policy.allot_policy_money);
+        _this.policy.allot_policy_money = Math.round(_this.policy.allot_policy_money * 100) / 100;
+        callback();
+      }
+    };
     return {
       drugPolicy: [],
       hospitals: [],
@@ -1932,6 +1957,7 @@ exports.default = {
       },
       policyBatchRule: {
         allot_policy_percent: [{ validator: validateBatchPercent, trigger: 'blur' }],
+        allot_policy_money: [{ validator: validateBatchMoney, labelname: "调货积分", trigger: 'blur' }],
         allot_policy_contact_id: [{ required: true, message: '请选择联系人', trigger: 'change' }]
       },
       authCode: "",
@@ -3103,6 +3129,18 @@ exports.default = {
         callback();
       }
     };
+    var validateBatchMoney = function validateBatchMoney(rule, value, callback) {
+      var reg = /^(([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)|([-]([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)))$/;
+      if (_this.isEmpty(value)) {
+        callback(new Error('请再输入' + rule.labelname));
+      } else if (!reg.test(value)) {
+        callback(new Error('请再输入正确的' + rule.labelname));
+      } else {
+        _this.policy.sale_policy_money = _this.getShouldPayMoney(_this.policy.sale_policy_formula, _this.drug.product_price, _this.drug.product_return_money, _this.policy.sale_policy_percent, 0, _this.policy.sale_policy_money);
+        _this.policy.sale_policy_money = Math.round(_this.policy.sale_policy_money * 100) / 100;
+        callback();
+      }
+    };
     return {
       drugPolicy: [],
       hospitals: [],
@@ -3138,6 +3176,7 @@ exports.default = {
       },
       policyBatchRule: {
         sale_policy_percent: [{ validator: validateBatchPercent, trigger: 'blur' }],
+        sale_policy_money: [{ validator: validateBatchMoney, labelname: "销售积分", trigger: 'blur' }],
         sale_policy_contact_id: [{ required: true, message: '请选择联系人', trigger: 'change' }]
       },
       authCode: "",
@@ -3217,7 +3256,7 @@ exports.default = {
       return message;
     },
     formatterPercent: function formatterPercent(row, column, cellValue, index) {
-      if (!this.isEmpty(row.sale_policy_money) && !this.isEmpty(row.product_return_money)) {
+      if (!this.isEmpty(row.sale_policy_money) && !this.isEmpty(row.product_return_money) && row.product_return_money != '0') {
         return Math.round(row.sale_policy_money * 100 / row.product_return_money) + "%";
       } else {
         return "";
@@ -4529,6 +4568,18 @@ exports.default = {
         callback();
       }
     };
+    var validateBatchMoney = function validateBatchMoney(rule, value, callback) {
+      var reg = /^(([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)|([-]([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)))$/;
+      if (_this.isEmpty(value)) {
+        callback(new Error('请再输入' + rule.labelname));
+      } else if (!reg.test(value)) {
+        callback(new Error('请再输入正确的' + rule.labelname));
+      } else {
+        _this.policy.sale_policy_money = _this.getShouldPayMoney(_this.policy.sale_policy_formula, _this.drug.product_price, _this.drug.product_return_money, _this.policy.sale_policy_percent, 0, _this.policy.sale_policy_money);
+        _this.policy.sale_policy_money = Math.round(_this.policy.sale_policy_money * 100) / 100;
+        callback();
+      }
+    };
     return {
       drugPolicy: [],
       hospitals: [],
@@ -4555,6 +4606,7 @@ exports.default = {
       },
       policyBatchRule: {
         sale_policy_percent: [{ validator: validateBatchPercent, trigger: 'blur' }],
+        sale_policy_money: [{ validator: validateBatchMoney, labelname: "销售积分", trigger: 'blur' }],
         sale_policy_contact_id: [{ required: true, message: '请选择联系人', trigger: 'change' }]
       },
       authCode: "",

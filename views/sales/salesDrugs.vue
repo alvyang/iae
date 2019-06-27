@@ -173,6 +173,15 @@ export default({
 				callback();
 			}
 		};
+		var validateMoney = (rule, value, callback) => {
+			var reg = /^(([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)|([-]([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)))$/;
+			if (value && !reg.test(value)) {
+					callback(new Error('请再输入正确的'+rule.labelname));
+			} else {
+				this.sale.sale_money = this.sale.sale_money?this.sale.sale_money:this.mul(this.sale.sale_num,this.sale.sale_price,2);
+				callback();
+			}
+		};
 		var validateBatchNumber = (rule, value, callback) => {
 			var regu = /^\+?[1-9][0-9]*$/;
 			if (!value && this.drug.product_type=='高打') {
@@ -221,6 +230,7 @@ export default({
 			business:[],
 			saleRule:{
 				batch_number:[{validator:validateBatchNumber,trigger: 'blur' }],
+				sale_price:[{validator:validateMoney,labelname:'销售单价',trigger: 'blur' }],
 				sale_num:[{validator: validateNum,trigger: 'blur' }],
 				bill_date:[{ required: true, message: '请选择销售时间', trigger: 'change' }],
 				hospital_id:[{ required: true, message: '请选择销售机构', trigger: 'change' }],

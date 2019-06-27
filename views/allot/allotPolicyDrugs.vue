@@ -156,6 +156,18 @@
           callback();
         }
     	};
+      var validateBatchMoney = (rule, value, callback) => {
+  			var reg = /^(([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)|([-]([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)))$/;
+        if(this.isEmpty(value)){
+          callback(new Error('请再输入'+rule.labelname));
+        }else if( !reg.test(value)) {
+					callback(new Error('请再输入正确的'+rule.labelname));
+  			} else {
+          this.policy.allot_policy_money = this.getShouldPayMoney(this.policy.allot_policy_formula,this.drug.product_price,this.drug.product_return_money,this.policy.allot_policy_percent,0,this.policy.allot_policy_money);
+          this.policy.allot_policy_money = Math.round(this.policy.allot_policy_money*100)/100;
+  				callback();
+  			}
+  		};
       return {
         drugPolicy:[],
         hospitals:[],
@@ -184,6 +196,7 @@
         },
         policyBatchRule:{
           allot_policy_percent:[{validator:validateBatchPercent,trigger: 'blur' }],
+          allot_policy_money:[{validator:validateBatchMoney,labelname:"调货积分",trigger: 'blur' }],
 					allot_policy_contact_id:[{required: true, message: '请选择联系人',trigger: 'change' }]
         },
         authCode:"",

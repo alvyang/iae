@@ -99,6 +99,15 @@
 				    </el-option>
 					</el-select>
 			  </el-form-item>
+				<el-form-item label="商业" prop="purchase_pay_business_id">
+					<el-select v-model="purchasePay.purchase_pay_business_id" style="width:179px;" filterable placeholder="请选择商业">
+						<el-option v-for="item in business"
+						 :key="item.business_id"
+						 :label="item.business_name"
+						 :value="item.business_id"></el-option>
+						</el-select>
+					</el-select>
+				</el-form-item>
 				<el-form-item label="预付价" prop="purchase_pay_price" >
 					<el-input v-model="purchasePay.purchase_pay_price" style="width:179px;"></el-input>
 				</el-form-item>
@@ -196,17 +205,25 @@
 					purchase_pay_money:[{validator:validateMoney,message:"预付金额",trigger: 'blur' }],
 					purchase_pay_price:[{validator:validateMoney,message:"预付价",trigger: 'blur' }],
 				},
+				business:[],//商业
 			}
 		},
 		activated(){
 			this.getDrugsList();
 			this.getContacts();
+			this.getProductBusiness();
 			this.business = JSON.parse(sessionStorage["productbusiness"]);
 		},
 		mounted(){
 
 		},
 		methods:{
+			getProductBusiness(){
+				var _self = this;
+				this.jquery("/iae/business/getAllBusiness",null,function(res){//查询商业
+					_self.business=res.message;
+				});
+			},
 			contactChange(){
 				var _self = this;
 				_self.purchasePay.purchase_pay_policy_floor_price = "";
@@ -245,6 +262,7 @@
 				}
 				this.dialogFormVisible = true;
 				this.purchasePay.purchase_pay_price = this.drug.product_mack_price;
+				this.purchasePay.purchase_pay_business_id = this.drug.product_business;
 			},
 			//搜索所有药品信息
 			searchDrugsList(){

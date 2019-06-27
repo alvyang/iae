@@ -236,6 +236,7 @@
         if (value && !reg.test(value)) {
           	callback(new Error('请再输入正确的'+rule.labelname));
         } else {
+					this.sale.sale_money = this.sale.sale_money?this.sale.sale_money:this.mul(this.sale.sale_num,this.sale.sale_price,2);
 					if(!this.isEmpty(value)){
 						if(!this.isEmpty(this.sale.cost_univalent)){
 							this.sale.gross_profit = this.sale.gross_profit?this.sale.gross_profit:this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.sale.cost_univalent),2);
@@ -303,6 +304,7 @@
 				},
 				sale:{},//修改的销售信息
 				saleRule:{
+					sale_price:[{validator: validateMoney,labelname:"销售单价",trigger: 'blur' }],
 					accounting_cost:[{validator: validateMoney,labelname:"核算成本价",trigger: 'blur' }],
 					cost_univalent:[{validator: validateMoney,labelname:"成本单价",trigger: 'blur' }],
 					sale_num:[{validator: validateNum,trigger: 'blur' }],

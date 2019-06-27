@@ -2,6 +2,7 @@
 alter table purchase_loss add purchase_loss_remark varchar(1000) DEFAULT '' COMMENT '备注';
 alter table purchase_recovery add purchase_recovery_remark varchar(1000) DEFAULT '' COMMENT '备注';
 
+alter table purchase_pay add purchase_pay_business_id varchar(50) DEFAULT '' COMMENT '商业';
 
 //20190623 发版
 alter table purchase_pay add purchase_pay_send_time datetime DEFAULT NULL COMMENT '发货时间';

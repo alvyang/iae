@@ -200,6 +200,18 @@
           callback();
         }
     	};
+      var validateBatchMoney = (rule, value, callback) => {
+  			var reg = /^(([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)|([-]([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)))$/;
+        if(this.isEmpty(value)){
+          callback(new Error('请再输入'+rule.labelname));
+        }else if( !reg.test(value)) {
+					callback(new Error('请再输入正确的'+rule.labelname));
+  			} else {
+          this.policy.sale_policy_money = this.getShouldPayMoney(this.policy.sale_policy_formula,this.drug.product_price,this.drug.product_return_money,this.policy.sale_policy_percent,0,this.policy.sale_policy_money);
+          this.policy.sale_policy_money = Math.round(this.policy.sale_policy_money*100)/100;
+  				callback();
+  			}
+  		};
       return {
         drugPolicy:[],
         hospitals:[],
@@ -235,6 +247,7 @@
         },
         policyBatchRule:{
           sale_policy_percent:[{validator:validateBatchPercent,trigger: 'blur' }],
+          sale_policy_money:[{validator:validateBatchMoney,labelname:"销售积分",trigger: 'blur' }],
 					sale_policy_contact_id:[{required: true, message: '请选择联系人',trigger: 'change' }]
         },
         authCode:"",
@@ -312,7 +325,7 @@
         return message;
       },
       formatterPercent(row, column, cellValue, index){
-        if(!this.isEmpty(row.sale_policy_money) && !this.isEmpty(row.product_return_money)){
+        if(!this.isEmpty(row.sale_policy_money) && !this.isEmpty(row.product_return_money) && row.product_return_money != '0'){
           return  Math.round(row.sale_policy_money*100/row.product_return_money) +"%";
         }else{
           return "";

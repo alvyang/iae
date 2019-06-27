@@ -71,6 +71,12 @@
 				 <el-option key="已付" label="已付" value="已付"></el-option>
 			 </el-select>
 		 </el-form-item>
+		 <el-form-item label="是否设置政策" prop="salesReturnFlag">
+			 <el-select v-model="params.salesReturnFlag" style="width:182px;" size="mini" filterable placeholder="请选择供货单位">
+				 <el-option key="" label="全部" value=""></el-option>
+				 <el-option key="flag" label="已设置" value="flag"></el-option>
+			 </el-select>
+		 </el-form-item>
 	   <el-form-item>
 	     <el-button type="primary" v-dbClick v-show="authCode.indexOf(',127,') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
 			 <el-button type="primary" v-dbClick v-show="authCode.indexOf(',127,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
@@ -254,7 +260,7 @@
 					business:"",
 					sale_contact_id:"",
 					product_code:"",
-					salesReturnFlag:"flag",
+					salesReturnFlag:"",
 					sale_return_flag:"",
 					productType:['佣金','高打'],
 				},
@@ -294,7 +300,7 @@
 					}
 					realReturnMoney = realReturnMoney?realReturnMoney:this.sale.product_return_money;
 
-					var t = this.sale.purchase_other_money/this.sale.purchase_number;
+					var t = this.sale.purchase_other_money?this.sale.purchase_other_money/this.sale.purchase_number:0;
 					this.sale.sale_other_money = Math.round(t*this.sale.sale_num*100)/100;
 					this.sale.sale_return_price = this.getShouldPayMoney(formula,this.sale.sale_price,realReturnMoney,this.sale.sale_should_pay_percent,0,this.sale.sale_return_price);
 					this.sale.sale_return_price = Math.round(this.sale.sale_return_price*100)/100;

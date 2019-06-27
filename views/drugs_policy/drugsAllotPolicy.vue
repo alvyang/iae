@@ -85,7 +85,7 @@
           <div style="display:block;width:100%;"><span>生产厂家:</span>{{drug.product_makesmakers}}</div>
 			  </el-collapse-item>
 			</el-collapse>
-			<el-form :model="policy" status-icon :rules="policyRule" style="margin-top:20px;" :inline="true" ref="sale" label-width="100px" class="demo-ruleForm">
+			<el-form :model="policy" status-icon :rules="policyBatchRule" style="margin-top:20px;" :inline="true" ref="sale" label-width="100px" class="demo-ruleForm">
         <el-form-item label="政策公式" prop="allot_policy_formula">
           <el-select v-model="policy.allot_policy_formula" style="width:472px;" @change="formulaChange"  placeholder="请选择">
             <el-option key="1" label="中标价*政策点数" value="1"></el-option>
@@ -134,11 +134,15 @@
             <el-option key="5" label="实收上游积分或上游政策积分-中标价*政策点数" value="5"></el-option>
             <el-option key="6" label="实收上游积分或上游政策积分-中标价*政策点数-补点/费用票" value="6"></el-option>
             <el-option key="7" label="实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分" value="7"></el-option>
+            <el-option key="8" label="固定政策（上游政策修改后，需手动调整下游政策）" value="8"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="政策点数" prop="allot_policy_percent" :maxlength="10" >
+        <el-form-item label="政策点数" prop="allot_policy_percent" :maxlength="10" v-show="policyBatch.allot_policy_formula != '8'">
           <el-input v-model="policyBatch.allot_policy_percent" style="width:179px;" placeholder="政策点数（如：60）"></el-input>
         </el-form-item>
+        <el-form-item label="调货积分" prop="allot_policy_money" :maxlength="10" >
+					<el-input v-model="policyBatch.allot_policy_money" style="width:179px;" placeholder="调货积分"></el-input>
+				</el-form-item>
         <el-form-item label="调货联系人" prop="allot_policy_contact_id">
    			 <el-select v-model="policyBatch.allot_policy_contact_id" style="width:179px;" filterable placeholder="请选择">
    				 <el-option key="" label="全部" value=""></el-option>
@@ -164,16 +168,39 @@
   export default({
     data(){
       var validateBatchPercent = (rule, value, callback) => {
-        if(this.isEmpty(value) && this.policy.allot_policy_formula != '8'){
+        if(this.isEmpty(value) && !(
+            (this.policy.allot_policy_formula == '8' && this.dialogFormVisible) ||
+            (this.policyBatch.allot_policy_formula == '8' && this.dialogFormVisibleBatch)
+          )){
           callback(new Error('请再输入政策点数'));
         }else if (!this.isEmpty(value) && !/^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/.test(value)) {
           callback(new Error('请再输入正确的政策点数'));
         } else {
-          this.policy.allot_policy_money = this.getShouldPayMoney(this.policy.allot_policy_formula,this.drug.product_price,this.drug.product_return_money,this.policy.allot_policy_percent,0,this.policy.allot_policy_money);
-          this.policy.allot_policy_money = Math.round(this.policy.allot_policy_money*100)/100;
+          if(this.policy.allot_policy_formula != '8'){
+            this.policy.allot_policy_money = this.getShouldPayMoney(this.policy.allot_policy_formula,this.drug.product_price,this.drug.product_return_money,this.policy.allot_policy_percent,0,this.policy.allot_policy_money);
+            this.policy.allot_policy_money = Math.round(this.policy.allot_policy_money*100)/100;
+            this.policyBatch.allot_policy_money = this.getShouldPayMoney(this.policyBatch.allot_policy_formula,this.drug.product_price,this.drug.product_return_money,this.policyBatch.allot_policy_percent,0,this.policyBatch.allot_policy_money);
+            this.policyBatch.allot_policy_money = Math.round(this.policyBatch.allot_policy_money*100)/100;
+          }
           callback();
         }
     	};
+      var validateBatchMoney = (rule, value, callback) => {
+  			var reg = /^(([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)|([-]([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)))$/;
+        if(this.isEmpty(value)){
+          callback(new Error('请再输入'+rule.labelname));
+        }else if( !reg.test(value)) {
+					callback(new Error('请再输入正确的'+rule.labelname));
+  			} else {
+          if(this.policy.allot_policy_formula != '8'){
+            this.policy.allot_policy_money = this.getShouldPayMoney(this.policy.allot_policy_formula,this.drug.product_price,this.drug.product_return_money,this.policy.allot_policy_percent,0,this.policy.allot_policy_money);
+            this.policy.allot_policy_money = Math.round(this.policy.allot_policy_money*100)/100;
+            this.policyBatch.allot_policy_money = this.getShouldPayMoney(this.policyBatch.allot_policy_formula,this.drug.product_price,this.drug.product_return_money,this.policyBatch.allot_policy_percent,0,this.policyBatch.allot_policy_money);
+            this.policyBatch.allot_policy_money = Math.round(this.policyBatch.allot_policy_money*100)/100;
+          }
+  				callback();
+  			}
+  		};
       return {
         drugPolicy:[],
         hospitals:[],
@@ -206,10 +233,12 @@
           allot_policy_formula:"1",
           allot_policy_percent:"",
           allot_policy_contact_id:"",
-          allot_policy_remark:""
+          allot_policy_remark:"",
+          allot_policy_money:""
         },
         policyBatchRule:{
-          policy_percent:[{validator:validateBatchPercent,trigger: 'blur' }],
+          allot_policy_percent:[{validator:validateBatchPercent,trigger: 'blur' }],
+          allot_policy_money:[{validator:validateBatchMoney,labelname:"调货积分",trigger: 'blur' }],
 					allot_policy_contact_id:[{required: true, message: '请选择联系人',trigger: 'change' }]
         },
         authCode:"",
@@ -236,7 +265,7 @@
         // }
       },
       formatterPercent(row, column, cellValue, index){
-        if(!this.isEmpty(row.allot_policy_money) && !this.isEmpty(row.product_return_money)){
+        if(!this.isEmpty(row.allot_policy_money) && !this.isEmpty(row.product_return_money) && row.product_return_money != '0'){
           return  Math.round(row.allot_policy_money*100/row.product_return_money) +"%";
         }else{
           return "";
@@ -301,6 +330,8 @@
       selectionChange(val){
         this.drugId = [];
         for(var i = 0 ; i < val.length ;i++){
+          this.drug.product_price = val[i].product_price;
+          this.drug.product_return_money = val[i].product_return_money;
           this.drugId.push({
             id:val[i].product_id,
             price:val[i].product_price,
@@ -363,7 +394,7 @@
       },
       editSales(formName){
 				var _self = this;
-        _self.policy.allot_hospital_id = this.drug.allot_hospital_id;
+        _self.policy.allot_hospital_id = this.drug.hospital_id;
         _self.policy.allot_drug_id = this.drug.product_id;
         _self.policy.product_code = this.drug.product_code;
 				this.$refs[formName].validate((valid) => {

@@ -122,6 +122,15 @@
 				    </el-option>
 					</el-select>
 			  </el-form-item>
+				<el-form-item label="商业" prop="purchase_pay_business_id">
+					<el-select v-model="purchasePay.purchase_pay_business_id" style="width:179px;" filterable placeholder="请选择商业">
+						<el-option v-for="item in business"
+						 :key="item.business_id"
+						 :label="item.business_name"
+						 :value="item.business_id"></el-option>
+						</el-select>
+					</el-select>
+				</el-form-item>
 				<el-form-item label="预付价" prop="purchase_pay_price" :required="true">
 					<el-input v-model="purchasePay.purchase_pay_price" style="width:179px;"></el-input>
 				</el-form-item>

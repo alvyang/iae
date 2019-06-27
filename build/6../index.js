@@ -5919,19 +5919,43 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
 
 exports.default = {
   data: function data() {
     var _this = this;
 
     var validateBatchPercent = function validateBatchPercent(rule, value, callback) {
-      if (_this.isEmpty(value) && _this.policy.allot_policy_formula != '8') {
+      if (_this.isEmpty(value) && !(_this.policy.allot_policy_formula == '8' && _this.dialogFormVisible || _this.policyBatch.allot_policy_formula == '8' && _this.dialogFormVisibleBatch)) {
         callback(new Error('请再输入政策点数'));
       } else if (!_this.isEmpty(value) && !/^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/.test(value)) {
         callback(new Error('请再输入正确的政策点数'));
       } else {
-        _this.policy.allot_policy_money = _this.getShouldPayMoney(_this.policy.allot_policy_formula, _this.drug.product_price, _this.drug.product_return_money, _this.policy.allot_policy_percent, 0, _this.policy.allot_policy_money);
-        _this.policy.allot_policy_money = Math.round(_this.policy.allot_policy_money * 100) / 100;
+        if (_this.policy.allot_policy_formula != '8') {
+          _this.policy.allot_policy_money = _this.getShouldPayMoney(_this.policy.allot_policy_formula, _this.drug.product_price, _this.drug.product_return_money, _this.policy.allot_policy_percent, 0, _this.policy.allot_policy_money);
+          _this.policy.allot_policy_money = Math.round(_this.policy.allot_policy_money * 100) / 100;
+          _this.policyBatch.allot_policy_money = _this.getShouldPayMoney(_this.policyBatch.allot_policy_formula, _this.drug.product_price, _this.drug.product_return_money, _this.policyBatch.allot_policy_percent, 0, _this.policyBatch.allot_policy_money);
+          _this.policyBatch.allot_policy_money = Math.round(_this.policyBatch.allot_policy_money * 100) / 100;
+        }
+        callback();
+      }
+    };
+    var validateBatchMoney = function validateBatchMoney(rule, value, callback) {
+      var reg = /^(([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)|([-]([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)))$/;
+      if (_this.isEmpty(value)) {
+        callback(new Error('请再输入' + rule.labelname));
+      } else if (!reg.test(value)) {
+        callback(new Error('请再输入正确的' + rule.labelname));
+      } else {
+        if (_this.policy.allot_policy_formula != '8') {
+          _this.policy.allot_policy_money = _this.getShouldPayMoney(_this.policy.allot_policy_formula, _this.drug.product_price, _this.drug.product_return_money, _this.policy.allot_policy_percent, 0, _this.policy.allot_policy_money);
+          _this.policy.allot_policy_money = Math.round(_this.policy.allot_policy_money * 100) / 100;
+          _this.policyBatch.allot_policy_money = _this.getShouldPayMoney(_this.policyBatch.allot_policy_formula, _this.drug.product_price, _this.drug.product_return_money, _this.policyBatch.allot_policy_percent, 0, _this.policyBatch.allot_policy_money);
+          _this.policyBatch.allot_policy_money = Math.round(_this.policyBatch.allot_policy_money * 100) / 100;
+        }
         callback();
       }
     };
@@ -5967,10 +5991,12 @@ exports.default = {
         allot_policy_formula: "1",
         allot_policy_percent: "",
         allot_policy_contact_id: "",
-        allot_policy_remark: ""
+        allot_policy_remark: "",
+        allot_policy_money: ""
       },
       policyBatchRule: {
-        policy_percent: [{ validator: validateBatchPercent, trigger: 'blur' }],
+        allot_policy_percent: [{ validator: validateBatchPercent, trigger: 'blur' }],
+        allot_policy_money: [{ validator: validateBatchMoney, labelname: "调货积分", trigger: 'blur' }],
         allot_policy_contact_id: [{ required: true, message: '请选择联系人', trigger: 'change' }]
       },
       authCode: "",
@@ -5998,7 +6024,7 @@ exports.default = {
       // }
     },
     formatterPercent: function formatterPercent(row, column, cellValue, index) {
-      if (!this.isEmpty(row.allot_policy_money) && !this.isEmpty(row.product_return_money)) {
+      if (!this.isEmpty(row.allot_policy_money) && !this.isEmpty(row.product_return_money) && row.product_return_money != '0') {
         return Math.round(row.allot_policy_money * 100 / row.product_return_money) + "%";
       } else {
         return "";
@@ -6064,6 +6090,8 @@ exports.default = {
     selectionChange: function selectionChange(val) {
       this.drugId = [];
       for (var i = 0; i < val.length; i++) {
+        this.drug.product_price = val[i].product_price;
+        this.drug.product_return_money = val[i].product_return_money;
         this.drugId.push({
           id: val[i].product_id,
           price: val[i].product_price,
@@ -6130,7 +6158,7 @@ exports.default = {
       var _this3 = this;
 
       var _self = this;
-      _self.policy.allot_hospital_id = this.drug.allot_hospital_id;
+      _self.policy.allot_hospital_id = this.drug.hospital_id;
       _self.policy.allot_drug_id = this.drug.product_id;
       _self.policy.product_code = this.drug.product_code;
       this.$refs[formName].validate(function (valid) {
@@ -6564,7 +6592,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "model": _vm.policy,
       "status-icon": "",
-      "rules": _vm.policyRule,
+      "rules": _vm.policyBatchRule,
       "inline": true,
       "label-width": "100px"
     }
@@ -6859,7 +6887,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "label": "实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分",
       "value": "7"
     }
+  }), _vm._v(" "), _c('el-option', {
+    key: "8",
+    attrs: {
+      "label": "固定政策（上游政策修改后，需手动调整下游政策）",
+      "value": "8"
+    }
   })], 1)], 1), _vm._v(" "), _c('el-form-item', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.policyBatch.allot_policy_formula != '8'),
+      expression: "policyBatch.allot_policy_formula != '8'"
+    }],
     attrs: {
       "label": "政策点数",
       "prop": "allot_policy_percent",
@@ -6878,6 +6918,26 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.$set(_vm.policyBatch, "allot_policy_percent", $$v)
       },
       expression: "policyBatch.allot_policy_percent"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "调货积分",
+      "prop": "allot_policy_money",
+      "maxlength": 10
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "调货积分"
+    },
+    model: {
+      value: (_vm.policyBatch.allot_policy_money),
+      callback: function($$v) {
+        _vm.$set(_vm.policyBatch, "allot_policy_money", $$v)
+      },
+      expression: "policyBatch.allot_policy_money"
     }
   })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
@@ -7190,19 +7250,43 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
 
 exports.default = {
   data: function data() {
     var _this = this;
 
     var validateBatchPercent = function validateBatchPercent(rule, value, callback) {
-      if (!value && _this.policy.sale_policy_formula != '8') {
+      if (_this.isEmpty(value) && !(_this.policy.sale_policy_formula == '8' && _this.dialogFormVisible || _this.policyBatch.sale_policy_formula == '8' && _this.dialogFormVisibleBatch)) {
         callback(new Error('请再输入政策点数'));
       } else if (value && !/^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/.test(value)) {
         callback(new Error('请输入正确的政策点数'));
       } else {
-        _this.policy.sale_policy_money = _this.getShouldPayMoney(_this.policy.sale_policy_formula, _this.drug.product_price, _this.drug.product_return_money, _this.policy.sale_policy_percent, 0, _this.policy.sale_policy_money);
-        _this.policy.sale_policy_money = Math.round(_this.policy.sale_policy_money * 100) / 100;
+        if (_this.policy.sale_policy_formula != '8') {
+          _this.policy.sale_policy_money = _this.getShouldPayMoney(_this.policy.sale_policy_formula, _this.drug.product_price, _this.drug.product_return_money, _this.policy.sale_policy_percent, 0, _this.policy.sale_policy_money);
+          _this.policy.sale_policy_money = Math.round(_this.policy.sale_policy_money * 100) / 100;
+          _this.policyBatch.sale_policy_money = _this.getShouldPayMoney(_this.policyBatch.sale_policy_formula, _this.drug.product_price, _this.drug.product_return_money, _this.policyBatch.sale_policy_percent, 0, _this.policyBatch.sale_policy_money);
+          _this.policyBatch.sale_policy_money = Math.round(_this.policyBatch.sale_policy_money * 100) / 100;
+        }
+        callback();
+      }
+    };
+    var validateBatchMoney = function validateBatchMoney(rule, value, callback) {
+      var reg = /^(([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)|([-]([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)))$/;
+      if (_this.isEmpty(value)) {
+        callback(new Error('请再输入' + rule.labelname));
+      } else if (!reg.test(value)) {
+        callback(new Error('请再输入正确的' + rule.labelname));
+      } else {
+        if (_this.policy.sale_policy_formula != '8') {
+          _this.policy.sale_policy_money = _this.getShouldPayMoney(_this.policy.sale_policy_formula, _this.drug.product_price, _this.drug.product_return_money, _this.policy.sale_policy_percent, 0, _this.policy.sale_policy_money);
+          _this.policy.sale_policy_money = Math.round(_this.policy.sale_policy_money * 100) / 100;
+          _this.policyBatch.sale_policy_money = _this.getShouldPayMoney(_this.policyBatch.sale_policy_formula, _this.drug.product_price, _this.drug.product_return_money, _this.policyBatch.sale_policy_percent, 0, _this.policyBatch.sale_policy_money);
+          _this.policyBatch.sale_policy_money = Math.round(_this.policyBatch.sale_policy_money * 100) / 100;
+        }
         callback();
       }
     };
@@ -7231,10 +7315,12 @@ exports.default = {
         sale_policy_formula: "1",
         sale_policy_percent: "",
         sale_policy_contact_id: "",
-        sale_policy_remark: ""
+        sale_policy_remark: "",
+        sale_policy_money: ""
       },
       policyBatchRule: {
         sale_policy_percent: [{ validator: validateBatchPercent, trigger: 'blur' }],
+        sale_policy_money: [{ validator: validateBatchMoney, labelname: "销售积分", trigger: 'blur' }],
         sale_policy_contact_id: [{ required: true, message: '请选择联系人', trigger: 'change' }]
       },
       authCode: "",
@@ -7298,7 +7384,7 @@ exports.default = {
       return message;
     },
     formatterPercent: function formatterPercent(row, column, cellValue, index) {
-      if (!this.isEmpty(row.sale_policy_money) && !this.isEmpty(row.product_return_money)) {
+      if (!this.isEmpty(row.sale_policy_money) && !this.isEmpty(row.product_return_money) && row.product_return_money != '0') {
         return Math.round(row.sale_policy_money * 100 / row.product_return_money) + "%";
       } else {
         return "";
@@ -7307,6 +7393,8 @@ exports.default = {
     selectionChange: function selectionChange(val) {
       this.drugId = [];
       for (var i = 0; i < val.length; i++) {
+        this.drug.product_price = val[i].product_price;
+        this.drug.product_return_money = val[i].product_return_money;
         this.drugId.push({
           id: val[i].product_id,
           price: val[i].product_price,
@@ -7372,7 +7460,7 @@ exports.default = {
       var _this2 = this;
 
       var _self = this;
-      _self.policy.sale_hospital_id = this.drug.sale_hospital_id;
+      _self.policy.sale_hospital_id = this.drug.hospital_id;
       _self.policy.sale_drug_id = this.drug.product_id;
       _self.policy.product_code = this.drug.product_code;
       this.$refs[formName].validate(function (valid) {
@@ -8120,7 +8208,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "label": "实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分",
       "value": "7"
     }
+  }), _vm._v(" "), _c('el-option', {
+    key: "8",
+    attrs: {
+      "label": "固定政策（上游政策修改后，需手动调整下游政策）",
+      "value": "8"
+    }
   })], 1)], 1), _vm._v(" "), _c('el-form-item', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.policyBatch.sale_policy_formula != '8'),
+      expression: "policyBatch.sale_policy_formula != '8'"
+    }],
     attrs: {
       "label": "政策点数",
       "prop": "sale_policy_percent",
@@ -8139,6 +8239,26 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.$set(_vm.policyBatch, "sale_policy_percent", $$v)
       },
       expression: "policyBatch.sale_policy_percent"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "销售积分",
+      "prop": "sale_policy_money",
+      "maxlength": 10
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "销售积分"
+    },
+    model: {
+      value: (_vm.policyBatch.sale_policy_money),
+      callback: function($$v) {
+        _vm.$set(_vm.policyBatch, "sale_policy_money", $$v)
+      },
+      expression: "policyBatch.sale_policy_money"
     }
   })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {

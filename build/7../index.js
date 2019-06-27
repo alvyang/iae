@@ -5215,6 +5215,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 exports.default = {
 	data: function data() {
@@ -5266,7 +5272,7 @@ exports.default = {
 				business: "",
 				sale_contact_id: "",
 				product_code: "",
-				salesReturnFlag: "flag",
+				salesReturnFlag: "",
 				sale_return_flag: "",
 				productType: ['佣金', '高打']
 			},
@@ -5303,7 +5309,7 @@ exports.default = {
 			}
 			realReturnMoney = realReturnMoney ? realReturnMoney : this.sale.product_return_money;
 
-			var t = this.sale.purchase_other_money / this.sale.purchase_number;
+			var t = this.sale.purchase_other_money ? this.sale.purchase_other_money / this.sale.purchase_number : 0;
 			this.sale.sale_other_money = Math.round(t * this.sale.sale_num * 100) / 100;
 			this.sale.sale_return_price = this.getShouldPayMoney(formula, this.sale.sale_price, realReturnMoney, this.sale.sale_should_pay_percent, 0, this.sale.sale_return_price);
 			this.sale.sale_return_price = Math.round(this.sale.sale_return_price * 100) / 100;
@@ -5834,6 +5840,39 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "label": "已付",
       "value": "已付"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "是否设置政策",
+      "prop": "salesReturnFlag"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "182px"
+    },
+    attrs: {
+      "size": "mini",
+      "filterable": "",
+      "placeholder": "请选择供货单位"
+    },
+    model: {
+      value: (_vm.params.salesReturnFlag),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "salesReturnFlag", $$v)
+      },
+      expression: "params.salesReturnFlag"
+    }
+  }, [_c('el-option', {
+    key: "",
+    attrs: {
+      "label": "全部",
+      "value": ""
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "flag",
+    attrs: {
+      "label": "已设置",
+      "value": "flag"
     }
   })], 1)], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
     directives: [{

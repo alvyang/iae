@@ -449,6 +449,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
 	data: function data() {
@@ -1355,6 +1364,34 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }) : _vm._e()
   })], 2)], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
+      "label": "商业",
+      "prop": "purchase_pay_business_id"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "filterable": "",
+      "placeholder": "请选择商业"
+    },
+    model: {
+      value: (_vm.purchasePay.purchase_pay_business_id),
+      callback: function($$v) {
+        _vm.$set(_vm.purchasePay, "purchase_pay_business_id", $$v)
+      },
+      expression: "purchasePay.purchase_pay_business_id"
+    }
+  }, _vm._l((_vm.business), function(item) {
+    return _c('el-option', {
+      key: item.business_id,
+      attrs: {
+        "label": item.business_name,
+        "value": item.business_id
+      }
+    })
+  }))], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
       "label": "预付价",
       "prop": "purchase_pay_price",
       "required": true
@@ -1670,6 +1707,18 @@ exports.push([module.i, "\n.el-table .cell[data-v-19c3afc6]{\n\twhite-space: now
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1835,7 +1884,7 @@ exports.default = {
 				callback();
 			}
 		};
-		return {
+		return _defineProperty({
 			loading: false,
 			dialogFormVisible: false,
 			drugs: [],
@@ -1870,16 +1919,24 @@ exports.default = {
 				purchase_pay_money: [{ validator: validateMoney, message: "预付金额", trigger: 'blur' }],
 				purchase_pay_price: [{ validator: validateMoney, message: "预付价", trigger: 'blur' }]
 			}
-		};
+		}, 'business', []);
 	},
 	activated: function activated() {
 		this.getDrugsList();
 		this.getContacts();
+		this.getProductBusiness();
 		this.business = JSON.parse(sessionStorage["productbusiness"]);
 	},
 	mounted: function mounted() {},
 
 	methods: {
+		getProductBusiness: function getProductBusiness() {
+			var _self = this;
+			this.jquery("/iae/business/getAllBusiness", null, function (res) {
+				//查询商业
+				_self.business = res.message;
+			});
+		},
 		contactChange: function contactChange() {
 			var _self = this;
 			_self.purchasePay.purchase_pay_policy_floor_price = "";
@@ -1919,6 +1976,7 @@ exports.default = {
 			}
 			this.dialogFormVisible = true;
 			this.purchasePay.purchase_pay_price = this.drug.product_mack_price;
+			this.purchasePay.purchase_pay_business_id = this.drug.product_business;
 		},
 
 		//搜索所有药品信息
@@ -2427,6 +2485,34 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }) : _vm._e()
   })], 2)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "商业",
+      "prop": "purchase_pay_business_id"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "filterable": "",
+      "placeholder": "请选择商业"
+    },
+    model: {
+      value: (_vm.purchasePay.purchase_pay_business_id),
+      callback: function($$v) {
+        _vm.$set(_vm.purchasePay, "purchase_pay_business_id", $$v)
+      },
+      expression: "purchasePay.purchase_pay_business_id"
+    }
+  }, _vm._l((_vm.business), function(item) {
+    return _c('el-option', {
+      key: item.business_id,
+      attrs: {
+        "label": item.business_name,
+        "value": item.business_id
+      }
+    })
+  }))], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
       "label": "预付价",
       "prop": "purchase_pay_price"

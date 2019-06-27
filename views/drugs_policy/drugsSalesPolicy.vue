@@ -134,10 +134,14 @@
             <el-option key="5" label="实收上游积分或上游政策积分-中标价*政策点数" value="5"></el-option>
             <el-option key="6" label="实收上游积分或上游政策积分-中标价*政策点数-补点/费用票" value="6"></el-option>
             <el-option key="7" label="实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分" value="7"></el-option>
+            <el-option key="8" label="固定政策（上游政策修改后，需手动调整下游政策）" value="8"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="政策点数" prop="sale_policy_percent" :maxlength="10" >
+        <el-form-item label="政策点数" prop="sale_policy_percent" :maxlength="10" v-show="policyBatch.sale_policy_formula != '8'">
           <el-input v-model="policyBatch.sale_policy_percent" style="width:179px;" placeholder="政策点数（如：60）"></el-input>
+        </el-form-item>
+        <el-form-item label="销售积分" prop="sale_policy_money" :maxlength="10">
+          <el-input v-model="policyBatch.sale_policy_money" style="width:179px;" placeholder="销售积分"></el-input>
         </el-form-item>
         <el-form-item label="调货联系人" prop="sale_policy_contact_id">
          <el-select v-model="policyBatch.sale_policy_contact_id" style="width:179px;" filterable placeholder="请选择">
@@ -164,16 +168,39 @@
   export default({
     data(){
       var validateBatchPercent = (rule, value, callback) => {
-        if(!value && this.policy.sale_policy_formula != '8'){
+        if(this.isEmpty(value) && !(
+            (this.policy.sale_policy_formula == '8' && this.dialogFormVisible) ||
+            (this.policyBatch.sale_policy_formula == '8' && this.dialogFormVisibleBatch)
+          )){
           callback(new Error('请再输入政策点数'));
         }else if (value && !/^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/.test(value)) {
           callback(new Error('请输入正确的政策点数'));
         } else {
-          this.policy.sale_policy_money = this.getShouldPayMoney(this.policy.sale_policy_formula,this.drug.product_price,this.drug.product_return_money,this.policy.sale_policy_percent,0,this.policy.sale_policy_money);
-          this.policy.sale_policy_money = Math.round(this.policy.sale_policy_money*100)/100;
+          if(this.policy.sale_policy_formula != '8'){
+            this.policy.sale_policy_money = this.getShouldPayMoney(this.policy.sale_policy_formula,this.drug.product_price,this.drug.product_return_money,this.policy.sale_policy_percent,0,this.policy.sale_policy_money);
+            this.policy.sale_policy_money = Math.round(this.policy.sale_policy_money*100)/100;
+            this.policyBatch.sale_policy_money = this.getShouldPayMoney(this.policyBatch.sale_policy_formula,this.drug.product_price,this.drug.product_return_money,this.policyBatch.sale_policy_percent,0,this.policyBatch.sale_policy_money);
+            this.policyBatch.sale_policy_money = Math.round(this.policyBatch.sale_policy_money*100)/100;
+          }
           callback();
         }
     	};
+      var validateBatchMoney = (rule, value, callback) => {
+  			var reg = /^(([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)|([-]([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)))$/;
+        if(this.isEmpty(value)){
+          callback(new Error('请再输入'+rule.labelname));
+        }else if( !reg.test(value)) {
+					callback(new Error('请再输入正确的'+rule.labelname));
+  			} else {
+          if(this.policy.sale_policy_formula != '8'){
+            this.policy.sale_policy_money = this.getShouldPayMoney(this.policy.sale_policy_formula,this.drug.product_price,this.drug.product_return_money,this.policy.sale_policy_percent,0,this.policy.sale_policy_money);
+            this.policy.sale_policy_money = Math.round(this.policy.sale_policy_money*100)/100;
+            this.policyBatch.sale_policy_money = this.getShouldPayMoney(this.policyBatch.sale_policy_formula,this.drug.product_price,this.drug.product_return_money,this.policyBatch.sale_policy_percent,0,this.policyBatch.sale_policy_money);
+            this.policyBatch.sale_policy_money = Math.round(this.policyBatch.sale_policy_money*100)/100;
+          }
+  				callback();
+  			}
+  		};
       return {
         drugPolicy:[],
         hospitals:[],
@@ -199,10 +226,12 @@
           sale_policy_formula:"1",
           sale_policy_percent:"",
           sale_policy_contact_id:"",
-          sale_policy_remark:""
+          sale_policy_remark:"",
+          sale_policy_money:"",
         },
         policyBatchRule:{
           sale_policy_percent:[{validator:validateBatchPercent,trigger: 'blur' }],
+          sale_policy_money:[{validator:validateBatchMoney,labelname:"销售积分",trigger: 'blur' }],
 					sale_policy_contact_id:[{required: true, message: '请选择联系人',trigger: 'change' }]
         },
         authCode:"",
@@ -265,7 +294,7 @@
         return message;
       },
       formatterPercent(row, column, cellValue, index){
-        if(!this.isEmpty(row.sale_policy_money) && !this.isEmpty(row.product_return_money)){
+        if(!this.isEmpty(row.sale_policy_money) && !this.isEmpty(row.product_return_money) && row.product_return_money != '0'){
           return  Math.round(row.sale_policy_money*100/row.product_return_money) +"%";
         }else{
           return "";
@@ -274,6 +303,8 @@
       selectionChange(val){
         this.drugId = [];
         for(var i = 0 ; i < val.length ;i++){
+          this.drug.product_price = val[i].product_price;
+          this.drug.product_return_money = val[i].product_return_money;
           this.drugId.push({
             id:val[i].product_id,
             price:val[i].product_price,
@@ -301,7 +332,6 @@
         this.policy.sale_policy_remark = this.drug.sale_policy_remark;
         this.policy.product_price = this.drug.product_price;
         this.policy.product_return_money = this.drug.product_return_money;
-
 			},
       editBatchRow(){
         if(this.drugId.length > 0){
@@ -337,7 +367,7 @@
       },
       editSales(formName){
 				var _self = this;
-        _self.policy.sale_hospital_id = this.drug.sale_hospital_id;
+        _self.policy.sale_hospital_id = this.drug.hospital_id;
         _self.policy.sale_drug_id = this.drug.product_id;
         _self.policy.product_code = this.drug.product_code;
 				this.$refs[formName].validate((valid) => {
