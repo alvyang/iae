@@ -106,6 +106,9 @@
 				<el-form-item label="采退金额" prop="purchaserecovery_money" :required="true">
 					<el-input v-model="purchaserecovery.purchaserecovery_money" style="width:179px;" :maxlength="10" placeholder="请输入采退金额"></el-input>
 				</el-form-item>
+				<el-form-item label="备　　注" prop="purchase_recovery_remark">
+					<el-input v-model="purchaserecovery.purchase_recovery_remark" style="width:179px;" :maxlength="10" placeholder="备注"></el-input>
+				</el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">
         <el-button size="small" v-dbClick @click="dialogFormVisible = false">取 消</el-button>

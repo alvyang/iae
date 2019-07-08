@@ -27,13 +27,14 @@
 		  <el-form-item>
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf(',99,') > -1" @click="reSearch(false)" size="mini">查询</el-button>
 				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',99,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+        <el-button type="primary" v-dbClick v-show="authCode.indexOf(',99,') > -1" @click="exportComprehensive(true)" size="mini">导出</el-button>
 		  </el-form-item>
 		</el-form>
-    <div style="background:#ffffff;font-size:12px;color:#f24040;height:20px;line-height:30px;padding-left:20px;">
+    <div style="background:#ffffff;font-size:12px;color:#f24040;height:25px;line-height:30px;padding-left:20px;">
       温馨提示：高打品种积分收付，已按照每月实际销售（调货）量，折算到每月记录中
     </div>
-    <div :style="'height:'+tableHeight+'px;padding:10px;border:1px solid #ffffff;background-color:#ffffff;overflow: scroll;'">
-      <el-table :data="listData" style="width: 100%" size="mini" :border="true" :span-method="objectSpanMethod">
+    <div style="padding:10px;border:1px solid #ffffff;background-color:#ffffff;">
+      <el-table :data="listData" style="width: 100%" :height="tableHeight" size="mini" :border="true" :span-method="objectSpanMethod">
         <el-table-column fixed prop="time" label="日期" width="80"></el-table-column>
         <el-table-column prop="saleMoney" label="销售总额" width="80" :formatter="formatNull"></el-table-column>
         <el-table-column label="上游" header-align="center" >
@@ -129,14 +130,21 @@
       this.getHospitals();
       this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
     },
-    mounted(){
-			this.tableHeight = $(window).height() - 196;
+    beforeMount(){
+      this.tableHeight = $(window).height() - 200;
 			var that = this;
-			$(window).resize(function(){
-					that.tableHeight = $(window).height() - 196;
+      $(window).resize(function(){
+					that.tableHeight = $(window).height() - 200;
 			});
+    },
+    mounted(){
+
 		},
     methods:{
+      exportComprehensive(){
+        var url = this.$bus.data.host + "/iae/report/exportReportComprehensive";
+        this.download(url,this.params);
+      },
       viewDetail(row){
         this.$router.push({path:`/main/reportcomprehensivedetail`,query:{
           time:row.time,business:this.params.business,hospitalsId:this.params.hospitalsId,

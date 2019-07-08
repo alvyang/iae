@@ -47,6 +47,9 @@
 				 </el-option>
 			 </el-select>
 		 </el-form-item>
+		 <el-form-item label="　　批号" prop="batch_number">
+ 			<el-input v-model="params.batch_number" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="批号"></el-input>
+ 	  </el-form-item>
 		  <el-form-item>
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf(',61,') > -1" style="margin-left: 14px;" @click="reSearch(false)" size="mini">查询</el-button>
 				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',61,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
@@ -259,6 +262,7 @@
 					allot_return_flag:"",
 					business:"",
 					contactId:"",
+					batch_number:""
 				},
 				allotRule:{
 					allot_price:[{validator:validateAllotPrice,trigger: 'blur' }],

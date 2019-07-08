@@ -275,6 +275,8 @@
 				this.purchase.product_return_time_day = this.drug.product_return_time_day;
 			  this.purchase.product_return_time_day_num = 	this.drug.product_return_time_day_num;
 				this.purchase.refunds_policy_money = this.drug.product_return_money;
+				this.purchase.product_high_discount = this.drug.product_high_discount;
+				this.purchase.product_floor_price = this.drug.product_floor_price;
 				this.$refs[formName].validate((valid) => {
 						if (valid) {
 							this.loading = true;

@@ -53,6 +53,13 @@
 		 		<el-option key="4" label="已入库" value="4"></el-option>
 		 	</el-select>
 		 </el-form-item>
+		 <el-form-item label="　费用票" prop="otherMoneyFlag">
+		 	<el-select v-model="params.otherMoneyFlag" style="width:210px;" size="mini" placeholder="请选择">
+		 		<el-option key="" label="全部" value=""></el-option>
+		 		<el-option key="3" label="已开" value="3"></el-option>
+		 		<el-option key="2" label="未开" value="2"></el-option>
+		 	</el-select>
+		 </el-form-item>
 			<el-form-item label="　　备注" prop="remark">
 				<el-select v-model="params.remark" filterable size="mini" style="width:210px;" placeholder="请选择">
 				 <el-option v-for="item in remarks"
@@ -255,6 +262,7 @@
 				dialogFormVisible:false,
 				loading:false,
 				params:{
+					otherMoneyFlag:"",
 					product_makesmakers:"",
 					productCommonName:"",
 					contactId:"",

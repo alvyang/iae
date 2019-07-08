@@ -113,8 +113,7 @@
           if(!this.isEmpty(this.policyPay.purchase_pay_policy_floor_price) && !this.isEmpty(this.policyPay.purchase_pay_policy_tax) && !this.isEmpty(this.policyPay.purchase_pay_policy_make_price)){
             temp = (this.policyPay.purchase_pay_policy_make_price - this.policyPay.purchase_pay_policy_floor_price)*(1-this.policyPay.purchase_pay_policy_tax/100);
           }
-          this.policyPay.purchase_pay_policy_price = this.policyPay.purchase_pay_policy_price?this.policyPay.purchase_pay_policy_price:temp;
-          this.policyPay.purchase_pay_policy_price = this.policyPay.purchase_pay_policy_price?Math.round(this.policyPay.purchase_pay_policy_price*100)/100:"";
+          this.policyPay.purchase_pay_policy_price = this.policyPay.purchase_pay_policy_price?this.policyPay.purchase_pay_policy_price:Math.round(temp*100)/100;
           callback();
         }
     	};
@@ -127,8 +126,7 @@
           if(!this.isEmpty(this.policyPay.purchase_pay_policy_floor_price) && !this.isEmpty(this.policyPay.purchase_pay_policy_tax) && !this.isEmpty(this.policyPay.purchase_pay_policy_make_price)){
             temp = (this.policyPay.purchase_pay_policy_make_price - this.policyPay.purchase_pay_policy_floor_price)*(1-this.policyPay.purchase_pay_policy_tax/100);
           }
-          this.policyPay.purchase_pay_policy_price = this.policyPay.purchase_pay_policy_price?this.policyPay.purchase_pay_policy_price:temp;
-          this.policyPay.purchase_pay_policy_price = this.policyPay.purchase_pay_policy_price?Math.round(this.policyPay.purchase_pay_policy_price*100)/100:"";
+          this.policyPay.purchase_pay_policy_price = this.policyPay.purchase_pay_policy_price?this.policyPay.purchase_pay_policy_price:Math.round(temp*100)/100;
           callback();
         }
     	};

@@ -135,7 +135,7 @@ const mixin = {
       if( url && data ){
           var inputs = '';
           for(var key in data){
-            if(typeof data[key] == "object"){
+            if(data[key] instanceof Array){
               for(var i = 0 ; i < data[key].length ;i++){
                 inputs+='<input type="hidden" name="'+ key +'" value="'+ data[key][i] +'" />';
               }

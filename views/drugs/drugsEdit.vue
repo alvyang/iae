@@ -450,8 +450,8 @@
 					!this.isEmpty(this.drugs.product_high_discount) &&
 					this.price.test(this.drugs.product_floor_price) &&
 					this.percent.test(this.drugs.product_high_discount)){
-					this.drugs.product_return_money = (this.drugs.product_mack_price - this.drugs.product_floor_price) * (1-this.drugs.product_high_discount/100);
-					this.drugs.product_return_money = Math.round(this.drugs.product_return_money*100)/100;
+					var m = (this.drugs.product_mack_price - this.drugs.product_floor_price) * (1-this.drugs.product_high_discount/100);
+					this.drugs.product_return_money = !this.isEmpty(this.drugs.product_return_money)?this.drugs.product_return_money:Math.round(m*100)/100;
 				}
 				//计算扣率
 				if(!this.isEmpty(this.drugs.product_mack_price) &&

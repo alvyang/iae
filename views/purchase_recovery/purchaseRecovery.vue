@@ -63,7 +63,8 @@
 				<el-table-column prop="purchaserecovery_money" label="采退金额" width="70"></el-table-column>
 				<el-table-column prop="purchaserecovery_return_money_time" label="退款时间" width="90" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="contacts_name" label="联系人" width="60"></el-table-column>
-				<el-table-column prop="business_name" label="商业"></el-table-column>
+				<el-table-column prop="business_name" label="商业" width="80"></el-table-column>
+				<el-table-column prop="purchase_recovery_remark" label="备注"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="100">
 			    <template slot-scope="scope">
 						<el-button v-show="authCode.indexOf(',111,') > -1" v-dbClick @click.native.prevent="deleteRow(scope)" icon="el-icon-delete" type="primary" size="mini"></el-button>
@@ -107,6 +108,9 @@
 				</el-form-item>
 				<el-form-item label="采退金额" prop="purchaserecovery_money" :required="true">
 					<el-input v-model="purchaserecovery.purchaserecovery_money" style="width:179px;" :maxlength="10" placeholder="请输入采退金额"></el-input>
+				</el-form-item>
+				<el-form-item label="备　　注" prop="purchase_recovery_remark">
+					<el-input v-model="purchaserecovery.purchase_recovery_remark" style="width:179px;" :maxlength="10" placeholder="备注"></el-input>
 				</el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">

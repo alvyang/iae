@@ -102,6 +102,9 @@
 				<el-form-item label="报损金额" prop="purchaseloss_money" :required="true">
 					<el-input v-model="purchaseloss.purchaseloss_money" style="width:179px;" :maxlength="10" placeholder="请输入报损金额"></el-input>
 				</el-form-item>
+				<el-form-item label="备　　注" prop="purchase_loss_remark">
+					<el-input v-model="purchaseloss.purchase_loss_remark" style="width:179px;" placeholder="备注"></el-input>
+				</el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">
         <el-button size="small" v-dbClick @click="dialogFormVisible = false">取 消</el-button>

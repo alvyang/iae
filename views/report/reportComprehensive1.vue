@@ -36,13 +36,14 @@
 		  <el-form-item>
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf(',99,') > -1" @click="reSearch(false)" size="mini">查询</el-button>
 				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',99,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
+        <el-button type="primary" v-dbClick v-show="authCode.indexOf(',99,') > -1" @click="exportComprehensive(true)" size="mini">导出</el-button>
 		  </el-form-item>
 		</el-form>
     <div style="background:#ffffff;font-size:12px;color:#f24040;height:20px;line-height:30px;padding-left:20px;">
       温馨提示：高打品种积分收付，已按照每月实际销售（调货）量，折算到每月记录中
     </div>
     <div v-show="params.hospital_type == '销售单位'" style="padding:10px;border:1px solid #ffffff;background-color:#ffffff;">
-      <el-table :data="listData" style="width: 100%" size="mini" :border="true" :span-method="objectSpanMethod">
+      <el-table :data="listData" :height="tableHeight" style="width: 100%" size="mini" :border="true" :span-method="objectSpanMethod">
         <el-table-column fixed prop="hospitalName" label="销售单位" width="150"></el-table-column>
         <el-table-column prop="saleMoney" label="销售总额" width="80" :formatter="formatNull"></el-table-column>
         <el-table-column label="上游" header-align="center" >
@@ -143,6 +144,7 @@
           pageNum:10,
   				currentPage:1,
   				count:0,
+          tableHeight:0,
         }
     },
     activated(){
@@ -151,7 +153,25 @@
       this.getHospitals();
       this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
     },
+    beforeMount(){
+      this.tableHeight = $(window).height() - 230;
+			var that = this;
+      $(window).resize(function(){
+					that.tableHeight = $(window).height() - 230;
+			});
+    },
     methods:{
+      exportComprehensive(){
+        var url = this.$bus.data.host ;
+        if(this.params.hospital_type == '销售单位'){
+          this.params.flag = "2";
+          url += "/iae/reportComprehensive/exportReportComprehensive";
+        }else{
+          this.params.flag = "4";
+          url += "/iae/reportComprehensive/exportReportComprehensiveAllot";
+        }
+        this.download(url,this.params);
+      },
       viewDetail(row){
         this.$router.push({path:`/main/reportcomprehensivedetail`,query:{
           time:new Date(this.params.time).format("yyyy-MM"),business:this.params.business,hospitalsId:row.hospitalId,

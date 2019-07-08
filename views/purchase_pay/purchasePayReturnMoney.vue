@@ -262,16 +262,6 @@
 				var t = this.purchasePay.purchase_pay_policy_price * this.purchasePay.purchase_pay_number-this.purchasePay.purchase_pay_other_money;
 				this.purchasePay.purchase_pay_should_pay_money = Math.round(t*100)/100;
 			},
-			formatterShouldPay(row, column, cellValue){
-				var t = row.purchase_pay_policy_price * row.purchase_pay_number - row.purchase_pay_other_money;
-				t = Math.round(t*100)/100;
-				if(t != row.purchase_pay_should_pay_money){
-					row.purchase_pay_should_pay_money = t;
-					return t;
-				}else{
-					return row.purchase_pay_should_pay_money;
-				}
-			},
 			formatterRealReceive(row, column, cellValue){
 				if(!this.isEmpty(row.purchase_pay_real_money)){
 					var t = row.purchase_pay_real_money/row.purchase_pay_number;

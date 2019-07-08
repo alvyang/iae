@@ -30875,417 +30875,417 @@ _vue2.default.use(_vueRouter2.default);
 
 //一级页面，首次加载
 var Login = function Login(r) {
-	return __webpack_require__.e/* require.ensure */(2).then((function () {
+	return __webpack_require__.e/* require.ensure */(3).then((function () {
 		return r(__webpack_require__(22));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Main = function Main(r) {
-	return __webpack_require__.e/* require.ensure */(2).then((function () {
+	return __webpack_require__.e/* require.ensure */(3).then((function () {
 		return r(__webpack_require__(23));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Home = function Home(r) {
-	return __webpack_require__.e/* require.ensure */(2).then((function () {
+	return __webpack_require__.e/* require.ensure */(3).then((function () {
 		return r(__webpack_require__(24));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Sales = function Sales(r) {
-	return __webpack_require__.e/* require.ensure */(2).then((function () {
+	return __webpack_require__.e/* require.ensure */(3).then((function () {
 		return r(__webpack_require__(25));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //销售记录页面
 var SalesDrugs = function SalesDrugs(r) {
-	return __webpack_require__.e/* require.ensure */(2).then((function () {
+	return __webpack_require__.e/* require.ensure */(3).then((function () {
 		return r(__webpack_require__(26));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //销售记录页面
 var Allot = function Allot(r) {
-	return __webpack_require__.e/* require.ensure */(2).then((function () {
+	return __webpack_require__.e/* require.ensure */(3).then((function () {
 		return r(__webpack_require__(27));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //调货记录页面
 var AllotDrugs = function AllotDrugs(r) {
-	return __webpack_require__.e/* require.ensure */(2).then((function () {
+	return __webpack_require__.e/* require.ensure */(3).then((function () {
 		return r(__webpack_require__(28));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //调货记录页面
 var Allocation = function Allocation(r) {
-	return __webpack_require__.e/* require.ensure */(2).then((function () {
+	return __webpack_require__.e/* require.ensure */(3).then((function () {
 		return r(__webpack_require__(29));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //商业调拨
 
 //权限管理 分组
 var Authority = function Authority(r) {
-	return __webpack_require__.e/* require.ensure */(3).then((function () {
+	return __webpack_require__.e/* require.ensure */(4).then((function () {
 		return r(__webpack_require__(30));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Role = function Role(r) {
-	return __webpack_require__.e/* require.ensure */(3).then((function () {
+	return __webpack_require__.e/* require.ensure */(4).then((function () {
 		return r(__webpack_require__(31));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Group = function Group(r) {
-	return __webpack_require__.e/* require.ensure */(3).then((function () {
+	return __webpack_require__.e/* require.ensure */(4).then((function () {
 		return r(__webpack_require__(32));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var User = function User(r) {
-	return __webpack_require__.e/* require.ensure */(3).then((function () {
+	return __webpack_require__.e/* require.ensure */(4).then((function () {
 		return r(__webpack_require__(33));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Password = function Password(r) {
-	return __webpack_require__.e/* require.ensure */(3).then((function () {
+	return __webpack_require__.e/* require.ensure */(4).then((function () {
 		return r(__webpack_require__(34));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //修改密码
 var About = function About(r) {
-	return __webpack_require__.e/* require.ensure */(3).then((function () {
+	return __webpack_require__.e/* require.ensure */(4).then((function () {
 		return r(__webpack_require__(35));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //关于软件
 var Log = function Log(r) {
-	return __webpack_require__.e/* require.ensure */(3).then((function () {
+	return __webpack_require__.e/* require.ensure */(4).then((function () {
 		return r(__webpack_require__(36));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //日志管理
 //采购管理 分组
 var PurchaseRecovery = function PurchaseRecovery(r) {
-	return __webpack_require__.e/* require.ensure */(5).then((function () {
+	return __webpack_require__.e/* require.ensure */(6).then((function () {
 		return r(__webpack_require__(37));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //采退记录
 var PurchaseRecoveryDrugs = function PurchaseRecoveryDrugs(r) {
-	return __webpack_require__.e/* require.ensure */(5).then((function () {
+	return __webpack_require__.e/* require.ensure */(6).then((function () {
 		return r(__webpack_require__(38));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //采退记录
 var PurchaseLoss = function PurchaseLoss(r) {
-	return __webpack_require__.e/* require.ensure */(5).then((function () {
+	return __webpack_require__.e/* require.ensure */(6).then((function () {
 		return r(__webpack_require__(39));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //报损记录
 var PurchaseLossDrugs = function PurchaseLossDrugs(r) {
-	return __webpack_require__.e/* require.ensure */(5).then((function () {
+	return __webpack_require__.e/* require.ensure */(6).then((function () {
 		return r(__webpack_require__(40));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //报损记录
 var Purchase = function Purchase(r) {
-	return __webpack_require__.e/* require.ensure */(5).then((function () {
+	return __webpack_require__.e/* require.ensure */(6).then((function () {
 		return r(__webpack_require__(41));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //进货记录页面
 var PurchaseDrugs = function PurchaseDrugs(r) {
-	return __webpack_require__.e/* require.ensure */(5).then((function () {
+	return __webpack_require__.e/* require.ensure */(6).then((function () {
 		return r(__webpack_require__(42));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //进货记录页面
 
 //药品页面 分组
 var Drugs = function Drugs(r) {
-	return __webpack_require__.e/* require.ensure */(6).then((function () {
+	return __webpack_require__.e/* require.ensure */(2).then((function () {
 		return r(__webpack_require__(43));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var DrugsPolicy = function DrugsPolicy(r) {
-	return __webpack_require__.e/* require.ensure */(6).then((function () {
-		return r(__webpack_require__(910));
-	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
-};
-var DrugsAllotPolicy = function DrugsAllotPolicy(r) {
-	return __webpack_require__.e/* require.ensure */(6).then((function () {
-		return r(__webpack_require__(915));
-	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
-};
-var DrugsSalesPolicy = function DrugsSalesPolicy(r) {
-	return __webpack_require__.e/* require.ensure */(6).then((function () {
-		return r(__webpack_require__(916));
-	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
-};
-var DrugsPurchasePayPolicy = function DrugsPurchasePayPolicy(r) {
-	return __webpack_require__.e/* require.ensure */(6).then((function () {
-		return r(__webpack_require__(917));
-	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
-};
-var DrugsEdit = function DrugsEdit(r) {
-	return __webpack_require__.e/* require.ensure */(6).then((function () {
+	return __webpack_require__.e/* require.ensure */(2).then((function () {
 		return r(__webpack_require__(44));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
-var HospitalPolicyRecord = function HospitalPolicyRecord(r) {
-	return __webpack_require__.e/* require.ensure */(6).then((function () {
+var DrugsAllotPolicy = function DrugsAllotPolicy(r) {
+	return __webpack_require__.e/* require.ensure */(2).then((function () {
 		return r(__webpack_require__(45));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
-var HospitalPolicyRecordDrugs = function HospitalPolicyRecordDrugs(r) {
-	return __webpack_require__.e/* require.ensure */(6).then((function () {
+var DrugsSalesPolicy = function DrugsSalesPolicy(r) {
+	return __webpack_require__.e/* require.ensure */(2).then((function () {
 		return r(__webpack_require__(46));
+	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
+var DrugsPurchasePayPolicy = function DrugsPurchasePayPolicy(r) {
+	return __webpack_require__.e/* require.ensure */(2).then((function () {
+		return r(__webpack_require__(47));
+	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
+var DrugsEdit = function DrugsEdit(r) {
+	return __webpack_require__.e/* require.ensure */(2).then((function () {
+		return r(__webpack_require__(48));
+	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
+var HospitalPolicyRecord = function HospitalPolicyRecord(r) {
+	return __webpack_require__.e/* require.ensure */(2).then((function () {
+		return r(__webpack_require__(49));
+	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
+var HospitalPolicyRecordDrugs = function HospitalPolicyRecordDrugs(r) {
+	return __webpack_require__.e/* require.ensure */(2).then((function () {
+		return r(__webpack_require__(50));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 
 //预付招商记录页面 分组
 var PurchasePay = function PurchasePay(r) {
-	return __webpack_require__.e/* require.ensure */(4).then((function () {
-		return r(__webpack_require__(47));
-	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
-};
-var PurchasePayDrugs = function PurchasePayDrugs(r) {
-	return __webpack_require__.e/* require.ensure */(4).then((function () {
-		return r(__webpack_require__(48));
-	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
-};
-var PurchasePayPolicy = function PurchasePayPolicy(r) {
-	return __webpack_require__.e/* require.ensure */(4).then((function () {
-		return r(__webpack_require__(49));
-	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
-};
-var PurchasePayPolicyDrugs = function PurchasePayPolicyDrugs(r) {
-	return __webpack_require__.e/* require.ensure */(4).then((function () {
-		return r(__webpack_require__(50));
-	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
-};
-var PurchasePayReturnMoney = function PurchasePayReturnMoney(r) {
-	return __webpack_require__.e/* require.ensure */(4).then((function () {
+	return __webpack_require__.e/* require.ensure */(5).then((function () {
 		return r(__webpack_require__(51));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
-var PurchasePayRefund = function PurchasePayRefund(r) {
-	return __webpack_require__.e/* require.ensure */(4).then((function () {
+var PurchasePayDrugs = function PurchasePayDrugs(r) {
+	return __webpack_require__.e/* require.ensure */(5).then((function () {
 		return r(__webpack_require__(52));
+	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
+var PurchasePayPolicy = function PurchasePayPolicy(r) {
+	return __webpack_require__.e/* require.ensure */(5).then((function () {
+		return r(__webpack_require__(53));
+	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
+var PurchasePayPolicyDrugs = function PurchasePayPolicyDrugs(r) {
+	return __webpack_require__.e/* require.ensure */(5).then((function () {
+		return r(__webpack_require__(54));
+	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
+var PurchasePayReturnMoney = function PurchasePayReturnMoney(r) {
+	return __webpack_require__.e/* require.ensure */(5).then((function () {
+		return r(__webpack_require__(55));
+	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
+var PurchasePayRefund = function PurchasePayRefund(r) {
+	return __webpack_require__.e/* require.ensure */(5).then((function () {
+		return r(__webpack_require__(56));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 
 //销售渠道页面 分组
 var Hospital = function Hospital(r) {
 	return __webpack_require__.e/* require.ensure */(1).then((function () {
-		return r(__webpack_require__(53));
+		return r(__webpack_require__(57));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //联系人页面
 var Contacts = function Contacts(r) {
 	return __webpack_require__.e/* require.ensure */(1).then((function () {
-		return r(__webpack_require__(54));
+		return r(__webpack_require__(58));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Business = function Business(r) {
 	return __webpack_require__.e/* require.ensure */(1).then((function () {
-		return r(__webpack_require__(55));
+		return r(__webpack_require__(59));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //商业
 var Tag = function Tag(r) {
 	return __webpack_require__.e/* require.ensure */(1).then((function () {
-		return r(__webpack_require__(56));
+		return r(__webpack_require__(60));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //标签管理
 var Account = function Account(r) {
 	return __webpack_require__.e/* require.ensure */(1).then((function () {
-		return r(__webpack_require__(57));
+		return r(__webpack_require__(61));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //银行账号管理
 var AccountDetail = function AccountDetail(r) {
 	return __webpack_require__.e/* require.ensure */(1).then((function () {
-		return r(__webpack_require__(58));
+		return r(__webpack_require__(62));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var BusinessCommission = function BusinessCommission(r) {
 	return __webpack_require__.e/* require.ensure */(1).then((function () {
-		return r(__webpack_require__(59));
+		return r(__webpack_require__(63));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var ReturnMoney = function ReturnMoney(r) {
 	return __webpack_require__.e/* require.ensure */(1).then((function () {
-		return r(__webpack_require__(60));
+		return r(__webpack_require__(64));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 
 //报表管理 分组1
 var Report = function Report(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(61));
+		return r(__webpack_require__(65));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var ReportSaleLine = function ReportSaleLine(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(62));
+		return r(__webpack_require__(66));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //销售折现图
 var ReportTagBar = function ReportTagBar(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(63));
+		return r(__webpack_require__(67));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //标签销售柱状图
 var ReportPurchaseReturnMoney = function ReportPurchaseReturnMoney(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(64));
+		return r(__webpack_require__(68));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //高打返款金额统计按联系人
 var ReportPurchaseReturnMoneyDetail = function ReportPurchaseReturnMoneyDetail(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(65));
+		return r(__webpack_require__(69));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //高打返款金额统计按联系人  查看明细
 var ReportSalesReturnMoney = function ReportSalesReturnMoney(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(66));
+		return r(__webpack_require__(70));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //佣金返款金额统计按联系人
 var ReportSalesReturnMoneyDetail = function ReportSalesReturnMoneyDetail(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(67));
+		return r(__webpack_require__(71));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //佣金返款金额统计按联系人 查看明细
 var ReportPurchasePaysReturnMoney = function ReportPurchasePaysReturnMoney(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(68));
+		return r(__webpack_require__(72));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //招商预付应收联系人
 var ReportPurchasePaysReturnMoneyDetail = function ReportPurchasePaysReturnMoneyDetail(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(69));
+		return r(__webpack_require__(73));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //招商预付应收按联系人 查看明细
 var ReportSalesReturnMoneyPay = function ReportSalesReturnMoneyPay(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(70));
+		return r(__webpack_require__(74));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //销售应付
 var ReportSalesReturnMoneyPayDetail = function ReportSalesReturnMoneyPayDetail(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(71));
+		return r(__webpack_require__(75));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //销售应付 查看明细
 var ReportAllotsReturnMoneyPay = function ReportAllotsReturnMoneyPay(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(72));
+		return r(__webpack_require__(76));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //调货应付
 var ReportAllotsReturnMoneyPayDetail = function ReportAllotsReturnMoneyPayDetail(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(73));
+		return r(__webpack_require__(77));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //调货应付 查看明细
 var ReportPurchasePaysReturnMoneyPay = function ReportPurchasePaysReturnMoneyPay(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(74));
+		return r(__webpack_require__(78));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //招商预付应付
 var ReportPurchasePaysReturnMoneyPayDetail = function ReportPurchasePaysReturnMoneyPayDetail(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(75));
+		return r(__webpack_require__(79));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //招商预付应付 查看明细
 var ReportSalesByProduct = function ReportSalesByProduct(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(76));
+		return r(__webpack_require__(80));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //销售按产品
 var ReportSalesByHospital = function ReportSalesByHospital(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(77));
+		return r(__webpack_require__(81));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //销售按医院
 var ReportSalesByProfitRate = function ReportSalesByProfitRate(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(78));
+		return r(__webpack_require__(82));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //销售按毛利率
 var ReportComprehensive = function ReportComprehensive(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(79));
+		return r(__webpack_require__(83));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //利润/负债综合统计  详情
 var ReportComprehensiveDetail = function ReportComprehensiveDetail(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(80));
+		return r(__webpack_require__(84));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //利润/负债综合统计  详情
 var ReportComprehensive1 = function ReportComprehensive1(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(81));
+		return r(__webpack_require__(85));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //利润/负债综合统计
 var ReportComprehensive2 = function ReportComprehensive2(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(82));
+		return r(__webpack_require__(86));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //利润/负债综合统计
 var ReportSaleChainRatio = function ReportSaleChainRatio(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(83));
+		return r(__webpack_require__(87));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //销售环比
 var ReportSaleChainRatioSn = function ReportSaleChainRatioSn(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(84));
+		return r(__webpack_require__(88));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //销售环比
 var ReportSaleOnYear = function ReportSaleOnYear(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(85));
+		return r(__webpack_require__(89));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //销售同比
 var ReportSaleOnYearSn = function ReportSaleOnYearSn(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(86));
+		return r(__webpack_require__(90));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //销售同比
 var ReportSaleVariance = function ReportSaleVariance(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(87));
+		return r(__webpack_require__(91));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //稳定性分析
 var Stock = function Stock(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(88));
+		return r(__webpack_require__(92));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //库存
 var StockMoney = function StockMoney(r) {
 	return __webpack_require__.e/* require.ensure */(0).then((function () {
-		return r(__webpack_require__(89));
+		return r(__webpack_require__(93));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //库存
 
 //返款管理 分组
 var Refundsale = function Refundsale(r) {
 	return __webpack_require__.e/* require.ensure */(7).then((function () {
-		return r(__webpack_require__(90));
+		return r(__webpack_require__(94));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Refundpurchase = function Refundpurchase(r) {
 	return __webpack_require__.e/* require.ensure */(7).then((function () {
-		return r(__webpack_require__(91));
+		return r(__webpack_require__(95));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var AllotReturnMoney = function AllotReturnMoney(r) {
 	return __webpack_require__.e/* require.ensure */(7).then((function () {
-		return r(__webpack_require__(92));
+		return r(__webpack_require__(96));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var SalesReturnMoney = function SalesReturnMoney(r) {
 	return __webpack_require__.e/* require.ensure */(7).then((function () {
-		return r(__webpack_require__(93));
+		return r(__webpack_require__(97));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 //政策管理 分组
 var AllotPolicy = function AllotPolicy(r) {
 	return __webpack_require__.e/* require.ensure */(8).then((function () {
-		return r(__webpack_require__(94));
+		return r(__webpack_require__(98));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var AllotPolicyDrugs = function AllotPolicyDrugs(r) {
 	return __webpack_require__.e/* require.ensure */(8).then((function () {
-		return r(__webpack_require__(95));
+		return r(__webpack_require__(99));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var SalesPolicy = function SalesPolicy(r) {
 	return __webpack_require__.e/* require.ensure */(8).then((function () {
-		return r(__webpack_require__(96));
+		return r(__webpack_require__(100));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var SalesPolicyDrugs = function SalesPolicyDrugs(r) {
 	return __webpack_require__.e/* require.ensure */(8).then((function () {
-		return r(__webpack_require__(97));
+		return r(__webpack_require__(101));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 
@@ -33889,9 +33889,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 var mixin = {
   methods: {
     isEmpty: function isEmpty(value) {
@@ -34061,7 +34058,7 @@ var mixin = {
       if (url && data) {
         var inputs = '';
         for (var key in data) {
-          if (_typeof(data[key]) == "object") {
+          if (data[key] instanceof Array) {
             for (var i = 0; i < data[key].length; i++) {
               inputs += '<input type="hidden" name="' + key + '" value="' + data[key][i] + '" />';
             }

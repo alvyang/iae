@@ -131,7 +131,7 @@
 						</el-select>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="预付价" prop="purchase_pay_price" :required="true">
+				<el-form-item label="预付价" prop="purchase_pay_price" >
 					<el-input v-model="purchasePay.purchase_pay_price" style="width:179px;"></el-input>
 				</el-form-item>
 				<el-form-item label="预付数量" prop="purchase_pay_number" >
@@ -197,9 +197,10 @@
 			var validateMoney = (rule, value, callback) => {
 				var reg = /^(([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)|([-]([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)))$/;
         if(value === ''){
-					callback(new Error('请输入'+rule.message));
+					callback(new Error('请输入'+rule.label));
 				}else if (!reg.test(value)) {
-        	callback(new Error('请输入正确的'+rule.message));
+					console.log('请输入正确的'+rule.message);
+        	callback(new Error('请输入正确的'+rule.label));
         } else {
 					this.purchasePay.purchase_pay_money = this.purchasePay.purchase_pay_money?this.purchasePay.purchase_pay_money:this.purchasePay.purchase_pay_number * this.purchasePay.purchase_pay_price;
 					this.purchasePay.purchase_pay_money = Math.round(this.purchasePay.purchase_pay_money*100)/100;
@@ -257,9 +258,9 @@
 				purchasePayRule:{
 					purchase_pay_contact_id:[{required: true, message: '请选择业务员', trigger: 'change' }],
 					purchase_pay_contract_time:[{required: true, message: '请选择合同时间', trigger: 'blur' }],
-					purchase_pay_number:[{validator:validateNum,message:"预付数量",trigger: 'blur' }],
-					purchase_pay_money:[{validator:validateMoney,message:"预付金额",trigger: 'blur' }],
-					purchase_pay_price:[{validator:validateMoney,message:"预付价",trigger: 'blur' }],
+					purchase_pay_number:[{validator:validateNum,trigger: 'blur' }],
+					purchase_pay_money:[{validator:validateMoney,label:"预付金额",trigger: 'blur' }],
+					purchase_pay_price:[{validator:validateMoney,label:"预付价",trigger: 'blur' }],
 				},
 				authCode:"",
 				business:[],

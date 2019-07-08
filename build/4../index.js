@@ -1,6 +1,6 @@
 webpackJsonp([4],{
 
-/***/ 100:
+/***/ 104:
 /***/ (function(module, exports) {
 
 /*
@@ -223,23 +223,170 @@ function applyToTag(styleElement, obj) {
 
 /***/ }),
 
-/***/ 393:
+/***/ 30:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(324)
+
+/* script */
+__vue_exports__ = __webpack_require__(326)
+
+/* template */
+var __vue_template__ = __webpack_require__(327)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/lvyang/workspace/iae/views/authority/authority.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+__vue_options__._scopeId = "data-v-fd7ec524"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-fd7ec524", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-fd7ec524", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] authority.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+
+/***/ 31:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(328)
+
+/* script */
+__vue_exports__ = __webpack_require__(330)
+
+/* template */
+var __vue_template__ = __webpack_require__(331)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/lvyang/workspace/iae/views/authority/role.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+__vue_options__._scopeId = "data-v-2826ab1b"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2826ab1b", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-2826ab1b", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] role.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+
+/***/ 32:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(332)
+
+/* script */
+__vue_exports__ = __webpack_require__(334)
+
+/* template */
+var __vue_template__ = __webpack_require__(335)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/lvyang/workspace/iae/views/authority/group.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+__vue_options__._scopeId = "data-v-72e3102a"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-72e3102a", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-72e3102a", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] group.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+
+/***/ 324:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(394);
+var content = __webpack_require__(325);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(100)(content, {});
+var update = __webpack_require__(104)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-874b3086!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./purchase.vue", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-874b3086!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./purchase.vue");
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-fd7ec524&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./authority.vue", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-fd7ec524&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./authority.vue");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -250,7 +397,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 394:
+/***/ 325:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -258,14 +405,1307 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n.sum_money_purchase > a{\n\tpadding-left: 20px;\n\tcolor: #606266;\n}\n.sum_money_purchase > span{\n\tcolor:#606266;\n}\n.sum_money_purchase .more_detail{\n\tposition: absolute;\n\tright: 10px;\n\theight: 30px;\n\tline-height: 30px;\n\tcolor: #409EFF;\n\ttext-decoration: none;\n}\n.sum_money_purchase{\n\tposition: relative;\n\tbackground-color: #fff;\n\tborder-bottom: 1px solid #ebeef5;\n\theight: 30px;\n\tcolor:#f24040;\n\tline-height: 30px;\n\tfont-size: 14px;\n}\n", ""]);
+exports.push([module.i, "\n.authority_div[data-v-fd7ec524]{\n  height: 100%;\n}\n.authority_content > div[data-v-fd7ec524]{\n  display: inline-block;\n  vertical-align: top;\n}\n.authority_content[data-v-fd7ec524]{\n  font-size: 0px;\n}\n.authority_form[data-v-fd7ec524]{\n  background: #fff;\n  padding-top: 30px;\n  box-sizing: border-box;\n  overflow-y: auto;\n}\n/* .authority_form > form{\n  width: 650px;\n} */\n.custom-tree-container[data-v-fd7ec524]{\n  background: #fff;\n  border-right: 1px solid #eff2f6;\n  width: 280px;\n  height: 100%;\n  padding-top: 10px;\n  box-sizing: border-box;\n  overflow-y: auto;\n}\n.custom-tree-node[data-v-fd7ec524] {\n  flex: 1;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  font-size: 14px;\n  padding-right: 8px;\n}\n", ""]);
 
 // exports
 
 
 /***/ }),
 
-/***/ 395:
+/***/ 326:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+  data: function data() {
+    return {
+      loading: false,
+      height: 0,
+      formWidth: 0,
+      authCode: "",
+      authorityData: {
+        authority_name: '',
+        authority_describe: '',
+        authority_code: '',
+        authority_path: '/',
+        authority_open: '1',
+        authority_type: '1',
+        button_type: '1'
+      },
+      rules: {
+        authority_name: [{ required: true, message: '请输入菜单名称', trigger: 'blur' }],
+        authority_path: [{ required: true, message: '请输入菜单路径', trigger: 'blur' }],
+        authority_code: [{ required: true, message: '请输入菜单路径', trigger: 'blur' }]
+      },
+      data: null
+    };
+  },
+  activated: function activated() {
+    this.getAuthoritys();
+  },
+  mounted: function mounted() {
+    this.height = $(window).height() - 105;
+    this.formWidth = $(window).width() - 301;
+    var that = this;
+    $(window).resize(function () {
+      that.height = $(window).height() - 105;
+      that.formWidth = $(window).width() - 301;
+    });
+    this.authCode = "," + JSON.parse(sessionStorage["user"]).authority_code;
+  },
+
+  methods: {
+    nodeClick: function nodeClick(data, node, com) {
+      var that = this;
+      this.authorityData = data;
+      var _self = this;
+      setTimeout(function () {
+        _self.$refs["authorityData"].clearValidate();
+      });
+    },
+    getAuthoritys: function getAuthoritys() {
+      var _self = this;
+      this.jquery('/iae/authority/getAuthoritys', null, function (res) {
+        _self.data = res.message;
+      });
+    },
+    append: function append(data) {
+      var newChild = {
+        label: '权限',
+        authority_name: '权限',
+        authority_describe: '',
+        authority_code: '',
+        authority_path: '/',
+        authority_type: '1',
+        button_type: '1',
+        authority_open: '1',
+        authority_parent_id: data.authority_id
+      };
+      var _self = this;
+      this.jquery('/iae/authority/saveAuthoritys', newChild, function (res) {
+        newChild.id = res.message.insertId;
+        newChild.authority_id = res.message.insertId;
+        data.children.push(newChild);
+      });
+    },
+    remove: function remove(node, data) {
+      var parent = node.parent;
+      var children = parent.data.children || parent.data;
+      var index = children.findIndex(function (d) {
+        return d.id === data.id;
+      });
+      children.splice(index, 1);
+    },
+    submitForm: function submitForm(formName) {
+      var _this = this;
+
+      var _self = this;
+      this.$refs[formName].validate(function (valid) {
+        if (valid) {
+          _this.loading = true;
+          _this.jquery('/iae/authority/editAuthoritys', _this.authorityData, function (res) {
+            _self.authorityData.label = _self.authorityData.authority_name;
+            _self.loading = false;
+            _self.$message({ showClose: true, message: '修改成功', type: 'success' });
+          });
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    }
+  }
+};
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ }),
+
+/***/ 327:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "authority_div"
+  }, [_c('el-breadcrumb', {
+    attrs: {
+      "separator-class": "el-icon-arrow-right"
+    }
+  }, [_c('el-breadcrumb-item', [_vm._v("系统管理")]), _vm._v(" "), _c('el-breadcrumb-item', [_vm._v("权限管理")])], 1), _vm._v(" "), _c('div', {
+    staticClass: "authority_content",
+    style: ({
+      height: _vm.height + 'px'
+    })
+  }, [_c('div', {
+    staticClass: "custom-tree-container"
+  }, [_c('div', {
+    staticClass: "block"
+  }, [_c('el-tree', {
+    ref: "tree",
+    attrs: {
+      "data": _vm.data,
+      "node-key": "id",
+      "expand-on-click-node": false
+    },
+    on: {
+      "node-click": _vm.nodeClick
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(ref) {
+        var node = ref.node;
+        var data = ref.data;
+
+        return _c('span', {
+          staticClass: "custom-tree-node"
+        }, [_c('span', [_vm._v(_vm._s(node.label))]), _vm._v(" "), _c('span', [_c('el-button', {
+          directives: [{
+            name: "dbClick",
+            rawName: "v-dbClick"
+          }, {
+            name: "show",
+            rawName: "v-show",
+            value: (data.authority_type != 3 && _vm.authCode.indexOf(',7,') > -1),
+            expression: "data.authority_type != 3 && authCode.indexOf(',7,') > -1"
+          }],
+          attrs: {
+            "type": "text",
+            "icon": "el-icon-circle-plus",
+            "size": "mini"
+          },
+          on: {
+            "click": function($event) {
+              $event.stopPropagation();
+              return (function () { return _vm.append(data); })($event)
+            }
+          }
+        }), _vm._v(" "), _c('el-button', {
+          directives: [{
+            name: "dbClick",
+            rawName: "v-dbClick"
+          }, {
+            name: "show",
+            rawName: "v-show",
+            value: (_vm.authCode.indexOf(',9,') > -1),
+            expression: "authCode.indexOf(',9,') > -1"
+          }],
+          attrs: {
+            "type": "text",
+            "icon": "el-icon-delete",
+            "size": "mini"
+          },
+          on: {
+            "click": function($event) {
+              $event.stopPropagation();
+              return (function () { return _vm.remove(node, data); })($event)
+            }
+          }
+        })], 1)])
+      }
+    }])
+  })], 1)]), _vm._v(" "), _c('div', {
+    staticClass: "authority_form",
+    style: ({
+      height: _vm.height + 'px',
+      width: _vm.formWidth + 'px'
+    })
+  }, [_c('el-form', {
+    ref: "authorityData",
+    staticClass: "demo-ruleForm",
+    attrs: {
+      "model": _vm.authorityData,
+      "rules": _vm.rules,
+      "label-width": "100px"
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "权限名称",
+      "prop": "authority_name"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "maxlength": "20"
+    },
+    model: {
+      value: (_vm.authorityData.authority_name),
+      callback: function($$v) {
+        _vm.$set(_vm.authorityData, "authority_name", $$v)
+      },
+      expression: "authorityData.authority_name"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "权限类型",
+      "prop": "authority_type"
+    }
+  }, [_c('el-radio', {
+    attrs: {
+      "label": "1"
+    },
+    model: {
+      value: (_vm.authorityData.authority_type),
+      callback: function($$v) {
+        _vm.$set(_vm.authorityData, "authority_type", $$v)
+      },
+      expression: "authorityData.authority_type"
+    }
+  }, [_vm._v("显示菜单")]), _vm._v(" "), _c('el-radio', {
+    attrs: {
+      "label": "2"
+    },
+    model: {
+      value: (_vm.authorityData.authority_type),
+      callback: function($$v) {
+        _vm.$set(_vm.authorityData, "authority_type", $$v)
+      },
+      expression: "authorityData.authority_type"
+    }
+  }, [_vm._v("功能菜单")]), _vm._v(" "), _c('el-radio', {
+    attrs: {
+      "label": "3"
+    },
+    model: {
+      value: (_vm.authorityData.authority_type),
+      callback: function($$v) {
+        _vm.$set(_vm.authorityData, "authority_type", $$v)
+      },
+      expression: "authorityData.authority_type"
+    }
+  }, [_vm._v("按钮")])], 1), _vm._v(" "), _c('el-form-item', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.authorityData.authority_type == 3),
+      expression: "authorityData.authority_type == 3"
+    }],
+    attrs: {
+      "label": "按钮类型",
+      "prop": "button_type"
+    }
+  }, [_c('el-radio', {
+    attrs: {
+      "label": "6"
+    },
+    model: {
+      value: (_vm.authorityData.button_type),
+      callback: function($$v) {
+        _vm.$set(_vm.authorityData, "button_type", $$v)
+      },
+      expression: "authorityData.button_type"
+    }
+  }, [_vm._v("查询")]), _vm._v(" "), _c('el-radio', {
+    attrs: {
+      "label": "1"
+    },
+    model: {
+      value: (_vm.authorityData.button_type),
+      callback: function($$v) {
+        _vm.$set(_vm.authorityData, "button_type", $$v)
+      },
+      expression: "authorityData.button_type"
+    }
+  }, [_vm._v("增加")]), _vm._v(" "), _c('el-radio', {
+    attrs: {
+      "label": "2"
+    },
+    model: {
+      value: (_vm.authorityData.button_type),
+      callback: function($$v) {
+        _vm.$set(_vm.authorityData, "button_type", $$v)
+      },
+      expression: "authorityData.button_type"
+    }
+  }, [_vm._v("删除")]), _vm._v(" "), _c('el-radio', {
+    attrs: {
+      "label": "3"
+    },
+    model: {
+      value: (_vm.authorityData.button_type),
+      callback: function($$v) {
+        _vm.$set(_vm.authorityData, "button_type", $$v)
+      },
+      expression: "authorityData.button_type"
+    }
+  }, [_vm._v("修改")]), _vm._v(" "), _c('el-radio', {
+    attrs: {
+      "label": "4"
+    },
+    model: {
+      value: (_vm.authorityData.button_type),
+      callback: function($$v) {
+        _vm.$set(_vm.authorityData, "button_type", $$v)
+      },
+      expression: "authorityData.button_type"
+    }
+  }, [_vm._v("权限控制")]), _vm._v(" "), _c('el-radio', {
+    attrs: {
+      "label": "5"
+    },
+    model: {
+      value: (_vm.authorityData.button_type),
+      callback: function($$v) {
+        _vm.$set(_vm.authorityData, "button_type", $$v)
+      },
+      expression: "authorityData.button_type"
+    }
+  }, [_vm._v("导出")]), _vm._v(" "), _c('el-radio', {
+    attrs: {
+      "label": "7"
+    },
+    model: {
+      value: (_vm.authorityData.button_type),
+      callback: function($$v) {
+        _vm.$set(_vm.authorityData, "button_type", $$v)
+      },
+      expression: "authorityData.button_type"
+    }
+  }, [_vm._v("导入")])], 1), _vm._v(" "), _c('el-form-item', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.authorityData.authority_type == 2),
+      expression: "authorityData.authority_type == 2"
+    }],
+    attrs: {
+      "label": "菜单路径",
+      "prop": "authority_path"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "maxlength": "50"
+    },
+    model: {
+      value: (_vm.authorityData.authority_path),
+      callback: function($$v) {
+        _vm.$set(_vm.authorityData, "authority_path", $$v)
+      },
+      expression: "authorityData.authority_path"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "权限编码",
+      "prop": "authority_code"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "maxlength": "20"
+    },
+    model: {
+      value: (_vm.authorityData.authority_code),
+      callback: function($$v) {
+        _vm.$set(_vm.authorityData, "authority_code", $$v)
+      },
+      expression: "authorityData.authority_code"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "是否开放",
+      "prop": "authority_open"
+    }
+  }, [_c('el-switch', {
+    attrs: {
+      "active-value": "1",
+      "inactive-value": "0"
+    },
+    model: {
+      value: (_vm.authorityData.authority_open),
+      callback: function($$v) {
+        _vm.$set(_vm.authorityData, "authority_open", $$v)
+      },
+      expression: "authorityData.authority_open"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "权限描述",
+      "prop": "authority_describe"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "maxlength": "100"
+    },
+    model: {
+      value: (_vm.authorityData.authority_describe),
+      callback: function($$v) {
+        _vm.$set(_vm.authorityData, "authority_describe", $$v)
+      },
+      expression: "authorityData.authority_describe"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }, {
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.authCode.indexOf(',8,') > -1),
+      expression: "authCode.indexOf(',8,') > -1"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "small",
+      "loading": _vm.loading
+    },
+    on: {
+      "click": function($event) {
+        _vm.submitForm('authorityData')
+      }
+    }
+  }, [_vm._v("保存")])], 1)], 1)], 1)])], 1)
+},staticRenderFns: []}
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-fd7ec524", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 328:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(329);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(104)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-2826ab1b&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./role.vue", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-2826ab1b&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./role.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 329:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.custom-tree-container[data-v-2826ab1b]{\n\tborder-right: none;\n\tmax-height:300px;\n\toverflow-y:auto;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 33:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(336)
+
+/* script */
+__vue_exports__ = __webpack_require__(338)
+
+/* template */
+var __vue_template__ = __webpack_require__(339)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/lvyang/workspace/iae/views/authority/user.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-282863f0", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-282863f0", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] user.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+
+/***/ 330:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+  data: function data() {
+    return {
+      authCode: "",
+      roles: [],
+      data: [],
+      pageNum: 10,
+      currentPage: 1,
+      count: 0,
+      roleId: null,
+      title: "1",
+      params: {
+        role_name: ""
+      },
+      role: {
+        role_name: "",
+        role_describe: "",
+        authority_code: ""
+      },
+      rules: {
+        role_name: [{ required: true, message: '请输入菜单名称', trigger: 'blur' }]
+      },
+      // defaultCheckedKeys:[],
+      dialogFormVisible: false,
+      dialogTreeVisible: false,
+      loading: false,
+      front_message: ""
+    };
+  },
+  activated: function activated() {
+    this.searchRolesList();
+    this.getAuthority();
+    this.authCode = "," + JSON.parse(sessionStorage["user"]).authority_code;
+  },
+  mounted: function mounted() {},
+
+  methods: {
+    editAuthorityShow: function editAuthorityShow(scope) {
+      //授权
+      var _self = this;
+      this.dialogTreeVisible = true;
+      this.roleId = scope.row.role_id;
+      this.front_message = scope.row.authority_code;
+      setTimeout(function () {
+        _self.$refs.tree.setCheckedKeys([]);
+        var code = scope.row.authority_code.substring(0, scope.row.authority_code.length - 1).split(",");
+        for (var i = 0; i < code.length; i++) {
+          _self.$refs.tree.setChecked(code[i], true, false);
+        }
+      }, 10);
+    },
+    editAuthority: function editAuthority() {
+      //授权
+      var _self = this;
+      var keys = this.$refs.tree.getCheckedKeys();
+      var halfKeys = this.$refs.tree.getHalfCheckedKeys();
+      this.jquery('/iae/role/editAuthority', {
+        authority_code: keys.concat(halfKeys),
+        role_id: _self.roleId,
+        front_message: _self.front_message
+      }, function (res) {
+        _self.$message({ showClose: true, message: '授权成功', type: 'success' });
+        _self.searchRolesList();
+        _self.dialogTreeVisible = false;
+      });
+    },
+    getAuthority: function getAuthority() {
+      var _self = this;
+      this.jquery('/iae/authority/getGroupAuthoritys', null, function (res) {
+        _self.data = res.message[0].children;
+      });
+    },
+    add: function add() {
+      //新增
+      this.title = "1";
+      this.dialogFormVisible = true;
+      this.role = {
+        role_name: "",
+        role_describe: "",
+        authority_code: ""
+      };
+      var _self = this;
+      setTimeout(function () {
+        _self.$refs["role"].clearValidate();
+      });
+    },
+    editRow: function editRow(scope) {
+      //编辑
+      this.title = "2";
+      var temp = JSON.stringify(scope.row);
+      this.role = JSON.parse(temp);
+      this.role.front_message = temp;
+      this.dialogFormVisible = true;
+      var _self = this;
+      setTimeout(function () {
+        _self.$refs["role"].clearValidate();
+      });
+    },
+    deleteRow: function deleteRow(scope) {
+      var _this = this;
+
+      //删除
+      this.$confirm('是否删除?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(function () {
+        _this.deleteItem(scope);
+      }).catch(function () {});
+    },
+    deleteItem: function deleteItem(scope) {
+      var _self = this;
+      this.jquery('/iae/role/deleteRoles', scope.row, function (res) {
+        _self.$message({ showClose: true, message: '删除成功', type: 'success' });
+        _self.searchRolesList();
+        _self.dialogFormVisible = false;
+      });
+    },
+    searchRolesList: function searchRolesList() {
+      var _self = this;
+      if (!_self.currentPage) {
+        _self.currentPage = 1;
+      }
+      if (!_self.pageNum) {
+        _self.pageNum = 10;
+      }
+      var page = {
+        start: (_self.currentPage - 1) * _self.pageNum,
+        limit: _self.pageNum
+      };
+      this.jquery('/iae/role/getRoles', {
+        data: _self.params,
+        page: page
+      }, function (res) {
+        _self.roles = res.message.data;
+        _self.pageNum = parseInt(res.message.limit);
+        _self.count = res.message.totalCount;
+      });
+    },
+    reSearch: function reSearch(arg) {
+      //重置
+      if (arg) {
+        this.$refs["params"].resetFields();
+      }
+      this.currentPage = 1;
+      this.searchRolesList();
+    },
+    handleSizeChange: function handleSizeChange(val) {
+      this.pageNum = val;
+      this.currentPage = 1;
+      this.searchRolesList();
+    },
+    handleCurrentChange: function handleCurrentChange(val) {
+      this.currentPage = val;
+      this.searchRolesList();
+    },
+    submitForm: function submitForm(formName) {
+      var _this2 = this;
+
+      //新增修改
+      var _self = this;
+      this.$refs[formName].validate(function (valid) {
+        if (valid) {
+          _this2.loading = true;
+          if (_this2.title == 1) {
+            _this2.jquery('/iae/role/saveRoles', _self.role, function (res) {
+              _self.$message({ showClose: true, message: '新增成功', type: 'success' });
+              _self.searchRolesList();
+              _self.dialogFormVisible = false;
+              _self.loading = false;
+            });
+          } else {
+            _this2.jquery('/iae/role/editRoles', _self.role, function (res) {
+              _self.$message({ showClose: true, message: '修改成功', type: 'success' });
+              _self.searchRolesList();
+              _self.dialogFormVisible = false;
+              _self.loading = false;
+            });
+          }
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    }
+  }
+};
+
+/***/ }),
+
+/***/ 331:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticStyle: {
+      "box-sizing": "border-box",
+      "padding": "0px 10px"
+    }
+  }, [_c('el-breadcrumb', {
+    attrs: {
+      "separator-class": "el-icon-arrow-right"
+    }
+  }, [_c('el-breadcrumb-item', [_vm._v("系统管理")]), _vm._v(" "), _c('el-breadcrumb-item', [_vm._v("角色管理")])], 1), _vm._v(" "), _c('el-form', {
+    ref: "params",
+    staticClass: "demo-form-inline search",
+    attrs: {
+      "inline": true,
+      "model": _vm.params,
+      "size": "mini"
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "角色名",
+      "prop": "role_name"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "size": "mini",
+      "placeholder": "角色名"
+    },
+    nativeOn: {
+      "keyup": function($event) {
+        if (!('button' in $event) && $event.keyCode !== 13) { return null; }
+        return _vm.reSearch($event)
+      }
+    },
+    model: {
+      value: (_vm.params.role_name),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "role_name", $$v)
+      },
+      expression: "params.role_name"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }, {
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.authCode.indexOf(',14,') > -1),
+      expression: "authCode.indexOf(',14,') > -1"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "mini"
+    },
+    on: {
+      "click": _vm.reSearch
+    }
+  }, [_vm._v("查询")]), _vm._v(" "), _c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }, {
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.authCode.indexOf(',14,') > -1),
+      expression: "authCode.indexOf(',14,') > -1"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "mini"
+    },
+    on: {
+      "click": function($event) {
+        _vm.reSearch(true)
+      }
+    }
+  }, [_vm._v("重置")]), _vm._v(" "), _c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }, {
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.authCode.indexOf(',11,') > -1),
+      expression: "authCode.indexOf(',11,') > -1"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "mini"
+    },
+    on: {
+      "click": _vm.add
+    }
+  }, [_vm._v("新增")])], 1)], 1), _vm._v(" "), _c('el-table', {
+    staticStyle: {
+      "width": "100%"
+    },
+    attrs: {
+      "data": _vm.roles,
+      "size": "mini",
+      "highlight-current-row": "",
+      "stripe": true
+    }
+  }, [_c('el-table-column', {
+    attrs: {
+      "prop": "role_name",
+      "label": "角色名"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "role_describe",
+      "label": "角色描述"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "fixed": "right",
+      "label": "操作",
+      "width": "200"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(scope) {
+        return [_c('el-button', {
+          directives: [{
+            name: "dbClick",
+            rawName: "v-dbClick"
+          }, {
+            name: "show",
+            rawName: "v-show",
+            value: (_vm.authCode.indexOf(',13,') > -1),
+            expression: "authCode.indexOf(',13,') > -1"
+          }],
+          attrs: {
+            "icon": "el-icon-delete",
+            "type": "primary",
+            "size": "mini"
+          },
+          nativeOn: {
+            "click": function($event) {
+              $event.preventDefault();
+              _vm.deleteRow(scope)
+            }
+          }
+        }), _vm._v(" "), _c('el-button', {
+          directives: [{
+            name: "dbClick",
+            rawName: "v-dbClick"
+          }, {
+            name: "show",
+            rawName: "v-show",
+            value: (_vm.authCode.indexOf(',12,') > -1),
+            expression: "authCode.indexOf(',12,') > -1"
+          }],
+          attrs: {
+            "icon": "el-icon-edit-outline",
+            "type": "primary",
+            "size": "mini"
+          },
+          nativeOn: {
+            "click": function($event) {
+              $event.preventDefault();
+              _vm.editRow(scope)
+            }
+          }
+        }), _vm._v(" "), _c('el-button', {
+          directives: [{
+            name: "dbClick",
+            rawName: "v-dbClick"
+          }, {
+            name: "show",
+            rawName: "v-show",
+            value: (_vm.authCode.indexOf(',15,') > -1),
+            expression: "authCode.indexOf(',15,') > -1"
+          }],
+          attrs: {
+            "type": "primary",
+            "size": "mini"
+          },
+          nativeOn: {
+            "click": function($event) {
+              $event.preventDefault();
+              _vm.editAuthorityShow(scope)
+            }
+          }
+        }, [_vm._v("授权")])]
+      }
+    }])
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "page_div"
+  }, [_c('el-pagination', {
+    attrs: {
+      "background": "",
+      "current-page": _vm.currentPage,
+      "page-sizes": [5, 10, 50, 100],
+      "page-size": _vm.pageNum,
+      "layout": "total, sizes, prev, pager, next, jumper",
+      "total": _vm.count
+    },
+    on: {
+      "size-change": _vm.handleSizeChange,
+      "current-change": _vm.handleCurrentChange
+    }
+  })], 1), _vm._v(" "), _c('el-dialog', {
+    attrs: {
+      "title": _vm.title == 1 ? '新增角色' : '修改角色',
+      "width": "450px",
+      "visible": _vm.dialogFormVisible
+    },
+    on: {
+      "update:visible": function($event) {
+        _vm.dialogFormVisible = $event
+      }
+    }
+  }, [_c('el-form', {
+    ref: "role",
+    staticClass: "demo-ruleForm",
+    attrs: {
+      "model": _vm.role,
+      "rules": _vm.rules,
+      "label-width": "80px"
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "角色名",
+      "prop": "role_name"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "300px"
+    },
+    attrs: {
+      "maxlength": "20",
+      "auto-complete": "off"
+    },
+    model: {
+      value: (_vm.role.role_name),
+      callback: function($$v) {
+        _vm.$set(_vm.role, "role_name", $$v)
+      },
+      expression: "role.role_name"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "角色描述"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "300px"
+    },
+    attrs: {
+      "maxlength": "100",
+      "auto-complete": "off"
+    },
+    model: {
+      value: (_vm.role.role_describe),
+      callback: function($$v) {
+        _vm.$set(_vm.role, "role_describe", $$v)
+      },
+      expression: "role.role_describe"
+    }
+  })], 1)], 1), _vm._v(" "), _c('div', {
+    staticClass: "dialog-footer",
+    attrs: {
+      "slot": "footer"
+    },
+    slot: "footer"
+  }, [_c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    attrs: {
+      "size": "small"
+    },
+    on: {
+      "click": function($event) {
+        _vm.dialogFormVisible = false
+      }
+    }
+  }, [_vm._v("取 消")]), _vm._v(" "), _c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "small",
+      "loading": _vm.loading
+    },
+    on: {
+      "click": function($event) {
+        _vm.submitForm('role')
+      }
+    }
+  }, [_vm._v("确 定")])], 1)], 1), _vm._v(" "), _c('el-dialog', {
+    attrs: {
+      "title": "角色授权",
+      "visible": _vm.dialogTreeVisible,
+      "width": "315px"
+    },
+    on: {
+      "update:visible": function($event) {
+        _vm.dialogTreeVisible = $event
+      }
+    }
+  }, [_c('div', {
+    staticClass: "custom-tree-container"
+  }, [_c('div', {
+    staticClass: "block"
+  }, [_c('el-tree', {
+    ref: "tree",
+    attrs: {
+      "data": _vm.data,
+      "node-key": "id",
+      "show-checkbox": "",
+      "expand-on-click-node": false
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(ref) {
+        var node = ref.node;
+        var data = ref.data;
+
+        return _c('span', {
+          staticClass: "custom-tree-node"
+        }, [_c('span', [_vm._v(_vm._s(node.label))])])
+      }
+    }])
+  })], 1)]), _vm._v(" "), _c('div', {
+    staticClass: "dialog-footer",
+    attrs: {
+      "slot": "footer"
+    },
+    slot: "footer"
+  }, [_c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    attrs: {
+      "size": "small"
+    },
+    on: {
+      "click": function($event) {
+        _vm.dialogTreeVisible = false
+      }
+    }
+  }, [_vm._v("取 消")]), _vm._v(" "), _c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "small"
+    },
+    on: {
+      "click": _vm.editAuthority
+    }
+  }, [_vm._v("确 定")])], 1)])], 1)
+},staticRenderFns: []}
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-2826ab1b", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 332:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(333);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(104)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-72e3102a&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./group.vue", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-72e3102a&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./group.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 333:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 334:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -356,295 +1796,63 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 exports.default = {
 	data: function data() {
 		var _this = this;
 
-		var validateNum = function validateNum(rule, value, callback) {
-			var regu = /^\+?[1-9][0-9]*$/;
+		var validateGroup = function validateGroup(rule, value, callback) {
+			var _self = _this;
 			if (value === '') {
-				callback(new Error('请输入预付数量'));
-			} else if (!regu.test(value)) {
-				callback(new Error('预付数量为正整数'));
+				callback(new Error('请输入组编码'));
 			} else {
-				_this.purchasePay.purchase_pay_money = _this.purchasePay.purchase_pay_money ? _this.purchasePay.purchase_pay_money : _this.purchasePay.purchase_pay_number * _this.purchasePay.purchase_pay_price;
-				_this.purchasePay.purchase_pay_money = Math.round(_this.purchasePay.purchase_pay_money * 100) / 100;
-				callback();
+				_this.jquery('/iae/group/exitsGroup', {
+					group_code: _self.group.group_code
+				}, function (res) {
+					if (_self.title == 1 && res.message.length > 0) {
+						callback(new Error('该组编码已存在'));
+					} else {
+						callback();
+					}
+				});
 			}
 		};
-		var validateMoney = function validateMoney(rule, value, callback) {
-			var reg = /^(([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)|([-]([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)))$/;
-			if (value === '') {
-				callback(new Error('请输入' + rule.message));
-			} else if (!reg.test(value)) {
-				callback(new Error('请输入正确的' + rule.message));
-			} else {
-				_this.purchasePay.purchase_pay_money = _this.purchasePay.purchase_pay_money ? _this.purchasePay.purchase_pay_money : _this.purchasePay.purchase_pay_number * _this.purchasePay.purchase_pay_price;
-				_this.purchasePay.purchase_pay_money = Math.round(_this.purchasePay.purchase_pay_money * 100) / 100;
-				callback();
-			}
-		};
-		var nowDate = new Date();
-		var beforeDate = new Date();
-		beforeDate.setFullYear(nowDate.getFullYear() - 1);
 		return {
-			pickerOptions2: {
-				shortcuts: [{
-					text: '本月',
-					onClick: function onClick(picker) {
-						var end = new Date();
-						var start = new Date(end.getFullYear() + "-" + (end.getMonth() + 1) + "-01");
-						picker.$emit('pick', [start, end]);
-					}
-				}, {
-					text: nowDate.getFullYear() + '年',
-					onClick: function onClick(picker) {
-						var end = new Date();
-						var start = new Date(end.getFullYear() + "-01" + "-01");
-						picker.$emit('pick', [start, end]);
-					}
-				}, {
-					text: beforeDate.getFullYear() + '年',
-					onClick: function onClick(picker) {
-						var start = new Date(beforeDate.getFullYear() + "-01" + "-01");
-						var end = new Date(beforeDate.getFullYear() + "-12" + "-31");
-						picker.$emit('pick', [start, end]);
-					}
-				}]
+			loading: false,
+			dialogFormVisible: false,
+			dialogTreeVisible: false,
+			group: {
+				group_name: "",
+				group_code: "",
+				start_time: null,
+				end_time: null
 			},
-			purchasePays: [],
-			contacts: [],
+			rules: {
+				group_name: [{ required: true, message: '请输入组名称', trigger: 'blur' }],
+				group_code: [{ validator: validateGroup, trigger: 'blur' }]
+			},
+			groups: [],
+			title: 1,
 			pageNum: 10,
 			currentPage: 1,
+			groupId: "",
 			count: 0,
-			dialogFormVisible: false,
-			loading: false,
+			data: [],
 			params: {
-				product_makesmakers: "",
-				productCommonName: "",
-				contactId: "",
-				contactId1: "",
-				time: [],
-				product_code: "",
-				status: "",
-				remark: "",
-				business: "",
-				batch_number: ""
+				group_name: ""
 			},
-			purchasePay: {},
-			purchasePayRule: {
-				purchase_pay_contact_id: [{ required: true, message: '请选择业务员', trigger: 'change' }],
-				purchase_pay_contract_time: [{ required: true, message: '请选择合同时间', trigger: 'blur' }],
-				purchase_pay_number: [{ validator: validateNum, message: "预付数量", trigger: 'blur' }],
-				purchase_pay_money: [{ validator: validateMoney, message: "预付金额", trigger: 'blur' }],
-				purchase_pay_price: [{ validator: validateMoney, message: "预付价", trigger: 'blur' }]
-			},
-			authCode: "",
-			business: [],
-			errorMessage: "",
-			importPurchasesUrl: "",
-			loadingImport: false,
-			uploadButtom: "导入预付招商记录",
-			dialogFormVisibleImport: false
+			front_authority_code: ""
 		};
 	},
 	activated: function activated() {
-		this.getContacts();
-		this.getPurchasePayList();
-		this.getProductBusiness();
-		this.authCode = "," + JSON.parse(sessionStorage["user"]).authority_code;
+		this.searchGroupsList();
+		this.getAuthority();
 	},
 	mounted: function mounted() {
-		this.importDrugsUrl = this.$bus.data.host + "/iae/purchasepay/importPurchasePay";
+		var that = this;
 	},
 
 	methods: {
-		beforeUpload: function beforeUpload(file) {
-			this.errorMessage = "";
-			this.uploadButtom = "上传成功，正在导入...";
-			this.loadingImport = true;
-		},
-		importDrugsSuccess: function importDrugsSuccess(response, file, fileList) {
-			this.uploadButtom = "导入采进记录";
-			this.loadingImport = false;
-			var downloadErrorMessage = "<a style='color:red;' href='" + this.$bus.data.host + "/iae/purchasepay/downloadErrorPurchasePays'>下载错误数据</a>";
-			this.errorMessage = response.message + downloadErrorMessage;
-		},
-		importShow: function importShow() {
-			this.dialogFormVisibleImport = true;
-			this.errorMessage = "";
-			if (this.$refs.upload) {
-				this.$refs.upload.clearFiles();
-			}
-		},
-		downloadTemplate: function downloadTemplate() {
-			window.location.href = this.$bus.data.host + "/download/template_purchases_pay.xlsx";
-		},
-		formatPercent: function formatPercent(row, column, cellValue, index) {
-			if (!this.isEmpty(cellValue)) {
-				return cellValue + " %";
-			} else {
-				return "-";
-			}
-		},
-		getProductBusiness: function getProductBusiness() {
-			var _self = this;
-			this.jquery("/iae/business/getAllBusiness", null, function (res) {
-				//查询商业
-				_self.business = res.message;
-				sessionStorage["productbusiness"] = JSON.stringify(_self.business);
-			});
-		},
-		exportExcel: function exportExcel() {
-			var url = this.$bus.data.host + "/iae/purchasepay/exportPurchasePay";
-			this.download(url, this.params);
-		},
-		handleSelect: function handleSelect(item) {
-			this.purchase.remark = item.remark;
-		},
-		querySearch: function querySearch(queryString, cb) {
-			var remarks = this.remarks;
-			var results = queryString ? remarks.filter(this.createFilter(queryString)) : remarks;
-			// 调用 callback 返回建议列表的数据
-			cb(results);
-		},
-		createFilter: function createFilter(queryString) {
-			var _self = this;
-			return function (remarks) {
-				if (!_self.isEmpty(remarks.remark)) {
-					return remarks.remark.toLowerCase().indexOf(queryString.toLowerCase()) > -1;
-				} else {
-					return;
-				}
-			};
-		},
-		editPurchasePay: function editPurchasePay(formName) {
-			var _this2 = this;
-
-			var _self = this;
-			this.$refs[formName].validate(function (valid) {
-				if (valid) {
-					_this2.loading = true;
-					_self.jquery('/iae/purchasepay/editPurchasePay', _self.purchasePay, function (res) {
-						_self.dialogFormVisible = false;
-						_self.loading = false;
-						_self.$message({ showClose: true, message: '修改成功', type: 'success' });
-						_self.getPurchasePayList();
-					});
-				} else {
-					return false;
-				}
-			});
-		},
-		getContacts: function getContacts() {
-			var _self = this;
-			this.jquery('/iae/contacts/getAllContacts', { group_id: 0, contact_type: ['高打品种', '业务员'] }, function (res) {
-				_self.contacts = res.message;
-			});
-		},
 		formatterDate: function formatterDate(row, column, cellValue) {
 			if (cellValue && typeof cellValue == "string") {
 				var temp = cellValue.substring(0, 10);
@@ -657,63 +1865,115 @@ exports.default = {
 				return "";
 			}
 		},
+		editGroupAuthority: function editGroupAuthority() {
+			var _self = this;
+			var keys = this.$refs.tree.getCheckedKeys();
+			var halfKeys = this.$refs.tree.getHalfCheckedKeys();
+			this.jquery('/iae/group/editGroupAuthority', {
+				authority_code: keys.concat(halfKeys),
+				front_authority_code: _self.front_authority_code,
+				group_id: _self.groupId
+			}, function (res) {
+				_self.$message({ showClose: true, message: '授权成功', type: 'success' });
+				_self.searchGroupsList();
+				_self.dialogTreeVisible = false;
+			});
+		},
+		getAuthority: function getAuthority() {
+			var _self = this;
+			this.jquery('/iae/authority/getOpenAuthoritys', null, function (res) {
+				_self.data = res.message[0].children;
+			});
+		},
+		editRoleShow: function editRoleShow(scope) {
+			var _self = this;
+			this.dialogTreeVisible = true;
+			this.groupId = scope.row.group_id;
+			this.front_authority_code = scope.row.authority_code;
+			setTimeout(function () {
+				_self.$refs.tree.setCheckedKeys([]);
+				var code = scope.row.authority_code.substring(0, scope.row.authority_code.length - 1).split(",");
+				for (var i = 0; i < code.length; i++) {
+					_self.$refs.tree.setChecked(code[i], true, false);
+				}
+			}, 10);
+		},
+		addShow: function addShow() {
+			this.dialogFormVisible = true;
+			this.group = {
+				group_name: "",
+				group_code: "",
+				start_time: null,
+				end_time: null
+			};
+			var _self = this;
+			this.title = 1;
+			setTimeout(function () {
+				_self.$refs["group"].clearValidate();
+			});
+		},
 		editRow: function editRow(scope) {
 			//编辑药品信息
 			this.dialogFormVisible = true;
+			this.title = 2;
 			var temp = JSON.stringify(scope.row);
-			this.purchasePay = JSON.parse(temp);
-			this.purchasePay.front_purchase = temp;
+			this.group = JSON.parse(temp);
+			this.group.front_message = temp;
+			var _self = this;
+			setTimeout(function () {
+				_self.$refs["group"].clearValidate();
+			});
 		},
 		deleteRow: function deleteRow(scope) {
-			var _this3 = this;
+			var _this2 = this;
 
-			//删除
+			this.deleteId = scope.row.contacts_id;
 			this.$confirm('是否删除?', '提示', {
 				confirmButtonText: '确定',
 				cancelButtonText: '取消',
 				type: 'warning'
 			}).then(function () {
-				_this3.deleteItem(scope);
+				_this2.deleteItem(scope);
 			}).catch(function () {});
 		},
 		deleteItem: function deleteItem(scope) {
 			var _self = this;
-			this.jquery('/iae/purchasepay/deletePurchasePay', {
-				purchase_pay_id: scope.row.purchase_pay_id,
-				purchase_pay_delete_flag: ""
+			this.jquery('/iae/group/deleteGroups', {
+				group_id: scope.row.group_id
 			}, function (res) {
 				_self.$message({ showClose: true, message: '删除成功', type: 'success' });
-				_self.getPurchasePayList();
+				_self.searchGroupsList();
 				_self.dialogFormVisible = false;
 			});
 		},
+		add: function add(formName) {
+			var _this3 = this;
 
-		//跳转到编辑页面
-		add: function add() {
-			sessionStorage["remarks"] = JSON.stringify(this.remarks);
-			this.$router.push("/main/purchasepaydrugs");
-		},
-		contactChange: function contactChange() {
 			var _self = this;
-			this.jquery('/iae/purchasepay/getPurchasePolicy', {
-				contactId: _self.purchasePay.purchase_pay_contact_id,
-				drugId: _self.purchasePay.product_id
-			}, function (res) {
-				_self.purchasePay.purchase_pay_price = res.message[0].purchase_pay_policy_make_price;
-				_self.purchasePay.purchase_pay_policy_floor_price = res.message[0].purchase_pay_policy_floor_price;
-				_self.purchasePay.purchase_pay_policy_price = res.message[0].purchase_pay_policy_price;
-				_self.purchasePay.purchase_pay_policy_remark = res.message[0].purchase_pay_policy_remark;
-				_self.purchasePay.purchase_pay_policy_tax = res.message[0].purchase_pay_policy_tax;
+			this.$refs[formName].validate(function (valid) {
+				if (valid) {
+					_this3.loading = true;
+					if (_this3.title == 1) {
+						_this3.jquery('/iae/group/saveGroups', _self.group, function (res) {
+							_self.$message({ showClose: true, message: '新增成功', type: 'success' });
+							_self.loading = false;
+							_self.dialogFormVisible = false;
+						});
+					} else {
+						_this3.jquery('/iae/group/editGroups', _self.group, function (res) {
+							_self.$message({ showClose: true, message: '修改成功', type: 'success' });
+							_self.dialogFormVisible = false;
+							_self.loading = false;
+						});
+					}
+					_self.searchGroupsList();
+				} else {
+					console.log('error submit!!');
+					return false;
+				}
 			});
 		},
-		reSearch: function reSearch(arg) {
-			if (arg) {
-				this.$refs["params"].resetFields();
-			}
-			this.currentPage = 1;
-			this.getPurchasePayList();
-		},
-		getPurchasePayList: function getPurchasePayList() {
+		searchGroupsList: function searchGroupsList() {
 			var _self = this;
 			if (!_self.currentPage) {
 				_self.currentPage = 1;
@@ -725,35 +1985,47 @@ exports.default = {
 				start: (_self.currentPage - 1) * _self.pageNum,
 				limit: _self.pageNum
 			};
-			this.jquery('/iae/purchasepay/getPurchasePay', {
+			this.jquery('/iae/group/getGroups', {
 				data: _self.params,
 				page: page
 			}, function (res) {
-				_self.purchasePays = res.message.data;
+				_self.groups = res.message.data;
 				_self.pageNum = parseInt(res.message.limit);
 				_self.count = res.message.totalCount;
 			});
 		},
+		reSearch: function reSearch(arg) {
+			if (arg) {
+				this.$refs["params"].resetFields();
+			}
+			this.currentPage = 1;
+			this.searchGroupsList();
+		},
 		handleSizeChange: function handleSizeChange(val) {
 			this.pageNum = val;
 			this.currentPage = 1;
-			this.getPurchasePayList();
+			this.params.limit = this.pageNum;
+			this.searchGroupsList();
 		},
 		handleCurrentChange: function handleCurrentChange(val) {
 			this.currentPage = val;
-			this.getPurchasePayList();
+			this.params.start = (val - 1) * this.pageNum;
+			this.params.limit = this.pageNum;
+			this.searchGroupsList();
+		},
+		formatValue: function formatValue(row, column, cellValue, index) {
+			return cellValue.substring(0, 10);
 		}
 	}
 };
 
 /***/ }),
 
-/***/ 396:
+/***/ 335:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "sale_list",
     staticStyle: {
       "box-sizing": "border-box",
       "padding": "0px 10px"
@@ -762,7 +2034,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "separator-class": "el-icon-arrow-right"
     }
-  }, [_c('el-breadcrumb-item', [_vm._v("采购管理")]), _vm._v(" "), _c('el-breadcrumb-item', [_vm._v("预付招商管理")])], 1), _vm._v(" "), _c('el-form', {
+  }, [_c('el-breadcrumb-item', [_vm._v("系统管理")]), _vm._v(" "), _c('el-breadcrumb-item', [_vm._v("用户组管理")])], 1), _vm._v(" "), _c('el-form', {
     ref: "params",
     staticClass: "demo-form-inline search",
     attrs: {
@@ -772,31 +2044,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('el-form-item', {
     attrs: {
-      "label": "合同时间",
-      "prop": "time"
-    }
-  }, [_c('el-date-picker', {
-    attrs: {
-      "type": "daterange",
-      "size": "mini",
-      "align": "right",
-      "unlink-panels": "",
-      "range-separator": "至",
-      "start-placeholder": "开始日期",
-      "end-placeholder": "结束日期",
-      "picker-options": _vm.pickerOptions2
-    },
-    model: {
-      value: (_vm.params.time),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "time", $$v)
-      },
-      expression: "params.time"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "产品名称",
-      "prop": "productCommonName"
+      "label": "组名称",
+      "prop": "group_name"
     }
   }, [_c('el-input', {
     staticStyle: {
@@ -804,209 +2053,37 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     attrs: {
       "size": "mini",
-      "placeholder": "产品名称/助记码"
+      "placeholder": "组名称"
     },
     nativeOn: {
       "keyup": function($event) {
         if (!('button' in $event) && $event.keyCode !== 13) { return null; }
-        _vm.reSearch(false)
+        return _vm.reSearch($event)
       }
     },
     model: {
-      value: (_vm.params.productCommonName),
+      value: (_vm.params.group_name),
       callback: function($$v) {
-        _vm.$set(_vm.params, "productCommonName", $$v)
+        _vm.$set(_vm.params, "group_name", $$v)
       },
-      expression: "params.productCommonName"
+      expression: "params.group_name"
     }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "产品编号",
-      "prop": "product_code"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "size": "mini",
-      "placeholder": "产品编号"
-    },
-    nativeOn: {
-      "keyup": function($event) {
-        if (!('button' in $event) && $event.keyCode !== 13) { return null; }
-        _vm.reSearch(false)
-      }
-    },
-    model: {
-      value: (_vm.params.product_code),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "product_code", $$v)
-      },
-      expression: "params.product_code"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "生产厂家",
-      "prop": "product_makesmakers"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "size": "mini",
-      "placeholder": "生产厂家"
-    },
-    nativeOn: {
-      "keyup": function($event) {
-        if (!('button' in $event) && $event.keyCode !== 13) { return null; }
-        _vm.reSearch(false)
-      }
-    },
-    model: {
-      value: (_vm.params.product_makesmakers),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "product_makesmakers", $$v)
-      },
-      expression: "params.product_makesmakers"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "　联系人",
-      "prop": "contactId"
-    }
-  }, [_c('el-select', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "filterable": "",
-      "size": "mini",
-      "placeholder": "请选择"
-    },
-    model: {
-      value: (_vm.params.contactId),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "contactId", $$v)
-      },
-      expression: "params.contactId"
-    }
-  }, [_c('el-option', {
-    key: "",
-    attrs: {
-      "label": "全部",
-      "value": ""
-    }
-  }), _vm._v(" "), _vm._l((_vm.contacts), function(item) {
-    return (item.contact_type.indexOf('高打品种') > -1) ? _c('el-option', {
-      key: item.contacts_id,
-      attrs: {
-        "label": item.contacts_name,
-        "value": item.contacts_id
-      }
-    }) : _vm._e()
-  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "　业务员",
-      "prop": "contactId1"
-    }
-  }, [_c('el-select', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "filterable": "",
-      "size": "mini",
-      "placeholder": "请选择"
-    },
-    model: {
-      value: (_vm.params.contactId1),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "contactId1", $$v)
-      },
-      expression: "params.contactId1"
-    }
-  }, [_c('el-option', {
-    key: "",
-    attrs: {
-      "label": "全部",
-      "value": ""
-    }
-  }), _vm._v(" "), _vm._l((_vm.contacts), function(item) {
-    return (item.contact_type.indexOf('业务员') > -1) ? _c('el-option', {
-      key: item.contacts_id,
-      attrs: {
-        "label": item.contacts_name,
-        "value": item.contacts_id
-      }
-    }) : _vm._e()
-  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "　　商业",
-      "prop": "business"
-    }
-  }, [_c('el-select', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "size": "mini",
-      "filterable": "",
-      "placeholder": "请选择商业"
-    },
-    model: {
-      value: (_vm.params.business),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "business", $$v)
-      },
-      expression: "params.business"
-    }
-  }, [_c('el-option', {
-    key: "",
-    attrs: {
-      "label": "全部",
-      "value": ""
-    }
-  }), _vm._v(" "), _vm._l((_vm.business), function(item) {
-    return _c('el-option', {
-      key: item.business_id,
-      attrs: {
-        "label": item.business_name,
-        "value": item.business_id
-      }
-    })
-  })], 2)], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
+  })], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
     directives: [{
       name: "dbClick",
       rawName: "v-dbClick"
-    }, {
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.authCode.indexOf(',151,') > -1),
-      expression: "authCode.indexOf(',151,') > -1"
     }],
-    staticStyle: {
-      "margin-left": "14px"
-    },
     attrs: {
       "type": "primary",
       "size": "mini"
     },
     on: {
-      "click": function($event) {
-        _vm.reSearch(false)
-      }
+      "click": _vm.reSearch
     }
   }, [_vm._v("查询")]), _vm._v(" "), _c('el-button', {
     directives: [{
       name: "dbClick",
       rawName: "v-dbClick"
-    }, {
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.authCode.indexOf(',151,') > -1),
-      expression: "authCode.indexOf(',151,') > -1"
     }],
     attrs: {
       "type": "primary",
@@ -1021,215 +2098,57 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "dbClick",
       rawName: "v-dbClick"
-    }, {
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.authCode.indexOf(',155,') > -1),
-      expression: "authCode.indexOf(',155,') > -1"
     }],
     attrs: {
       "type": "primary",
       "size": "mini"
     },
     on: {
-      "click": _vm.add
+      "click": _vm.addShow
     }
-  }, [_vm._v("新增")]), _vm._v(" "), _c('el-button', {
-    directives: [{
-      name: "dbClick",
-      rawName: "v-dbClick"
-    }, {
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.authCode.indexOf(',150,') > -1),
-      expression: "authCode.indexOf(',150,') > -1"
-    }],
-    attrs: {
-      "type": "primary",
-      "size": "mini"
-    },
-    on: {
-      "click": _vm.exportExcel
-    }
-  }, [_vm._v("导出")]), _vm._v(" "), _c('el-button', {
-    directives: [{
-      name: "dbClick",
-      rawName: "v-dbClick"
-    }, {
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.authCode.indexOf(',152,') > -1),
-      expression: "authCode.indexOf(',152,') > -1"
-    }],
-    attrs: {
-      "type": "primary",
-      "size": "mini"
-    },
-    on: {
-      "click": _vm.importShow
-    }
-  }, [_vm._v("导入")]), _vm._v(" "), _c('el-button', {
-    directives: [{
-      name: "dbClick",
-      rawName: "v-dbClick"
-    }, {
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.authCode.indexOf(',152,') > -1),
-      expression: "authCode.indexOf(',152,') > -1"
-    }],
-    attrs: {
-      "type": "primary",
-      "size": "mini"
-    },
-    on: {
-      "click": _vm.downloadTemplate
-    }
-  }, [_vm._v("导入模板下载")])], 1)], 1), _vm._v(" "), _c('el-table', {
+  }, [_vm._v("新增")])], 1)], 1), _vm._v(" "), _c('el-table', {
     staticStyle: {
       "width": "100%"
     },
     attrs: {
-      "data": _vm.purchasePays,
+      "data": _vm.groups,
       "size": "mini",
       "stripe": true,
       "border": true
     }
   }, [_c('el-table-column', {
     attrs: {
-      "fixed": "",
-      "prop": "purchase_pay_contract_time",
-      "label": "合同时间",
-      "width": "80",
-      "formatter": _vm.formatterDate
+      "prop": "group_name",
+      "label": "组名称"
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
-      "fixed": "",
-      "prop": "product_common_name",
-      "label": "产品通用名",
-      "width": "120"
+      "prop": "group_code",
+      "label": "组编码"
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
-      "prop": "product_code",
-      "label": "产品编码",
-      "width": "100"
+      "prop": "start_time",
+      "formatter": _vm.formatterDate,
+      "label": "有效期开始时间"
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
-      "prop": "product_specifications",
-      "label": "产品规格",
-      "width": "100"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_makesmakers",
-      "label": "生产厂家",
-      "width": "150"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_packing",
-      "label": "包装",
-      "width": "50"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_unit",
-      "label": "单位",
-      "width": "50"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_price",
-      "label": "中标价",
-      "width": "60"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "contacts_name1",
-      "label": "业务员",
-      "width": "60"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "business_name",
-      "label": "商业",
-      "width": "60"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_price",
-      "label": "打款价",
-      "width": "60"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_number",
-      "label": "预付数量",
-      "width": "70"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_money",
-      "label": "预付金额",
-      "width": "70"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_time",
-      "label": "打款时间",
-      "width": "80",
-      "formatter": _vm.formatterDate
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_send_time",
-      "label": "发货时间",
-      "width": "80",
-      "formatter": _vm.formatterDate
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_arrived_time",
-      "label": "到货时间",
-      "width": "80",
-      "formatter": _vm.formatterDate
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_other_money",
-      "label": "补点/费用票",
-      "width": "80"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "contacts_name",
-      "label": "联系人",
-      "width": "60"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_receive_remark",
-      "label": "备注"
+      "prop": "end_time",
+      "formatter": _vm.formatterDate,
+      "label": "有效期结束时间"
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
       "fixed": "right",
       "label": "操作",
-      "width": "100"
+      "width": "180"
     },
     scopedSlots: _vm._u([{
       key: "default",
       fn: function(scope) {
         return [_c('el-button', {
           directives: [{
-            name: "show",
-            rawName: "v-show",
-            value: (_vm.authCode.indexOf(',153,') > -1),
-            expression: "authCode.indexOf(',153,') > -1"
-          }, {
             name: "dbClick",
             rawName: "v-dbClick"
           }],
@@ -1246,11 +2165,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           }
         }), _vm._v(" "), _c('el-button', {
           directives: [{
-            name: "show",
-            rawName: "v-show",
-            value: (_vm.authCode.indexOf(',154,') > -1),
-            expression: "authCode.indexOf(',154,') > -1"
-          }, {
             name: "dbClick",
             rawName: "v-dbClick"
           }],
@@ -1265,7 +2179,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
               _vm.editRow(scope)
             }
           }
-        })]
+        }), _vm._v(" "), _c('el-button', {
+          directives: [{
+            name: "dbClick",
+            rawName: "v-dbClick"
+          }],
+          attrs: {
+            "type": "primary",
+            "size": "mini"
+          },
+          nativeOn: {
+            "click": function($event) {
+              $event.preventDefault();
+              _vm.editRoleShow(scope)
+            }
+          }
+        }, [_vm._v("授权")])]
       }
     }])
   })], 1), _vm._v(" "), _c('div', {
@@ -1285,8 +2214,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1), _vm._v(" "), _c('el-dialog', {
     attrs: {
-      "title": "修改预付招商记录",
-      "width": "700px",
+      "title": _vm.title == 1 ? '新增用户组' : '修改用户组',
+      "width": "500px",
       "visible": _vm.dialogFormVisible
     },
     on: {
@@ -1294,269 +2223,94 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.dialogFormVisible = $event
       }
     }
-  }, [_c('el-collapse', {
-    model: {
-      value: (_vm.activeNames),
-      callback: function($$v) {
-        _vm.activeNames = $$v
-      },
-      expression: "activeNames"
-    }
-  }, [_c('el-collapse-item', {
-    attrs: {
-      "title": '药品信息（药品名：' + _vm.purchasePay.product_common_name + '）',
-      "name": "2"
-    }
-  }, [_c('div', [_c('span', [_vm._v("产品编号:")]), _vm._v(_vm._s(_vm.purchasePay.product_code))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("产品规格:")]), _vm._v(_vm._s(_vm.purchasePay.product_specifications))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("中标价:")]), _vm._v(_vm._s(_vm.purchasePay.product_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("包装:")]), _vm._v(_vm._s(_vm.purchasePay.product_packing))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("单位:")]), _vm._v(_vm._s(_vm.purchasePay.product_unit))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("打款价:")]), _vm._v(_vm._s(_vm.purchasePay.product_pay_price))]), _vm._v(" "), _c('div', {
-    staticStyle: {
-      "display": "block",
-      "width": "100%"
-    }
-  }, [_c('span', [_vm._v("生产厂家:")]), _vm._v(_vm._s(_vm.purchasePay.product_makesmakers))])])], 1), _vm._v(" "), _c('el-form', {
-    ref: "purchasePay",
+  }, [_c('el-form', {
+    ref: "group",
     staticClass: "demo-ruleForm",
-    staticStyle: {
-      "margin-top": "20px"
-    },
     attrs: {
-      "model": _vm.purchasePay,
-      "status-icon": "",
-      "rules": _vm.purchasePayRule,
-      "inline": true,
-      "label-width": "100px"
+      "model": _vm.group,
+      "rules": _vm.rules,
+      "label-width": "130px"
     }
   }, [_c('el-form-item', {
     attrs: {
-      "label": "业务员",
-      "prop": "purchase_pay_contact_id"
+      "label": "组名称",
+      "prop": "group_name"
     }
-  }, [_c('el-select', {
+  }, [_c('el-input', {
     staticStyle: {
-      "width": "179px"
+      "width": "300px"
     },
     attrs: {
-      "filterable": "",
-      "placeholder": "请选择"
-    },
-    on: {
-      "change": _vm.contactChange
+      "maxlength": "20",
+      "auto-complete": "off"
     },
     model: {
-      value: (_vm.purchasePay.purchase_pay_contact_id),
+      value: (_vm.group.group_name),
       callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_contact_id", $$v)
+        _vm.$set(_vm.group, "group_name", $$v)
       },
-      expression: "purchasePay.purchase_pay_contact_id"
+      expression: "group.group_name"
     }
-  }, [_c('el-option', {
-    key: "",
+  })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
-      "label": "全部",
-      "value": ""
-    }
-  }), _vm._v(" "), _vm._l((_vm.contacts), function(item) {
-    return (item.contact_type.indexOf('业务员') > -1) ? _c('el-option', {
-      key: item.contacts_id,
-      attrs: {
-        "label": item.contacts_name,
-        "value": item.contacts_id
-      }
-    }) : _vm._e()
-  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "商业",
-      "prop": "purchase_pay_business_id"
-    }
-  }, [_c('el-select', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "filterable": "",
-      "placeholder": "请选择商业"
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_business_id),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_business_id", $$v)
-      },
-      expression: "purchasePay.purchase_pay_business_id"
-    }
-  }, _vm._l((_vm.business), function(item) {
-    return _c('el-option', {
-      key: item.business_id,
-      attrs: {
-        "label": item.business_name,
-        "value": item.business_id
-      }
-    })
-  }))], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "预付价",
-      "prop": "purchase_pay_price",
+      "label": "组编码",
+      "prop": "group_code",
       "required": true
     }
   }, [_c('el-input', {
     staticStyle: {
-      "width": "179px"
+      "width": "300px"
+    },
+    attrs: {
+      "maxlength": "20",
+      "auto-complete": "off"
     },
     model: {
-      value: (_vm.purchasePay.purchase_pay_price),
+      value: (_vm.group.group_code),
       callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_price", $$v)
+        _vm.$set(_vm.group, "group_code", $$v)
       },
-      expression: "purchasePay.purchase_pay_price"
+      expression: "group.group_code"
     }
   })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
-      "label": "预付数量",
-      "prop": "purchase_pay_number"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "maxlength": 10,
-      "placeholder": "请输入购入数量"
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_number),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_number", $$v)
-      },
-      expression: "purchasePay.purchase_pay_number"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "预付金额",
-      "prop": "purchase_pay_money"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "179px"
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_money),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_money", $$v)
-      },
-      expression: "purchasePay.purchase_pay_money"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "补点/费用票",
-      "prop": "purchase_pay_other_money"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "placeholder": "补点/费用票"
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_other_money),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_other_money", $$v)
-      },
-      expression: "purchasePay.purchase_pay_other_money"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "合同时间",
-      "prop": "purchase_pay_contract_time"
+      "label": "有效期开始日期",
+      "prop": "start_time"
     }
   }, [_c('el-date-picker', {
     staticStyle: {
-      "width": "179px"
+      "width": "300px"
     },
     attrs: {
       "type": "date",
-      "placeholder": "请选择打款时间"
+      "placeholder": "选择开始日期"
     },
     model: {
-      value: (_vm.purchasePay.purchase_pay_contract_time),
+      value: (_vm.group.start_time),
       callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_contract_time", $$v)
+        _vm.$set(_vm.group, "start_time", $$v)
       },
-      expression: "purchasePay.purchase_pay_contract_time"
+      expression: "group.start_time"
     }
   })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
-      "label": "付款时间",
-      "prop": "purchase_pay_time"
+      "label": "有效期结束日期",
+      "prop": "end_time"
     }
   }, [_c('el-date-picker', {
     staticStyle: {
-      "width": "179px"
+      "width": "300px"
     },
     attrs: {
       "type": "date",
-      "placeholder": "请选择打款时间"
+      "placeholder": "选择结束日期"
     },
     model: {
-      value: (_vm.purchasePay.purchase_pay_time),
+      value: (_vm.group.end_time),
       callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_time", $$v)
+        _vm.$set(_vm.group, "end_time", $$v)
       },
-      expression: "purchasePay.purchase_pay_time"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "发货时间",
-      "prop": "purchase_pay_send_time"
-    }
-  }, [_c('el-date-picker', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "type": "date",
-      "placeholder": "请选择打款时间"
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_send_time),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_send_time", $$v)
-      },
-      expression: "purchasePay.purchase_pay_send_time"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "到货时间",
-      "prop": "purchase_pay_arrived_time"
-    }
-  }, [_c('el-date-picker', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "type": "date",
-      "placeholder": "请选择打款时间"
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_arrived_time),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_arrived_time", $$v)
-      },
-      expression: "purchasePay.purchase_pay_arrived_time"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "备注",
-      "prop": "purchase_pay_receive_remark"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "179px"
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_receive_remark),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_receive_remark", $$v)
-      },
-      expression: "purchasePay.purchase_pay_receive_remark"
+      expression: "group.end_time"
     }
   })], 1)], 1), _vm._v(" "), _c('div', {
     staticClass: "dialog-footer",
@@ -1589,90 +2343,102 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "click": function($event) {
-        _vm.editPurchasePay('purchasePay')
+        _vm.add('group')
       }
     }
   }, [_vm._v("确 定")])], 1)], 1), _vm._v(" "), _c('el-dialog', {
-    staticClass: "import_record",
     attrs: {
-      "title": "导入预付招商记录",
-      "width": "600px",
-      "visible": _vm.dialogFormVisibleImport
+      "title": "角色授权",
+      "visible": _vm.dialogTreeVisible,
+      "width": "315px"
     },
     on: {
       "update:visible": function($event) {
-        _vm.dialogFormVisibleImport = $event
+        _vm.dialogTreeVisible = $event
       }
     }
-  }, [_c('el-upload', {
-    ref: "upload",
-    staticClass: "upload-demo",
+  }, [_c('div', {
+    staticClass: "custom-tree-container"
+  }, [_c('div', {
+    staticClass: "block"
+  }, [_c('el-tree', {
+    ref: "tree",
     attrs: {
-      "action": _vm.importDrugsUrl,
-      "before-upload": _vm.beforeUpload,
-      "on-success": _vm.importDrugsSuccess,
-      "file-list": _vm.fileList
-    }
+      "data": _vm.data,
+      "node-key": "id",
+      "show-checkbox": "",
+      "expand-on-click-node": false
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(ref) {
+        var node = ref.node;
+        var data = ref.data;
+
+        return _c('span', {
+          staticClass: "custom-tree-node"
+        }, [_c('span', [_vm._v(_vm._s(node.label))])])
+      }
+    }])
+  })], 1)]), _vm._v(" "), _c('div', {
+    staticClass: "dialog-footer",
+    attrs: {
+      "slot": "footer"
+    },
+    slot: "footer"
   }, [_c('el-button', {
     directives: [{
       name: "dbClick",
       rawName: "v-dbClick"
     }],
     attrs: {
-      "size": "small",
-      "type": "primary",
-      "loading": _vm.loadingImport
+      "size": "small"
+    },
+    on: {
+      "click": function($event) {
+        _vm.dialogTreeVisible = false
+      }
     }
-  }, [_vm._v(_vm._s(_vm.uploadButtom))]), _vm._v(" "), _c('div', {
-    staticClass: "el-upload__tip",
-    staticStyle: {
-      "display": "inline-block"
-    },
-    attrs: {
-      "slot": "tip"
-    },
-    slot: "tip"
-  }, [_vm._v("　只能上传xls/xlsx文件")])], 1), _vm._v(" "), _c('div', {
+  }, [_vm._v("取 消")]), _vm._v(" "), _c('el-button', {
     directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.errorMessage),
-      expression: "errorMessage"
+      name: "dbClick",
+      rawName: "v-dbClick"
     }],
-    staticStyle: {
-      "margin-top": "15px"
+    attrs: {
+      "type": "primary",
+      "size": "small"
     },
-    domProps: {
-      "innerHTML": _vm._s(_vm.errorMessage)
+    on: {
+      "click": _vm.editGroupAuthority
     }
-  })], 1)], 1)
+  }, [_vm._v("确 定")])], 1)])], 1)
 },staticRenderFns: []}
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-874b3086", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-72e3102a", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ 397:
+/***/ 336:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(398);
+var content = __webpack_require__(337);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(100)(content, {});
+var update = __webpack_require__(104)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-19c3afc6&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./purchaseDrugs.vue", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-19c3afc6&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./purchaseDrugs.vue");
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-282863f0!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./user.vue", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-282863f0!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./user.vue");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -1683,7 +2449,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 398:
+/***/ 337:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
@@ -1691,14 +2457,14 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n.el-table .cell[data-v-19c3afc6]{\n\twhite-space: nowrap;\n}\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
 
 /***/ }),
 
-/***/ 399:
+/***/ 338:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1812,4323 +2578,212 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 exports.default = {
 	data: function data() {
 		var _this = this;
 
-		var validateNum = function validateNum(rule, value, callback) {
-			var regu = /^\+?[1-9][0-9]*$/;
+		var validateUsername = function validateUsername(rule, value, callback) {
+			var _self = _this;
 			if (value === '') {
-				callback(new Error('请输入预付数量'));
-			} else if (!regu.test(value)) {
-				callback(new Error('预付数量为正整数'));
-			} else {
-				_this.purchasePay.purchase_pay_money = _this.purchasePay.purchase_pay_money ? _this.purchasePay.purchase_pay_money : _this.purchasePay.purchase_pay_number * _this.purchasePay.purchase_pay_price;
-				_this.purchasePay.purchase_pay_money = Math.round(_this.purchasePay.purchase_pay_money * 100) / 100;
-				callback();
-			}
-		};
-		var validateMoney = function validateMoney(rule, value, callback) {
-			var reg = /^(([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)|([-]([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)))$/;
-			if (value === '') {
-				callback(new Error('请输入' + rule.message));
-			} else if (!reg.test(value)) {
-				callback(new Error('请输入正确的' + rule.message));
-			} else {
-				_this.purchasePay.purchase_pay_money = _this.purchasePay.purchase_pay_money ? _this.purchasePay.purchase_pay_money : _this.purchasePay.purchase_pay_number * _this.purchasePay.purchase_pay_price;
-				_this.purchasePay.purchase_pay_money = Math.round(_this.purchasePay.purchase_pay_money * 100) / 100;
-				callback();
-			}
-		};
-		return _defineProperty({
-			loading: false,
-			dialogFormVisible: false,
-			drugs: [],
-			drug: {},
-			contacts: [],
-			business: [],
-			pageNum: 10,
-			currentPage: 1,
-			count: 0,
-			params: {
-				product_type: ['高打'],
-				productCommonName: "",
-				contactId: "",
-				product_code: "",
-				business: "",
-				product_distribution_flag: "0"
-			},
-			purchasePay: {
-				purchase_pay_contact_id: "",
-				purchase_pay_contract_time: new Date(),
-				purchase_pay_number: "",
-				purchase_pay_money: "",
-				purchase_pay_time: null,
-				purchase_pay_receive_remark: "",
-				purchase_pay_other_money: "",
-				purchase_pay_price: ""
-			},
-			purchasePayRule: {
-				purchase_pay_contact_id: [{ required: true, message: '请选择业务员', trigger: 'change' }],
-				purchase_pay_contract_time: [{ required: true, message: '请选择合同时间', trigger: 'blur' }],
-				purchase_pay_number: [{ validator: validateNum, trigger: 'blur' }],
-				purchase_pay_money: [{ validator: validateMoney, message: "预付金额", trigger: 'blur' }],
-				purchase_pay_price: [{ validator: validateMoney, message: "预付价", trigger: 'blur' }]
-			}
-		}, 'business', []);
-	},
-	activated: function activated() {
-		this.getDrugsList();
-		this.getContacts();
-		this.getProductBusiness();
-		this.business = JSON.parse(sessionStorage["productbusiness"]);
-	},
-	mounted: function mounted() {},
-
-	methods: {
-		getProductBusiness: function getProductBusiness() {
-			var _self = this;
-			this.jquery("/iae/business/getAllBusiness", null, function (res) {
-				//查询商业
-				_self.business = res.message;
-			});
-		},
-		contactChange: function contactChange() {
-			var _self = this;
-			_self.purchasePay.purchase_pay_policy_floor_price = "";
-			_self.purchasePay.purchase_pay_policy_price = "";
-			_self.purchasePay.purchase_pay_policy_remark = "";
-			_self.purchasePay.purchase_pay_policy_tax = "";
-			_self.purchasePay.purchase_pay_price = _self.drug.product_mack_price;
-			this.jquery('/iae/purchasepay/getPurchasePolicy', {
-				contactId: _self.purchasePay.purchase_pay_contact_id,
-				drugId: _self.drug.product_id
-			}, function (res) {
-				if (res.message && res.message.length > 0) {
-					_self.purchasePay.purchase_pay_price = res.message[0].purchase_pay_policy_make_price;
-					_self.purchasePay.purchase_pay_policy_floor_price = res.message[0].purchase_pay_policy_floor_price;
-					_self.purchasePay.purchase_pay_policy_price = res.message[0].purchase_pay_policy_price;
-					_self.purchasePay.purchase_pay_policy_remark = res.message[0].purchase_pay_policy_remark;
-					_self.purchasePay.purchase_pay_policy_tax = res.message[0].purchase_pay_policy_tax;
-				}
-			});
-		},
-		getContacts: function getContacts() {
-			var _self = this;
-			this.jquery('/iae/contacts/getAllContacts', { group_id: 0, contact_type: ['高打品种', '业务员'] }, function (res) {
-				_self.contacts = res.message;
-			});
-		},
-		formatPercent: function formatPercent(row, column, cellValue, index) {
-			return (100 - row.product_discount).toFixed(0) + "%";
-		},
-
-		//选择要进货的药品
-		selectRow: function selectRow(scope) {
-			var temp = JSON.stringify(scope.row);
-			this.drug = JSON.parse(temp);
-			if (this.$refs["purchasePay"]) {
-				this.$refs["purchasePay"].resetFields();
-			}
-			this.dialogFormVisible = true;
-			this.purchasePay.purchase_pay_price = this.drug.product_mack_price;
-			this.purchasePay.purchase_pay_business_id = this.drug.product_business;
-		},
-
-		//搜索所有药品信息
-		searchDrugsList: function searchDrugsList() {
-			this.getDrugsList();
-		},
-		returnPurchase: function returnPurchase() {
-			this.$router.push("/main/purchasepay");
-		},
-		addPurchasePay: function addPurchasePay(formName) {
-			var _this2 = this;
-
-			var _self = this;
-			this.purchasePay.purchase_pay_drug_id = this.drug.product_id;
-			this.purchasePay.product_return_money = this.drug.product_return_money;
-			this.purchasePay.product_return_time_type = this.drug.product_return_time_type;
-			this.purchasePay.product_return_time_day = this.drug.product_return_time_day;
-			this.purchasePay.product_return_time_day_num = this.drug.product_return_time_day_num;
-			this.purchasePay.product_floor_price = this.drug.product_floor_price;
-			this.purchasePay.product_high_discount = this.drug.product_high_discount;
-			this.$refs[formName].validate(function (valid) {
-				if (valid) {
-					_this2.loading = true;
-					_self.jquery('/iae/purchasepay/savePurchasesPay', _self.purchasePay, function (res) {
-						_self.$confirm('新增成功', '提示', {
-							confirmButtonText: '继续添加',
-							cancelButtonText: '返回备货列表',
-							type: 'success'
-						}).then(function () {
-							_self.$refs["purchase"].resetFields();
-							_self.dialogFormVisible = false;
-							_self.loading = false;
-						}).catch(function () {
-							_self.dialogFormVisible = false;
-							_self.loading = false;
-							_self.$router.push({ path: '/main/purchasepay' });
-						});
-					});
-				} else {
-					return false;
-				}
-			});
-		},
-		getDrugsList: function getDrugsList() {
-			var _self = this;
-			if (!_self.currentPage) {
-				_self.currentPage = 1;
-			}
-			if (!_self.pageNum) {
-				_self.pageNum = 10;
-			}
-			var page = {
-				start: (_self.currentPage - 1) * _self.pageNum,
-				limit: _self.pageNum
-			};
-			this.jquery('/iae/drugs/getDrugs', {
-				data: _self.params,
-				page: page
-			}, function (res) {
-				_self.drugs = res.message.data;
-				_self.pageNum = parseInt(res.message.limit);
-				_self.count = res.message.totalCount;
-			});
-		},
-		reSearch: function reSearch() {
-			this.$refs["params"].resetFields();
-			this.getDrugsList();
-		},
-		handleSizeChange: function handleSizeChange(val) {
-			this.pageNum = val;
-			this.currentPage = 1;
-			this.getDrugsList();
-		},
-		handleCurrentChange: function handleCurrentChange(val) {
-			this.currentPage = val;
-			this.getDrugsList();
-		}
-	}
-};
-
-/***/ }),
-
-/***/ 400:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticStyle: {
-      "box-sizing": "border-box",
-      "padding": "0px 10px"
-    }
-  }, [_c('el-breadcrumb', {
-    attrs: {
-      "separator-class": "el-icon-arrow-right"
-    }
-  }, [_c('el-breadcrumb-item', [_vm._v("采购管理")]), _vm._v(" "), _c('el-breadcrumb-item', {
-    attrs: {
-      "to": {
-        path: '/main/purchasepay'
-      }
-    }
-  }, [_vm._v("预付招商管理")]), _vm._v(" "), _c('el-breadcrumb-item', [_vm._v("选择药品"), _c('a', {
-    staticStyle: {
-      "color": "#f24040"
-    }
-  }, [_vm._v("（请先选择预付药品）")])])], 1), _vm._v(" "), _c('el-form', {
-    ref: "params",
-    staticClass: "demo-form-inline search",
-    attrs: {
-      "inline": true,
-      "model": _vm.params,
-      "size": "mini"
-    }
-  }, [_c('el-form-item', {
-    attrs: {
-      "label": "产品名称",
-      "prop": "productCommonName"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "size": "mini",
-      "placeholder": "产品名称"
-    },
-    nativeOn: {
-      "keyup": function($event) {
-        if (!('button' in $event) && $event.keyCode !== 13) { return null; }
-        return _vm.searchDrugsList($event)
-      }
-    },
-    model: {
-      value: (_vm.params.productCommonName),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "productCommonName", $$v)
-      },
-      expression: "params.productCommonName"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "产品编码",
-      "prop": "product_code"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "size": "mini",
-      "placeholder": "产品编码"
-    },
-    nativeOn: {
-      "keyup": function($event) {
-        if (!('button' in $event) && $event.keyCode !== 13) { return null; }
-        return _vm.searchDrugsList($event)
-      }
-    },
-    model: {
-      value: (_vm.params.product_code),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "product_code", $$v)
-      },
-      expression: "params.product_code"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "联系人",
-      "prop": "contactId"
-    }
-  }, [_c('el-select', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "size": "mini",
-      "filterable": "",
-      "placeholder": "请选择"
-    },
-    model: {
-      value: (_vm.params.contactId),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "contactId", $$v)
-      },
-      expression: "params.contactId"
-    }
-  }, [_c('el-option', {
-    key: "",
-    attrs: {
-      "label": "全部",
-      "value": ""
-    }
-  }), _vm._v(" "), _vm._l((_vm.contacts), function(item) {
-    return (item.contact_type.indexOf('高打品种') > -1) ? _c('el-option', {
-      key: item.contacts_id,
-      attrs: {
-        "label": item.contacts_name,
-        "value": item.contacts_id
-      }
-    }) : _vm._e()
-  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "　　商业",
-      "prop": "business"
-    }
-  }, [_c('el-select', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "size": "mini",
-      "filterable": "",
-      "placeholder": "请选择商业"
-    },
-    model: {
-      value: (_vm.params.business),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "business", $$v)
-      },
-      expression: "params.business"
-    }
-  }, [_c('el-option', {
-    key: "",
-    attrs: {
-      "label": "全部",
-      "value": ""
-    }
-  }), _vm._v(" "), _vm._l((_vm.business), function(item) {
-    return _c('el-option', {
-      key: item.business_id,
-      attrs: {
-        "label": item.business_name,
-        "value": item.business_id
-      }
-    })
-  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "是否配送",
-      "prop": "product_distribution_flag"
-    }
-  }, [_c('el-select', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "size": "mini",
-      "placeholder": "请选择"
-    },
-    model: {
-      value: (_vm.params.product_distribution_flag),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "product_distribution_flag", $$v)
-      },
-      expression: "params.product_distribution_flag"
-    }
-  }, [_c('el-option', {
-    key: "",
-    attrs: {
-      "label": "全部",
-      "value": ""
-    }
-  }), _vm._v(" "), _c('el-option', {
-    key: "0",
-    attrs: {
-      "label": "配送",
-      "value": "0"
-    }
-  }), _vm._v(" "), _c('el-option', {
-    key: "1",
-    attrs: {
-      "label": "不配送",
-      "value": "1"
-    }
-  })], 1)], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
-    directives: [{
-      name: "dbClick",
-      rawName: "v-dbClick"
-    }],
-    attrs: {
-      "type": "primary",
-      "size": "mini"
-    },
-    on: {
-      "click": _vm.searchDrugsList
-    }
-  }, [_vm._v("查询")]), _vm._v(" "), _c('el-button', {
-    directives: [{
-      name: "dbClick",
-      rawName: "v-dbClick"
-    }],
-    attrs: {
-      "type": "primary",
-      "size": "mini"
-    },
-    on: {
-      "click": _vm.reSearch
-    }
-  }, [_vm._v("重置")]), _vm._v(" "), _c('el-button', {
-    directives: [{
-      name: "dbClick",
-      rawName: "v-dbClick"
-    }],
-    attrs: {
-      "type": "primary",
-      "size": "mini"
-    },
-    on: {
-      "click": _vm.returnPurchase
-    }
-  }, [_vm._v("返回列表")])], 1)], 1), _vm._v(" "), _c('el-table', {
-    staticStyle: {
-      "width": "100%"
-    },
-    attrs: {
-      "data": _vm.drugs,
-      "size": "mini",
-      "stripe": true,
-      "border": true
-    }
-  }, [_c('el-table-column', {
-    attrs: {
-      "fixed": "",
-      "prop": "product_common_name",
-      "label": "产品名称",
-      "width": "200"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_code",
-      "label": "产品编号",
-      "width": "150"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_specifications",
-      "label": "产品规格",
-      "width": "150"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_makesmakers",
-      "label": "生产厂家",
-      "width": "150"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_packing",
-      "label": "包装",
-      "width": "50"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_unit",
-      "label": "单位",
-      "width": "50"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_price",
-      "label": "中标价",
-      "width": "60"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_mack_price",
-      "label": "打款价",
-      "width": "60"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_discount",
-      "label": "毛利率(百分比)",
-      "formatter": _vm.formatPercent,
-      "width": "60"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "contacts_name",
-      "label": "联系人",
-      "width": "60"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "business_name",
-      "label": "商业"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "fixed": "right",
-      "label": "操作",
-      "width": "70"
-    },
-    scopedSlots: _vm._u([{
-      key: "default",
-      fn: function(scope) {
-        return [_c('el-button', {
-          directives: [{
-            name: "dbClick",
-            rawName: "v-dbClick"
-          }],
-          attrs: {
-            "type": "primary",
-            "size": "mini"
-          },
-          nativeOn: {
-            "click": function($event) {
-              $event.preventDefault();
-              _vm.selectRow(scope)
-            }
-          }
-        }, [_vm._v("选择")])]
-      }
-    }])
-  })], 1), _vm._v(" "), _c('div', {
-    staticClass: "page_div"
-  }, [_c('el-pagination', {
-    attrs: {
-      "background": "",
-      "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
-      "page-size": _vm.pageNum,
-      "layout": "total, sizes, prev, pager, next, jumper",
-      "total": _vm.count
-    },
-    on: {
-      "size-change": _vm.handleSizeChange,
-      "current-change": _vm.handleCurrentChange
-    }
-  })], 1), _vm._v(" "), _c('el-dialog', {
-    attrs: {
-      "title": "新增预付招商记录",
-      "width": "700px",
-      "visible": _vm.dialogFormVisible
-    },
-    on: {
-      "update:visible": function($event) {
-        _vm.dialogFormVisible = $event
-      }
-    }
-  }, [_c('el-collapse', {
-    model: {
-      value: (_vm.activeNames),
-      callback: function($$v) {
-        _vm.activeNames = $$v
-      },
-      expression: "activeNames"
-    }
-  }, [_c('el-collapse-item', {
-    attrs: {
-      "title": '药品信息（药品名：' + _vm.drug.product_common_name + '）',
-      "name": "2"
-    }
-  }, [_c('div', [_c('span', [_vm._v("产品编号:")]), _vm._v(_vm._s(_vm.drug.product_code))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("产品规格:")]), _vm._v(_vm._s(_vm.drug.product_specifications))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("中标价:")]), _vm._v(_vm._s(_vm.drug.product_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("包装:")]), _vm._v(_vm._s(_vm.drug.product_packing))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("单位:")]), _vm._v(_vm._s(_vm.drug.product_unit))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("打款价:")]), _vm._v(_vm._s(_vm.drug.product_mack_price))]), _vm._v(" "), _c('div', {
-    staticStyle: {
-      "display": "block",
-      "width": "100%"
-    }
-  }, [_c('span', [_vm._v("生产厂家:")]), _vm._v(_vm._s(_vm.drug.product_makesmakers))])])], 1), _vm._v(" "), _c('el-form', {
-    ref: "purchasePay",
-    staticClass: "demo-ruleForm",
-    staticStyle: {
-      "margin-top": "20px"
-    },
-    attrs: {
-      "model": _vm.purchasePay,
-      "status-icon": "",
-      "rules": _vm.purchasePayRule,
-      "inline": true,
-      "label-width": "100px"
-    }
-  }, [_c('el-form-item', {
-    attrs: {
-      "label": "业务员",
-      "prop": "purchase_pay_contact_id"
-    }
-  }, [_c('el-select', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "filterable": "",
-      "placeholder": "请选择"
-    },
-    on: {
-      "change": _vm.contactChange
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_contact_id),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_contact_id", $$v)
-      },
-      expression: "purchasePay.purchase_pay_contact_id"
-    }
-  }, [_c('el-option', {
-    key: "",
-    attrs: {
-      "label": "全部",
-      "value": ""
-    }
-  }), _vm._v(" "), _vm._l((_vm.contacts), function(item) {
-    return (item.contact_type.indexOf('业务员') > -1) ? _c('el-option', {
-      key: item.contacts_id,
-      attrs: {
-        "label": item.contacts_name,
-        "value": item.contacts_id
-      }
-    }) : _vm._e()
-  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "商业",
-      "prop": "purchase_pay_business_id"
-    }
-  }, [_c('el-select', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "filterable": "",
-      "placeholder": "请选择商业"
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_business_id),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_business_id", $$v)
-      },
-      expression: "purchasePay.purchase_pay_business_id"
-    }
-  }, _vm._l((_vm.business), function(item) {
-    return _c('el-option', {
-      key: item.business_id,
-      attrs: {
-        "label": item.business_name,
-        "value": item.business_id
-      }
-    })
-  }))], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "预付价",
-      "prop": "purchase_pay_price"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "179px"
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_price),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_price", $$v)
-      },
-      expression: "purchasePay.purchase_pay_price"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "预付数量",
-      "prop": "purchase_pay_number"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "maxlength": 10,
-      "placeholder": "请输入购入数量"
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_number),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_number", $$v)
-      },
-      expression: "purchasePay.purchase_pay_number"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "预付金额",
-      "prop": "purchase_pay_money"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "179px"
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_money),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_money", $$v)
-      },
-      expression: "purchasePay.purchase_pay_money"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "补点/费用票",
-      "prop": "purchase_pay_other_money"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "placeholder": "补点/费用票"
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_other_money),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_other_money", $$v)
-      },
-      expression: "purchasePay.purchase_pay_other_money"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "合同时间",
-      "prop": "purchase_pay_contract_time"
-    }
-  }, [_c('el-date-picker', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "type": "date",
-      "placeholder": "请选择打款时间"
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_contract_time),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_contract_time", $$v)
-      },
-      expression: "purchasePay.purchase_pay_contract_time"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "付款时间",
-      "prop": "purchase_pay_time"
-    }
-  }, [_c('el-date-picker', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "type": "date",
-      "placeholder": "请选择打款时间"
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_time),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_time", $$v)
-      },
-      expression: "purchasePay.purchase_pay_time"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "发货时间",
-      "prop": "purchase_pay_send_time"
-    }
-  }, [_c('el-date-picker', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "type": "date",
-      "placeholder": "请选择打款时间"
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_send_time),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_send_time", $$v)
-      },
-      expression: "purchasePay.purchase_pay_send_time"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "到货时间",
-      "prop": "purchase_pay_arrived_time"
-    }
-  }, [_c('el-date-picker', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "type": "date",
-      "placeholder": "请选择打款时间"
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_arrived_time),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_arrived_time", $$v)
-      },
-      expression: "purchasePay.purchase_pay_arrived_time"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "备注",
-      "prop": "remark"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "179px"
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_receive_remark),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_receive_remark", $$v)
-      },
-      expression: "purchasePay.purchase_pay_receive_remark"
-    }
-  })], 1)], 1), _vm._v(" "), _c('div', {
-    staticClass: "dialog-footer",
-    attrs: {
-      "slot": "footer"
-    },
-    slot: "footer"
-  }, [_c('el-button', {
-    directives: [{
-      name: "dbClick",
-      rawName: "v-dbClick"
-    }],
-    attrs: {
-      "size": "small"
-    },
-    on: {
-      "click": function($event) {
-        _vm.dialogFormVisible = false
-      }
-    }
-  }, [_vm._v("取 消")]), _vm._v(" "), _c('el-button', {
-    directives: [{
-      name: "dbClick",
-      rawName: "v-dbClick"
-    }],
-    attrs: {
-      "type": "primary",
-      "size": "small",
-      "loading": _vm.loading
-    },
-    on: {
-      "click": function($event) {
-        _vm.addPurchasePay('purchasePay')
-      }
-    }
-  }, [_vm._v("确 定")])], 1)], 1)], 1)
-},staticRenderFns: []}
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-19c3afc6", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 401:
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(402);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(100)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-43cbbded!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./purchasePayPolicy.vue", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-43cbbded!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./purchasePayPolicy.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-
-/***/ 402:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.copy_form .search .el-form-item__label {\n  padding-left: 0px !important;\n}\n.copy_form .el-form--inline .el-form-item{\n  margin-right: 4px !important;\n}\n.copy_form  .el-form-item.is-required:not(.is-no-asterisk)>.el-form-item__label:before{\n  display: none;\n}\n.el-collapse-item__content > div{\n  display: inline-block;\n  width: 30%;\n}\n.el-collapse-item__content > div > span{\n  display: inline-block;\n  width: 56px;\n  text-align: right;\n  padding-right: 10px;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ 403:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-exports.default = {
-  data: function data() {
-    var _this = this;
-
-    var validatePercent = function validatePercent(rule, value, callback) {
-      if (value && !/^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/.test(value)) {
-        callback(new Error('请再输入正确的' + rule.labelname));
-      } else {
-        var temp = "";
-        if (!_this.isEmpty(_this.policyPay.purchase_pay_policy_floor_price) && !_this.isEmpty(_this.policyPay.purchase_pay_policy_tax) && !_this.isEmpty(_this.policyPay.purchase_pay_policy_make_price)) {
-          temp = (_this.policyPay.purchase_pay_policy_make_price - _this.policyPay.purchase_pay_policy_floor_price) * (1 - _this.policyPay.purchase_pay_policy_tax / 100);
-        }
-        _this.policyPay.purchase_pay_policy_price = _this.policyPay.purchase_pay_policy_price ? _this.policyPay.purchase_pay_policy_price : temp;
-        _this.policyPay.purchase_pay_policy_price = _this.policyPay.purchase_pay_policy_price ? Math.round(_this.policyPay.purchase_pay_policy_price * 100) / 100 : "";
-        callback();
-      }
-    };
-    var validateMoney = function validateMoney(rule, value, callback) {
-      var reg = /^(([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)|([-]([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)))$/;
-      if (value && !reg.test(value)) {
-        callback(new Error('请输入正确的' + rule.labelname));
-      } else {
-        var temp = "";
-        if (!_this.isEmpty(_this.policyPay.purchase_pay_policy_floor_price) && !_this.isEmpty(_this.policyPay.purchase_pay_policy_tax) && !_this.isEmpty(_this.policyPay.purchase_pay_policy_make_price)) {
-          temp = (_this.policyPay.purchase_pay_policy_make_price - _this.policyPay.purchase_pay_policy_floor_price) * (1 - _this.policyPay.purchase_pay_policy_tax / 100);
-        }
-        _this.policyPay.purchase_pay_policy_price = _this.policyPay.purchase_pay_policy_price ? _this.policyPay.purchase_pay_policy_price : temp;
-        _this.policyPay.purchase_pay_policy_price = _this.policyPay.purchase_pay_policy_price ? Math.round(_this.policyPay.purchase_pay_policy_price * 100) / 100 : "";
-        callback();
-      }
-    };
-    return {
-      purchasePayPolicy: [],
-      hospitals: [],
-      contacts: [],
-      drug: {},
-      drugId: [],
-      params: {
-        contactId: "",
-        productCommonName: "",
-        productCode: ""
-      },
-      policyPay: {
-        purchase_pay_policy_floor_price: "",
-        purchase_pay_policy_tax: "",
-        purchase_pay_policy_price: "",
-        purchase_pay_policy_remark: "",
-        purchase_pay_contact_id: "",
-        purchase_pay_policy_make_price: ""
-      },
-      policyPayRule: {
-        purchase_pay_policy_tax: [{ validator: validatePercent, labelname: '高开税率', trigger: 'blur' }],
-        purchase_pay_policy_floor_price: [{ validator: validateMoney, labelname: '招商底价', trigger: 'blur' }],
-        purchase_pay_policy_make_price: [{ validator: validateMoney, labelname: '打款价', trigger: 'blur' }],
-        purchase_pay_policy_price: [{ validator: validateMoney, labelname: '招商积分', trigger: 'blur' }],
-        purchase_pay_contact_id: [{ required: true, message: '请选择联系人', trigger: 'change' }]
-      },
-      authCode: "",
-      pageNum: 10,
-      currentPage: 1,
-      count: 0,
-      dialogFormVisible: false,
-      dialogFormVisiblePolicy: false,
-      dialogFormVisibleBatch: false,
-      loading: false
-    };
-  },
-  activated: function activated() {
-    this.getContacts();
-    this.getPurchasePayPolicy();
-    this.authCode = "," + JSON.parse(sessionStorage["user"]).authority_code;
-  },
-
-  methods: {
-    exportPurchasePayPolicy: function exportPurchasePayPolicy() {
-      var url = this.$bus.data.host + "/iae/purchasePayPolicy/exportPurchasePayPolicy";
-      this.download(url, this.params);
-    },
-    editRow: function editRow(scope) {
-      //编辑药品信息
-      this.dialogFormVisible = true;
-      var temp = JSON.stringify(scope.row);
-      this.drug = JSON.parse(temp);
-      this.policyPay.front_message = JSON.stringify({
-        purchase_pay_policy_floor_price: this.drug.purchase_pay_policy_floor_price,
-        purchase_pay_policy_tax: this.drug.purchase_pay_policy_tax,
-        purchase_pay_policy_remark: this.drug.purchase_pay_policy_remark,
-        purchase_pay_policy_price: this.drug.purchase_pay_policy_price,
-        purchase_pay_contact_id: this.drug.purchase_pay_contact_id
-      });
-      this.policyPay.purchase_pay_policy_floor_price = this.drug.purchase_pay_policy_floor_price;
-      this.policyPay.purchase_pay_policy_tax = this.drug.purchase_pay_policy_tax;
-      this.policyPay.purchase_pay_policy_remark = this.drug.purchase_pay_policy_remark;
-      this.policyPay.purchase_pay_policy_price = this.drug.purchase_pay_policy_price;
-      this.policyPay.purchase_pay_contact_id = this.drug.purchase_pay_contact_id;
-      this.policyPay.purchase_pay_policy_drug_id = this.drug.purchase_pay_policy_drug_id;
-      this.policyPay.purchase_pay_policy_make_price = this.drug.product_mack_price;
-    },
-    getContacts: function getContacts() {
-      var _self = this;
-      this.jquery('/iae/contacts/getAllContacts', { group_id: 0, contact_type: ['业务员'] }, function (res) {
-        _self.contacts = res.message;
-      });
-    },
-    getPurchasePayPolicy: function getPurchasePayPolicy() {
-      var _self = this;
-      if (!_self.currentPage) {
-        _self.currentPage = 1;
-      }
-      if (!_self.pageNum) {
-        _self.pageNum = 10;
-      }
-      var page = {
-        start: (_self.currentPage - 1) * _self.pageNum,
-        limit: _self.pageNum
-      };
-      this.jquery('/iae/purchasePayPolicy/getPurchasePayPolicy', {
-        data: _self.params,
-        page: page
-      }, function (res) {
-        _self.purchasePayPolicy = res.message.data;
-        _self.pageNum = parseInt(res.message.limit);
-        _self.count = res.message.totalCount;
-      });
-    },
-    editPurchasePayPolicy: function editPurchasePayPolicy(formName) {
-      var _this2 = this;
-
-      var _self = this;
-      this.$refs[formName].validate(function (valid) {
-        if (valid) {
-          _this2.loading = true;
-          _self.jquery('/iae/purchasePayPolicy/editPurchasePayPolicy', _self.policyPay, function (res) {
-            _self.dialogFormVisible = false;
-            _self.loading = false;
-            _self.$message({ showClose: true, message: '修改成功', type: 'success' });
-            _self.getPurchasePayPolicy();
-          });
-        } else {
-          return false;
-        }
-      });
-    },
-    reSearch: function reSearch(arg) {
-      this.$refs["params"].resetFields();
-      this.currentPage = 1;
-      this.getPurchasePayPolicy();
-    },
-    handleSizeChange: function handleSizeChange(val) {
-      this.pageNum = val;
-      this.currentPage = 1;
-      this.getPurchasePayPolicy();
-    },
-    handleCurrentChange: function handleCurrentChange(val) {
-      this.currentPage = val;
-      this.getPurchasePayPolicy();
-    }
-  }
-};
-
-/***/ }),
-
-/***/ 404:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('el-breadcrumb', {
-    attrs: {
-      "separator-class": "el-icon-arrow-right"
-    }
-  }, [_c('el-breadcrumb-item', [_vm._v("积分管理")]), _vm._v(" "), _c('el-breadcrumb-item', [_vm._v("预付招商政策管理（下游）")])], 1), _vm._v(" "), _c('el-form', {
-    ref: "params",
-    staticClass: "demo-form-inline search",
-    attrs: {
-      "inline": true,
-      "model": _vm.params,
-      "size": "mini"
-    }
-  }, [_c('el-form-item', {
-    attrs: {
-      "label": "联系人",
-      "prop": "contactId"
-    }
-  }, [_c('el-select', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "filterable": "",
-      "size": "mini",
-      "placeholder": "请选择"
-    },
-    model: {
-      value: (_vm.params.contactId),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "contactId", $$v)
-      },
-      expression: "params.contactId"
-    }
-  }, [_c('el-option', {
-    key: "",
-    attrs: {
-      "label": "全部",
-      "value": ""
-    }
-  }), _vm._v(" "), _vm._l((_vm.contacts), function(item) {
-    return _c('el-option', {
-      key: item.contacts_id,
-      attrs: {
-        "label": item.contacts_name,
-        "value": item.contacts_id
-      }
-    })
-  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "产品编码",
-      "prop": "productCode"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "size": "mini",
-      "placeholder": "产品编码"
-    },
-    nativeOn: {
-      "keyup": function($event) {
-        if (!('button' in $event) && $event.keyCode !== 13) { return null; }
-        _vm.getPurchasePayPolicy()
-      }
-    },
-    model: {
-      value: (_vm.params.productCode),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "productCode", $$v)
-      },
-      expression: "params.productCode"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "产品名称",
-      "prop": "productCommonName"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "size": "mini",
-      "placeholder": "产品名称/助记码"
-    },
-    nativeOn: {
-      "keyup": function($event) {
-        if (!('button' in $event) && $event.keyCode !== 13) { return null; }
-        _vm.getPurchasePayPolicy()
-      }
-    },
-    model: {
-      value: (_vm.params.productCommonName),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "productCommonName", $$v)
-      },
-      expression: "params.productCommonName"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
-    directives: [{
-      name: "dbClick",
-      rawName: "v-dbClick"
-    }, {
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.authCode.indexOf(',159,') > -1),
-      expression: "authCode.indexOf(',159,') > -1"
-    }],
-    attrs: {
-      "type": "primary",
-      "size": "mini"
-    },
-    on: {
-      "click": function($event) {
-        _vm.getPurchasePayPolicy()
-      }
-    }
-  }, [_vm._v("查询")]), _vm._v(" "), _c('el-button', {
-    directives: [{
-      name: "dbClick",
-      rawName: "v-dbClick"
-    }, {
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.authCode.indexOf(',159,') > -1),
-      expression: "authCode.indexOf(',159,') > -1"
-    }],
-    attrs: {
-      "type": "primary",
-      "size": "mini"
-    },
-    on: {
-      "click": function($event) {
-        _vm.reSearch(true)
-      }
-    }
-  }, [_vm._v("重置")]), _vm._v(" "), _c('el-button', {
-    directives: [{
-      name: "dbClick",
-      rawName: "v-dbClick"
-    }, {
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.authCode.indexOf(',157,') > -1),
-      expression: "authCode.indexOf(',157,') > -1"
-    }],
-    attrs: {
-      "type": "primary",
-      "size": "mini"
-    },
-    on: {
-      "click": function($event) {
-        _vm.$router.push('/main/purchasepaypolicydrugs');
-      }
-    }
-  }, [_vm._v("新增")]), _vm._v(" "), _c('el-button', {
-    directives: [{
-      name: "dbClick",
-      rawName: "v-dbClick"
-    }, {
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.authCode.indexOf(',161,') > -1),
-      expression: "authCode.indexOf(',161,') > -1"
-    }],
-    attrs: {
-      "type": "primary",
-      "size": "mini"
-    },
-    on: {
-      "click": _vm.exportPurchasePayPolicy
-    }
-  }, [_vm._v("导出")])], 1)], 1), _vm._v(" "), _c('el-table', {
-    staticStyle: {
-      "width": "100%"
-    },
-    attrs: {
-      "data": _vm.purchasePayPolicy,
-      "size": "mini",
-      "stripe": true,
-      "border": true
-    }
-  }, [_c('el-table-column', {
-    attrs: {
-      "fixed": "",
-      "prop": "contacts_name",
-      "label": "业务员",
-      "width": "80"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "fixed": "",
-      "prop": "product_common_name",
-      "label": "产品名称",
-      "width": "120"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_code",
-      "label": "产品编码",
-      "width": "100"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_specifications",
-      "label": "产品规格",
-      "width": "100"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_makesmakers",
-      "label": "生产厂家",
-      "width": "150"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "business_name",
-      "label": "商业",
-      "width": "60"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_price",
-      "label": "中标价",
-      "width": "80"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_policy_make_price",
-      "label": "打款价",
-      "width": "80"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_return_money",
-      "label": "积分",
-      "width": "80"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_policy_price",
-      "label": "预付政策积分",
-      "width": "100"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_policy_remark",
-      "label": "积分备注"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "fixed": "right",
-      "label": "操作",
-      "width": "100"
-    },
-    scopedSlots: _vm._u([{
-      key: "default",
-      fn: function(scope) {
-        return [_c('el-button', {
-          directives: [{
-            name: "dbClick",
-            rawName: "v-dbClick"
-          }, {
-            name: "show",
-            rawName: "v-show",
-            value: (_vm.authCode.indexOf(',160,') > -1),
-            expression: "authCode.indexOf(',160,') > -1"
-          }],
-          attrs: {
-            "icon": "el-icon-edit-outline",
-            "type": "primary",
-            "size": "mini"
-          },
-          nativeOn: {
-            "click": function($event) {
-              $event.preventDefault();
-              _vm.editRow(scope)
-            }
-          }
-        })]
-      }
-    }])
-  })], 1), _vm._v(" "), _c('div', {
-    staticClass: "page_div"
-  }, [_c('el-pagination', {
-    attrs: {
-      "background": "",
-      "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
-      "page-size": _vm.pageNum,
-      "layout": "total, sizes, prev, pager, next",
-      "total": _vm.count
-    },
-    on: {
-      "size-change": _vm.handleSizeChange,
-      "current-change": _vm.handleCurrentChange
-    }
-  })], 1), _vm._v(" "), _c('el-dialog', {
-    attrs: {
-      "title": "修改销售政策",
-      "width": "700px",
-      "visible": _vm.dialogFormVisible
-    },
-    on: {
-      "update:visible": function($event) {
-        _vm.dialogFormVisible = $event
-      }
-    }
-  }, [_c('el-collapse', {
-    staticStyle: {
-      "text-align": "left"
-    },
-    model: {
-      value: (_vm.activeNames),
-      callback: function($$v) {
-        _vm.activeNames = $$v
-      },
-      expression: "activeNames"
-    }
-  }, [_c('el-collapse-item', {
-    attrs: {
-      "title": '药品信息（药品名：' + _vm.drug.product_common_name + '）',
-      "name": "1"
-    }
-  }, [_c('div', [_c('span', [_vm._v("规格:")]), _vm._v(_vm._s(_vm.drug.product_specifications))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("底价:")]), _vm._v(_vm._s(_vm.drug.product_floor_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("高开税率:")]), _vm._v(_vm._s(_vm.drug.product_high_discount) + "%")]), _vm._v(" "), _c('div', [_c('span', [_vm._v("打款价:")]), _vm._v(_vm._s(_vm.drug.product_mack_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("积分:")]), _vm._v(_vm._s(_vm.drug.product_return_money))]), _vm._v(" "), _c('div', {
-    staticStyle: {
-      "display": "block",
-      "width": "100%"
-    }
-  }, [_c('span', [_vm._v("生产厂家:")]), _vm._v(_vm._s(_vm.drug.product_makesmakers))])])], 1), _vm._v(" "), _c('el-form', {
-    ref: "policyPay",
-    staticClass: "demo-ruleForm",
-    staticStyle: {
-      "margin-top": "20px"
-    },
-    attrs: {
-      "model": _vm.policyPay,
-      "status-icon": "",
-      "rules": _vm.policyPayRule,
-      "inline": true,
-      "label-width": "100px"
-    }
-  }, [_c('el-form-item', {
-    attrs: {
-      "label": "联系人",
-      "prop": "purchase_pay_contact_id"
-    }
-  }, [_c('el-select', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "filterable": "",
-      "placeholder": "请选择"
-    },
-    model: {
-      value: (_vm.policyPay.purchase_pay_contact_id),
-      callback: function($$v) {
-        _vm.$set(_vm.policyPay, "purchase_pay_contact_id", $$v)
-      },
-      expression: "policyPay.purchase_pay_contact_id"
-    }
-  }, _vm._l((_vm.contacts), function(item) {
-    return _c('el-option', {
-      key: item.contacts_id,
-      attrs: {
-        "label": item.contacts_name,
-        "value": item.contacts_id
-      }
-    })
-  }))], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "打款价",
-      "prop": "purchase_pay_policy_make_price",
-      "maxlength": 10
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "placeholder": "打款价"
-    },
-    model: {
-      value: (_vm.policyPay.purchase_pay_policy_make_price),
-      callback: function($$v) {
-        _vm.$set(_vm.policyPay, "purchase_pay_policy_make_price", $$v)
-      },
-      expression: "policyPay.purchase_pay_policy_make_price"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "招商底价",
-      "prop": "purchase_pay_policy_floor_price",
-      "maxlength": 10
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "placeholder": "招商底价"
-    },
-    model: {
-      value: (_vm.policyPay.purchase_pay_policy_floor_price),
-      callback: function($$v) {
-        _vm.$set(_vm.policyPay, "purchase_pay_policy_floor_price", $$v)
-      },
-      expression: "policyPay.purchase_pay_policy_floor_price"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "高开税率",
-      "prop": "purchase_pay_policy_tax"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "placeholder": "高开税率"
-    },
-    model: {
-      value: (_vm.policyPay.purchase_pay_policy_tax),
-      callback: function($$v) {
-        _vm.$set(_vm.policyPay, "purchase_pay_policy_tax", $$v)
-      },
-      expression: "policyPay.purchase_pay_policy_tax"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "招商积分",
-      "prop": "purchase_pay_policy_price",
-      "maxlength": 10
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "placeholder": "招商积分"
-    },
-    model: {
-      value: (_vm.policyPay.purchase_pay_policy_price),
-      callback: function($$v) {
-        _vm.$set(_vm.policyPay, "purchase_pay_policy_price", $$v)
-      },
-      expression: "policyPay.purchase_pay_policy_price"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "积分备注",
-      "prop": "purchase_pay_policy_remark"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "placeholder": "积分备注"
-    },
-    model: {
-      value: (_vm.policyPay.purchase_pay_policy_remark),
-      callback: function($$v) {
-        _vm.$set(_vm.policyPay, "purchase_pay_policy_remark", $$v)
-      },
-      expression: "policyPay.purchase_pay_policy_remark"
-    }
-  })], 1)], 1), _vm._v(" "), _c('div', {
-    staticClass: "dialog-footer",
-    attrs: {
-      "slot": "footer"
-    },
-    slot: "footer"
-  }, [_c('el-button', {
-    directives: [{
-      name: "dbClick",
-      rawName: "v-dbClick"
-    }],
-    attrs: {
-      "size": "small"
-    },
-    on: {
-      "click": function($event) {
-        _vm.dialogFormVisible = false
-      }
-    }
-  }, [_vm._v("取 消")]), _vm._v(" "), _c('el-button', {
-    directives: [{
-      name: "dbClick",
-      rawName: "v-dbClick"
-    }],
-    attrs: {
-      "type": "primary",
-      "size": "small",
-      "loading": _vm.loading
-    },
-    on: {
-      "click": function($event) {
-        _vm.editPurchasePayPolicy('policyPay')
-      }
-    }
-  }, [_vm._v("确 定")])], 1)], 1)], 1)
-},staticRenderFns: []}
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-43cbbded", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 405:
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(406);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(100)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-b8be90d4!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./purchasePayPolicyDrugs.vue", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-b8be90d4!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./purchasePayPolicyDrugs.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-
-/***/ 406:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.copy_form .search .el-form-item__label {\n  padding-left: 0px !important;\n}\n.copy_form .el-form--inline .el-form-item{\n  margin-right: 4px !important;\n}\n.copy_form  .el-form-item.is-required:not(.is-no-asterisk)>.el-form-item__label:before{\n  display: none;\n}\n.el-collapse-item__content > div{\n  display: inline-block;\n  width: 30%;\n}\n.el-collapse-item__content > div > span{\n  display: inline-block;\n  width: 56px;\n  text-align: right;\n  padding-right: 10px;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ 407:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-exports.default = {
-  data: function data() {
-    var _this = this;
-
-    var validatePercent = function validatePercent(rule, value, callback) {
-      if (value && !/^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/.test(value)) {
-        callback(new Error('请再输入正确的' + rule.labelname));
-      } else {
-        var temp = "";
-        if (!_this.isEmpty(_this.policyPay.purchase_pay_policy_floor_price) && !_this.isEmpty(_this.policyPay.purchase_pay_policy_tax) && !_this.isEmpty(_this.policyPay.purchase_pay_policy_make_price)) {
-          temp = (_this.policyPay.purchase_pay_policy_make_price - _this.policyPay.purchase_pay_policy_floor_price) * (1 - _this.policyPay.purchase_pay_policy_tax / 100);
-        }
-        _this.policyPay.purchase_pay_policy_price = _this.policyPay.purchase_pay_policy_price ? _this.policyPay.purchase_pay_policy_price : temp;
-        _this.policyPay.purchase_pay_policy_price = _this.policyPay.purchase_pay_policy_price ? Math.round(_this.policyPay.purchase_pay_policy_price * 100) / 100 : "";
-        callback();
-      }
-    };
-    var validateMoney = function validateMoney(rule, value, callback) {
-      var reg = /^(([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)|([-]([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)))$/;
-      if (value && !reg.test(value)) {
-        callback(new Error('请输入正确的' + rule.labelname));
-      } else {
-        var temp = "";
-        if (!_this.isEmpty(_this.policyPay.purchase_pay_policy_floor_price) && !_this.isEmpty(_this.policyPay.purchase_pay_policy_tax) && !_this.isEmpty(_this.policyPay.purchase_pay_policy_make_price)) {
-          temp = (_this.policyPay.purchase_pay_policy_make_price - _this.policyPay.purchase_pay_policy_floor_price) * (1 - _this.policyPay.purchase_pay_policy_tax / 100);
-        }
-        _this.policyPay.purchase_pay_policy_price = _this.policyPay.purchase_pay_policy_price ? _this.policyPay.purchase_pay_policy_price : temp;
-        _this.policyPay.purchase_pay_policy_price = _this.policyPay.purchase_pay_policy_price ? Math.round(_this.policyPay.purchase_pay_policy_price * 100) / 100 : "";
-        callback();
-      }
-    };
-    return {
-      purchasePayPolicy: [],
-      hospitals: [],
-      contacts: [],
-      drug: {},
-      drugId: [],
-      params: {
-        contactId: "",
-        productCommonName: "",
-        productCode: ""
-      },
-      policyPay: {
-        purchase_pay_policy_floor_price: "",
-        purchase_pay_policy_tax: "",
-        purchase_pay_policy_price: "",
-        purchase_pay_policy_remark: "",
-        purchase_pay_policy_make_price: ""
-      },
-      policyPayRule: {
-        purchase_pay_policy_tax: [{ validator: validatePercent, labelname: '高开税率', trigger: 'blur' }],
-        purchase_pay_policy_floor_price: [{ validator: validateMoney, labelname: '招商底价', trigger: 'blur' }],
-        purchase_pay_policy_price: [{ validator: validateMoney, labelname: '招商积分', trigger: 'blur' }],
-        purchase_pay_policy_make_price: [{ validator: validateMoney, labelname: '打款价', trigger: 'blur' }]
-      },
-      authCode: "",
-      pageNum: 10,
-      currentPage: 1,
-      count: 0,
-      dialogFormVisible: false,
-      loading: false
-    };
-  },
-  activated: function activated() {
-    this.getContacts();
-    var _self = this;
-    setTimeout(function () {
-      _self.$refs["params"].resetFields();
-      _self.purchasePayPolicy = [];
-    });
-    this.authCode = "," + JSON.parse(sessionStorage["user"]).authority_code;
-  },
-
-  methods: {
-    editRow: function editRow(scope) {
-      //编辑药品信息
-      this.dialogFormVisible = true;
-      var temp = JSON.stringify(scope.row);
-      this.drug = JSON.parse(temp);
-      this.policyPay.purchase_pay_policy_make_price = this.drug.product_mack_price;
-    },
-    getContacts: function getContacts() {
-      var _self = this;
-      this.jquery('/iae/contacts/getAllContacts', { group_id: 0, contact_type: ['业务员'] }, function (res) {
-        _self.contacts = res.message;
-      });
-    },
-    getPurchasePolicy: function getPurchasePolicy() {
-      var _self = this;
-      if (!_self.currentPage) {
-        _self.currentPage = 1;
-      }
-      if (!_self.pageNum) {
-        _self.pageNum = 10;
-      }
-      var page = {
-        start: (_self.currentPage - 1) * _self.pageNum,
-        limit: _self.pageNum
-      };
-      this.jquery('/iae/purchasePayPolicy/getPurchasePolicyDrugs', {
-        data: _self.params,
-        page: page
-      }, function (res) {
-        _self.purchasePayPolicy = res.message.data;
-        _self.pageNum = parseInt(res.message.limit);
-        _self.count = res.message.totalCount;
-      });
-    },
-    editPurchasePayPolicy: function editPurchasePayPolicy(formName) {
-      var _this2 = this;
-
-      var _self = this;
-      _self.policyPay.purchase_pay_policy_drug_id = this.drug.product_id;
-      _self.policyPay.purchase_pay_contact_id = this.params.contactId;
-      this.$refs[formName].validate(function (valid) {
-        if (valid) {
-          _this2.loading = true;
-          _self.jquery('/iae/purchasePayPolicy/editPurchasePayPolicy', _self.policyPay, function (res) {
-            _self.$confirm('新增成功', '提示', {
-              confirmButtonText: '继续添加',
-              cancelButtonText: '返回销售列表',
-              type: 'success'
-            }).then(function () {
-              _self.$refs["policyPay"].resetFields();
-              _self.dialogFormVisible = false;
-              _self.loading = false;
-              _self.getPurchasePolicy();
-            }).catch(function () {
-              _self.$refs["policyPay"].resetFields();
-              _self.dialogFormVisible = false;
-              _self.loading = false;
-              _self.$router.push({ path: "/main/purchasepaypolicy" });
-            });
-          });
-        } else {
-          return false;
-        }
-      });
-    },
-    reSearch: function reSearch(arg) {
-      if (arg || !this.params.contactId) {
-        this.$refs["params"].resetFields();
-        this.purchasePayPolicy = [];
-      } else {
-        this.currentPage = 1;
-        this.getPurchasePolicy();
-      }
-    },
-    handleSizeChange: function handleSizeChange(val) {
-      this.pageNum = val;
-      this.currentPage = 1;
-      this.getPurchasePolicy();
-    },
-    handleCurrentChange: function handleCurrentChange(val) {
-      this.currentPage = val;
-      this.getPurchasePolicy();
-    }
-  }
-};
-
-/***/ }),
-
-/***/ 408:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('el-breadcrumb', {
-    attrs: {
-      "separator-class": "el-icon-arrow-right"
-    }
-  }, [_c('el-breadcrumb-item', [_vm._v("积分管理")]), _vm._v(" "), _c('el-breadcrumb-item', [_vm._v("预付招商政策管理（下游）")]), _vm._v(" "), _c('el-breadcrumb-item', [_vm._v("预付招商政策管理（下游）-选择药品"), _c('a', {
-    staticStyle: {
-      "color": "#f24040"
-    }
-  }, [_vm._v("（请先选择业务员）")])])], 1), _vm._v(" "), _c('el-form', {
-    ref: "params",
-    staticClass: "demo-form-inline search",
-    attrs: {
-      "inline": true,
-      "model": _vm.params,
-      "size": "mini"
-    }
-  }, [_c('el-form-item', {
-    attrs: {
-      "label": "业务员",
-      "prop": "contactId"
-    }
-  }, [_c('el-select', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "filterable": "",
-      "placeholder": "请选择"
-    },
-    model: {
-      value: (_vm.params.contactId),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "contactId", $$v)
-      },
-      expression: "params.contactId"
-    }
-  }, [_c('el-option', {
-    key: "",
-    attrs: {
-      "label": "全部",
-      "value": ""
-    }
-  }), _vm._v(" "), _vm._l((_vm.contacts), function(item) {
-    return _c('el-option', {
-      key: item.contacts_id,
-      attrs: {
-        "label": item.contacts_name,
-        "value": item.contacts_id
-      }
-    })
-  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "产品编码",
-      "prop": "productCode"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "size": "mini",
-      "placeholder": "产品编码"
-    },
-    nativeOn: {
-      "keyup": function($event) {
-        if (!('button' in $event) && $event.keyCode !== 13) { return null; }
-        _vm.reSearch(false)
-      }
-    },
-    model: {
-      value: (_vm.params.productCode),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "productCode", $$v)
-      },
-      expression: "params.productCode"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "产品名称",
-      "prop": "productCommonName"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "size": "mini",
-      "placeholder": "产品名称/助记码"
-    },
-    nativeOn: {
-      "keyup": function($event) {
-        if (!('button' in $event) && $event.keyCode !== 13) { return null; }
-        _vm.reSearch(false)
-      }
-    },
-    model: {
-      value: (_vm.params.productCommonName),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "productCommonName", $$v)
-      },
-      expression: "params.productCommonName"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
-    directives: [{
-      name: "dbClick",
-      rawName: "v-dbClick"
-    }, {
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.authCode.indexOf(',157,') > -1),
-      expression: "authCode.indexOf(',157,') > -1"
-    }],
-    attrs: {
-      "type": "primary",
-      "size": "mini"
-    },
-    on: {
-      "click": function($event) {
-        _vm.reSearch(false)
-      }
-    }
-  }, [_vm._v("查询")]), _vm._v(" "), _c('el-button', {
-    directives: [{
-      name: "dbClick",
-      rawName: "v-dbClick"
-    }, {
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.authCode.indexOf(',157,') > -1),
-      expression: "authCode.indexOf(',157,') > -1"
-    }],
-    attrs: {
-      "type": "primary",
-      "size": "mini"
-    },
-    on: {
-      "click": function($event) {
-        _vm.reSearch(true)
-      }
-    }
-  }, [_vm._v("重置")]), _vm._v(" "), _c('el-button', {
-    directives: [{
-      name: "dbClick",
-      rawName: "v-dbClick"
-    }],
-    attrs: {
-      "type": "primary",
-      "size": "mini"
-    },
-    on: {
-      "click": function($event) {
-        _vm.$router.push('/main/purchasepaypolicy');
-      }
-    }
-  }, [_vm._v("返回列表")])], 1)], 1), _vm._v(" "), _c('el-table', {
-    staticStyle: {
-      "width": "100%"
-    },
-    attrs: {
-      "data": _vm.purchasePayPolicy,
-      "size": "mini",
-      "stripe": true,
-      "border": true
-    }
-  }, [_c('el-table-column', {
-    attrs: {
-      "fixed": "",
-      "prop": "product_common_name",
-      "label": "产品名称",
-      "width": "150"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_code",
-      "label": "产品编码",
-      "width": "100"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_specifications",
-      "label": "产品规格",
-      "width": "100"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_makesmakers",
-      "label": "生产厂家",
-      "width": "200"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "business_name",
-      "label": "商业",
-      "width": "60"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_price",
-      "label": "中标价",
-      "width": "80"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_return_money",
-      "label": "积分"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "fixed": "right",
-      "label": "操作",
-      "width": "100"
-    },
-    scopedSlots: _vm._u([{
-      key: "default",
-      fn: function(scope) {
-        return [_c('el-button', {
-          directives: [{
-            name: "dbClick",
-            rawName: "v-dbClick"
-          }, {
-            name: "show",
-            rawName: "v-show",
-            value: (_vm.authCode.indexOf(',118,') > -1),
-            expression: "authCode.indexOf(',118,') > -1"
-          }],
-          attrs: {
-            "type": "primary",
-            "size": "mini"
-          },
-          nativeOn: {
-            "click": function($event) {
-              $event.preventDefault();
-              _vm.editRow(scope)
-            }
-          }
-        }, [_vm._v("选择")])]
-      }
-    }])
-  })], 1), _vm._v(" "), _c('div', {
-    staticClass: "page_div"
-  }, [_c('el-pagination', {
-    attrs: {
-      "background": "",
-      "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
-      "page-size": _vm.pageNum,
-      "layout": "total, sizes, prev, pager, next",
-      "total": _vm.count
-    },
-    on: {
-      "size-change": _vm.handleSizeChange,
-      "current-change": _vm.handleCurrentChange
-    }
-  }), _vm._v(" "), _c('el-dialog', {
-    attrs: {
-      "title": "新增预付招商政策",
-      "width": "700px",
-      "visible": _vm.dialogFormVisible
-    },
-    on: {
-      "update:visible": function($event) {
-        _vm.dialogFormVisible = $event
-      }
-    }
-  }, [_c('el-collapse', {
-    staticStyle: {
-      "text-align": "left"
-    },
-    model: {
-      value: (_vm.activeNames),
-      callback: function($$v) {
-        _vm.activeNames = $$v
-      },
-      expression: "activeNames"
-    }
-  }, [_c('el-collapse-item', {
-    attrs: {
-      "title": '药品信息（药品名：' + _vm.drug.product_common_name + '）',
-      "name": "1"
-    }
-  }, [_c('div', [_c('span', [_vm._v("规格:")]), _vm._v(_vm._s(_vm.drug.product_specifications))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("底价:")]), _vm._v(_vm._s(_vm.drug.product_floor_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("高开税率:")]), _vm._v(_vm._s(_vm.drug.product_high_discount) + "%")]), _vm._v(" "), _c('div', [_c('span', [_vm._v("打款价:")]), _vm._v(_vm._s(_vm.drug.product_mack_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("积分:")]), _vm._v(_vm._s(_vm.drug.product_return_money))]), _vm._v(" "), _c('div', {
-    staticStyle: {
-      "display": "block"
-    }
-  }, [_c('span', [_vm._v("生产厂家:")]), _vm._v(_vm._s(_vm.drug.product_makesmakers))])])], 1), _vm._v(" "), _c('el-form', {
-    ref: "policyPay",
-    staticClass: "demo-ruleForm",
-    staticStyle: {
-      "margin-top": "20px",
-      "text-align": "left"
-    },
-    attrs: {
-      "model": _vm.policyPay,
-      "status-icon": "",
-      "rules": _vm.policyPayRule,
-      "inline": true,
-      "label-width": "100px"
-    }
-  }, [_c('el-form-item', {
-    attrs: {
-      "label": "打款价",
-      "prop": "purchase_pay_policy_make_price",
-      "maxlength": 10
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "placeholder": "打款价"
-    },
-    model: {
-      value: (_vm.policyPay.purchase_pay_policy_make_price),
-      callback: function($$v) {
-        _vm.$set(_vm.policyPay, "purchase_pay_policy_make_price", $$v)
-      },
-      expression: "policyPay.purchase_pay_policy_make_price"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "招商底价",
-      "prop": "purchase_pay_policy_floor_price",
-      "maxlength": 10
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "placeholder": "招商底价"
-    },
-    model: {
-      value: (_vm.policyPay.purchase_pay_policy_floor_price),
-      callback: function($$v) {
-        _vm.$set(_vm.policyPay, "purchase_pay_policy_floor_price", $$v)
-      },
-      expression: "policyPay.purchase_pay_policy_floor_price"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "高开税率",
-      "prop": "purchase_pay_policy_tax"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "placeholder": "高开税率"
-    },
-    model: {
-      value: (_vm.policyPay.purchase_pay_policy_tax),
-      callback: function($$v) {
-        _vm.$set(_vm.policyPay, "purchase_pay_policy_tax", $$v)
-      },
-      expression: "policyPay.purchase_pay_policy_tax"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "招商积分",
-      "prop": "purchase_pay_policy_price",
-      "maxlength": 10
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "placeholder": "招商积分"
-    },
-    model: {
-      value: (_vm.policyPay.purchase_pay_policy_price),
-      callback: function($$v) {
-        _vm.$set(_vm.policyPay, "purchase_pay_policy_price", $$v)
-      },
-      expression: "policyPay.purchase_pay_policy_price"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "积分备注",
-      "prop": "purchase_pay_policy_remark"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "placeholder": "积分备注"
-    },
-    model: {
-      value: (_vm.policyPay.purchase_pay_policy_remark),
-      callback: function($$v) {
-        _vm.$set(_vm.policyPay, "purchase_pay_policy_remark", $$v)
-      },
-      expression: "policyPay.purchase_pay_policy_remark"
-    }
-  })], 1)], 1), _vm._v(" "), _c('div', {
-    staticClass: "dialog-footer",
-    attrs: {
-      "slot": "footer"
-    },
-    slot: "footer"
-  }, [_c('el-button', {
-    directives: [{
-      name: "dbClick",
-      rawName: "v-dbClick"
-    }],
-    attrs: {
-      "size": "small"
-    },
-    on: {
-      "click": function($event) {
-        _vm.dialogFormVisible = false
-      }
-    }
-  }, [_vm._v("取 消")]), _vm._v(" "), _c('el-button', {
-    directives: [{
-      name: "dbClick",
-      rawName: "v-dbClick"
-    }],
-    attrs: {
-      "type": "primary",
-      "size": "small",
-      "loading": _vm.loading
-    },
-    on: {
-      "click": function($event) {
-        _vm.editPurchasePayPolicy('policyPay')
-      }
-    }
-  }, [_vm._v("确 定")])], 1)], 1)], 1)], 1)
-},staticRenderFns: []}
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-b8be90d4", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 409:
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(410);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(100)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-18bbdac5!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./purchasePayReturnMoney.vue", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-18bbdac5!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./purchasePayReturnMoney.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-
-/***/ 410:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.sum_money_purchase > a{\n\tpadding-left: 20px;\n\tcolor: #606266;\n}\n.sum_money_purchase > span{\n\tcolor:#606266;\n}\n.sum_money_purchase .more_detail{\n\tposition: absolute;\n\tright: 10px;\n\theight: 30px;\n\tline-height: 30px;\n\tcolor: #409EFF;\n\ttext-decoration: none;\n}\n.sum_money_purchase{\n\tposition: relative;\n\tbackground-color: #fff;\n\tborder-bottom: 1px solid #ebeef5;\n\theight: 30px;\n\tcolor:#f24040;\n\tline-height: 30px;\n\tfont-size: 14px;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ 411:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-exports.default = {
-	data: function data() {
-		var validateMoney = function validateMoney(rule, value, callback) {
-			var reg = /^(([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)|([-]([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)))$/;
-			if (value && !reg.test(value)) {
-				callback(new Error('请输入正确的' + rule.labelname));
+				callback(new Error('请输入用户名'));
+			} else if (_this.user.group_id) {
+				_this.jquery('/iae/user/exitsUsers', {
+					username: _self.user.username,
+					group_id: _self.user.group_id
+				}, function (res) {
+					if (_self.title == 1 && res.message.length > 0) {
+						callback(new Error('该用户名已存在'));
+					} else {
+						callback();
+					}
+				});
 			} else {
 				callback();
 			}
 		};
-		var nowDate = new Date();
-		var beforeDate = new Date();
-		beforeDate.setFullYear(nowDate.getFullYear() - 1);
 		return {
-			pickerOptions2: {
-				shortcuts: [{
-					text: '本月',
-					onClick: function onClick(picker) {
-						var end = new Date();
-						var start = new Date(end.getFullYear() + "-" + (end.getMonth() + 1) + "-01");
-						picker.$emit('pick', [start, end]);
-					}
-				}, {
-					text: nowDate.getFullYear() + '年',
-					onClick: function onClick(picker) {
-						var end = new Date();
-						var start = new Date(end.getFullYear() + "-01" + "-01");
-						picker.$emit('pick', [start, end]);
-					}
-				}, {
-					text: beforeDate.getFullYear() + '年',
-					onClick: function onClick(picker) {
-						var start = new Date(beforeDate.getFullYear() + "-01" + "-01");
-						var end = new Date(beforeDate.getFullYear() + "-12" + "-31");
-						picker.$emit('pick', [start, end]);
-					}
-				}]
+			authCode: "",
+			dialogFormVisible: false,
+			dialogTableVisible: false,
+			loading: false,
+			user: {
+				username: "",
+				password: "",
+				realname: "",
+				group_id: "",
+				data_authority: "1"
 			},
-			purchasePays: [],
-			contacts: [],
-			accounts: [],
+			rules: {
+				username: [{ validator: validateUsername, trigger: 'blur' }]
+			},
+			users: [],
+			roles: [],
+			title: 1,
 			pageNum: 10,
 			currentPage: 1,
 			count: 0,
-			dialogFormVisible: false,
-			loading: false,
 			params: {
-				product_makesmakers: "",
-				productCommonName: "",
-				contactId: "",
-				time: [],
-				returnTime: [],
-				realPayTime: [],
-				product_code: "",
-				payStatus: "",
-				remark: "",
-				business: "",
-				batch_number: "",
-				overdue: "",
-				purchase_pay_refundser: "",
-				makeMoneyFlag: "2"
+				username: "",
+				groupId: ""
 			},
-			refundMoney: {},
-			purchasePay: {},
-			purchasePayRule: {},
-			authCode: "",
-			business: [],
-			dialogFormVisibleImport: false
+			role: {
+				pageNum: 5,
+				currentPage: 1,
+				count: 0
+			},
+			selectUser: null,
+			currentRow: null,
+			groups: []
 		};
 	},
 	activated: function activated() {
-		this.getContacts();
-		this.getPurchasePayList();
-		this.getBankAccount();
-		this.getProductBusiness();
+		this.searchUsersList();
+		this.searchRolesList();
+		this.getAllGroups();
+		this.params.groupId = JSON.parse(sessionStorage["user"]).group_id;
+		this.user.group_id = JSON.parse(sessionStorage["user"]).group_id;
 		this.authCode = "," + JSON.parse(sessionStorage["user"]).authority_code;
 	},
-	mounted: function mounted() {},
+	mounted: function mounted() {
+		this.params.groupId = JSON.parse(sessionStorage["user"]).group_id;
+	},
 
-	methods: {
-		shouldPrice: function shouldPrice() {
-			this.purchasePay.purchase_pay_other_money = this.purchasePay.purchase_pay_other_money ? this.purchasePay.purchase_pay_other_money : 0;
-			var t = this.purchasePay.purchase_pay_policy_price * this.purchasePay.purchase_pay_number - this.purchasePay.purchase_pay_other_money;
-			this.purchasePay.purchase_pay_should_pay_money = Math.round(t * 100) / 100;
+	methods: _defineProperty({
+		formatterType: function formatterType(row, column, cellValue) {
+			return cellValue == '1' ? "系统级" : "用户级";
 		},
-		formatterShouldPay: function formatterShouldPay(row, column, cellValue) {
-			var t = row.purchase_pay_policy_price * row.purchase_pay_number - row.purchase_pay_other_money;
-			t = Math.round(t * 100) / 100;
-			if (t != row.purchase_pay_should_pay_money) {
-				row.purchase_pay_should_pay_money = t;
-				return t;
-			} else {
-				return row.purchase_pay_should_pay_money;
-			}
-		},
-		formatterRealReceive: function formatterRealReceive(row, column, cellValue) {
-			if (!this.isEmpty(row.purchase_pay_real_money)) {
-				var t = row.purchase_pay_real_money / row.purchase_pay_number;
-				return Math.round(t * 100) / 100;
-			} else {
-				return 0;
-			}
-		},
-		getBankAccount: function getBankAccount() {
+		addShow: function addShow() {
+			this.dialogFormVisible = true;
+			this.user = {
+				username: "",
+				password: "",
+				realname: "",
+				data_authority: "1"
+			};
+			// this.user.group_id = JSON.parse(sessionStorage["user"]).group_id;
+			this.title = 1;
 			var _self = this;
-			this.jquery("/iae/bankaccount/getAllAccounts", null, function (res) {
-				//查询账号
-				_self.accounts = res.message;
+			setTimeout(function () {
+				_self.$refs["user"].clearValidate();
 			});
 		},
-		getProductBusiness: function getProductBusiness() {
+		addRole: function addRole(scope) {
 			var _self = this;
-			this.jquery("/iae/business/getAllBusiness", null, function (res) {
-				//查询商业
-				_self.business = res.message;
-				sessionStorage["productbusiness"] = JSON.stringify(_self.business);
-			});
-		},
-		exportExcel: function exportExcel() {
-			var url = this.$bus.data.host + "/iae/purchasepay/exportPurchasePayRefund";
-			this.download(url, this.params);
-		},
-		editPurchasePayReturn: function editPurchasePayReturn(formName) {
-			var _this = this;
-
-			var _self = this;
-			this.$refs[formName].validate(function (valid) {
-				if (valid) {
-					_this.loading = true;
-					_self.jquery('/iae/purchasepay/editPurchasePayReturn', _self.purchasePay, function (res) {
-						_self.dialogFormVisible = false;
-						_self.loading = false;
-						_self.$message({ showClose: true, message: '修改成功', type: 'success' });
-						_self.getPurchasePayList();
-					});
-				} else {
-					return false;
+			this.dialogTableVisible = true;
+			var temp = JSON.stringify(scope.row);
+			this.selectUser = JSON.parse(temp);
+			setTimeout(function () {
+				for (var i = 0; i < _self.roles.length; i++) {
+					if (_self.roles[i].role_id == this.selectUser.role_id) {
+						_self.$refs.singleTable.setCurrentRow(_self.roles[i]);
+						break;
+					}
 				}
-			});
+			}, 10);
 		},
-		getContacts: function getContacts() {
+		getAllGroups: function getAllGroups() {
 			var _self = this;
-			this.jquery('/iae/contacts/getAllContacts', { group_id: 0, contact_type: ['高打品种', '业务员'] }, function (res) {
-				_self.contacts = res.message;
+			this.jquery('/iae/group/getAllGroups', null, function (res) {
+				_self.groups = res.message;
 			});
 		},
-		onRefund: function onRefund(row, column, cellValue) {
-			var t = row.purchase_pay_should_pay_money - row.purchase_pay_real_pay_money;
-			return Math.round(t * 100) / 100;
-		},
-		formatterDate: function formatterDate(row, column, cellValue) {
-			if (cellValue && typeof cellValue == "string") {
-				var temp = cellValue.substring(0, 10);
-				var d = new Date(temp);
-				d.setDate(d.getDate() + 1);
-				return d.format("yyyy-MM-dd");
-			} else if (cellValue && (typeof cellValue === 'undefined' ? 'undefined' : _typeof(cellValue)) == "object") {
-				return new Date(cellValue).format("yyyy-MM-dd");
-			} else {
-				return "";
-			}
+		selectRole: function selectRole() {
+			var _self = this;
+			this.jquery('/iae/user/editUserRole', {
+				id: this.selectUser.id,
+				role_id: this.currentRow.role_id + "",
+				front_role_id: this.selectUser.role_id
+			}, function (res) {
+				_self.$message({ showClose: true, message: '修改成功', type: 'success' });
+				_self.dialogTableVisible = false;
+				_self.selectUser.role_name = _self.currentRow.role_name;
+				_self.selectUser.role_id = _self.currentRow.role_id;
+			});
 		},
 		editRow: function editRow(scope) {
 			//编辑药品信息
 			this.dialogFormVisible = true;
+			this.title = 2;
 			var temp = JSON.stringify(scope.row);
-			this.purchasePay = JSON.parse(temp);
-			this.purchasePay.front_purchase = temp;
-		},
-		reSearch: function reSearch(arg) {
-			if (arg) {
-				this.$refs["params"].resetFields();
-			}
-			this.currentPage = 1;
-			this.getPurchasePayList();
-		},
-		getPurchasePayList: function getPurchasePayList() {
+			this.user = JSON.parse(temp);
+			this.user.front_message = temp;
+			this.user.password = ""; //密码不显示
 			var _self = this;
-			if (!_self.currentPage) {
-				_self.currentPage = 1;
-			}
-			if (!_self.pageNum) {
-				_self.pageNum = 10;
-			}
-			var page = {
-				start: (_self.currentPage - 1) * _self.pageNum,
-				limit: _self.pageNum
-			};
-			this.jquery('/iae/purchasepay/getPurchasePay', {
-				data: _self.params,
-				page: page
-			}, function (res) {
-				_self.purchasePays = res.message.data;
-				_self.pageNum = parseInt(res.message.limit);
-				_self.count = res.message.totalCount;
-
-				_self.refundMoney.ppspm = res.message.ppspm; //应收
-				_self.refundMoney.pprpm = res.message.pprpm; //实收
-				_self.refundMoney.ppnc = res.message.ppspm - res.message.pprpm; //未收
-				_self.refundMoney.ppnc = Math.round(_self.refundMoney.ppnc * 100) / 100;
+			setTimeout(function () {
+				_self.$refs["user"].clearValidate();
 			});
 		},
-		handleSizeChange: function handleSizeChange(val) {
-			this.pageNum = val;
-			this.currentPage = 1;
-			this.getPurchasePayList();
-		},
-		handleCurrentChange: function handleCurrentChange(val) {
-			this.currentPage = val;
-			this.getPurchasePayList();
-		}
-	}
-};
-
-/***/ }),
-
-/***/ 412:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "sale_list",
-    staticStyle: {
-      "box-sizing": "border-box",
-      "padding": "0px 10px"
-    }
-  }, [_c('el-breadcrumb', {
-    attrs: {
-      "separator-class": "el-icon-arrow-right"
-    }
-  }, [_c('el-breadcrumb-item', [_vm._v("采购管理")]), _vm._v(" "), _c('el-breadcrumb-item', [_vm._v("预付招商应付管理")])], 1), _vm._v(" "), _c('el-form', {
-    ref: "params",
-    staticClass: "demo-form-inline search",
-    attrs: {
-      "inline": true,
-      "model": _vm.params,
-      "size": "mini"
-    }
-  }, [_c('el-form-item', {
-    attrs: {
-      "label": "合同时间",
-      "prop": "time"
-    }
-  }, [_c('el-date-picker', {
-    attrs: {
-      "type": "daterange",
-      "size": "mini",
-      "align": "right",
-      "unlink-panels": "",
-      "range-separator": "至",
-      "start-placeholder": "开始日期",
-      "end-placeholder": "结束日期",
-      "picker-options": _vm.pickerOptions2
-    },
-    model: {
-      value: (_vm.params.time),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "time", $$v)
-      },
-      expression: "params.time"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "实付日期",
-      "prop": "realPayTime"
-    }
-  }, [_c('el-date-picker', {
-    attrs: {
-      "type": "daterange",
-      "size": "mini",
-      "align": "right",
-      "unlink-panels": "",
-      "range-separator": "至",
-      "start-placeholder": "开始日期",
-      "end-placeholder": "结束日期",
-      "picker-options": _vm.pickerOptions2
-    },
-    model: {
-      value: (_vm.params.realPayTime),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "realPayTime", $$v)
-      },
-      expression: "params.realPayTime"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "产品名称",
-      "prop": "productCommonName"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "size": "mini",
-      "placeholder": "产品名称/助记码"
-    },
-    nativeOn: {
-      "keyup": function($event) {
-        if (!('button' in $event) && $event.keyCode !== 13) { return null; }
-        _vm.reSearch(false)
-      }
-    },
-    model: {
-      value: (_vm.params.productCommonName),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "productCommonName", $$v)
-      },
-      expression: "params.productCommonName"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "产品编号",
-      "prop": "product_code"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "size": "mini",
-      "placeholder": "产品编号"
-    },
-    nativeOn: {
-      "keyup": function($event) {
-        if (!('button' in $event) && $event.keyCode !== 13) { return null; }
-        _vm.reSearch(false)
-      }
-    },
-    model: {
-      value: (_vm.params.product_code),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "product_code", $$v)
-      },
-      expression: "params.product_code"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "生产厂家",
-      "prop": "product_makesmakers"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "size": "mini",
-      "placeholder": "生产厂家"
-    },
-    nativeOn: {
-      "keyup": function($event) {
-        if (!('button' in $event) && $event.keyCode !== 13) { return null; }
-        _vm.reSearch(false)
-      }
-    },
-    model: {
-      value: (_vm.params.product_makesmakers),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "product_makesmakers", $$v)
-      },
-      expression: "params.product_makesmakers"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "　业务员",
-      "prop": "contactId1"
-    }
-  }, [_c('el-select', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "filterable": "",
-      "size": "mini",
-      "placeholder": "请选择"
-    },
-    model: {
-      value: (_vm.params.contactId1),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "contactId1", $$v)
-      },
-      expression: "params.contactId1"
-    }
-  }, [_c('el-option', {
-    key: "",
-    attrs: {
-      "label": "全部",
-      "value": ""
-    }
-  }), _vm._v(" "), _vm._l((_vm.contacts), function(item) {
-    return (item.contact_type.indexOf('业务员') > -1) ? _c('el-option', {
-      key: item.contacts_id,
-      attrs: {
-        "label": item.contacts_name,
-        "value": item.contacts_id
-      }
-    }) : _vm._e()
-  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "　　商业",
-      "prop": "business"
-    }
-  }, [_c('el-select', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "size": "mini",
-      "filterable": "",
-      "placeholder": "请选择商业"
-    },
-    model: {
-      value: (_vm.params.business),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "business", $$v)
-      },
-      expression: "params.business"
-    }
-  }, [_c('el-option', {
-    key: "",
-    attrs: {
-      "label": "全部",
-      "value": ""
-    }
-  }), _vm._v(" "), _vm._l((_vm.business), function(item) {
-    return _c('el-option', {
-      key: item.business_id,
-      attrs: {
-        "label": item.business_name,
-        "value": item.business_id
-      }
-    })
-  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "积分状态",
-      "prop": "payStatus"
-    }
-  }, [_c('el-select', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "filterable": "",
-      "size": "mini",
-      "placeholder": "请选择"
-    },
-    model: {
-      value: (_vm.params.payStatus),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "payStatus", $$v)
-      },
-      expression: "params.payStatus"
-    }
-  }, [_c('el-option', {
-    key: "",
-    attrs: {
-      "label": "全部",
-      "value": ""
-    }
-  }), _vm._v(" "), _c('el-option', {
-    key: "已付",
-    attrs: {
-      "label": "已付",
-      "value": "已付"
-    }
-  }), _vm._v(" "), _c('el-option', {
-    key: "未付",
-    attrs: {
-      "label": "未付",
-      "value": "未付"
-    }
-  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "是否打款",
-      "prop": "makeMoneyFlag"
-    }
-  }, [_c('el-select', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "filterable": "",
-      "size": "mini",
-      "placeholder": "请选择"
-    },
-    model: {
-      value: (_vm.params.makeMoneyFlag),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "makeMoneyFlag", $$v)
-      },
-      expression: "params.makeMoneyFlag"
-    }
-  }, [_c('el-option', {
-    key: "2",
-    attrs: {
-      "label": "是",
-      "value": "2"
-    }
-  }), _vm._v(" "), _c('el-option', {
-    key: "",
-    attrs: {
-      "label": "全部",
-      "value": ""
-    }
-  })], 1)], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
-    directives: [{
-      name: "dbClick",
-      rawName: "v-dbClick"
-    }, {
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.authCode.indexOf(',163,') > -1),
-      expression: "authCode.indexOf(',163,') > -1"
-    }],
-    staticStyle: {
-      "margin-left": "14px"
-    },
-    attrs: {
-      "type": "primary",
-      "size": "mini"
-    },
-    on: {
-      "click": function($event) {
-        _vm.reSearch(false)
-      }
-    }
-  }, [_vm._v("查询")]), _vm._v(" "), _c('el-button', {
-    directives: [{
-      name: "dbClick",
-      rawName: "v-dbClick"
-    }, {
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.authCode.indexOf(',163,') > -1),
-      expression: "authCode.indexOf(',163,') > -1"
-    }],
-    attrs: {
-      "type": "primary",
-      "size": "mini"
-    },
-    on: {
-      "click": function($event) {
-        _vm.reSearch(true)
-      }
-    }
-  }, [_vm._v("重置")]), _vm._v(" "), _c('el-button', {
-    directives: [{
-      name: "dbClick",
-      rawName: "v-dbClick"
-    }, {
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.authCode.indexOf(',165,') > -1),
-      expression: "authCode.indexOf(',165,') > -1"
-    }],
-    attrs: {
-      "type": "primary",
-      "size": "mini"
-    },
-    on: {
-      "click": _vm.exportExcel
-    }
-  }, [_vm._v("导出")])], 1)], 1), _vm._v(" "), _c('div', {
-    staticClass: "sum_money"
-  }, [_vm._v("\n\t\t\t总积分："), _c('a', [_vm._v(_vm._s(_vm.refundMoney.ppspm))]), _vm._v("\n\t\t\t已付积分："), _c('a', [_vm._v(_vm._s(_vm.refundMoney.pprpm))]), _vm._v("\n\t\t\t未付积分："), _c('a', [_vm._v(_vm._s(_vm.refundMoney.ppnc))])]), _vm._v(" "), _c('el-table', {
-    staticStyle: {
-      "width": "100%"
-    },
-    attrs: {
-      "data": _vm.purchasePays,
-      "size": "mini",
-      "stripe": true,
-      "border": true
-    }
-  }, [_c('el-table-column', {
-    attrs: {
-      "fixed": "",
-      "prop": "purchase_pay_contract_time",
-      "label": "合同时间",
-      "width": "80",
-      "formatter": _vm.formatterDate
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "fixed": "",
-      "prop": "product_common_name",
-      "label": "产品通用名",
-      "width": "120"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_code",
-      "label": "产品编码",
-      "width": "100"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_specifications",
-      "label": "产品规格",
-      "width": "100"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_makesmakers",
-      "label": "生产厂家",
-      "width": "150"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_packing",
-      "label": "包装",
-      "width": "50"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_unit",
-      "label": "单位",
-      "width": "50"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_price",
-      "label": "中标价",
-      "width": "60"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "contacts_name",
-      "label": "联系人",
-      "width": "60"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "business_name",
-      "label": "商业",
-      "width": "60"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_number",
-      "label": "预付数量",
-      "width": "70"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_price",
-      "label": "打款价",
-      "width": "60"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_money",
-      "label": "预付金额",
-      "width": "70"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_time",
-      "label": "打款时间",
-      "width": "80",
-      "formatter": _vm.formatterDate
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "contacts_name1",
-      "label": "业务员",
-      "width": "60"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_should_price",
-      "label": "实收上游积分",
-      "width": "80",
-      "formatter": _vm.formatterRealReceive
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_policy_price",
-      "label": "政策积分",
-      "width": "80"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_other_money",
-      "label": "补点/费用票",
-      "width": "80"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_should_pay_money",
-      "label": "应付积分",
-      "width": "80"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_real_pay_money",
-      "label": "实付积分",
-      "width": "80"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_real_pay_time",
-      "label": "实付时间",
-      "width": "80",
-      "formatter": _vm.formatterDate
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_real_money",
-      "label": "未付积分",
-      "width": "80",
-      "formatter": _vm.onRefund
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "account_number2",
-      "label": "付积分账号",
-      "width": "80"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_receive_account",
-      "label": "收积分账号",
-      "width": "80"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_receive_name",
-      "label": "收积分账号名",
-      "width": "80"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_receive_address",
-      "label": "收积分账号地址",
-      "width": "80"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_return_remark",
-      "label": "备注"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "fixed": "right",
-      "label": "操作",
-      "width": "65"
-    },
-    scopedSlots: _vm._u([{
-      key: "default",
-      fn: function(scope) {
-        return [_c('el-button', {
-          directives: [{
-            name: "show",
-            rawName: "v-show",
-            value: (_vm.authCode.indexOf(',164,') > -1),
-            expression: "authCode.indexOf(',164,') > -1"
-          }, {
-            name: "dbClick",
-            rawName: "v-dbClick"
-          }],
-          attrs: {
-            "icon": "el-icon-edit-outline",
-            "type": "primary",
-            "size": "mini"
-          },
-          nativeOn: {
-            "click": function($event) {
-              $event.preventDefault();
-              _vm.editRow(scope)
-            }
-          }
-        })]
-      }
-    }])
-  })], 1), _vm._v(" "), _c('div', {
-    staticClass: "page_div"
-  }, [_c('el-pagination', {
-    attrs: {
-      "background": "",
-      "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
-      "page-size": _vm.pageNum,
-      "layout": "total, sizes, prev, pager, next, jumper",
-      "total": _vm.count
-    },
-    on: {
-      "size-change": _vm.handleSizeChange,
-      "current-change": _vm.handleCurrentChange
-    }
-  })], 1), _vm._v(" "), _c('el-dialog', {
-    attrs: {
-      "title": "修改预付招商记录",
-      "width": "700px",
-      "visible": _vm.dialogFormVisible
-    },
-    on: {
-      "update:visible": function($event) {
-        _vm.dialogFormVisible = $event
-      }
-    }
-  }, [_c('el-collapse', {
-    model: {
-      value: (_vm.activeNames),
-      callback: function($$v) {
-        _vm.activeNames = $$v
-      },
-      expression: "activeNames"
-    }
-  }, [_c('el-collapse-item', {
-    attrs: {
-      "title": '药品信息（药品名：' + _vm.purchasePay.product_common_name + '）',
-      "name": "2"
-    }
-  }, [_c('div', [_c('span', [_vm._v("产品编号:")]), _vm._v(_vm._s(_vm.purchasePay.product_code))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("产品规格:")]), _vm._v(_vm._s(_vm.purchasePay.product_specifications))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("中标价:")]), _vm._v(_vm._s(_vm.purchasePay.product_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("包装:")]), _vm._v(_vm._s(_vm.purchasePay.product_packing))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("单位:")]), _vm._v(_vm._s(_vm.purchasePay.product_unit))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("打款价:")]), _vm._v(_vm._s(_vm.purchasePay.purchase_pay_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("预付数量:")]), _vm._v(_vm._s(_vm.purchasePay.purchase_pay_number))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("生产厂家:")]), _vm._v(_vm._s(_vm.purchasePay.product_makesmakers))])])], 1), _vm._v(" "), _c('el-form', {
-    ref: "purchasePay",
-    staticClass: "demo-ruleForm",
-    staticStyle: {
-      "margin-top": "20px"
-    },
-    attrs: {
-      "model": _vm.purchasePay,
-      "status-icon": "",
-      "rules": _vm.purchasePayRule,
-      "inline": true,
-      "label-width": "100px"
-    }
-  }, [_c('el-form-item', {
-    attrs: {
-      "label": "政策积分",
-      "prop": "purchase_pay_policy_price"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "placeholder": "政策积分"
-    },
-    on: {
-      "blur": _vm.shouldPrice
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_policy_price),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_policy_price", $$v)
-      },
-      expression: "purchasePay.purchase_pay_policy_price"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "补点/费用票",
-      "prop": "purchase_pay_other_money"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "readonly": true,
-      "placeholder": "补点/费用票"
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_other_money),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_other_money", $$v)
-      },
-      expression: "purchasePay.purchase_pay_other_money"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "应付积分",
-      "prop": "purchase_pay_should_pay_money"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "readonly": true,
-      "placeholder": "应付积分"
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_should_pay_money),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_should_pay_money", $$v)
-      },
-      expression: "purchasePay.purchase_pay_should_pay_money"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "实付积分",
-      "prop": "purchase_pay_real_pay_money"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "placeholder": "实付积分"
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_real_pay_money),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_real_pay_money", $$v)
-      },
-      expression: "purchasePay.purchase_pay_real_pay_money"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "付积分账号",
-      "prop": "purchase_pay_real_account"
-    }
-  }, [_c('el-select', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "filterable": "",
-      "placeholder": "请选择"
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_real_account),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_real_account", $$v)
-      },
-      expression: "purchasePay.purchase_pay_real_account"
-    }
-  }, _vm._l((_vm.accounts), function(item) {
-    return _c('el-option', {
-      key: item.account_id,
-      attrs: {
-        "label": item.account_number,
-        "value": item.account_id
-      }
-    })
-  }))], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "付积分时间",
-      "prop": "purchase_pay_real_pay_time"
-    }
-  }, [_c('el-date-picker', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "type": "date",
-      "placeholder": "请选择付积分时间"
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_real_pay_time),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_real_pay_time", $$v)
-      },
-      expression: "purchasePay.purchase_pay_real_pay_time"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "备　　注",
-      "prop": "purchase_pay_return_remark"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "179px"
-    },
-    attrs: {
-      "placeholder": "备注"
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_return_remark),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_return_remark", $$v)
-      },
-      expression: "purchasePay.purchase_pay_return_remark"
-    }
-  })], 1), _vm._v(" "), _c('div', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.purchasePay.account_name1 && _vm.purchasePay.account_number1),
-      expression: "purchasePay.account_name1 && purchasePay.account_number1"
-    }],
-    staticStyle: {
-      "padding-left": "16px"
-    }
-  }, [_c('div', [_vm._v("积分账号名：" + _vm._s(_vm.purchasePay.account_name1))]), _vm._v(" "), _c('div', [_vm._v("　积分账号：" + _vm._s(_vm.purchasePay.account_number1))]), _vm._v(" "), _c('div', [_vm._v("　积分地址：" + _vm._s(_vm.purchasePay.account_address1))])])], 1), _vm._v(" "), _c('div', {
-    staticClass: "dialog-footer",
-    attrs: {
-      "slot": "footer"
-    },
-    slot: "footer"
-  }, [_c('div', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.remindFlag),
-      expression: "remindFlag"
-    }],
-    staticStyle: {
-      "color": "#f24040",
-      "font-size": "12px",
-      "padding-bottom": "5px"
-    }
-  }, [_vm._v("\n\t\t\t\t\t温馨提示：应付积分大于实收上游积分（" + _vm._s(_vm.remindMoney) + "）\n\t\t\t\t")]), _vm._v(" "), _c('el-button', {
-    directives: [{
-      name: "dbClick",
-      rawName: "v-dbClick"
-    }],
-    attrs: {
-      "size": "small"
-    },
-    on: {
-      "click": function($event) {
-        _vm.dialogFormVisible = false
-      }
-    }
-  }, [_vm._v("取 消")]), _vm._v(" "), _c('el-button', {
-    directives: [{
-      name: "dbClick",
-      rawName: "v-dbClick"
-    }],
-    attrs: {
-      "type": "primary",
-      "size": "small",
-      "loading": _vm.loading
-    },
-    on: {
-      "click": function($event) {
-        _vm.editPurchasePayReturn('purchasePay')
-      }
-    }
-  }, [_vm._v("确 定")])], 1)], 1)], 1)
-},staticRenderFns: []}
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-18bbdac5", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 413:
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(414);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(100)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-7ed36533!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./purchasePayRefund.vue", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-7ed36533!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./purchasePayRefund.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-
-/***/ 414:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.sum_money_purchase > a{\n\tpadding-left: 20px;\n\tcolor: #606266;\n}\n.sum_money_purchase > span{\n\tcolor:#606266;\n}\n.sum_money_purchase .more_detail{\n\tposition: absolute;\n\tright: 10px;\n\theight: 30px;\n\tline-height: 30px;\n\tcolor: #409EFF;\n\ttext-decoration: none;\n}\n.sum_money_purchase{\n\tposition: relative;\n\tbackground-color: #fff;\n\tborder-bottom: 1px solid #ebeef5;\n\theight: 30px;\n\tcolor:#f24040;\n\tline-height: 30px;\n\tfont-size: 14px;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ 415:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-exports.default = {
-	data: function data() {
-		var validateMoney = function validateMoney(rule, value, callback) {
-			var reg = /^(([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)|([-]([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)))$/;
-			if (value && !reg.test(value)) {
-				callback(new Error('请输入正确的' + rule.labelname));
-			} else {
-				callback();
-			}
-		};
-		var nowDate = new Date();
-		var beforeDate = new Date();
-		beforeDate.setFullYear(nowDate.getFullYear() - 1);
-		return {
-			pickerOptions2: {
-				shortcuts: [{
-					text: '本月',
-					onClick: function onClick(picker) {
-						var end = new Date();
-						var start = new Date(end.getFullYear() + "-" + (end.getMonth() + 1) + "-01");
-						picker.$emit('pick', [start, end]);
-					}
-				}, {
-					text: nowDate.getFullYear() + '年',
-					onClick: function onClick(picker) {
-						var end = new Date();
-						var start = new Date(end.getFullYear() + "-01" + "-01");
-						picker.$emit('pick', [start, end]);
-					}
-				}, {
-					text: beforeDate.getFullYear() + '年',
-					onClick: function onClick(picker) {
-						var start = new Date(beforeDate.getFullYear() + "-01" + "-01");
-						var end = new Date(beforeDate.getFullYear() + "-12" + "-31");
-						picker.$emit('pick', [start, end]);
-					}
-				}]
-			},
-			purchasePays: [],
-			contacts: [],
-			accounts: [],
-			pageNum: 10,
-			currentPage: 1,
-			count: 0,
-			dialogFormVisible: false,
-			loading: false,
-			params: {
-				product_makesmakers: "",
-				productCommonName: "",
-				contactId: "",
-				time: [],
-				returnTime: [],
-				realReturnTime: [],
-				product_code: "",
-				status: "",
-				remark: "",
-				business: "",
-				batch_number: "",
-				overdue: "",
-				purchase_pay_refundser: "",
-				makeMoneyFlag: "2",
-				refundFlag: "2"
-			},
-			purchasePay: {
-				purchase_pay_should_price: "",
-				purchase_pay_should_money: "",
-				purchase_pay_real_money: "",
-				purchase_pay_service_charge: "",
-				purchase_pay_refundser: "",
-				purchase_pay_receiver: "",
-				purchase_pay_remark: "",
-				purchase_pay_id: "",
-				purchase_pay_should_time: null,
-				purchase_pay_real_time: null
-			},
-			purchasePayRule: {
-				purchase_pay_should_price: [{ validator: validateMoney, labelname: '政策积分', trigger: 'blur' }],
-				purchase_pay_should_money: [{ validator: validateMoney, labelname: '应收积分', trigger: 'blur' }],
-				purchase_pay_real_money: [{ validator: validateMoney, labelname: '实收积分', trigger: 'blur' }],
-				purchase_pay_service_charge: [{ validator: validateMoney, labelname: '其它积分', trigger: 'blur' }]
-			},
-			authCode: "",
-			business: [],
-			refundser: [],
-			contactRefunders: [],
-			errorMessage: "",
-			importPurchasesUrl: "",
-			loadingImport: false,
-			uploadButtom: "导入预付招商记录",
-			dialogFormVisibleImport: false,
-			refundMoney: {}
-		};
-	},
-	activated: function activated() {
-		this.getContacts();
-		this.getPurchasePayList();
-		this.getBankAccount();
-		this.getPurchasePayRefunder();
-		this.getProductBusiness();
-		this.authCode = "," + JSON.parse(sessionStorage["user"]).authority_code;
-	},
-	mounted: function mounted() {
-		this.importDrugsUrl = this.$bus.data.host + "/iae/purchasepay/importPurchasePay";
-	},
-
-	methods: {
-		shouldPrice: function shouldPrice() {
-			var t = this.purchasePay.purchase_pay_should_price * this.purchasePay.purchase_pay_number;
-			this.purchasePay.purchase_pay_should_money = Math.round(t * 100) / 100;
-		},
-		getPurchasePayRefunder: function getPurchasePayRefunder() {
-			var _self = this;
-			this.jquery("/iae/purchasepay/getPurchasePayAllRefunder", null, function (res) {
-				//查询返款人
-				_self.refundser = res.message;
-			});
-		},
-		getBankAccount: function getBankAccount() {
-			var _self = this;
-			this.jquery("/iae/bankaccount/getAllAccounts", null, function (res) {
-				//查询账号
-				_self.accounts = res.message;
-			});
-		},
-		formatPercent: function formatPercent(row, column, cellValue, index) {
-			if (!this.isEmpty(cellValue)) {
-				return cellValue + " %";
-			} else {
-				return "-";
-			}
-		},
-		getProductBusiness: function getProductBusiness() {
-			var _self = this;
-			this.jquery("/iae/business/getAllBusiness", null, function (res) {
-				//查询商业
-				_self.business = res.message;
-				sessionStorage["productbusiness"] = JSON.stringify(_self.business);
-			});
-		},
-		exportExcel: function exportExcel() {
-			var url = this.$bus.data.host + "/iae/purchasepay/exportPurchasePayRefund";
-			this.download(url, this.params);
-		},
-		handleSelect1: function handleSelect1(item) {
-			this.params.purchase_pay_refundser = item.purchase_pay_refundser;
-		},
-		querySearch1: function querySearch1(queryString, cb) {
-			var receiver = this.refundser;
-			var results = queryString ? receiver.filter(this.createFilter1(queryString)) : receiver;
-			// 调用 callback 返回建议列表的数据
-			cb(results);
-		},
-		createFilter1: function createFilter1(queryString) {
-			var _this = this;
-
-			return function (refundser) {
-				if (!_this.isEmpty(refundser.purchase_pay_refundser)) {
-					return refundser.purchase_pay_refundser.toLowerCase().indexOf(queryString.toLowerCase()) > -1;
-				} else {
-					return;
-				}
-			};
-		},
-		handleSelect: function handleSelect(item) {
-			this.purchasePay.purchase_pay_refundser = item.purchase_pay_refundser;
-		},
-		querySearch: function querySearch(queryString, cb) {
-			var receiver = this.contactRefunders;
-			var results = queryString ? receiver.filter(this.createFilter(queryString)) : receiver;
-			// 调用 callback 返回建议列表的数据
-			cb(results);
-		},
-		createFilter: function createFilter(queryString) {
+		deleteRow: function deleteRow(scope) {
 			var _this2 = this;
 
-			return function (refundser) {
-				if (!_this2.isEmpty(refundser.purchase_pay_refundser)) {
-					return refundser.purchase_pay_refundser.toLowerCase().indexOf(queryString.toLowerCase()) > -1;
-				} else {
-					return;
-				}
-			};
+			this.$confirm('是否删除?', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning'
+			}).then(function () {
+				_this2.deleteItem(scope);
+			}).catch(function () {});
 		},
-		editPurchasePayRefund: function editPurchasePayRefund(formName) {
+		deleteItem: function deleteItem(scope) {
+			var _self = this;
+			this.jquery('/iae/user/deleteUsers', {
+				id: scope.row.id
+			}, function (res) {
+				_self.$message({ showClose: true, message: '删除成功', type: 'success' });
+				_self.searchUsersList();
+				_self.dialogFormVisible = false;
+			});
+		},
+		add: function add(formName) {
 			var _this3 = this;
 
 			var _self = this;
 			this.$refs[formName].validate(function (valid) {
 				if (valid) {
 					_this3.loading = true;
-					_self.jquery('/iae/purchasepay/editPurchasePayRefund', _self.purchasePay, function (res) {
-						_self.dialogFormVisible = false;
-						_self.loading = false;
-						_self.$message({ showClose: true, message: '修改成功', type: 'success' });
-						_self.getPurchasePayList();
-					});
+					if (_this3.title == 1) {
+						_this3.jquery('/iae/user/saveUsers', _self.user, function (res) {
+							_self.$message({ showClose: true, message: '新增成功', type: 'success' });
+							_self.dialogFormVisible = false;
+							_self.loading = false;
+						});
+					} else {
+						_this3.jquery('/iae/user/editUsers', _self.user, function (res) {
+							_self.$message({ showClose: true, message: '修改成功', type: 'success' });
+							_self.dialogFormVisible = false;
+							_self.loading = false;
+						});
+					}
+					_self.searchUsersList();
 				} else {
+					console.log('error submit!!');
 					return false;
 				}
 			});
 		},
-		getContacts: function getContacts() {
+		searchRolesList: function searchRolesList() {
 			var _self = this;
-			this.jquery('/iae/contacts/getAllContacts', { group_id: 0, contact_type: ['高打品种', '业务员'] }, function (res) {
-				_self.contacts = res.message;
-			});
-		},
-		onRefund: function onRefund(row, column, cellValue) {
-			var t = row.purchase_pay_should_money - row.purchase_pay_real_money;
-			return Math.round(t * 100) / 100;
-		},
-		formatterDate: function formatterDate(row, column, cellValue) {
-			if (cellValue && typeof cellValue == "string") {
-				var temp = cellValue.substring(0, 10);
-				var d = new Date(temp);
-				d.setDate(d.getDate() + 1);
-				return d.format("yyyy-MM-dd");
-			} else if (cellValue && (typeof cellValue === 'undefined' ? 'undefined' : _typeof(cellValue)) == "object") {
-				return new Date(cellValue).format("yyyy-MM-dd");
-			} else {
-				return "";
+			if (!_self.role.currentPage) {
+				_self.role.currentPage = 1;
 			}
-		},
-		editRow: function editRow(scope) {
-			//编辑药品信息
-			var _self = this;
-			this.jquery('/iae/purchasepay/getPurchasePayRefunder', { contactId: scope.row.purchase_pay_contact_id }, function (res) {
-				_self.contactRefunders = res.message;
-			});
-			this.dialogFormVisible = true;
-			var temp = JSON.stringify(scope.row);
-			this.purchasePay = JSON.parse(temp);
-			this.purchasePay.front_purchase = temp;
-		},
-		deleteRow: function deleteRow(scope) {
-			var _this4 = this;
-
-			//删除
-			this.$confirm('是否删除?', '提示', {
-				confirmButtonText: '确定',
-				cancelButtonText: '取消',
-				type: 'warning'
-			}).then(function () {
-				_this4.deleteItem(scope);
-			}).catch(function () {});
-		},
-		deleteItem: function deleteItem(scope) {
-			var _self = this;
-			this.jquery('/iae/purchasepay/deletePurchasePayRefund', {
-				purchase_pay_id: scope.row.purchase_pay_id,
-				purchase_pay_delete_flag1: ""
+			if (!_self.role.pageNum) {
+				_self.role.pageNum = 5;
+			}
+			var page = {
+				start: (_self.role.currentPage - 1) * _self.role.pageNum,
+				limit: _self.role.pageNum
+			};
+			this.jquery('/iae/role/getRoles', {
+				data: { group_id: 0 },
+				page: page
 			}, function (res) {
-				_self.$message({ showClose: true, message: '删除成功', type: 'success' });
-				_self.getPurchasePayList();
-				_self.dialogFormVisible = false;
+				_self.roles = res.message.data;
+				_self.role.pageNum = parseInt(res.message.limit);
+				_self.role.count = res.message.totalCount;
 			});
 		},
-
-		//跳转到编辑页面
-		add: function add() {
-			sessionStorage["remarks"] = JSON.stringify(this.remarks);
-			this.$router.push("/main/purchasepaydrugs");
-		},
-		reSearch: function reSearch(arg) {
-			if (arg) {
-				this.$refs["params"].resetFields();
-			}
-			this.currentPage = 1;
-			this.getPurchasePayList();
-		},
-		getPurchasePayList: function getPurchasePayList() {
+		searchUsersList: function searchUsersList() {
 			var _self = this;
 			if (!_self.currentPage) {
 				_self.currentPage = 1;
@@ -6140,40 +2795,51 @@ exports.default = {
 				start: (_self.currentPage - 1) * _self.pageNum,
 				limit: _self.pageNum
 			};
-			this.jquery('/iae/purchasepay/getPurchasePay', {
+			this.jquery('/iae/user/getUsers', {
 				data: _self.params,
 				page: page
 			}, function (res) {
-				_self.purchasePays = res.message.data;
+				_self.users = res.message.data;
 				_self.pageNum = parseInt(res.message.limit);
 				_self.count = res.message.totalCount;
-				_self.refundMoney.ppsm = res.message.ppsm; //应收
-				_self.refundMoney.pprm = res.message.pprm; //实收
-				_self.refundMoney.ppnc = res.message.ppsm - res.message.pprm; //未收
-				_self.refundMoney.ppnc = Math.round(_self.refundMoney.ppnc * 100) / 100;
-				_self.refundMoney.ppsc = res.message.ppsc; //其它
 			});
+		},
+		reSearch: function reSearch(arg) {
+			if (arg) {
+				this.$refs["params"].resetFields();
+				this.params.groupId = JSON.parse(sessionStorage["user"]).group_id;
+			}
+			this.currentPage = 1;
+			this.searchUsersList();
 		},
 		handleSizeChange: function handleSizeChange(val) {
 			this.pageNum = val;
 			this.currentPage = 1;
-			this.getPurchasePayList();
+			this.searchUsersList();
 		},
 		handleCurrentChange: function handleCurrentChange(val) {
 			this.currentPage = val;
-			this.getPurchasePayList();
+			this.searchUsersList();
+		},
+		formatValue: function formatValue(row, column, cellValue, index) {
+			return cellValue.substring(0, 10);
+		},
+		handleRoleCurrentChange: function handleRoleCurrentChange(val) {
+			this.role.currentPage = val;
+			this.searchRolesList();
 		}
-	}
+	}, 'handleCurrentChange', function handleCurrentChange(val) {
+		this.currentRow = val;
+	})
 };
 
 /***/ }),
 
-/***/ 416:
+/***/ 339:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "sale_list",
     staticStyle: {
       "box-sizing": "border-box",
       "padding": "0px 10px"
@@ -6182,7 +2848,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "separator-class": "el-icon-arrow-right"
     }
-  }, [_c('el-breadcrumb-item', [_vm._v("采购管理")]), _vm._v(" "), _c('el-breadcrumb-item', [_vm._v("预付招商应收管理")])], 1), _vm._v(" "), _c('el-form', {
+  }, [_c('el-breadcrumb-item', [_vm._v("系统管理")]), _vm._v(" "), _c('el-breadcrumb-item', [_vm._v("用户管理")])], 1), _vm._v(" "), _c('el-form', {
     ref: "params",
     staticClass: "demo-form-inline search",
     attrs: {
@@ -6192,77 +2858,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('el-form-item', {
     attrs: {
-      "label": "合同时间",
-      "prop": "time"
-    }
-  }, [_c('el-date-picker', {
-    attrs: {
-      "type": "daterange",
-      "size": "mini",
-      "align": "right",
-      "unlink-panels": "",
-      "range-separator": "至",
-      "start-placeholder": "开始日期",
-      "end-placeholder": "结束日期",
-      "picker-options": _vm.pickerOptions2
-    },
-    model: {
-      value: (_vm.params.time),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "time", $$v)
-      },
-      expression: "params.time"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "应收日期",
-      "prop": "returnTime"
-    }
-  }, [_c('el-date-picker', {
-    attrs: {
-      "type": "daterange",
-      "size": "mini",
-      "align": "right",
-      "unlink-panels": "",
-      "range-separator": "至",
-      "start-placeholder": "开始日期",
-      "end-placeholder": "结束日期",
-      "picker-options": _vm.pickerOptions2
-    },
-    model: {
-      value: (_vm.params.returnTime),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "returnTime", $$v)
-      },
-      expression: "params.returnTime"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "实收日期",
-      "prop": "realReturnTime"
-    }
-  }, [_c('el-date-picker', {
-    attrs: {
-      "type": "daterange",
-      "size": "mini",
-      "align": "right",
-      "unlink-panels": "",
-      "range-separator": "至",
-      "start-placeholder": "开始日期",
-      "end-placeholder": "结束日期",
-      "picker-options": _vm.pickerOptions2
-    },
-    model: {
-      value: (_vm.params.realReturnTime),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "realReturnTime", $$v)
-      },
-      expression: "params.realReturnTime"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "产品名称",
-      "prop": "productCommonName"
+      "label": "用户名",
+      "prop": "username"
     }
   }, [_c('el-input', {
     staticStyle: {
@@ -6270,147 +2867,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     attrs: {
       "size": "mini",
-      "placeholder": "产品名称/助记码"
+      "placeholder": "用户名"
     },
     nativeOn: {
       "keyup": function($event) {
         if (!('button' in $event) && $event.keyCode !== 13) { return null; }
-        _vm.reSearch(false)
+        return _vm.reSearch($event)
       }
     },
     model: {
-      value: (_vm.params.productCommonName),
+      value: (_vm.params.username),
       callback: function($$v) {
-        _vm.$set(_vm.params, "productCommonName", $$v)
+        _vm.$set(_vm.params, "username", $$v)
       },
-      expression: "params.productCommonName"
+      expression: "params.username"
     }
   })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
-      "label": "产品编号",
-      "prop": "product_code"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "size": "mini",
-      "placeholder": "产品编号"
-    },
-    nativeOn: {
-      "keyup": function($event) {
-        if (!('button' in $event) && $event.keyCode !== 13) { return null; }
-        _vm.reSearch(false)
-      }
-    },
-    model: {
-      value: (_vm.params.product_code),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "product_code", $$v)
-      },
-      expression: "params.product_code"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "生产厂家",
-      "prop": "product_makesmakers"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "size": "mini",
-      "placeholder": "生产厂家"
-    },
-    nativeOn: {
-      "keyup": function($event) {
-        if (!('button' in $event) && $event.keyCode !== 13) { return null; }
-        _vm.reSearch(false)
-      }
-    },
-    model: {
-      value: (_vm.params.product_makesmakers),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "product_makesmakers", $$v)
-      },
-      expression: "params.product_makesmakers"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "　联系人",
-      "prop": "contactId"
-    }
-  }, [_c('el-select', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "filterable": "",
-      "size": "mini",
-      "placeholder": "请选择"
-    },
-    model: {
-      value: (_vm.params.contactId),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "contactId", $$v)
-      },
-      expression: "params.contactId"
-    }
-  }, [_c('el-option', {
-    key: "",
-    attrs: {
-      "label": "全部",
-      "value": ""
-    }
-  }), _vm._v(" "), _vm._l((_vm.contacts), function(item) {
-    return (item.contact_type.indexOf('高打品种') > -1) ? _c('el-option', {
-      key: item.contacts_id,
-      attrs: {
-        "label": item.contacts_name,
-        "value": item.contacts_id
-      }
-    }) : _vm._e()
-  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "　业务员",
-      "prop": "contactId1"
-    }
-  }, [_c('el-select', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "filterable": "",
-      "size": "mini",
-      "placeholder": "请选择"
-    },
-    model: {
-      value: (_vm.params.contactId1),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "contactId1", $$v)
-      },
-      expression: "params.contactId1"
-    }
-  }, [_c('el-option', {
-    key: "",
-    attrs: {
-      "label": "全部",
-      "value": ""
-    }
-  }), _vm._v(" "), _vm._l((_vm.contacts), function(item) {
-    return (item.contact_type.indexOf('业务员') > -1) ? _c('el-option', {
-      key: item.contacts_id,
-      attrs: {
-        "label": item.contacts_name,
-        "value": item.contacts_id
-      }
-    }) : _vm._e()
-  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "　　商业",
-      "prop": "business"
+      "label": "用户组",
+      "prop": "groupId"
     }
   }, [_c('el-select', {
     staticStyle: {
@@ -6419,14 +2894,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "size": "mini",
       "filterable": "",
-      "placeholder": "请选择商业"
+      "placeholder": "请选择组"
     },
     model: {
-      value: (_vm.params.business),
+      value: (_vm.params.groupId),
       callback: function($$v) {
-        _vm.$set(_vm.params, "business", $$v)
+        _vm.$set(_vm.params, "groupId", $$v)
       },
-      expression: "params.business"
+      expression: "params.groupId"
     }
   }, [_c('el-option', {
     key: "",
@@ -6434,167 +2909,24 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "label": "全部",
       "value": ""
     }
-  }), _vm._v(" "), _vm._l((_vm.business), function(item) {
+  }), _vm._v(" "), _vm._l((_vm.groups), function(item) {
     return _c('el-option', {
-      key: item.business_id,
+      key: item.group_id,
       attrs: {
-        "label": item.business_name,
-        "value": item.business_id
+        "label": item.group_name,
+        "value": item.group_id
       }
     })
-  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "付积分人",
-      "prop": "purchase_pay_refundser"
-    }
-  }, [_c('el-autocomplete', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "popper-class": "my-autocomplete",
-      "size": "mini",
-      "fetch-suggestions": _vm.querySearch1,
-      "placeholder": "付积分人"
-    },
-    on: {
-      "select": _vm.handleSelect1
-    },
-    scopedSlots: _vm._u([{
-      key: "default",
-      fn: function(ref) {
-        var item = ref.item;
-
-        return [_c('div', {
-          staticClass: "name"
-        }, [_vm._v(_vm._s(item.purchase_pay_refundser))])]
-      }
-    }]),
-    model: {
-      value: (_vm.params.purchase_pay_refundser),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "purchase_pay_refundser", $$v)
-      },
-      expression: "params.purchase_pay_refundser"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "积分状态",
-      "prop": "status"
-    }
-  }, [_c('el-select', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "filterable": "",
-      "size": "mini",
-      "placeholder": "请选择"
-    },
-    model: {
-      value: (_vm.params.status),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "status", $$v)
-      },
-      expression: "params.status"
-    }
-  }, [_c('el-option', {
-    key: "",
-    attrs: {
-      "label": "全部",
-      "value": ""
-    }
-  }), _vm._v(" "), _c('el-option', {
-    key: "已收",
-    attrs: {
-      "label": "已收",
-      "value": "已收"
-    }
-  }), _vm._v(" "), _c('el-option', {
-    key: "未收",
-    attrs: {
-      "label": "未收",
-      "value": "未收"
-    }
-  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "是否超期",
-      "prop": "overdue"
-    }
-  }, [_c('el-select', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "filterable": "",
-      "size": "mini",
-      "placeholder": "请选择"
-    },
-    model: {
-      value: (_vm.params.overdue),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "overdue", $$v)
-      },
-      expression: "params.overdue"
-    }
-  }, [_c('el-option', {
-    key: "是",
-    attrs: {
-      "label": "是",
-      "value": "是"
-    }
-  }), _vm._v(" "), _c('el-option', {
-    key: "",
-    attrs: {
-      "label": "否",
-      "value": ""
-    }
-  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "是否打款",
-      "prop": "makeMoneyFlag"
-    }
-  }, [_c('el-select', {
-    staticStyle: {
-      "width": "210px"
-    },
-    attrs: {
-      "filterable": "",
-      "size": "mini",
-      "placeholder": "请选择"
-    },
-    model: {
-      value: (_vm.params.makeMoneyFlag),
-      callback: function($$v) {
-        _vm.$set(_vm.params, "makeMoneyFlag", $$v)
-      },
-      expression: "params.makeMoneyFlag"
-    }
-  }, [_c('el-option', {
-    key: "2",
-    attrs: {
-      "label": "是",
-      "value": "2"
-    }
-  }), _vm._v(" "), _c('el-option', {
-    key: "",
-    attrs: {
-      "label": "全部",
-      "value": ""
-    }
-  })], 1)], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
+  })], 2)], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
     directives: [{
       name: "dbClick",
       rawName: "v-dbClick"
     }, {
       name: "show",
       rawName: "v-show",
-      value: (_vm.authCode.indexOf(',168,') > -1),
-      expression: "authCode.indexOf(',168,') > -1"
+      value: (_vm.authCode.indexOf(',19,') > -1),
+      expression: "authCode.indexOf(',19,') > -1"
     }],
-    staticStyle: {
-      "margin-left": "14px"
-    },
     attrs: {
       "type": "primary",
       "size": "mini"
@@ -6611,8 +2943,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, {
       name: "show",
       rawName: "v-show",
-      value: (_vm.authCode.indexOf(',168,') > -1),
-      expression: "authCode.indexOf(',168,') > -1"
+      value: (_vm.authCode.indexOf(',19,') > -1),
+      expression: "authCode.indexOf(',19,') > -1"
     }],
     attrs: {
       "type": "primary",
@@ -6630,189 +2962,61 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, {
       name: "show",
       rawName: "v-show",
-      value: (_vm.authCode.indexOf(',170,') > -1),
-      expression: "authCode.indexOf(',170,') > -1"
+      value: (_vm.authCode.indexOf(',16,') > -1),
+      expression: "authCode.indexOf(',16,') > -1"
     }],
     attrs: {
       "type": "primary",
       "size": "mini"
     },
     on: {
-      "click": _vm.exportExcel
+      "click": _vm.addShow
     }
-  }, [_vm._v("导出")])], 1)], 1), _vm._v(" "), _c('div', {
-    staticClass: "sum_money"
-  }, [_vm._v("\n      积分："), _c('a', [_vm._v(_vm._s(_vm.refundMoney.ppsm))]), _vm._v("\n      已收积分："), _c('a', [_vm._v(_vm._s(_vm.refundMoney.pprm))]), _vm._v("\n      未收积分："), _c('a', [_vm._v(_vm._s(_vm.refundMoney.ppnc))]), _vm._v("\n      其它积分："), _c('a', [_vm._v(_vm._s(_vm.refundMoney.ppsc))])]), _vm._v(" "), _c('el-table', {
+  }, [_vm._v("新增")])], 1)], 1), _vm._v(" "), _c('el-table', {
     staticStyle: {
       "width": "100%"
     },
     attrs: {
-      "data": _vm.purchasePays,
+      "data": _vm.users,
       "size": "mini",
-      "stripe": true,
-      "border": true
+      "stripe": true
     }
   }, [_c('el-table-column', {
     attrs: {
-      "fixed": "",
-      "prop": "purchase_pay_contract_time",
-      "label": "合同时间",
-      "width": "80",
-      "formatter": _vm.formatterDate
+      "prop": "username",
+      "label": "用户名"
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
-      "fixed": "",
-      "prop": "product_common_name",
-      "label": "产品通用名",
-      "width": "120"
+      "prop": "group_name",
+      "label": "组名称"
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
-      "prop": "product_code",
-      "label": "产品编码",
-      "width": "100"
+      "prop": "group_code",
+      "label": "组编码"
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
-      "prop": "product_specifications",
-      "label": "产品规格",
-      "width": "100"
+      "prop": "realname",
+      "label": "真实姓名"
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
-      "prop": "product_makesmakers",
-      "label": "生产厂家",
-      "width": "150"
+      "prop": "data_authority",
+      "label": "数据权限",
+      "formatter": _vm.formatterType
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
-      "prop": "product_packing",
-      "label": "包装",
-      "width": "50"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_unit",
-      "label": "单位",
-      "width": "50"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "product_price",
-      "label": "中标价",
-      "width": "60"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "contacts_name",
-      "label": "联系人",
-      "width": "60"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "business_name",
-      "label": "商业",
-      "width": "60"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_number",
-      "label": "预付数量",
-      "width": "70"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_price",
-      "label": "打款价",
-      "width": "60"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_money",
-      "label": "预付金额",
-      "width": "70"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_time",
-      "label": "打款时间",
-      "width": "80",
-      "formatter": _vm.formatterDate
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "contacts_name1",
-      "label": "业务员",
-      "width": "60"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_should_price",
-      "label": "积分",
-      "width": "80"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_other_money",
-      "label": "补点/费用票",
-      "width": "80"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_should_money",
-      "label": "应收积分",
-      "width": "80"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_should_time",
-      "label": "应收时间",
-      "width": "80",
-      "formatter": _vm.formatterDate
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_real_money",
-      "label": "实收积分",
-      "width": "80"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_real_time",
-      "label": "实收时间",
-      "width": "80",
-      "formatter": _vm.formatterDate
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_real_money",
-      "label": "未收积分",
-      "width": "80",
-      "formatter": _vm.onRefund
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_refundser",
-      "label": "返积分人",
-      "width": "80"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "account_number",
-      "label": "收积分账户",
-      "width": "80"
-    }
-  }), _vm._v(" "), _c('el-table-column', {
-    attrs: {
-      "prop": "purchase_pay_remark",
-      "label": "备注"
+      "prop": "role_name",
+      "label": "角色名"
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
       "fixed": "right",
       "label": "操作",
-      "width": "100"
+      "width": "200"
     },
     scopedSlots: _vm._u([{
       key: "default",
@@ -6821,8 +3025,29 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           directives: [{
             name: "show",
             rawName: "v-show",
-            value: (_vm.authCode.indexOf(',169,') > -1),
-            expression: "authCode.indexOf(',169,') > -1"
+            value: (_vm.authCode.indexOf(',18,') > -1),
+            expression: "authCode.indexOf(',18,') > -1"
+          }, {
+            name: "dbClick",
+            rawName: "v-dbClick"
+          }],
+          attrs: {
+            "icon": "el-icon-delete",
+            "type": "primary",
+            "size": "mini"
+          },
+          nativeOn: {
+            "click": function($event) {
+              $event.preventDefault();
+              _vm.deleteRow(scope)
+            }
+          }
+        }), _vm._v(" "), _c('el-button', {
+          directives: [{
+            name: "show",
+            rawName: "v-show",
+            value: (_vm.authCode.indexOf(',17,') > -1),
+            expression: "authCode.indexOf(',17,') > -1"
           }, {
             name: "dbClick",
             rawName: "v-dbClick"
@@ -6838,7 +3063,27 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
               _vm.editRow(scope)
             }
           }
-        })]
+        }), _vm._v(" "), _c('el-button', {
+          directives: [{
+            name: "show",
+            rawName: "v-show",
+            value: (_vm.authCode.indexOf(',24,') > -1),
+            expression: "authCode.indexOf(',24,') > -1"
+          }, {
+            name: "dbClick",
+            rawName: "v-dbClick"
+          }],
+          attrs: {
+            "type": "primary",
+            "size": "mini"
+          },
+          nativeOn: {
+            "click": function($event) {
+              $event.preventDefault();
+              _vm.addRole(scope)
+            }
+          }
+        }, [_vm._v("授权")])]
       }
     }])
   })], 1), _vm._v(" "), _c('div', {
@@ -6858,8 +3103,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1), _vm._v(" "), _c('el-dialog', {
     attrs: {
-      "title": "修改预付招商记录",
-      "width": "700px",
+      "title": _vm.title == 1 ? '新增用户' : '修改用户',
+      "width": "500px",
       "visible": _vm.dialogFormVisible
     },
     on: {
@@ -6867,242 +3112,133 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.dialogFormVisible = $event
       }
     }
-  }, [_c('el-collapse', {
-    model: {
-      value: (_vm.activeNames),
-      callback: function($$v) {
-        _vm.activeNames = $$v
-      },
-      expression: "activeNames"
-    }
-  }, [_c('el-collapse-item', {
-    attrs: {
-      "title": '药品信息（药品名：' + _vm.purchasePay.product_common_name + '）',
-      "name": "2"
-    }
-  }, [_c('div', [_c('span', [_vm._v("产品编号:")]), _vm._v(_vm._s(_vm.purchasePay.product_code))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("产品规格:")]), _vm._v(_vm._s(_vm.purchasePay.product_specifications))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("中标价:")]), _vm._v(_vm._s(_vm.purchasePay.product_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("包装:")]), _vm._v(_vm._s(_vm.purchasePay.product_packing))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("单位:")]), _vm._v(_vm._s(_vm.purchasePay.product_unit))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("打款价:")]), _vm._v(_vm._s(_vm.purchasePay.purchase_pay_price))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("预付数量:")]), _vm._v(_vm._s(_vm.purchasePay.purchase_pay_number))]), _vm._v(" "), _c('div', [_c('span', [_vm._v("生产厂家:")]), _vm._v(_vm._s(_vm.purchasePay.product_makesmakers))])])], 1), _vm._v(" "), _c('el-form', {
-    ref: "purchasePay",
+  }, [_c('el-form', {
+    ref: "user",
     staticClass: "demo-ruleForm",
-    staticStyle: {
-      "margin-top": "20px"
-    },
     attrs: {
-      "model": _vm.purchasePay,
-      "status-icon": "",
-      "rules": _vm.purchasePayRule,
-      "inline": true,
+      "model": _vm.user,
+      "rules": _vm.rules,
       "label-width": "100px"
     }
   }, [_c('el-form-item', {
     attrs: {
-      "label": "应收日期",
-      "prop": "purchase_pay_should_time"
-    }
-  }, [_c('el-date-picker', {
-    staticStyle: {
-      "width": "194px"
-    },
-    attrs: {
-      "type": "date",
-      "placeholder": "请选择应付日期"
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_should_time),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_should_time", $$v)
-      },
-      expression: "purchasePay.purchase_pay_should_time"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "积　　分",
-      "prop": "purchase_pay_should_price"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "194px"
-    },
-    attrs: {
-      "placeholder": "应付积分",
-      "auto-complete": "off"
-    },
-    on: {
-      "blur": _vm.shouldPrice
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_should_price),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_should_price", $$v)
-      },
-      expression: "purchasePay.purchase_pay_should_price"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "应收积分",
-      "prop": "purchase_pay_should_money"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "194px"
-    },
-    attrs: {
-      "placeholder": "应付积分",
-      "auto-complete": "off"
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_should_money),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_should_money", $$v)
-      },
-      expression: "purchasePay.purchase_pay_should_money"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "实收日期",
-      "prop": "purchase_pay_real_time"
-    }
-  }, [_c('el-date-picker', {
-    staticStyle: {
-      "width": "194px"
-    },
-    attrs: {
-      "type": "date",
-      "placeholder": "请选择实收日期"
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_real_time),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_real_time", $$v)
-      },
-      expression: "purchasePay.purchase_pay_real_time"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "实收积分",
-      "prop": "purchase_pay_real_money"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "194px"
-    },
-    attrs: {
-      "placeholder": "实收积分",
-      "auto-complete": "off"
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_real_money),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_real_money", $$v)
-      },
-      expression: "purchasePay.purchase_pay_real_money"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "其它积分",
-      "prop": "purchase_pay_service_charge"
-    }
-  }, [_c('el-input', {
-    staticStyle: {
-      "width": "194px"
-    },
-    attrs: {
-      "placeholder": "其它积分",
-      "auto-complete": "off"
-    },
-    model: {
-      value: (_vm.purchasePay.purchase_pay_service_charge),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_service_charge", $$v)
-      },
-      expression: "purchasePay.purchase_pay_service_charge"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "付积分人",
-      "prop": "purchase_pay_refundser"
-    }
-  }, [_c('el-autocomplete', {
-    staticStyle: {
-      "width": "194px"
-    },
-    attrs: {
-      "popper-class": "my-autocomplete",
-      "fetch-suggestions": _vm.querySearch,
-      "placeholder": "付积分人"
-    },
-    on: {
-      "select": _vm.handleSelect
-    },
-    scopedSlots: _vm._u([{
-      key: "default",
-      fn: function(ref) {
-        var item = ref.item;
-
-        return [_c('div', {
-          staticClass: "name"
-        }, [_vm._v(_vm._s(item.purchase_pay_refundser))])]
-      }
-    }]),
-    model: {
-      value: (_vm.purchasePay.purchase_pay_refundser),
-      callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_refundser", $$v)
-      },
-      expression: "purchasePay.purchase_pay_refundser"
-    }
-  })], 1), _vm._v(" "), _c('el-form-item', {
-    attrs: {
-      "label": "收积分账号",
-      "prop": "purchase_pay_receiver"
+      "label": "用户组",
+      "prop": "group_id",
+      "required": true
     }
   }, [_c('el-select', {
     staticStyle: {
-      "width": "194px"
+      "width": "300px"
     },
     attrs: {
-      "filterable": "",
-      "placeholder": "请选择"
+      "placeholder": "请选择组"
     },
     model: {
-      value: (_vm.purchasePay.purchase_pay_receiver),
+      value: (_vm.user.group_id),
       callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_receiver", $$v)
+        _vm.$set(_vm.user, "group_id", $$v)
       },
-      expression: "purchasePay.purchase_pay_receiver"
+      expression: "user.group_id"
     }
-  }, [_c('el-option', {
-    key: "",
-    attrs: {
-      "label": "请选择",
-      "value": ""
-    }
-  }), _vm._v(" "), _vm._l((_vm.accounts), function(item) {
+  }, _vm._l((_vm.groups), function(item) {
     return _c('el-option', {
-      key: item.account_id,
+      key: item.group_id,
       attrs: {
-        "label": item.account_number,
-        "value": item.account_id
+        "label": item.group_name,
+        "value": item.group_id
       }
     })
-  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
+  }))], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
-      "label": "备注",
-      "prop": "purchase_pay_remark"
+      "label": "用户名",
+      "prop": "username",
+      "required": true
     }
   }, [_c('el-input', {
     staticStyle: {
-      "width": "194px"
+      "width": "300px"
     },
     attrs: {
-      "placeholder": "备注",
+      "maxlength": "20",
+      "placeholder": "用户名",
       "auto-complete": "off"
     },
     model: {
-      value: (_vm.purchasePay.purchase_pay_remark),
+      value: (_vm.user.username),
       callback: function($$v) {
-        _vm.$set(_vm.purchasePay, "purchase_pay_remark", $$v)
+        _vm.$set(_vm.user, "username", $$v)
       },
-      expression: "purchasePay.purchase_pay_remark"
+      expression: "user.username"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "数据权限",
+      "prop": "data_authority"
+    }
+  }, [_c('el-radio', {
+    attrs: {
+      "label": "1"
+    },
+    model: {
+      value: (_vm.user.data_authority),
+      callback: function($$v) {
+        _vm.$set(_vm.user, "data_authority", $$v)
+      },
+      expression: "user.data_authority"
+    }
+  }, [_vm._v("系统级")]), _vm._v(" "), _c('el-radio', {
+    attrs: {
+      "label": "2"
+    },
+    model: {
+      value: (_vm.user.data_authority),
+      callback: function($$v) {
+        _vm.$set(_vm.user, "data_authority", $$v)
+      },
+      expression: "user.data_authority"
+    }
+  }, [_vm._v("用户级")])], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "密码",
+      "prop": "password"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "300px"
+    },
+    attrs: {
+      "maxlength": "20",
+      "type": "password",
+      "placeholder": "密码",
+      "auto-complete": "off"
+    },
+    model: {
+      value: (_vm.user.password),
+      callback: function($$v) {
+        _vm.$set(_vm.user, "password", $$v)
+      },
+      expression: "user.password"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "真实姓名",
+      "prop": "realname"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "300px"
+    },
+    attrs: {
+      "maxlength": "20",
+      "placeholder": "真实姓名",
+      "auto-complete": "off"
+    },
+    model: {
+      value: (_vm.user.realname),
+      callback: function($$v) {
+        _vm.$set(_vm.user, "realname", $$v)
+      },
+      expression: "user.realname"
     }
   })], 1)], 1), _vm._v(" "), _c('div', {
     staticClass: "dialog-footer",
@@ -7135,34 +3271,113 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "click": function($event) {
-        _vm.editPurchasePayRefund('purchasePay')
+        _vm.add('user')
       }
+    }
+  }, [_vm._v("确 定")])], 1)], 1), _vm._v(" "), _c('el-dialog', {
+    attrs: {
+      "title": "选择角色",
+      "visible": _vm.dialogTableVisible
+    },
+    on: {
+      "update:visible": function($event) {
+        _vm.dialogTableVisible = $event
+      }
+    }
+  }, [_c('el-table', {
+    ref: "singleTable",
+    attrs: {
+      "data": _vm.roles,
+      "border": "",
+      "highlight-current-row": ""
+    },
+    on: {
+      "current-change": _vm.handleCurrentChange
+    }
+  }, [_c('el-table-column', {
+    attrs: {
+      "type": "index",
+      "width": "50"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "property": "role_name",
+      "label": "角色名"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "property": "role_describe",
+      "label": "角色描述"
+    }
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "page_div"
+  }, [_c('el-pagination', {
+    attrs: {
+      "background": "",
+      "current-page": _vm.role.currentPage,
+      "page-size": _vm.role.pageNum,
+      "layout": "total,prev, pager, next, jumper",
+      "total": _vm.role.count
+    },
+    on: {
+      "current-change": _vm.handleRoleCurrentChange
+    }
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "dialog-footer",
+    attrs: {
+      "slot": "footer"
+    },
+    slot: "footer"
+  }, [_c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    attrs: {
+      "size": "small"
+    },
+    on: {
+      "click": function($event) {
+        _vm.dialogTableVisible = false
+      }
+    }
+  }, [_vm._v("取 消")]), _vm._v(" "), _c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "small"
+    },
+    on: {
+      "click": _vm.selectRole
     }
   }, [_vm._v("确 定")])], 1)], 1)], 1)
 },staticRenderFns: []}
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-7ed36533", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-282863f0", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ 47:
+/***/ 34:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(393)
+__webpack_require__(340)
 
 /* script */
-__vue_exports__ = __webpack_require__(395)
+__vue_exports__ = __webpack_require__(342)
 
 /* template */
-var __vue_template__ = __webpack_require__(396)
+var __vue_template__ = __webpack_require__(343)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -7174,7 +3389,7 @@ __vue_options__ = __vue_exports__ = __vue_exports__.default
 if (typeof __vue_options__ === "function") {
   __vue_options__ = __vue_options__.options
 }
-__vue_options__.__file = "/Users/lvyang/workspace/iae/views/purchase_pay/purchase.vue"
+__vue_options__.__file = "/Users/lvyang/workspace/iae/views/password.vue"
 __vue_options__.render = __vue_template__.render
 __vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 
@@ -7185,32 +3400,839 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-874b3086", __vue_options__)
+    hotAPI.createRecord("data-v-3d041a34", __vue_options__)
   } else {
-    hotAPI.reload("data-v-874b3086", __vue_options__)
+    hotAPI.reload("data-v-3d041a34", __vue_options__)
   }
 })()}
-if (__vue_options__.functional) {console.error("[vue-loader] purchase.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+if (__vue_options__.functional) {console.error("[vue-loader] password.vue: functional components are not supported and should be defined in plain js files using render functions.")}
 
 module.exports = __vue_exports__
 
 
 /***/ }),
 
-/***/ 48:
+/***/ 340:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(341);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(104)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-3d041a34!../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./password.vue", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-3d041a34!../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./password.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 341:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 342:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _jquery = __webpack_require__(3);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+  data: function data() {
+    var _this = this;
+
+    var validatePass = function validatePass(rule, value, callback) {
+      if (value === '') {
+        callback(new Error('请输入密码'));
+      } else {
+        if (_this.params.checkPass !== '') {
+          _this.$refs.params.validateField('checkPass');
+        }
+        callback();
+      }
+    };
+    var validatePass2 = function validatePass2(rule, value, callback) {
+      if (value === '') {
+        callback(new Error('请再次输入密码'));
+      } else if (value !== _this.params.pass) {
+        callback(new Error('两次输入密码不一致!'));
+      } else {
+        callback();
+      }
+    };
+    return {
+      params: {
+        username: "",
+        password: "",
+        pass: "",
+        checkPass: ""
+      },
+      paramsRule: {
+        password: [{ required: true, message: '请输入旧密码', trigger: 'blur' }],
+        pass: [{ validator: validatePass, trigger: 'blur' }],
+        checkPass: [{ validator: validatePass2, trigger: 'blur' }]
+      }
+    };
+  },
+  activated: function activated() {
+    this.$refs['params'].resetFields();
+  },
+  mounted: function mounted() {
+    this.params.username = sessionStorage["username"];
+  },
+
+  methods: {
+    returnList: function returnList() {
+      this.$router.push("/main");
+    },
+    submitForm: function submitForm(formName) {
+      var _this2 = this;
+
+      var that = this;
+      this.$refs[formName].validate(function (valid) {
+        if (valid) {
+          var _self = _this2;
+          _this2.jquery('/iae/login/password', _self.params, function (res) {
+            if (res.code == "100000") {
+              //验证码错识
+              _self.$message.error("旧密码错误！");
+            } else if (res.code == "000000") {
+              _self.$message.success("修改成功！");
+            }
+          });
+        } else {
+          return false;
+        }
+      });
+    },
+    resetForm: function resetForm(formName) {
+      this.$refs[formName].resetFields();
+    }
+  }
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/***/ }),
+
+/***/ 343:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticStyle: {
+      "box-sizing": "border-box",
+      "padding": "0px 10px"
+    }
+  }, [_c('el-breadcrumb', {
+    attrs: {
+      "separator-class": "el-icon-arrow-right"
+    }
+  }, [_c('el-breadcrumb-item', [_vm._v(_vm._s(_vm.params.username))]), _vm._v(" "), _c('el-breadcrumb-item', [_vm._v("退出登录")])], 1), _vm._v(" "), _c('div', {
+    staticClass: "add_div"
+  }, [_c('div', {
+    staticStyle: {
+      "width": "400px",
+      "margin": "20px auto"
+    }
+  }, [_c('el-form', {
+    ref: "params",
+    staticClass: "demo-ruleForm",
+    attrs: {
+      "model": _vm.params,
+      "status-icon": "",
+      "rules": _vm.paramsRule,
+      "label-width": "80px"
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "旧密码",
+      "prop": "password"
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "type": "password",
+      "maxlength": 20
+    },
+    model: {
+      value: (_vm.params.password),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "password", $$v)
+      },
+      expression: "params.password"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "新密码",
+      "prop": "pass",
+      "required": true
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "type": "password",
+      "maxlength": 20
+    },
+    model: {
+      value: (_vm.params.pass),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "pass", $$v)
+      },
+      expression: "params.pass"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "确认密码",
+      "prop": "checkPass",
+      "required": true
+    }
+  }, [_c('el-input', {
+    attrs: {
+      "type": "password",
+      "maxlength": 20,
+      "auto-complete": "off"
+    },
+    model: {
+      value: (_vm.params.checkPass),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "checkPass", $$v)
+      },
+      expression: "params.checkPass"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
+    attrs: {
+      "type": "primary"
+    },
+    on: {
+      "click": function($event) {
+        _vm.submitForm('params')
+      }
+    }
+  }, [_vm._v("提交")]), _vm._v(" "), _c('el-button', {
+    on: {
+      "click": _vm.returnList
+    }
+  }, [_vm._v("返回")])], 1)], 1)], 1)])], 1)
+},staticRenderFns: []}
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-3d041a34", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 344:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(345);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(104)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-7b6e0638&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./about.vue", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-7b6e0638&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./about.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 345:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.about[data-v-7b6e0638]{\n  font-size: 14px;\n  padding-left: 80px;\n  padding-right: 80px;\n}\n.color_f56c6c[data-v-7b6e0638]{\n  color:#f24046;\n}\ntable[data-v-7b6e0638]{\n  border-collapse: collapse;\n}\ntable tr td[data-v-7b6e0638]{\n  padding:3px 5px;\n  font-size: 12px;\n  line-height: 14px;\n  border:solid 1px #999999;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 346:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {};
+
+/***/ }),
+
+/***/ 347:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _vm._m(0)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "about",
+    staticStyle: {
+      "margin-bottom": "50px"
+    }
+  }, [_c('div', {
+    staticStyle: {
+      "font-size": "18px",
+      "font-weight": "600",
+      "margin-top": "10px"
+    }
+  }, [_vm._v("软件简介")]), _vm._v(" "), _c('div', {
+    staticStyle: {
+      "line-height": "24px",
+      "margin-top": "10px",
+      "text-indent": "2em"
+    }
+  }, [_vm._v("\n  IAE软件是多商业、多销售机构（调货单位），集"), _c('a', {
+    staticClass: "color_f56c6c"
+  }, [_vm._v("药品销售管理、备货管理、调货管理、积分管理、数据分析")]), _vm._v("\n  等功能为一体的综合管理平台。能够帮助医药代表准确、高效的管理"), _c('a', {
+    staticClass: "color_f56c6c"
+  }, [_vm._v("销售数据、备货数据、调货数据、积分数据")]), _vm._v("。\n  做到"), _c('a', {
+    staticClass: "color_f56c6c"
+  }, [_vm._v("实时跟进备货状态、积分收付超账期查询、多维度数据分析")]), _vm._v("。最终告别excel、解决文件多，查找慢，积分收付不及时等问题，\n  并降低运营成本。更多软件介绍，请查看"), _c('a', {
+    attrs: {
+      "href": "http://139.129.238.114/download/reconstruction.docx",
+      "download": "软件建设方案及用户使用手册"
+    }
+  }, [_vm._v("软件建设方案及用户使用手册")]), _vm._v("。\n  ")]), _vm._v(" "), _c('div', {
+    staticStyle: {
+      "margin-top": "10px"
+    }
+  }, [_vm._v("\n    核心功能：\n    "), _c('p', [_vm._v("1.\t积分政策、积分收付的上下游管理及积分超账期查询；")]), _vm._v(" "), _c('p', [_vm._v("2.\t数据分析，按月、按销往单位、按商业实时查看销售、积分收付情况。")]), _vm._v(" "), _c('p', [_vm._v("3.\t多维度数据分析，辅助做采购决策、销售决策；")])]), _vm._v(" "), _c('div', {
+    staticStyle: {
+      "margin-top": "10px"
+    }
+  }, [_vm._v("\n    优势：\n    "), _c('p', [_vm._v("1.\t销售、备货、调货积分的上下游综合管理，积分记录自动生成，减少出错率；")]), _vm._v(" "), _c('p', [_vm._v("2.\t积分上下游收付账目更清晰，体现应收、实收、未收数量；")]), _vm._v(" "), _c('p', [_vm._v("3.\t扁平化管理，领导、员工实时查看各项数据；")]), _vm._v(" "), _c('p', [_vm._v("4.\t销售、调货记录导入功能，提高工作效率；")])]), _vm._v(" "), _c('div', {
+    staticStyle: {
+      "margin-top": "20px",
+      "margin-bottom": "10px",
+      "font-size": "18px",
+      "font-weight": "600"
+    }
+  }, [_vm._v("功能介绍")]), _vm._v(" "), _c('div', [_c('table', {
+    attrs: {
+      "cellspacing": "0"
+    }
+  }, [_c('tr', [_c('td', {
+    staticStyle: {
+      "width": "70px"
+    }
+  }, [_vm._v("功能名称")]), _vm._v(" "), _c('td', {
+    staticStyle: {
+      "width": "220px"
+    }
+  }, [_vm._v("子功能名称")]), _vm._v(" "), _c('td', [_vm._v("功能简介")]), _vm._v(" "), _c('td', [_vm._v("应用场景")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "rowspan": "2"
+    }
+  }, [_vm._v("销售管理")]), _vm._v(" "), _c('td', [_vm._v("销售管理")]), _vm._v(" "), _c('td', [_vm._v("销售记录导入、导出功能")]), _vm._v(" "), _c('td', [_vm._v("1.导出记录，报销售计划。2.跟踪真实毛利不足的销售记录。")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("调货管理")]), _vm._v(" "), _c('td', [_vm._v("调货记录导入、导出功能")]), _vm._v(" "), _c('td', [_vm._v("记录调货医院的调货记录。")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "rowspan": "4"
+    }
+  }, [_vm._v("采进管理")]), _vm._v(" "), _c('td', [_vm._v("预付招商管理")]), _vm._v(" "), _c('td', [_vm._v("管理预付款招商品种打款记录")]), _vm._v(" "), _c('td', [_vm._v("适用于代理，做预付款招商品种。管理预付款记录。")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("采进管理")]), _vm._v(" "), _c('td', [_vm._v("管理自营品种的备货记录")]), _vm._v(" "), _c('td', [_vm._v("1.导出记录，报备货计划。2.跟踪备货进度。")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("采退管理")]), _vm._v(" "), _c('td', [_vm._v("管理自营品种的退货记录")]), _vm._v(" "), _c('td', [_vm._v("库存滞销时，管理药品退回厂家的记录")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("报损管理")]), _vm._v(" "), _c('td', [_vm._v("管理自营品种的报损记录")]), _vm._v(" "), _c('td', [_vm._v("药品破损时，管理药品的报损记录")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "rowspan": "9"
+    }
+  }, [_vm._v("积分管理")]), _vm._v(" "), _c('td', [_vm._v("销售应收管理")]), _vm._v(" "), _c('td', [_vm._v("管理所有按销售记录返积分的所有应收记录（自动生成）")]), _vm._v(" "), _c('td', [_vm._v("查询所有超账期应收积分及记录积分收付情况")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("采进应收管理")]), _vm._v(" "), _c('td', [_vm._v("管理所有按采进售记录返积分的所有应收记录（自动生成）")]), _vm._v(" "), _c('td', [_vm._v("查询所有超账期应收积分及记录积分收付情况")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("销售政策管理（下游）")]), _vm._v(" "), _c('td', [_vm._v("管理销售医院的销售政策")]), _vm._v(" "), _c('td', [_vm._v("按业务员、销往单位制定政策，导出政策表发送业务员")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("销售应付管理")]), _vm._v(" "), _c('td', [_vm._v("管理所有销售应付的记录（自动生成）")]), _vm._v(" "), _c('td', [_vm._v("按业务员查询所有应付积分记录")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("调货政策管理")]), _vm._v(" "), _c('td', [_vm._v("管理调货医院的销售政策")]), _vm._v(" "), _c('td', [_vm._v("按调货联系人、调货单位制定政策，导出政策表发送调货联系人")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("调货应付管理（下游）")]), _vm._v(" "), _c('td', [_vm._v("管理所有调货应付的记录（自动生成）")]), _vm._v(" "), _c('td', [_vm._v("按调货联系人查询所有应付积分记录")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("预付招商应收管理")]), _vm._v(" "), _c('td', [_vm._v("管理所有招商品种预付款的打款记录（自动生成）")]), _vm._v(" "), _c('td', [_vm._v("适用于代理，记录预付款的应收记录")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("预付招商政策管理（下游）")]), _vm._v(" "), _c('td', [_vm._v("管理招商品种预付款的备货政策")]), _vm._v(" "), _c('td', [_vm._v("按业务员制定政策，导出政策表发送业务员")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("预付招商应付管理")]), _vm._v(" "), _c('td', [_vm._v("管理招商品种预付款的应付记录（自动生成）")]), _vm._v(" "), _c('td', [_vm._v("按业务员查询所有就会积分记录")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "rowspan": "3"
+    }
+  }, [_vm._v("药品管理")]), _vm._v(" "), _c('td', [_vm._v("药品管理")]), _vm._v(" "), _c('td', [_vm._v("管理药品基础信息及上游一般积分政策")]), _vm._v(" "), _c('td', [_vm._v("管理药品基础信息、管理药品的政策")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("库存管理")]), _vm._v(" "), _c('td', [_vm._v("查询自营品种的库存，及当前备货量")]), _vm._v(" "), _c('td', [_vm._v("1.查询自营品种的库存及当前备货量。2.品种的销售曲线，帮助做备货决策。")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("特殊政策备案（上游）")]), _vm._v(" "), _c('td', [_vm._v("管理药品的特殊政策")]), _vm._v(" "), _c('td', [_vm._v("药品在某医院，销售价和积分政策不同时，做特殊备案")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "rowspan": "4"
+    }
+  }, [_vm._v("财务管理")]), _vm._v(" "), _c('td', [_vm._v("医院回款管理")]), _vm._v(" "), _c('td', [_vm._v("管理医院的回款记录")]), _vm._v(" "), _c('td', [_vm._v("管理医院的回款记录")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("商业提成管理")]), _vm._v(" "), _c('td', [_vm._v("商业公司商务提成自动计算")]), _vm._v(" "), _c('td', [_vm._v("实时查询商业公司的商务提成")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("积分账号管理")]), _vm._v(" "), _c('td', [_vm._v("管理积分账号")]), _vm._v(" "), _c('td', [_vm._v("管理积分账号、查看当前总积分")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("积分流水账管理")]), _vm._v(" "), _c('td', [_vm._v("管理积分收付流水账记录（自动生成）")]), _vm._v(" "), _c('td', [_vm._v("查看积分流水账信息")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "rowspan": "15"
+    }
+  }, [_vm._v("报表管理")]), _vm._v(" "), _c('td', [_vm._v("销售额/毛利统计（按月） 折线图")]), _vm._v(" "), _c('td', [_vm._v("统计销售额、毛利曲线")]), _vm._v(" "), _c('td', [_vm._v("按商业、按销售单位查询销售额、毛利曲线")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("销售额/毛利统计（按标签） 表格")]), _vm._v(" "), _c('td', [_vm._v("按标签，统计销售额、毛利")]), _vm._v(" "), _c('td', [_vm._v("按标签类型、商业、销往单位查询某时间区间内的销售额和毛利")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("销售额统计（按真实毛利率） 表格")]), _vm._v(" "), _c('td', [_vm._v("按真实毛利率区间，统计销售数据")]), _vm._v(" "), _c('td', [_vm._v("按毛利率区间、商业、销往单位查询销售额、毛利")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("销售量/额统计（按品种） 表格")]), _vm._v(" "), _c('td', [_vm._v("按品种统计销售量，销售额")]), _vm._v(" "), _c('td', [_vm._v("按商业、销往单位查询所有品种销售量、销售额并按销售额排序")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("产品销售量分析（环比）表格")]), _vm._v(" "), _c('td', [_vm._v("按品种统计近12个月内的销售量，并排序")]), _vm._v(" "), _c('td', {
+    attrs: {
+      "rowspan": "4"
+    }
+  }, [_vm._v("分析产品销售及辅助做销售决策")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("产品销售额分析（环比）表格")]), _vm._v(" "), _c('td', [_vm._v("按品种统计近12个月内的销售额，并排序")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("产品销售量分析（同比）表格")]), _vm._v(" "), _c('td', [_vm._v("近3年、近3月按品种同期销售量对比")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("产品销售额分析（同比）表格")]), _vm._v(" "), _c('td', [_vm._v("近3年、近3月按品种同期销售额对比")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("产品销售量连续性/稳定性分析")]), _vm._v(" "), _c('td', [_vm._v("产品销售稳定性、连续性分析")]), _vm._v(" "), _c('td', [_vm._v("分析产品销售是否连续、稳定，分析产品销售情况")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("销售额统计（按品销往单位） 表格")]), _vm._v(" "), _c('td', [_vm._v("按销往单位，统计销售额")]), _vm._v(" "), _c('td', [_vm._v("按商业、销售日期，统计各销往单位销售额")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("销售外欠金额（按联系人）表格")]), _vm._v(" "), _c('td', [_vm._v("以联系人为单位，查询所有销售外欠积分，并排序")]), _vm._v(" "), _c('td', [_vm._v("查看佣金外欠积分，总体情况")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("采进外欠金额（按联系人）表格")]), _vm._v(" "), _c('td', [_vm._v("以联系人为单位，查询所有采进外欠积分，并排序")]), _vm._v(" "), _c('td', [_vm._v("查看自营品种外欠积分，总体情况")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("利润/负债综合统计（近24个月）表格")]), _vm._v(" "), _c('td', [_vm._v("按日期统计近24个月的积分收付情况")]), _vm._v(" "), _c('td', [_vm._v("按日期统计近24个月的积分收付情况")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("销售积分收付统计（按销往单位）表格")]), _vm._v(" "), _c('td', [_vm._v("按销往单位显示积分收付情况")]), _vm._v(" "), _c('td', [_vm._v("按销往单位显示积分收付情况")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("销售积分收付统计（按商业）表格")]), _vm._v(" "), _c('td', [_vm._v("按商业显示积分收付情况")]), _vm._v(" "), _c('td', [_vm._v("按商业显示积分收付情况")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "rowspan": "4"
+    }
+  }, [_vm._v("信息管理")]), _vm._v(" "), _c('td', [_vm._v("标签管理")]), _vm._v(" "), _c('td', [_vm._v("药品管理中选择标签，对药品多维度分类")]), _vm._v(" "), _c('td', {
+    attrs: {
+      "rowspan": "4"
+    }
+  }, [_vm._v("基础功能")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("商业管理")]), _vm._v(" "), _c('td', [_vm._v("药品管理中选择商业，对药品进行商业分类")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("联系人管理")]), _vm._v(" "), _c('td', [_vm._v("药品管理中选择联系人，添加药品的联系人")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("销往单位管理")]), _vm._v(" "), _c('td', [_vm._v("销售、调货时，选择销往单位")])]), _vm._v(" "), _c('tr', [_c('td', {
+    attrs: {
+      "rowspan": "4"
+    }
+  }, [_vm._v("系统管理")]), _vm._v(" "), _c('td', [_vm._v("角色管理")]), _vm._v(" "), _c('td', [_vm._v("添加角色，并为该角色添加不同的权限")]), _vm._v(" "), _c('td', {
+    attrs: {
+      "rowspan": "2"
+    }
+  }, [_vm._v("多个内勤权限不同时。先添加角色，为不同的角色，授不同的权限。再为每个用户，选择不同的角色（授权）")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("用户管理")]), _vm._v(" "), _c('td', [_vm._v("为用户选择不同的角色（权限）")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("日志管理")]), _vm._v(" "), _c('td', [_vm._v("用户操作日志")]), _vm._v(" "), _c('td', [_vm._v("记录用户修改、新增、删除数据时的记录")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("关于软件")]), _vm._v(" "), _c('td', [_vm._v("软件介绍")]), _vm._v(" "), _c('td', [_vm._v("软件使用请查看表格或联系客服；软件出错请联系技术支持；")])])])]), _vm._v(" "), _c('div', {
+    staticStyle: {
+      "margin-top": "20px"
+    }
+  }, [_c('div', {
+    staticStyle: {
+      "font-size": "18px",
+      "font-weight": "600",
+      "margin-bottom": "6px"
+    }
+  }, [_vm._v("收费标准")]), _vm._v("\n    服务器费用： 2500元/年\n    "), _c('div', {
+    staticStyle: {
+      "margin-top": "6px"
+    }
+  }, [_vm._v("软件收费：　\n      "), _c('table', {
+    staticStyle: {
+      "display": "inline-block",
+      "vertical-align": "top"
+    },
+    attrs: {
+      "cellspacing": "0"
+    }
+  }, [_c('tr', [_c('td', [_vm._v("用户数")]), _vm._v(" "), _c('td', [_vm._v("收费简介")]), _vm._v(" "), _c('td', [_vm._v("例")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("1-3用户")]), _vm._v(" "), _c('td', [_vm._v("3个用户以内，每用户1000元")]), _vm._v(" "), _c('td', [_vm._v("如：2用户为 2*1000+2500 = 4500元")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("4-6用户")]), _vm._v(" "), _c('td', [_vm._v("超过3用户，每用户600元")]), _vm._v(" "), _c('td', [_vm._v("如：5用户为 3*1000+2*600+2500 = 6700元")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("7-9用户")]), _vm._v(" "), _c('td', [_vm._v("超过3用户，每用户400元")]), _vm._v(" "), _c('td', [_vm._v("如：8用户为 3*1000+3*800+2*400+2500 = 8700元")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("10用户以上")]), _vm._v(" "), _c('td', [_vm._v("超过10用户，每用户300元")]), _vm._v(" "), _c('td', [_vm._v("如：11用户为 3*1000+3*800+3*400+2*300+2500 = 9700元")])])])])])])
+}]}
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-7b6e0638", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 348:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(349);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(104)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-410f2970!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./log.vue", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-410f2970!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./log.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 349:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 35:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(397)
+__webpack_require__(344)
 
 /* script */
-__vue_exports__ = __webpack_require__(399)
+__vue_exports__ = __webpack_require__(346)
 
 /* template */
-var __vue_template__ = __webpack_require__(400)
+var __vue_template__ = __webpack_require__(347)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -7222,10 +4244,10 @@ __vue_options__ = __vue_exports__ = __vue_exports__.default
 if (typeof __vue_options__ === "function") {
   __vue_options__ = __vue_options__.options
 }
-__vue_options__.__file = "/Users/lvyang/workspace/iae/views/purchase_pay/purchaseDrugs.vue"
+__vue_options__.__file = "/Users/lvyang/workspace/iae/views/authority/about.vue"
 __vue_options__.render = __vue_template__.render
 __vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-__vue_options__._scopeId = "data-v-19c3afc6"
+__vue_options__._scopeId = "data-v-7b6e0638"
 
 /* hot reload */
 if (false) {(function () {
@@ -7234,128 +4256,296 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-19c3afc6", __vue_options__)
+    hotAPI.createRecord("data-v-7b6e0638", __vue_options__)
   } else {
-    hotAPI.reload("data-v-19c3afc6", __vue_options__)
+    hotAPI.reload("data-v-7b6e0638", __vue_options__)
   }
 })()}
-if (__vue_options__.functional) {console.error("[vue-loader] purchaseDrugs.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+if (__vue_options__.functional) {console.error("[vue-loader] about.vue: functional components are not supported and should be defined in plain js files using render functions.")}
 
 module.exports = __vue_exports__
 
 
 /***/ }),
 
-/***/ 49:
+/***/ 350:
 /***/ (function(module, exports, __webpack_require__) {
 
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
+"use strict";
 
-/* styles */
-__webpack_require__(401)
 
-/* script */
-__vue_exports__ = __webpack_require__(403)
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 
-/* template */
-var __vue_template__ = __webpack_require__(404)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/Users/lvyang/workspace/iae/views/purchase_pay/purchasePayPolicy.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-43cbbded", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-43cbbded", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] purchasePayPolicy.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-module.exports = __vue_exports__
+exports.default = {
+	data: function data() {
+		return {
+			params: {
+				log_message: ""
+			},
+			logs: [],
+			pageNum: 10,
+			currentPage: 1,
+			count: 0
+		};
+	},
+	activated: function activated() {
+		this.getLogsList();
+	},
+	mounted: function mounted() {},
 
+	methods: {
+		reSearch: function reSearch(arg) {
+			if (arg) {
+				this.$refs["params"].resetFields();
+			}
+			this.currentPage = 1;
+			this.getLogsList();
+		},
+		formatterDate: function formatterDate(row, column, cellValue) {
+			if (cellValue && typeof cellValue == "string") {
+				var temp = cellValue.substring(0, 19);
+				var d = new Date(temp);
+				return d.format("yyyy-MM-dd hh:mm:ss");
+			} else if (cellValue && (typeof cellValue === "undefined" ? "undefined" : _typeof(cellValue)) == "object") {
+				return new Date(cellValue).format("yyyy-MM-dd hh:mm:ss");
+			} else {
+				return "";
+			}
+		},
+		getLogsList: function getLogsList() {
+			var _self = this;
+			if (!_self.currentPage) {
+				_self.currentPage = 1;
+			}
+			if (!_self.pageNum) {
+				_self.pageNum = 10;
+			}
+			var page = {
+				start: (_self.currentPage - 1) * _self.pageNum,
+				limit: _self.pageNum
+			};
+			this.jquery('/iae/log/getLogs', {
+				data: _self.params,
+				page: page
+			}, function (res) {
+				_self.logs = res.message.data;
+				_self.pageNum = parseInt(res.message.limit);
+				_self.count = res.message.totalCount;
+			});
+		},
+		handleSizeChange: function handleSizeChange(val) {
+			this.pageNum = val;
+			this.currentPage = 1;
+			this.getLogsList();
+		},
+		handleCurrentChange: function handleCurrentChange(val) {
+			this.currentPage = val;
+			this.getLogsList();
+		}
+	}
+};
 
 /***/ }),
 
-/***/ 50:
+/***/ 351:
 /***/ (function(module, exports, __webpack_require__) {
 
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* styles */
-__webpack_require__(405)
-
-/* script */
-__vue_exports__ = __webpack_require__(407)
-
-/* template */
-var __vue_template__ = __webpack_require__(408)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/Users/lvyang/workspace/iae/views/purchase_pay/purchasePayPolicyDrugs.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "allot_list",
+    staticStyle: {
+      "box-sizing": "border-box",
+      "padding": "0px 10px"
+    }
+  }, [_c('el-form', {
+    ref: "params",
+    staticClass: "demo-form-inline search",
+    attrs: {
+      "inline": true,
+      "model": _vm.params,
+      "size": "mini"
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "日志",
+      "prop": "log_message"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "size": "mini",
+      "placeholder": "日志"
+    },
+    nativeOn: {
+      "keyup": function($event) {
+        if (!('button' in $event) && $event.keyCode !== 13) { return null; }
+        _vm.reSearch(false)
+      }
+    },
+    model: {
+      value: (_vm.params.log_message),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "log_message", $$v)
+      },
+      expression: "params.log_message"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    staticStyle: {
+      "margin-left": "14px"
+    },
+    attrs: {
+      "type": "primary",
+      "size": "mini"
+    },
+    on: {
+      "click": function($event) {
+        _vm.reSearch(false)
+      }
+    }
+  }, [_vm._v("查询")]), _vm._v(" "), _c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "mini"
+    },
+    on: {
+      "click": function($event) {
+        _vm.reSearch(true)
+      }
+    }
+  }, [_vm._v("重置")])], 1)], 1), _vm._v(" "), _c('div', {
+    staticClass: "sum_money_allot",
+    staticStyle: {
+      "text-align": "right",
+      "padding-right": "5px",
+      "font-size": "12px"
+    }
+  }, [_vm._v("\n\t\t\t温馨提示：字符串对比站（https://www.sojson.com/jsondiff.html）可查看日志\n\t\t")]), _vm._v(" "), _c('el-table', {
+    staticStyle: {
+      "width": "100%"
+    },
+    attrs: {
+      "data": _vm.logs,
+      "size": "mini",
+      "stripe": true,
+      "border": true
+    }
+  }, [_c('el-table-column', {
+    attrs: {
+      "prop": "log_create_time",
+      "label": "日志时间",
+      "width": "140",
+      "formatter": _vm.formatterDate
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "log_remark",
+      "label": "日志信息",
+      "width": "300"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "log_front_message",
+      "label": "修改前日志"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "log_after_message",
+      "label": "修改后日志/其它"
+    }
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "page_div"
+  }, [_c('el-pagination', {
+    attrs: {
+      "background": "",
+      "current-page": _vm.currentPage,
+      "page-sizes": [5, 10, 50, 100],
+      "page-size": _vm.pageNum,
+      "layout": "total, sizes, prev, pager, next, jumper",
+      "total": _vm.count
+    },
+    on: {
+      "size-change": _vm.handleSizeChange,
+      "current-change": _vm.handleCurrentChange
+    }
+  })], 1)], 1)
+},staticRenderFns: []}
+if (false) {
   module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-b8be90d4", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-b8be90d4", __vue_options__)
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-410f2970", module.exports)
   }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] purchasePayPolicyDrugs.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
+}
 
 /***/ }),
 
-/***/ 51:
+/***/ 36:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(409)
+__webpack_require__(348)
 
 /* script */
-__vue_exports__ = __webpack_require__(411)
+__vue_exports__ = __webpack_require__(350)
 
 /* template */
-var __vue_template__ = __webpack_require__(412)
+var __vue_template__ = __webpack_require__(351)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -7367,7 +4557,7 @@ __vue_options__ = __vue_exports__ = __vue_exports__.default
 if (typeof __vue_options__ === "function") {
   __vue_options__ = __vue_options__.options
 }
-__vue_options__.__file = "/Users/lvyang/workspace/iae/views/purchase_pay/purchasePayReturnMoney.vue"
+__vue_options__.__file = "/Users/lvyang/workspace/iae/views/log/log.vue"
 __vue_options__.render = __vue_template__.render
 __vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 
@@ -7378,60 +4568,12 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-18bbdac5", __vue_options__)
+    hotAPI.createRecord("data-v-410f2970", __vue_options__)
   } else {
-    hotAPI.reload("data-v-18bbdac5", __vue_options__)
+    hotAPI.reload("data-v-410f2970", __vue_options__)
   }
 })()}
-if (__vue_options__.functional) {console.error("[vue-loader] purchasePayReturnMoney.vue: functional components are not supported and should be defined in plain js files using render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ }),
-
-/***/ 52:
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* styles */
-__webpack_require__(413)
-
-/* script */
-__vue_exports__ = __webpack_require__(415)
-
-/* template */
-var __vue_template__ = __webpack_require__(416)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/Users/lvyang/workspace/iae/views/purchase_pay/purchasePayRefund.vue"
-__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7ed36533", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-7ed36533", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional) {console.error("[vue-loader] purchasePayRefund.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+if (__vue_options__.functional) {console.error("[vue-loader] log.vue: functional components are not supported and should be defined in plain js files using render functions.")}
 
 module.exports = __vue_exports__
 

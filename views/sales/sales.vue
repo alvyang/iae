@@ -69,6 +69,9 @@
 		 <el-form-item label="　　标签" prop="tag_type">
 		  <el-cascader v-model="params.tag_type" style="width:210px;" size="mini" placeholder="搜索标签" :options="tags" filterable></el-cascader>
 		</el-form-item>
+		<el-form-item label="　　批号" prop="batch_number">
+			<el-input v-model="params.batch_number" style="width:210px;" @keyup.13.native="reSearch(false)" size="mini" placeholder="批号"></el-input>
+	  </el-form-item>
 		<el-form-item label="真实毛利率" prop="rate_gap">
 			<el-select v-model="params.rate_formula" style="width:85px;" size="mini" placeholder="请选择">
 				<el-option key="<" label="<" value="<"></el-option>
@@ -301,6 +304,7 @@
 					rate_gap:0,
 					rate_formula:"<=",
 					tag_type:[],
+					batch_number:""
 				},
 				sale:{},//修改的销售信息
 				saleRule:{
