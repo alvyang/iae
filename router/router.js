@@ -86,6 +86,9 @@ const ReportSaleOnYearSn = r => require.ensure([], () => r(require('../views/rep
 const ReportSaleVariance = r => require.ensure([], () => r(require('../views/report/reportSaleVariance.vue')), 'group4');//稳定性分析
 const Stock = r => require.ensure([], () => r(require('../views/stock/stock.vue')), 'group4');//库存
 const StockMoney = r => require.ensure([], () => r(require('../views/report/stockMoney.vue')), 'group4');//库存
+const ReportPurchasePay = r => require.ensure([], () => r(require('../views/report/reportPurchasePay.vue')), 'group4');
+const ReportPurchasePayDetail = r => require.ensure([], () => r(require('../views/report/reportPurchasePayDetail.vue')), 'group4');
+
 
 //返款管理 分组
 const Refundsale = r => require.ensure([], () => r(require('../views/refunds/refundsale.vue')), 'group8');
@@ -188,7 +191,9 @@ const router = new VueRouter({
 			{path:"drugspolicy",component:DrugsPolicy},
 			{path:"drugsAllotPolicy",component:DrugsAllotPolicy},
 			{path:"drugsSalesPolicy",component:DrugsSalesPolicy},
-			{path:"drugsPurchasePayPolicy",component:DrugsPurchasePayPolicy}
+			{path:"drugsPurchasePayPolicy",component:DrugsPurchasePayPolicy},
+			{path:"reportpurchasepay",component:ReportPurchasePay},
+			{path:"reportpurchasepaydetail",component:ReportPurchasePayDetail}
 		]
 	}]
 });

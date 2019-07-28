@@ -121,6 +121,7 @@
             <el-option key="5" label="实收上游积分或上游政策积分-中标价*政策点数" value="5"></el-option>
             <el-option key="6" label="实收上游积分或上游政策积分-中标价*政策点数-补点/费用票" value="6"></el-option>
             <el-option key="7" label="实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分" value="7"></el-option>
+            <el-option key="9" label="实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.03:实收上游积分" value="9"></el-option>
             <el-option key="8" label="固定政策（上游政策修改后，需手动调整下游政策）" value="8"></el-option>
           </el-select>
         </el-form-item>
@@ -160,6 +161,7 @@
             <el-option key="5" label="实收上游积分或上游政策积分-中标价*政策点数" value="5"></el-option>
             <el-option key="6" label="实收上游积分或上游政策积分-中标价*政策点数-补点/费用票" value="6"></el-option>
             <el-option key="7" label="实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分" value="7"></el-option>
+            <el-option key="9" label="实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.03:实收上游积分" value="9"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="政策点数" prop="allot_policy_percent" :maxlength="10" >

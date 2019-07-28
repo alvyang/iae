@@ -4,6 +4,7 @@
     <el-button  @click="toReport('/main/reportcomprehensive')" >销售积分收付统计（近24个月）表格</el-button>
     <el-button  @click="toReport('/main/reportcomprehensive1')" >销售积分收付统计（按销往单位）表格</el-button>
     <el-button  @click="toReport('/main/reportcomprehensive2')" >销售积分收付统计（按商业）表格</el-button>
+    <el-button  @click="toReport('/main/reportpurchasepay')" >预付招商积分收付统计（近24个月）表格</el-button>
     <el-button  @click="toReport('/main/stockMoney')" >库存负债表格</el-button>
     <el-divider content-position="left">应收积分报表</el-divider>
     <el-button  @click="toReport('/main/reportsalesreturnmoney')" >销售应收积分（按联系人）表格</el-button>

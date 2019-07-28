@@ -2478,6 +2478,8 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
 
 exports.default = {
   data: function data() {
@@ -3216,6 +3218,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": "7"
     }
   }), _vm._v(" "), _c('el-option', {
+    key: "9",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.03:实收上游积分",
+      "value": "9"
+    }
+  }), _vm._v(" "), _c('el-option', {
     key: "8",
     attrs: {
       "label": "固定政策（上游政策修改后，需手动调整下游政策）",
@@ -3443,6 +3451,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": "7"
     }
   }), _vm._v(" "), _c('el-option', {
+    key: "9",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.03:实收上游积分",
+      "value": "9"
+    }
+  }), _vm._v(" "), _c('el-option', {
     key: "8",
     attrs: {
       "label": "固定政策（上游政策修改后，需手动调整下游政策）",
@@ -3643,6 +3657,8 @@ exports.push([module.i, "\n.copy_form .search .el-form-item__label {\n  padding-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+//
+//
 //
 //
 //
@@ -4540,6 +4556,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": "7"
     }
   }), _vm._v(" "), _c('el-option', {
+    key: "9",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.03:实收上游积分",
+      "value": "9"
+    }
+  }), _vm._v(" "), _c('el-option', {
     key: "8",
     attrs: {
       "label": "固定政策（上游政策修改后，需手动调整下游政策）",
@@ -4762,6 +4784,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "label": "实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分",
       "value": "7"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "9",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.03:实收上游积分",
+      "value": "9"
     }
   }), _vm._v(" "), _c('el-option', {
     key: "8",

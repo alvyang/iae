@@ -31245,6 +31245,16 @@ var StockMoney = function StockMoney(r) {
 		return r(__webpack_require__(93));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }; //库存
+var ReportPurchasePay = function ReportPurchasePay(r) {
+	return __webpack_require__.e/* require.ensure */(0).then((function () {
+		return r(__webpack_require__(930));
+	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
+var ReportPurchasePayDetail = function ReportPurchasePayDetail(r) {
+	return __webpack_require__.e/* require.ensure */(0).then((function () {
+		return r(__webpack_require__(935));
+	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
 
 //返款管理 分组
 var Refundsale = function Refundsale(r) {
@@ -31331,7 +31341,7 @@ var router = new _vueRouter2.default({
 		{ path: "salespolicydrugs", component: SalesPolicyDrugs }, //销售政策
 		{ path: "stock", component: Stock }, { path: "password", component: Password }, { path: "log", component: Log }, //日志管理
 		{ path: "allocation", component: Allocation }, { path: "about", component: About }, //关于软件
-		{ path: "reportPurchasePaysReturnMoney", component: ReportPurchasePaysReturnMoney }, { path: "reportPurchasePaysReturnMoneyDetail", component: ReportPurchasePaysReturnMoneyDetail }, { path: "reportSalesReturnMoneyPay", component: ReportSalesReturnMoneyPay }, { path: "reportSalesReturnMoneyPayDetail", component: ReportSalesReturnMoneyPayDetail }, { path: "reportAllotsReturnMoneyPay", component: ReportAllotsReturnMoneyPay }, { path: "reportAllotsReturnMoneyPayDetail", component: ReportAllotsReturnMoneyPayDetail }, { path: "reportPurchasePaysReturnMoneyPay", component: ReportPurchasePaysReturnMoneyPay }, { path: "reportPurchasePaysReturnMoneyPayDetail", component: ReportPurchasePaysReturnMoneyPayDetail }, { path: "stockMoney", component: StockMoney }, { path: "drugspolicy", component: DrugsPolicy }, { path: "drugsAllotPolicy", component: DrugsAllotPolicy }, { path: "drugsSalesPolicy", component: DrugsSalesPolicy }, { path: "drugsPurchasePayPolicy", component: DrugsPurchasePayPolicy }]
+		{ path: "reportPurchasePaysReturnMoney", component: ReportPurchasePaysReturnMoney }, { path: "reportPurchasePaysReturnMoneyDetail", component: ReportPurchasePaysReturnMoneyDetail }, { path: "reportSalesReturnMoneyPay", component: ReportSalesReturnMoneyPay }, { path: "reportSalesReturnMoneyPayDetail", component: ReportSalesReturnMoneyPayDetail }, { path: "reportAllotsReturnMoneyPay", component: ReportAllotsReturnMoneyPay }, { path: "reportAllotsReturnMoneyPayDetail", component: ReportAllotsReturnMoneyPayDetail }, { path: "reportPurchasePaysReturnMoneyPay", component: ReportPurchasePaysReturnMoneyPay }, { path: "reportPurchasePaysReturnMoneyPayDetail", component: ReportPurchasePaysReturnMoneyPayDetail }, { path: "stockMoney", component: StockMoney }, { path: "drugspolicy", component: DrugsPolicy }, { path: "drugsAllotPolicy", component: DrugsAllotPolicy }, { path: "drugsSalesPolicy", component: DrugsSalesPolicy }, { path: "drugsPurchasePayPolicy", component: DrugsPurchasePayPolicy }, { path: "reportpurchasepay", component: ReportPurchasePay }, { path: "reportpurchasepaydetail", component: ReportPurchasePayDetail }]
 	}]
 });
 exports.default = router;
@@ -33861,8 +33871,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     var bus = new Vue();
 
     bus.data = {
-      // host: "http://139.129.238.114",
-      host: "http://127.0.0.1:5000"
+      host: "http://139.129.238.114"
+      // host: "http://127.0.0.1:5000",
     };
 
     Object.defineProperty(Vue.prototype, '$bus', {
@@ -33933,6 +33943,10 @@ var mixin = {
           break;
         case "8":
           shouldPay = sp;
+          break;
+        case "9":
+          var temp = price * percent / 100;
+          shouldPay = money > temp ? money - price * 0.03 : money;
           break;
         default:
           shouldPay = 0;

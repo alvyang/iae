@@ -458,6 +458,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
 	data: function data() {
@@ -529,6 +537,7 @@ exports.default = {
 				contactId: "",
 				contactId1: "",
 				time: [],
+				payTime: [],
 				product_code: "",
 				status: "",
 				remark: "",
@@ -793,6 +802,29 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.$set(_vm.params, "time", $$v)
       },
       expression: "params.time"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "打款时间",
+      "prop": "payTime"
+    }
+  }, [_c('el-date-picker', {
+    attrs: {
+      "type": "daterange",
+      "size": "mini",
+      "align": "right",
+      "unlink-panels": "",
+      "range-separator": "至",
+      "start-placeholder": "开始日期",
+      "end-placeholder": "结束日期",
+      "picker-options": _vm.pickerOptions2
+    },
+    model: {
+      value: (_vm.params.payTime),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "payTime", $$v)
+      },
+      expression: "params.payTime"
     }
   })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
@@ -4538,6 +4570,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
 	data: function data() {
@@ -4590,6 +4630,7 @@ exports.default = {
 				productCommonName: "",
 				contactId: "",
 				time: [],
+				payTime: [],
 				returnTime: [],
 				realPayTime: [],
 				product_code: "",
@@ -4789,6 +4830,29 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.$set(_vm.params, "time", $$v)
       },
       expression: "params.time"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "打款时间",
+      "prop": "payTime"
+    }
+  }, [_c('el-date-picker', {
+    attrs: {
+      "type": "daterange",
+      "size": "mini",
+      "align": "right",
+      "unlink-panels": "",
+      "range-separator": "至",
+      "start-placeholder": "开始日期",
+      "end-placeholder": "结束日期",
+      "picker-options": _vm.pickerOptions2
+    },
+    model: {
+      value: (_vm.params.payTime),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "payTime", $$v)
+      },
+      expression: "params.payTime"
     }
   })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
@@ -5843,6 +5907,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
 	data: function data() {
@@ -5895,6 +5967,7 @@ exports.default = {
 				productCommonName: "",
 				contactId: "",
 				time: [],
+				payTime: [],
 				returnTime: [],
 				realReturnTime: [],
 				product_code: "",
@@ -6198,6 +6271,29 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.$set(_vm.params, "time", $$v)
       },
       expression: "params.time"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "打款时间",
+      "prop": "payTime"
+    }
+  }, [_c('el-date-picker', {
+    attrs: {
+      "type": "daterange",
+      "size": "mini",
+      "align": "right",
+      "unlink-panels": "",
+      "range-separator": "至",
+      "start-placeholder": "开始日期",
+      "end-placeholder": "结束日期",
+      "picker-options": _vm.pickerOptions2
+    },
+    model: {
+      value: (_vm.params.payTime),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "payTime", $$v)
+      },
+      expression: "params.payTime"
     }
   })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {

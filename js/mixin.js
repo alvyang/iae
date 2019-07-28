@@ -43,6 +43,10 @@ const mixin = {
         case "8":
           shouldPay = sp;
           break;
+        case "9":
+          var temp = price*percent/100;
+          shouldPay = money > temp?money-price*0.03:money;
+          break;
         default:
           shouldPay = 0
       }

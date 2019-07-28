@@ -43866,6 +43866,7 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
 
 exports.default = {
   data: function data() {
@@ -43907,6 +43908,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("销售积分收付统计（按商业）表格")]), _vm._v(" "), _c('el-button', {
+    on: {
+      "click": function($event) {
+        _vm.toReport('/main/reportpurchasepay')
+      }
+    }
+  }, [_vm._v("预付招商积分收付统计（近24个月）表格")]), _vm._v(" "), _c('el-button', {
     on: {
       "click": function($event) {
         _vm.toReport('/main/stockMoney')
@@ -107564,6 +107571,1383 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-594ba1bc", module.exports)
+  }
+}
+
+/***/ }),
+/* 898 */,
+/* 899 */,
+/* 900 */,
+/* 901 */,
+/* 902 */,
+/* 903 */,
+/* 904 */,
+/* 905 */,
+/* 906 */,
+/* 907 */,
+/* 908 */,
+/* 909 */,
+/* 910 */,
+/* 911 */,
+/* 912 */,
+/* 913 */,
+/* 914 */,
+/* 915 */,
+/* 916 */,
+/* 917 */,
+/* 918 */,
+/* 919 */,
+/* 920 */,
+/* 921 */,
+/* 922 */,
+/* 923 */,
+/* 924 */,
+/* 925 */,
+/* 926 */,
+/* 927 */,
+/* 928 */,
+/* 929 */,
+/* 930 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(931)
+
+/* script */
+__vue_exports__ = __webpack_require__(933)
+
+/* template */
+var __vue_template__ = __webpack_require__(934)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/lvyang/workspace/iae/views/report/reportPurchasePay.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-06900d11", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-06900d11", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] reportPurchasePay.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+/* 931 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(932);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(104)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-06900d11!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./reportPurchasePay.vue", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-06900d11!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./reportPurchasePay.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 932 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.el-table thead.is-group th{\n  background:#fafcfe !important;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 933 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _echarts = __webpack_require__(118);
+
+var _echarts2 = _interopRequireDefault(_echarts);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+  data: function data() {
+    var nowDate = new Date();
+    return {
+      params: {
+        contactId: '',
+        business: ''
+      },
+      listData: [],
+      contacts: [],
+      business: [],
+      authCode: "",
+      tableHeight: 0
+    };
+  },
+  activated: function activated() {
+    this.getComprehensive();
+    this.getContacts();
+    this.getProductBusiness();
+    this.authCode = "," + JSON.parse(sessionStorage["user"]).authority_code;
+  },
+  beforeMount: function beforeMount() {
+    this.tableHeight = $(window).height() - 200;
+    var that = this;
+    $(window).resize(function () {
+      that.tableHeight = $(window).height() - 200;
+    });
+  },
+  mounted: function mounted() {},
+
+  methods: {
+    getContacts: function getContacts() {
+      var _self = this;
+      this.jquery('/iae/contacts/getAllContacts', { group_id: 0, contact_type: ['业务员'] }, function (res) {
+        _self.contacts = res.message;
+      });
+    },
+    getProductBusiness: function getProductBusiness() {
+      var _self = this;
+      this.jquery("/iae/business/getAllBusiness", null, function (res) {
+        //查询商业
+        _self.business = res.message;
+      });
+    },
+    formatProfit1: function formatProfit1(row, column, cellValue, index) {
+      var t1 = !this.isEmpty(row.ppsm) ? row.ppsm : 0;
+      var t2 = !this.isEmpty(row.ppspm) ? row.ppspm : 0;
+      var t3 = t1 - t2;
+      t3 = Math.round(t3 * 100) / 100;
+      return (t3 + "").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    },
+    formatProfit2: function formatProfit2(row, column, cellValue, index) {
+      var t1 = !this.isEmpty(row.pprm) ? row.pprm : 0;
+      var t2 = !this.isEmpty(row.pprpm) ? row.pprpm : 0;
+      var t3 = t1 - t2;
+      t3 = Math.round(t3 * 100) / 100;
+      return (t3 + "").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    },
+    formatNoPay: function formatNoPay(row, column, cellValue, index) {
+      var t1 = !this.isEmpty(row.ppspm) ? row.ppspm : 0;
+      var t2 = !this.isEmpty(row.pprpm) ? row.pprpm : 0;
+      var t3 = t1 - t2;
+      t3 = Math.round(t3 * 100) / 100;
+      return (t3 + "").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    },
+    formatNoReturn: function formatNoReturn(row, column, cellValue, index) {
+      var t1 = !this.isEmpty(row.ppsm) ? row.ppsm : 0;
+      var t2 = !this.isEmpty(row.pprm) ? row.pprm : 0;
+      var t3 = t1 - t2;
+      t3 = Math.round(t3 * 100) / 100;
+      return (t3 + "").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    },
+    formatNull: function formatNull(row, column, cellValue, index) {
+      cellValue = Math.round(cellValue * 100) / 100;
+      return cellValue ? (cellValue + "").replace(/\B(?=(\d{3})+(?!\d))/g, ',') : 0;
+    },
+    exportComprehensive: function exportComprehensive() {
+      var url = this.$bus.data.host + "/iae/report/exportReportPurchasePayComprehensive";
+      this.download(url, this.params);
+    },
+    viewDetail: function viewDetail(row) {
+      this.$router.push({ path: '/main/reportpurchasepaydetail', query: {
+          time: row.all_day
+        } });
+    },
+    reSearch: function reSearch(arg) {
+      if (arg) {
+        this.$refs["params"].resetFields();
+      }
+      this.getComprehensive();
+    },
+    getComprehensive: function getComprehensive() {
+      var _self = this;
+      this.jquery('/iae/report/getReportPurchasePayComprehensive', _self.params, function (res) {
+        _self.listData = res.message;
+      });
+    }
+  }
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ }),
+/* 934 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('el-breadcrumb', {
+    attrs: {
+      "separator-class": "el-icon-arrow-right"
+    }
+  }, [_c('el-breadcrumb-item', {
+    attrs: {
+      "to": {
+        path: '/main/report'
+      }
+    }
+  }, [_vm._v("报表管理")]), _vm._v(" "), _c('el-breadcrumb-item', [_vm._v("预付招商积分收付统计（近24个月）表格")])], 1), _vm._v(" "), _c('el-form', {
+    ref: "params",
+    staticClass: "demo-form-inline search",
+    attrs: {
+      "inline": true,
+      "model": _vm.params,
+      "size": "mini"
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "商业",
+      "prop": "business"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "size": "mini",
+      "filterable": ""
+    },
+    model: {
+      value: (_vm.params.business),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "business", $$v)
+      },
+      expression: "params.business"
+    }
+  }, [_c('el-option', {
+    key: "",
+    attrs: {
+      "label": "全部",
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.business), function(item) {
+    return _c('el-option', {
+      key: item.business_id,
+      attrs: {
+        "label": item.business_name,
+        "value": item.business_id
+      }
+    })
+  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "　业务员",
+      "prop": "contactId"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "filterable": "",
+      "size": "mini",
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.params.contactId),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "contactId", $$v)
+      },
+      expression: "params.contactId"
+    }
+  }, [_c('el-option', {
+    key: "",
+    attrs: {
+      "label": "全部",
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.contacts), function(item) {
+    return _c('el-option', {
+      key: item.contacts_id,
+      attrs: {
+        "label": item.contacts_name,
+        "value": item.contacts_id
+      }
+    })
+  })], 2)], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }, {
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.authCode.indexOf(',99,') > -1),
+      expression: "authCode.indexOf(',99,') > -1"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "mini"
+    },
+    on: {
+      "click": function($event) {
+        _vm.reSearch(false)
+      }
+    }
+  }, [_vm._v("查询")]), _vm._v(" "), _c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }, {
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.authCode.indexOf(',99,') > -1),
+      expression: "authCode.indexOf(',99,') > -1"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "mini"
+    },
+    on: {
+      "click": function($event) {
+        _vm.reSearch(true)
+      }
+    }
+  }, [_vm._v("重置")]), _vm._v(" "), _c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }, {
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.authCode.indexOf(',99,') > -1),
+      expression: "authCode.indexOf(',99,') > -1"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "mini"
+    },
+    on: {
+      "click": function($event) {
+        _vm.exportComprehensive(true)
+      }
+    }
+  }, [_vm._v("导出")])], 1)], 1), _vm._v(" "), _c('div', {
+    staticStyle: {
+      "padding": "10px",
+      "border": "1px solid #ffffff",
+      "background-color": "#ffffff"
+    }
+  }, [_c('el-table', {
+    staticStyle: {
+      "width": "100%"
+    },
+    attrs: {
+      "data": _vm.listData,
+      "height": _vm.tableHeight,
+      "size": "mini",
+      "border": true
+    }
+  }, [_c('el-table-column', {
+    attrs: {
+      "fixed": "",
+      "prop": "all_day",
+      "label": "打款日期",
+      "width": "80"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "上游",
+      "header-align": "center"
+    }
+  }, [_c('el-table-column', {
+    attrs: {
+      "prop": "ppsm",
+      "label": "应收积分",
+      "formatter": _vm.formatNull
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "pprm",
+      "label": "实收积分",
+      "formatter": _vm.formatNull
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "未收积分",
+      "formatter": _vm.formatNoReturn
+    }
+  })], 1), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "下游",
+      "header-align": "center"
+    }
+  }, [_c('el-table-column', {
+    attrs: {
+      "prop": "ppspm",
+      "label": "应付积分",
+      "formatter": _vm.formatNull
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "pprpm",
+      "label": "实付积分",
+      "formatter": _vm.formatNull
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "未付积分",
+      "formatter": _vm.formatNoPay
+    }
+  })], 1), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "利润",
+      "header-align": "center"
+    }
+  }, [_c('el-table-column', {
+    attrs: {
+      "label": "利润",
+      "formatter": _vm.formatProfit1
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "label": "真实利润",
+      "formatter": _vm.formatProfit2
+    }
+  })], 1), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "fixed": "right",
+      "label": "操作",
+      "width": "90"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(scope) {
+        return [_c('el-button', {
+          staticStyle: {
+            "padding": "0",
+            "font-size": "12px"
+          },
+          attrs: {
+            "type": "text"
+          },
+          on: {
+            "click": function($event) {
+              _vm.viewDetail(scope.row)
+            }
+          }
+        }, [_vm._v("查看详情")])]
+      }
+    }])
+  })], 1)], 1)], 1)
+},staticRenderFns: []}
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-06900d11", module.exports)
+  }
+}
+
+/***/ }),
+/* 935 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(936)
+
+/* script */
+__vue_exports__ = __webpack_require__(938)
+
+/* template */
+var __vue_template__ = __webpack_require__(939)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/lvyang/workspace/iae/views/report/reportPurchasePayDetail.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-9b481b7c", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-9b481b7c", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] reportPurchasePayDetail.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+/* 936 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(937);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(104)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-9b481b7c!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./reportPurchasePayDetail.vue", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-9b481b7c!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./reportPurchasePayDetail.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 937 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.sum_money_purchase > a{\n\tpadding-left: 20px;\n\tcolor: #606266;\n}\n.sum_money_purchase > span{\n\tcolor:#606266;\n}\n.sum_money_purchase .more_detail{\n\tposition: absolute;\n\tright: 10px;\n\theight: 30px;\n\tline-height: 30px;\n\tcolor: #409EFF;\n\ttext-decoration: none;\n}\n.sum_money_purchase{\n\tposition: relative;\n\tbackground-color: #fff;\n\tborder-bottom: 1px solid #ebeef5;\n\theight: 30px;\n\tcolor:#f24040;\n\tline-height: 30px;\n\tfont-size: 14px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 938 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+	data: function data() {
+		var validateMoney = function validateMoney(rule, value, callback) {
+			var reg = /^(([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)|([-]([1-9]\d+(.[0-9]{1,})?|\d(.[0-9]{1,})?)))$/;
+			if (value && !reg.test(value)) {
+				callback(new Error('请输入正确的' + rule.labelname));
+			} else {
+				callback();
+			}
+		};
+		var nowDate = new Date();
+		var beforeDate = new Date();
+		beforeDate.setFullYear(nowDate.getFullYear() - 1);
+		return {
+			pickerOptions2: {
+				shortcuts: [{
+					text: '本月',
+					onClick: function onClick(picker) {
+						var end = new Date();
+						var start = new Date(end.getFullYear() + "-" + (end.getMonth() + 1) + "-01");
+						picker.$emit('pick', [start, end]);
+					}
+				}, {
+					text: nowDate.getFullYear() + '年',
+					onClick: function onClick(picker) {
+						var end = new Date();
+						var start = new Date(end.getFullYear() + "-01" + "-01");
+						picker.$emit('pick', [start, end]);
+					}
+				}, {
+					text: beforeDate.getFullYear() + '年',
+					onClick: function onClick(picker) {
+						var start = new Date(beforeDate.getFullYear() + "-01" + "-01");
+						var end = new Date(beforeDate.getFullYear() + "-12" + "-31");
+						picker.$emit('pick', [start, end]);
+					}
+				}]
+			},
+			purchasePays: [],
+			contacts: [],
+			accounts: [],
+			pageNum: 10,
+			currentPage: 1,
+			count: 0,
+			dialogFormVisible: false,
+			loading: false,
+			params: {
+				product_makesmakers: "",
+				productCommonName: "",
+				contactId: "",
+				time: [],
+				payTime: [],
+				returnTime: [],
+				realReturnTime: [],
+				product_code: "",
+				status: "",
+				remark: "",
+				business: "",
+				batch_number: "",
+				overdue: "",
+				purchase_pay_refundser: "",
+				makeMoneyFlag: "2",
+				refundFlag: "2"
+			},
+			purchasePay: {
+				purchase_pay_should_price: "",
+				purchase_pay_should_money: "",
+				purchase_pay_real_money: "",
+				purchase_pay_service_charge: "",
+				purchase_pay_refundser: "",
+				purchase_pay_receiver: "",
+				purchase_pay_remark: "",
+				purchase_pay_id: "",
+				purchase_pay_should_time: null,
+				purchase_pay_real_time: null
+			},
+			purchasePayRule: {
+				purchase_pay_should_price: [{ validator: validateMoney, labelname: '政策积分', trigger: 'blur' }],
+				purchase_pay_should_money: [{ validator: validateMoney, labelname: '应收积分', trigger: 'blur' }],
+				purchase_pay_real_money: [{ validator: validateMoney, labelname: '实收积分', trigger: 'blur' }],
+				purchase_pay_service_charge: [{ validator: validateMoney, labelname: '其它积分', trigger: 'blur' }]
+			},
+			authCode: "",
+			business: [],
+			refundser: [],
+			contactRefunders: [],
+			errorMessage: "",
+			refundMoney: {}
+		};
+	},
+	activated: function activated() {
+		this.getContacts();
+		this.getProductBusiness();
+		var start = new Date(this.$route.query.time + "-01");
+		var end = new Date(this.$route.query.time + "-01");
+		end.setMonth(end.getMonth() + 1);
+		end.setDate(end.getDate() - 1);
+		this.params.payTime = [start, end];
+		this.authCode = "," + JSON.parse(sessionStorage["user"]).authority_code;
+		this.getPurchasePayList();
+	},
+	mounted: function mounted() {},
+
+	methods: {
+		formatNull: function formatNull(row, column, cellValue, index) {
+			cellValue = Math.round(cellValue * 100) / 100;
+			return cellValue ? (cellValue + "").replace(/\B(?=(\d{3})+(?!\d))/g, ',') : 0;
+		},
+		onRefund1: function onRefund1(row, column, cellValue) {
+			var t = row.purchase_pay_should_pay_money - row.purchase_pay_real_pay_money;
+			t = Math.round(t * 100) / 100;
+			return t ? (t + "").replace(/\B(?=(\d{3})+(?!\d))/g, ',') : 0;
+		},
+		formatPercent: function formatPercent(row, column, cellValue, index) {
+			if (!this.isEmpty(cellValue)) {
+				return cellValue + " %";
+			} else {
+				return "-";
+			}
+		},
+		getProductBusiness: function getProductBusiness() {
+			var _self = this;
+			this.jquery("/iae/business/getAllBusiness", null, function (res) {
+				//查询商业
+				_self.business = res.message;
+				sessionStorage["productbusiness"] = JSON.stringify(_self.business);
+			});
+		},
+		getContacts: function getContacts() {
+			var _self = this;
+			this.jquery('/iae/contacts/getAllContacts', { group_id: 0, contact_type: ['高打品种', '业务员'] }, function (res) {
+				_self.contacts = res.message;
+			});
+		},
+		onRefund: function onRefund(row, column, cellValue) {
+			var t = row.purchase_pay_should_money - row.purchase_pay_real_money;
+			t = Math.round(t * 100) / 100;
+			return t ? (t + "").replace(/\B(?=(\d{3})+(?!\d))/g, ',') : 0;
+		},
+		formatterDate: function formatterDate(row, column, cellValue) {
+			if (cellValue && typeof cellValue == "string") {
+				var temp = cellValue.substring(0, 10);
+				var d = new Date(temp);
+				d.setDate(d.getDate() + 1);
+				return d.format("yyyy-MM-dd");
+			} else if (cellValue && (typeof cellValue === 'undefined' ? 'undefined' : _typeof(cellValue)) == "object") {
+				return new Date(cellValue).format("yyyy-MM-dd");
+			} else {
+				return "";
+			}
+		},
+		reSearch: function reSearch(arg) {
+			if (arg) {
+				this.$refs["params"].resetFields();
+			}
+			this.currentPage = 1;
+			this.getPurchasePayList();
+		},
+		getPurchasePayList: function getPurchasePayList() {
+			var _self = this;
+			if (!_self.currentPage) {
+				_self.currentPage = 1;
+			}
+			if (!_self.pageNum) {
+				_self.pageNum = 10;
+			}
+			var page = {
+				start: (_self.currentPage - 1) * _self.pageNum,
+				limit: _self.pageNum
+			};
+			this.jquery('/iae/purchasepay/getPurchasePay', {
+				data: _self.params,
+				page: page
+			}, function (res) {
+				_self.purchasePays = res.message.data;
+				_self.pageNum = parseInt(res.message.limit);
+				_self.count = res.message.totalCount;
+				_self.refundMoney.ppsm = res.message.ppsm; //应收
+				_self.refundMoney.pprm = res.message.pprm; //实收
+				_self.refundMoney.ppnc = res.message.ppsm - res.message.pprm; //未收
+				_self.refundMoney.ppnc = Math.round(_self.refundMoney.ppnc * 100) / 100;
+				_self.refundMoney.ppsc = res.message.ppsc; //其它
+
+				_self.refundMoney.ppspm = res.message.ppspm; //应收
+				_self.refundMoney.pprpm = res.message.pprpm; //实收
+				_self.refundMoney.ppnc1 = res.message.ppspm - res.message.pprpm; //未收
+				_self.refundMoney.ppnc1 = Math.round(_self.refundMoney.ppnc1 * 100) / 100;
+			});
+		},
+		handleSizeChange: function handleSizeChange(val) {
+			this.pageNum = val;
+			this.currentPage = 1;
+			this.getPurchasePayList();
+		},
+		handleCurrentChange: function handleCurrentChange(val) {
+			this.currentPage = val;
+			this.getPurchasePayList();
+		}
+	}
+};
+
+/***/ }),
+/* 939 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "sale_list",
+    staticStyle: {
+      "box-sizing": "border-box",
+      "padding": "0px 10px"
+    }
+  }, [_c('el-breadcrumb', {
+    attrs: {
+      "separator-class": "el-icon-arrow-right"
+    }
+  }, [_c('el-breadcrumb-item', [_vm._v("采购管理")]), _vm._v(" "), _c('el-breadcrumb-item', [_vm._v("预付招商应收管理")])], 1), _vm._v(" "), _c('el-form', {
+    ref: "params",
+    staticClass: "demo-form-inline search",
+    attrs: {
+      "inline": true,
+      "model": _vm.params,
+      "size": "mini"
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "产品名称",
+      "prop": "productCommonName"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "size": "mini",
+      "placeholder": "产品名称/助记码"
+    },
+    nativeOn: {
+      "keyup": function($event) {
+        if (!('button' in $event) && $event.keyCode !== 13) { return null; }
+        _vm.reSearch(false)
+      }
+    },
+    model: {
+      value: (_vm.params.productCommonName),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "productCommonName", $$v)
+      },
+      expression: "params.productCommonName"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "产品编号",
+      "prop": "product_code"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "size": "mini",
+      "placeholder": "产品编号"
+    },
+    nativeOn: {
+      "keyup": function($event) {
+        if (!('button' in $event) && $event.keyCode !== 13) { return null; }
+        _vm.reSearch(false)
+      }
+    },
+    model: {
+      value: (_vm.params.product_code),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "product_code", $$v)
+      },
+      expression: "params.product_code"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "生产厂家",
+      "prop": "product_makesmakers"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "size": "mini",
+      "placeholder": "生产厂家"
+    },
+    nativeOn: {
+      "keyup": function($event) {
+        if (!('button' in $event) && $event.keyCode !== 13) { return null; }
+        _vm.reSearch(false)
+      }
+    },
+    model: {
+      value: (_vm.params.product_makesmakers),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "product_makesmakers", $$v)
+      },
+      expression: "params.product_makesmakers"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "　联系人",
+      "prop": "contactId"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "filterable": "",
+      "size": "mini",
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.params.contactId),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "contactId", $$v)
+      },
+      expression: "params.contactId"
+    }
+  }, [_c('el-option', {
+    key: "",
+    attrs: {
+      "label": "全部",
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.contacts), function(item) {
+    return (item.contact_type.indexOf('高打品种') > -1) ? _c('el-option', {
+      key: item.contacts_id,
+      attrs: {
+        "label": item.contacts_name,
+        "value": item.contacts_id
+      }
+    }) : _vm._e()
+  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "　业务员",
+      "prop": "contactId1"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "filterable": "",
+      "size": "mini",
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.params.contactId1),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "contactId1", $$v)
+      },
+      expression: "params.contactId1"
+    }
+  }, [_c('el-option', {
+    key: "",
+    attrs: {
+      "label": "全部",
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.contacts), function(item) {
+    return (item.contact_type.indexOf('业务员') > -1) ? _c('el-option', {
+      key: item.contacts_id,
+      attrs: {
+        "label": item.contacts_name,
+        "value": item.contacts_id
+      }
+    }) : _vm._e()
+  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "　　商业",
+      "prop": "business"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "size": "mini",
+      "filterable": "",
+      "placeholder": "请选择商业"
+    },
+    model: {
+      value: (_vm.params.business),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "business", $$v)
+      },
+      expression: "params.business"
+    }
+  }, [_c('el-option', {
+    key: "",
+    attrs: {
+      "label": "全部",
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.business), function(item) {
+    return _c('el-option', {
+      key: item.business_id,
+      attrs: {
+        "label": item.business_name,
+        "value": item.business_id
+      }
+    })
+  })], 2)], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }, {
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.authCode.indexOf(',168,') > -1),
+      expression: "authCode.indexOf(',168,') > -1"
+    }],
+    staticStyle: {
+      "margin-left": "14px"
+    },
+    attrs: {
+      "type": "primary",
+      "size": "mini"
+    },
+    on: {
+      "click": function($event) {
+        _vm.reSearch(false)
+      }
+    }
+  }, [_vm._v("查询")]), _vm._v(" "), _c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }, {
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.authCode.indexOf(',168,') > -1),
+      expression: "authCode.indexOf(',168,') > -1"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "mini"
+    },
+    on: {
+      "click": function($event) {
+        _vm.reSearch(true)
+      }
+    }
+  }, [_vm._v("重置")]), _vm._v(" "), _c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    staticStyle: {
+      "margin-left": "14px"
+    },
+    attrs: {
+      "type": "primary",
+      "size": "mini"
+    },
+    on: {
+      "click": function($event) {
+        _vm.$router.push('/main/reportpurchasepay');
+      }
+    }
+  }, [_vm._v("返回")])], 1)], 1), _vm._v(" "), _c('div', {
+    staticClass: "sum_money"
+  }, [_vm._v("\n      应收积分："), _c('a', [_vm._v(_vm._s(_vm.refundMoney.ppsm))]), _vm._v("\n      实收积分："), _c('a', [_vm._v(_vm._s(_vm.refundMoney.pprm))]), _vm._v("\n      未收积分："), _c('a', [_vm._v(_vm._s(_vm.refundMoney.ppnc))]), _vm._v("\n\t\t\t应付积分："), _c('a', [_vm._v(_vm._s(_vm.refundMoney.ppspm))]), _vm._v("\n\t\t\t实付积分："), _c('a', [_vm._v(_vm._s(_vm.refundMoney.pprpm))]), _vm._v("\n\t\t\t未付积分："), _c('a', [_vm._v(_vm._s(_vm.refundMoney.ppnc1))])]), _vm._v(" "), _c('el-table', {
+    staticStyle: {
+      "width": "100%"
+    },
+    attrs: {
+      "data": _vm.purchasePays,
+      "size": "mini",
+      "stripe": true,
+      "border": true
+    }
+  }, [_c('el-table-column', {
+    attrs: {
+      "prop": "purchase_pay_time",
+      "label": "打款时间",
+      "width": "80",
+      "formatter": _vm.formatterDate
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_code",
+      "label": "产品编码",
+      "width": "100"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_specifications",
+      "label": "产品规格",
+      "width": "100"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_makesmakers",
+      "label": "生产厂家",
+      "width": "150"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_packing",
+      "label": "包装",
+      "width": "50"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_unit",
+      "label": "单位",
+      "width": "50"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "product_price",
+      "label": "中标价",
+      "width": "60"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "business_name",
+      "label": "商业",
+      "width": "60"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "purchase_pay_number",
+      "label": "预付数量",
+      "width": "70"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "purchase_pay_price",
+      "label": "打款价",
+      "width": "60"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "purchase_pay_money",
+      "label": "预付金额",
+      "width": "70"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "contacts_name",
+      "label": "联系人",
+      "width": "60"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "purchase_pay_should_money",
+      "label": "应收积分",
+      "width": "80",
+      "formatter": _vm.formatNull
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "purchase_pay_real_money",
+      "label": "实收积分",
+      "width": "80",
+      "formatter": _vm.formatNull
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "purchase_pay_real_money",
+      "label": "未收积分",
+      "width": "80",
+      "formatter": _vm.onRefund
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "contacts_name1",
+      "label": "业务员",
+      "width": "60"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "purchase_pay_should_pay_money",
+      "label": "应付积分",
+      "width": "80",
+      "formatter": _vm.formatNull
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "purchase_pay_real_pay_money",
+      "label": "实付积分",
+      "width": "80",
+      "formatter": _vm.formatNull
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "purchase_pay_real_money",
+      "label": "未付积分",
+      "width": "80",
+      "formatter": _vm.onRefund1
+    }
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "page_div"
+  }, [_c('el-pagination', {
+    attrs: {
+      "background": "",
+      "current-page": _vm.currentPage,
+      "page-sizes": [5, 10, 50, 100],
+      "page-size": _vm.pageNum,
+      "layout": "total, sizes, prev, pager, next, jumper",
+      "total": _vm.count
+    },
+    on: {
+      "size-change": _vm.handleSizeChange,
+      "current-change": _vm.handleCurrentChange
+    }
+  })], 1)], 1)
+},staticRenderFns: []}
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-9b481b7c", module.exports)
   }
 }
 

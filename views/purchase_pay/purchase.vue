@@ -13,6 +13,14 @@
 					:picker-options="pickerOptions2">
 				</el-date-picker>
  		 	</el-form-item>
+			<el-form-item label="打款时间" prop="payTime">
+				<el-date-picker v-model="params.payTime" type="daterange" size="mini" align="right" unlink-panels
+					range-separator="至"
+					start-placeholder="开始日期"
+					end-placeholder="结束日期"
+					:picker-options="pickerOptions2">
+				</el-date-picker>
+ 		 	</el-form-item>
 			<el-form-item label="产品名称" prop="productCommonName">
 		    <el-input v-model="params.productCommonName" style="width:210px;" size="mini" @keyup.13.native="reSearch(false)" placeholder="产品名称/助记码"></el-input>
 		  </el-form-item>
@@ -248,6 +256,7 @@
 					contactId:"",
 					contactId1:"",
 					time:[],
+					payTime:[],
 					product_code:"",
 					status:"",
 					remark:"",
