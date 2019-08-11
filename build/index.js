@@ -33871,8 +33871,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     var bus = new Vue();
 
     bus.data = {
-      host: "http://139.129.238.114"
-      // host: "http://127.0.0.1:5000",
+      // host: "http://139.129.238.114",
+      host: "http://127.0.0.1:5000"
     };
 
     Object.defineProperty(Vue.prototype, '$bus', {

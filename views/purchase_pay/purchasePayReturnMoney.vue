@@ -165,14 +165,18 @@
 				<el-form-item label="付积分时间" prop="purchase_pay_real_pay_time">
 					<el-date-picker v-model="purchasePay.purchase_pay_real_pay_time" style="width:179px;" type="date" placeholder="请选择付积分时间"></el-date-picker>
 				</el-form-item>
+				<el-form-item label="收积分账号名" prop="account_name1">
+					<el-input v-model="purchasePay.account_name1" style="width:179px;" placeholder="收积分账号"></el-input>
+				</el-form-item>
+				<el-form-item label="收积分账号" prop="account_number1">
+					<el-input v-model="purchasePay.account_number1" style="width:179px;" placeholder="收积分账号"></el-input>
+				</el-form-item>
+				<el-form-item label="收积分地址" prop="account_address1">
+					<el-input v-model="purchasePay.account_address1" style="width:179px;" placeholder="收积分地址"></el-input>
+				</el-form-item>
 				<el-form-item label="备　　注" prop="purchase_pay_return_remark">
 					<el-input v-model="purchasePay.purchase_pay_return_remark" style="width:179px;" placeholder="备注"></el-input>
 				</el-form-item>
-				<div style="padding-left: 16px;" v-show="purchasePay.account_name1 && purchasePay.account_number1">
-						<div>积分账号名：{{purchasePay.account_name1}}</div>
-						<div>　积分账号：{{purchasePay.account_number1}}</div>
-						<div>　积分地址：{{purchasePay.account_address1}}</div>
-				</div>
 			</el-form>
       <div slot="footer" class="dialog-footer">
 				<div style='color:#f24040;font-size:12px;padding-bottom:5px;' v-show="remindFlag">
@@ -338,6 +342,9 @@
 				this.dialogFormVisible = true;
 				var temp = JSON.stringify(scope.row);
 				this.purchasePay = JSON.parse(temp);
+				this.purchasePay.account_name1 = this.purchasePay.purchase_pay_receive_name?this.purchasePay.purchase_pay_receive_name:this.purchasePay.account_name1;
+				this.purchasePay.account_number1 = this.purchasePay.purchase_pay_receive_account?this.purchasePay.purchase_pay_receive_account:this.purchasePay.account_number1;
+				this.purchasePay.account_address1 = this.purchasePay.purchase_pay_receive_address?this.purchasePay.purchase_pay_receive_address:this.purchasePay.account_address1;
 				this.purchasePay.front_purchase = temp;
 			},
 			reSearch(arg){

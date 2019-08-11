@@ -3673,6 +3673,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 //
 //
 //
+//
+//
+//
+//
 
 exports.default = {
 	data: function data() {
@@ -3792,7 +3796,6 @@ exports.default = {
 			this.allot.allot_other_money = otherMoney ? otherMoney * this.allot.allot_number : 0;
 			this.allot.allot_other_money = Math.round(this.allot.allot_other_money * 100) / 100;
 			this.allot.allot_return_price = this.getShouldPayMoney(formula, this.allot.allot_price, realReturnMoney, this.allot.allot_should_pay_percent, 0, this.allot.allot_return_price);
-			console.log(formula, this.allot.allot_price, realReturnMoney, this.allot.allot_should_pay_percent, 0, this.allot.allot_return_price);
 			this.allot.allot_return_price = Math.round(this.allot.allot_return_price * 100) / 100;
 			shouldPay = this.getShouldPayMoney(formula, this.allot.allot_price, realReturnMoney, this.allot.allot_should_pay_percent, otherMoney, this.allot.allot_return_price);
 			// }
@@ -3902,11 +3905,6 @@ exports.default = {
 		editallots: function editallots(formName) {
 			var _self = this;
 			this.allot.account_detail = this.formatterDate(null, null, this.allot.allot_time) + this.allot.hospital_name + "调货（" + this.allot.allot_number + "）" + this.allot.product_common_name + "付积分";
-			if (this.allot.allot_account_id && !this.isEmpty(this.allot.allot_return_money)) {
-				this.allot.allot_account_name = this.allot.allot_account_name ? this.allot.allot_account_name : this.selectContact.account_name ? this.selectContact.account_name : "";
-				this.allot.allot_account_number = this.allot.allot_account_number ? this.allot.allot_account_number : this.selectContact.account_number ? this.selectContact.account_number : "";
-				this.allot.allot_account_address = this.allot.allot_account_address ? this.allot.allot_account_address : this.selectContact.account_address ? this.selectContact.account_address : "";
-			}
 			this.$refs[formName].validate(function (valid) {
 				if (valid) {
 					_self.loading = true;
@@ -3945,11 +3943,19 @@ exports.default = {
 				this.allot.allot_return_money = this.allot.allot_return_money ? this.allot.allot_return_money : this.mul(this.allot.allot_return_price, this.allot.allot_number, 2);
 			}
 			this.allot.allot_number_temp = this.allot.allot_number;
+			this.selectContact.account_name = "";
+			this.selectContact.account_number = "";
+			this.selectContact.account_address = "";
 			for (var i = 0; i < this.contacts.length; i++) {
 				if (this.contacts[i].contacts_id == this.allot.allot_policy_contact_id) {
-					this.selectContact = this.contacts[i];
+					var temp = JSON.stringify(this.contacts[i]);
+					this.selectContact = JSON.parse(temp);
 				}
 			}
+			this.allot.allot_account_name = this.allot.allot_account_name ? this.allot.allot_account_name : this.selectContact.account_name;
+			this.allot.allot_account_number = this.allot.allot_account_number ? this.allot.allot_account_number : this.selectContact.account_number;
+			this.allot.allot_account_address = this.allot.allot_account_address ? this.allot.allot_account_address : this.selectContact.account_address;
+
 			this.remindFlag = false;
 			if (this.allot.refunds_real_time && !this.isEmpty(this.allot.refunds_real_money)) {
 				this.remindFlag = this.allot.allot_return_price > this.div(this.allot.refunds_real_money, this.allot.purchase_number, 2);
@@ -4876,6 +4882,63 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     })
   })], 2)], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
+      "label": "收积分账号名",
+      "prop": "allot_account_name"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "收积分账号名"
+    },
+    model: {
+      value: (_vm.allot.allot_account_name),
+      callback: function($$v) {
+        _vm.$set(_vm.allot, "allot_account_name", $$v)
+      },
+      expression: "allot.allot_account_name"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "收积分账号",
+      "prop": "allot_account_number"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "收积分账号"
+    },
+    model: {
+      value: (_vm.allot.allot_account_number),
+      callback: function($$v) {
+        _vm.$set(_vm.allot, "allot_account_number", $$v)
+      },
+      expression: "allot.allot_account_number"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "收积分地址",
+      "prop": "allot_account_address"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "收积分地址"
+    },
+    model: {
+      value: (_vm.allot.allot_account_address),
+      callback: function($$v) {
+        _vm.$set(_vm.allot, "allot_account_address", $$v)
+      },
+      expression: "allot.allot_account_address"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
       "label": "备注",
       "prop": "allot_remark"
     }
@@ -4893,17 +4956,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "allot.allot_remark"
     }
-  })], 1), _vm._v(" "), _c('div', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.selectContact.account_name && _vm.selectContact.account_number),
-      expression: "selectContact.account_name && selectContact.account_number"
-    }],
-    staticStyle: {
-      "padding-left": "16px"
-    }
-  }, [_c('div', [_vm._v("积分账号名：" + _vm._s(_vm.selectContact.account_name))]), _vm._v(" "), _c('div', [_vm._v("　积分账号：" + _vm._s(_vm.selectContact.account_number))]), _vm._v(" "), _c('div', [_vm._v("　积分地址：" + _vm._s(_vm.selectContact.account_address))])])], 1), _vm._v(" "), _c('div', {
+  })], 1)], 1), _vm._v(" "), _c('div', {
     staticClass: "dialog-footer",
     attrs: {
       "slot": "footer"
@@ -5010,6 +5063,10 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
+//
+//
+//
+//
 //
 //
 //
@@ -5419,7 +5476,6 @@ exports.default = {
 		},
 		editRow: function editRow(scope) {
 			//编辑药品信息
-			this.dialogFormVisible = true;
 			var temp = JSON.stringify(scope.row);
 			this.sale = JSON.parse(temp);
 			this.sale.front_sale_pay = temp;
@@ -5427,11 +5483,19 @@ exports.default = {
 			this.sale.sale_return_price = this.sale.sale_return_price ? this.sale.sale_return_price : this.sale.sale_policy_money;
 			this.sale.sale_return_money = this.sale.sale_return_money ? this.sale.sale_return_money : this.mul(this.sale.sale_return_price, this.sale.sale_num, 2);
 			this.sale.sale_num_temp = this.sale.sale_num;
+			this.selectContact.account_name = "";
+			this.selectContact.account_number = "";
+			this.selectContact.account_address = "";
 			for (var i = 0; i < this.contacts.length; i++) {
 				if (this.contacts[i].contacts_id == this.sale.sale_contact_id) {
-					this.selectContact = this.contacts[i];
+					var temp = JSON.stringify(this.contacts[i]);
+					this.selectContact = JSON.parse(temp);
 				}
 			}
+			this.sale.sale_account_name = this.sale.sale_account_name ? this.sale.sale_account_name : this.selectContact.account_name;
+			this.sale.sale_account_number = this.sale.sale_account_number ? this.sale.sale_account_number : this.selectContact.account_number;
+			this.sale.sale_account_address = this.sale.sale_account_address ? this.sale.sale_account_address : this.selectContact.account_address;
+
 			this.remindFlag = false;
 			if (this.sale.product_type == '佣金' && this.sale.refunds_real_time && !this.isEmpty(this.sale.refunds_real_money)) {
 				this.remindFlag = this.sale.sale_return_price > this.div(this.sale.refunds_real_money, this.sale.sale_num, 2);
@@ -5443,6 +5507,7 @@ exports.default = {
 				this.remindMoney = 0;
 				this.remindFlag = true;
 			}
+			this.dialogFormVisible = true;
 		},
 		reSearch: function reSearch(arg) {
 			if (arg) {
@@ -5497,11 +5562,6 @@ exports.default = {
 			}
 			if (!this.isEmpty(this.sale.accounting_cost)) {
 				this.sale.real_gross_profit = this.mul(this.sale.sale_num, this.sub(this.sale.sale_price, this.sale.accounting_cost), 2);
-			}
-			if (this.sale.sale_account_id && !this.isEmpty(this.sale.sale_return_money)) {
-				this.sale.sale_account_name = this.sale.sale_account_name ? this.sale.sale_account_name : this.selectContact.account_name ? this.selectContact.account_name : "";
-				this.sale.sale_account_number = this.sale.sale_account_number ? this.sale.sale_account_number : this.selectContact.account_number ? this.selectContact.account_number : "";
-				this.sale.sale_account_address = this.sale.sale_account_address ? this.sale.sale_account_address : this.selectContact.account_address ? this.selectContact.account_address : "";
 			}
 			this.$refs[formName].validate(function (valid) {
 				if (valid) {
@@ -6450,6 +6510,63 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     })
   })], 2)], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
+      "label": "收积分账号名",
+      "prop": "sale_account_name"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "收积分账号名"
+    },
+    model: {
+      value: (_vm.sale.sale_account_name),
+      callback: function($$v) {
+        _vm.$set(_vm.sale, "sale_account_name", $$v)
+      },
+      expression: "sale.sale_account_name"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "收积分账号",
+      "prop": "sale_account_number"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "收积分账号"
+    },
+    model: {
+      value: (_vm.sale.sale_account_number),
+      callback: function($$v) {
+        _vm.$set(_vm.sale, "sale_account_number", $$v)
+      },
+      expression: "sale.sale_account_number"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "收积分地址",
+      "prop": "sale_account_address"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "收积分地址"
+    },
+    model: {
+      value: (_vm.sale.sale_account_address),
+      callback: function($$v) {
+        _vm.$set(_vm.sale, "sale_account_address", $$v)
+      },
+      expression: "sale.sale_account_address"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
       "label": "备注",
       "prop": "sale_remark"
     }
@@ -6467,17 +6584,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "sale.sale_remark"
     }
-  })], 1), _vm._v(" "), _c('div', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.selectContact.account_name && _vm.selectContact.account_number),
-      expression: "selectContact.account_name && selectContact.account_number"
-    }],
-    staticStyle: {
-      "padding-left": "16px"
-    }
-  }, [_c('div', [_vm._v("积分账号名：" + _vm._s(_vm.selectContact.account_name))]), _vm._v(" "), _c('div', [_vm._v("　积分账号：" + _vm._s(_vm.selectContact.account_number))]), _vm._v(" "), _c('div', [_vm._v("　积分地址：" + _vm._s(_vm.selectContact.account_address))])])], 1), _vm._v(" "), _c('div', {
+  })], 1)], 1), _vm._v(" "), _c('div', {
     staticClass: "dialog-footer",
     attrs: {
       "slot": "footer"

@@ -190,14 +190,18 @@
 					 </el-option>
 				 </el-select>
 			 </el-form-item>
+			 <el-form-item label="收积分账号名" prop="sale_account_name">
+				 <el-input v-model="sale.sale_account_name" style="width:179px;" placeholder="收积分账号名"></el-input>
+			 </el-form-item>
+			 <el-form-item label="收积分账号" prop="sale_account_number">
+				 <el-input v-model="sale.sale_account_number" style="width:179px;" placeholder="收积分账号"></el-input>
+			 </el-form-item>
+			 <el-form-item label="收积分地址" prop="sale_account_address">
+				 <el-input v-model="sale.sale_account_address" style="width:179px;" placeholder="收积分地址"></el-input>
+			 </el-form-item>
 				<el-form-item label="备注" prop="sale_remark">
 					<el-input v-model="sale.sale_remark" style="width:179px;" placeholder="备注"></el-input>
 				</el-form-item>
-				<div style="padding-left: 16px;" v-show="selectContact.account_name && selectContact.account_number">
-						<div>积分账号名：{{selectContact.account_name}}</div>
-						<div>　积分账号：{{selectContact.account_number}}</div>
-						<div>　积分地址：{{selectContact.account_address}}</div>
-				</div>
 			</el-form>
       <div slot="footer" class="dialog-footer">
 				<div style='color:#f24040;font-size:12px;padding-bottom:5px;' v-show="remindFlag">
@@ -407,7 +411,6 @@
 	      }
 			},
 			editRow(scope){//编辑药品信息
-				this.dialogFormVisible = true;
 				var temp = JSON.stringify(scope.row);
 				this.sale = JSON.parse(temp);
 				this.sale.front_sale_pay = temp;
@@ -415,11 +418,19 @@
 				this.sale.sale_return_price = this.sale.sale_return_price?this.sale.sale_return_price:this.sale.sale_policy_money;
 				this.sale.sale_return_money = this.sale.sale_return_money?this.sale.sale_return_money:this.mul(this.sale.sale_return_price,this.sale.sale_num,2);
 				this.sale.sale_num_temp = this.sale.sale_num;
+				this.selectContact.account_name="";
+				this.selectContact.account_number="";
+				this.selectContact.account_address="";
 				for(var i = 0 ; i < this.contacts.length;i++){
 					if(this.contacts[i].contacts_id == this.sale.sale_contact_id){
-						this.selectContact = this.contacts[i];
+						var temp = JSON.stringify(this.contacts[i]);
+						this.selectContact = JSON.parse(temp);
 					}
 				}
+				this.sale.sale_account_name = this.sale.sale_account_name?this.sale.sale_account_name:this.selectContact.account_name;
+				this.sale.sale_account_number = this.sale.sale_account_number?this.sale.sale_account_number:this.selectContact.account_number;
+				this.sale.sale_account_address = this.sale.sale_account_address?this.sale.sale_account_address:this.selectContact.account_address;
+
 				this.remindFlag = false;
 				if(this.sale.product_type == '佣金' && this.sale.refunds_real_time && !this.isEmpty(this.sale.refunds_real_money)){
 					this.remindFlag = this.sale.sale_return_price > this.div(this.sale.refunds_real_money,this.sale.sale_num,2);
@@ -431,6 +442,7 @@
 					this.remindMoney = 0;
 					this.remindFlag = true;
 				}
+				this.dialogFormVisible = true;
 			},
 			reSearch(arg){
 				if(arg){
@@ -483,11 +495,6 @@
 				}
 				if(!this.isEmpty(this.sale.accounting_cost)){
 					this.sale.real_gross_profit = this.mul(this.sale.sale_num,this.sub(this.sale.sale_price,this.sale.accounting_cost),2);
-				}
-				if(this.sale.sale_account_id && !this.isEmpty(this.sale.sale_return_money)){
-					this.sale.sale_account_name = this.sale.sale_account_name?this.sale.sale_account_name:(this.selectContact.account_name?this.selectContact.account_name:"");
-					this.sale.sale_account_number = this.sale.sale_account_number?this.sale.sale_account_number:(this.selectContact.account_number?this.selectContact.account_number:"");
-					this.sale.sale_account_address = this.sale.sale_account_address?this.sale.sale_account_address:(this.selectContact.account_address?this.selectContact.account_address:"");
 				}
 				this.$refs[formName].validate((valid) => {
 						if (valid) {

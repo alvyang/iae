@@ -177,6 +177,15 @@
 					 </el-option>
 				 </el-select>
 			  </el-form-item>
+				<el-form-item label="收积分账号名" prop="allot_account_name">
+					<el-input v-model="allot.allot_account_name" style="width:179px;" placeholder="收积分账号名"></el-input>
+				</el-form-item>
+				<el-form-item label="收积分账号" prop="allot_account_number">
+					<el-input v-model="allot.allot_account_number" style="width:179px;" placeholder="收积分账号"></el-input>
+				</el-form-item>
+				<el-form-item label="收积分地址" prop="allot_account_address">
+					<el-input v-model="allot.allot_account_address" style="width:179px;" placeholder="收积分地址"></el-input>
+				</el-form-item>
 				<el-form-item label="备注" prop="allot_remark">
 					<el-input v-model="allot.allot_remark" style="width:179px;" placeholder="备注"></el-input>
 				</el-form-item>
@@ -186,11 +195,6 @@
 						<el-option key="否" label="否" value="否"></el-option>
 					</el-select>
 				</el-form-item> -->
-				<div style="padding-left: 16px;" v-show="selectContact.account_name && selectContact.account_number">
-						<div>积分账号名：{{selectContact.account_name}}</div>
-						<div>　积分账号：{{selectContact.account_number}}</div>
-						<div>　积分地址：{{selectContact.account_address}}</div>
-				</div>
 			</el-form>
       <div slot="footer" class="dialog-footer">
 				<div style='color:#f24040;font-size:12px;padding-bottom:5px;' v-show="remindFlag">
@@ -320,7 +324,6 @@
 					this.allot.allot_other_money = otherMoney?otherMoney*this.allot.allot_number:0;
 					this.allot.allot_other_money = Math.round(this.allot.allot_other_money*100)/100;
 					this.allot.allot_return_price = this.getShouldPayMoney(formula,this.allot.allot_price,realReturnMoney,this.allot.allot_should_pay_percent,0,this.allot.allot_return_price);
-					console.log(formula,this.allot.allot_price,realReturnMoney,this.allot.allot_should_pay_percent,0,this.allot.allot_return_price);
 					this.allot.allot_return_price = Math.round(this.allot.allot_return_price*100)/100;
 					shouldPay = this.getShouldPayMoney(formula,this.allot.allot_price,realReturnMoney,this.allot.allot_should_pay_percent,otherMoney,this.allot.allot_return_price);
 				// }
@@ -428,11 +431,6 @@
 			editallots(formName){
 				var _self = this;
 				this.allot.account_detail = this.formatterDate(null,null,this.allot.allot_time)+this.allot.hospital_name+"调货（"+this.allot.allot_number+"）"+this.allot.product_common_name+"付积分";
-				if(this.allot.allot_account_id && !this.isEmpty(this.allot.allot_return_money)){
-					this.allot.allot_account_name =this.allot.allot_account_name?this.allot.allot_account_name:(this.selectContact.account_name?this.selectContact.account_name:"");
-					this.allot.allot_account_number = this.allot.allot_account_number?this.allot.allot_account_number:(this.selectContact.account_number?this.selectContact.account_number:"");
-					this.allot.allot_account_address = this.allot.allot_account_address?this.allot.allot_account_address:(this.selectContact.account_address?this.selectContact.account_address:"");
-				}
 				this.$refs[formName].validate((valid) => {
 						if (valid) {
 							_self.loading=true;
@@ -470,11 +468,19 @@
 					this.allot.allot_return_money = this.allot.allot_return_money?this.allot.allot_return_money:this.mul(this.allot.allot_return_price,this.allot.allot_number,2);
 				}
 				this.allot.allot_number_temp = this.allot.allot_number;
+				this.selectContact.account_name="";
+				this.selectContact.account_number="";
+				this.selectContact.account_address="";
 				for(var i = 0 ; i < this.contacts.length;i++){
 					if(this.contacts[i].contacts_id == this.allot.allot_policy_contact_id){
-						this.selectContact = this.contacts[i];
+						var temp = JSON.stringify(this.contacts[i]);
+						this.selectContact = JSON.parse(temp);
 					}
 				}
+				this.allot.allot_account_name = this.allot.allot_account_name?this.allot.allot_account_name:this.selectContact.account_name;
+				this.allot.allot_account_number = this.allot.allot_account_number?this.allot.allot_account_number:this.selectContact.account_number;
+				this.allot.allot_account_address = this.allot.allot_account_address?this.allot.allot_account_address:this.selectContact.account_address;
+
 				this.remindFlag = false;
 				if(this.allot.refunds_real_time && !this.isEmpty(this.allot.refunds_real_money)){
 					this.remindFlag = this.allot.allot_return_price > this.div(this.allot.refunds_real_money,this.allot.purchase_number,2);

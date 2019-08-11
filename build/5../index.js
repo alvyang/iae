@@ -4578,6 +4578,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 //
 //
 //
+//
+//
+//
+//
 
 exports.default = {
 	data: function data() {
@@ -4737,6 +4741,9 @@ exports.default = {
 			this.dialogFormVisible = true;
 			var temp = JSON.stringify(scope.row);
 			this.purchasePay = JSON.parse(temp);
+			this.purchasePay.account_name1 = this.purchasePay.purchase_pay_receive_name ? this.purchasePay.purchase_pay_receive_name : this.purchasePay.account_name1;
+			this.purchasePay.account_number1 = this.purchasePay.purchase_pay_receive_account ? this.purchasePay.purchase_pay_receive_account : this.purchasePay.account_number1;
+			this.purchasePay.account_address1 = this.purchasePay.purchase_pay_receive_address ? this.purchasePay.purchase_pay_receive_address : this.purchasePay.account_address1;
 			this.purchasePay.front_purchase = temp;
 		},
 		reSearch: function reSearch(arg) {
@@ -5551,6 +5558,63 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
+      "label": "收积分账号名",
+      "prop": "account_name1"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "收积分账号"
+    },
+    model: {
+      value: (_vm.purchasePay.account_name1),
+      callback: function($$v) {
+        _vm.$set(_vm.purchasePay, "account_name1", $$v)
+      },
+      expression: "purchasePay.account_name1"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "收积分账号",
+      "prop": "account_number1"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "收积分账号"
+    },
+    model: {
+      value: (_vm.purchasePay.account_number1),
+      callback: function($$v) {
+        _vm.$set(_vm.purchasePay, "account_number1", $$v)
+      },
+      expression: "purchasePay.account_number1"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "收积分地址",
+      "prop": "account_address1"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "placeholder": "收积分地址"
+    },
+    model: {
+      value: (_vm.purchasePay.account_address1),
+      callback: function($$v) {
+        _vm.$set(_vm.purchasePay, "account_address1", $$v)
+      },
+      expression: "purchasePay.account_address1"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
       "label": "备　　注",
       "prop": "purchase_pay_return_remark"
     }
@@ -5568,17 +5632,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "purchasePay.purchase_pay_return_remark"
     }
-  })], 1), _vm._v(" "), _c('div', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.purchasePay.account_name1 && _vm.purchasePay.account_number1),
-      expression: "purchasePay.account_name1 && purchasePay.account_number1"
-    }],
-    staticStyle: {
-      "padding-left": "16px"
-    }
-  }, [_c('div', [_vm._v("积分账号名：" + _vm._s(_vm.purchasePay.account_name1))]), _vm._v(" "), _c('div', [_vm._v("　积分账号：" + _vm._s(_vm.purchasePay.account_number1))]), _vm._v(" "), _c('div', [_vm._v("　积分地址：" + _vm._s(_vm.purchasePay.account_address1))])])], 1), _vm._v(" "), _c('div', {
+  })], 1)], 1), _vm._v(" "), _c('div', {
     staticClass: "dialog-footer",
     attrs: {
       "slot": "footer"
