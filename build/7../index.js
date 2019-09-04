@@ -258,7 +258,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -269,7 +269,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -572,7 +572,7 @@ exports.default = {
       business: [],
       refundser: [], //返款人列表
       contactRefunders: [], //与当前联系人相关返款人列表
-      pageNum: 10,
+      pageNum: 20,
       currentPage: 1,
       count: 0,
       params: { //查询参数
@@ -593,7 +593,8 @@ exports.default = {
       hospitals: [],
       dialogFormVisible: false,
       loading: false,
-      authCode: ""
+      authCode: "",
+      tableHeight: 0
     };
   },
   activated: function activated() {
@@ -607,6 +608,13 @@ exports.default = {
     this.authCode = "," + JSON.parse(sessionStorage["user"]).authority_code;
   },
   mounted: function mounted() {},
+  updated: function updated() {
+    this.tableHeight = $(window).height() - 200 - $(".search").height();
+    var that = this;
+    $(window).resize(function () {
+      that.tableHeight = $(window).height() - 200 - $(".search").height();
+    });
+  },
 
   methods: {
     refundsPolicyMoney: function refundsPolicyMoney() {
@@ -759,7 +767,7 @@ exports.default = {
         _self.currentPage = 1;
       }
       if (!_self.pageNum) {
-        _self.pageNum = 10;
+        _self.pageNum = 20;
       }
       var page = {
         start: (_self.currentPage - 1) * _self.pageNum,
@@ -830,6 +838,7 @@ exports.default = {
     }
   }
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -1271,6 +1280,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "data": _vm.refunds,
       "size": "mini",
+      "height": _vm.tableHeight,
       "stripe": true,
       "border": true
     }
@@ -1477,7 +1487,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next",
       "total": _vm.count
@@ -1824,7 +1834,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -1835,7 +1845,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -2147,7 +2157,7 @@ exports.default = {
         sc: 0,
         own: 0
       }, //返费总额
-      pageNum: 10,
+      pageNum: 20,
       currentPage: 1,
       count: 0,
       params: { //查询参数
@@ -2170,8 +2180,16 @@ exports.default = {
       tags: [], //标签
       dialogFormVisible: false,
       loading: false,
-      authCode: ""
+      authCode: "",
+      tableHeight: 0
     };
+  },
+  updated: function updated() {
+    this.tableHeight = $(window).height() - 200 - $(".search").height();
+    var that = this;
+    $(window).resize(function () {
+      that.tableHeight = $(window).height() - 200 - $(".search").height();
+    });
   },
   activated: function activated() {
     this.getPurchasesList();
@@ -2329,7 +2347,7 @@ exports.default = {
         _self.currentPage = 1;
       }
       if (!_self.pageNum) {
-        _self.pageNum = 10;
+        _self.pageNum = 20;
       }
       var page = {
         start: (_self.currentPage - 1) * _self.pageNum,
@@ -2400,6 +2418,7 @@ exports.default = {
     }
   }
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -2888,6 +2907,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "data": _vm.purchases,
       "size": "mini",
+      "height": _vm.tableHeight,
       "stripe": true,
       "border": true
     }
@@ -3108,7 +3128,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next",
       "total": _vm.count
@@ -3461,7 +3481,7 @@ exports.push([module.i, "\n.sum_money_allot > a{\n\tpadding-left: 20px;\n\tcolor
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -3469,6 +3489,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
+//
+//
+//
 //
 //
 //
@@ -3748,7 +3771,7 @@ exports.default = {
 			money: 0, //总额统计
 			money1: 0, //已付金额统计
 			money2: 0, //未付金额统计
-			pageNum: 10,
+			pageNum: 20,
 			currentPage: 1,
 			count: 0,
 			dialogFormVisible: false,
@@ -3770,8 +3793,16 @@ exports.default = {
 			authCode: "",
 			selectContact: {},
 			remindFlag: false, //应付积分是否大于实收上游积分
-			remindMoney: 0 //实收上游积分
+			remindMoney: 0, //实收上游积分
+			tableHeight: 0
 		};
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 200 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 200 - $(".search").height();
+		});
 	},
 	activated: function activated() {
 		this.getAllotsList();
@@ -4038,6 +4069,7 @@ exports.default = {
 		}
 	}
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -4369,6 +4401,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "data": _vm.allots,
       "size": "mini",
+      "height": _vm.tableHeight,
       "stripe": true,
       "border": true
     }
@@ -4456,6 +4489,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "prop": "batch_number",
       "label": "批号"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "refunds_real_time",
+      "label": "实收上游时间",
+      "width": "80",
+      "formatter": _vm.formatterDate
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
@@ -4564,7 +4604,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next, jumper",
       "total": _vm.count
@@ -4678,6 +4718,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "label": "实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分",
       "value": "7"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "9",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.03-补点/费用票:实收上游积分-补点/费用票",
+      "value": "9"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "10",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.05-补点/费用票:实收上游积分-补点/费用票",
+      "value": "10"
     }
   }), _vm._v(" "), _c('el-option', {
     key: "8",
@@ -5055,7 +5107,7 @@ exports.push([module.i, "\n.sum_money{\n\tbackground-color: #fff;\n\tborder-bott
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -5063,6 +5115,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
+//
+//
+//
 //
 //
 //
@@ -5313,7 +5368,7 @@ exports.default = {
 			contacts: [],
 			business: [],
 			accounts: [],
-			pageNum: 10,
+			pageNum: 20,
 			currentPage: 1,
 			count: 0,
 			hospitals: [],
@@ -5340,8 +5395,16 @@ exports.default = {
 			authCode: "",
 			selectContact: {},
 			remindFlag: false, //应付积分是否大于实收上游积分
-			remindMoney: 0 //实收上游积分
+			remindMoney: 0, //实收上游积分
+			tableHeight: 0
 		};
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 200 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 200 - $(".search").height();
+		});
 	},
 	activated: function activated() {
 		this.getSalesList();
@@ -5358,16 +5421,18 @@ exports.default = {
 			var shouldPay = 0;
 			var formula = this.sale.sale_should_pay_formula;
 			// if(this.sale.sale_should_pay_percent){
-			var realReturnMoney = "";
+			var realReturnMoney = "",
+			    t = 0;
 			if (this.sale.product_type == '佣金') {
 				realReturnMoney = this.sale.refunds_real_money / this.sale.sale_num;
+				t = this.sale.sale_other_money / this.sale.sale_num;
 			} else if (this.sale.product_type == '高打') {
 				realReturnMoney = this.sale.refunds_real_money1 / this.sale.purchase_number;
+				t = this.sale.purchase_other_money ? this.sale.purchase_other_money / this.sale.purchase_number : 0;
+				this.sale.sale_other_money = Math.round(t * this.sale.sale_num * 100) / 100;
 			}
 			realReturnMoney = realReturnMoney ? realReturnMoney : this.sale.product_return_money;
 
-			var t = this.sale.purchase_other_money ? this.sale.purchase_other_money / this.sale.purchase_number : 0;
-			this.sale.sale_other_money = Math.round(t * this.sale.sale_num * 100) / 100;
 			this.sale.sale_return_price = this.getShouldPayMoney(formula, this.sale.sale_price, realReturnMoney, this.sale.sale_should_pay_percent, 0, this.sale.sale_return_price);
 			this.sale.sale_return_price = Math.round(this.sale.sale_return_price * 100) / 100;
 			shouldPay = this.getShouldPayMoney(formula, this.sale.sale_price, realReturnMoney, this.sale.sale_should_pay_percent, t, this.sale.sale_return_price);
@@ -5532,7 +5597,7 @@ exports.default = {
 				_self.currentPage = 1;
 			}
 			if (!_self.pageNum) {
-				_self.pageNum = 10;
+				_self.pageNum = 20;
 			}
 			var page = {
 				start: (_self.currentPage - 1) * _self.pageNum,
@@ -5588,6 +5653,7 @@ exports.default = {
 		}
 	}
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -6001,6 +6067,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "data": _vm.sales,
       "size": "mini",
+      "height": _vm.tableHeight,
       "stripe": true,
       "border": true
     }
@@ -6084,6 +6151,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "prop": "batch_number",
       "label": "批号",
       "width": "70"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "refunds_real_time",
+      "label": "实收上游时间",
+      "width": "70",
+      "formatter": _vm.formatterDate
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
@@ -6192,7 +6266,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next",
       "total": _vm.count
@@ -6306,6 +6380,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "label": "实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分",
       "value": "7"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "9",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.03-补点/费用票:实收上游积分-补点/费用票",
+      "value": "9"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "10",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.05-补点/费用票:实收上游积分-补点/费用票",
+      "value": "10"
     }
   }), _vm._v(" "), _c('el-option', {
     key: "8",

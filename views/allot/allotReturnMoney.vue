@@ -68,7 +68,7 @@
 		<div class="sum_money_allot">
 			<a>总积分：</a>{{money}}  <a>已付积分：</a>{{money1}} <a>未付积分：</a>{{money2}}
 		</div>
-		<el-table :data="allots" style="width: 100%" size="mini" :stripe="true" :border="true">
+		<el-table :data="allots" style="width: 100%" size="mini"  :height="tableHeight" :stripe="true" :border="true">
 				<el-table-column fixed prop="allot_time" label="调货时间" width="80" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="hospital_name" label="调货单位" width="120"></el-table-column>
 				<el-table-column prop="product_code" label="产品编码" width="100"></el-table-column>
@@ -83,6 +83,7 @@
 				<el-table-column prop="allot_price" label="中标价" width="60"></el-table-column>
 				<el-table-column prop="allot_money" label="金额" width="70"></el-table-column>
 				<el-table-column prop="batch_number" label="批号" ></el-table-column>
+				<el-table-column prop="refunds_real_time" label="实收上游时间" width="80" :formatter="formatterDate"></el-table-column>
 				<el-table-column label="实收上游积分(单价)" width="70" :formatter="formatterReturnMoney"></el-table-column>
 				<el-table-column prop="allot_return_price" label="政策积分" width="70"></el-table-column>
 				<el-table-column prop="allot_other_money" label="补点/费用票" width="80"></el-table-column>
@@ -108,7 +109,7 @@
 	      @size-change="handleSizeChange"
 	      @current-change="handleCurrentChange"
 	      :current-page="currentPage"
-	      :page-sizes="[5, 10, 50, 100]"
+	      :page-sizes="[ 10,20, 50, 100]"
 	      :page-size="pageNum"
 	      layout="total, sizes, prev, pager, next, jumper"
 	      :total="count">
@@ -137,6 +138,8 @@
 						<el-option key="5" label="实收上游积分或上游政策积分-中标价*政策点数" value="5"></el-option>
 						<el-option key="6" label="实收上游积分或上游政策积分-中标价*政策点数-补点/费用票" value="6"></el-option>
 						<el-option key="7" label="实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分" value="7"></el-option>
+						<el-option key="9" label="实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.03-补点/费用票:实收上游积分-补点/费用票" value="9"></el-option>
+            <el-option key="10" label="实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.05-补点/费用票:实收上游积分-补点/费用票" value="10"></el-option>
 						<el-option key="8" label="固定政策（上游政策修改后，需手动调整下游政策）" value="8"></el-option>
 					</el-select>
 				</el-form-item>
@@ -275,7 +278,7 @@
 				money:0,//总额统计
 				money1:0,//已付金额统计
 				money2:0,//未付金额统计
-				pageNum:10,
+				pageNum:20,
 				currentPage:1,
 				count:0,
 				dialogFormVisible:false,
@@ -298,8 +301,16 @@
 				selectContact:{},
 				remindFlag:false,//应付积分是否大于实收上游积分
 				remindMoney:0,//实收上游积分
+				tableHeight:0
 			}
 		},
+		updated(){
+			this.tableHeight = $(window).height() - 200 - $(".search").height();
+			var that = this;
+      $(window).resize(function(){
+					that.tableHeight = $(window).height() - 200 - $(".search").height();
+			});
+    },
 		activated(){
 			this.getAllotsList();
 			this.getAllotHospitalList();

@@ -43,7 +43,7 @@
 			 <el-button type="primary" v-dbClick v-show="authCode.indexOf(',177,') > -1" @click="downloadTemplate" size="mini">导入模板下载</el-button>
 		 </el-form-item>
 	 </el-form>
-		<el-table :data="allocation" style="width: 100%" size="mini" :stripe="true" :border="true">
+		<el-table :data="allocation" style="width: 100%" size="mini" :height="tableHeight" :stripe="true" :border="true">
 			<el-table-column fixed prop="allocation_time" label="调拨时间" width="80" :formatter="formatterDate"></el-table-column>
 			<el-table-column prop="product_common_name" label="产品通用名" width="120"></el-table-column>
 			<el-table-column prop="product_specifications" label="产品规格" width="80"></el-table-column>
@@ -68,7 +68,7 @@
 				@size-change="handleSizeChange"
 				@current-change="handleCurrentChange"
 				:current-page="currentPage"
-				:page-sizes="[5, 10, 50, 100]"
+				:page-sizes="[10,20, 50, 100]"
 				:page-size="pageNum"
 				layout="total, sizes, prev, pager, next, jumper"
 				:total="count">
@@ -287,7 +287,7 @@
 					product_type:['高打'],
 				},
 				loading:false,
-				pageNum:10,
+				pageNum:20,
 				currentPage:1,
 				count:0,
 				pageNumFront:5,
@@ -333,6 +333,13 @@
 				uploadButtom:"导入调拨记录",
 			}
 		},
+		updated(){
+			this.tableHeight = $(window).height() - 170 - $(".search").height();
+			var that = this;
+      $(window).resize(function(){
+					that.tableHeight = $(window).height() - 170 - $(".search").height();
+			});
+    },
 		activated(){
 			this.getAllocationList();
 			this.getProductBusiness();
@@ -427,7 +434,7 @@
 					_self.currentPage = 1;
 				}
 				if(!_self.pageNum){
-					_self.pageNum = 10;
+					_self.pageNum = 20;
 				}
 				var page = {
 					start:(_self.currentPage-1)*_self.pageNum,

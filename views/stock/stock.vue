@@ -34,7 +34,7 @@
 		  </el-form-item>
 		</el-form>
 		<div class="sum_money">总库存：<a>{{stockNum}}</a></div>
-		<el-table :data="drugs" style="width: 100%" size="mini" :stripe="true" :border="true">
+		<el-table :data="drugs" style="width: 100%" :height="tableHeight" size="mini" :stripe="true" :border="true">
   			<el-table-column fixed prop="product_common_name" label="产品通用名" width="180"></el-table-column>
 				<el-table-column prop="product_code" label="产品编号" width="130"></el-table-column>
   			<el-table-column prop="product_makesmakers" label="生产厂家" width="200"></el-table-column>
@@ -58,7 +58,7 @@
 	      @size-change="handleSizeChange"
 	      @current-change="handleCurrentChange"
 	      :current-page="currentPage"
-	      :page-sizes="[5, 10, 50, 100]"
+	      :page-sizes="[10,20, 50, 100]"
 	      :page-size="pageNum"
 	      layout="total, sizes, prev, pager, next, jumper"
 	      :total="count">
@@ -129,7 +129,7 @@
 				},
 				contacts:[],
 				business:[],
-				pageNum:10,
+				pageNum:20,
 				currentPage:1,
 				count:0,
 				pageNumStock:10,
@@ -149,9 +149,17 @@
 					product_code:"",
 					business:"",
 					product_distribution_flag:"0"
-				}
+				},
+				tableHeight:0,
 			}
 		},
+		updated(){
+			this.tableHeight = $(window).height() - 200 - $(".search").height();
+			var that = this;
+      $(window).resize(function(){
+					that.tableHeight = $(window).height() - 200 - $(".search").height();
+			});
+    },
 		activated(){
 			this.getDrugsList();
 			this.getProductBusiness();
@@ -278,7 +286,7 @@
 					_self.currentPage = 1;
 				}
 				if(!_self.pageNum){
-					_self.pageNum = 10;
+					_self.pageNum = 20;
 				}
 				var page = {
 					start:(_self.currentPage-1)*_self.pageNum,

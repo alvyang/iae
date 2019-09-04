@@ -80,7 +80,7 @@
 			总积分：<a>{{refundMoney.ppspm}}</a>
 			已付积分：<a>{{refundMoney.pprpm}}</a>
 			未付积分：<a>{{refundMoney.ppnc}}</a></div>
-		<el-table :data="purchasePays" style="width: 100%" size="mini" :stripe="true" :border="true">
+		<el-table :data="purchasePays" style="width: 100%" size="mini" :height="tableHeight" :stripe="true" :border="true">
 				<el-table-column fixed prop="purchase_pay_contract_time" label="合同时间" width="80" :formatter="formatterDate"></el-table-column>
   			<el-table-column fixed prop="product_common_name" label="产品通用名" width="120"></el-table-column>
 				<el-table-column prop="product_code" label="产品编码" width="100"></el-table-column>
@@ -121,7 +121,7 @@
 	      @size-change="handleSizeChange"
 	      @current-change="handleCurrentChange"
 	      :current-page="currentPage"
-	      :page-sizes="[5, 10, 50, 100]"
+	      :page-sizes="[10,20, 50, 100]"
 	      :page-size="pageNum"
 	      layout="total, sizes, prev, pager, next, jumper"
 	      :total="count">
@@ -230,7 +230,7 @@
 				purchasePays:[],
 				contacts:[],
 				accounts:[],
-				pageNum:10,
+				pageNum:20,
 				currentPage:1,
 				count:0,
 				dialogFormVisible:false,
@@ -258,8 +258,16 @@
 				authCode:"",
 				business:[],
 				dialogFormVisibleImport:false,
+				tableHeight:0,
 			}
 		},
+		updated(){
+			this.tableHeight = $(window).height() - 200 - $(".search").height();
+			var that = this;
+      $(window).resize(function(){
+					that.tableHeight = $(window).height() - 200 - $(".search").height();
+			});
+    },
 		activated(){
 			this.getContacts();
 			this.getPurchasePayList();
@@ -360,7 +368,7 @@
 					_self.currentPage = 1;
 				}
 				if(!_self.pageNum){
-					_self.pageNum = 10;
+					_self.pageNum = 20;
 				}
 				var page = {
 					start:(_self.currentPage-1)*_self.pageNum,

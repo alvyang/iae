@@ -12,7 +12,7 @@
 		<div class="sum_money_allot" style="text-align:right;padding-right:5px;font-size:12px;">
 			温馨提示：字符串对比站（https://www.sojson.com/jsondiff.html）可查看日志
 		</div>
-		<el-table :data="logs" style="width: 100%" size="mini" :stripe="true" :border="true">
+		<el-table :data="logs" style="width: 100%" :height="tableHeight" size="mini" :stripe="true" :border="true">
 				<el-table-column prop="log_create_time" label="日志时间" width="140" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="log_remark" label="日志信息" width="300"></el-table-column>
 				<el-table-column prop="log_front_message" label="修改前日志" ></el-table-column>
@@ -29,7 +29,7 @@
 	      @size-change="handleSizeChange"
 	      @current-change="handleCurrentChange"
 	      :current-page="currentPage"
-	      :page-sizes="[5, 10, 50, 100]"
+	      :page-sizes="[10,20, 50, 100]"
 	      :page-size="pageNum"
 	      layout="total, sizes, prev, pager, next, jumper"
 	      :total="count">
@@ -45,11 +45,19 @@
 					log_message:""
 				},
 				logs:[],
-				pageNum:10,
+				pageNum:20,
+				tableHeight:0,
 				currentPage:1,
 				count:0,
 			}
 		},
+		updated(){
+			this.tableHeight = $(window).height() - 170 - $(".search").height();
+			var that = this;
+      $(window).resize(function(){
+					that.tableHeight = $(window).height() - 170 - $(".search").height();
+			});
+    },
 		activated(){
 			this.getLogsList();
 		},
@@ -81,7 +89,7 @@
 					_self.currentPage = 1;
 				}
 				if(!_self.pageNum){
-					_self.pageNum = 10;
+					_self.pageNum = 20;
 				}
 				var page = {
 					start:(_self.currentPage-1)*_self.pageNum,

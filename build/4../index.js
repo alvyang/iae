@@ -1019,7 +1019,7 @@ module.exports = __vue_exports__
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -1102,7 +1102,8 @@ exports.default = {
       authCode: "",
       roles: [],
       data: [],
-      pageNum: 10,
+      pageNum: 20,
+      tableHeight: 0,
       currentPage: 1,
       count: 0,
       roleId: null,
@@ -1124,6 +1125,13 @@ exports.default = {
       loading: false,
       front_message: ""
     };
+  },
+  updated: function updated() {
+    this.tableHeight = $(window).height() - 170 - $(".search").height();
+    var that = this;
+    $(window).resize(function () {
+      that.tableHeight = $(window).height() - 170 - $(".search").height();
+    });
   },
   activated: function activated() {
     this.searchRolesList();
@@ -1220,7 +1228,7 @@ exports.default = {
         _self.currentPage = 1;
       }
       if (!_self.pageNum) {
-        _self.pageNum = 10;
+        _self.pageNum = 20;
       }
       var page = {
         start: (_self.currentPage - 1) * _self.pageNum,
@@ -1283,6 +1291,7 @@ exports.default = {
     }
   }
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -1392,6 +1401,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     attrs: {
       "data": _vm.roles,
+      "height": _vm.tableHeight,
       "size": "mini",
       "highlight-current-row": "",
       "stripe": true
@@ -1486,7 +1496,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next, jumper",
       "total": _vm.count
@@ -1698,7 +1708,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -1709,7 +1719,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -1833,7 +1843,8 @@ exports.default = {
 			},
 			groups: [],
 			title: 1,
-			pageNum: 10,
+			pageNum: 20,
+			tableHeight: 0,
 			currentPage: 1,
 			groupId: "",
 			count: 0,
@@ -1843,6 +1854,13 @@ exports.default = {
 			},
 			front_authority_code: ""
 		};
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 170 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 170 - $(".search").height();
+		});
 	},
 	activated: function activated() {
 		this.searchGroupsList();
@@ -1979,7 +1997,7 @@ exports.default = {
 				_self.currentPage = 1;
 			}
 			if (!_self.pageNum) {
-				_self.pageNum = 10;
+				_self.pageNum = 20;
 			}
 			var page = {
 				start: (_self.currentPage - 1) * _self.pageNum,
@@ -2018,6 +2036,7 @@ exports.default = {
 		}
 	}
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -2112,6 +2131,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     attrs: {
       "data": _vm.groups,
+      "height": _vm.tableHeight,
       "size": "mini",
       "stripe": true,
       "border": true
@@ -2203,7 +2223,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next, jumper",
       "total": _vm.count
@@ -2457,7 +2477,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -2468,7 +2488,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -2620,7 +2640,8 @@ exports.default = {
 			users: [],
 			roles: [],
 			title: 1,
-			pageNum: 10,
+			pageNum: 20,
+			tableHeight: 0,
 			currentPage: 1,
 			count: 0,
 			params: {
@@ -2636,6 +2657,13 @@ exports.default = {
 			currentRow: null,
 			groups: []
 		};
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 170 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 170 - $(".search").height();
+		});
 	},
 	activated: function activated() {
 		this.searchUsersList();
@@ -2789,7 +2817,7 @@ exports.default = {
 				_self.currentPage = 1;
 			}
 			if (!_self.pageNum) {
-				_self.pageNum = 10;
+				_self.pageNum = 20;
 			}
 			var page = {
 				start: (_self.currentPage - 1) * _self.pageNum,
@@ -2832,6 +2860,7 @@ exports.default = {
 		this.currentRow = val;
 	})
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -2978,6 +3007,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     attrs: {
       "data": _vm.users,
+      "height": _vm.tableHeight,
       "size": "mini",
       "stripe": true
     }
@@ -3092,7 +3122,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next, jumper",
       "total": _vm.count
@@ -4212,7 +4242,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -4272,7 +4302,7 @@ module.exports = __vue_exports__
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -4327,10 +4357,18 @@ exports.default = {
 				log_message: ""
 			},
 			logs: [],
-			pageNum: 10,
+			pageNum: 20,
+			tableHeight: 0,
 			currentPage: 1,
 			count: 0
 		};
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 170 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 170 - $(".search").height();
+		});
 	},
 	activated: function activated() {
 		this.getLogsList();
@@ -4362,7 +4400,7 @@ exports.default = {
 				_self.currentPage = 1;
 			}
 			if (!_self.pageNum) {
-				_self.pageNum = 10;
+				_self.pageNum = 20;
 			}
 			var page = {
 				start: (_self.currentPage - 1) * _self.pageNum,
@@ -4388,6 +4426,7 @@ exports.default = {
 		}
 	}
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -4479,6 +4518,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     attrs: {
       "data": _vm.logs,
+      "height": _vm.tableHeight,
       "size": "mini",
       "stripe": true,
       "border": true
@@ -4512,7 +4552,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next, jumper",
       "total": _vm.count

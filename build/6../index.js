@@ -258,7 +258,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -269,7 +269,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -449,7 +449,7 @@ exports.default = {
 			},
 			contacts: [],
 			money: 0, //总额统计
-			pageNum: 10,
+			pageNum: 20,
 			currentPage: 1,
 			count: 0,
 			remarks: [],
@@ -468,8 +468,16 @@ exports.default = {
 				purchaserecovery_time: [{ required: true, message: '请选择采退时间', trigger: 'change' }]
 			},
 			authCode: "",
-			business: []
+			business: [],
+			tableHeight: 0
 		};
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 170 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 170 - $(".search").height();
+		});
 	},
 	activated: function activated() {
 		this.getContacts();
@@ -575,7 +583,7 @@ exports.default = {
 				_self.currentPage = 1;
 			}
 			if (!_self.pageNum) {
-				_self.pageNum = 10;
+				_self.pageNum = 20;
 			}
 			var page = {
 				start: (_self.currentPage - 1) * _self.pageNum,
@@ -601,6 +609,7 @@ exports.default = {
 		}
 	}
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -861,6 +870,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "data": _vm.purchasesrecovery,
       "size": "mini",
+      "height": _vm.tableHeight,
       "stripe": true,
       "border": true
     }
@@ -1030,7 +1040,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next, jumper",
       "total": _vm.count
@@ -1264,7 +1274,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -1275,7 +1285,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -1469,7 +1479,7 @@ exports.default = {
 			contacts: [],
 			drug: {},
 			money: 0, //总额统计
-			pageNum: 10,
+			pageNum: 20,
 			currentPage: 1,
 			count: 0,
 			dialogFormVisible: false,
@@ -1488,8 +1498,16 @@ exports.default = {
 				purchaserecovery_time: [{ required: true, message: '请选择采退时间', trigger: 'blur,change' }]
 			},
 			authCode: "",
-			business: []
+			business: [],
+			tableHeight: 0
 		};
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 170 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 170 - $(".search").height();
+		});
 	},
 	activated: function activated() {
 		this.getContacts();
@@ -1585,7 +1603,7 @@ exports.default = {
 				_self.currentPage = 1;
 			}
 			if (!_self.pageNum) {
-				_self.pageNum = 10;
+				_self.pageNum = 20;
 			}
 			var page = {
 				start: (_self.currentPage - 1) * _self.pageNum,
@@ -1611,6 +1629,7 @@ exports.default = {
 		}
 	}
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -1872,6 +1891,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "data": _vm.purchasesrecorvery,
       "size": "mini",
+      "height": _vm.tableHeight,
       "stripe": true,
       "border": true
     }
@@ -1992,7 +2012,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next, jumper",
       "total": _vm.count
@@ -2225,7 +2245,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -2236,7 +2256,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -2411,7 +2431,7 @@ exports.default = {
 			},
 			contacts: [],
 			money: 0, //总额统计
-			pageNum: 10,
+			pageNum: 20,
 			currentPage: 1,
 			count: 0,
 			remarks: [],
@@ -2430,8 +2450,16 @@ exports.default = {
 				purchaseloss_time: [{ required: true, message: '请选择报损时间', trigger: 'blur,change' }]
 			},
 			authCode: "",
-			business: []
+			business: [],
+			tableHeight: 0
 		};
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 200 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 200 - $(".search").height();
+		});
 	},
 	activated: function activated() {
 		this.getContacts();
@@ -2537,7 +2565,7 @@ exports.default = {
 				_self.currentPage = 1;
 			}
 			if (!_self.pageNum) {
-				_self.pageNum = 10;
+				_self.pageNum = 20;
 			}
 			var page = {
 				start: (_self.currentPage - 1) * _self.pageNum,
@@ -2563,6 +2591,7 @@ exports.default = {
 		}
 	}
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -2823,6 +2852,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "data": _vm.purchasesloss,
       "size": "mini",
+      "height": _vm.tableHeight,
       "stripe": true,
       "border": true
     }
@@ -2985,7 +3015,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next, jumper",
       "total": _vm.count
@@ -3198,7 +3228,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -3209,7 +3239,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -3398,7 +3428,7 @@ exports.default = {
 			contacts: [],
 			drug: {},
 			money: 0, //总额统计
-			pageNum: 10,
+			pageNum: 20,
 			currentPage: 1,
 			count: 0,
 			dialogFormVisible: false,
@@ -3417,8 +3447,16 @@ exports.default = {
 				purchaseloss_time: [{ required: true, message: '请选择报损时间', trigger: 'blur,change' }]
 			},
 			authCode: "",
-			business: []
+			business: [],
+			tableHeight: 0
 		};
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 200 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 200 - $(".search").height();
+		});
 	},
 	activated: function activated() {
 		this.getContacts();
@@ -3513,7 +3551,7 @@ exports.default = {
 				_self.currentPage = 1;
 			}
 			if (!_self.pageNum) {
-				_self.pageNum = 10;
+				_self.pageNum = 20;
 			}
 			var page = {
 				start: (_self.currentPage - 1) * _self.pageNum,
@@ -3539,6 +3577,7 @@ exports.default = {
 		}
 	}
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -3800,6 +3839,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "data": _vm.purchasesloss,
       "size": "mini",
+      "height": _vm.tableHeight,
       "stripe": true,
       "border": true
     }
@@ -3920,7 +3960,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next, jumper",
       "total": _vm.count
@@ -4191,7 +4231,7 @@ module.exports = __vue_exports__
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -4458,7 +4498,7 @@ exports.default = {
 			purchase: {},
 			contacts: [],
 			money: 0, //总额统计
-			pageNum: 10,
+			pageNum: 20,
 			currentPage: 1,
 			count: 0,
 			remarks: [],
@@ -4487,8 +4527,16 @@ exports.default = {
 			importPurchasesUrl: "",
 			loadingImport: false,
 			uploadButtom: "导入采进记录",
-			dialogFormVisibleImport: false
+			dialogFormVisibleImport: false,
+			tableHeight: 0
 		};
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 200 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 200 - $(".search").height();
+		});
 	},
 	activated: function activated() {
 		this.getContacts();
@@ -4685,6 +4733,7 @@ exports.default = {
 		}
 	}
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -5142,6 +5191,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "data": _vm.purchases,
       "size": "mini",
+      "height": _vm.tableHeight,
       "stripe": true,
       "border": true
     }
@@ -5395,7 +5445,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next, jumper",
       "total": _vm.count
@@ -5793,7 +5843,7 @@ exports.push([module.i, "\n.el-table .cell[data-v-2881adc6]{\n\twhite-space: now
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -5973,7 +6023,7 @@ exports.default = {
 			drug: {},
 			contacts: [],
 			business: [],
-			pageNum: 10,
+			pageNum: 20,
 			currentPage: 1,
 			count: 0,
 			params: {
@@ -6006,8 +6056,16 @@ exports.default = {
 				batch_number: [{ validator: validateBatchNumber, trigger: 'blur' }],
 				purchase_number: [{ validator: validateNum, trigger: 'blur' }],
 				time: [{ required: true, message: '请选择备货时间', trigger: 'blur,change' }]
-			}
+			},
+			tableHeight: 0
 		};
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 170 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 170 - $(".search").height();
+		});
 	},
 	activated: function activated() {
 		this.getDrugsList();
@@ -6109,7 +6167,7 @@ exports.default = {
 				_self.currentPage = 1;
 			}
 			if (!_self.pageNum) {
-				_self.pageNum = 10;
+				_self.pageNum = 20;
 			}
 			var page = {
 				start: (_self.currentPage - 1) * _self.pageNum,
@@ -6139,6 +6197,7 @@ exports.default = {
 		}
 	}
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -6376,6 +6435,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "data": _vm.drugs,
       "size": "mini",
+      "height": _vm.tableHeight,
       "stripe": true,
       "border": true
     }
@@ -6479,7 +6539,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next, jumper",
       "total": _vm.count

@@ -106311,7 +106311,7 @@ exports.push([module.i, "\n.el-table .cell{\n\twhite-space: nowrap;\n}\n", ""]);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -106453,7 +106453,7 @@ exports.default = {
 			},
 			contacts: [],
 			business: [],
-			pageNum: 10,
+			pageNum: 20,
 			currentPage: 1,
 			count: 0,
 			pageNumStock: 10,
@@ -106473,8 +106473,16 @@ exports.default = {
 				product_code: "",
 				business: "",
 				product_distribution_flag: "0"
-			}
+			},
+			tableHeight: 0
 		};
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 200 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 200 - $(".search").height();
+		});
 	},
 	activated: function activated() {
 		this.getDrugsList();
@@ -106609,7 +106617,7 @@ exports.default = {
 				_self.currentPage = 1;
 			}
 			if (!_self.pageNum) {
-				_self.pageNum = 10;
+				_self.pageNum = 20;
 			}
 			var page = {
 				start: (_self.currentPage - 1) * _self.pageNum,
@@ -106699,6 +106707,7 @@ exports.default = {
 		}
 	}
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 /* 893 */
@@ -106900,6 +106909,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     attrs: {
       "data": _vm.drugs,
+      "height": _vm.tableHeight,
       "size": "mini",
       "stripe": true,
       "border": true
@@ -107012,7 +107022,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next, jumper",
       "total": _vm.count

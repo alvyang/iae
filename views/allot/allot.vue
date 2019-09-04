@@ -62,7 +62,7 @@
 		<div class="sum_money_allot">
 			<a>调货总额：</a>{{money}} <span>元</span>
 		</div>
-		<el-table :data="allots" style="width: 100%" size="mini" :stripe="true" :border="true">
+		<el-table :data="allots" style="width: 100%" size="mini" :height="tableHeight" :stripe="true" :border="true">
 				<el-table-column fixed prop="allot_time" label="调货时间" width="80" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="hospital_name" label="调货单位" width="120"></el-table-column>
 				<el-table-column prop="hospital_area" label="单位区域" width="120"></el-table-column>
@@ -96,7 +96,7 @@
 	      @size-change="handleSizeChange"
 	      @current-change="handleCurrentChange"
 	      :current-page="currentPage"
-	      :page-sizes="[5, 10, 50, 100]"
+	      :page-sizes="[10,20, 50, 100]"
 	      :page-size="pageNum"
 	      layout="total, sizes, prev, pager, next, jumper"
 	      :total="count">
@@ -249,7 +249,7 @@
 				business:[],
 				loading:false,
 				money:0,//总额统计
-				pageNum:10,
+				pageNum:20,
 				currentPage:1,
 				count:0,
 				dialogFormVisible:false,
@@ -278,8 +278,16 @@
 				dialogFormVisibleImport:false,
 				uploadButtom:"导入调货记录",
 				errorMessage:"",
+				tableHeight:0,
 			}
 		},
+		updated(){
+			this.tableHeight = $(window).height() - 200 - $(".search").height();
+			var that = this;
+      $(window).resize(function(){
+					that.tableHeight = $(window).height() - 200 - $(".search").height();
+			});
+    },
 		activated(){
 			this.getAllotsList();
 			this.getAllotHospitalList();
@@ -448,7 +456,7 @@
 					_self.currentPage = 1;
 				}
 				if(!_self.pageNum){
-					_self.pageNum = 10;
+					_self.pageNum = 20;
 				}
 				var page = {
 					start:(_self.currentPage-1)*_self.pageNum,

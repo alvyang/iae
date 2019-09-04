@@ -23,7 +23,7 @@
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf(',32,') > -1" @click="addShow" size="mini">新增</el-button>
 		  </el-form-item>
 		</el-form>
-		<el-table :data="contacts" style="width: 100%" size="mini" :stripe="true">
+		<el-table :data="contacts" style="width: 100%" :height="tableHeight" size="mini" :stripe="true">
 			<el-table-column prop="contacts_name" label="联系人"></el-table-column>
 			<el-table-column prop="contact_type" label="联系人类型"></el-table-column>
 			<el-table-column prop="contacts_phone" label="电话"></el-table-column>
@@ -44,7 +44,7 @@
 	      @size-change="handleSizeChange"
 	      @current-change="handleCurrentChange"
 	      :current-page="currentPage"
-	      :page-sizes="[5, 10, 50, 100]"
+	      :page-sizes="[10,20, 50, 100]"
 	      :page-size="pageNum"
 	      layout="total, sizes, prev, pager, next, jumper"
 	      :total="count">
@@ -135,14 +135,22 @@
 					contacts_phone:[{ validator: validatePhone, trigger: 'blur' }],
 				},
 				contacts:[],
-				pageNum:10,
+				pageNum:20,
 				currentPage:1,
 				count:0,
 				params:{
 					contacts_name:""
-				}
+				},
+				tableHeight:0,
 			}
 		},
+		updated(){
+			this.tableHeight = $(window).height() - 170 - $(".search").height();
+			var that = this;
+      $(window).resize(function(){
+					that.tableHeight = $(window).height() - 170 - $(".search").height();
+			});
+    },
 		activated(){
 			this.getContactsList();
 		},
@@ -241,7 +249,7 @@
           _self.currentPage = 1;
         }
         if(!_self.pageNum){
-          _self.pageNum = 10;
+          _self.pageNum = 20;
         }
 				var page = {
           start:(_self.currentPage-1)*_self.pageNum,

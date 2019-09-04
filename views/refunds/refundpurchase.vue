@@ -110,7 +110,7 @@
       实收积分：<a>{{refundMoney.rrm}}</a>
       未收积分：<a>{{refundMoney.own}}</a>
       其它积分：<a>{{refundMoney.sc}}</a> </div>
-    <el-table :data="purchases" style="width: 100%" size="mini" :stripe="true" :border="true">
+    <el-table :data="purchases" style="width: 100%" size="mini" :height="tableHeight" :stripe="true" :border="true">
       <el-table-column fixed prop="product_code" label="产品编码" width="100"></el-table-column>
       <el-table-column fixed prop="product_common_name" label="产品名称" width="120" ></el-table-column>
       <el-table-column prop="product_specifications" label="产品规格" width="100"></el-table-column>
@@ -149,7 +149,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
-        :page-sizes="[5, 10, 50, 100]"
+        :page-sizes="[10,20, 50, 100]"
         :page-size="pageNum"
         layout="total, sizes, prev, pager, next"
         :total="count">
@@ -300,7 +300,7 @@ export default({
         sc:0,
         own:0
       },//返费总额
-      pageNum:10,
+      pageNum:20,
       currentPage:1,
       count:0,
       params:{//查询参数
@@ -324,7 +324,15 @@ export default({
       dialogFormVisible:false,
       loading:false,
       authCode:"",
+      tableHeight:0
     }
+  },
+  updated(){
+    this.tableHeight = $(window).height() - 200 - $(".search").height();
+    var that = this;
+    $(window).resize(function(){
+        that.tableHeight = $(window).height() - 200 - $(".search").height();
+    });
   },
   activated(){
     this.getPurchasesList();
@@ -476,7 +484,7 @@ export default({
         _self.currentPage = 1;
       }
       if(!_self.pageNum){
-        _self.pageNum = 10;
+        _self.pageNum = 20;
       }
       var page = {
         start:(_self.currentPage-1)*_self.pageNum,

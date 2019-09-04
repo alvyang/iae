@@ -41,7 +41,7 @@
     <div class="allot_policy">
       <el-button @click.native.prevent="editBatchRow()" v-dbClick v-show="authCode.indexOf(',119,') > -1" type="primary" size="mini">批量修改</el-button>
     </div>
-    <el-table :data="drugPolicy" style="width: 100%" size="mini" :stripe="true" :border="true"
+    <el-table :data="drugPolicy" style="width: 100%" :height="tableHeight"  size="mini" :stripe="true" :border="true"
         @selection-change="selectionChange">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column fixed prop="hospital_name" label="销往单位" width="120" ></el-table-column>
@@ -70,7 +70,7 @@
 	      @size-change="handleSizeChange"
 	      @current-change="handleCurrentChange"
 	      :current-page="currentPage"
-	      :page-sizes="[5, 10, 50, 100]"
+	      :page-sizes="[10,20, 50, 100]"
 	      :page-size="pageNum"
 	      layout="total, sizes, prev, pager, next"
 	      :total="count">
@@ -121,7 +121,8 @@
             <el-option key="5" label="实收上游积分或上游政策积分-中标价*政策点数" value="5"></el-option>
             <el-option key="6" label="实收上游积分或上游政策积分-中标价*政策点数-补点/费用票" value="6"></el-option>
             <el-option key="7" label="实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分" value="7"></el-option>
-            <el-option key="9" label="实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.03:实收上游积分" value="9"></el-option>
+            <el-option key="9" label="实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.03-补点/费用票:实收上游积分-补点/费用票" value="9"></el-option>
+            <el-option key="10" label="实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.05-补点/费用票:实收上游积分-补点/费用票" value="10"></el-option>
             <el-option key="8" label="固定政策（上游政策修改后，需手动调整下游政策）" value="8"></el-option>
           </el-select>
         </el-form-item>
@@ -161,7 +162,8 @@
             <el-option key="5" label="实收上游积分或上游政策积分-中标价*政策点数" value="5"></el-option>
             <el-option key="6" label="实收上游积分或上游政策积分-中标价*政策点数-补点/费用票" value="6"></el-option>
             <el-option key="7" label="实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分" value="7"></el-option>
-            <el-option key="9" label="实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.03:实收上游积分" value="9"></el-option>
+            <el-option key="9" label="实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.03-补点/费用票:实收上游积分-补点/费用票" value="9"></el-option>
+            <el-option key="10" label="实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.05-补点/费用票:实收上游积分-补点/费用票" value="10"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="政策点数" prop="allot_policy_percent" :maxlength="10" >
@@ -252,14 +254,22 @@
 					allot_policy_contact_id:[{required: true, message: '请选择联系人',trigger: 'change' }]
         },
         authCode:"",
-        pageNum:10,
+        pageNum:20,
 				currentPage:1,
 				count:0,
         dialogFormVisible:false,
         dialogFormVisiblePolicy:false,
         dialogFormVisibleBatch:false,
         loading:false,
+        tableHeight:0
       }
+    },
+    updated(){
+			this.tableHeight = $(window).height() - 220 - $(".search").height();
+			var that = this;
+      $(window).resize(function(){
+					that.tableHeight = $(window).height() - 220 - $(".search").height();
+			});
     },
     activated(){
       this.getHospitals();
@@ -319,11 +329,16 @@
           case "7":
             message = "实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分";
             break;
+          case "9":
+            message = "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.03-补点/费用票:实收上游积分-补点/费用票";
+            break;
+          case "10":
+            message = "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.05-补点/费用票:实收上游积分-补点/费用票";
+            break;
           case "8":
             message = "固定政策（上游政策修改后，需几时调整下游政策）";
             break;
           default:
-
         }
         return message;
       },

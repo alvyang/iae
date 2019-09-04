@@ -84,7 +84,7 @@
 	   </el-form-item>
 		</el-form>
 		<div class="sum_money">应付积分：<a>{{saleReturnMoney}}</a> 已付积分：<a>{{saleReturnMoney1}}</a> 未付积分：<a>{{saleReturnMoney2}}</a></div>
-		<el-table :data="sales" style="width: 100%" size="mini" :stripe="true" :border="true">
+		<el-table :data="sales" style="width: 100%" size="mini" :height="tableHeight" :stripe="true" :border="true">
   			<el-table-column fixed prop="bill_date" label="日期" width="80" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="hospital_name" label="销往单位" width="140"></el-table-column>
 				<el-table-column prop="product_code" label="产品编码" width="100"></el-table-column>
@@ -98,6 +98,7 @@
 				<el-table-column prop="sale_num" label="销售数量" width="70"></el-table-column>
 				<el-table-column prop="sale_money" label="购入金额" width="70"></el-table-column>
 				<el-table-column prop="batch_number" label="批号" width="70"></el-table-column>
+				<el-table-column prop="refunds_real_time" label="实收上游时间" width="70" :formatter="formatterDate"></el-table-column>
 				<el-table-column label="实收上游积分(单价)" width="70" :formatter="formatterReturnMoney"></el-table-column>
 				<el-table-column prop="sale_return_price" label="政策积分" width="70" ></el-table-column>
 				<el-table-column prop="sale_other_money" label="补点/费用票" width="80"></el-table-column>
@@ -122,7 +123,7 @@
 	      @size-change="handleSizeChange"
 	      @current-change="handleCurrentChange"
 	      :current-page="currentPage"
-	      :page-sizes="[5, 10, 50, 100]"
+	      :page-sizes="[10,20, 50, 100]"
 	      :page-size="pageNum"
 	      layout="total, sizes, prev, pager, next"
 	      :total="count">
@@ -150,6 +151,8 @@
 						<el-option key="5" label="实收上游积分或上游政策积分-中标价*政策点数" value="5"></el-option>
 						<el-option key="6" label="实收上游积分或上游政策积分-中标价*政策点数-补点/费用票" value="6"></el-option>
 						<el-option key="7" label="实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分" value="7"></el-option>
+						<el-option key="9" label="实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.03-补点/费用票:实收上游积分-补点/费用票" value="9"></el-option>
+            <el-option key="10" label="实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.05-补点/费用票:实收上游积分-补点/费用票" value="10"></el-option>
 						<el-option key="8" label="固定政策（上游政策修改后，需手动调整下游政策）" value="8"></el-option>
 					</el-select>
 				</el-form-item>
@@ -248,7 +251,7 @@
 				contacts:[],
 				business:[],
 				accounts:[],
-				pageNum:10,
+				pageNum:20,
 				currentPage:1,
 				count:0,
 				hospitals:[],
@@ -278,8 +281,16 @@
 				selectContact:{},
 				remindFlag:false,//应付积分是否大于实收上游积分
 				remindMoney:0,//实收上游积分
+				tableHeight:0
 			}
 		},
+		updated(){
+			this.tableHeight = $(window).height() - 200 - $(".search").height();
+			var that = this;
+      $(window).resize(function(){
+					that.tableHeight = $(window).height() - 200 - $(".search").height();
+			});
+    },
 		activated(){
 			this.getSalesList();
 			this.getHospitals();
@@ -296,16 +307,17 @@
 				var shouldPay = 0;
 				var formula = this.sale.sale_should_pay_formula;
         // if(this.sale.sale_should_pay_percent){
-					var realReturnMoney = "";
+					var realReturnMoney = "",t=0;
 					if(this.sale.product_type == '佣金'){
 						realReturnMoney = this.sale.refunds_real_money/this.sale.sale_num;
+						t = this.sale.sale_other_money/this.sale.sale_num;
 					}else if(this.sale.product_type == '高打'){
 						realReturnMoney = this.sale.refunds_real_money1/this.sale.purchase_number;
+						t	= this.sale.purchase_other_money?this.sale.purchase_other_money/this.sale.purchase_number:0;
+						this.sale.sale_other_money = Math.round(t*this.sale.sale_num*100)/100;
 					}
 					realReturnMoney = realReturnMoney?realReturnMoney:this.sale.product_return_money;
 
-					var t = this.sale.purchase_other_money?this.sale.purchase_other_money/this.sale.purchase_number:0;
-					this.sale.sale_other_money = Math.round(t*this.sale.sale_num*100)/100;
 					this.sale.sale_return_price = this.getShouldPayMoney(formula,this.sale.sale_price,realReturnMoney,this.sale.sale_should_pay_percent,0,this.sale.sale_return_price);
 					this.sale.sale_return_price = Math.round(this.sale.sale_return_price*100)/100;
 					shouldPay = this.getShouldPayMoney(formula,this.sale.sale_price,realReturnMoney,this.sale.sale_should_pay_percent,t,this.sale.sale_return_price);
@@ -467,7 +479,7 @@
           _self.currentPage = 1;
         }
         if(!_self.pageNum){
-          _self.pageNum = 10;
+          _self.pageNum = 20;
         }
 				var page = {
           start:(_self.currentPage-1)*_self.pageNum,

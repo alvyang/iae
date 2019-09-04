@@ -306,7 +306,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -317,7 +317,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -366,7 +366,7 @@ exports.default = {
 			authCode: "",
 			loading: false,
 			hospitals: [],
-			pageNum: 10,
+			pageNum: 20,
 			currentPage: 1,
 			count: 0,
 			deleteId: null,
@@ -379,8 +379,16 @@ exports.default = {
 				label: 'name',
 				value: 'name',
 				children: 'child_code'
-			}
+			},
+			tableHeight: 0
 		};
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 170 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 170 - $(".search").height();
+		});
 	},
 	activated: function activated() {
 		this.getHospitalsList();
@@ -482,7 +490,7 @@ exports.default = {
 				_self.currentPage = 1;
 			}
 			if (!_self.pageNum) {
-				_self.pageNum = 10;
+				_self.pageNum = 20;
 			}
 			var page = {
 				start: (_self.currentPage - 1) * _self.pageNum,
@@ -586,6 +594,7 @@ exports.default = {
 //
 //
 //
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -736,6 +745,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     attrs: {
       "data": _vm.hospitals,
+      "height": _vm.tableHeight,
       "size": "mini",
       "stripe": true
     }
@@ -820,7 +830,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next, jumper",
       "total": _vm.count
@@ -1013,7 +1023,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -1024,7 +1034,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -1168,13 +1178,21 @@ exports.default = {
 				contacts_phone: [{ validator: validatePhone, trigger: 'blur' }]
 			},
 			contacts: [],
-			pageNum: 10,
+			pageNum: 20,
 			currentPage: 1,
 			count: 0,
 			params: {
 				contacts_name: ""
-			}
+			},
+			tableHeight: 0
 		};
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 170 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 170 - $(".search").height();
+		});
 	},
 	activated: function activated() {
 		this.getContactsList();
@@ -1279,7 +1297,7 @@ exports.default = {
 				_self.currentPage = 1;
 			}
 			if (!_self.pageNum) {
-				_self.pageNum = 10;
+				_self.pageNum = 20;
 			}
 			var page = {
 				start: (_self.currentPage - 1) * _self.pageNum,
@@ -1311,6 +1329,7 @@ exports.default = {
 		}
 	}
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -1473,6 +1492,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     attrs: {
       "data": _vm.contacts,
+      "height": _vm.tableHeight,
       "size": "mini",
       "stripe": true
     }
@@ -1574,7 +1594,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next, jumper",
       "total": _vm.count
@@ -1855,7 +1875,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -1866,7 +1886,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -1941,14 +1961,22 @@ exports.default = {
 			authCode: "",
 			loading: false,
 			businessList: [],
-			pageNum: 10,
+			pageNum: 20,
 			currentPage: 1,
 			count: 0,
 			deleteId: null,
 			params: {
 				business_name: ""
-			}
+			},
+			tableHeight: 0
 		};
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 170 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 170 - $(".search").height();
+		});
 	},
 	activated: function activated() {
 		this.getBusinessList();
@@ -2036,7 +2064,7 @@ exports.default = {
 				_self.currentPage = 1;
 			}
 			if (!_self.pageNum) {
-				_self.pageNum = 10;
+				_self.pageNum = 20;
 			}
 			var page = {
 				start: (_self.currentPage - 1) * _self.pageNum,
@@ -2069,6 +2097,7 @@ exports.default = {
 		}
 	}
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -2180,6 +2209,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     attrs: {
       "data": _vm.businessList,
+      "height": _vm.tableHeight,
       "size": "mini",
       "stripe": true
     }
@@ -2253,7 +2283,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next, jumper",
       "total": _vm.count
@@ -2404,7 +2434,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -2415,7 +2445,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -2523,14 +2553,22 @@ exports.default = {
 				tag_type: [{ required: true, message: '请选择标签类型', trigger: 'change' }]
 			},
 			tags: [],
-			pageNum: 10,
+			pageNum: 20,
 			currentPage: 1,
 			count: 0,
 			params: {
 				tag_name: "",
 				tag_type: ""
-			}
+			},
+			tableHeight: 0
 		};
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 170 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 170 - $(".search").height();
+		});
 	},
 	activated: function activated() {
 		this.getTagsList();
@@ -2641,7 +2679,7 @@ exports.default = {
 				_self.currentPage = 1;
 			}
 			if (!_self.pageNum) {
-				_self.pageNum = 10;
+				_self.pageNum = 20;
 			}
 			var page = {
 				start: (_self.currentPage - 1) * _self.pageNum,
@@ -2674,6 +2712,7 @@ exports.default = {
 		}
 	}
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -2835,6 +2874,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "data": _vm.tags,
       "size": "mini",
+      "height": _vm.tableHeight,
       "stripe": true
     }
   }, [_c('el-table-column', {
@@ -2913,7 +2953,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next, jumper",
       "total": _vm.count
@@ -3092,7 +3132,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -3103,7 +3143,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -3184,13 +3224,21 @@ exports.default = {
 				account_number: [{ required: true, message: '请输入积分账号', trigger: 'blur' }]
 			},
 			accounts: [],
-			pageNum: 10,
+			pageNum: 20,
 			currentPage: 1,
 			count: 0,
 			params: {
 				account_person: ""
-			}
+			},
+			tableHeight: 0
 		};
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 170 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 170 - $(".search").height();
+		});
 	},
 	activated: function activated() {
 		this.getAccountsList();
@@ -3278,7 +3326,7 @@ exports.default = {
 				_self.currentPage = 1;
 			}
 			if (!_self.pageNum) {
-				_self.pageNum = 10;
+				_self.pageNum = 20;
 			}
 			var page = {
 				start: (_self.currentPage - 1) * _self.pageNum,
@@ -3310,6 +3358,7 @@ exports.default = {
 		}
 	}
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -3421,6 +3470,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     attrs: {
       "data": _vm.accounts,
+      "height": _vm.tableHeight,
       "size": "mini",
       "stripe": true
     }
@@ -3499,7 +3549,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next, jumper",
       "total": _vm.count
@@ -3650,7 +3700,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -3661,7 +3711,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -3827,7 +3877,7 @@ exports.default = {
 			},
 			accountsDetails: [],
 			accounts: [], //账号列表
-			pageNum: 10,
+			pageNum: 20,
 			currentPage: 1,
 			count: 0,
 			params: {
@@ -3835,8 +3885,16 @@ exports.default = {
 				account_detail_time: [],
 				textarea: "",
 				account_type: ""
-			}
+			},
+			tableHeight: 0
 		};
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 170 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 170 - $(".search").height();
+		});
 	},
 	activated: function activated() {
 		this.getAccountsDetailsList();
@@ -3933,7 +3991,7 @@ exports.default = {
 				_self.currentPage = 1;
 			}
 			if (!_self.pageNum) {
-				_self.pageNum = 10;
+				_self.pageNum = 20;
 			}
 			var page = {
 				start: (_self.currentPage - 1) * _self.pageNum,
@@ -3992,6 +4050,7 @@ exports.default = {
 		}
 	}
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -4200,6 +4259,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     attrs: {
       "data": _vm.accountsDetails,
+      "height": _vm.tableHeight,
       "size": "mini",
       "stripe": true,
       "border": true
@@ -4296,7 +4356,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next, jumper",
       "total": _vm.count

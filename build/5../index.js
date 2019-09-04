@@ -269,7 +269,7 @@ exports.push([module.i, "\n.sum_money_purchase > a{\n\tpadding-left: 20px;\n\tco
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -526,7 +526,7 @@ exports.default = {
 			},
 			purchasePays: [],
 			contacts: [],
-			pageNum: 10,
+			pageNum: 20,
 			currentPage: 1,
 			count: 0,
 			dialogFormVisible: false,
@@ -560,6 +560,13 @@ exports.default = {
 			uploadButtom: "导入预付招商记录",
 			dialogFormVisibleImport: false
 		};
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 170 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 170 - $(".search").height();
+		});
 	},
 	activated: function activated() {
 		this.getContacts();
@@ -729,7 +736,7 @@ exports.default = {
 				_self.currentPage = 1;
 			}
 			if (!_self.pageNum) {
-				_self.pageNum = 10;
+				_self.pageNum = 20;
 			}
 			var page = {
 				start: (_self.currentPage - 1) * _self.pageNum,
@@ -755,6 +762,7 @@ exports.default = {
 		}
 	}
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -1125,6 +1133,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "data": _vm.purchasePays,
       "size": "mini",
+      "height": _vm.tableHeight,
       "stripe": true,
       "border": true
     }
@@ -1307,7 +1316,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next, jumper",
       "total": _vm.count
@@ -1734,7 +1743,7 @@ exports.push([module.i, "\n.el-table .cell[data-v-19c3afc6]{\n\twhite-space: now
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -1923,7 +1932,7 @@ exports.default = {
 			drug: {},
 			contacts: [],
 			business: [],
-			pageNum: 10,
+			pageNum: 20,
 			currentPage: 1,
 			count: 0,
 			params: {
@@ -1952,6 +1961,13 @@ exports.default = {
 				purchase_pay_price: [{ validator: validateMoney, label: "预付价", trigger: 'blur' }]
 			}
 		}, 'business', []);
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 170 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 170 - $(".search").height();
+		});
 	},
 	activated: function activated() {
 		this.getDrugsList();
@@ -2058,7 +2074,7 @@ exports.default = {
 				_self.currentPage = 1;
 			}
 			if (!_self.pageNum) {
-				_self.pageNum = 10;
+				_self.pageNum = 20;
 			}
 			var page = {
 				start: (_self.currentPage - 1) * _self.pageNum,
@@ -2088,6 +2104,7 @@ exports.default = {
 		}
 	}
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -2325,6 +2342,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "data": _vm.drugs,
       "size": "mini",
+      "height": _vm.tableHeight,
       "stripe": true,
       "border": true
     }
@@ -2428,7 +2446,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next, jumper",
       "total": _vm.count
@@ -2802,7 +2820,7 @@ exports.push([module.i, "\n.copy_form .search .el-form-item__label {\n  padding-
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -2968,14 +2986,22 @@ exports.default = {
         purchase_pay_contact_id: [{ required: true, message: '请选择联系人', trigger: 'change' }]
       },
       authCode: "",
-      pageNum: 10,
+      pageNum: 20,
       currentPage: 1,
       count: 0,
       dialogFormVisible: false,
       dialogFormVisiblePolicy: false,
       dialogFormVisibleBatch: false,
-      loading: false
+      loading: false,
+      tableHeight: 0
     };
+  },
+  updated: function updated() {
+    this.tableHeight = $(window).height() - 170 - $(".search").height();
+    var that = this;
+    $(window).resize(function () {
+      that.tableHeight = $(window).height() - 170 - $(".search").height();
+    });
   },
   activated: function activated() {
     this.getContacts();
@@ -3020,7 +3046,7 @@ exports.default = {
         _self.currentPage = 1;
       }
       if (!_self.pageNum) {
-        _self.pageNum = 10;
+        _self.pageNum = 20;
       }
       var page = {
         start: (_self.currentPage - 1) * _self.pageNum,
@@ -3069,6 +3095,7 @@ exports.default = {
     }
   }
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -3255,6 +3282,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     attrs: {
       "data": _vm.purchasePayPolicy,
+      "height": _vm.tableHeight,
       "size": "mini",
       "stripe": true,
       "border": true
@@ -3365,7 +3393,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next",
       "total": _vm.count
@@ -3636,7 +3664,7 @@ exports.push([module.i, "\n.copy_form .search .el-form-item__label {\n  padding-
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -3787,12 +3815,20 @@ exports.default = {
         purchase_pay_policy_make_price: [{ validator: validateMoney, labelname: '打款价', trigger: 'blur' }]
       },
       authCode: "",
-      pageNum: 10,
+      pageNum: 20,
       currentPage: 1,
       count: 0,
       dialogFormVisible: false,
-      loading: false
+      loading: false,
+      tableHeight: 0
     };
+  },
+  updated: function updated() {
+    this.tableHeight = $(window).height() - 170 - $(".search").height();
+    var that = this;
+    $(window).resize(function () {
+      that.tableHeight = $(window).height() - 170 - $(".search").height();
+    });
   },
   activated: function activated() {
     this.getContacts();
@@ -3824,7 +3860,7 @@ exports.default = {
         _self.currentPage = 1;
       }
       if (!_self.pageNum) {
-        _self.pageNum = 10;
+        _self.pageNum = 20;
       }
       var page = {
         start: (_self.currentPage - 1) * _self.pageNum,
@@ -3890,6 +3926,7 @@ exports.default = {
     }
   }
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -4057,6 +4094,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     attrs: {
       "data": _vm.purchasePayPolicy,
+      "height": _vm.tableHeight,
       "size": "mini",
       "stripe": true,
       "border": true
@@ -4141,7 +4179,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next",
       "total": _vm.count
@@ -4384,7 +4422,7 @@ exports.push([module.i, "\n.sum_money_purchase > a{\n\tpadding-left: 20px;\n\tco
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -4624,7 +4662,7 @@ exports.default = {
 			purchasePays: [],
 			contacts: [],
 			accounts: [],
-			pageNum: 10,
+			pageNum: 20,
 			currentPage: 1,
 			count: 0,
 			dialogFormVisible: false,
@@ -4651,8 +4689,16 @@ exports.default = {
 			purchasePayRule: {},
 			authCode: "",
 			business: [],
-			dialogFormVisibleImport: false
+			dialogFormVisibleImport: false,
+			tableHeight: 0
 		};
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 200 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 200 - $(".search").height();
+		});
 	},
 	activated: function activated() {
 		this.getContacts();
@@ -4759,7 +4805,7 @@ exports.default = {
 				_self.currentPage = 1;
 			}
 			if (!_self.pageNum) {
-				_self.pageNum = 10;
+				_self.pageNum = 20;
 			}
 			var page = {
 				start: (_self.currentPage - 1) * _self.pageNum,
@@ -4790,6 +4836,7 @@ exports.default = {
 		}
 	}
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -5171,6 +5218,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "data": _vm.purchasePays,
       "size": "mini",
+      "height": _vm.tableHeight,
       "stripe": true,
       "border": true
     }
@@ -5381,7 +5429,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next, jumper",
       "total": _vm.count
@@ -5735,7 +5783,7 @@ exports.push([module.i, "\n.sum_money_purchase > a{\n\tpadding-left: 20px;\n\tco
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -6011,7 +6059,7 @@ exports.default = {
 			purchasePays: [],
 			contacts: [],
 			accounts: [],
-			pageNum: 10,
+			pageNum: 20,
 			currentPage: 1,
 			count: 0,
 			dialogFormVisible: false,
@@ -6061,8 +6109,16 @@ exports.default = {
 			loadingImport: false,
 			uploadButtom: "导入预付招商记录",
 			dialogFormVisibleImport: false,
-			refundMoney: {}
+			refundMoney: {},
+			tableHeight: 0
 		};
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 200 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 200 - $(".search").height();
+		});
 	},
 	activated: function activated() {
 		this.getContacts();
@@ -6247,7 +6303,7 @@ exports.default = {
 				_self.currentPage = 1;
 			}
 			if (!_self.pageNum) {
-				_self.pageNum = 10;
+				_self.pageNum = 20;
 			}
 			var page = {
 				start: (_self.currentPage - 1) * _self.pageNum,
@@ -6278,6 +6334,7 @@ exports.default = {
 		}
 	}
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -6785,6 +6842,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "data": _vm.purchasePays,
       "size": "mini",
+      "height": _vm.tableHeight,
       "stripe": true,
       "border": true
     }
@@ -6983,7 +7041,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next, jumper",
       "total": _vm.count

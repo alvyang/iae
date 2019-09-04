@@ -91,7 +91,7 @@
 	   </el-form-item>
 		</el-form>
 		<div class="sum_money">销售总额：<a>{{money}}</a> 元；真实毛利：<a>{{realGrossProfit}}</a> 元；毛利：<a>{{grossProfit}}</a> 元</div>
-		<el-table :data="sales" style="width: 100%" size="mini" :stripe="true" :border="true">
+		<el-table :data="sales" style="width: 100%" size="mini" :height="tableHeight"  :stripe="true" :border="true">
   			<el-table-column fixed="left" prop="bill_date" label="日期" width="80" :formatter="formatterDate"></el-table-column>
 				<el-table-column prop="hospital_name" label="销往单位" width="140"></el-table-column>
 				<el-table-column prop="hospital_area" label="单位区域" width="120"></el-table-column>
@@ -129,7 +129,7 @@
 	      @size-change="handleSizeChange"
 	      @current-change="handleCurrentChange"
 	      :current-page="currentPage"
-	      :page-sizes="[5, 10, 50, 100]"
+	      :page-sizes="[10,20,50, 100]"
 	      :page-size="pageNum"
 	      layout="total, sizes, prev, pager, next"
 	      :total="count">
@@ -283,7 +283,7 @@
 				tags:[],//标签
 				contacts:[],
 				business:[],
-				pageNum:10,
+				pageNum:20,
 				currentPage:1,
 				count:0,
 				hospitals:[],
@@ -323,9 +323,18 @@
 				loadingImport:false,
 				uploadButtom:"导入销售记录",
 				errorMessage:"",
+				tableHeight:0,
 			}
 		},
+		updated(){
+			this.tableHeight = $(window).height() - 200 - $(".search").height();
+			var that = this;
+      $(window).resize(function(){
+					that.tableHeight = $(window).height() - 200 - $(".search").height();
+			});
+    },
 		activated(){
+
 			this.getSalesList();
 			this.getHospitals();
 			this.getContacts();
@@ -487,7 +496,7 @@
           _self.currentPage = 1;
         }
         if(!_self.pageNum){
-          _self.pageNum = 10;
+          _self.pageNum = 20;
         }
 				var page = {
           start:(_self.currentPage-1)*_self.pageNum,

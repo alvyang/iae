@@ -23,7 +23,7 @@
 		    <el-button type="primary" v-dbClick v-show="authCode.indexOf(',97,') > -1" @click="addShow" size="mini">新增</el-button>
 		  </el-form-item>
 		</el-form>
-		<el-table :data="tags" style="width: 100%" size="mini" :stripe="true">
+		<el-table :data="tags" style="width: 100%" size="mini" :height="tableHeight"  :stripe="true">
 			<el-table-column prop="tag_name" label="标签名称"></el-table-column>
 			<el-table-column prop="tag_type" label="标签类型" :formatter="formatTagType"></el-table-column>
 			<el-table-column prop="tag_quote_num" label="引用次数"></el-table-column>
@@ -40,7 +40,7 @@
 	      @size-change="handleSizeChange"
 	      @current-change="handleCurrentChange"
 	      :current-page="currentPage"
-	      :page-sizes="[5, 10, 50, 100]"
+	      :page-sizes="[10,20, 50, 100]"
 	      :page-size="pageNum"
 	      layout="total, sizes, prev, pager, next, jumper"
 	      :total="count">
@@ -99,15 +99,23 @@
 					tag_type:[{ required: true, message: '请选择标签类型', trigger: 'change' }],
 				},
 				tags:[],
-				pageNum:10,
+				pageNum:20,
 				currentPage:1,
 				count:0,
 				params:{
 					tag_name:"",
 					tag_type:""
-				}
+				},
+				tableHeight:0,
 			}
 		},
+		updated(){
+			this.tableHeight = $(window).height() - 170 - $(".search").height();
+			var that = this;
+      $(window).resize(function(){
+					that.tableHeight = $(window).height() - 170 - $(".search").height();
+			});
+    },
 		activated(){
 			this.getTagsList();
 		},
@@ -214,7 +222,7 @@
           _self.currentPage = 1;
         }
         if(!_self.pageNum){
-          _self.pageNum = 10;
+          _self.pageNum = 20;
         }
 				var page = {
           start:(_self.currentPage-1)*_self.pageNum,

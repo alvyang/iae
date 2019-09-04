@@ -269,7 +269,7 @@ exports.push([module.i, "\n.main_content .drug_list .el-dialog__wrapper .el-dial
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -417,7 +417,7 @@ exports.default = {
 			contacts: [],
 			business: [],
 			tags: [], //标签
-			pageNum: 10,
+			pageNum: 20,
 			currentPage: 1,
 			count: 0,
 			authCode: "",
@@ -440,8 +440,16 @@ exports.default = {
 			importDrugsUrl: "",
 			loading: false,
 			uploadButtom: "导入药品",
-			errorMessage: ""
+			errorMessage: "",
+			tableHeight: 0
 		};
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 170 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 170 - $(".search").height();
+		});
 	},
 	activated: function activated() {
 		this.getDrugsList();
@@ -599,7 +607,7 @@ exports.default = {
 				_self.currentPage = 1;
 			}
 			if (!_self.pageNum) {
-				_self.pageNum = 10;
+				_self.pageNum = 20;
 			}
 			var page = {
 				start: (_self.currentPage - 1) * _self.pageNum,
@@ -636,6 +644,7 @@ exports.default = {
 		}
 	}
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -1126,6 +1135,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     attrs: {
       "data": _vm.drugs,
+      "height": _vm.tableHeight,
       "size": "mini",
       "stripe": true,
       "border": true
@@ -1374,7 +1384,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next, jumper",
       "total": _vm.count
@@ -1492,7 +1502,7 @@ exports.push([module.i, "\n.main_content .drug_list .el-dialog__wrapper .el-dial
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -1607,7 +1617,7 @@ exports.default = {
 			contacts: [],
 			business: [],
 			tags: [], //标签
-			pageNum: 10,
+			pageNum: 20,
 			currentPage: 1,
 			count: 0,
 			authCode: "",
@@ -1630,8 +1640,16 @@ exports.default = {
 			importDrugsUrl: "",
 			loading: false,
 			uploadButtom: "导入药品",
-			errorMessage: ""
+			errorMessage: "",
+			tableHeight: 0
 		};
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 170 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 170 - $(".search").height();
+		});
 	},
 	activated: function activated() {
 		this.getDrugsList();
@@ -1686,7 +1704,7 @@ exports.default = {
 				_self.currentPage = 1;
 			}
 			if (!_self.pageNum) {
-				_self.pageNum = 10;
+				_self.pageNum = 20;
 			}
 			var page = {
 				start: (_self.currentPage - 1) * _self.pageNum,
@@ -1723,6 +1741,7 @@ exports.default = {
 		}
 	}
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -2046,6 +2065,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     attrs: {
       "data": _vm.drugs,
+      "height": _vm.tableHeight,
       "size": "mini",
       "stripe": true,
       "border": true
@@ -2189,7 +2209,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next, jumper",
       "total": _vm.count
@@ -2307,11 +2327,13 @@ exports.push([module.i, "\n.el-collapse-item__content > div{\n  display: inline-
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+//
+//
 //
 //
 //
@@ -2557,13 +2579,21 @@ exports.default = {
         allot_policy_contact_id: [{ required: true, message: '请选择联系人', trigger: 'change' }]
       },
       authCode: "",
-      pageNum: 10,
+      pageNum: 20,
       currentPage: 1,
       count: 0,
       dialogFormVisible: false,
       dialogFormVisibleBatch: false,
-      loading: false
+      loading: false,
+      tableHeight: 0
     };
+  },
+  updated: function updated() {
+    this.tableHeight = $(window).height() - 220 - $(".search").height();
+    var that = this;
+    $(window).resize(function () {
+      that.tableHeight = $(window).height() - 220 - $(".search").height();
+    });
   },
   activated: function activated() {
     this.params.productCode = this.$route.query.productCode;
@@ -2613,6 +2643,12 @@ exports.default = {
           break;
         case "8":
           message = "固定政策（上游政策修改后，需几时调整下游政策）";
+          break;
+        case "9":
+          message = "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.03-补点/费用票:实收上游积分-补点/费用票";
+          break;
+        case "10":
+          message = "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.05-补点/费用票:实收上游积分-补点/费用票";
           break;
         default:
 
@@ -2696,7 +2732,7 @@ exports.default = {
         _self.currentPage = 1;
       }
       if (!_self.pageNum) {
-        _self.pageNum = 10;
+        _self.pageNum = 20;
       }
       var page = {
         start: (_self.currentPage - 1) * _self.pageNum,
@@ -2754,6 +2790,7 @@ exports.default = {
     }
   }
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -2962,6 +2999,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     attrs: {
       "data": _vm.drugPolicy,
+      "height": _vm.tableHeight,
       "size": "mini",
       "stripe": true,
       "border": true
@@ -3099,7 +3137,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next",
       "total": _vm.count
@@ -3220,8 +3258,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('el-option', {
     key: "9",
     attrs: {
-      "label": "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.03:实收上游积分",
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.03-补点/费用票:实收上游积分-补点/费用票",
       "value": "9"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "10",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.05-补点/费用票:实收上游积分-补点/费用票",
+      "value": "10"
     }
   }), _vm._v(" "), _c('el-option', {
     key: "8",
@@ -3457,6 +3501,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": "9"
     }
   }), _vm._v(" "), _c('el-option', {
+    key: "10",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.05-补点/费用票:实收上游积分-补点/费用票",
+      "value": "10"
+    }
+  }), _vm._v(" "), _c('el-option', {
     key: "8",
     attrs: {
       "label": "固定政策（上游政策修改后，需手动调整下游政策）",
@@ -3652,11 +3702,13 @@ exports.push([module.i, "\n.copy_form .search .el-form-item__label {\n  padding-
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+//
+//
 //
 //
 //
@@ -3895,13 +3947,21 @@ exports.default = {
         sale_policy_contact_id: [{ required: true, message: '请选择联系人', trigger: 'change' }]
       },
       authCode: "",
-      pageNum: 10,
+      pageNum: 20,
       currentPage: 1,
       count: 0,
       dialogFormVisible: false,
       dialogFormVisibleBatch: false,
-      loading: false
+      loading: false,
+      tableHeight: 0
     };
+  },
+  updated: function updated() {
+    this.tableHeight = $(window).height() - 220 - $(".search").height();
+    var that = this;
+    $(window).resize(function () {
+      that.tableHeight = $(window).height() - 220 - $(".search").height();
+    });
   },
   activated: function activated() {
     this.params.productCode = this.$route.query.productCode;
@@ -3948,6 +4008,12 @@ exports.default = {
           break;
         case "8":
           message = "固定政策（上游政策修改后，需几时调整下游政策）";
+          break;
+        case "9":
+          message = "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.03-补点/费用票:实收上游积分-补点/费用票";
+          break;
+        case "10":
+          message = "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.05-补点/费用票:实收上游积分-补点/费用票";
           break;
         default:
 
@@ -4012,7 +4078,7 @@ exports.default = {
         _self.currentPage = 1;
       }
       if (!_self.pageNum) {
-        _self.pageNum = 10;
+        _self.pageNum = 20;
       }
       var page = {
         start: (_self.currentPage - 1) * _self.pageNum,
@@ -4091,6 +4157,7 @@ exports.default = {
     }
   }
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -4299,6 +4366,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     attrs: {
       "data": _vm.drugPolicy,
+      "height": _vm.tableHeight,
       "size": "mini",
       "stripe": true,
       "border": true
@@ -4437,7 +4505,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next",
       "total": _vm.count
@@ -4558,8 +4626,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('el-option', {
     key: "9",
     attrs: {
-      "label": "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.03:实收上游积分",
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.03-补点/费用票:实收上游积分-补点/费用票",
       "value": "9"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "10",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.05-补点/费用票:实收上游积分-补点/费用票",
+      "value": "10"
     }
   }), _vm._v(" "), _c('el-option', {
     key: "8",
@@ -4788,8 +4862,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('el-option', {
     key: "9",
     attrs: {
-      "label": "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.03:实收上游积分",
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.03-补点/费用票:实收上游积分-补点/费用票",
       "value": "9"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "10",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.05-补点/费用票:实收上游积分-补点/费用票",
+      "value": "10"
     }
   }), _vm._v(" "), _c('el-option', {
     key: "8",
@@ -4987,7 +5067,7 @@ exports.push([module.i, "\n.copy_form .search .el-form-item__label {\n  padding-
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -5184,14 +5264,22 @@ exports.default = {
         purchase_pay_contact_id: [{ required: true, message: '请选择联系人', trigger: 'change' }]
       },
       authCode: "",
-      pageNum: 10,
+      pageNum: 20,
       currentPage: 1,
       count: 0,
       dialogFormVisible: false,
       dialogFormVisiblePolicy: false,
       dialogFormVisibleBatch: false,
-      loading: false
+      loading: false,
+      tableHeight: 0
     };
+  },
+  updated: function updated() {
+    this.tableHeight = $(window).height() - 220 - $(".search").height();
+    var that = this;
+    $(window).resize(function () {
+      that.tableHeight = $(window).height() - 220 - $(".search").height();
+    });
   },
   activated: function activated() {
     this.params.productCode = this.$route.query.productCode;
@@ -5259,7 +5347,7 @@ exports.default = {
         _self.currentPage = 1;
       }
       if (!_self.pageNum) {
-        _self.pageNum = 10;
+        _self.pageNum = 20;
       }
       var page = {
         start: (_self.currentPage - 1) * _self.pageNum,
@@ -5327,6 +5415,7 @@ exports.default = {
     }
   }
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -5506,6 +5595,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     attrs: {
       "data": _vm.purchasePayPolicy,
+      "height": _vm.tableHeight,
       "size": "mini",
       "stripe": true,
       "border": true
@@ -5624,7 +5714,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next",
       "total": _vm.count
@@ -7796,7 +7886,7 @@ exports.push([module.i, "\n.copy_form .search .el-form-item__label {\n  padding-
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -7900,12 +7990,20 @@ exports.default = {
         hospital_policy_return_money: ""
       },
       authCode: "",
-      pageNum: 10,
+      pageNum: 20,
       currentPage: 1,
       count: 0,
       dialogFormVisible: false,
-      loading: false
+      loading: false,
+      tableHeight: 0
     };
+  },
+  updated: function updated() {
+    this.tableHeight = $(window).height() - 170 - $(".search").height();
+    var that = this;
+    $(window).resize(function () {
+      that.tableHeight = $(window).height() - 170 - $(".search").height();
+    });
   },
   activated: function activated() {
     this.getHospitals();
@@ -7934,7 +8032,7 @@ exports.default = {
         _self.currentPage = 1;
       }
       if (!_self.pageNum) {
-        _self.pageNum = 10;
+        _self.pageNum = 20;
       }
       var page = {
         start: (_self.currentPage - 1) * _self.pageNum,
@@ -8012,6 +8110,7 @@ exports.default = {
     }
   }
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -8175,6 +8274,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     attrs: {
       "data": _vm.drugPolicy,
+      "height": _vm.tableHeight,
       "size": "mini",
       "stripe": true,
       "border": true
@@ -8294,7 +8394,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next",
       "total": _vm.count
@@ -8478,7 +8578,7 @@ exports.push([module.i, "\n.copy_form .search .el-form-item__label {\n  padding-
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -8580,12 +8680,20 @@ exports.default = {
         hospital_policy_return_money: ""
       },
       authCode: "",
-      pageNum: 10,
+      pageNum: 20,
       currentPage: 1,
       count: 0,
       dialogFormVisible: false,
-      loading: false
+      loading: false,
+      tableHeight: 0
     };
+  },
+  updated: function updated() {
+    this.tableHeight = $(window).height() - 170 - $(".search").height();
+    var that = this;
+    $(window).resize(function () {
+      that.tableHeight = $(window).height() - 170 - $(".search").height();
+    });
   },
   activated: function activated() {
     this.getHospitals();
@@ -8610,7 +8718,7 @@ exports.default = {
         _self.currentPage = 1;
       }
       if (!_self.pageNum) {
-        _self.pageNum = 10;
+        _self.pageNum = 20;
       }
       var page = {
         start: (_self.currentPage - 1) * _self.pageNum,
@@ -8682,6 +8790,7 @@ exports.default = {
     }
   }
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -8844,6 +8953,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     attrs: {
       "data": _vm.drugPolicy,
+      "height": _vm.tableHeight,
       "size": "mini",
       "stripe": true,
       "border": true
@@ -8928,7 +9038,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next",
       "total": _vm.count

@@ -885,7 +885,7 @@ exports.default = {
 /***/ 294:
 /***/ (function(module, exports) {
 
-module.exports = {"name":"IAE","version":"1.11.7","description":"iae","main":"main.js","scripts":{"build":"node start-electron.js","start":"electron --inspect=5858 .","asar":"asar pack . dist/app.asar","dist-win":"electron-builder --win --x64","dist-win-32":"electron-builder --win --ia32","rb":"cd node_modules/electron-prebuilt && node install.js","r2b":"./node_modules/.bin/electron-rebuild -w sqlite3 -p","rebuild-sqlite3-win64":"cd node_modules/sqlite3 && npm install nan --save && node-gyp configure --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-win32-x64 && node-gyp rebuild --target=1.8.2 --arch=x64 --target_platform=win32 --dist-url=https://atom.io/download/electron/ --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-win32-x64","rebuild-sqlite3-darwin":"cd node_modules/sqlite3 && npm install nan --save && node-gyp configure --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-darwin-x64 && node-gyp rebuild --target=1.8.4 --arch=x64 --target_platform=darwin --dist-url=https://atom.io/download//atom-shell --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-darwin-x64","rebuild-sqlite3-win32":"cd node_modules/sqlite3 && npm install nan --save && node-gyp configure --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-win32-ia32 && node-gyp rebuild --target=1.8.2 --arch=ia32 --target_platform=win32 --dist-url=https://atom.io/download/electron/ --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-win32-ia32","packager":"electron-packager . 'IAE' --platform=darwin --arch=x64 --icon=favicon.icns --out=./dist --asar --app-version=0.0.2 --ignore='(dist|.gitignore|README.md|webpack.config.js|iae.db)'","packageWin32":"electron-packager . IAE --platform=win32 --arch=ia32 --icon=favicon.ico --out=./dist --asar --app-version=0.0.1","packageWin64":"electron-packager . IAE --platform=win32 --arch=x64 --icon=favicon.ico --out=./dist --asar --app-version=0.0.1"},"repository":"https://github.com/alvyang/iae.git","keywords":["Electron","quick","start","tutorial","demo"],"build":{"appId":"com.lvyang","copyright":"iae","productName":"IAE","files":["build/**/*","img/*","package.json","main.js","index.html","favicon.ico"],"publish":[{"provider":"generic","url":"http://139.129.238.114/download/"}],"win":{"icon":"favicon.ico","target":["nsis","zip"]},"nsis":{"oneClick":false,"perMachine":true,"allowElevation":true,"allowToChangeInstallationDirectory":true,"createDesktopShortcut":true,"runAfterFinish":true,"artifactName":"${productName}-setup-${version}.${ext}"}},"author":"GitHub","license":"CC0-1.0","devDependencies":{"asar":"^0.14.3","babel-core":"^6.18.2","babel-loader":"^6.2.7","babel-plugin-component":"^1.1.0","babel-plugin-transform-runtime":"^6.15.0","babel-preset-es2015":"^6.18.0","babel-preset-stage-2":"^6.18.0","babel-runtime":"^6.18.0","child_process":"^1.0.2","css-loader":"^0.25.0","echarts":"^4.0.4","electron":"^1.8.7","electron-builder":"^20.28.4","electron-prebuilt":"^1.4.13","electron-rebuild":"^1.8.2","excel-export":"^0.5.1","exports-loader":"^0.6.3","expose-loader":"^0.7.1","express-session":"^1.15.0","file-loader":"^0.9.0","fs":"0.0.1-security","getmac":"^1.4.0","imports-loader":"^0.6.5","jquery":"^3.3.1","json-loader":"^0.5.7","node-pinyin":"^0.2.3","node-sass":"^4.8.3","node-uuid":"^1.4.8","node-webkit":"0.0.0","os":"^0.1.1","sqlite":"^2.9.1","sqlite3":"^3.1.13","style-loader":"^0.13.1","swiper":"^3.4.2","url-loader":"^0.5.9","vue":"^2.5.17","vue-html-loader":"^1.2.4","vue-loader":"^9.9.5","vue-resource":"^1.2.1","vue-router":"^2.3.0","vue-template-compiler":"^2.5.17","vuex":"^2.2.1","webpack":"^3.11.0","webpack-dev-server":"^1.16.2","xlsx":"^0.12.5"},"dependencies":{"buffer-from":"^1.1.1","builder-util-runtime":"^4.4.1","electron-updater":"^3.1.2"}}
+module.exports = {"name":"IAE","version":"1.11.8","description":"iae","main":"main.js","scripts":{"build":"node start-electron.js","start":"electron --inspect=5858 .","asar":"asar pack . dist/app.asar","dist-win":"electron-builder --win --x64","dist-win-32":"electron-builder --win --ia32","rb":"cd node_modules/electron-prebuilt && node install.js","r2b":"./node_modules/.bin/electron-rebuild -w sqlite3 -p","rebuild-sqlite3-win64":"cd node_modules/sqlite3 && npm install nan --save && node-gyp configure --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-win32-x64 && node-gyp rebuild --target=1.8.2 --arch=x64 --target_platform=win32 --dist-url=https://atom.io/download/electron/ --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-win32-x64","rebuild-sqlite3-darwin":"cd node_modules/sqlite3 && npm install nan --save && node-gyp configure --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-darwin-x64 && node-gyp rebuild --target=1.8.4 --arch=x64 --target_platform=darwin --dist-url=https://atom.io/download//atom-shell --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-darwin-x64","rebuild-sqlite3-win32":"cd node_modules/sqlite3 && npm install nan --save && node-gyp configure --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-win32-ia32 && node-gyp rebuild --target=1.8.2 --arch=ia32 --target_platform=win32 --dist-url=https://atom.io/download/electron/ --module_name=node_sqlite3 --module_path=../lib/binding/electron-v1.8-win32-ia32","packager":"electron-packager . 'IAE' --platform=darwin --arch=x64 --icon=favicon.icns --out=./dist --asar --app-version=0.0.2 --ignore='(dist|.gitignore|README.md|webpack.config.js|iae.db)'","packageWin32":"electron-packager . IAE --platform=win32 --arch=ia32 --icon=favicon.ico --out=./dist --asar --app-version=0.0.1","packageWin64":"electron-packager . IAE --platform=win32 --arch=x64 --icon=favicon.ico --out=./dist --asar --app-version=0.0.1"},"repository":"https://github.com/alvyang/iae.git","keywords":["Electron","quick","start","tutorial","demo"],"build":{"appId":"com.lvyang","copyright":"iae","productName":"IAE","files":["build/**/*","img/*","package.json","main.js","index.html","favicon.ico"],"publish":[{"provider":"generic","url":"http://139.129.238.114/download/"}],"win":{"icon":"favicon.ico","target":["nsis","zip"]},"nsis":{"oneClick":false,"perMachine":true,"allowElevation":true,"allowToChangeInstallationDirectory":true,"createDesktopShortcut":true,"runAfterFinish":true,"artifactName":"${productName}-setup-${version}.${ext}"}},"author":"GitHub","license":"CC0-1.0","devDependencies":{"asar":"^0.14.3","babel-core":"^6.18.2","babel-loader":"^6.2.7","babel-plugin-component":"^1.1.0","babel-plugin-transform-runtime":"^6.15.0","babel-preset-es2015":"^6.18.0","babel-preset-stage-2":"^6.18.0","babel-runtime":"^6.18.0","child_process":"^1.0.2","css-loader":"^0.25.0","echarts":"^4.0.4","electron":"^1.8.7","electron-builder":"^20.28.4","electron-prebuilt":"^1.4.13","electron-rebuild":"^1.8.2","excel-export":"^0.5.1","exports-loader":"^0.6.3","expose-loader":"^0.7.1","express-session":"^1.15.0","file-loader":"^0.9.0","fs":"0.0.1-security","getmac":"^1.4.0","imports-loader":"^0.6.5","jquery":"^3.3.1","json-loader":"^0.5.7","node-pinyin":"^0.2.3","node-sass":"^4.8.3","node-uuid":"^1.4.8","node-webkit":"0.0.0","os":"^0.1.1","sqlite":"^2.9.1","sqlite3":"^3.1.13","style-loader":"^0.13.1","swiper":"^3.4.2","url-loader":"^0.5.9","vue":"^2.5.17","vue-html-loader":"^1.2.4","vue-loader":"^9.9.5","vue-resource":"^1.2.1","vue-router":"^2.3.0","vue-template-compiler":"^2.5.17","vuex":"^2.2.1","webpack":"^3.11.0","webpack-dev-server":"^1.16.2","xlsx":"^0.12.5"},"dependencies":{"buffer-from":"^1.1.1","builder-util-runtime":"^4.4.1","electron-updater":"^3.1.2"}}
 
 /***/ }),
 
@@ -1482,7 +1482,7 @@ exports.push([module.i, "\n.el-collapse-item__content > div{\n\tdisplay: inline-
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -1777,7 +1777,7 @@ exports.default = {
 			tags: [], //标签
 			contacts: [],
 			business: [],
-			pageNum: 10,
+			pageNum: 20,
 			currentPage: 1,
 			count: 0,
 			hospitals: [],
@@ -1816,10 +1816,19 @@ exports.default = {
 			importSalesUrl: "",
 			loadingImport: false,
 			uploadButtom: "导入销售记录",
-			errorMessage: ""
+			errorMessage: "",
+			tableHeight: 0
 		};
 	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 200 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 200 - $(".search").height();
+		});
+	},
 	activated: function activated() {
+
 		this.getSalesList();
 		this.getHospitals();
 		this.getContacts();
@@ -1987,7 +1996,7 @@ exports.default = {
 				_self.currentPage = 1;
 			}
 			if (!_self.pageNum) {
-				_self.pageNum = 10;
+				_self.pageNum = 20;
 			}
 			var page = {
 				start: (_self.currentPage - 1) * _self.pageNum,
@@ -2043,6 +2052,7 @@ exports.default = {
 		}
 	}
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -2583,6 +2593,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "data": _vm.sales,
       "size": "mini",
+      "height": _vm.tableHeight,
       "stripe": true,
       "border": true
     }
@@ -2793,7 +2804,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next",
       "total": _vm.count
@@ -3258,7 +3269,7 @@ exports.push([module.i, "\n.el-table .cell[data-v-2b1ffb23]{\n\twhite-space: now
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -3460,7 +3471,7 @@ exports.default = {
 		return {
 			drugs: [],
 			contacts: [],
-			pageNum: 10,
+			pageNum: 20,
 			currentPage: 1,
 			count: 0,
 			authCode: "",
@@ -3502,8 +3513,16 @@ exports.default = {
 				bill_date: [{ required: true, message: '请选择销售时间', trigger: 'change' }],
 				hospital_id: [{ required: true, message: '请选择销售机构', trigger: 'change' }]
 			},
-			batchStockList: [] //库存列表
+			batchStockList: [], //库存列表
+			tableHeight: 0
 		};
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 170 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 170 - $(".search").height();
+		});
 	},
 	activated: function activated() {
 		this.getDrugsList();
@@ -3678,7 +3697,7 @@ exports.default = {
 				_self.currentPage = 1;
 			}
 			if (!_self.pageNum) {
-				_self.pageNum = 10;
+				_self.pageNum = 20;
 			}
 			var page = {
 				start: (_self.currentPage - 1) * _self.pageNum,
@@ -3714,6 +3733,7 @@ exports.default = {
 		}
 	}
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -4040,6 +4060,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "data": _vm.drugs,
       "size": "mini",
+      "height": _vm.tableHeight,
       "stripe": true,
       "border": true
     }
@@ -4160,7 +4181,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next, jumper",
       "total": _vm.count
@@ -4554,7 +4575,7 @@ exports.push([module.i, "\n.sum_money_allot > a{\n\tpadding-left: 20px;\n\tcolor
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -4815,7 +4836,7 @@ exports.default = {
 			business: [],
 			loading: false,
 			money: 0, //总额统计
-			pageNum: 10,
+			pageNum: 20,
 			currentPage: 1,
 			count: 0,
 			dialogFormVisible: false,
@@ -4843,8 +4864,16 @@ exports.default = {
 			importAllotsUrl: "",
 			dialogFormVisibleImport: false,
 			uploadButtom: "导入调货记录",
-			errorMessage: ""
+			errorMessage: "",
+			tableHeight: 0
 		};
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 200 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 200 - $(".search").height();
+		});
 	},
 	activated: function activated() {
 		this.getAllotsList();
@@ -5021,7 +5050,7 @@ exports.default = {
 				_self.currentPage = 1;
 			}
 			if (!_self.pageNum) {
-				_self.pageNum = 10;
+				_self.pageNum = 20;
 			}
 			var page = {
 				start: (_self.currentPage - 1) * _self.pageNum,
@@ -5048,6 +5077,7 @@ exports.default = {
 		}
 	}
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -5423,6 +5453,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "data": _vm.allots,
       "size": "mini",
+      "height": _vm.tableHeight,
       "stripe": true,
       "border": true
     }
@@ -5583,7 +5614,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next, jumper",
       "total": _vm.count
@@ -5910,7 +5941,7 @@ exports.push([module.i, "\n.el-table .cell[data-v-38f1a6a2]{\n\twhite-space: now
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -6119,7 +6150,7 @@ exports.default = {
 			drug: {},
 			hospitals: [],
 			business: [],
-			pageNum: 10,
+			pageNum: 20,
 			currentPage: 1,
 			count: 0,
 			params: {
@@ -6158,8 +6189,16 @@ exports.default = {
 				allot_time: [{ required: true, message: '请选择调货时间', trigger: 'blur,change' }],
 				allot_hospital: [{ required: true, message: '请输入调货单位', trigger: 'blur,change' }]
 			},
-			batchStockList: []
+			batchStockList: [],
+			tableHeight: 0
 		};
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 170 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 170 - $(".search").height();
+		});
 	},
 	activated: function activated() {
 		this.getContacts();
@@ -6311,7 +6350,7 @@ exports.default = {
 				_self.currentPage = 1;
 			}
 			if (!_self.pageNum) {
-				_self.pageNum = 10;
+				_self.pageNum = 20;
 			}
 			var page = {
 				start: (_self.currentPage - 1) * _self.pageNum,
@@ -6344,6 +6383,7 @@ exports.default = {
 		}
 	}
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -6543,6 +6583,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "data": _vm.drugs,
       "size": "mini",
+      "height": _vm.tableHeight,
       "stripe": true,
       "border": true
     }
@@ -6646,7 +6687,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next, jumper",
       "total": _vm.count
@@ -6964,7 +7005,7 @@ exports.push([module.i, "\n.search .el-form-item__label{\n\t\tpadding-left: 0 !i
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function($) {
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -7261,7 +7302,7 @@ exports.default = {
 				product_type: ['高打']
 			},
 			loading: false,
-			pageNum: 10,
+			pageNum: 20,
 			currentPage: 1,
 			count: 0,
 			pageNumFront: 5,
@@ -7304,6 +7345,13 @@ exports.default = {
 			importAllocationUrl: "",
 			uploadButtom: "导入调拨记录"
 		};
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 170 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 170 - $(".search").height();
+		});
 	},
 	activated: function activated() {
 		this.getAllocationList();
@@ -7403,7 +7451,7 @@ exports.default = {
 				_self.currentPage = 1;
 			}
 			if (!_self.pageNum) {
-				_self.pageNum = 10;
+				_self.pageNum = 20;
 			}
 			var page = {
 				start: (_self.currentPage - 1) * _self.pageNum,
@@ -7576,6 +7624,7 @@ exports.default = {
 		}
 	}
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 
@@ -7836,6 +7885,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "data": _vm.allocation,
       "size": "mini",
+      "height": _vm.tableHeight,
       "stripe": true,
       "border": true
     }
@@ -7960,7 +8010,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "background": "",
       "current-page": _vm.currentPage,
-      "page-sizes": [5, 10, 50, 100],
+      "page-sizes": [10, 20, 50, 100],
       "page-size": _vm.pageNum,
       "layout": "total, sizes, prev, pager, next, jumper",
       "total": _vm.count

@@ -28,7 +28,7 @@
         <el-button type="primary" v-dbClick v-show="authCode.indexOf(',161,') > -1" @click="exportPurchasePayPolicy" size="mini">导出</el-button>
 		  </el-form-item>
 		</el-form>
-    <el-table :data="purchasePayPolicy" style="width: 100%" size="mini" :stripe="true" :border="true">
+    <el-table :data="purchasePayPolicy" style="width: 100%" :height="tableHeight" size="mini" :stripe="true" :border="true">
         <el-table-column fixed prop="contacts_name" label="业务员" width="80" ></el-table-column>
         <el-table-column fixed prop="product_common_name" label="产品名称" width="120" ></el-table-column>
 				<el-table-column prop="product_code" label="产品编码" width="100"></el-table-column>
@@ -52,7 +52,7 @@
 	      @size-change="handleSizeChange"
 	      @current-change="handleCurrentChange"
 	      :current-page="currentPage"
-	      :page-sizes="[5, 10, 50, 100]"
+	      :page-sizes="[10,20, 50, 100]"
 	      :page-size="pageNum"
 	      layout="total, sizes, prev, pager, next"
 	      :total="count">
@@ -157,14 +157,22 @@
           purchase_pay_contact_id:[{ required: true, message: '请选择联系人', trigger: 'change' }],
         },
         authCode:"",
-        pageNum:10,
+        pageNum:20,
 				currentPage:1,
 				count:0,
         dialogFormVisible:false,
         dialogFormVisiblePolicy:false,
         dialogFormVisibleBatch:false,
         loading:false,
+        tableHeight:0,
       }
+    },
+    updated(){
+			this.tableHeight = $(window).height() - 170 - $(".search").height();
+			var that = this;
+      $(window).resize(function(){
+					that.tableHeight = $(window).height() - 170 - $(".search").height();
+			});
     },
     activated(){
       this.getContacts();
@@ -207,7 +215,7 @@
           _self.currentPage = 1;
         }
         if(!_self.pageNum){
-          _self.pageNum = 10;
+          _self.pageNum = 20;
         }
         var page = {
           start:(_self.currentPage-1)*_self.pageNum,

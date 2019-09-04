@@ -53,7 +53,7 @@
 			  <el-button type="primary" v-dbClick v-show="authCode.indexOf(',65,') > -1" @click="reSearch(true)" size="mini">重置</el-button>
 		  </el-form-item>
 		</el-form>
-		<el-table :data="drugs" style="width: 100%" size="mini" :stripe="true" :border="true">
+		<el-table :data="drugs" style="width: 100%" :height="tableHeight" size="mini" :stripe="true" :border="true">
 			<el-table-column fixed prop="product_common_name" label="产品通用名" width="120"></el-table-column>
 			<el-table-column prop="product_code" label="产品编号" width="100"></el-table-column>
 			<el-table-column prop="product_makesmakers" label="生产厂家" width="180"></el-table-column>
@@ -79,7 +79,7 @@
 	      @size-change="handleSizeChange"
 	      @current-change="handleCurrentChange"
 	      :current-page="currentPage"
-	      :page-sizes="[5, 10, 50, 100]"
+	      :page-sizes="[10,20, 50, 100]"
 	      :page-size="pageNum"
 	      layout="total, sizes, prev, pager, next, jumper"
 	      :total="count">
@@ -108,7 +108,7 @@
 				contacts:[],
 				business:[],
 				tags:[],//标签
-				pageNum:10,
+				pageNum:20,
 				currentPage:1,
 				count:0,
 				authCode:"",
@@ -132,8 +132,16 @@
 				loading:false,
 				uploadButtom:"导入药品",
 				errorMessage:"",
+				tableHeight:0,
 			}
 		},
+		updated(){
+			this.tableHeight = $(window).height() - 170 - $(".search").height();
+			var that = this;
+      $(window).resize(function(){
+					that.tableHeight = $(window).height() - 170 - $(".search").height();
+			});
+    },
 		activated(){
 			this.getDrugsList();
 			this.getContacts();
@@ -184,7 +192,7 @@
 					_self.currentPage = 1;
 				}
 				if(!_self.pageNum){
-					_self.pageNum = 10;
+					_self.pageNum = 20;
 				}
 				var page = {
 					start:(_self.currentPage-1)*_self.pageNum,

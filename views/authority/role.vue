@@ -14,7 +14,7 @@
 		    <el-button type="primary" v-dbClick @click="add" v-show="authCode.indexOf(',11,') > -1" size="mini">新增</el-button>
 		  </el-form-item>
 		</el-form>
-		<el-table :data="roles" style="width: 100%" size="mini" highlight-current-row :stripe="true">
+		<el-table :data="roles" style="width: 100%" :height="tableHeight" size="mini" highlight-current-row :stripe="true">
     			<el-table-column prop="role_name" label="角色名"></el-table-column>
     			<el-table-column prop="role_describe" label="角色描述"></el-table-column>
     			<el-table-column fixed="right" label="操作" width="200">
@@ -31,7 +31,7 @@
 		      @size-change="handleSizeChange"
 		      @current-change="handleCurrentChange"
 		      :current-page="currentPage"
-		      :page-sizes="[5, 10, 50, 100]"
+		      :page-sizes="[10,20, 50, 100]"
 		      :page-size="pageNum"
 		      layout="total, sizes, prev, pager, next, jumper"
 		      :total="count">
@@ -76,7 +76,8 @@
 				authCode:"",
 				roles:[],
         data:[],
-				pageNum:10,
+				pageNum:20,
+				tableHeight:0,
 				currentPage:1,
 				count:0,
 				roleId:null,
@@ -99,6 +100,13 @@
 				front_message:"",
 			}
 		},
+		updated(){
+			this.tableHeight = $(window).height() - 170 - $(".search").height();
+			var that = this;
+      $(window).resize(function(){
+					that.tableHeight = $(window).height() - 170 - $(".search").height();
+			});
+    },
 		activated(){
 			this.searchRolesList();
       this.getAuthority();
@@ -189,7 +197,7 @@
           _self.currentPage = 1;
         }
         if(!_self.pageNum){
-          _self.pageNum = 10;
+          _self.pageNum = 20;
         }
 				var page = {
           start:(_self.currentPage-1)*_self.pageNum,
