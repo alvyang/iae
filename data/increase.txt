@@ -1,6 +1,74 @@
 //未发版sql
 
 
+
+//20191019发版
+CREATE TABLE `hospital_sale_policy` (
+	`hospital_sale_policy_userid` varchar(50) NOT NULL COMMENT '创建用户id',
+	`hospital_sale_policy_group_id` varchar(50) NOT NULL COMMENT '组id',
+    `hospital_sale_policy_delete_flag` varchar(5) DEFAULT '0' COMMENT '删除',
+	`hospital_sale_policy_create_time` datetime DEFAULT NULL COMMENT '创建时间',
+	`hospital_sale_policy_hospital_id` varchar(50) NOT NULL COMMENT '医院id',
+	`hospital_sale_policy` varchar(10) NOT NULL COMMENT '医院销售政策',
+
+  PRIMARY KEY (`hospital_sale_policy_hospital_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET FOREIGN_KEY_CHECKS = 1;
+
+INSERT INTO `authority` VALUES
+('179', '销往单位销售政策管理', '销往单位销售政策管理', '1000', '/main/hospitalsalepolicy', '40', '0', '1', '3', '7');
+INSERT INTO `authority` VALUES
+('180', '查询', '查询', '1000', '/', '179', '0', '1', '3', '7'),
+('181', '修改', '修改', '1000', '/', '179', '0', '1', '3', '7');
+
+INSERT INTO `authority` VALUES
+('182', '采退应付管理', '采退应付管理', '1000', '/main/purchaserecovreypay', '40', '0', '1', '3', '7');
+INSERT INTO `authority` VALUES
+('183', '导出', '导出', '1000', '/', '182', '0', '1', '3', '7'),
+('184', '删除', '删除', '1000', '/', '182', '0', '1', '3', '7'),
+('185', '查询', '查询', '1000', '/', '182', '0', '1', '3', '7'),
+('186', '修改', '修改', '1000', '/', '182', '0', '1', '3', '7');
+
+
+alter table hospital_sale_policy add hospital_sale_contacts_id varchar(50) DEFAULT '' COMMENT '业务员';
+alter table hospital_sale_policy add policy_percent varchar(20) DEFAULT '' COMMENT '政策点数';
+alter table hospital_sale_policy add hospital_sale_policy_remark varchar(200) DEFAULT '' COMMENT '备注';
+
+alter table purchase_recovery add purchase_recovery_receiver_money varchar(20) DEFAULT '' COMMENT '实收积分';
+alter table purchase_recovery add purchase_recovery_return_money varchar(20) DEFAULT '' COMMENT '应付积分额';
+alter table purchase_recovery add purchase_recovery_real_pay_money varchar(20) DEFAULT '' COMMENT '实付积分额';
+alter table purchase_recovery add purchase_recovery_pay_time datetime DEFAULT NULL COMMENT '付积分时间';
+alter table purchase_recovery add purchase_recovery_pay_number varchar(50) DEFAULT '' COMMENT '付积分账户';
+alter table purchase_recovery add purchase_recovery_receiver_number varchar(50) DEFAULT '' COMMENT '收积分账户';
+alter table purchase_recovery add purchase_recovery_receiver_name varchar(30) DEFAULT '' COMMENT '收积分账户名';
+alter table purchase_recovery add purchase_recovery_receiver_address varchar(200) DEFAULT '' COMMENT '收积分地址';
+alter table purchase_recovery add purchase_recovery_pay_remark varchar(200) DEFAULT '' COMMENT '备注';
+
+alter table purchase_loss add purchase_loss_number varchar(50) DEFAULT '' COMMENT '报损账户';
+alter table purchase_loss add purchase_loss_money varchar(30) DEFAULT '' COMMENT '报损成本';
+
+update purchase_recovery prr set prr.purchase_recovery_return_money = (
+select temp.reco from (
+select pr.purchaserecovery_id,r.refunds_real_money,pr.purchaserecovery_number,p.purchase_number,round(r.refunds_real_money*pr.purchaserecovery_number/p.purchase_number,2) reco
+from purchase_recovery pr
+left join refunds r on pr.purchaserecovery_purchase_id = r.purchases_id
+left join purchase p on pr.purchaserecovery_purchase_id = p.purchase_id ) temp where temp.purchaserecovery_id = prr.purchaserecovery_id
+)
+
+update purchase_recovery prr set prr.purchase_recovery_receiver_money = (
+select temp.reco from (
+select pr.purchaserecovery_id,r.refunds_real_money,pr.purchaserecovery_number,p.purchase_number,round(r.refunds_real_money*pr.purchaserecovery_number/p.purchase_number,2) reco
+from purchase_recovery pr
+left join refunds r on pr.purchaserecovery_purchase_id = r.purchases_id
+left join purchase p on pr.purchaserecovery_purchase_id = p.purchase_id ) temp where temp.purchaserecovery_id = prr.purchaserecovery_id
+)
+
+insert into bank_account_detail(flag_id,account_detail_id)
+select CONCAT('purchase_recovery_',p.purchaserecovery_id),UUID() from purchase_recovery p;
+
+insert into bank_account_detail(flag_id,account_detail_id)
+select CONCAT('purchase_loss_',p.purchaseloss_id),UUID() from purchase_loss p;
+
 //20190705 发版
 alter table purchase_loss add purchase_loss_remark varchar(1000) DEFAULT '' COMMENT '备注';
 alter table purchase_recovery add purchase_recovery_remark varchar(1000) DEFAULT '' COMMENT '备注';

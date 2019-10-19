@@ -102,6 +102,18 @@
 				<el-form-item label="报损金额" prop="purchaseloss_money" :required="true">
 					<el-input v-model="purchaseloss.purchaseloss_money" style="width:179px;" :maxlength="10" placeholder="请输入报损金额"></el-input>
 				</el-form-item>
+				<el-form-item label="报损账号" prop="purchase_loss_number">
+					<el-select v-model="purchaseloss.purchase_loss_number" style="width:179px;" filterable placeholder="请选择">
+						<el-option v-for="item in accounts"
+							:key="item.account_id"
+							:label="item.account_number"
+							:value="item.account_id">
+						</el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="报损成本" prop="purchase_loss_money" :required="true">
+					<el-input v-model="purchaseloss.purchase_loss_money" style="width:179px;" :maxlength="10" placeholder="请输入报损成本"></el-input>
+				</el-form-item>
 				<el-form-item label="备　　注" prop="purchase_loss_remark">
 					<el-input v-model="purchaseloss.purchase_loss_remark" style="width:179px;" placeholder="备注"></el-input>
 				</el-form-item>
@@ -172,7 +184,9 @@ export default({
 			purchaseloss:{
 				purchaseloss_time:null,
 				purchaseloss_money:"",
-				purchaseloss_number:""
+				purchaseloss_number:"",
+				purchase_loss_money:"",//成本
+				purchase_loss_number:"",
 			},
 			contacts:[],
 			drug:{},
@@ -197,6 +211,7 @@ export default({
 			},
 			authCode:"",
 			business:[],
+			accounts:[],
 			tableHeight:0,
 		}
 	},
@@ -211,12 +226,19 @@ export default({
 		this.getContacts();
 		this.getPurchasesLossDrugsList();
 		this.getProductBusiness();
+		this.getBankAccount();
 		this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
 	},
 	mounted(){
 
 	},
 	methods:{
+		getBankAccount(){
+			var _self = this;
+			this.jquery("/iae/bankaccount/getAllAccounts",null,function(res){//查询账号
+				_self.accounts=res.message;
+			});
+		},
 		returnPurchaseLoss(){
 			this.$router.push({path:"/main/purchaseloss"});
 		},
@@ -230,6 +252,8 @@ export default({
 						_self.purchaseloss.purchaseloss_batch_number = _self.drug.batch_number;
 						_self.purchaseloss.purchaseloss_purchase_id = _self.drug.batch_stock_purchase_id;
 						_self.purchaseloss.purchaseloss_drug_id = _self.drug.batch_stock_drug_id;
+						_self.purchaseloss.product_unit = _self.drug.product_unit;
+						_self.purchaseloss.product_common_name = _self.drug.product_common_name;
 						_self.jquery('/iae/purchaseloss/savePurchasesLoss',_self.purchaseloss,function(res){
 							_self.$confirm('新增成功', '提示', {
 									confirmButtonText:'继续添加',

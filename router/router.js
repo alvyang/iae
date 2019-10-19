@@ -95,11 +95,14 @@ const Refundsale = r => require.ensure([], () => r(require('../views/refunds/ref
 const Refundpurchase = r => require.ensure([], () => r(require('../views/refunds/refundpurchase.vue')), 'group8');
 const AllotReturnMoney = r => require.ensure([], () => r(require('../views/allot/allotReturnMoney.vue')), 'group8');
 const SalesReturnMoney = r => require.ensure([], () => r(require('../views/sales/salesReturnMoney.vue')), 'group8');
+const PurchaseRecoveryReturnMoney = r => require.ensure([], () => r(require('../views/purchase_recovery/purchaseRecoveryReturnMoney.vue')), 'group8');
+
 //政策管理 分组
 const AllotPolicy = r => require.ensure([], () => r(require('../views/allot/allotPolicy.vue')), 'group9');
 const AllotPolicyDrugs = r => require.ensure([], () => r(require('../views/allot/allotPolicyDrugs.vue')), 'group9');
 const SalesPolicy = r => require.ensure([], () => r(require('../views/sales/salesPolicy.vue')), 'group9');
 const SalesPolicyDrugs = r => require.ensure([], () => r(require('../views/sales/salesPolicyDrugs.vue')), 'group9');
+const HospitalSalePolicy = r => require.ensure([], () => r(require('../views/policy/hospitalSalePolicy.vue')), 'group9');
 
 const router = new VueRouter({
 	routes:[{
@@ -170,6 +173,7 @@ const router = new VueRouter({
 			{path:"refundpurchase",component:Refundpurchase},//高打返款
 			{path:"allotreturnmoney",component:AllotReturnMoney},//调货回款
 			{path:"salesreturnmoney",component:SalesReturnMoney},//销售回款
+			{path:"purchaserecovreypay",component:PurchaseRecoveryReturnMoney},//退货回款
 			{path:"allotpolicy",component:AllotPolicy},//调货政策
 			{path:"salespolicy",component:SalesPolicy},//销售政策
 			{path:"allotpolicydrugs",component:AllotPolicyDrugs},//调货政策
@@ -193,7 +197,8 @@ const router = new VueRouter({
 			{path:"drugsSalesPolicy",component:DrugsSalesPolicy},
 			{path:"drugsPurchasePayPolicy",component:DrugsPurchasePayPolicy},
 			{path:"reportpurchasepay",component:ReportPurchasePay},
-			{path:"reportpurchasepaydetail",component:ReportPurchasePayDetail}
+			{path:"reportpurchasepaydetail",component:ReportPurchasePayDetail},
+			{path:"hospitalsalepolicy",component:HospitalSalePolicy}
 		]
 	}]
 });

@@ -106465,6 +106465,7 @@ exports.default = {
 			loading: false,
 			stockMoney: 0, //库存金额
 			stockNum: 0, //库存数量
+			makeMoney: 0, //库存打款金额
 			params: {
 				productCommonName: "",
 				contactId: "",
@@ -106636,7 +106637,8 @@ exports.default = {
 				page: page
 			}, function (res) {
 				_self.stockMoney = Math.round(res.message.mpn * 100) / 100;
-				_self.stockNum = res.message.sn;
+				_self.stockNum = (res.message.sn + "").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+				_self.makeMoney = (res.message.bpm + "").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 			});
 		},
 		getBatchStock: function getBatchStock() {
@@ -106903,7 +106905,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("导出")])], 1)], 1), _vm._v(" "), _c('div', {
     staticClass: "sum_money"
-  }, [_vm._v("总库存："), _c('a', [_vm._v(_vm._s(_vm.stockNum))])]), _vm._v(" "), _c('el-table', {
+  }, [_vm._v("库存打款金额："), _c('a', [_vm._v(_vm._s(_vm.makeMoney))]), _vm._v("  总库存："), _c('a', [_vm._v(_vm._s(_vm.stockNum))])]), _vm._v(" "), _c('el-table', {
     staticStyle: {
       "width": "100%"
     },

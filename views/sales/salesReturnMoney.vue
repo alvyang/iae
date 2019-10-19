@@ -65,14 +65,14 @@
 			 </el-select>
 		 </el-form-item>
 		 <el-form-item label="积分状态" prop="sale_return_flag">
-			 <el-select v-model="params.sale_return_flag" style="width:210px;" size="mini" filterable placeholder="请选择供货单位">
+			 <el-select v-model="params.sale_return_flag" style="width:210px;" size="mini" filterable placeholder="请选择积分状态">
 				 <el-option key="" label="全部" value=""></el-option>
 				 <el-option key="未付" label="未付" value="未付"></el-option>
 				 <el-option key="已付" label="已付" value="已付"></el-option>
 			 </el-select>
 		 </el-form-item>
 		 <el-form-item label="是否设置政策" prop="salesReturnFlag">
-			 <el-select v-model="params.salesReturnFlag" style="width:182px;" size="mini" filterable placeholder="请选择供货单位">
+			 <el-select v-model="params.salesReturnFlag" style="width:182px;" size="mini" filterable placeholder="请选择是否设置政策">
 				 <el-option key="" label="全部" value=""></el-option>
 				 <el-option key="flag" label="已设置" value="flag"></el-option>
 			 </el-select>
@@ -92,6 +92,7 @@
 				<el-table-column prop="product_specifications" label="产品规格" width="100"></el-table-column>
 				<el-table-column prop="product_makesmakers" label="生产厂家" width="150"></el-table-column>
 				<el-table-column prop="business_name" label="商业" width="60"></el-table-column>
+				<el-table-column prop="contacts_name" label="业务员" width="60"></el-table-column>
 				<el-table-column prop="sale_type" label="销售类型" width="60" :formatter="formatterType"></el-table-column>
 				<el-table-column prop="product_type" label="品种类型" width="60"></el-table-column>
 				<el-table-column prop="sale_price" label="中标价" width="60"></el-table-column>

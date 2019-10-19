@@ -71,7 +71,7 @@
 			</el-collapse>
 			<el-form :model="policyPay" status-icon :rules="policyPayRule" style="margin-top:20px;" :inline="true" ref="policyPay" label-width="100px" class="demo-ruleForm">
         <el-form-item label="联系人" prop="purchase_pay_contact_id">
-          <el-select v-model="policyPay.purchase_pay_contact_id" style="width:179px;" filterable placeholder="请选择">
+          <el-select v-model="policyPay.purchase_pay_contact_id" style="width:179px;" disabled filterable placeholder="请选择">
   					<el-option v-for="item in contacts"
               :key="item.contacts_id"
               :label="item.contacts_name"

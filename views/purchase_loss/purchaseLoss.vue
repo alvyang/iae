@@ -61,6 +61,7 @@
 				<el-table-column prop="purchaseloss_batch_number" label="批号" width="60"></el-table-column>
 				<el-table-column prop="purchaseloss_number" label="报数数量" width="70"></el-table-column>
 				<el-table-column prop="purchaseloss_money" label="报损金额" width="70"></el-table-column>
+				<el-table-column prop="purchase_loss_money" label="报损成本" width="70"></el-table-column>
 				<el-table-column prop="contacts_name" label="联系人" width="60"></el-table-column>
 				<el-table-column prop="business_name" label="商业"  width="80"></el-table-column>
 				<el-table-column prop="purchase_loss_remark" label="备注"></el-table-column>
@@ -104,6 +105,18 @@
 				</el-form-item>
 				<el-form-item label="报损金额" prop="purchaseloss_money" :required="true">
 					<el-input v-model="purchaseloss.purchaseloss_money" style="width:179px;" :maxlength="10" placeholder="请输入报损金额"></el-input>
+				</el-form-item>
+				<el-form-item label="报损账号" prop="purchase_loss_number">
+					<el-select v-model="purchaseloss.purchase_loss_number" style="width:179px;" filterable placeholder="请选择">
+						<el-option v-for="item in accounts"
+							:key="item.account_id"
+							:label="item.account_number"
+							:value="item.account_id">
+						</el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="报损成本" prop="purchase_loss_money">
+					<el-input v-model="purchaseloss.purchase_loss_money" style="width:179px;" :maxlength="10" placeholder="请输入报损成本"></el-input>
 				</el-form-item>
 				<el-form-item label="备　　注" prop="purchase_loss_remark">
 					<el-input v-model="purchaseloss.purchase_loss_remark" style="width:179px;" placeholder="备注"></el-input>
@@ -185,6 +198,7 @@ export default({
 			},
 			authCode:"",
 			business:[],
+			accounts:[],
 			tableHeight:0,
 		}
 	},
@@ -199,12 +213,19 @@ export default({
 		this.getContacts();
 		this.getPurchasesLossList();
 		this.getProductBusiness();
+		this.getBankAccount();
 		this.authCode = ","+JSON.parse(sessionStorage["user"]).authority_code;
 	},
 	mounted(){
 
 	},
 	methods:{
+		getBankAccount(){
+			var _self = this;
+			this.jquery("/iae/bankaccount/getAllAccounts",null,function(res){//查询账号
+				_self.accounts=res.message;
+			});
+		},
 		getProductBusiness(){
 			var _self = this;
 			this.jquery("/iae/business/getAllBusiness",null,function(res){//查询商业

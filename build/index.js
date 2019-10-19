@@ -31277,6 +31277,12 @@ var SalesReturnMoney = function SalesReturnMoney(r) {
 		return r(__webpack_require__(97));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
+var PurchaseRecoveryReturnMoney = function PurchaseRecoveryReturnMoney(r) {
+	return __webpack_require__.e/* require.ensure */(7).then((function () {
+		return r(__webpack_require__(945));
+	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
+
 //政策管理 分组
 var AllotPolicy = function AllotPolicy(r) {
 	return __webpack_require__.e/* require.ensure */(8).then((function () {
@@ -31296,6 +31302,11 @@ var SalesPolicy = function SalesPolicy(r) {
 var SalesPolicyDrugs = function SalesPolicyDrugs(r) {
 	return __webpack_require__.e/* require.ensure */(8).then((function () {
 		return r(__webpack_require__(101));
+	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
+var HospitalSalePolicy = function HospitalSalePolicy(r) {
+	return __webpack_require__.e/* require.ensure */(8).then((function () {
+		return r(__webpack_require__(940));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 
@@ -31335,13 +31346,14 @@ var router = new _vueRouter2.default({
 		{ path: "refundpurchase", component: Refundpurchase }, //高打返款
 		{ path: "allotreturnmoney", component: AllotReturnMoney }, //调货回款
 		{ path: "salesreturnmoney", component: SalesReturnMoney }, //销售回款
+		{ path: "purchaserecovreypay", component: PurchaseRecoveryReturnMoney }, //退货回款
 		{ path: "allotpolicy", component: AllotPolicy }, //调货政策
 		{ path: "salespolicy", component: SalesPolicy }, //销售政策
 		{ path: "allotpolicydrugs", component: AllotPolicyDrugs }, //调货政策
 		{ path: "salespolicydrugs", component: SalesPolicyDrugs }, //销售政策
 		{ path: "stock", component: Stock }, { path: "password", component: Password }, { path: "log", component: Log }, //日志管理
 		{ path: "allocation", component: Allocation }, { path: "about", component: About }, //关于软件
-		{ path: "reportPurchasePaysReturnMoney", component: ReportPurchasePaysReturnMoney }, { path: "reportPurchasePaysReturnMoneyDetail", component: ReportPurchasePaysReturnMoneyDetail }, { path: "reportSalesReturnMoneyPay", component: ReportSalesReturnMoneyPay }, { path: "reportSalesReturnMoneyPayDetail", component: ReportSalesReturnMoneyPayDetail }, { path: "reportAllotsReturnMoneyPay", component: ReportAllotsReturnMoneyPay }, { path: "reportAllotsReturnMoneyPayDetail", component: ReportAllotsReturnMoneyPayDetail }, { path: "reportPurchasePaysReturnMoneyPay", component: ReportPurchasePaysReturnMoneyPay }, { path: "reportPurchasePaysReturnMoneyPayDetail", component: ReportPurchasePaysReturnMoneyPayDetail }, { path: "stockMoney", component: StockMoney }, { path: "drugspolicy", component: DrugsPolicy }, { path: "drugsAllotPolicy", component: DrugsAllotPolicy }, { path: "drugsSalesPolicy", component: DrugsSalesPolicy }, { path: "drugsPurchasePayPolicy", component: DrugsPurchasePayPolicy }, { path: "reportpurchasepay", component: ReportPurchasePay }, { path: "reportpurchasepaydetail", component: ReportPurchasePayDetail }]
+		{ path: "reportPurchasePaysReturnMoney", component: ReportPurchasePaysReturnMoney }, { path: "reportPurchasePaysReturnMoneyDetail", component: ReportPurchasePaysReturnMoneyDetail }, { path: "reportSalesReturnMoneyPay", component: ReportSalesReturnMoneyPay }, { path: "reportSalesReturnMoneyPayDetail", component: ReportSalesReturnMoneyPayDetail }, { path: "reportAllotsReturnMoneyPay", component: ReportAllotsReturnMoneyPay }, { path: "reportAllotsReturnMoneyPayDetail", component: ReportAllotsReturnMoneyPayDetail }, { path: "reportPurchasePaysReturnMoneyPay", component: ReportPurchasePaysReturnMoneyPay }, { path: "reportPurchasePaysReturnMoneyPayDetail", component: ReportPurchasePaysReturnMoneyPayDetail }, { path: "stockMoney", component: StockMoney }, { path: "drugspolicy", component: DrugsPolicy }, { path: "drugsAllotPolicy", component: DrugsAllotPolicy }, { path: "drugsSalesPolicy", component: DrugsSalesPolicy }, { path: "drugsPurchasePayPolicy", component: DrugsPurchasePayPolicy }, { path: "reportpurchasepay", component: ReportPurchasePay }, { path: "reportpurchasepaydetail", component: ReportPurchasePayDetail }, { path: "hospitalsalepolicy", component: HospitalSalePolicy }]
 	}]
 });
 exports.default = router;
@@ -33871,8 +33883,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     var bus = new Vue();
 
     bus.data = {
-      // host: "http://139.129.238.114",
-      host: "http://127.0.0.1:5000"
+      host: "http://139.129.238.114"
+      // host: "http://127.0.0.1:5000",
     };
 
     Object.defineProperty(Vue.prototype, '$bus', {

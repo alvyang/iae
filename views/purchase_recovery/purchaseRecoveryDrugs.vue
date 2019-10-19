@@ -236,6 +236,9 @@ export default({
 						_self.purchaserecovery.purchaserecovery_purchase_id = _self.drug.batch_stock_purchase_id;
 						_self.purchaserecovery.purchaserecovery_drug_id = _self.drug.batch_stock_drug_id;
 						_self.purchaserecovery.product_return_money = _self.drug.product_return_money;
+						_self.purchaserecovery.purchase_recovery_receiver_money = _self.drug.refunds_real_money*_self.purchaserecovery.purchaserecovery_number/_self.drug.purchase_number;
+						_self.purchaserecovery.purchase_recovery_receiver_money = Math.round(_self.purchaserecovery.purchase_recovery_receiver_money*100)/100;
+						_self.purchaserecovery.purchase_recovery_return_money = _self.purchaserecovery.purchase_recovery_receiver_money;
 						_self.jquery('/iae/purchaserecovery/savePurchasesrecorvery',_self.purchaserecovery,function(res){
 							_self.$confirm('新增成功', '提示', {
 									confirmButtonText:'继续添加',

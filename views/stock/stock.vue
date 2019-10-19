@@ -33,7 +33,7 @@
 				<el-button type="primary" v-dbClick v-show="authCode.indexOf(',144,') > -1" @click="exportStock" size="mini">导出</el-button>
 		  </el-form-item>
 		</el-form>
-		<div class="sum_money">总库存：<a>{{stockNum}}</a></div>
+		<div class="sum_money">库存打款金额：<a>{{makeMoney}}</a>  总库存：<a>{{stockNum}}</a></div>
 		<el-table :data="drugs" style="width: 100%" :height="tableHeight" size="mini" :stripe="true" :border="true">
   			<el-table-column fixed prop="product_common_name" label="产品通用名" width="180"></el-table-column>
 				<el-table-column prop="product_code" label="产品编号" width="130"></el-table-column>
@@ -141,6 +141,7 @@
 				loading:false,
 				stockMoney:0,//库存金额
 				stockNum:0,//库存数量
+				makeMoney:0,//库存打款金额
 				params:{
 					productCommonName:"",
 					contactId:"",
@@ -305,7 +306,8 @@
 					page:page
 				},function(res){
 						_self.stockMoney = Math.round(res.message.mpn*100)/100;
-						_self.stockNum = res.message.sn;
+						_self.stockNum = (res.message.sn+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+						_self.makeMoney = (res.message.bpm+"").replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 				});
 			},
 			getBatchStock(){

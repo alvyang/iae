@@ -38,7 +38,7 @@
         <el-table-column prop="product_return_money" label="积分"></el-table-column>
   			<el-table-column fixed="right" label="操作" width="100">
 		    <template slot-scope="scope">
-	        <el-button @click.native.prevent="editRow(scope)" v-dbClick v-show="authCode.indexOf(',118,') > -1"  type="primary" size="mini">选择</el-button>
+	        <el-button @click.native.prevent="editRow(scope)" v-dbClick v-show="authCode.indexOf(',157,') > -1"  type="primary" size="mini">选择</el-button>
 		    </template>
   			</el-table-column>
 		</el-table>

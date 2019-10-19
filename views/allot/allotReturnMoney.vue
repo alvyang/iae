@@ -170,7 +170,7 @@
 				<el-form-item label="付积分时间" prop="allot_return_time">
 					<el-date-picker v-model="allot.allot_return_time" style="width:179px;" type="date" placeholder="请选择付积分时间"></el-date-picker>
 				</el-form-item>
-				<el-form-item label="调货联系人" prop="allot_policy_contact_id">
+				<!-- <el-form-item label="调货联系人" prop="allot_policy_contact_id">
 				 <el-select v-model="allot.allot_policy_contact_id" @change="selectAllotContact" style="width:179px;" filterable placeholder="请选择">
 					 <el-option key="" label="" value=""></el-option>
 					 <el-option v-for="item in contacts"
@@ -179,7 +179,7 @@
 						 :value="item.contacts_id">
 					 </el-option>
 				 </el-select>
-			  </el-form-item>
+			  </el-form-item> -->
 				<el-form-item label="收积分账号名" prop="allot_account_name">
 					<el-input v-model="allot.allot_account_name" style="width:179px;" placeholder="收积分账号名"></el-input>
 				</el-form-item>
@@ -542,7 +542,7 @@
 					_self.currentPage = 1;
 				}
 				if(!_self.pageNum){
-					_self.pageNum = 10;
+					_self.pageNum = 20;
 				}
 				var page = {
 					start:(_self.currentPage-1)*_self.pageNum,

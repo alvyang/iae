@@ -792,7 +792,7 @@ exports.default = {
         _self.currentPage = 1;
       }
       if (!_self.pageNum) {
-        _self.pageNum = 10;
+        _self.pageNum = 20;
       }
       var page = {
         start: (_self.currentPage - 1) * _self.pageNum,
@@ -2170,7 +2170,7 @@ exports.default = {
         _self.currentPage = 1;
       }
       if (!_self.pageNum) {
-        _self.pageNum = 10;
+        _self.pageNum = 20;
       }
       var page = {
         start: (_self.currentPage - 1) * _self.pageNum,
@@ -5779,6 +5779,1237 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-67b36411", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 940:
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(941)
+
+/* script */
+__vue_exports__ = __webpack_require__(943)
+
+/* template */
+var __vue_template__ = __webpack_require__(944)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/lvyang/workspace/iae/views/policy/hospitalSalePolicy.vue"
+__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4a5d8067", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-4a5d8067", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional) {console.error("[vue-loader] hospitalSalePolicy.vue: functional components are not supported and should be defined in plain js files using render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+
+/***/ 941:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(942);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(104)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-4a5d8067!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./hospitalSalePolicy.vue", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-4a5d8067!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./hospitalSalePolicy.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 942:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 943:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+	data: function data() {
+		var validateBatchPercent = function validateBatchPercent(rule, value, callback) {
+			if (!value) {
+				callback(new Error('请再输入政策点数'));
+			} else if (value && !/^100.00$|100$|^(\d|[1-9]\d)(\.\d+)*$/.test(value)) {
+				callback(new Error('请输入正确的政策点数'));
+			} else {
+				callback();
+			}
+		};
+		return {
+			title: 1,
+			dialogFormVisible: false,
+			dialogFormVisibleBatch: false,
+			loading: false,
+			authCode: "",
+			hospitals: [],
+			hospitalSalePolicys: [],
+			hospitalSalePolicy: {
+				hospital_sale_policy: "",
+				hospital_sale_contacts_id: "",
+				policy_percent: "",
+				hospital_sale_policy_remark: ""
+			},
+			hospitalSalePolicyRule: {
+				policy_percent: [{ validator: validateBatchPercent, trigger: 'blur' }],
+				hospital_sale_policy: [{ required: true, message: '请选择政策公式', trigger: 'change' }]
+			},
+			contacts: [],
+			hospitalIds: [],
+			pageNum: 20,
+			currentPage: 1,
+			count: 0,
+			params: {
+				hospitalsId: "",
+				hospital_type: "",
+				contactId: "",
+				hospitalSaleFlag: ""
+			},
+			tableHeight: 0
+		};
+	},
+	updated: function updated() {
+		this.tableHeight = $(window).height() - 220 - $(".search").height();
+		var that = this;
+		$(window).resize(function () {
+			that.tableHeight = $(window).height() - 220 - $(".search").height();
+		});
+	},
+	activated: function activated() {
+		this.getHospitals();
+		this.getContacts();
+		this.getHospitalSalePolicyList();
+	},
+	mounted: function mounted() {
+		this.authCode = "," + JSON.parse(sessionStorage["user"]).authority_code;
+	},
+
+	methods: {
+		editBatchRow: function editBatchRow() {
+			if (this.hospitalIds.length > 0) {
+				this.hospitalSalePolicy = {
+					hospital_sale_policy: "",
+					hospital_sale_contacts_id: ""
+				};
+				this.dialogFormVisibleBatch = true;
+			}
+		},
+		selectionChange: function selectionChange(val) {
+			this.hospitalIds = [];
+			for (var i = 0; i < val.length; i++) {
+				this.hospitalIds.push(val[i].hospital_id);
+			}
+		},
+		formatterFormula: function formatterFormula(row, column, cellValue, index) {
+			var message = "";
+			switch (cellValue) {
+				case "1":
+					message = "中标价*政策点数";
+					break;
+				case "2":
+					message = "中标价*政策点数-补点/费用票";
+					break;
+				case "3":
+					message = "实收上游积分或上游政策积分*政策点数";
+					break;
+				case "4":
+					message = "实收上游积分或上游政策积分*政策点数-补点/费用票";
+					break;
+				case "5":
+					message = "实收上游积分或上游政策积分-中标价*政策点数";
+					break;
+				case "6":
+					message = "实收上游积分或上游政策积分-中标价*政策点数-补点/费用票";
+					break;
+				case "7":
+					message = "实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分";
+					break;
+				case "8":
+					message = "固定政策（上游政策修改后，需几时调整下游政策）";
+					break;
+				case "9":
+					message = "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.03-补点/费用票:实收上游积分-补点/费用票";
+					break;
+				case "10":
+					message = "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.05-补点/费用票:实收上游积分-补点/费用票";
+					break;
+				default:
+
+			}
+			return message;
+		},
+		getHospitals: function getHospitals() {
+			var _self = this;
+			this.jquery('/iae/hospitals/getAllHospitals', { hospital_type: '' }, function (res) {
+				_self.hospitals = res.message;
+			});
+		},
+		getContacts: function getContacts() {
+			var _self = this;
+			this.jquery('/iae/contacts/getAllContacts', { group_id: 0, contact_type: ['业务员', '调货'] }, function (res) {
+				_self.contacts = res.message;
+			});
+		},
+		editRow: function editRow(scope) {
+			//编辑药品信息
+			this.dialogFormVisible = true;
+			var temp = JSON.stringify(scope.row);
+			this.hospitalSalePolicy = JSON.parse(temp);
+			this.hospitalSalePolicy.front_message = temp;
+			var _self = this;
+			setTimeout(function () {
+				_self.$refs["contact"].clearValidate();
+			});
+		},
+		editHospitalSalePolicy: function editHospitalSalePolicy(formName) {
+			var _this = this;
+
+			var _self = this;
+			this.$refs[formName].validate(function (valid) {
+				if (valid) {
+					_this.loading = true;
+					_self.jquery('/iae/hospitalSalePolicy/editHospitalSalePolicy', _self.hospitalSalePolicy, function (res) {
+						_self.dialogFormVisible = false;
+						_self.loading = false;
+						_self.$message({ showClose: true, message: '修改成功', type: 'success' });
+						_self.getHospitalSalePolicyList();
+					});
+				} else {
+					return false;
+				}
+			});
+		},
+		editBatchHospitalSalePolicy: function editBatchHospitalSalePolicy(formName) {
+			var _this2 = this;
+
+			var _self = this;
+			_self.hospitalSalePolicy.hospitalIds = this.hospitalIds;
+			this.$refs[formName].validate(function (valid) {
+				if (valid) {
+					_this2.loading = true;
+					_self.jquery('/iae/hospitalSalePolicy/editBatchHospitalSalePolicy', _self.hospitalSalePolicy, function (res) {
+						_self.dialogFormVisibleBatch = false;
+						_self.loading = false;
+						_self.$message({ showClose: true, message: '修改成功', type: 'success' });
+						_self.getHospitalSalePolicyList();
+					});
+				} else {
+					return false;
+				}
+			});
+		},
+		searchContactsList: function searchContactsList() {
+			this.currentPage = 1;
+			this.getHospitalSalePolicyList();
+		},
+		getHospitalSalePolicyList: function getHospitalSalePolicyList() {
+			var _self = this;
+			if (!_self.currentPage) {
+				_self.currentPage = 1;
+			}
+			if (!_self.pageNum) {
+				_self.pageNum = 20;
+			}
+			var page = {
+				start: (_self.currentPage - 1) * _self.pageNum,
+				limit: _self.pageNum
+			};
+			this.jquery('/iae/hospitalSalePolicy/getHospitalSalePolicy', {
+				data: _self.params,
+				page: page
+			}, function (res) {
+				_self.hospitalSalePolicys = res.message.data;
+				_self.pageNum = parseInt(res.message.limit);
+				_self.count = res.message.totalCount;
+			});
+		},
+		reSearch: function reSearch(arg) {
+			if (arg) {
+				this.$refs["params"].resetFields();
+			}
+			this.currentPage = 1;
+			this.getHospitalSalePolicyList();
+		},
+		handleSizeChange: function handleSizeChange(val) {
+			this.currentPage = 1;
+			this.getHospitalSalePolicyList();
+		},
+		handleCurrentChange: function handleCurrentChange(val) {
+			this.currentPage = val;
+			this.getHospitalSalePolicyList();
+		}
+	}
+};
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ }),
+
+/***/ 944:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticStyle: {
+      "box-sizing": "border-box",
+      "padding": "0px 10px"
+    }
+  }, [_c('el-breadcrumb', {
+    attrs: {
+      "separator-class": "el-icon-arrow-right"
+    }
+  }, [_c('el-breadcrumb-item', [_vm._v("积分管理")]), _vm._v(" "), _c('el-breadcrumb-item', [_vm._v("销往单位销售政策管理")])], 1), _vm._v(" "), _c('el-form', {
+    ref: "params",
+    staticClass: "demo-form-inline search",
+    attrs: {
+      "inline": true,
+      "model": _vm.params,
+      "size": "mini"
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "销往单位",
+      "prop": "hospitalsId"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "filterable": "",
+      "size": "mini",
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.params.hospitalsId),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "hospitalsId", $$v)
+      },
+      expression: "params.hospitalsId"
+    }
+  }, [_c('el-option', {
+    key: "",
+    attrs: {
+      "label": "全部",
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.hospitals), function(item) {
+    return _c('el-option', {
+      key: item.hospital_id,
+      attrs: {
+        "label": item.hospital_name,
+        "value": item.hospital_id
+      }
+    })
+  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "单位类型",
+      "prop": "hospital_type"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "size": "mini",
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.params.hospital_type),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "hospital_type", $$v)
+      },
+      expression: "params.hospital_type"
+    }
+  }, [_c('el-option', {
+    key: "销售单位",
+    attrs: {
+      "label": "销售单位",
+      "value": "销售单位"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "调货单位",
+    attrs: {
+      "label": "调货单位",
+      "value": "调货单位"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "业务员",
+      "prop": "contactId"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "filterable": "",
+      "size": "mini",
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.params.contactId),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "contactId", $$v)
+      },
+      expression: "params.contactId"
+    }
+  }, [_c('el-option', {
+    key: "",
+    attrs: {
+      "label": "全部",
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.contacts), function(item) {
+    return _c('el-option', {
+      key: item.contacts_id,
+      attrs: {
+        "label": item.contacts_name,
+        "value": item.contacts_id
+      }
+    })
+  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "是否维护政策",
+      "prop": "hospitalSaleFlag"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "210px"
+    },
+    attrs: {
+      "filterable": "",
+      "size": "mini",
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.params.hospitalSaleFlag),
+      callback: function($$v) {
+        _vm.$set(_vm.params, "hospitalSaleFlag", $$v)
+      },
+      expression: "params.hospitalSaleFlag"
+    }
+  }, [_c('el-option', {
+    key: "",
+    attrs: {
+      "label": "全部",
+      "value": ""
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "是",
+    attrs: {
+      "label": "是",
+      "value": "是"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "否",
+    attrs: {
+      "label": "否",
+      "value": "否"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }, {
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.authCode.indexOf(',180,') > -1),
+      expression: "authCode.indexOf(',180,') > -1"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "mini"
+    },
+    on: {
+      "click": function($event) {
+        _vm.reSearch(false)
+      }
+    }
+  }, [_vm._v("查询")]), _vm._v(" "), _c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }, {
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.authCode.indexOf(',180,') > -1),
+      expression: "authCode.indexOf(',180,') > -1"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "mini"
+    },
+    on: {
+      "click": function($event) {
+        _vm.reSearch(true)
+      }
+    }
+  }, [_vm._v("重置")])], 1)], 1), _vm._v(" "), _c('div', {
+    staticClass: "allot_policy"
+  }, [_c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }, {
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.authCode.indexOf(',181,') > -1),
+      expression: "authCode.indexOf(',181,') > -1"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "mini"
+    },
+    nativeOn: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.editBatchRow()
+      }
+    }
+  }, [_vm._v("批量修改")])], 1), _vm._v(" "), _c('el-table', {
+    staticStyle: {
+      "width": "100%"
+    },
+    attrs: {
+      "data": _vm.hospitalSalePolicys,
+      "height": _vm.tableHeight,
+      "size": "mini",
+      "stripe": true
+    },
+    on: {
+      "selection-change": _vm.selectionChange
+    }
+  }, [_c('el-table-column', {
+    attrs: {
+      "type": "selection",
+      "width": "55"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "hospital_name",
+      "label": "医院名称",
+      "width": "200px"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "hospital_type",
+      "label": "医院类型",
+      "width": "150px;"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "contacts_name",
+      "label": "业务员",
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "policy_percent",
+      "label": "政策点数",
+      "width": "100px"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "hospital_sale_policy",
+      "label": "政策公式",
+      "formatter": _vm.formatterFormula
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "prop": "hospital_sale_policy_remark",
+      "label": "备注",
+      "width": "150px"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
+      "fixed": "right",
+      "label": "操作",
+      "width": "100"
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function(scope) {
+        return [_c('el-button', {
+          directives: [{
+            name: "show",
+            rawName: "v-show",
+            value: (_vm.authCode.indexOf(',181,') > -1),
+            expression: "authCode.indexOf(',181,') > -1"
+          }, {
+            name: "dbClick",
+            rawName: "v-dbClick"
+          }],
+          attrs: {
+            "icon": "el-icon-edit-outline",
+            "type": "primary",
+            "size": "mini"
+          },
+          nativeOn: {
+            "click": function($event) {
+              $event.preventDefault();
+              _vm.editRow(scope)
+            }
+          }
+        })]
+      }
+    }])
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "page_div"
+  }, [_c('el-pagination', {
+    attrs: {
+      "background": "",
+      "current-page": _vm.currentPage,
+      "page-sizes": [10, 20, 50, 100],
+      "page-size": _vm.pageNum,
+      "layout": "total, sizes, prev, pager, next, jumper",
+      "total": _vm.count
+    },
+    on: {
+      "size-change": _vm.handleSizeChange,
+      "current-change": _vm.handleCurrentChange
+    }
+  })], 1), _vm._v(" "), _c('el-dialog', {
+    attrs: {
+      "title": "修改销售政策",
+      "width": "500px",
+      "visible": _vm.dialogFormVisible
+    },
+    on: {
+      "update:visible": function($event) {
+        _vm.dialogFormVisible = $event
+      }
+    }
+  }, [_c('el-form', {
+    ref: "hospitalSalePolicy",
+    staticClass: "demo-ruleForm",
+    staticStyle: {
+      "margin-top": "20px",
+      "text-align": "left"
+    },
+    attrs: {
+      "model": _vm.hospitalSalePolicy,
+      "status-icon": "",
+      "rules": _vm.hospitalSalePolicyRule,
+      "height": _vm.tableHeight,
+      "inline": true,
+      "label-width": "100px"
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "政策公式",
+      "prop": "hospital_sale_policy"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "279px"
+    },
+    attrs: {
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.hospitalSalePolicy.hospital_sale_policy),
+      callback: function($$v) {
+        _vm.$set(_vm.hospitalSalePolicy, "hospital_sale_policy", $$v)
+      },
+      expression: "hospitalSalePolicy.hospital_sale_policy"
+    }
+  }, [_c('el-option', {
+    key: "",
+    attrs: {
+      "label": "",
+      "value": ""
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "1",
+    attrs: {
+      "label": "中标价*政策点数",
+      "value": "1"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "2",
+    attrs: {
+      "label": "中标价*政策点数-补点/费用票",
+      "value": "2"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "3",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数",
+      "value": "3"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "4",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数-补点/费用票",
+      "value": "4"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "5",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数",
+      "value": "5"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "6",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数-补点/费用票",
+      "value": "6"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "7",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分",
+      "value": "7"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "9",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.03-补点/费用票:实收上游积分-补点/费用票",
+      "value": "9"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "10",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.05-补点/费用票:实收上游积分-补点/费用票",
+      "value": "10"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "政策点数",
+      "prop": "policy_percent",
+      "maxlength": 10
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "279px"
+    },
+    attrs: {
+      "placeholder": "政策点数（如：60）"
+    },
+    model: {
+      value: (_vm.hospitalSalePolicy.policy_percent),
+      callback: function($$v) {
+        _vm.$set(_vm.hospitalSalePolicy, "policy_percent", $$v)
+      },
+      expression: "hospitalSalePolicy.policy_percent"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "业务员",
+      "prop": "hospital_sale_contacts_id"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "279px"
+    },
+    attrs: {
+      "filterable": "",
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.hospitalSalePolicy.hospital_sale_contacts_id),
+      callback: function($$v) {
+        _vm.$set(_vm.hospitalSalePolicy, "hospital_sale_contacts_id", $$v)
+      },
+      expression: "hospitalSalePolicy.hospital_sale_contacts_id"
+    }
+  }, [_c('el-option', {
+    key: "",
+    attrs: {
+      "label": "",
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.contacts), function(item) {
+    return _c('el-option', {
+      key: item.contacts_id,
+      attrs: {
+        "label": item.contacts_name,
+        "value": item.contacts_id
+      }
+    })
+  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "备注",
+      "prop": "hospital_sale_policy_remark"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "279px"
+    },
+    attrs: {
+      "placeholder": "积分备注"
+    },
+    model: {
+      value: (_vm.hospitalSalePolicy.hospital_sale_policy_remark),
+      callback: function($$v) {
+        _vm.$set(_vm.hospitalSalePolicy, "hospital_sale_policy_remark", $$v)
+      },
+      expression: "hospitalSalePolicy.hospital_sale_policy_remark"
+    }
+  })], 1)], 1), _vm._v(" "), _c('div', {
+    staticClass: "dialog-footer",
+    attrs: {
+      "slot": "footer"
+    },
+    slot: "footer"
+  }, [_c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    attrs: {
+      "size": "small"
+    },
+    on: {
+      "click": function($event) {
+        _vm.dialogFormVisible = false
+      }
+    }
+  }, [_vm._v("取 消")]), _vm._v(" "), _c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "small",
+      "loading": _vm.loading
+    },
+    on: {
+      "click": function($event) {
+        _vm.editHospitalSalePolicy('hospitalSalePolicy')
+      }
+    }
+  }, [_vm._v("确 定")])], 1)], 1), _vm._v(" "), _c('el-dialog', {
+    attrs: {
+      "title": "批量修改销售政策",
+      "width": "500px",
+      "visible": _vm.dialogFormVisibleBatch
+    },
+    on: {
+      "update:visible": function($event) {
+        _vm.dialogFormVisibleBatch = $event
+      }
+    }
+  }, [_c('el-form', {
+    ref: "hospitalSalePolicy",
+    staticClass: "demo-ruleForm",
+    staticStyle: {
+      "margin-top": "20px",
+      "text-align": "left"
+    },
+    attrs: {
+      "model": _vm.hospitalSalePolicy,
+      "status-icon": "",
+      "rules": _vm.hospitalSalePolicyRule,
+      "height": _vm.tableHeight,
+      "inline": true,
+      "label-width": "100px"
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "政策公式",
+      "prop": "hospital_sale_policy"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "279px"
+    },
+    attrs: {
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.hospitalSalePolicy.hospital_sale_policy),
+      callback: function($$v) {
+        _vm.$set(_vm.hospitalSalePolicy, "hospital_sale_policy", $$v)
+      },
+      expression: "hospitalSalePolicy.hospital_sale_policy"
+    }
+  }, [_c('el-option', {
+    key: "",
+    attrs: {
+      "label": "",
+      "value": ""
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "1",
+    attrs: {
+      "label": "中标价*政策点数",
+      "value": "1"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "2",
+    attrs: {
+      "label": "中标价*政策点数-补点/费用票",
+      "value": "2"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "3",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数",
+      "value": "3"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "4",
+    attrs: {
+      "label": "实收上游积分或上游政策积分*政策点数-补点/费用票",
+      "value": "4"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "5",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数",
+      "value": "5"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "6",
+    attrs: {
+      "label": "实收上游积分或上游政策积分-中标价*政策点数-补点/费用票",
+      "value": "6"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "7",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?(中标价*政策点数):实收上游积分",
+      "value": "7"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "9",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.03-补点/费用票:实收上游积分-补点/费用票",
+      "value": "9"
+    }
+  }), _vm._v(" "), _c('el-option', {
+    key: "10",
+    attrs: {
+      "label": "实收上游积分或上游政策积分>中标价*政策点数?实收上游积分-中标价*0.05-补点/费用票:实收上游积分-补点/费用票",
+      "value": "10"
+    }
+  })], 1)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "政策点数",
+      "prop": "policy_percent",
+      "maxlength": 10
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "279px"
+    },
+    attrs: {
+      "placeholder": "政策点数（如：60）"
+    },
+    model: {
+      value: (_vm.hospitalSalePolicy.policy_percent),
+      callback: function($$v) {
+        _vm.$set(_vm.hospitalSalePolicy, "policy_percent", $$v)
+      },
+      expression: "hospitalSalePolicy.policy_percent"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "业务员",
+      "prop": "hospital_sale_contacts_id"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "279px"
+    },
+    attrs: {
+      "filterable": "",
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.hospitalSalePolicy.hospital_sale_contacts_id),
+      callback: function($$v) {
+        _vm.$set(_vm.hospitalSalePolicy, "hospital_sale_contacts_id", $$v)
+      },
+      expression: "hospitalSalePolicy.hospital_sale_contacts_id"
+    }
+  }, [_c('el-option', {
+    key: "",
+    attrs: {
+      "label": "",
+      "value": ""
+    }
+  }), _vm._v(" "), _vm._l((_vm.contacts), function(item) {
+    return _c('el-option', {
+      key: item.contacts_id,
+      attrs: {
+        "label": item.contacts_name,
+        "value": item.contacts_id
+      }
+    })
+  })], 2)], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "备注",
+      "prop": "hospital_sale_policy_remark"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "279px"
+    },
+    attrs: {
+      "placeholder": "积分备注"
+    },
+    model: {
+      value: (_vm.hospitalSalePolicy.hospital_sale_policy_remark),
+      callback: function($$v) {
+        _vm.$set(_vm.hospitalSalePolicy, "hospital_sale_policy_remark", $$v)
+      },
+      expression: "hospitalSalePolicy.hospital_sale_policy_remark"
+    }
+  })], 1)], 1), _vm._v(" "), _c('div', {
+    staticClass: "dialog-footer",
+    attrs: {
+      "slot": "footer"
+    },
+    slot: "footer"
+  }, [_c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    attrs: {
+      "size": "small"
+    },
+    on: {
+      "click": function($event) {
+        _vm.dialogFormVisibleBatch = false
+      }
+    }
+  }, [_vm._v("取 消")]), _vm._v(" "), _c('el-button', {
+    directives: [{
+      name: "dbClick",
+      rawName: "v-dbClick"
+    }],
+    attrs: {
+      "type": "primary",
+      "size": "small",
+      "loading": _vm.loading
+    },
+    on: {
+      "click": function($event) {
+        _vm.editBatchHospitalSalePolicy('hospitalSalePolicy')
+      }
+    }
+  }, [_vm._v("确 定")])], 1)], 1)], 1)
+},staticRenderFns: []}
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-4a5d8067", module.exports)
   }
 }
 

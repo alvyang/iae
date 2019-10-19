@@ -1274,7 +1274,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -1534,6 +1534,9 @@ exports.default = {
 					_self.purchaserecovery.purchaserecovery_purchase_id = _self.drug.batch_stock_purchase_id;
 					_self.purchaserecovery.purchaserecovery_drug_id = _self.drug.batch_stock_drug_id;
 					_self.purchaserecovery.product_return_money = _self.drug.product_return_money;
+					_self.purchaserecovery.purchase_recovery_receiver_money = _self.drug.refunds_real_money * _self.purchaserecovery.purchaserecovery_number / _self.drug.purchase_number;
+					_self.purchaserecovery.purchase_recovery_receiver_money = Math.round(_self.purchaserecovery.purchase_recovery_receiver_money * 100) / 100;
+					_self.purchaserecovery.purchase_recovery_return_money = _self.purchaserecovery.purchase_recovery_receiver_money;
 					_self.jquery('/iae/purchaserecovery/savePurchasesrecorvery', _self.purchaserecovery, function (res) {
 						_self.$confirm('新增成功', '提示', {
 							confirmButtonText: '继续添加',
@@ -2245,7 +2248,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -2264,6 +2267,19 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2451,6 +2467,7 @@ exports.default = {
 			},
 			authCode: "",
 			business: [],
+			accounts: [],
 			tableHeight: 0
 		};
 	},
@@ -2465,11 +2482,19 @@ exports.default = {
 		this.getContacts();
 		this.getPurchasesLossList();
 		this.getProductBusiness();
+		this.getBankAccount();
 		this.authCode = "," + JSON.parse(sessionStorage["user"]).authority_code;
 	},
 	mounted: function mounted() {},
 
 	methods: {
+		getBankAccount: function getBankAccount() {
+			var _self = this;
+			this.jquery("/iae/bankaccount/getAllAccounts", null, function (res) {
+				//查询账号
+				_self.accounts = res.message;
+			});
+		},
 		getProductBusiness: function getProductBusiness() {
 			var _self = this;
 			this.jquery("/iae/business/getAllBusiness", null, function (res) {
@@ -2940,6 +2965,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
+      "prop": "purchase_loss_money",
+      "label": "报损成本",
+      "width": "70"
+    }
+  }), _vm._v(" "), _c('el-table-column', {
+    attrs: {
       "prop": "contacts_name",
       "label": "联系人",
       "width": "60"
@@ -3131,6 +3162,54 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
+      "label": "报损账号",
+      "prop": "purchase_loss_number"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "filterable": "",
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.purchaseloss.purchase_loss_number),
+      callback: function($$v) {
+        _vm.$set(_vm.purchaseloss, "purchase_loss_number", $$v)
+      },
+      expression: "purchaseloss.purchase_loss_number"
+    }
+  }, _vm._l((_vm.accounts), function(item) {
+    return _c('el-option', {
+      key: item.account_id,
+      attrs: {
+        "label": item.account_number,
+        "value": item.account_id
+      }
+    })
+  }))], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "报损成本",
+      "prop": "purchase_loss_money"
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "maxlength": 10,
+      "placeholder": "请输入报损成本"
+    },
+    model: {
+      value: (_vm.purchaseloss.purchase_loss_money),
+      callback: function($$v) {
+        _vm.$set(_vm.purchaseloss, "purchase_loss_money", $$v)
+      },
+      expression: "purchaseloss.purchase_loss_money"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
       "label": "备　　注",
       "prop": "purchase_loss_remark"
     }
@@ -3228,7 +3307,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -3247,6 +3326,18 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3423,7 +3514,9 @@ exports.default = {
 			purchaseloss: {
 				purchaseloss_time: null,
 				purchaseloss_money: "",
-				purchaseloss_number: ""
+				purchaseloss_number: "",
+				purchase_loss_money: "", //成本
+				purchase_loss_number: ""
 			},
 			contacts: [],
 			drug: {},
@@ -3448,6 +3541,7 @@ exports.default = {
 			},
 			authCode: "",
 			business: [],
+			accounts: [],
 			tableHeight: 0
 		};
 	},
@@ -3462,11 +3556,19 @@ exports.default = {
 		this.getContacts();
 		this.getPurchasesLossDrugsList();
 		this.getProductBusiness();
+		this.getBankAccount();
 		this.authCode = "," + JSON.parse(sessionStorage["user"]).authority_code;
 	},
 	mounted: function mounted() {},
 
 	methods: {
+		getBankAccount: function getBankAccount() {
+			var _self = this;
+			this.jquery("/iae/bankaccount/getAllAccounts", null, function (res) {
+				//查询账号
+				_self.accounts = res.message;
+			});
+		},
 		returnPurchaseLoss: function returnPurchaseLoss() {
 			this.$router.push({ path: "/main/purchaseloss" });
 		},
@@ -3482,6 +3584,8 @@ exports.default = {
 					_self.purchaseloss.purchaseloss_batch_number = _self.drug.batch_number;
 					_self.purchaseloss.purchaseloss_purchase_id = _self.drug.batch_stock_purchase_id;
 					_self.purchaseloss.purchaseloss_drug_id = _self.drug.batch_stock_drug_id;
+					_self.purchaseloss.product_unit = _self.drug.product_unit;
+					_self.purchaseloss.product_common_name = _self.drug.product_common_name;
 					_self.jquery('/iae/purchaseloss/savePurchasesLoss', _self.purchaseloss, function (res) {
 						_self.$confirm('新增成功', '提示', {
 							confirmButtonText: '继续添加',
@@ -4072,6 +4176,55 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.$set(_vm.purchaseloss, "purchaseloss_money", $$v)
       },
       expression: "purchaseloss.purchaseloss_money"
+    }
+  })], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "报损账号",
+      "prop": "purchase_loss_number"
+    }
+  }, [_c('el-select', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "filterable": "",
+      "placeholder": "请选择"
+    },
+    model: {
+      value: (_vm.purchaseloss.purchase_loss_number),
+      callback: function($$v) {
+        _vm.$set(_vm.purchaseloss, "purchase_loss_number", $$v)
+      },
+      expression: "purchaseloss.purchase_loss_number"
+    }
+  }, _vm._l((_vm.accounts), function(item) {
+    return _c('el-option', {
+      key: item.account_id,
+      attrs: {
+        "label": item.account_number,
+        "value": item.account_id
+      }
+    })
+  }))], 1), _vm._v(" "), _c('el-form-item', {
+    attrs: {
+      "label": "报损成本",
+      "prop": "purchase_loss_money",
+      "required": true
+    }
+  }, [_c('el-input', {
+    staticStyle: {
+      "width": "179px"
+    },
+    attrs: {
+      "maxlength": 10,
+      "placeholder": "请输入报损成本"
+    },
+    model: {
+      value: (_vm.purchaseloss.purchase_loss_money),
+      callback: function($$v) {
+        _vm.$set(_vm.purchaseloss, "purchase_loss_money", $$v)
+      },
+      expression: "purchaseloss.purchase_loss_money"
     }
   })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
@@ -4706,7 +4859,7 @@ exports.default = {
 				_self.currentPage = 1;
 			}
 			if (!_self.pageNum) {
-				_self.pageNum = 10;
+				_self.pageNum = 20;
 			}
 			var page = {
 				start: (_self.currentPage - 1) * _self.pageNum,
