@@ -75,7 +75,7 @@
     "child_process": "^1.0.2",
     "css-loader": "^0.25.0",
     "echarts": "^4.0.4",
-    "electron": "^1.8.7",
+    "electron": "^7.2.4",
     "electron-builder": "^20.28.4",
     "electron-prebuilt": "^1.4.13",
     "electron-rebuild": "^1.8.2",
