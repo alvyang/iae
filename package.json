@@ -109,7 +109,7 @@
     "vuex": "^2.2.1",
     "webpack": "^3.11.0",
     "webpack-dev-server": "^1.16.2",
-    "xlsx": "^0.12.5"
+    "xlsx": "^0.17.0"
   },
   "dependencies": {
     "buffer-from": "^1.1.1",
